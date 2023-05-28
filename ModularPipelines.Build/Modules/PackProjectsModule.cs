@@ -18,18 +18,22 @@ public class PackProjectsModule : MultiDotNetModule
         _options = options;
     }
 
-    protected override MultiDotNetModuleOptions Options => new()
+    protected override MultiDotNetModuleOptions Options
     {
-        Command = new[] {"pack"},
-        WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
-        ProjectsToInclude = GetProjectsPredicate,
-        Configuration = Configuration.Release,
-        ExtraArguments = new List<string>
-        {
-            $"/p:PackageVersion={_options.Value.Version}",
-            $"/p:Version={_options.Value.Version}"
-        }
-    };
+        get => new()
+            {
+                Command = new[] {"pack"},
+                WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
+                ProjectsToInclude = GetProjectsPredicate,
+                Configuration = Configuration.Release,
+                ExtraArguments = new List<string>
+                {
+                    $"/p:PackageVersion={_options.Value.Version}",
+                    $"/p:Version={_options.Value.Version}"
+                }
+            };
+        set { }
+    }
 
     private bool GetProjectsPredicate(string path)
     {

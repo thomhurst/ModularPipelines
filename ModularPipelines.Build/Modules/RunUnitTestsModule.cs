@@ -11,12 +11,16 @@ public class RunUnitTestsModule : MultiDotNetModule
     {
     }
 
-    protected override MultiDotNetModuleOptions Options => new()
+    protected override MultiDotNetModuleOptions Options
     {
-        Command = new[] {"test"},
-        ParallelOptions = ParallelOptions.Concurrently,
-        WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
-        ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase) 
-                                    && path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)
-    };
+        get => new()
+            {
+                Command = new[] {"test"},
+                ParallelOptions = ParallelOptions.Concurrently,
+                WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
+                ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
+                                            && path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)
+            };
+        set { }
+    }
 }

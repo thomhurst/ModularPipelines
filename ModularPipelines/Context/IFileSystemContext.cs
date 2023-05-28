@@ -26,4 +26,6 @@ public interface IFileSystemContext
     IEnumerable<DirectoryInfo> GetFolders(string folderPath, SearchOption searchOption);
     
     IEnumerable<DirectoryInfo> GetFolders(string folderPath, SearchOption searchOption, Func<DirectoryInfo, bool> predicate);
+
+    DirectoryInfo GetFolder(Environment.SpecialFolder specialFolder);
 }

@@ -13,14 +13,16 @@ public class CleanModule : MultiDotNetModule
     {
     }
 
-    protected override MultiDotNetModuleOptions Options => new()
+    protected override MultiDotNetModuleOptions Options
     {
-        Configuration = Configuration.Release,
-        Command = new[] {"clean"},
-        ParallelOptions = ParallelOptions.OneAtATime,
-        WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
-        ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
-    };
-    
-    
+        get => new()
+            {
+                Configuration = Configuration.Release,
+                Command = new[] {"clean"},
+                ParallelOptions = ParallelOptions.OneAtATime,
+                WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
+                ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
+            };
+        set { }
+    }
 }

@@ -51,4 +51,9 @@ public class FileSystemContext : IFileSystemContext
     {
         return GetFolders(folderPath, searchOption).Where(predicate);
     }
+
+    public DirectoryInfo GetFolder(Environment.SpecialFolder specialFolder)
+    {
+        return new DirectoryInfo(Environment.GetFolderPath(specialFolder));
+    }
 }

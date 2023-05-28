@@ -55,7 +55,6 @@ public class TimedDependencyTests
 
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var fiveSecondModule = await GetModule<FiveSecondModule>();
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             return ModuleResult.Empty<IDictionary<string, object>>();
         }

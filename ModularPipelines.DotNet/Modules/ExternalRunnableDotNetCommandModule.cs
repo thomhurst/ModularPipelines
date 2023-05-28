@@ -11,5 +11,5 @@ public class ExternalRunnableDotNetCommandModule : DotNetCommandModule
         Options = options;
     }
 
-    protected override DotNetCommandModuleOptions Options { get; }
+    protected override DotNetCommandModuleOptions Options { get; set; }
 }

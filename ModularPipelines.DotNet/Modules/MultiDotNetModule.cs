@@ -13,7 +13,7 @@ public abstract class MultiDotNetModule : Module<ModuleResult<BufferedCommandRes
     {
     }
 
-    protected abstract MultiDotNetModuleOptions Options { get; }
+    protected abstract MultiDotNetModuleOptions Options { get; set; }
 
     protected override async Task<ModuleResult<ModuleResult<BufferedCommandResult>[]>?> ExecuteAsync(CancellationToken cancellationToken)
     {

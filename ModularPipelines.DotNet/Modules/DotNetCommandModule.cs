@@ -14,7 +14,7 @@ public abstract class DotNetCommandModule : Module<BufferedCommandResult>
     {
     }
 
-    protected abstract DotNetCommandModuleOptions Options { get; }
+    protected abstract DotNetCommandModuleOptions Options { get; set; }
 
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
