@@ -1,3 +1,6 @@
+using ModularPipelines.FileSystem;
+using File = ModularPipelines.FileSystem.File;
+
 namespace ModularPipelines.Context;
 
 public interface IFileSystemContext
@@ -19,13 +22,13 @@ public interface IFileSystemContext
     FileAttributes GetFileAttributes(string filePath);
     void SetFileAttributes(string filepath, FileAttributes attributes);
 
-    IEnumerable<FileInfo> GetFiles(string folderPath, SearchOption searchOption);
+    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption);
     
-    IEnumerable<FileInfo> GetFiles(string folderPath, SearchOption searchOption, Func<FileInfo, bool> predicate);
+    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption, Func<File, bool> predicate);
     
-    IEnumerable<DirectoryInfo> GetFolders(string folderPath, SearchOption searchOption);
+    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption);
     
-    IEnumerable<DirectoryInfo> GetFolders(string folderPath, SearchOption searchOption, Func<DirectoryInfo, bool> predicate);
+    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption, Func<Folder, bool> predicate);
 
-    DirectoryInfo GetFolder(Environment.SpecialFolder specialFolder);
+    Folder GetFolder(Environment.SpecialFolder specialFolder);
 }

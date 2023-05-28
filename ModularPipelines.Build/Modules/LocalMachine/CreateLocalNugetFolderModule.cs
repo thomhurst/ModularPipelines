@@ -17,7 +17,7 @@ public class CreateLocalNugetFolderModule : Module<string>
 
     protected override async Task<ModuleResult<string>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var userAppData = Context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData).FullName;
+        var userAppData = Context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData).Path;
 
         var localNugetRepositoryFolderPath = Path.Combine(userAppData, "ModularPipelines", "LocalNuget");
 
