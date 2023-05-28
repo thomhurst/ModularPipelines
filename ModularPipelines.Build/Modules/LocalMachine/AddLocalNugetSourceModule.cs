@@ -2,7 +2,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Modules;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
