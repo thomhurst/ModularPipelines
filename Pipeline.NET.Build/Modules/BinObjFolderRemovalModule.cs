@@ -16,7 +16,9 @@ public class BinObjFolderRemovalModule : Module
     {
         var binObjFolders = Context.FileSystem.GetFolders(Context.Environment.GitRootDirectory!.FullName,
             SearchOption.AllDirectories,
-            path => path.Name is "bin" or "obj");
+            path =>
+                !path.FullName.Contains("Pipeline.NET.Build")
+                && path.Name is "bin" or "obj");
 
         foreach (var binObjFolder in binObjFolders)
         {

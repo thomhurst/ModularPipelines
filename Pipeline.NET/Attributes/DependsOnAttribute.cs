@@ -19,6 +19,9 @@ public class DependsOnAttribute : Attribute
 }
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class DependsOnAttribute<TModule> : Attribute where TModule : IModule
+public class DependsOnAttribute<TModule> : DependsOnAttribute where TModule : IModule
 {
+    public DependsOnAttribute() : base(typeof(TModule))
+    {
+    }
 }

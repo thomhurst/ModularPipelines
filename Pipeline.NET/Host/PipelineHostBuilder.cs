@@ -122,9 +122,11 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         return this;
     }
 
-    public Task<IModule[]> ExecutePipelineAsync()
+    public async Task<IModule[]> ExecutePipelineAsync()
     {
-        return _internalHost.Build().Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+        var host = _internalHost.Build();
+        await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
+        return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
     }
 
     private static void AddModulesFromAssembly(IServiceCollection services, Assembly assembly)

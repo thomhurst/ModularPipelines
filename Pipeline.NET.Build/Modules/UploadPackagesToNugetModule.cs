@@ -11,28 +11,40 @@ namespace Pipeline.NET.Build.Modules;
 [DependsOn<PublishPackagesModule>]
 public class UploadPackagesToNugetModule : NuGetUploadModule
 {
-    public UploadPackagesToNugetModule(IModuleContext context, IOptions<NugetSettings> options) : base(context)
+    private readonly IOptions<NuGetSettings> _options;
+
+    public UploadPackagesToNugetModule(IModuleContext context, IOptions<NuGetSettings> options) : base(context)
     {
-        ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
+        ArgumentNullException.ThrowIfNull(options.Value.AccessToken);
         
-        PackagePaths = Context.FileSystem.GetFiles(
-            Context.Environment.GitRootDirectory!.FullName,
-            SearchOption.AllDirectories,
-            file => file.Extension == ".nupkg"
-            ).Select(file => file.FullName)
-            .ToList();
-        
+        _options = options;
+    }
+
+    protected override Task InitialiseAsync()
+    {
         foreach (var packagePath in PackagePaths)
         {
             Context.Logger.LogInformation("Uploading {File}", packagePath);
         }
-
-        FeedUri = new Uri("https://api.nuget.org/v3/index.json");
-
-        AccessToken = options.Value.ApiKey;
+        
+        return base.InitialiseAsync();
     }
 
-    protected override IEnumerable<string> PackagePaths { get; }
-    protected override string AccessToken { get; }
-    protected override Uri FeedUri { get; }
+    protected override IEnumerable<string> PackagePaths => Context.FileSystem.GetFiles(
+            Context.Environment.GitRootDirectory!.FullName,
+            SearchOption.AllDirectories,
+            file => file.Extension == ".nupkg"
+        ).Select(file => file.FullName)
+        .ToList();
+    
+    protected override string AccessToken
+    {
+        get
+        {
+            ArgumentNullException.ThrowIfNull(_options.Value.AccessToken);
+            return _options.Value.AccessToken!;
+        }
+    }
+
+    protected override Uri FeedUri { get; } = new Uri("https://api.nuget.org/v3/index.json");
 }

@@ -52,6 +52,6 @@ internal class ModuleContext : IModuleContext
 
     public IModule GetModule(Type type)
     {
-        return ServiceProvider.GetServices(type).OfType<IModule>().Single();
+        return ServiceProvider.GetServices<IModule>().Single(module => module.GetType() == type);
     }
 }

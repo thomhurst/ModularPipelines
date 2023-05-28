@@ -8,7 +8,6 @@ namespace Pipeline.NET.Engine;
 
 public class PipelineExecutor : IPipelineExecutor
 {
-    private readonly IPipelineInitializer _pipelineInitializer;
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
     private readonly IPipelineConsolePrinter _pipelineConsolePrinter;
@@ -17,7 +16,6 @@ public class PipelineExecutor : IPipelineExecutor
     private readonly List<IModule> _modules;
 
     public PipelineExecutor(
-        IPipelineInitializer pipelineInitializer,
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleIgnoreHandler moduleIgnoreHandler,
         IPipelineConsolePrinter pipelineConsolePrinter,
@@ -25,7 +23,6 @@ public class PipelineExecutor : IPipelineExecutor
         IEnumerable<IModule> modules,
         IRequirementChecker requirementsChecker)
     {
-        _pipelineInitializer = pipelineInitializer;
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleIgnoreHandler = moduleIgnoreHandler;
         _pipelineConsolePrinter = pipelineConsolePrinter;
@@ -36,8 +33,6 @@ public class PipelineExecutor : IPipelineExecutor
     
     public async Task<IModule[]> ExecuteAsync()
     {
-        await _pipelineInitializer.InitializeAsync();
-
         await _pipelineSetupExecutor.OnStartAsync();
 
         await _requirementsChecker.CheckRequirements();

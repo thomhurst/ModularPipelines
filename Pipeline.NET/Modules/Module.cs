@@ -36,12 +36,6 @@ public abstract class Module<T> : IModule<T>
         {
             _dependentModules.Add(() => Context.GetModule(customAttribute.Type));
         }
-        
-        foreach (var customAttribute in GetType().GetCustomAttributes(typeof(DependsOnAttribute<>), true))
-        {
-            var type = customAttribute.GetType().GetGenericArguments();
-            _dependentModules.Add(() => Context.GetModule(type[0]));
-        }
     }
 
     protected void DependsOn<TModule>() where TModule : IModule
@@ -105,11 +99,11 @@ public abstract class Module<T> : IModule<T>
         
         try
         {
+            await WaitForModuleDependencies();
+
             await InitialiseInternalAsync();
             await InitialiseAsync();
-
-            await WaitForDependents();
-
+            
             await OnBeforeExecute();
 
             Status = Status.Processing;
@@ -218,7 +212,7 @@ public abstract class Module<T> : IModule<T>
         return _taskCompletionSource.Task.GetAwaiter();
     }
 
-    private async Task WaitForDependents()
+    private async Task WaitForModuleDependencies()
     {
         if (!_dependentModules.Any())
         {
