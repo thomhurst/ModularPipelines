@@ -2,5 +2,5 @@
 
 public record DotNetCommandModuleOptions : DotNetModuleOptions 
 {
-    public string? Command { get; init; }
+    public IEnumerable<string>? Command { get; init; }
 }

@@ -17,8 +17,9 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
     })
     .AddModule<RunUnitTestsModule>()
-    .AddModule<PublishPackagesModule>()
+    .AddModule<PackProjectsModule>()
     .AddModule<UploadPackagesToNugetModule>()
     .AddModule<CleanModule>()
-    .AddModule<BinObjFolderRemovalModule>()
+    .AddModule<PackageFilesRemovalModule>()
+    .AddModule<PackagePathsParserModule>()
     .ExecutePipelineAsync();

@@ -27,12 +27,19 @@ public abstract class DotNetCommandModule : Module<BufferedCommandResult>
             command = command.WithWorkingDirectory(Options.WorkingDirectory);
         }
 
-        var arguments = new List<string>
+        var arguments = Options.Command.ToList();
+
+        if (!string.IsNullOrEmpty(Options.TargetPath))
         {
-            Options.Command,
-            $"-c {Options.Configuration.ToString()}"
-        };
-        
+            arguments.Add(Options.TargetPath);
+        }
+
+        if (Options.Configuration != null)
+        {
+            arguments.Add("-c");
+            arguments.Add(Options.Configuration.ToString()!);
+        }
+
         arguments.AddRange(Options.ExtraArguments ?? Array.Empty<string>());
 
         command = command.WithArguments(arguments);

@@ -9,5 +9,8 @@ public class GitVersionModule : GitModule
     {
     }
 
-    protected override string Command => "--version";
+    protected override IEnumerable<string> Arguments
+    {
+        get { yield return "--version"; }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Pipeline.NET.Context;
+﻿using Pipeline.NET.Attributes;
+using Pipeline.NET.Context;
 using Pipeline.NET.Exceptions;
 using Pipeline.NET.Host;
 using Pipeline.NET.Models;
@@ -19,11 +20,11 @@ public class DirectCollisionTests
                 .With.Message.EqualTo("Dependency collision detected: **Pipeline.NET.UnitTests.DirectCollisionTests+DependencyConflictModule2** -> Pipeline.NET.UnitTests.DirectCollisionTests+DependencyConflictModule1 -> **Pipeline.NET.UnitTests.DirectCollisionTests+DependencyConflictModule2**"));
     }
     
+    [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
         public DependencyConflictModule1(IModuleContext moduleContext) : base(moduleContext)
         {
-            DependsOn<DependencyConflictModule2>();
         }
 
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
@@ -33,11 +34,11 @@ public class DirectCollisionTests
         }
     }
     
+    [DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module
     {
         public DependencyConflictModule2(IModuleContext moduleContext) : base(moduleContext)
         {
-            DependsOn<DependencyConflictModule1>();
         }
 
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)

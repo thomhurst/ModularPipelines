@@ -7,5 +7,8 @@ public class KubectlVersionModule : KubectlModule
     {
     }
 
-    protected override string Command => "version";
+    protected override IEnumerable<string> Arguments
+    {
+        get { yield return "version"; }
+    }
 }

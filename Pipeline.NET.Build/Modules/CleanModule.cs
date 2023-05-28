@@ -2,6 +2,7 @@
 using Pipeline.NET.Context;
 using Pipeline.NET.DotNet.Modules;
 using Pipeline.NET.DotNet.Options;
+using ParallelOptions = Pipeline.NET.DotNet.Options.ParallelOptions;
 
 namespace Pipeline.NET.Build.Modules;
 
@@ -12,10 +13,11 @@ public class CleanModule : MultiDotNetModule
     {
     }
 
-    protected override MultiDotNetModuleOptions Options => new MultiDotNetModuleOptions()
+    protected override MultiDotNetModuleOptions Options => new()
     {
         Configuration = Configuration.Release,
-        Command = "clean",
+        Command = new[] {"clean"},
+        ParallelOptions = ParallelOptions.Concurrently,
         WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
         ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
     };

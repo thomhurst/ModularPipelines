@@ -8,6 +8,7 @@ using Pipeline.NET.Helpers;
 using Pipeline.NET.Interfaces;
 using Pipeline.NET.Modules;
 using Pipeline.NET.Options;
+using Pipeline.NET.Requirements;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace Pipeline.NET.Host;

@@ -6,9 +6,9 @@ using Pipeline.NET.Modules;
 
 namespace Pipeline.NET.DotNet.Modules;
 
-public abstract class DotNetRestoreModule : Module<BufferedCommandResult>
+public abstract class DotNetPackModule : Module<BufferedCommandResult>
 {
-    protected DotNetRestoreModule(IModuleContext context) : base(context)
+    protected DotNetPackModule(IModuleContext context) : base(context)
     {
     }
 
@@ -16,16 +16,16 @@ public abstract class DotNetRestoreModule : Module<BufferedCommandResult>
 
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var internalDotNetCommandModule = new ExternalRunnableDotNetCommandModule(Context, new DotNetCommandModuleOptions
+        var internalDotNetCommandModule = new ExternalRunnableDotNetCommandModule(Context, new DotNetCommandModuleOptions()
         {
-            Command = new[] {"restore"},
+            Command = new[] {"pack"},
             ExtraArguments = Options.ExtraArguments,
             TargetPath = Options.TargetPath,
             WorkingDirectory = Options.WorkingDirectory
         });
-
-        await internalDotNetCommandModule.StartProcessingModule();
         
+        await internalDotNetCommandModule.StartProcessingModule();
+
         return await internalDotNetCommandModule;
     }
 }

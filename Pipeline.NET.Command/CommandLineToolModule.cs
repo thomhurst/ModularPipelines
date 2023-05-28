@@ -13,7 +13,7 @@ public abstract class CommandLineToolModule : Module<BufferedCommandResult>
     }
 
     protected abstract string Tool { get; }
-    protected abstract string Command { get; }
+    protected abstract IEnumerable<string> Arguments { get; }
     
     public virtual IReadOnlyDictionary<string, string?>? EnvironmentVariables { get; }
     protected virtual string WorkingDirectory => Context.Environment.WorkingDirectory.FullName;
@@ -21,7 +21,7 @@ public abstract class CommandLineToolModule : Module<BufferedCommandResult>
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
         var command = Cli.Wrap(Tool)
-            .WithArguments(ParseCommand())
+            .WithArguments(ParseArguments())
             .WithWorkingDirectory(WorkingDirectory);
       
         if (EnvironmentVariables != null)
@@ -35,13 +35,9 @@ public abstract class CommandLineToolModule : Module<BufferedCommandResult>
         return result;
     }
 
-    private string ParseCommand()
+    private IEnumerable<string> ParseArguments()
     {
-        if (Command.StartsWith($"{Tool} ", StringComparison.InvariantCultureIgnoreCase))
-        {
-            return Command.Substring("{Tool} ".Length);
-        }
-        
-        return Command;
+        return string.Equals(Arguments.ElementAtOrDefault(0), Tool) 
+            ? Arguments.Skip(1) : Arguments;
     }
 }

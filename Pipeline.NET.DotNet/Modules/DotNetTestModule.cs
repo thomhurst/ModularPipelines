@@ -16,11 +16,11 @@ public abstract class DotNetTestModule : Module<BufferedCommandResult>
 
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var internalDotNetCommandModule = new InternalDotNetCommandModule(Context, new DotNetCommandModuleOptions()
+        var internalDotNetCommandModule = new ExternalRunnableDotNetCommandModule(Context, new DotNetCommandModuleOptions()
         {
-            Command = "test",
+            Command = new[] {"test"},
             ExtraArguments = Options.ExtraArguments,
-            ProjectOrSolutionPath = Options.ProjectOrSolutionPath,
+            TargetPath = Options.TargetPath,
             WorkingDirectory = Options.WorkingDirectory
         });
         

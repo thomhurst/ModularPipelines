@@ -6,23 +6,22 @@ using Pipeline.NET.Modules;
 namespace Pipeline.NET.Build.Modules;
 
 [DependsOn<CleanModule>]
-public class BinObjFolderRemovalModule : Module
+public class PackageFilesRemovalModule : Module
 {
-    public BinObjFolderRemovalModule(IModuleContext context) : base(context)
+    public PackageFilesRemovalModule(IModuleContext context) : base(context)
     {
     }
 
     protected override Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var binObjFolders = Context.FileSystem.GetFolders(Context.Environment.GitRootDirectory!.FullName,
+        var packageFiles = Context.FileSystem.GetFiles(Context.Environment.GitRootDirectory!.FullName,
             SearchOption.AllDirectories,
             path =>
-                !path.FullName.Contains("Pipeline.NET.Build")
-                && path.Name is "bin" or "obj");
+                path.Extension == ".nupkg");
 
-        foreach (var binObjFolder in binObjFolders)
+        foreach (var packageFile in packageFiles)
         {
-            binObjFolder.Delete(true);
+            packageFile.Delete();
         }
 
         return NothingAsync();

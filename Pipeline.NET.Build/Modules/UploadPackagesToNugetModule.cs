@@ -8,43 +8,43 @@ using Pipeline.NET.NuGet;
 namespace Pipeline.NET.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
-[DependsOn<PublishPackagesModule>]
+[DependsOn<PackagePathsParserModule>]
 public class UploadPackagesToNugetModule : NuGetUploadModule
 {
     private readonly IOptions<NuGetSettings> _options;
 
     public UploadPackagesToNugetModule(IModuleContext context, IOptions<NuGetSettings> options) : base(context)
     {
-        ArgumentNullException.ThrowIfNull(options.Value.AccessToken);
+        ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
         
         _options = options;
     }
 
-    protected override Task InitialiseAsync()
+    protected override async Task InitialiseAsync()
     {
+        PackagePaths = (await GetModule<PackagePathsParserModule>()).Value!;
+        
         foreach (var packagePath in PackagePaths)
         {
             Context.Logger.LogInformation("Uploading {File}", packagePath);
         }
         
-        return base.InitialiseAsync();
+        await base.InitialiseAsync();
     }
 
-    protected override IEnumerable<string> PackagePaths => Context.FileSystem.GetFiles(
-            Context.Environment.GitRootDirectory!.FullName,
-            SearchOption.AllDirectories,
-            file => file.Extension == ".nupkg"
-        ).Select(file => file.FullName)
-        .ToList();
-    
-    protected override string AccessToken
+    protected override IEnumerable<string> PackagePaths { get; set; }
+
+    protected override string ApiKey
     {
         get
         {
-            ArgumentNullException.ThrowIfNull(_options.Value.AccessToken);
-            return _options.Value.AccessToken!;
+            ArgumentNullException.ThrowIfNull(_options.Value.ApiKey);
+            return _options.Value.ApiKey!;
+        }
+        set
+        {
         }
     }
 
-    protected override Uri FeedUri { get; } = new Uri("https://api.nuget.org/v3/index.json");
+    protected override Uri FeedUri { get; set; } = new("https://api.nuget.org/v3/index.json");
 }

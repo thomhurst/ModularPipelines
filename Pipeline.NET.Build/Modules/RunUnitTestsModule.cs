@@ -1,6 +1,7 @@
 ﻿using Pipeline.NET.Context;
 using Pipeline.NET.DotNet.Modules;
 using Pipeline.NET.DotNet.Options;
+using ParallelOptions = Pipeline.NET.DotNet.Options.ParallelOptions;
 
 namespace Pipeline.NET.Build.Modules;
 
@@ -12,7 +13,8 @@ public class RunUnitTestsModule : MultiDotNetModule
 
     protected override MultiDotNetModuleOptions Options => new()
     {
-        Command = "test",
+        Command = new[] {"test"},
+        ParallelOptions = ParallelOptions.Concurrently,
         WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
         ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase) 
                                     && path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)

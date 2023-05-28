@@ -3,9 +3,9 @@ using Pipeline.NET.DotNet.Options;
 
 namespace Pipeline.NET.DotNet.Modules;
 
-internal class InternalDotNetCommandModule : DotNetCommandModule
+public class ExternalRunnableDotNetCommandModule : DotNetCommandModule
 {
-    public InternalDotNetCommandModule(IModuleContext context, 
+    public ExternalRunnableDotNetCommandModule(IModuleContext context, 
         DotNetCommandModuleOptions options) : base(context)
     {
         Options = options;

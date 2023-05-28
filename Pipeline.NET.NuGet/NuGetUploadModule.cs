@@ -1,52 +1,45 @@
 ﻿
-using NuGet.Common;
-using NuGet.Configuration;
-using NuGet.Protocol;
-using NuGet.Protocol.Core.Types;
+using CliWrap.Buffered;
 using Pipeline.NET.Context;
+using Pipeline.NET.DotNet.Modules;
+using Pipeline.NET.DotNet.Options;
 using Pipeline.NET.Models;
 using Pipeline.NET.Modules;
 
 namespace Pipeline.NET.NuGet;
 
-public abstract class NuGetUploadModule : Module
+public abstract class NuGetUploadModule : Module<List<BufferedCommandResult?>>
 {
     protected NuGetUploadModule(IModuleContext context) : base(context)
     {
     }
     
-    protected abstract IEnumerable<string> PackagePaths { get; }
-    protected abstract string AccessToken { get; }
-    protected abstract Uri FeedUri { get; }
+    protected abstract IEnumerable<string> PackagePaths { get; set; }
+    protected abstract string ApiKey { get; set; }
+    protected abstract Uri FeedUri { get; set; }
 
-    protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult?>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var packageSource = new PackageSource(FeedUri.AbsolutePath)
+        var results = new List<ModuleResult<BufferedCommandResult>>();
+        foreach (var packagePath in PackagePaths)
         {
-            Credentials = new PackageSourceCredential(
-                source: FeedUri.AbsolutePath,
-                username: string.Empty, // not important
-                passwordText: AccessToken,
-                isPasswordClearText: true,
-                validAuthenticationTypesText: null)
-        };
-        
-        var repository = Repository.Factory.GetCoreV3(packageSource);
-        
-        var resource = await repository.GetResourceAsync<PackageUpdateResource>(cancellationToken);
-        
-        await resource.Push(
-            PackagePaths.ToList(),
-            symbolSource: null,
-            timeoutInSecond: 5 * 60,
-            disableBuffering: false,
-            getApiKey: packageSource => string.Empty,
-            getSymbolApiKey: packageSource => null,
-            noServiceEndpoint: false,
-            skipDuplicate: true,
-            symbolPackageUpdateResource: null,
-            NullLogger.Instance);
+            var module = new ExternalRunnableDotNetCommandModule(Context, new DotNetCommandModuleOptions
+            {
+                Command = new[] {"nuget", "push"},
+                TargetPath = packagePath,
+                ExtraArguments = new List<string>
+                {
+                    "-k", ApiKey,
+                    "-n",
+                    "-s", FeedUri.AbsoluteUri
+                }
+            });
 
-        return await NothingAsync();
+            await module.StartProcessingModule();
+            
+            results.Add(await module);
+        }
+
+        return results.Select(x => x.Value).ToList();
     }
 }

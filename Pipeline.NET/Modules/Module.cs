@@ -24,7 +24,7 @@ public abstract class Module<T> : IModule<T>
     private readonly ILogger _logger;
     protected readonly IModuleContext Context;
     internal readonly Stopwatch Stopwatch = new();
-    private readonly List<Func<IModule>> _dependentModules = new();
+    private readonly List<Type> _dependentModules = new();
     private bool _hasStarted;
 
     protected Module(IModuleContext context)
@@ -34,20 +34,25 @@ public abstract class Module<T> : IModule<T>
         
         foreach (var customAttribute in GetType().GetCustomAttributes<DependsOnAttribute>(true))
         {
-            _dependentModules.Add(() => Context.GetModule(customAttribute.Type));
+            AddDependency(customAttribute.Type);
         }
     }
 
-    protected void DependsOn<TModule>() where TModule : IModule
+    private void AddDependency(Type type)
     {
-        if (typeof(TModule) == GetType())
+        if (type == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
         }
+
+        if (!type.IsAssignableTo(typeof(IModule)))
+        {
+            throw new Exception($"{type.FullName} must be a module to add as a dependency");
+        }
         
-        Context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
+        Context.DependencyCollisionDetector.CheckDependency(GetType(), type);
         
-        _dependentModules.Add(() => Context.GetModule<TModule>());
+        _dependentModules.Add(type);
     }
 
     private ILogger GetLogger()
@@ -184,7 +189,7 @@ public abstract class Module<T> : IModule<T>
     public virtual bool ShouldSkip => false;
     public TimeSpan Duration { get; private set; }
 
-    protected TModule GetModule<TModule>() where TModule : IModule
+    protected internal TModule GetModule<TModule>() where TModule : IModule
     {
         if (typeof(TModule) == GetType())
         {
@@ -196,7 +201,7 @@ public abstract class Module<T> : IModule<T>
         return Context.GetModule<TModule>();
     }
     
-    protected async Task WaitForModule<TModule>() where TModule : IModule
+    protected internal async Task WaitForModule<TModule>() where TModule : IModule
     {
         var module = GetModule<TModule>();
 
@@ -218,10 +223,12 @@ public abstract class Module<T> : IModule<T>
         {
             return;
         }
+
+        var modules = _dependentModules.Select(Context.GetModule).ToList();
+
+        var tasks = modules.Select(module => module.Task).ToList();
         
-        await Task.WhenAll(
-            _dependentModules.Select(async module => await module().Task)
-        );
+        await Task.WhenAll(tasks);
     }
 
     public Task Task => _taskCompletionSource.Task;

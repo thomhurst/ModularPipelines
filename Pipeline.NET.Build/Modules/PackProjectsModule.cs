@@ -8,19 +8,19 @@ using Pipeline.NET.DotNet.Options;
 
 namespace Pipeline.NET.Build.Modules;
 
-[DependsOn<BinObjFolderRemovalModule>]
-public class PublishPackagesModule : MultiDotNetModule
+[DependsOn<PackageFilesRemovalModule>]
+public class PackProjectsModule : MultiDotNetModule
 {
     private readonly IOptions<PublishSettings> _options;
 
-    public PublishPackagesModule(IModuleContext context, IOptions<PublishSettings> options) : base(context)
+    public PackProjectsModule(IModuleContext context, IOptions<PublishSettings> options) : base(context)
     {
         _options = options;
     }
 
     protected override MultiDotNetModuleOptions Options => new()
     {
-        Command = "publish",
+        Command = new[] {"pack"},
         WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
         ProjectsToInclude = GetProjectsPredicate,
         Configuration = Configuration.Release,

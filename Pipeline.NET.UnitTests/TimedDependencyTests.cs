@@ -1,3 +1,4 @@
+using Pipeline.NET.Attributes;
 using Pipeline.NET.Context;
 using Pipeline.NET.Host;
 using Pipeline.NET.Models;
@@ -41,11 +42,11 @@ public class TimedDependencyTests
         }
     }
 
+    [DependsOn<FiveSecondModule>]
     private class OneSecondModuleDependentOnFiveSecondModule : Module
     {
         public OneSecondModuleDependentOnFiveSecondModule(IModuleContext moduleContext) : base(moduleContext)
         {
-            DependsOn<FiveSecondModule>();
         }
 
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)

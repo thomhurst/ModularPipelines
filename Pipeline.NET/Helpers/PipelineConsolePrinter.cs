@@ -24,7 +24,7 @@ public class PipelineConsolePrinter : IPipelineConsolePrinter
 
                 RegisterIgnoredModules(modulesToIgnore, ctx);
 
-                CompleteTotalWhenFinished(modulesToProcess, totalTask);
+                CompleteTotalWhenFinished(modulesToProcess, totalTask, ctx);
 
                 while (!ctx.IsFinished)
                 {
@@ -67,12 +67,14 @@ public class PipelineConsolePrinter : IPipelineConsolePrinter
         }
     }
 
-    private static void CompleteTotalWhenFinished(List<IModule> modulesToProcess, ProgressTask totalTask)
+    private static void CompleteTotalWhenFinished(List<IModule> modulesToProcess, ProgressTask totalTask,
+        ProgressContext progressContext)
     {
         _ = Task.WhenAll(modulesToProcess.Select(x => x.Task)).ContinueWith(x =>
         {
             totalTask.Increment(100);
             totalTask.StopTask();
+            progressContext.Refresh();
         });
     }
 

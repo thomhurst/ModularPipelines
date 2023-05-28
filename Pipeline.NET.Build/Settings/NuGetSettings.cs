@@ -2,5 +2,5 @@
 
 public record NuGetSettings
 {
-    public string? AccessToken { get; init; }
+    public string? ApiKey { get; init; }
 }

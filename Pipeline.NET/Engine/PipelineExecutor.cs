@@ -76,6 +76,8 @@ public class PipelineExecutor : IPipelineExecutor
         
         await _pipelineSetupExecutor.OnEndAsync();
 
+        await Task.Delay(200);
+
         return _modules.ToArray();
     }
 

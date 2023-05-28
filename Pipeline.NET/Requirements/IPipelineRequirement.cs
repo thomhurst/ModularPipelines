@@ -1,4 +1,4 @@
-﻿namespace Pipeline.NET;
+﻿namespace Pipeline.NET.Requirements;
 
 public interface IPipelineRequirement
 {

@@ -3,6 +3,7 @@ using Pipeline.NET.Context;
 using Pipeline.NET.DotNet.Options;
 using Pipeline.NET.Models;
 using Pipeline.NET.Modules;
+using ParallelOptions = Pipeline.NET.DotNet.Options.ParallelOptions;
 
 namespace Pipeline.NET.DotNet.Modules;
 
@@ -19,12 +20,12 @@ public abstract class MultiDotNetModule : Module<ModuleResult<BufferedCommandRes
         var projects = GetProjects();
 
         var innerModules = projects
-            .Select(path => new InternalDotNetCommandModule(Context, new DotNetCommandModuleOptions
+            .Select(path => new ExternalRunnableDotNetCommandModule(Context, new DotNetCommandModuleOptions
             {
                 Command = Options.Command,
                 ExtraArguments = Options.ExtraArguments,
                 WorkingDirectory = Options.WorkingDirectory,
-                ProjectOrSolutionPath = path,
+                TargetPath = path,
                 Configuration = Options.Configuration,
                 EnvironmentVariables = Options.EnvironmentVariables
             }))
@@ -32,7 +33,14 @@ public abstract class MultiDotNetModule : Module<ModuleResult<BufferedCommandRes
 
         foreach (var internalDotNetCommandModule in innerModules)
         {
-            _ = internalDotNetCommandModule.StartProcessingModule();
+            if (Options.ParallelOptions == ParallelOptions.OneAtATime)
+            {
+                await internalDotNetCommandModule.StartProcessingModule();
+            }
+            else
+            {
+                _ = internalDotNetCommandModule.StartProcessingModule();
+            }
         }
 
 
@@ -47,7 +55,7 @@ public abstract class MultiDotNetModule : Module<ModuleResult<BufferedCommandRes
             new DirectoryInfo(Options.WorkingDirectory ?? Context.Environment.WorkingDirectory.FullName);
 
         return directoryToStartSearchFrom
-            .EnumerateFiles()
+            .EnumerateFiles("*", SearchOption.AllDirectories)
             .Where(fileInfo => Options.ProjectsToInclude?.Invoke(fileInfo.FullName) ?? fileInfo.FullName.EndsWith(".csproj"))
             .Select(fileInfo => fileInfo.FullName)
             .ToArray();
