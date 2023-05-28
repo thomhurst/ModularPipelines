@@ -1,0 +1,24 @@
+﻿using Pipeline.NET.Modules;
+
+namespace Pipeline.NET.Attributes;
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class DependsOnAttribute : Attribute
+{
+    public Type Type { get; }
+
+    public DependsOnAttribute(Type type)
+    {
+        if (!type.IsAssignableTo(typeof(IModule)))
+        {
+            throw new Exception($"{type.FullName} is not a Module class");
+        }
+        
+        Type = type;
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class DependsOnAttribute<TModule> : Attribute where TModule : IModule
+{
+}

@@ -1,24 +1,31 @@
-﻿using Pipeline.NET.DotNet.Options;
+﻿using CliWrap.Buffered;
+using Pipeline.NET.Context;
+using Pipeline.NET.DotNet.Options;
+using Pipeline.NET.Models;
+using Pipeline.NET.Modules;
 
 namespace Pipeline.NET.DotNet.Modules;
 
-public abstract class DotNetBuildModule : Module
+public abstract class DotNetBuildModule : Module<BufferedCommandResult>
 {
     protected DotNetBuildModule(IModuleContext context) : base(context)
     {
     }
 
-    public abstract DotNetModuleOptions Options { get; }
+    protected abstract DotNetModuleOptions Options { get; }
 
-    public override async Task<ModuleResult?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        return await new InternalDotNetCommandModule(Context, new DotNetCommandModuleOptions()
+        var internalDotNetCommandModule = new InternalDotNetCommandModule(Context, new DotNetCommandModuleOptions()
         {
             Command = "build",
-            AssertSuccess = Options.AssertSuccess,
             ExtraArguments = Options.ExtraArguments,
             ProjectOrSolutionPath = Options.ProjectOrSolutionPath,
             WorkingDirectory = Options.WorkingDirectory
-        }).StartProcessingModule();
+        });
+        
+        await internalDotNetCommandModule.StartProcessingModule();
+
+        return await internalDotNetCommandModule;
     }
 }

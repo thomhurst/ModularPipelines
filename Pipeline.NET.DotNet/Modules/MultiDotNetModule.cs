@@ -1,17 +1,20 @@
-﻿using Pipeline.NET.DotNet.Options;
-using Pipeline.NET.Extensions;
+﻿using CliWrap.Buffered;
+using Pipeline.NET.Context;
+using Pipeline.NET.DotNet.Options;
+using Pipeline.NET.Models;
+using Pipeline.NET.Modules;
 
 namespace Pipeline.NET.DotNet.Modules;
 
-public abstract class MultiDotNetModule : Module
+public abstract class MultiDotNetModule : Module<ModuleResult<BufferedCommandResult>[]>
 {
-    public MultiDotNetModule(IModuleContext context) : base(context)
+    protected MultiDotNetModule(IModuleContext context) : base(context)
     {
     }
-    
-    public abstract MultiDotNetModuleOptions Options { get; }
 
-    public override async Task<ModuleResult?> ExecuteAsync(CancellationToken cancellationToken)
+    protected abstract MultiDotNetModuleOptions Options { get; }
+
+    protected override async Task<ModuleResult<ModuleResult<BufferedCommandResult>[]>?> ExecuteAsync(CancellationToken cancellationToken)
     {
         var projects = GetProjects();
 
@@ -22,12 +25,20 @@ public abstract class MultiDotNetModule : Module
                 ExtraArguments = Options.ExtraArguments,
                 WorkingDirectory = Options.WorkingDirectory,
                 ProjectOrSolutionPath = path,
-                AssertSuccess = Options.AssertSuccess
-            }).StartProcessingModule());
+                Configuration = Options.Configuration,
+                EnvironmentVariables = Options.EnvironmentVariables
+            }))
+            .ToArray();
 
-        var moduleResults = await Task.WhenAll(innerModules);
+        foreach (var internalDotNetCommandModule in innerModules)
+        {
+            _ = internalDotNetCommandModule.StartProcessingModule();
+        }
 
-        return moduleResults.ToModuleResult();
+
+        var moduleResults = await Task.WhenAll(innerModules.Select(async x => await x));
+
+        return moduleResults;
     }
 
     private IEnumerable<string> GetProjects()

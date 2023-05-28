@@ -1,24 +1,27 @@
 using System.Collections.ObjectModel;
 using CliWrap;
 using CliWrap.Buffered;
+using Pipeline.NET.Context;
 using Pipeline.NET.DotNet.Options;
-using Pipeline.NET.Exceptions;
-using Pipeline.NET.Extensions;
+using Pipeline.NET.Models;
+using Pipeline.NET.Modules;
 
 namespace Pipeline.NET.DotNet.Modules;
 
-public abstract class DotNetCommandModule : Module
+public abstract class DotNetCommandModule : Module<BufferedCommandResult>
 {
     public DotNetCommandModule(IModuleContext context) : base(context)
     {
     }
-    
-    public abstract DotNetCommandModuleOptions Options { get; }
 
-    public override async Task<ModuleResult?> ExecuteAsync(CancellationToken cancellationToken)
+    protected abstract DotNetCommandModuleOptions Options { get; }
+
+    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(Options.Command);
+        
         var command = Cli.Wrap("dotnet");
-
+        
         if (!string.IsNullOrEmpty(Options.WorkingDirectory))
         {
             command = command.WithWorkingDirectory(Options.WorkingDirectory);
@@ -26,7 +29,8 @@ public abstract class DotNetCommandModule : Module
 
         var arguments = new List<string>
         {
-            Options.Command
+            Options.Command,
+            $"-c {Options.Configuration.ToString()}"
         };
         
         arguments.AddRange(Options.ExtraArguments ?? Array.Empty<string>());
@@ -40,11 +44,6 @@ public abstract class DotNetCommandModule : Module
 
         var result = await command.ExecuteBufferedAsync(cancellationToken: cancellationToken);
 
-        if (result.ExitCode != 0)
-        {
-            throw new ModuleFailedException(result.StandardError);
-        }
-        
-        return result.StandardOutput.ToModuleResult();
+        return result;
     }
 }

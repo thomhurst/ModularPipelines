@@ -1,3 +1,4 @@
+using Pipeline.NET.Context;
 using Pipeline.NET.DotNet.Options;
 
 namespace Pipeline.NET.DotNet.Modules;
@@ -10,5 +11,5 @@ internal class InternalDotNetCommandModule : DotNetCommandModule
         Options = options;
     }
 
-    public override DotNetCommandModuleOptions Options { get; }
+    protected override DotNetCommandModuleOptions Options { get; }
 }
