@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+      <ProjectReference Include="..\ModularPipelines.Installer\ModularPipelines.Installer.csproj" />
+      <ProjectReference Include="..\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.Development.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
