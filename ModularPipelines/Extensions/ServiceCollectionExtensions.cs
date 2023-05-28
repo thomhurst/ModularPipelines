@@ -58,8 +58,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddPipelineGlobalSetup<TGlobalSetup>(this IServiceCollection services) where TGlobalSetup : class, IPipelineGlobalHooks
+    public static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services) where TGlobalSetup : class, IPipelineGlobalHooks
     {
         return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
+    }
+    
+    public static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IServiceCollection services) where TModuleHooks : class, IPipelineModuleHooks
+    {
+        return services.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
     }
 }
