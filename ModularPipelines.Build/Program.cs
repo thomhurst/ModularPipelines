@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
@@ -23,7 +24,8 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<PackProjectsModule>()
             .AddModule<CleanModule>()
             .AddModule<PackageFilesRemovalModule>()
-            .AddModule<PackagePathsParserModule>();
+            .AddModule<PackagePathsParserModule>()
+            .AddPipelineModuleHooks<MyModuleHooks>();
 
         if (context.HostingEnvironment.IsDevelopment())
         {

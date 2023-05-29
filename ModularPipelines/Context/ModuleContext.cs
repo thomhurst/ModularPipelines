@@ -30,7 +30,7 @@ internal class ModuleContext : IModuleContext
     {
         return ServiceProvider.GetService<T>()
                ?? (T) _resolvedInstances.GetOrAdd(typeof(T),
-                   () => ActivatorUtilities.GetServiceOrCreateInstance<T>(ServiceProvider));
+                   _ => ActivatorUtilities.GetServiceOrCreateInstance<T>(ServiceProvider)!);
     }
 
     public IFileSystemContext FileSystem { get; }

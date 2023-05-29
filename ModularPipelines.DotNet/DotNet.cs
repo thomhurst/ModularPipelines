@@ -1,4 +1,5 @@
 ﻿using CliWrap.Buffered;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Command.Extensions;
 using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
@@ -10,6 +11,7 @@ public class DotNet : IDotNet
 {
     public IModuleContext Context { get; }
 
+    [ActivatorUtilitiesConstructor]
     internal DotNet(IModuleContext context)
     {
         Context = context;
