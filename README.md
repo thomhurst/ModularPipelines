@@ -61,6 +61,14 @@ If you install any of these projects, then in startup, make sure you register th
 collection.RegisterDotNetContext();
 ```
 
+These can then be used within your modules, by accessing them on the `IModuleContext` object
+```csharp
+await Context.DotNet().Build(new DotNetOptions
+            {
+                TargetPath = SomePath
+            }, cancellationToken)
+```
+
 ## Defining Modules
 
 Modules are defined by creating a class that inherits from the `Module<T>` base class - And T is a return type, if you want your module to be able to return data, that you can retrieve from other modules. You can also just inherit from `Module` which will assume you're returning a dictionary of data. You can also return Nothing, which will be explained further down.
