@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using CliWrap.Buffered;
-using Microsoft.Extensions.DependencyInjection;
+﻿using CliWrap.Buffered;
 using ModularPipelines.Command.Extensions;
 using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
@@ -12,8 +10,7 @@ public class Installer : IInstaller
 {
     public IModuleContext Context { get; }
 
-    [ActivatorUtilitiesConstructor]
-    internal Installer(IModuleContext context)
+    public Installer(IModuleContext context)
     {
         Context = context;
     }

@@ -26,11 +26,9 @@ internal class ModuleContext : IModuleContext
 
     public IEnvironmentContext Environment { get; }
 
-    public T? Get<T>()
+    public T Get<T>()
     {
-        return ServiceProvider.GetService<T>()
-               ?? (T) _resolvedInstances.GetOrAdd(typeof(T),
-                   _ => ActivatorUtilities.GetServiceOrCreateInstance<T>(ServiceProvider)!);
+        return (T) ServiceProvider.GetRequiredService(typeof(T));
     }
 
     public IFileSystemContext FileSystem { get; }

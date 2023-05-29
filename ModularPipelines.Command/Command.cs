@@ -1,18 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using CliWrap;
 using CliWrap.Buffered;
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Command.Options;
 
 namespace ModularPipelines.Command;
 
 public class Command : ICommand
 {
-    [ActivatorUtilitiesConstructor]
-    internal Command()
-    {
-    }
-    
     public async Task<BufferedCommandResult> Of(CommandOptions options, CancellationToken cancellationToken = default)
     {
         var command = Cli.Wrap(options.Command);

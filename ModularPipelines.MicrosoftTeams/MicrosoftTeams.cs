@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;
@@ -10,8 +9,7 @@ public class MicrosoftTeams : IMicrosoftTeams
 {
     public IModuleContext Context { get; }
 
-    [ActivatorUtilitiesConstructor]
-    internal MicrosoftTeams(IModuleContext context)
+    public MicrosoftTeams(IModuleContext context)
     {
         Context = context;
     }

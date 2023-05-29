@@ -1,6 +1,5 @@
 using CliWrap.Buffered;
 using ModularPipelines.Context;
-using ModularPipelines.Installer;
 using ModularPipelines.Installer.Extensions;
 using ModularPipelines.Installer.Options;
 using ModularPipelines.Models;

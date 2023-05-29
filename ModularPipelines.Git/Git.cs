@@ -1,5 +1,4 @@
 ﻿using CliWrap.Buffered;
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Command.Extensions;
 using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
@@ -11,8 +10,7 @@ public class Git : IGit
 {
     public IModuleContext Context { get; }
 
-    [ActivatorUtilitiesConstructor]
-    internal Git(IModuleContext context)
+    public Git(IModuleContext context)
     {
         Context = context;
     }

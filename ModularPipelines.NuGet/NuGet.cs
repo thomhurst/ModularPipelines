@@ -1,5 +1,4 @@
 ﻿using CliWrap.Buffered;
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Command.Extensions;
 using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
@@ -13,8 +12,7 @@ public class NuGet : INuGet
 {
     public IModuleContext Context { get; }
 
-    [ActivatorUtilitiesConstructor]
-    internal NuGet(IModuleContext context)
+    public NuGet(IModuleContext context)
     {
         Context = context;
     }
