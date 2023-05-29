@@ -54,6 +54,13 @@ await PipelineHostBuilder.Create()
     .ExecutePipelineAsync();
 ```
 
+## Contexts
+There are a few packages for providing out-of-the-box functonality for things like DotNet commands, or publishing a card to Microsoft teams.
+If you install any of these projects, then in startup, make sure you register these contexts:
+```csharp
+collection.RegisterDotNetContext();
+```
+
 ## Defining Modules
 
 Modules are defined by creating a class that inherits from the `Module<T>` base class - And T is a return type, if you want your module to be able to return data, that you can retrieve from other modules. You can also just inherit from `Module` which will assume you're returning a dictionary of data. You can also return Nothing, which will be explained further down.
