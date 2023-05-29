@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Git", "Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Command", "ModularPipelines.Command\ModularPipelines.Command.csproj", "{25F82D0E-84EF-40F1-8059-8BBC447BCB16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Kubernetes", "ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj", "{712361BC-894B-48DA-A0C6-1D36FF192D2D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.MicrosoftTeams", "ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj", "{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Installer", "ModularPipelines.Installer\ModularPipelines.Installer.csproj", "{D23FE24C-9416-4ABD-84BA-49720582D8A1}"
@@ -56,10 +54,6 @@ Global
 		{25F82D0E-84EF-40F1-8059-8BBC447BCB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F82D0E-84EF-40F1-8059-8BBC447BCB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25F82D0E-84EF-40F1-8059-8BBC447BCB16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{712361BC-894B-48DA-A0C6-1D36FF192D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{712361BC-894B-48DA-A0C6-1D36FF192D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{712361BC-894B-48DA-A0C6-1D36FF192D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{712361BC-894B-48DA-A0C6-1D36FF192D2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}.Release|Any CPU.ActiveCfg = Release|Any CPU

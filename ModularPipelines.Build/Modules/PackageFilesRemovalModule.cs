@@ -14,7 +14,7 @@ public class PackageFilesRemovalModule : Module
 
     protected override Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var packageFiles = Context.FileSystem.GetFiles(Context.Environment.GitRootDirectory!.FullName,
+        var packageFiles = Context.FileSystem.GetFiles(Context.Environment.GitRootDirectory!.Path,
             SearchOption.AllDirectories,
             path =>
                 path.Extension == ".nupkg");

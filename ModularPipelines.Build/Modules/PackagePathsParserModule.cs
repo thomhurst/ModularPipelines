@@ -17,7 +17,7 @@ public class PackagePathsParserModule : Module<List<string>>
         var packPackagesModuleResult = await GetModule<PackProjectsModule>();
 
         return packPackagesModuleResult.Value!
-            .Select(x => x.Value!.StandardOutput)
+            .Select(x => x.StandardOutput)
             .Select(x => x.Split("Successfully created package '")[1])
             .Select(x => x.Split("'.")[0])
             .ToList();

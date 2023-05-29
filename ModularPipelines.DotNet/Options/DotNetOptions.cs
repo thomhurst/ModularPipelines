@@ -1,6 +1,6 @@
 namespace ModularPipelines.DotNet.Options;
 
-public record DotNetModuleOptions
+public record DotNetOptions
 {
     public string? WorkingDirectory { get; init; }
     

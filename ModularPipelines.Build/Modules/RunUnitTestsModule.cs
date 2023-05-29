@@ -1,26 +1,33 @@
+using CliWrap.Buffered;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Modules;
+using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ParallelOptions = ModularPipelines.DotNet.Options.ParallelOptions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class RunUnitTestsModule : MultiDotNetModule
+public class RunUnitTestsModule : Module<List<BufferedCommandResult>>
 {
     public RunUnitTestsModule(IModuleContext context) : base(context)
     {
     }
 
-    protected override MultiDotNetModuleOptions Options
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        get => new()
+        var results = new List<BufferedCommandResult>();
+
+        foreach (var unitTestProjectFile in Context.Environment
+                     .GitRootDirectory!
+                     .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
+                                       && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)))
+        {
+            results.Add(await Context.DotNet().Test(new DotNetOptions
             {
-                Command = new[] {"test"},
-                ParallelOptions = ParallelOptions.Concurrently,
-                WorkingDirectory = Context.Environment.GitRootDirectory!.FullName,
-                ProjectsToInclude = path => path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
-                                            && path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)
-            };
-        set { }
+                TargetPath = unitTestProjectFile.Path
+            }, cancellationToken));
+        }
+
+        return results;
     }
 }

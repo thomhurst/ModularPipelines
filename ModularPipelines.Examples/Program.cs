@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using ModularPipelines.Examples;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
@@ -26,7 +25,6 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<IgnoredModule>()
             .AddModule<FailedModule>()
             .AddModule<GitVersionModule>()
-            .AddModule<KubectlVersionModule>()
             .AddModule<NotepadPlusPlusInstallerModule>()
             .AddRequirement<WindowsAdminRequirement>();
     })

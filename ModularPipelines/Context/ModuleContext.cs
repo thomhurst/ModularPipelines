@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ namespace ModularPipelines.Context;
 internal class ModuleContext : IModuleContext
 {
     private readonly ILogger<ModuleContext> _logger;
+    private readonly ConcurrentDictionary<Type, object> _resolvedInstances = new();
 
     public IServiceProvider ServiceProvider { get; }
 
@@ -24,7 +26,12 @@ internal class ModuleContext : IModuleContext
 
     public IEnvironmentContext Environment { get; }
 
-    public T? Get<T>() => ServiceProvider.GetService<T>();
+    public T? Get<T>()
+    {
+        return ServiceProvider.GetService<T>()
+               ?? (T) _resolvedInstances.GetOrAdd(typeof(T),
+                   () => ActivatorUtilities.GetServiceOrCreateInstance<T>(ServiceProvider));
+    }
 
     public IFileSystemContext FileSystem { get; }
 

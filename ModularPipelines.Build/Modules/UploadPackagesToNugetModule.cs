@@ -1,15 +1,19 @@
+using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.NuGet;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+using ModularPipelines.NuGet.Extensions;
+using ModularPipelines.NuGet.Options;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
-public class UploadPackagesToNugetModule : NuGetUploadModule
+public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
 {
     private readonly IOptions<NuGetSettings> _options;
 
@@ -21,9 +25,9 @@ public class UploadPackagesToNugetModule : NuGetUploadModule
 
     protected override async Task InitialiseAsync()
     {
-        PackagePaths = (await GetModule<PackagePathsParserModule>()).Value!;
+        var packagePaths = await GetModule<PackagePathsParserModule>();
         
-        foreach (var packagePath in PackagePaths)
+        foreach (var packagePath in packagePaths.Value!)
         {
             Context.Logger.LogInformation("Uploading {File}", packagePath);
         }
@@ -31,19 +35,14 @@ public class UploadPackagesToNugetModule : NuGetUploadModule
         await base.InitialiseAsync();
     }
 
-    protected override IEnumerable<string> PackagePaths { get; set; } = null!;
-
-    protected override string ApiKey
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        get
-        {
-            ArgumentNullException.ThrowIfNull(_options.Value.ApiKey);
-            return _options.Value.ApiKey!;
-        }
-        set
-        {
-        }
-    }
+        var packagePaths = await GetModule<PackagePathsParserModule>();
 
-    protected override Uri FeedUri { get; set; } = new("https://api.nuget.org/v3/index.json");
+        return await Context.NuGet()
+            .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
+            {
+                ApiKey = _options.Value.ApiKey!
+            });
+    }
 }

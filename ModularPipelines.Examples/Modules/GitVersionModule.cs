@@ -1,16 +1,19 @@
+using CliWrap.Buffered;
 using ModularPipelines.Context;
-using ModularPipelines.Git;
+using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class GitVersionModule : GitModule
+public class GitVersionModule : Module<BufferedCommandResult>
 {
     public GitVersionModule(IModuleContext context) : base(context)
     {
     }
 
-    protected override IEnumerable<string> Arguments
+    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        get { yield return "--version"; }
+        return await Context.Git().Version();
     }
 }

@@ -1,7 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Installer;
 
-namespace ModularPipelines.Examples;
+namespace ModularPipelines.Examples.Modules;
 
 public class NotepadPlusPlusInstallerModule : WebInstallerModule
 {

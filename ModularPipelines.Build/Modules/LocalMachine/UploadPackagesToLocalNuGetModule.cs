@@ -1,50 +1,39 @@
+using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.NuGet;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+using ModularPipelines.NuGet.Extensions;
+using ModularPipelines.NuGet.Options;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<AddLocalNugetSourceModule>]
-public class UploadPackagesToLocalNuGetModule : NuGetUploadModule
+public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResult>>
 {
-    private readonly IOptions<NuGetSettings> _options;
-
-    public UploadPackagesToLocalNuGetModule(IModuleContext context, IOptions<NuGetSettings> options) : base(context)
+    public UploadPackagesToLocalNuGetModule(IModuleContext context) : base(context)
     {
-        ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
-        _options = options;
     }
 
     protected override async Task InitialiseAsync()
     {
-        PackagePaths = (await GetModule<PackagePathsParserModule>()).Value!;
+        var packagePaths = await GetModule<PackagePathsParserModule>();
         
-        foreach (var packagePath in PackagePaths)
+        foreach (var packagePath in packagePaths.Value!)
         {
             Context.Logger.LogInformation("Uploading {File}", packagePath);
         }
         
-        FeedUri = new Uri((await GetModule<CreateLocalNugetFolderModule>()).Value!);
-        
         await base.InitialiseAsync();
     }
 
-    protected override IEnumerable<string> PackagePaths { get; set; } = null!;
-
-    protected override string ApiKey
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        get
-        {
-            ArgumentNullException.ThrowIfNull(_options.Value.ApiKey);
-            return _options.Value.ApiKey!;
-        }
-        set
-        {
-        }
-    }
+        var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
+        var packagePaths = await GetModule<PackagePathsParserModule>();
 
-    protected override Uri FeedUri { get; set; } = null!;
+        return await Context.NuGet()
+            .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri(localRepoLocation.Value!)));
+    }
 }

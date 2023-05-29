@@ -3,6 +3,7 @@ using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.FileSystem;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Context;
@@ -16,15 +17,15 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
-        ContentDirectory = new(_hostEnvironment.ContentRootPath);
+        ContentDirectory = new(new DirectoryInfo(_hostEnvironment.ContentRootPath));
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
     public OperatingSystem OperatingSystem { get; } = Environment.OSVersion;
     public bool Is64BitOperatingSystem { get; } = Environment.Is64BitOperatingSystem;
-    public DirectoryInfo ContentDirectory { get; set; }
-    public DirectoryInfo WorkingDirectory { get; set; } = new(Environment.CurrentDirectory);
-    public DirectoryInfo? GitRootDirectory { get; set; }
+    public Folder ContentDirectory { get; set; }
+    public Folder WorkingDirectory { get; set; } = new(new DirectoryInfo(Environment.CurrentDirectory));
+    public Folder? GitRootDirectory { get; set; }
     
     public string? GetEnvironmentVariable(string name)
     {
@@ -51,6 +52,6 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
             return;
         }
         
-        GitRootDirectory = new DirectoryInfo(gitCommandOutput.StandardOutput.Trim());
+        GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
     }
 }

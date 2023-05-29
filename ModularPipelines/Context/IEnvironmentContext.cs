@@ -1,13 +1,18 @@
+using ModularPipelines.FileSystem;
+
 namespace ModularPipelines.Context;
 
 public interface IEnvironmentContext
 {
+    string EnvironmentName { get; }
     OperatingSystem OperatingSystem { get; }
     bool Is64BitOperatingSystem { get; }
-    DirectoryInfo WorkingDirectory { get; set; }
-    DirectoryInfo? GitRootDirectory { get; set; }
+    Folder WorkingDirectory { get; set; }
+    Folder ContentDirectory { get; set; }
 
-    DirectoryInfo GetFolder(Environment.SpecialFolder specialFolder) => new(Environment.GetFolderPath(specialFolder));
+    Folder? GitRootDirectory { get; set; }
+
+    Folder GetFolder(Environment.SpecialFolder specialFolder) => new(new DirectoryInfo(Environment.GetFolderPath(specialFolder)));
     
     string? GetEnvironmentVariable(string name);
     
