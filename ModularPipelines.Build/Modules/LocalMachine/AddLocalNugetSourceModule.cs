@@ -15,6 +15,8 @@ public class AddLocalNugetSourceModule : Module<BufferedCommandResult>
     {
     }
 
+    public override bool IgnoreFailures => true;
+
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
