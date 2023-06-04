@@ -9,6 +9,7 @@ public class GitVersionModule : Module<string>
     protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
-        return GitVersionInformation.SemVer;
+        
+        return GitVersionInformation.FullSemVer;
     }
 }
