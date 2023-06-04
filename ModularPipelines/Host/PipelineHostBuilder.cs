@@ -81,11 +81,14 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         
         await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
 
-        var modules = await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
-
-        await ((ServiceProvider) host.Services).DisposeAsync();
-        
-        return modules;
+        try
+        {
+            return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+        }
+        finally
+        {
+            await ((ServiceProvider) host.Services).DisposeAsync();
+        }
     }
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
