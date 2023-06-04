@@ -20,7 +20,8 @@ public class RunUnitTestsModule : Module<List<BufferedCommandResult>>
         {
             results.Add(await context.DotNet().Test(new DotNetOptions
             {
-                TargetPath = unitTestProjectFile.Path
+                TargetPath = unitTestProjectFile.Path,
+                LogOutput = false
             }, cancellationToken));
         }
 
