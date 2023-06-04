@@ -11,19 +11,15 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<RunUnitTestsModule>]
 public class CleanModule : Module<List<BufferedCommandResult>>
 {
-    public CleanModule(IModuleContext context) : base(context)
-    {
-    }
-
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var results = new List<BufferedCommandResult>();
 
-        foreach (var projectFile in Context.Environment
+        foreach (var projectFile in context.Environment
                      .GitRootDirectory!
                      .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)))
         {
-            results.Add(await Context.DotNet().Clean(new DotNetOptions
+            results.Add(await context.DotNet().Clean(new DotNetOptions
             {
                 TargetPath = projectFile.Path
             }, cancellationToken));

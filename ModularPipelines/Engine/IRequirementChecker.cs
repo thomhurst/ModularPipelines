@@ -1,6 +1,6 @@
 namespace ModularPipelines.Engine;
 
-public interface IRequirementChecker
+internal interface IRequirementChecker
 {
     Task CheckRequirements();
 }

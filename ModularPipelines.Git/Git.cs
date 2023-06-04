@@ -6,71 +6,56 @@ using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Git;
 
-public class Git : IGit
+public class Git<T> : IGit<T>
 {
-    public IModuleContext Context { get; }
+    private readonly IModuleContext<T> _context;
 
-    public Git(IModuleContext context)
+    public Git(IModuleContext<T> context)
     {
-        Context = context;
+        _context = context;
     }
     
-    public Task<BufferedCommandResult> Checkout(GitCheckoutOptions options)
+    public Task<BufferedCommandResult> Checkout(GitCheckoutOptions options, CancellationToken cancellationToken = default)
     {
-        return Run(options);
+        return CustomCommand(options, cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Version(GitOptions? options = null)
+    public Task<BufferedCommandResult> Version(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var opts = new GitArgumentOptions(new[] {"--version"})
-        {
-            EnvironmentVariables = options?.EnvironmentVariables,
-            WorkingDirectory = options?.WorkingDirectory
-        };
-
-        return Run(opts);
+        return CustomCommand(ToGitCommandOptions(options, new []{"--version"}), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Fetch(GitOptions? options = null)
+    public Task<BufferedCommandResult> Fetch(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var opts = new GitArgumentOptions(new[] {"fetch"})
-        {
-            EnvironmentVariables = options?.EnvironmentVariables,
-            WorkingDirectory = options?.WorkingDirectory
-        };
-
-        return Run(opts);
+        return CustomCommand(ToGitCommandOptions(options, new []{"fetch"}), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Pull(GitOptions? options = null)
+    public Task<BufferedCommandResult> Pull(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var opts = new GitArgumentOptions(new[] {"pull"})
-        {
-            EnvironmentVariables = options?.EnvironmentVariables,
-            WorkingDirectory = options?.WorkingDirectory
-        };
-
-        return Run(opts);
+        return CustomCommand(ToGitCommandOptions(options, new []{"pull"}), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Push(GitOptions? options = null)
+    public Task<BufferedCommandResult> Push(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var opts = new GitArgumentOptions(new[] {"push"})
-        {
-            EnvironmentVariables = options?.EnvironmentVariables,
-            WorkingDirectory = options?.WorkingDirectory
-        };
-
-        return Run(opts);
+        return CustomCommand(ToGitCommandOptions(options, new []{"push"}), cancellationToken);
     }
 
-    private Task<BufferedCommandResult> Run(GitArgumentOptions options)
+    public Task<BufferedCommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken)
     {
-        return Context.Command().UsingCommandLineTool(new CommandLineToolOptions("git")
+        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("git", options.Arguments), cancellationToken);
+    }
+
+    private GitCommandOptions ToGitCommandOptions(CommandEnvironmentOptions? options, IEnumerable<string> arguments)
+    {
+        options ??= new CommandEnvironmentOptions();
+        
+        return new GitCommandOptions(arguments)
         {
-            Arguments = options.Arguments,
+            WorkingDirectory = options.WorkingDirectory,
             EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory
-        });
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
+        };
     }
 }

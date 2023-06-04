@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -15,12 +16,18 @@ public class ModuleIgnoreHandler : IModuleIgnoreHandler
         _pipelineOptions = pipelineOptions;
     }
     
-    public bool ShouldIgnore(IModule module)
+    public bool ShouldIgnore(ModuleBase module)
     {
-        return module.ShouldSkip || IsIgnoreCategory(module) || !IsRunnableCategory(module);
+        if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
+        {
+            module.Status = Status.Ignored;
+            return true;
+        }
+
+        return false;
     }
 
-    private bool IsRunnableCategory(IModule module)
+    private bool IsRunnableCategory(ModuleBase module)
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
         
@@ -34,7 +41,7 @@ public class ModuleIgnoreHandler : IModuleIgnoreHandler
         return category != null && !runOnlyCategories.Contains(category.Category);
     }
 
-    private bool IsIgnoreCategory(IModule module)
+    private bool IsIgnoreCategory(ModuleBase module)
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
         

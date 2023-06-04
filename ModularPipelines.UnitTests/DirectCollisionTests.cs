@@ -27,11 +27,7 @@ public class DirectCollisionTests
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
-        public DependencyConflictModule1(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -41,11 +37,7 @@ public class DirectCollisionTests
     [DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module
     {
-        public DependencyConflictModule2(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

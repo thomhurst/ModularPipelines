@@ -35,11 +35,7 @@ public class TimedDependencyTests
 
     private class FiveSecondModule : Module
     {
-        public FiveSecondModule(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return ModuleResult.Empty<IDictionary<string, object>>();
@@ -49,11 +45,7 @@ public class TimedDependencyTests
     [DependsOn<FiveSecondModule>]
     private class OneSecondModuleDependentOnFiveSecondModule : Module
     {
-        public OneSecondModuleDependentOnFiveSecondModule(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             return ModuleResult.Empty<IDictionary<string, object>>();

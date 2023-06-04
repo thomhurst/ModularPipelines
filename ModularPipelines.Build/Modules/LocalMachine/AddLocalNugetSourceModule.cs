@@ -11,17 +11,13 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<CreateLocalNugetFolderModule>]
 public class AddLocalNugetSourceModule : Module<BufferedCommandResult>
 {
-    public AddLocalNugetSourceModule(IModuleContext context) : base(context)
-    {
-    }
+    public override bool ShouldIgnoreFailures(IModuleContext context) => true;
 
-    public override bool IgnoreFailures => true;
-
-    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
         
-        return await Context.NuGet()
+        return await context.NuGet()
             .AddSource(new NuGetSourceOptions(new Uri(localNugetPathResult.Value!), "ModularPipelinesLocalNuGet"));
     }
 }

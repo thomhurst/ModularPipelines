@@ -9,7 +9,7 @@ public class DependsOnAttribute : Attribute
 
     public DependsOnAttribute(Type type)
     {
-        if (!type.IsAssignableTo(typeof(IModule)))
+        if (!type.IsAssignableTo(typeof(ModuleBase)))
         {
             throw new Exception($"{type.FullName} is not a Module class");
         }
@@ -19,7 +19,7 @@ public class DependsOnAttribute : Attribute
 }
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class DependsOnAttribute<TModule> : DependsOnAttribute where TModule : IModule
+public class DependsOnAttribute<TModule> : DependsOnAttribute where TModule : ModuleBase
 {
     public DependsOnAttribute() : base(typeof(TModule))
     {

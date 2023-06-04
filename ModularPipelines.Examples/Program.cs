@@ -15,6 +15,7 @@ var modules = await PipelineHostBuilder.Create()
     })
     .ConfigurePipelineOptions((context, options) =>
     {
+        options.StopOnFirstException = false;
         options.IgnoreCategories = new[] { "Ignore" };
     })
     .ConfigureServices((context, collection) =>
@@ -25,7 +26,8 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<IgnoredModule>()
             .AddModule<FailedModule>()
             .AddModule<GitVersionModule>()
-            .AddModule<NotepadPlusPlusInstallerModule>()
-            .AddRequirement<WindowsAdminRequirement>();
+            .AddModule<DependentOnSuccessModule>();
+        //.AddModule<NotepadPlusPlusInstallerModule>()
+        //.AddRequirement<WindowsAdminRequirement>();
     })
     .ExecutePipelineAsync();

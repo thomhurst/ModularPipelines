@@ -1,9 +1,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -15,28 +14,28 @@ namespace ModularPipelines.Modules;
 
 public abstract class Module : Module<IDictionary<string, object>>
 {
-    protected Module(IModuleContext context) : base(context)
-    {
-    }
 }
 
-public abstract class Module<T> : IModule<T>
+public abstract class Module<T> : ModuleBase<T>
 {
-    private readonly ILogger _logger;
-    protected readonly IModuleContext Context;
-    internal readonly Stopwatch Stopwatch = new();
+    private readonly T? _historicResult;
+    private readonly Stopwatch _stopwatch = new();
+    
     private readonly List<Type> _dependentModules = new();
-    private bool _hasStarted;
+    
+    private IModuleContext _context = null!; // Late Initialisation
 
-    protected Module(IModuleContext context)
+    protected Module()
     {
-        Context = context;
-        _logger = GetLogger();
-        
         foreach (var customAttribute in GetType().GetCustomAttributes<DependsOnAttribute>(true))
         {
             AddDependency(customAttribute.Type);
         }
+    }
+
+    internal Module(T historicResult) : this()
+    {
+        _historicResult = historicResult;
     }
 
     private void AddDependency(Type type)
@@ -46,107 +45,102 @@ public abstract class Module<T> : IModule<T>
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
         }
 
-        if (!type.IsAssignableTo(typeof(IModule)))
+        if (!type.IsAssignableTo(typeof(ModuleBase)))
         {
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
         
-        Context.DependencyCollisionDetector.CheckDependency(GetType(), type);
-        
         _dependentModules.Add(type);
     }
 
-    private ILogger GetLogger()
+    protected virtual Task OnBeforeExecute(IModuleContext context)
     {
-        var currentClass = GetType();
-
-        var loggerForCurrentClass = typeof(ILogger<>).MakeGenericType(currentClass);
-
-        return Context.ServiceProvider.GetService(loggerForCurrentClass) as ILogger
-               ?? NullLogger.Instance;
-    }
-
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
-
-    private readonly TaskCompletionSource<ModuleResult<T>> _taskCompletionSource = new();
-
-    protected virtual Task OnBeforeExecute()
-    {
-        _logger.LogDebug("OnBeforeExecute triggered");
-        
         return Task.CompletedTask;
     }
 
-    internal virtual Task InitialiseInternalAsync()
+    private void CheckDependencyConflicts()
     {
-        _logger.LogDebug("InitialiseInternalAsync triggered");
-
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task InitialiseAsync()
-    {
-        _logger.LogDebug("InitialiseAsync triggered");
-
-        return Task.CompletedTask;
+        foreach (var dependentModule in _dependentModules)
+        {
+            _context.DependencyCollisionDetector.CheckDependency(GetType(), dependentModule);
+        }
     }
 
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public async Task StartProcessingModule()
+    internal override async Task StartAsync(IServiceProvider serviceProvider)
     {
-        if (_hasStarted)
-        {
-            return;
-        }
+        CreateContext(serviceProvider);
 
-        _hasStarted = true;
-        
-        Status = Status.NotYetStarted;
+        var pipelineSetupExecutor = _context.Get<IPipelineSetupExecutor>()!;
         
         try
         {
+            CheckDependencyConflicts();
+            
             await WaitForModuleDependencies();
 
-            await InitialiseInternalAsync();
-            await InitialiseAsync();
-
-            await Context.Get<IPipelineSetupExecutor>()!.OnBeforeModuleStartAsync(this);
+            if (ShouldSkip(_context))
+            {
+                if (CanRunFromHistory(_context) && _historicResult != null)
+                {
+                    StartTask.Start(TaskScheduler.Default);
+                    TaskCompletionSource.SetResult(_historicResult);
+                    return;
+                }
+                
+                Status = Status.Ignored;
+                IgnoreTask.Start(TaskScheduler.Default);
+                TaskCompletionSource.SetResult(ModuleResult.Empty<T>());
+                return;
+            }
             
-            await OnBeforeExecute();
+            await pipelineSetupExecutor.OnBeforeModuleStartAsync(this);
+            
+            await OnBeforeExecute(_context);
+
+            StartTask.Start(TaskScheduler.Default);
 
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
 
+            var timeoutExceptionTask = Task.CompletedTask;
             if (Timeout != TimeSpan.Zero)
             {
-                _cancellationTokenSource.CancelAfter(Timeout);
+                CancellationTokenSource.CancelAfter(Timeout);
+                timeoutExceptionTask = Task.Delay(Timeout + TimeSpan.FromSeconds(30), CancellationTokenSource.Token);
             }
             
-            Stopwatch.Start();
+            _stopwatch.Start();
+
+            var executeAsyncTask = ExecuteAsync(_context, CancellationTokenSource.Token);
             
-            var values = await ExecuteAsync(_cancellationTokenSource.Token) ?? ModuleResult.Empty<T>();
+            // Will throw a timeout exception if configured and timeout is reached
+            await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
             
-            Stopwatch.Stop();
-            Duration = Stopwatch.Elapsed;
+            var values = await executeAsyncTask ?? ModuleResult.Empty<T>();
+            
+            _stopwatch.Stop();
+            Duration = _stopwatch.Elapsed;
             
             Status = Status.Successful;
             EndTime = DateTimeOffset.UtcNow;
             
-            _logger.LogDebug("Module Succeeded after {Duration}", Duration);
+            _context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
 
-            _taskCompletionSource.SetResult(values);
+            TaskCompletionSource.SetResult(values);
         }
         catch (Exception exception)
         {
-            Stopwatch.Stop();
-            Duration = Stopwatch.Elapsed;
+            _stopwatch.Stop();
+            Duration = _stopwatch.Elapsed;
+            EndTime = DateTimeOffset.UtcNow;
             
-            _logger.LogError(exception, "Module Failed after {Duration}", Duration);
+            _context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
-                && _cancellationTokenSource.IsCancellationRequested)
+                && CancellationTokenSource.IsCancellationRequested)
             {
-                _logger.LogDebug("Module timed out {ModuleType}", GetType().FullName);
+                _context.Logger.LogDebug("Module timed out {ModuleType}", GetType().FullName);
 
                 Status = Status.TimedOut;
             }
@@ -155,71 +149,56 @@ public abstract class Module<T> : IModule<T>
                 Status = Status.Failed;
             }
 
-            if (IgnoreFailures)
+            if (ShouldIgnoreFailures(_context))
             {
-                _taskCompletionSource.SetResult(ModuleResult.FromException<T>(exception));
+                TaskCompletionSource.SetResult(ModuleResult.FromException<T>(exception));
             }
             else
             {
-                _taskCompletionSource.SetException(exception);
+                TaskCompletionSource.SetException(exception);
                 throw;
             }
         }
         finally
         {
-            await OnAfterExecute();
+            await OnAfterExecute(_context);
             
-            await Context.Get<IPipelineSetupExecutor>()!.OnAfterModuleEndAsync(this);
+            await pipelineSetupExecutor.OnAfterModuleEndAsync(this);
         }
     }
 
-
-    protected abstract Task<ModuleResult<T>?> ExecuteAsync(CancellationToken cancellationToken);
-
-    protected virtual Task OnAfterExecute()
+    private void CreateContext(IServiceProvider serviceProvider)
     {
-        _logger.LogDebug("OnAfterExecute triggered");
-
-        return Task.CompletedTask;
+        var moduleContextType = typeof(IModuleContext<>).MakeGenericType(GetType());
+        _context = (IModuleContext)serviceProvider.GetRequiredService(moduleContextType);
     }
 
-
-    public DateTimeOffset StartTime { get; private set; }
-    public DateTimeOffset EndTime { get; private set; }
-
-    public Status Status { get; set; } = Status.Unknown;
-
-    public virtual TimeSpan Timeout => TimeSpan.Zero;
-    public virtual bool IgnoreFailures => false;
-    public virtual bool ShouldSkip => false;
-    public TimeSpan Duration { get; private set; }
-
-    protected internal TModule GetModule<TModule>() where TModule : IModule
+    protected virtual Task OnAfterExecute(IModuleContext context)
+    {
+        return Task.CompletedTask;
+    }
+    
+    protected TModule GetModule<TModule>() where TModule : ModuleBase
     {
         if (typeof(TModule) == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot get itself");
         }
-        
-        Context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
 
-        return Context.GetModule<TModule>();
+        _context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
+
+        return _context.GetModule<TModule>();
     }
     
-    protected internal async Task WaitForModule<TModule>() where TModule : IModule
+    protected internal async Task WaitForModule<TModule>() where TModule : ModuleBase
     {
         var module = GetModule<TModule>();
 
-        _logger.LogDebug("Waiting for Module {ModuleType}", typeof(TModule).FullName);
+        _context.Logger.LogDebug("Waiting for Module {ModuleType}", typeof(TModule).FullName);
 
         await module.Task;
         
-        _logger.LogDebug("Finished waiting for Module {ModuleType}", typeof(TModule).FullName);
-    }
-
-    public TaskAwaiter<ModuleResult<T>> GetAwaiter()
-    {
-        return _taskCompletionSource.Task.GetAwaiter();
+        _context.Logger.LogDebug("Finished waiting for Module {ModuleType}", typeof(TModule).FullName);
     }
 
     private async Task WaitForModuleDependencies()
@@ -229,16 +208,17 @@ public abstract class Module<T> : IModule<T>
             return;
         }
 
-        var modules = _dependentModules.Select(Context.GetModule).ToList();
+        var modules = _dependentModules.Select(_context.GetModule).ToList();
 
-        var tasks = modules.Select(module => module.Task).ToList();
+        var tasks = modules.Select(module => module.Task);
         
         await Task.WhenAll(tasks);
     }
 
-    public Task Task => _taskCompletionSource.Task;
-    public Task<ModuleResult<T>> GetResultAsync() => _taskCompletionSource.Task;
-
-    protected ModuleResult<T> Nothing() => ModuleResult.Empty<T>();
-    protected Task<ModuleResult<T>?> NothingAsync() => Task.FromResult(ModuleResult.Empty<T>())!;
+    internal override void PrintOutput()
+    {
+        var logger = _context.ServiceProvider.GetService<ILogger<T>>();
+        
+        logger?.LogInformation("{Module} Finished at {EndTime}:\r\n{Output}", GetType().Name, EndTime, _context.ModuleLogger.GetOutput());
+    }
 }

@@ -1,11 +1,12 @@
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
 
-public class PipelineConsolePrinter : IPipelineConsolePrinter
+internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
 {
-    public void PrintProgress(List<IModule> modulesToProcess, List<IModule> modulesToIgnore)
+    public void PrintProgress(OrganizedModules organizedModules)
     {
         AnsiConsole.Progress()
             .Columns(new ProgressColumn[]
@@ -20,65 +21,72 @@ public class PipelineConsolePrinter : IPipelineConsolePrinter
             {
                 var totalTask = ctx.AddTask($"[green]Total[/]");
                 
-                RegisterModules(modulesToProcess, ctx, totalTask);
+                RegisterModules(organizedModules.RunnableModules, ctx, totalTask);
 
-                RegisterIgnoredModules(modulesToIgnore, ctx);
+                RegisterIgnoredModules(organizedModules.IgnoredModules, ctx);
 
-                CompleteTotalWhenFinished(modulesToProcess, totalTask, ctx);
+                CompleteTotalWhenFinished(organizedModules.RunnableModules, totalTask);
 
+                ctx.Refresh();
+                
                 while (!ctx.IsFinished)
                 {
                     await Task.Delay(100);
                 }
+                
+                ctx.Refresh();
             });
     }
 
-    private static void RegisterModules(List<IModule> modulesToProcess, ProgressContext ctx, ProgressTask totalTask)
+    private static void RegisterModules(IReadOnlyList<ModuleBase> modulesToProcess, ProgressContext ctx, ProgressTask totalTask)
     {
         foreach (var moduleToProcess in modulesToProcess)
         {
-            var task = ctx.AddTask(moduleToProcess.GetType().Name);
+            var moduleName = moduleToProcess.GetType().Name;
+            
+            var task = ctx.AddTask($"[[Waiting]] {moduleName}");
 
             _ = moduleToProcess.Task.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {
                     task.Increment(100);
-                    task.Description = $"[green]{task.Description}[/]";
                 }
-                else
-                {
-                    task.Description = $"[red]{task.Description}[/]";
-                }
+
+                task.Description = t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
 
                 task.StopTask();
                 totalTask.Increment(100.0 / modulesToProcess.Count);
-                ctx.Refresh();
             });
 
-            _ = Task.Run(async () =>
+            _ = moduleToProcess.StartTask.ContinueWith(async t =>
             {
+                task.Description = moduleName;
                 while (task is { IsFinished: false, Value: < 70 })
                 {
                     task.Increment(0.1);
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
                 }
             });
+
+            _ = moduleToProcess.IgnoreTask.ContinueWith(t =>
+            {
+                task.Description = $"[yellow][[Ignored]] {moduleName}[/]";
+                task.StopTask();
+            });
         }
     }
 
-    private static void CompleteTotalWhenFinished(List<IModule> modulesToProcess, ProgressTask totalTask,
-        ProgressContext progressContext)
+    private static void CompleteTotalWhenFinished(IReadOnlyList<ModuleBase> modulesToProcess, ProgressTask totalTask)
     {
         _ = Task.WhenAll(modulesToProcess.Select(x => x.Task)).ContinueWith(x =>
         {
             totalTask.Increment(100);
             totalTask.StopTask();
-            progressContext.Refresh();
         });
     }
 
-    private static void RegisterIgnoredModules(List<IModule> modulesToIgnore, ProgressContext ctx)
+    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext ctx)
     {
         foreach (var moduleToIgnore in modulesToIgnore)
         {

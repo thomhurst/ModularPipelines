@@ -1,4 +1,6 @@
-﻿namespace ModularPipelines.FileSystem;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ModularPipelines.FileSystem;
 
 public class Folder
 {
@@ -13,13 +15,13 @@ public class Folder
 
     public string Name => _directoryInfo.Name;
 
-    public Folder? Parent => _directoryInfo.Parent == null ? null : new Folder(_directoryInfo.Parent);
+    public Folder? Parent => _directoryInfo.Parent;
 
     public string Path => _directoryInfo.FullName;
 
     public FileAttributes Attributes => _directoryInfo.Attributes;
 
-    public Folder Root => new Folder(_directoryInfo.Root);
+    public Folder Root => _directoryInfo.Root;
 
     public DateTime CreationTime => _directoryInfo.CreationTime;
     
@@ -38,4 +40,25 @@ public class Folder
     public IEnumerable<File> GetFiles(Func<File,bool> predicate) => _directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
         .Where(predicate);
+    
+    public static implicit operator Folder?(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return null;
+        }
+        
+        return new DirectoryInfo(path);
+    }
+
+    [return: NotNullIfNotNull("directoryInfo")]
+    public static implicit operator Folder?(DirectoryInfo? directoryInfo)
+    {
+        if (directoryInfo == null)
+        {
+            return null;
+        }
+        
+        return new Folder(directoryInfo);
+    }
 }

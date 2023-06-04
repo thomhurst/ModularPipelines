@@ -6,13 +6,13 @@ using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet;
 
-public class DotNet : IDotNet
+public class DotNet<T> : IDotNet<T>
 {
-    public IModuleContext Context { get; }
+    private readonly IModuleContext<T> _context;
 
-    public DotNet(IModuleContext context)
+    public DotNet(IModuleContext<T> context)
     {
-        Context = context;
+        _context = context;
     }
     
     public Task<BufferedCommandResult> Restore(DotNetOptions options, CancellationToken cancellationToken = default)
@@ -44,7 +44,22 @@ public class DotNet : IDotNet
     {
         return RunCommand(ToDotNetCommandOptions("test", options), cancellationToken);
     }
-    
+
+    public Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options, CancellationToken cancellationToken = default)
+    {
+        options ??= new CommandEnvironmentOptions();
+        
+        return RunCommand(new DotNetCommandOptions
+        {
+            Command = new[] { "--version" },
+            EnvironmentVariables = options.EnvironmentVariables,
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
+        }, cancellationToken);
+    }
+
     public Task<BufferedCommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
     {
         return RunCommand(options, cancellationToken);
@@ -59,36 +74,29 @@ public class DotNet : IDotNet
             ExtraArguments = options.ExtraArguments,
             TargetPath = options.TargetPath,
             Configuration = options.Configuration,
-            WorkingDirectory = options.WorkingDirectory
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
         };
     }
 
-    private Task<BufferedCommandResult> RunCommand(DotNetCommandOptions options,
-        CancellationToken cancellationToken = default)
+    private Task<BufferedCommandResult> RunCommand(DotNetCommandOptions options, CancellationToken cancellationToken)
     {
         var arguments = options.Command?.ToList() ?? new List<string>();
 
-        if (options.TargetPath != null)
-        {
-            arguments.Add(options.TargetPath);
-        }
+        arguments.AddNonNullOrEmpty(options.TargetPath);
+        arguments.AddRangeNonNullOrEmpty(options.ExtraArguments);
+        arguments.AddNonNullOrEmptyArgumentWithSwitch("-c", options.Configuration?.ToString());
 
-        if (options.ExtraArguments != null)
-        {
-            arguments.AddRange(options.ExtraArguments);
-        }
-
-        if (options.Configuration != null)
-        {
-            arguments.Add("-c");
-            arguments.Add(options.Configuration.ToString()!);
-        }
-        
-        return Context.Command().UsingCommandLineTool(new CommandLineToolOptions("dotnet")
+        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions("dotnet")
         {
             Arguments = arguments,
             EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
         }, cancellationToken);
     }
 }

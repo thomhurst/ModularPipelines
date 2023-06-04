@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 public interface IPipelineExecutor
 {
-    Task<IModule[]> ExecuteAsync();
+    Task<IReadOnlyList<ModuleBase>> ExecuteAsync();
 }

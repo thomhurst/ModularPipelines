@@ -2,11 +2,11 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-public interface IPipelineSetupExecutor
+internal interface IPipelineSetupExecutor
 {
     Task OnStartAsync();
-    Task OnEndAsync();
+    Task OnEndAsync(IReadOnlyList<ModuleBase> modules);
     
-    Task OnBeforeModuleStartAsync(IModule module);
-    Task OnAfterModuleEndAsync(IModule module);
+    Task OnBeforeModuleStartAsync(ModuleBase module);
+    Task OnAfterModuleEndAsync(ModuleBase module);
 }

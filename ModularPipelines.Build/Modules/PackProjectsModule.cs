@@ -17,20 +17,20 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
 {
     private readonly IOptions<PublishSettings> _options;
 
-    public PackProjectsModule(IModuleContext context, IOptions<PublishSettings> options) : base(context)
+    public PackProjectsModule(IOptions<PublishSettings> options)
     {
         _options = options;
     }
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var results = new List<BufferedCommandResult>();
 
-        foreach (var unitTestProjectFile in Context.Environment
+        foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!
-                     .GetFiles(GetProjectsPredicate))
+                     .GetFiles(f => GetProjectsPredicate(f, context)))
         {
-            results.Add(await Context.DotNet().Pack(new DotNetOptions
+            results.Add(await context.DotNet().Pack(new DotNetOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 Configuration = Configuration.Release,
@@ -45,7 +45,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
         return results;
     }
 
-    private bool GetProjectsPredicate(File file)
+    private bool GetProjectsPredicate(File file, IModuleContext context)
     {
         var path = file.Path;
         if (!path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
@@ -64,7 +64,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             return false;
         }
         
-        Context.Logger.LogInformation("Found File: {File}", path);
+        context.Logger.LogInformation("Found File: {File}", path);
 
         return true;
     }

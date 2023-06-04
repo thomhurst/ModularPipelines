@@ -17,16 +17,22 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
-        ContentDirectory = new(new DirectoryInfo(_hostEnvironment.ContentRootPath));
+        ContentDirectory = _hostEnvironment.ContentRootPath!;
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
     public OperatingSystem OperatingSystem { get; } = Environment.OSVersion;
     public bool Is64BitOperatingSystem { get; } = Environment.Is64BitOperatingSystem;
+    public Folder AppDomainDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory!;
     public Folder ContentDirectory { get; set; }
-    public Folder WorkingDirectory { get; set; } = new(new DirectoryInfo(Environment.CurrentDirectory));
+    public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
     public Folder? GitRootDirectory { get; set; }
-    
+
+    public Folder? GetFolder(Environment.SpecialFolder specialFolder)
+    {
+        return Environment.GetFolderPath(specialFolder);
+    }
+
     public string? GetEnvironmentVariable(string name)
     {
         return Environment.GetEnvironmentVariable(name);

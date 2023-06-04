@@ -5,6 +5,9 @@ namespace ModularPipelines.Command;
 
 public interface ICommand
 {
-    Task<BufferedCommandResult> Of(CommandOptions options, CancellationToken cancellationToken = default);
     Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
+}
+
+public interface ICommand<T> : ICommand
+{
 }

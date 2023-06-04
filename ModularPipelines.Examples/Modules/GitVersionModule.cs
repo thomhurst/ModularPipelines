@@ -8,12 +8,8 @@ namespace ModularPipelines.Examples.Modules;
 
 public class GitVersionModule : Module<BufferedCommandResult>
 {
-    public GitVersionModule(IModuleContext context) : base(context)
+    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-    }
-
-    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(CancellationToken cancellationToken)
-    {
-        return await Context.Git().Version();
+        return await context.Git().Version(cancellationToken: cancellationToken);
     }
 }

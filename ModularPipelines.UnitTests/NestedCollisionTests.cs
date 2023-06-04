@@ -30,11 +30,7 @@ public class NestedCollisionTests
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
-        public DependencyConflictModule1(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -44,11 +40,7 @@ public class NestedCollisionTests
     [DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module
     {
-        public DependencyConflictModule2(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -58,11 +50,7 @@ public class NestedCollisionTests
     [DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module
     {
-        public DependencyConflictModule3(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -72,11 +60,7 @@ public class NestedCollisionTests
     [DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module
     {
-        public DependencyConflictModule4(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -86,11 +70,7 @@ public class NestedCollisionTests
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule5 : Module
     {
-        public DependencyConflictModule5(IModuleContext moduleContext) : base(moduleContext)
-        {
-        }
-
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

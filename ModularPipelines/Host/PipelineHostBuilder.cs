@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,13 +29,15 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IPipelineInitializer, PipelineInitializer>()
                 .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
                 .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
-                .AddSingleton<IPipelineConsolePrinter, PipelineConsolePrinter>()
+                .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
                 .AddSingleton<IPipelineExecutor, PipelineExecutor>()
-                .AddSingleton<IModuleContext, ModuleContext>()
+                .AddSingleton(typeof(IModuleContext<>), typeof(ModuleContext<>))
+                .AddSingleton(typeof(ModuleLogger<>))
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
                 .AddSingleton<IEnvironmentContext, EnvironmentContext>()
                 .AddSingleton<IFileSystemContext, FileSystemContext>()
-                .AddSingleton<IRequirementChecker, RequirementChecker>();
+                .AddSingleton<IRequirementChecker, RequirementChecker>()
+                .AddSingleton<IModuleRetriever, ModuleRetriever>();
         });
     }
 
@@ -55,17 +59,66 @@ public class PipelineHostBuilder : IPipelineHostBuilder
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
-            
             collection.Configure<PipelineOptions>(options => configureDelegate(context, options));
         });
         
         return this;
     }
 
-    public async Task<IModule[]> ExecutePipelineAsync()
+    public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
     {
+        LoadModularPipelineAssembliesIfNotLoadedYet();
+        
+        _internalHost.ConfigureServices(collection =>
+        {
+            foreach (var contextRegistrationDelegate in ServiceContextRegistry.ContextRegistrationDelegates)
+            {
+                contextRegistrationDelegate(collection);
+            }
+        });
+        
         var host = _internalHost.Build();
+        
         await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
+        
         return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+    }
+
+    private void LoadModularPipelineAssembliesIfNotLoadedYet()
+    {
+        var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        var unloadedModularPipelineAssemblies = GetDlls()
+            .Select(Path.GetFileNameWithoutExtension)
+            .Except(currentAssemblies.Select(x => x.GetName().Name))
+            .OfType<string>()
+            .ToList();
+        
+        foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
+        {
+            Assembly.Load(new AssemblyName(modularPipelineAssembly));
+        }
+        
+        foreach (var assembly in AppDomain.CurrentDomain
+                     .GetAssemblies()
+                     .Where(a => a.GetName().Name?.StartsWith("ModularPipelines") == true))
+        {
+            RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+        }
+    }
+
+    private static IEnumerable<string> GetDlls()
+    {
+        var baseDirectoryDlls = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly);
+
+        if (string.IsNullOrEmpty(AppDomain.CurrentDomain.DynamicDirectory))
+        {
+            return baseDirectoryDlls;
+        }
+        
+        return baseDirectoryDlls
+            .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
+            .Distinct();
+
     }
 }

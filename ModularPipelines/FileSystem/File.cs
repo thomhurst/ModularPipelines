@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.FileSystem;
 
 public class File
@@ -13,7 +15,7 @@ public class File
 
     public string Name => _fileInfo.Name;
 
-    public Folder? Folder => _fileInfo.Directory == null ? null : new Folder(_fileInfo.Directory);
+    public Folder? Folder => _fileInfo.Directory;
 
     public string Path => _fileInfo.FullName;
 
@@ -30,4 +32,25 @@ public class File
     public void Delete() => _fileInfo.Delete();
     
     public void MoveTo(string path) => _fileInfo.MoveTo(path);
+    
+    public static implicit operator File?(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return null;
+        }
+        
+        return new FileInfo(path);
+    }
+
+    [return: NotNullIfNotNull("fileInfo")]
+    public static implicit operator File?(FileInfo? fileInfo)
+    {
+        if (fileInfo == null)
+        {
+            return null;
+        }
+        
+        return new File(fileInfo);
+    }
 }

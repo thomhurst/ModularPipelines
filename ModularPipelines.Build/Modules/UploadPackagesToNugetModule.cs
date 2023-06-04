@@ -17,29 +17,29 @@ public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
 {
     private readonly IOptions<NuGetSettings> _options;
 
-    public UploadPackagesToNugetModule(IModuleContext context, IOptions<NuGetSettings> options) : base(context)
+    public UploadPackagesToNugetModule(IModuleContext context, IOptions<NuGetSettings> options)
     {
         ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
         _options = options;
     }
 
-    protected override async Task InitialiseAsync()
+    protected override async Task OnBeforeExecute(IModuleContext context)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
         
         foreach (var packagePath in packagePaths.Value!)
         {
-            Context.Logger.LogInformation("Uploading {File}", packagePath);
+            context.Logger.LogInformation("Uploading {File}", packagePath);
         }
         
-        await base.InitialiseAsync();
+        await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
-        return await Context.NuGet()
+        return await context.NuGet()
             .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
             {
                 ApiKey = _options.Value.ApiKey!

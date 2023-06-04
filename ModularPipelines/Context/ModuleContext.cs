@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,14 +8,15 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class ModuleContext : IModuleContext
+internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
 {
-    private readonly ILogger<ModuleContext> _logger;
-    private readonly ConcurrentDictionary<Type, object> _resolvedInstances = new();
+    private readonly ModuleLogger<TSelfModule> _moduleLogger;
+    public IModuleLogger ModuleLogger => _moduleLogger;
+    public ILogger Logger => _moduleLogger;
 
     public IServiceProvider ServiceProvider { get; }
 
-    public ILogger Logger => _logger;
+    public Type ModuleType { get; } = typeof(TSelfModule);
 
     public IConfiguration Configuration { get; }
 
@@ -37,11 +37,11 @@ internal class ModuleContext : IModuleContext
         IDependencyCollisionDetector dependencyCollisionDetector, 
         IEnvironmentContext environment, 
         IFileSystemContext fileSystem,
-        ILogger<ModuleContext> logger, 
         IConfiguration configuration, 
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        ModuleLogger<TSelfModule> moduleLogger)
     {
-        _logger = logger;
+        _moduleLogger = moduleLogger;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
         ServiceProvider = serviceProvider;
@@ -50,13 +50,13 @@ internal class ModuleContext : IModuleContext
         FileSystem = fileSystem;
     }
 
-    public TModule GetModule<TModule>() where TModule : IModule
+    public TModule GetModule<TModule>() where TModule : ModuleBase
     {
-        return ServiceProvider.GetServices<IModule>().OfType<TModule>().Single();
+        return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().Single();
     }
 
-    public IModule GetModule(Type type)
+    public ModuleBase GetModule(Type type)
     {
-        return ServiceProvider.GetServices<IModule>().Single(module => module.GetType() == type);
+        return ServiceProvider.GetServices<ModuleBase>().Single(module => module.GetType() == type);
     }
 }

@@ -1,68 +1,60 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Engine;
 
-public class PipelineExecutor : IPipelineExecutor
+internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
     private readonly IPipelineConsolePrinter _pipelineConsolePrinter;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly IRequirementChecker _requirementsChecker;
-    private readonly List<IModule> _modules;
+    private readonly IModuleRetriever _moduleRetriever;
+    private readonly IServiceProvider _serviceProvider;
+    
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleIgnoreHandler moduleIgnoreHandler,
         IPipelineConsolePrinter pipelineConsolePrinter,
         IOptions<PipelineOptions> pipelineOptions,
-        IEnumerable<IModule> modules,
-        IRequirementChecker requirementsChecker)
+        IRequirementChecker requirementsChecker,
+        IModuleRetriever moduleRetriever,
+        IServiceProvider serviceProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
-        _moduleIgnoreHandler = moduleIgnoreHandler;
         _pipelineConsolePrinter = pipelineConsolePrinter;
         _pipelineOptions = pipelineOptions;
         _requirementsChecker = requirementsChecker;
-        _modules = modules.ToList();
+        _moduleRetriever = moduleRetriever;
+        _serviceProvider = serviceProvider;
     }
     
-    public async Task<IModule[]> ExecuteAsync()
+    public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
     {
         await _pipelineSetupExecutor.OnStartAsync();
 
         await _requirementsChecker.CheckRequirements();
 
-        var modulesToIgnore = _modules.Where(m => _moduleIgnoreHandler.ShouldIgnore(m)).ToList();
+        var organizedModules = _moduleRetriever.GetOrganizedModules();
         
-        foreach (var module in modulesToIgnore)
-        {
-            module.Status = Status.Ignored;
-        }
-
-        var modulesToProcess = _modules
-            .Except(modulesToIgnore)
-            .ToList();
+        _pipelineConsolePrinter.PrintProgress(organizedModules);
         
-        _pipelineConsolePrinter.PrintProgress(modulesToProcess, modulesToIgnore);
-        
-        var moduleProcessingTasks = modulesToProcess
-            .Select(x => x.StartProcessingModule())
+        var moduleProcessingTasks = organizedModules.RunnableModules
+            .Select(x => x.StartAsync(_serviceProvider))
             .ToList();
 
         try
         {
             if (_pipelineOptions.Value.StopOnFirstException)
             {
-                while (moduleProcessingTasks.Any())
-                {
-                    var finished = await Task.WhenAny(moduleProcessingTasks);
-                    moduleProcessingTasks.Remove(finished);
-                }
+                await moduleProcessingTasks.WhenAllFailFast();
             }
             else
             {
@@ -71,17 +63,37 @@ public class PipelineExecutor : IPipelineExecutor
         }
         finally
         {
-            await Dispose(modulesToProcess);
+            await Dispose(organizedModules.RunnableModules);
+            
+            await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
+
+            await Task.Delay(200);
+
+            PrintModuleOutput(organizedModules);
         }
-        
-        await _pipelineSetupExecutor.OnEndAsync();
 
-        await Task.Delay(200);
-
-        return _modules.ToArray();
+        return organizedModules.AllModules;
     }
 
-    private async Task Dispose(List<IModule> modulesToProcess)
+    private void PrintModuleOutput(OrganizedModules organizedModules)
+    {
+        foreach (var module in organizedModules.IgnoredModules)
+        {
+            _serviceProvider.GetService<ILogger<PipelineExecutor>>()?.LogInformation("{Module} Ignored", module.GetType().Name);
+        }
+
+        foreach (var module in organizedModules.RunnableModules.OrderBy(m => m.EndTime))
+        {
+            module.PrintOutput();
+        }
+    }
+
+    private IModuleContext CreateContext(ModuleBase moduleBase)
+    {
+        return (IModuleContext) _serviceProvider.GetRequiredService(typeof(ModuleContext<>).MakeGenericType(moduleBase.GetType()));
+    }
+
+    private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)
     {
         foreach (var module in modulesToProcess)
         {

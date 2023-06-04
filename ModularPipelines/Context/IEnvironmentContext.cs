@@ -8,11 +8,12 @@ public interface IEnvironmentContext
     OperatingSystem OperatingSystem { get; }
     bool Is64BitOperatingSystem { get; }
     Folder WorkingDirectory { get; set; }
+    Folder AppDomainDirectory { get; }
     Folder ContentDirectory { get; set; }
 
     Folder? GitRootDirectory { get; set; }
 
-    Folder GetFolder(Environment.SpecialFolder specialFolder) => new(new DirectoryInfo(Environment.GetFolderPath(specialFolder)));
+    Folder? GetFolder(Environment.SpecialFolder specialFolder);
     
     string? GetEnvironmentVariable(string name);
     

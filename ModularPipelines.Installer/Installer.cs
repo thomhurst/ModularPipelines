@@ -6,19 +6,19 @@ using ModularPipelines.Installer.Options;
 
 namespace ModularPipelines.Installer;
 
-public class Installer : IInstaller
+public class Installer<T> : IInstaller<T>
 {
-    public IModuleContext Context { get; }
+    private readonly IModuleContext<T> _context;
 
-    public Installer(IModuleContext context)
+    public Installer(IModuleContext<T> context)
     {
-        Context = context;
+        _context = context;
     }
 
     public Task<BufferedCommandResult> InstallFromFile(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return Context.Command().UsingCommandLineTool(new CommandLineToolOptions(options.Path)
+        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions(options.Path)
         {
             Arguments = options.Arguments ?? Array.Empty<string>()
         }, cancellationToken);
@@ -27,7 +27,7 @@ public class Installer : IInstaller
     public async Task<BufferedCommandResult> InstallFromWeb(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        var httpClient = Context.Get<HttpClient>()!;
+        var httpClient = _context.Get<HttpClient>()!;
 
         await using var stream = await httpClient.GetStreamAsync(options.DownloadUri, cancellationToken);
 
