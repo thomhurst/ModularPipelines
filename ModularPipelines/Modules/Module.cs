@@ -91,6 +91,9 @@ public abstract class Module<T> : ModuleBase<T>
                 Status = Status.Ignored;
                 IgnoreTask.Start(TaskScheduler.Default);
                 TaskCompletionSource.SetResult(ModuleResult.Empty<T>());
+
+                _context.Logger.LogInformation("{Module} Ignored", GetType().Name);
+                
                 return;
             }
             
@@ -213,12 +216,5 @@ public abstract class Module<T> : ModuleBase<T>
         var tasks = modules.Select(module => module.Task);
         
         await Task.WhenAll(tasks);
-    }
-
-    internal override void PrintOutput()
-    {
-        var logger = _context.ServiceProvider.GetService<ILogger<T>>();
-        
-        logger?.LogInformation("{Module} Finished at {EndTime}:\r\n{Output}", GetType().Name, EndTime, _context.ModuleLogger.GetOutput());
     }
 }

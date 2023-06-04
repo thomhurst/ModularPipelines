@@ -26,8 +26,6 @@ public abstract class ModuleBase
     public virtual Task<bool> CanRunFromHistory(IModuleContext context) => Task.FromResult(false);
     
     internal abstract Task StartAsync(IServiceProvider serviceProvider);
-
-    internal abstract void PrintOutput();
 }
 
 public abstract class ModuleBase<T> : ModuleBase

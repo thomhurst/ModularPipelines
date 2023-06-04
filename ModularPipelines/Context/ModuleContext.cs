@@ -11,7 +11,6 @@ namespace ModularPipelines.Context;
 internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
 {
     private readonly ModuleLogger<TSelfModule> _moduleLogger;
-    public IModuleLogger ModuleLogger => _moduleLogger;
     public ILogger Logger => _moduleLogger;
 
     public IServiceProvider ServiceProvider { get; }

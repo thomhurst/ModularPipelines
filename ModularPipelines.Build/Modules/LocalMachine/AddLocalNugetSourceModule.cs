@@ -12,10 +12,10 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<CreateLocalNugetFolderModule>]
 public class AddLocalNugetSourceModule : Module<BufferedCommandResult>
 {
-    public override async Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception)
+    public override Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception)
     {
-        return exception is CommandException commandException &&
-               commandException.CommandResult.StandardOutput.Contains("The name specified has already been added to the list of available package sources");
+        return Task.FromResult(exception is CommandException commandException &&
+                               commandException.CommandResult.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
     }
 
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

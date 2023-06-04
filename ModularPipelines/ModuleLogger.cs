@@ -1,19 +1,25 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines;
 
-public class ModuleLogger<T> : ILogger<T>, IModuleLogger
+public class ModuleLogger<T> : ILogger<T>, IDisposable
 {
     private readonly IOptions<PipelineOptions> _options;
-    private readonly StringBuilder _stringBuilder = new();
+    private readonly ILogger<T> _defaultLogger;
 
-    public ModuleLogger(IOptions<PipelineOptions> options)
+    private readonly List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
+        Func<object, Exception?, string>? formatter)> _logEvents = new();
+
+    // ReSharper disable once ContextualLoggerProblem
+    public ModuleLogger(IOptions<PipelineOptions> options, ILogger<T> defaultLogger)
     {
         _options = options;
+        _defaultLogger = defaultLogger;
     }
+    
     public IDisposable BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
@@ -30,27 +36,15 @@ public class ModuleLogger<T> : ILogger<T>, IModuleLogger
         {
             return;
         }
+
+        var mappedFormatter = MapFormatter(formatter);
         
-        var message = string.Empty;
-        
-        if (formatter != null)
-        {
-            message += formatter(state, exception);
-        }
-        
-        _stringBuilder.AppendLine($"{logLevel.ToString()}: [{typeof(T).Name}] {message}");
+        _logEvents.Add((logLevel, eventId, state, exception, mappedFormatter));
     }
 
-    public string GetOutput()
+    private Func<object, Exception?, string?>? MapFormatter<TState>(Func<TState,Exception?,string>? formatter)
     {
-        var output = _stringBuilder.ToString();
-
-        if (string.IsNullOrEmpty(output))
-        {
-            return $"[{typeof(T).Name}] No output.";
-        }
-        
-        return output;
+        return (o, exception) => formatter?.Invoke((TState) o, exception);
     }
 
     private class NoopDisposable : IDisposable
@@ -58,5 +52,18 @@ public class ModuleLogger<T> : ILogger<T>, IModuleLogger
         public void Dispose()
         {
         }
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public void Dispose()
+    {
+        foreach (var (logLevel, eventId, state, exception, formatter) in _logEvents)
+        {
+            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+        }
+        
+        _logEvents.Clear();
+        
+        GC.SuppressFinalize(this);
     }
 }

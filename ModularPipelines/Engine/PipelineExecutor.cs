@@ -1,10 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -68,29 +64,9 @@ internal class PipelineExecutor : IPipelineExecutor
             await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
 
             await Task.Delay(200);
-
-            PrintModuleOutput(organizedModules);
         }
 
         return organizedModules.AllModules;
-    }
-
-    private void PrintModuleOutput(OrganizedModules organizedModules)
-    {
-        foreach (var module in organizedModules.IgnoredModules)
-        {
-            _serviceProvider.GetService<ILogger<PipelineExecutor>>()?.LogInformation("{Module} Ignored", module.GetType().Name);
-        }
-
-        foreach (var module in organizedModules.RunnableModules.OrderBy(m => m.EndTime))
-        {
-            module.PrintOutput();
-        }
-    }
-
-    private IModuleContext CreateContext(ModuleBase moduleBase)
-    {
-        return (IModuleContext) _serviceProvider.GetRequiredService(typeof(ModuleContext<>).MakeGenericType(moduleBase.GetType()));
     }
 
     private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)

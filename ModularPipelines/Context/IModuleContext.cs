@@ -13,7 +13,6 @@ public interface IModuleContext<out TSelfModule> : IModuleContext
 
 public interface IModuleContext
 {
-    internal IModuleLogger ModuleLogger { get; }
     internal TModule GetModule<TModule>() where TModule : ModuleBase;
     internal ModuleBase GetModule(Type type);
     public IServiceProvider ServiceProvider { get; }
