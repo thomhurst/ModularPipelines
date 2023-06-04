@@ -15,17 +15,12 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackageFilesRemovalModule>]
 public class PackProjectsModule : Module<List<BufferedCommandResult>>
 {
-    private readonly IOptions<PublishSettings> _options;
-
-    public PackProjectsModule(IOptions<PublishSettings> options)
-    {
-        _options = options;
-    }
-
     protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var results = new List<BufferedCommandResult>();
 
+        var packageVersion = await GetModule<GitVersionModule>();
+        
         foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!
                      .GetFiles(f => GetProjectsPredicate(f, context)))
@@ -36,8 +31,8 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
                 Configuration = Configuration.Release,
                 ExtraArguments = new List<string>
                 {
-                    $"/p:PackageVersion={_options.Value.Version}",
-                    $"/p:Version={_options.Value.Version}"
+                    $"/p:PackageVersion={packageVersion.Value}",
+                    $"/p:Version={packageVersion.Value}"
                 }
             }, cancellationToken));
         }

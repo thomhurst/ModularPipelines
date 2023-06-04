@@ -79,9 +79,9 @@ public abstract class Module<T> : ModuleBase<T>
             
             await WaitForModuleDependencies();
 
-            if (ShouldSkip(_context))
+            if (await ShouldSkip(_context))
             {
-                if (CanRunFromHistory(_context) && _historicResult != null)
+                if (await CanRunFromHistory(_context) && _historicResult != null)
                 {
                     StartTask.Start(TaskScheduler.Default);
                     TaskCompletionSource.SetResult(_historicResult);
@@ -149,7 +149,7 @@ public abstract class Module<T> : ModuleBase<T>
                 Status = Status.Failed;
             }
 
-            if (ShouldIgnoreFailures(_context))
+            if (await ShouldIgnoreFailures(_context, exception))
             {
                 TaskCompletionSource.SetResult(ModuleResult.FromException<T>(exception));
             }

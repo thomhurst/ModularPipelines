@@ -21,13 +21,13 @@ var modules = await PipelineHostBuilder.Create()
     .ConfigureServices((context, collection) =>
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
-        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
 
         collection.RegisterCommandContext()
             .RegisterDotNetContext()
             .RegisterNuGetContext();
         
         collection.AddModule<RunUnitTestsModule>()
+            .AddModule<GitVersionModule>()
             .AddModule<PackProjectsModule>()
             .AddModule<CleanModule>()
             .AddModule<PackageFilesRemovalModule>()

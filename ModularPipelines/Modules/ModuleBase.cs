@@ -21,9 +21,9 @@ public abstract class ModuleBase
     public Status Status { get; internal set; } = Status.NotYetStarted;
 
     public virtual TimeSpan Timeout => TimeSpan.FromMinutes(30);
-    public virtual bool ShouldIgnoreFailures(IModuleContext context) => false;
-    public virtual bool ShouldSkip(IModuleContext context) => false;
-    public virtual bool CanRunFromHistory(IModuleContext context) => false;
+    public virtual Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception) => Task.FromResult(false);
+    public virtual Task<bool> ShouldSkip(IModuleContext context) => Task.FromResult(false);
+    public virtual Task<bool> CanRunFromHistory(IModuleContext context) => Task.FromResult(false);
     
     internal abstract Task StartAsync(IServiceProvider serviceProvider);
 

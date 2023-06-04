@@ -17,7 +17,7 @@ public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
 {
     private readonly IOptions<NuGetSettings> _options;
 
-    public UploadPackagesToNugetModule(IModuleContext context, IOptions<NuGetSettings> options)
+    public UploadPackagesToNugetModule(IOptions<NuGetSettings> options)
     {
         ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
         _options = options;

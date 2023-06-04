@@ -43,7 +43,7 @@ internal class PipelineExecutor : IPipelineExecutor
         await _requirementsChecker.CheckRequirements();
 
         var organizedModules = _moduleRetriever.GetOrganizedModules();
-        
+
         _pipelineConsolePrinter.PrintProgress(organizedModules);
         
         var moduleProcessingTasks = organizedModules.RunnableModules
