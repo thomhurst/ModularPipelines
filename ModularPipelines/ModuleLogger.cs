@@ -10,8 +10,10 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
 
-    private readonly List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
+    private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
         Func<object, Exception?, string>? formatter)> _logEvents = new();
+
+    private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
     public ModuleLogger(IOptions<PipelineOptions> options, ILogger<T> defaultLogger)
@@ -32,7 +34,7 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
     {
-        if (!IsEnabled(logLevel))
+        if (!IsEnabled(logLevel) || _isDisposed)
         {
             return;
         }
@@ -57,11 +59,15 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void Dispose()
     {
-        foreach (var (logLevel, eventId, state, exception, formatter) in _logEvents)
+        _isDisposed = true;
+
+        var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception, string> formatter)>());
+        foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
         {
-            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+            _defaultLogger.Log(logLevel, eventId, state, exception, formatter!);
         }
         
+        logEvents.Clear();
         _logEvents.Clear();
         
         GC.SuppressFinalize(this);
