@@ -1,7 +1,6 @@
 ﻿using CliWrap.Buffered;
 using ModularPipelines.Cmd.Models;
 using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Cmd;

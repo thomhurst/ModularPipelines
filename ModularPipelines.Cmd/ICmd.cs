@@ -1,5 +1,4 @@
 using CliWrap.Buffered;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.Cmd.Models;
 
 namespace ModularPipelines.Cmd;

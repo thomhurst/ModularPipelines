@@ -1,11 +1,8 @@
 ﻿using CliWrap.Buffered;
 using ModularPipelines.Cmd.Extensions;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Powershell.Extensions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

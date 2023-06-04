@@ -1,5 +1,4 @@
-﻿using CliWrap;
-using CliWrap.Buffered;
+﻿using CliWrap.Buffered;
 using ModularPipelines.Attributes;
 using ModularPipelines.Command.Exceptions;
 using ModularPipelines.Context;

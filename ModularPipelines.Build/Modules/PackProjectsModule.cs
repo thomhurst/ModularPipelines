@@ -1,8 +1,6 @@
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;

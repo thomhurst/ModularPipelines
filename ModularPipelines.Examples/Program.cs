@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
-using ModularPipelines.Requirements;
 
 var modules = await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
