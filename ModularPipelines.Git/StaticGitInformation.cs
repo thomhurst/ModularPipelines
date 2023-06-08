@@ -25,7 +25,7 @@ internal class StaticGitInformation : IGitInformation<StaticGitInformation>, IIn
         }
         
         BranchName = await RunCommandsOrNull("rev-parse", "--abbrev-ref", "HEAD");
-        DefaultBranchName = (await RunCommandsOrNull("rev-parse", "--abbrev-ref", "origin/HEAD")).Replace("origin/", string.Empty);
+        DefaultBranchName = (await RunCommandsOrNull("rev-parse", "--abbrev-ref", "origin/HEAD"))?.Replace("origin/", string.Empty);
         LastCommit = await RunCommandsOrNull("log", "-1");
         LastCommitSha = await RunCommandsOrNull("rev-parse", "HEAD");
         LastCommitShortSha = await  RunCommandsOrNull("rev-parse", "--short", "HEAD");
