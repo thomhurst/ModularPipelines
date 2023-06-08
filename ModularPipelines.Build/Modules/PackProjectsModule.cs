@@ -32,8 +32,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
                 ExtraArguments = new List<string>
                 {
                     $"/p:PackageVersion={packageVersion.Value}",
-                    $"/p:Version={packageVersion.Value}",
-                    "/p:NuspecFile=\"\""
+                    $"/p:Version={packageVersion.Value}"
                 }
             }, cancellationToken));
         }
