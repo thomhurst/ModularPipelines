@@ -1,26 +1,27 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-public class PipelineSetupExecutor : IPipelineSetupExecutor
+internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IModuleContext<PipelineSetupExecutor> _globalModuleContext;
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
     private readonly IEnumerable<IPipelineModuleHooks> _moduleHooks;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IModuleContextCreator _moduleContextCreator;
 
     public PipelineSetupExecutor(IModuleContext<PipelineSetupExecutor> globalModuleContext, 
         IEnumerable<IPipelineGlobalHooks> globalHooks,
         IEnumerable<IPipelineModuleHooks> moduleHooks,
-        IServiceProvider serviceProvider)
+        IModuleContextCreator moduleContextCreator)
     {
         _globalModuleContext = globalModuleContext;
         _globalHooks = globalHooks;
         _moduleHooks = moduleHooks;
-        _serviceProvider = serviceProvider;
+        _moduleContextCreator = moduleContextCreator;
     }
     
     public Task OnStartAsync()
@@ -45,6 +46,6 @@ public class PipelineSetupExecutor : IPipelineSetupExecutor
 
     private IModuleContext CreateModuleContext(Type moduleType)
     {
-        return (IModuleContext) _serviceProvider.GetRequiredService(typeof(IModuleContext<>).MakeGenericType(moduleType));
+        return _moduleContextCreator.CreateContext(moduleType);
     }
 }
