@@ -18,11 +18,23 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
         var results = new List<BufferedCommandResult>();
 
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
-        
-        foreach (var unitTestProjectFile in context.Environment
-                     .GitRootDirectory!
-                     .GetFiles(f => GetProjectsPredicate(f, context)))
+
+        var unitTestProjectFiles = context.Environment
+            .GitRootDirectory!
+            .GetFiles(f => GetProjectsPredicate(f, context));
+
+        await Parallel.ForEachAsync(unitTestProjectFiles, cancellationToken, async (unitTestProjectFile, token) =>
         {
+            await context.DotNet().Restore(new DotNetOptions
+            {
+                TargetPath = unitTestProjectFile.Path
+            }, token);
+
+            await context.DotNet().Build(new DotNetOptions
+            {
+                TargetPath = unitTestProjectFile.Path
+            }, token);
+
             results.Add(await context.DotNet().Pack(new DotNetOptions
             {
                 TargetPath = unitTestProjectFile.Path,
@@ -32,8 +44,8 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
                     $"/p:PackageVersion={packageVersion.Value}",
                     $"/p:Version={packageVersion.Value}"
                 }
-            }, cancellationToken));
-        }
+            }, token));
+        });
 
         return results;
     }

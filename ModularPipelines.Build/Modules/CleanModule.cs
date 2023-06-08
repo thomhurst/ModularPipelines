@@ -15,15 +15,17 @@ public class CleanModule : Module<List<BufferedCommandResult>>
     {
         var results = new List<BufferedCommandResult>();
 
-        foreach (var projectFile in context.Environment
-                     .GitRootDirectory!
-                     .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)))
+        var projectFiles = context.Environment
+            .GitRootDirectory!
+            .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase));
+
+        await Parallel.ForEachAsync(projectFiles, cancellationToken, async (projectFile, token) =>
         {
             results.Add(await context.DotNet().Clean(new DotNetOptions
             {
                 TargetPath = projectFile.Path
             }, cancellationToken));
-        }
+        });
 
         return results;
     }
