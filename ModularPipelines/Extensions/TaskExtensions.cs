@@ -2,8 +2,12 @@
 
 internal static class TaskExtensions
 {
-    public static async Task WhenAllFailFast(this ICollection<Task> tasks)
+    public static async Task<TResult[]> WhenAllFailFast<TResult>(this ICollection<Task<TResult>> tasks)
     {
+        var originalTasks = tasks.ToList();
+
+        tasks = tasks.ToList();
+        
         while (tasks.Any())
         {
             var finished = await Task.WhenAny(tasks);
@@ -13,5 +17,7 @@ internal static class TaskExtensions
                     
             tasks.Remove(finished);
         }
+
+        return await Task.WhenAll(originalTasks);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Installer.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Installer;
 
@@ -18,7 +17,7 @@ public class Installer<T> : IInstaller<T>
     public Task<BufferedCommandResult> InstallFromFile(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions(options.Path)
+        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions(options.Path)
         {
             Arguments = options.Arguments ?? Array.Empty<string>()
         }, cancellationToken);

@@ -1,6 +1,6 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Options;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet;
 

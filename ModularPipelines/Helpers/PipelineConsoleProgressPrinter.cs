@@ -6,91 +6,95 @@ namespace ModularPipelines.Helpers;
 
 internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
 {
-    public void PrintProgress(OrganizedModules organizedModules)
+    public void PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
         AnsiConsole.Progress()
-            .Columns(new ProgressColumn[]
+            .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new SpinnerColumn())
+            .StartAsync(async progressContext =>
             {
-                new TaskDescriptionColumn(), 
-                new ProgressBarColumn(), 
-                new PercentageColumn(), 
-                new ElapsedTimeColumn(), 
-                new SpinnerColumn(),
-            })
-            .StartAsync(async ctx =>
-            {
-                var totalTask = ctx.AddTask($"[green]Total[/]");
+                var totalTask = progressContext.AddTask($"[green]Total[/]");
                 
-                RegisterModules(organizedModules.RunnableModules, ctx, totalTask);
+                RegisterModules(organizedModules.RunnableModules, progressContext, totalTask, cancellationToken);
 
-                RegisterIgnoredModules(organizedModules.IgnoredModules, ctx);
+                RegisterIgnoredModules(organizedModules.IgnoredModules, progressContext);
 
-                CompleteTotalWhenFinished(organizedModules.RunnableModules, totalTask);
+                CompleteTotalWhenFinished(organizedModules.RunnableModules, totalTask, cancellationToken);
 
-                ctx.Refresh();
+                progressContext.Refresh();
                 
-                while (!ctx.IsFinished)
+                while (!progressContext.IsFinished)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    
                     await Task.Delay(100);
                 }
                 
-                ctx.Refresh();
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+                
+                progressContext.Refresh();
             });
     }
 
-    private static void RegisterModules(IReadOnlyList<ModuleBase> modulesToProcess, ProgressContext ctx, ProgressTask totalTask)
+    private static void RegisterModules(IReadOnlyCollection<ModuleBase> modulesToProcess, ProgressContext progressContext,
+        ProgressTask totalTask, CancellationToken cancellationToken)
     {
         foreach (var moduleToProcess in modulesToProcess)
         {
             var moduleName = moduleToProcess.GetType().Name;
             
-            var task = ctx.AddTask($"[[Waiting]] {moduleName}");
+            var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}");
 
-            _ = moduleToProcess.Task.ContinueWith(t =>
+            _ = moduleToProcess.ResultTaskInternal.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {
-                    task.Increment(100);
+                    progressTask.Increment(100);
                 }
 
-                task.Description = t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
+                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
 
-                task.StopTask();
+                progressTask.StopTask();
                 totalTask.Increment(100.0 / modulesToProcess.Count);
-            });
+            }, cancellationToken);
 
             _ = moduleToProcess.StartTask.ContinueWith(async t =>
             {
-                task.Description = moduleName;
-                while (task is { IsFinished: false, Value: < 70 })
+                progressTask.Description = moduleName;
+                while (progressTask is { IsFinished: false, Value: < 70 })
                 {
-                    task.Increment(0.1);
+                    progressTask.Increment(0.1);
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
                 }
-            });
+            }, cancellationToken);
 
             _ = moduleToProcess.IgnoreTask.ContinueWith(t =>
             {
-                task.Description = $"[yellow][[Ignored]] {moduleName}[/]";
-                task.StopTask();
-            });
+                progressTask.Description = $"[yellow][[Ignored]] {moduleName}[/]";
+                progressTask.StopTask();
+            }, cancellationToken);
         }
     }
 
-    private static void CompleteTotalWhenFinished(IReadOnlyList<ModuleBase> modulesToProcess, ProgressTask totalTask)
+    private static void CompleteTotalWhenFinished(IEnumerable<ModuleBase> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)
     {
-        _ = Task.WhenAll(modulesToProcess.Select(x => x.Task)).ContinueWith(x =>
+        _ = Task.WhenAll(modulesToProcess.Select(x => x.ResultTaskInternal)).ContinueWith(x =>
         {
             totalTask.Increment(100);
             totalTask.StopTask();
-        });
+        }, cancellationToken);
     }
 
-    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext ctx)
+    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
     {
         foreach (var moduleToIgnore in modulesToIgnore)
         {
-            ctx.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
+            progressContext.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
         }
     }
 }

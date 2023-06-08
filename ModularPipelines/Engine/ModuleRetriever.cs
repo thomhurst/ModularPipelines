@@ -7,14 +7,17 @@ namespace ModularPipelines.Engine;
 internal class ModuleRetriever : IModuleRetriever
 {
     private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
+    private readonly IModuleInitializer _moduleInitializer;
     private readonly List<ModuleBase> _modules;
 
     public ModuleRetriever(
         IModuleIgnoreHandler moduleIgnoreHandler,
+        IModuleInitializer moduleInitializer,
         IEnumerable<ModuleBase> modules
     )
     {
         _moduleIgnoreHandler = moduleIgnoreHandler;
+        _moduleInitializer = moduleInitializer;
         _modules = modules.ToList();
     }
 
@@ -24,6 +27,8 @@ internal class ModuleRetriever : IModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
+        
+        _modules.ForEach(m => _moduleInitializer.Initialize(m));
         
         var modulesToIgnore = _modules
             .Where(m => _moduleIgnoreHandler.ShouldIgnore(m))

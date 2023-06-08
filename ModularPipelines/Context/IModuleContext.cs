@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -21,6 +22,8 @@ public interface IModuleContext
     internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
     public IEnvironmentContext Environment { get; }
     public IFileSystemContext FileSystem { get; }
+    public ICommand Command { get; }
+    internal IModuleResultRepository ModuleResultRepository { get; }
     public T? Get<T>();
     public ILogger Logger { get; }
     public Type ModuleType { get; }

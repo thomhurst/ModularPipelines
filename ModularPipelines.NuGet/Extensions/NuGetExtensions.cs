@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.Engine;
@@ -20,8 +19,7 @@ public static class NuGetExtensions
     
     public static IServiceCollection RegisterNuGetContext(this IServiceCollection services)
     {
-        services.RegisterCommandContext()
-            .RegisterDotNetContext();
+        services.RegisterDotNetContext();
         
         services.TryAddSingleton(typeof(INuGet<>), typeof(NuGet<>));
         

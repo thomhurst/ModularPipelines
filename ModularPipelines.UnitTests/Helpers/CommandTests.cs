@@ -1,9 +1,8 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -13,7 +12,7 @@ public class CommandTests : TestBase
     {
         protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Command().UsingCommandLineTool(new CommandLineToolOptions("pwsh")
+            return await context.Command.UsingCommandLineTool(new CommandLineToolOptions("pwsh")
             {
                 Arguments = new []{ "-Command", "echo 'Foo bar!'" }
             }, cancellationToken: cancellationToken);
@@ -29,7 +28,7 @@ public class CommandTests : TestBase
         
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.IsErrored, Is.False);
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
             Assert.That(moduleResult.Exception, Is.Null);
             Assert.That(moduleResult.Value, Is.Not.Null);
         });

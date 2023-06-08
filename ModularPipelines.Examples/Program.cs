@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
+using ModularPipelines.Options;
 
 var modules = await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
@@ -14,7 +15,7 @@ var modules = await PipelineHostBuilder.Create()
     })
     .ConfigurePipelineOptions((context, options) =>
     {
-        options.StopOnFirstException = false;
+        options.ExecutionMode = ExecutionMode.StopOnFirstException;
         options.IgnoreCategories = new[] { "Ignore" };
     })
     .ConfigureServices((context, collection) =>
@@ -25,7 +26,8 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<IgnoredModule>()
             .AddModule<FailedModule>()
             .AddModule<GitVersionModule>()
-            .AddModule<DependentOnSuccessModule>();
+            .AddModule<DependentOnSuccessModule>()
+            .AddModule<NugetVersionGeneratorModule>();
         //.AddModule<NotepadPlusPlusInstallerModule>()
         //.AddRequirement<WindowsAdminRequirement>();
     })

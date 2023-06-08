@@ -2,11 +2,10 @@
 using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Command.Exceptions;
-using ModularPipelines.Command.Options;
-using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
+using ModularPipelines.Options;
 
-namespace ModularPipelines.Command;
+namespace ModularPipelines.Context;
 
 public class Command<T> : ICommand<T>
 {

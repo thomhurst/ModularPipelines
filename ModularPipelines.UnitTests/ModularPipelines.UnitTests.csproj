@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Command\ModularPipelines.Command.csproj" />
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
       <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
       <ProjectReference Include="..\ModularPipelines.Node\ModularPipelines.Node.csproj" />

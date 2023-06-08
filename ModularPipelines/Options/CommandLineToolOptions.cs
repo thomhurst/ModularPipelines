@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Command.Options;
+﻿namespace ModularPipelines.Options;
 
 public record CommandLineToolOptions(string Tool) : CommandEnvironmentOptions
 {

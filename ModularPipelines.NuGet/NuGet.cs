@@ -1,10 +1,10 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
 using ModularPipelines.NuGet.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet;
 
@@ -30,7 +30,7 @@ public class NuGet<T> : INuGet<T>
             arguments.AddNonNullOrEmptyArgumentWithSwitch("-s", options.FeedUri.AbsoluteUri);
             arguments.AddNonNullOrEmptyArgumentWithSwitch("-k", options.ApiKey);
             
-            var commandResult = await _context.Command()
+            var commandResult = await _context.Command
                 .UsingCommandLineTool(new CommandLineToolOptions("dotnet")
                 {
                     Arguments = arguments

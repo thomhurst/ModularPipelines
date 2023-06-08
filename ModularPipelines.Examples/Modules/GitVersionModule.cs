@@ -10,6 +10,6 @@ public class GitVersionModule : Module<BufferedCommandResult>
 {
     protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await context.Git().Version(cancellationToken: cancellationToken);
+        return await context.Git().Operations.Version(cancellationToken: cancellationToken);
     }
 }

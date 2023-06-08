@@ -1,8 +1,8 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet;
 
@@ -89,7 +89,7 @@ public class DotNet<T> : IDotNet<T>
         arguments.AddRangeNonNullOrEmpty(options.ExtraArguments);
         arguments.AddNonNullOrEmptyArgumentWithSwitch("-c", options.Configuration?.ToString());
 
-        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions("dotnet")
+        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions("dotnet")
         {
             Arguments = arguments,
             EnvironmentVariables = options.EnvironmentVariables,

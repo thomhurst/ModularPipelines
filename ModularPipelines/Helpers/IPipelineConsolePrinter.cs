@@ -4,5 +4,5 @@ namespace ModularPipelines.Helpers;
 
 internal interface IPipelineConsolePrinter
 {
-    void PrintProgress(OrganizedModules organizedModules);
+    void PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken);
 }

@@ -2,9 +2,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+// ReSharper disable SuggestBaseTypeForParameterInConstructor
 
 namespace ModularPipelines.Context;
 
@@ -25,6 +27,9 @@ internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
 
     public IEnvironmentContext Environment { get; }
 
+    public IModuleResultRepository ModuleResultRepository { get; }
+    public ICommand Command { get; }
+
     public T Get<T>()
     {
         return (T) ServiceProvider.GetRequiredService(typeof(T));
@@ -38,9 +43,13 @@ internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
         IFileSystemContext fileSystem,
         IConfiguration configuration, 
         IOptions<PipelineOptions> pipelineOptions,
-        ModuleLogger<TSelfModule> moduleLogger)
+        ModuleLogger<TSelfModule> moduleLogger, 
+        IModuleResultRepository moduleResultRepository,
+        ICommand<TSelfModule> command)
     {
         _moduleLogger = moduleLogger;
+        ModuleResultRepository = moduleResultRepository;
+        Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
         ServiceProvider = serviceProvider;

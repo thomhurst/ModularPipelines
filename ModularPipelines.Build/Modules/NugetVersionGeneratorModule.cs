@@ -1,15 +1,18 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class GitVersionModule : Module<string>
+public class NugetVersionGeneratorModule : Module<string>
 {
     protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
         
-        return GitVersionInformation.FullSemVer;
+        var gitInformation = context.Git().Information;
+
+        return $"{gitInformation.Major}.{gitInformation.Minor}.{gitInformation.Patch}-{gitInformation.Label}-{gitInformation.CommitsOnBranch:D2}";
     }
 }

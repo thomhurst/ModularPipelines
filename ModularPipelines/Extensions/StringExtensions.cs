@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Command.Extensions;
+﻿namespace ModularPipelines.Extensions;
 
 public static class StringExtensions
 {

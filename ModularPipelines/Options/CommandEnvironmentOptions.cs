@@ -1,6 +1,6 @@
 using CliWrap;
 
-namespace ModularPipelines.Command.Options;
+namespace ModularPipelines.Options;
 
 public record CommandEnvironmentOptions
 {

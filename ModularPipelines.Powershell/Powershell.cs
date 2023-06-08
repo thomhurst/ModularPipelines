@@ -1,6 +1,6 @@
 using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Powershell.Models;
 
 namespace ModularPipelines.Powershell;
@@ -20,7 +20,7 @@ public class Powershell<T> : IPowershell<T>
         
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
         
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
     }
 
     public Task<BufferedCommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
@@ -29,6 +29,6 @@ public class Powershell<T> : IPowershell<T>
         
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
         
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
     }
 }

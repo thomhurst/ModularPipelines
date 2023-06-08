@@ -1,7 +1,7 @@
 ﻿using CliWrap.Buffered;
 using ModularPipelines.Cmd.Models;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Cmd;
 
@@ -25,6 +25,6 @@ public class Cmd<T> : ICmd<T>
         
         arguments.Add(options.Script);
 
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);
     }
 }

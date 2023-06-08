@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Command\ModularPipelines.Command.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 

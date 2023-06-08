@@ -1,13 +1,12 @@
 using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-public class ModuleIgnoreHandler : IModuleIgnoreHandler
+internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
@@ -20,7 +19,7 @@ public class ModuleIgnoreHandler : IModuleIgnoreHandler
     {
         if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
         {
-            module.Status = Status.Ignored;
+            module.SetSkipped();
             return true;
         }
 

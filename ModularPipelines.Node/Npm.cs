@@ -1,6 +1,6 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Node;
@@ -35,7 +35,7 @@ public class Npm<T> : INpm<T>
             arguments.Add("--dry-run");
         }
         
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 
     public Task<BufferedCommandResult> CleanInstall(NpmCleanInstallOptions options, CancellationToken cancellationToken = default)
@@ -45,7 +45,7 @@ public class Npm<T> : INpm<T>
         arguments.AddNonNullOrEmptyArgumentWithPrefix("--install-strategy=", options.InstallStrategy);
         arguments.AddRangeNonNullOrEmptyArgumentWithPrefix("--omit=", options.Omit);
 
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 
     public Task<BufferedCommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default)
@@ -60,6 +60,6 @@ public class Npm<T> : INpm<T>
             arguments.AddRange(options.Arguments);
         }
 
-        return _context.Command().UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 }

@@ -7,8 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Command\ModularPipelines.Command.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>

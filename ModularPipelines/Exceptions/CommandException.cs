@@ -1,6 +1,6 @@
 ﻿using CliWrap.Buffered;
 
-namespace ModularPipelines.Command.Exceptions;
+namespace ModularPipelines.Exceptions;
 
 public class CommandException : ModularPipelines.Exceptions.PipelineException
 {

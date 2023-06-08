@@ -17,7 +17,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
     {
         var results = new List<BufferedCommandResult>();
 
-        var packageVersion = await GetModule<GitVersionModule>();
+        var packageVersion = await GetModule<NugetVersionGeneratorModule>();
         
         foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!

@@ -1,7 +1,6 @@
 using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
@@ -16,7 +15,7 @@ public class Nvm<T> : INvm<T>
     
     public Task<BufferedCommandResult> Use(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions("nvm")
+        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions("nvm")
         {
             Arguments = new []{ "use", version }
         }, cancellationToken);

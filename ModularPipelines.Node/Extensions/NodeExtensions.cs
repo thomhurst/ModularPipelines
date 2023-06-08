@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 
@@ -19,7 +18,6 @@ public static class NodeExtensions
     
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
-        services.RegisterCommandContext();
         services.TryAddSingleton(typeof(INode<>), typeof(Node<>));
         services.TryAddSingleton(typeof(INvm<>), typeof(Nvm<>));
         services.TryAddSingleton(typeof(INpm<>), typeof(Npm<>));

@@ -1,7 +1,7 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Options;
+using ModularPipelines.Options;
 
-namespace ModularPipelines.Command;
+namespace ModularPipelines.Context;
 
 public interface ICommand
 {

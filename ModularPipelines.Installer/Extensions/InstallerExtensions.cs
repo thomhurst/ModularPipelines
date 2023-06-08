@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 
@@ -19,7 +18,6 @@ public static class InstallerExtensions
     
     public static IServiceCollection RegisterInstallerContext(this IServiceCollection services)
     {
-        services.RegisterCommandContext();
         services.TryAddSingleton(typeof(IInstaller<>), typeof(Installer<>));
         return services;
     }

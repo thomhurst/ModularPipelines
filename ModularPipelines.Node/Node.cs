@@ -1,7 +1,6 @@
 using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
@@ -20,7 +19,7 @@ public class Node<T> : INode<T>
 
     public Task<BufferedCommandResult> Version(CancellationToken cancellationToken = default)
     {
-        return _context.Command().UsingCommandLineTool(new CommandLineToolOptions("node")
+        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions("node")
         {
             Arguments = new []{ "-v" }
         }, cancellationToken);
