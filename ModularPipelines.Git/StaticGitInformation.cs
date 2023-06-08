@@ -39,7 +39,9 @@ internal class StaticGitInformation : IGitInformation<StaticGitInformation>, IIn
         var commandResult = await _context.Command.UsingCommandLineTool(
             new CommandLineToolOptions("git")
             {
-                Arguments = commands
+                Arguments = commands,
+                LogInput = false,
+                LogOutput = false
             });
 
         return commandResult.StandardOutput.Trim();
