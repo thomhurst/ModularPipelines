@@ -22,7 +22,6 @@ var modules = await PipelineHostBuilder.Create()
         collection.AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<PackProjectsModule>()
-            .AddModule<CleanModule>()
             .AddModule<PackageFilesRemovalModule>()
             .AddModule<PackagePathsParserModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();

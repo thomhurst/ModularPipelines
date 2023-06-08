@@ -52,7 +52,7 @@ internal class Command<T> : ICommand<T>
         return result;
     }
 
-    public async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
+    public async Task<BufferedCommandResult> Of(Command command, CancellationToken cancellationToken = default)
     {
         var result = await command
             .WithValidation(CommandResultValidation.None)

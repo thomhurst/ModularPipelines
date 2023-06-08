@@ -5,7 +5,6 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<CleanModule>]
 public class PackageFilesRemovalModule : Module
 {
     protected override Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -13,7 +12,7 @@ public class PackageFilesRemovalModule : Module
         var packageFiles = context.FileSystem.GetFiles(context.Environment.GitRootDirectory!.Path,
             SearchOption.AllDirectories,
             path =>
-                path.Extension == ".nupkg");
+                path.Extension is ".nupkg");
 
         foreach (var packageFile in packageFiles)
         {

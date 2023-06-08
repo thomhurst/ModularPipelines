@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Exceptions;
 
-public class CommandException : ModularPipelines.Exceptions.PipelineException
+public class CommandException : PipelineException
 {
     public CommandException(string input, BufferedCommandResult bufferedCommandResult) : base(GenerateMessage(input, bufferedCommandResult))
     {
@@ -13,6 +13,11 @@ public class CommandException : ModularPipelines.Exceptions.PipelineException
 
     private static string? GenerateMessage(string input, BufferedCommandResult bufferedCommandResult)
     {
-        return $"Error: {bufferedCommandResult.StandardError}{Environment.NewLine}Exit Code: {bufferedCommandResult.ExitCode}{Environment.NewLine}Input: {input}";
+        return $"Error: {GetOutput(bufferedCommandResult)}{Environment.NewLine}Exit Code: {bufferedCommandResult.ExitCode}{Environment.NewLine}Input: {input}";
+    }
+
+    private static string GetOutput(BufferedCommandResult bufferedCommandResult)
+    {
+        return !string.IsNullOrEmpty(bufferedCommandResult.StandardError) ? bufferedCommandResult.StandardError : bufferedCommandResult.StandardOutput;
     }
 }

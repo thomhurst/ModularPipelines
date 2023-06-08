@@ -23,18 +23,8 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             .GitRootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context));
 
-        await Parallel.ForEachAsync(unitTestProjectFiles, cancellationToken, async (unitTestProjectFile, token) =>
+        foreach (var unitTestProjectFile in unitTestProjectFiles)
         {
-            await context.DotNet().Restore(new DotNetOptions
-            {
-                TargetPath = unitTestProjectFile.Path
-            }, token);
-
-            await context.DotNet().Build(new DotNetOptions
-            {
-                TargetPath = unitTestProjectFile.Path
-            }, token);
-
             results.Add(await context.DotNet().Pack(new DotNetOptions
             {
                 TargetPath = unitTestProjectFile.Path,
@@ -42,10 +32,11 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
                 ExtraArguments = new List<string>
                 {
                     $"/p:PackageVersion={packageVersion.Value}",
-                    $"/p:Version={packageVersion.Value}"
+                    $"/p:Version={packageVersion.Value}",
+                    "/p:NuspecFile=\"\""
                 }
-            }, token));
-        });
+            }, cancellationToken));
+        }
 
         return results;
     }

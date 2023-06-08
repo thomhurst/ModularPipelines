@@ -43,8 +43,8 @@ public class ModuleResult<T> : ModuleResult
 
     public Exception? Exception { get; }
 
-    public static implicit operator ModuleResult<T>(T t) => ModuleResult.From(t);
-    public static implicit operator ModuleResult<T>(Exception exception) => ModuleResult.FromException<T>(exception);
+    public static implicit operator ModuleResult<T>(T t) => From(t);
+    public static implicit operator ModuleResult<T>(Exception exception) => FromException<T>(exception);
 }
 
 public class ModuleResult
