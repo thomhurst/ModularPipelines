@@ -7,13 +7,13 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-public class Command<T> : ICommand<T>
+internal class Command<T> : ICommand<T>
 {
-    private readonly IModuleContext<T> _context;
+    private readonly ModuleLogger<T> _logger;
 
-    public Command(IModuleContext<T> context)
+    public Command(ModuleLogger<T> logger)
     {
-        _context = context;
+        _logger = logger;
     }
     
     public async Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
@@ -36,14 +36,14 @@ public class Command<T> : ICommand<T>
 
         if (options.LogInput)
         {
-            _context.Logger.LogInformation("Executing Command: {Input}", command.ToString());
+            _logger.LogInformation("Executing Command: {Input}", command.ToString());
         }
 
         var result = await Of(command, cancellationToken);
 
         if (options.LogOutput)
         {
-            _context.Logger.LogInformation("Command Result: {Output}",
+            _logger.LogInformation("Command Result: {Output}",
                 string.IsNullOrEmpty(result.StandardError)
                     ? result.StandardOutput
                     : result.StandardError);
