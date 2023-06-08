@@ -25,6 +25,7 @@ public class GitInformation<T> : IGitInformation<T>, IInitializer
         }
         
         BranchName = await RunCommands("rev-parse", "--abbrev-ref", "HEAD");
+        DefaultBranchName = await RunCommands("rev-parse", "--abbrev-ref", "origin/HEAD");
         LastCommitSha = await RunCommands("rev-parse", "HEAD");
         LastCommitShortSha = await  RunCommands("rev-parse", "--short", "HEAD");
         Tag =  await RunCommands("describe", "--tags");
@@ -33,6 +34,7 @@ public class GitInformation<T> : IGitInformation<T>, IInitializer
     }
 
     public string BranchName { get; private set; }
+    public string DefaultBranchName { get; private set; }
 
     public string Tag { get; private set; }
 

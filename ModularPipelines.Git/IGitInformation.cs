@@ -3,6 +3,7 @@ namespace ModularPipelines.Git;
 public interface IGitInformation
 {
     public string BranchName { get; }
+    public string DefaultBranchName { get; }
     public string LastCommitSha { get; }
     public string LastCommitShortSha { get; }
 
