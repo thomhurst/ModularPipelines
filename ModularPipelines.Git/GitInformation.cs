@@ -1,66 +1,27 @@
-using ModularPipelines.Context;
-using ModularPipelines.Options;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
-
 namespace ModularPipelines.Git;
 
-public class GitInformation<T> : IGitInformation<T>, IInitializer
+internal class GitInformation<T> : IGitInformation<T>
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IGitInformation<StaticGitInformation> _staticGitInformation;
 
-    public GitInformation(IModuleContext<T> context)
+    public GitInformation(IGitInformation<StaticGitInformation> staticGitInformation)
     {
-        _context = context;
+        _staticGitInformation = staticGitInformation;
     }
 
-    public async Task InitializeAsync()
-    {
-        try
-        {
-            await RunCommands("version");
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Error detecting Git repository", e);
-        }
+    public string BranchName => _staticGitInformation.BranchName;
+    public string DefaultBranchName => _staticGitInformation.DefaultBranchName;
+
+    public string Tag => _staticGitInformation.Tag;
+
+    public string LastCommit => _staticGitInformation.LastCommit;
+
+    public Task<IEnumerable<string>> LastCommits(int count) => _staticGitInformation.LastCommits(count);
+
+    public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
+    public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
         
-        BranchName = await RunCommands("rev-parse", "--abbrev-ref", "HEAD");
-        DefaultBranchName = await RunCommands("rev-parse", "--abbrev-ref", "origin/HEAD");
-        LastCommitSha = await RunCommands("rev-parse", "HEAD");
-        LastCommitShortSha = await  RunCommands("rev-parse", "--short", "HEAD");
-        Tag =  await RunCommands("describe", "--tags");
-        CommitsOnBranch =  int.Parse(await RunCommands("rev-list", "HEAD", "--count"));
-        LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(await RunCommands("log", "-1", "--format=%at")));
-    }
+    public string LastCommitSha => _staticGitInformation.LastCommitSha;
 
-    public string BranchName { get; private set; }
-    public string DefaultBranchName { get; private set; }
-
-    public string Tag { get; private set; }
-
-    public string LastCommit { get; private set; }
-
-    public async Task<IEnumerable<string>> LastCommits(int count)
-    {
-        var result = await RunCommands("log", $"-{count}");
-        return result.Split(Environment.NewLine);
-    }
-
-    public int CommitsOnBranch { get; private set; }
-    public DateTimeOffset LastCommitDateTime { get; private set; }
-        
-    public string LastCommitSha { get; private set; }
-
-    public string LastCommitShortSha { get; private set; }
-
-    private async Task<string> RunCommands(params string[] commands)
-    {
-        var commandResult = await _context.Command.UsingCommandLineTool(
-            new CommandLineToolOptions("git")
-            {
-                Arguments = commands
-            });
-
-        return commandResult.StandardOutput.Trim();
-    }
+    public string LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
 }

@@ -21,6 +21,7 @@ public static class GitExtensions
         services.TryAddSingleton(typeof(IGit<>), typeof(Git<>));
         services.TryAddSingleton(typeof(IGitOperations<>), typeof(GitOperations<>));
         services.TryAddSingleton(typeof(IGitInformation<>), typeof(GitInformation<>));
+        services.TryAddSingleton(typeof(IGitInformation<StaticGitInformation>), typeof(StaticGitInformation));
         return services;
     }
     
