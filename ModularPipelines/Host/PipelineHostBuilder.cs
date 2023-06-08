@@ -113,7 +113,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         
         foreach (var assembly in AppDomain.CurrentDomain
                      .GetAssemblies()
-                     .Where(a => a.GetName().Name?.Contains("ModularPipelines", StringComparison.InvariantCultureIgnoreCase) == true))
+                     .Where(a => a.GetName().Name?.Contains("ModularPipeline", StringComparison.InvariantCultureIgnoreCase) == true))
         {
             RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
         }
