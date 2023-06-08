@@ -3,16 +3,14 @@ namespace ModularPipelines.Git;
 public interface IGitInformation
 {
     public string BranchName { get; }
-    public string SemanticVersion { get; }
-    public string Sha { get; }
-    public string MajorMinorPatch { get; }
-    public string Major { get; }
-    public string Minor { get; }
-    public string Patch { get; }
+    public string LastCommitSha { get; }
+    public string LastCommitShortSha { get; }
+
     public string Tag { get; }
-    public string Label { get; }
+    public string LastCommit { get; }
+    public Task<IEnumerable<string>> LastCommits(int count);
     public int CommitsOnBranch { get; }
-    public DateOnly CommitDate { get; }
+    public DateTimeOffset LastCommitDateTime { get; }
 }
 
 public interface IGitInformation<T> : IGitInformation

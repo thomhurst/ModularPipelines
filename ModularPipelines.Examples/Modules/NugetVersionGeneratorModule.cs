@@ -11,8 +11,6 @@ public class NugetVersionGeneratorModule : Module<string>
     {
         await Task.Yield();
         
-        var gitInformation = context.Git().Information;
-
-        return $"{gitInformation.Major}.{gitInformation.Minor}.{gitInformation.Patch}-{gitInformation.Label}-{gitInformation.CommitsOnBranch:D2}";
+        return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSourcePadded}";
     }
 }
