@@ -5,7 +5,7 @@ namespace ModularPipelines.NuGet;
 
 public interface INuGet
 {
-    Task<List<BufferedCommandResult>> UploadPackage(NuGetUploadOptions options);
+    Task<List<BufferedCommandResult>> UploadPackages(NuGetUploadOptions options);
 
     Task<BufferedCommandResult> AddSource(NuGetSourceOptions options);
 }

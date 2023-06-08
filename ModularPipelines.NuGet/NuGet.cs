@@ -17,7 +17,7 @@ public class NuGet<T> : INuGet<T>
         _context = context;
     }
     
-    public async Task<List<BufferedCommandResult>> UploadPackage(NuGetUploadOptions options)
+    public async Task<List<BufferedCommandResult>> UploadPackages(NuGetUploadOptions options)
     {
         var results = new List<BufferedCommandResult>();
         foreach (var packagePath in options.PackagePaths)

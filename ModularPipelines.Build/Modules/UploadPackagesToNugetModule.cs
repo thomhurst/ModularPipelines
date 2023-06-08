@@ -40,7 +40,7 @@ public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
-            .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
             {
                 ApiKey = _options.Value.ApiKey!
             });

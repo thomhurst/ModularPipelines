@@ -30,6 +30,6 @@ public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResul
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
-            .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri(localRepoLocation.Value!)));
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!, new Uri(localRepoLocation.Value!)));
     }
 }
