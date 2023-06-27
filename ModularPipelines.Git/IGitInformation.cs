@@ -1,3 +1,6 @@
+using ModularPipelines.Git.Models;
+using ModularPipelines.Git.Options;
+
 namespace ModularPipelines.Git;
 
 public interface IGitInformation
@@ -8,12 +11,9 @@ public interface IGitInformation
     public string? LastCommitShortSha { get; }
 
     public string? Tag { get; }
-    public string? LastCommit { get; }
-    public Task<IEnumerable<string>> LastCommits(int count);
     public int CommitsOnBranch { get; }
     public DateTimeOffset LastCommitDateTime { get; }
-}
-
-public interface IGitInformation<T> : IGitInformation
-{
+    public GitCommit? PreviousCommit { get; }
+    IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default);
+    IAsyncEnumerable<GitCommit> Commits(string branch, GitOptions? options = null, CancellationToken cancellationToken = default);
 }

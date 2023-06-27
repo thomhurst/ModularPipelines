@@ -21,10 +21,10 @@ public static class NuGetExtensions
     {
         services.RegisterDotNetContext();
         
-        services.TryAddSingleton(typeof(INuGet<>), typeof(NuGet<>));
+        services.TryAddSingleton<INuGet, NuGet>();
         
         return services;
     }
-    
-    public static INuGet NuGet(this IModuleContext context) => (INuGet) context.ServiceProvider.GetRequiredService(typeof(INuGet<>).MakeGenericType(context.ModuleType));
+
+    public static INuGet NuGet(this IModuleContext context) => (INuGet) context.ServiceProvider.GetRequiredService<INuGet>();
 }

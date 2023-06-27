@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleRetriever
 {
-    OrganizedModules GetOrganizedModules();
+    Task<OrganizedModules> GetOrganizedModules();
 }

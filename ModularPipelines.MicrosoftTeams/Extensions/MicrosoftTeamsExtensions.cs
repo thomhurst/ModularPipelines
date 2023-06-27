@@ -18,9 +18,9 @@ public static class MicrosoftTeamsExtensions
     
     public static IServiceCollection RegisterMicrosoftTeamsContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IMicrosoftTeams<>), typeof(MicrosoftTeams<>));
+        services.TryAddSingleton<IMicrosoftTeams, MicrosoftTeams>();
         return services;
     }
-    
-    public static IMicrosoftTeams MicrosoftTeams(this IModuleContext context) => (IMicrosoftTeams) context.ServiceProvider.GetRequiredService(typeof(IMicrosoftTeams<>).MakeGenericType(context.ModuleType));
+
+    public static IMicrosoftTeams MicrosoftTeams(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IMicrosoftTeams>();
 }

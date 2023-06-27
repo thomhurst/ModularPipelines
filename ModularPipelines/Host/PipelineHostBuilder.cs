@@ -15,34 +15,51 @@ namespace ModularPipelines.Host;
 public class PipelineHostBuilder : IPipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
+    private readonly PipelineEngineOverrides _overrides;
 
     internal PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
+        _overrides = new PipelineEngineOverrides(_internalHost);
         _internalHost.ConfigureServices(services =>
         {
+            // Bundles
             services
                 .Configure<PipelineOptions>(_ => {})
                 .AddLogging()
                 .AddHttpClient()
-                .AddInitializers()
+                .AddInitializers();
+            
+            // Transient
+            services.AddTransient<IModuleContext, ModuleContext>()
+                .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
+                .AddTransient<IHttp, Http>();
+            
+            // Singletons
+            services
+                .AddSingleton<EngineCancellationToken>()
                 .AddSingleton<IPipelineInitializer, PipelineInitializer>()
                 .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
-                .AddSingleton<IModuleContextCreator, ModuleContextCreator>()
                 .AddSingleton<IModuleInitializer, ModuleInitializer>()
                 .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
                 .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
                 .AddSingleton<IPipelineExecutor, PipelineExecutor>()
                 .AddSingleton<IModuleExecutor, ModuleExecutor>()
-                .AddSingleton(typeof(IModuleContext<>), typeof(ModuleContext<>))
                 .AddSingleton(typeof(ModuleLogger<>))
-                .AddSingleton(typeof(ICommand<>), typeof(Command<>))
+                .AddSingleton<ICommand, Command>()
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
                 .AddSingleton<IEnvironmentContext, EnvironmentContext>()
                 .AddSingleton<IFileSystemContext, FileSystemContext>()
                 .AddSingleton<IRequirementChecker, RequirementChecker>()
                 .AddSingleton<IModuleRetriever, ModuleRetriever>()
-                .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>();
+                .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
+                .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
+                .AddSingleton<IHasher, Hasher>()
+                .AddSingleton<IBase64, Base64>()
+                .AddSingleton<IHex, Hex>()
+                .AddSingleton<IZip, Zip>()
+                .AddSingleton<IJson, Json>()
+                .AddSingleton<IXml, Xml>();
         });
     }
 
@@ -67,6 +84,12 @@ public class PipelineHostBuilder : IPipelineHostBuilder
             collection.Configure<PipelineOptions>(options => configureDelegate(context, options));
         });
         
+        return this;
+    }
+    
+    public IPipelineHostBuilder ConfigureOverrides(Action<PipelineEngineOverrides> configureDelegate)
+    {
+        configureDelegate(_overrides);
         return this;
     }
 

@@ -14,6 +14,10 @@ public abstract class Module : Module<IDictionary<string, object>>
 {
 }
 
+/// <summary>
+/// The base class from which all custom modules should inherit.
+/// </summary>
+/// <typeparam name="T">The type of result object this module will return from its ExecuteAsync method.</typeparam>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
@@ -54,17 +58,23 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
     internal override async Task StartAsync()
     {
         if (!_initialized)
         {
             throw new ModuleNotInitializedException(GetType());
         }
-        
+
+        if (ModuleRunType != ModuleRunType.AlwaysRun)
+        {
+            _context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
+        }
+
         try
         {
             CheckDependencyConflicts();
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             await WaitForModuleDependencies();
 
@@ -82,6 +92,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return;
             }
             
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             await OnBeforeExecute(_context);
 
             StartTask.Start(TaskScheduler.Default);
@@ -90,15 +102,16 @@ public abstract partial class Module<T> : ModuleBase<T>
             StartTime = DateTimeOffset.UtcNow;
 
             var timeoutExceptionTask = Task.CompletedTask;
+            
             if (Timeout != TimeSpan.Zero)
             {
-                CancellationTokenSource.CancelAfter(Timeout);
-                timeoutExceptionTask = Task.Delay(Timeout + TimeSpan.FromSeconds(30), CancellationTokenSource.Token);
+                ModuleCancellationTokenSource.CancelAfter(Timeout);
+                timeoutExceptionTask = Task.Delay(Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
             }
             
             _stopwatch.Start();
 
-            var executeAsyncTask = ExecuteAsync(_context, CancellationTokenSource.Token);
+            var executeAsyncTask = ExecuteAsync(_context, ModuleCancellationTokenSource.Token);
             
             // Will throw a timeout exception if configured and timeout is reached
             await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
@@ -127,7 +140,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             _context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
-                && CancellationTokenSource.IsCancellationRequested)
+                && ModuleCancellationTokenSource.IsCancellationRequested && !_context.EngineCancellationToken.IsCancellationRequested)
             {
                 _context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
 
@@ -199,7 +212,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         return _context.GetModule<TModule>();
     }
 
-    protected internal async Task WaitForModule<TModule>() where TModule : ModuleBase
+    protected async Task WaitForModule<TModule>() where TModule : ModuleBase
     {
         var module = GetModule<TModule>();
 
@@ -224,19 +237,26 @@ public abstract partial class Module<T> : ModuleBase<T>
             return;
         }
 
-        var modules = _dependentModules.Select(_context.GetModule).ToList();
-
-        var tasks = modules.Select(module => module.ResultTaskInternal);
-
-        await Task.WhenAll(tasks);
-        
-        foreach (var moduleBase in modules)
+        try
         {
-            var result = await moduleBase.ResultTaskInternal;
-            if (IsSkippedResult(result))
+            var modules = _dependentModules.Select(_context.GetModule).ToList();
+
+            var tasks = modules.Select(module => module.ResultTaskInternal);
+
+            await Task.WhenAll(tasks);
+
+            foreach (var moduleBase in modules)
             {
-                throw new DependsOnSkippedModuleException(this, moduleBase);
+                var result = await moduleBase.ResultTaskInternal;
+                if (IsSkippedResult(result))
+                {
+                    throw new DependsOnSkippedModuleException(this, moduleBase);
+                }
             }
+        }
+        catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
+        {
+            _context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
     }
 

@@ -6,7 +6,3 @@ public interface IMicrosoftTeams
 {
     Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default);
 }
-
-public interface IMicrosoftTeams<T> : IMicrosoftTeams
-{
-}

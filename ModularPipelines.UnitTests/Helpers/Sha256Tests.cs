@@ -1,0 +1,42 @@
+﻿using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.UnitTests.Helpers;
+
+public class Sha256Tests : TestBase
+{
+    private class ToSha256Module : Module<string>
+    {
+        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return context.Hasher.Sha256("Foo bar!");
+        }
+    }
+
+    [Test]
+    public async Task To_Sha256_Has_Not_Errored()
+    {
+        var module = await RunModule<ToSha256Module>();
+
+        var moduleResult = await module;
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.Value, Is.Not.Null);
+        });
+    }
+
+    [Test]
+    public async Task To_Sha256_Output_Equals_Foo_Bar()
+    {
+        var module = await RunModule<ToSha256Module>();
+
+        var moduleResult = await module;
+        
+        Assert.That(moduleResult.Value, Is.EqualTo("d80c14a132a9ae008c78db4ee4cbc46b015b5e0f018f6b0a3e4ea5041176b852"));
+    }
+}

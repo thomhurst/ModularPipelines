@@ -10,14 +10,13 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
+internal class ModuleContext : IModuleContext
 {
-    private readonly ModuleLogger<TSelfModule> _moduleLogger;
-    public ILogger Logger => _moduleLogger;
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+
+    public ILogger Logger => _moduleLoggerProvider.Logger;
 
     public IServiceProvider ServiceProvider { get; }
-
-    public Type ModuleType { get; } = typeof(TSelfModule);
 
     public IConfiguration Configuration { get; }
 
@@ -27,8 +26,14 @@ internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
 
     public IEnvironmentContext Environment { get; }
 
+    public IHasher Hasher { get; }
+    public IJson Json { get; }
+    public IXml Xml { get; }
     public IModuleResultRepository ModuleResultRepository { get; }
     public ICommand Command { get; }
+    public IZip Zip { get; }
+    public IHex Hex { get; }
+    public IBase64 Base64 { get; }
 
     public T Get<T>()
     {
@@ -43,11 +48,22 @@ internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
         IFileSystemContext fileSystem,
         IConfiguration configuration, 
         IOptions<PipelineOptions> pipelineOptions,
-        ModuleLogger<TSelfModule> moduleLogger, 
         IModuleResultRepository moduleResultRepository,
-        ICommand<TSelfModule> command)
+        ICommand command,
+        IModuleLoggerProvider moduleLoggerProvider, 
+        IZip zip, 
+        IHex hex, 
+        IBase64 base64, 
+        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken)
     {
-        _moduleLogger = moduleLogger;
+        _moduleLoggerProvider = moduleLoggerProvider;
+        Zip = zip;
+        Hex = hex;
+        Base64 = base64;
+        Hasher = hasher;
+        Json = json;
+        Xml = xml;
+        EngineCancellationToken = engineCancellationToken;
         ModuleResultRepository = moduleResultRepository;
         Command = command;
         Configuration = configuration;
@@ -57,6 +73,8 @@ internal class ModuleContext<TSelfModule> : IModuleContext<TSelfModule>
         Environment = environment;
         FileSystem = fileSystem;
     }
+
+    public EngineCancellationToken EngineCancellationToken { get; }
 
     public TModule GetModule<TModule>() where TModule : ModuleBase
     {

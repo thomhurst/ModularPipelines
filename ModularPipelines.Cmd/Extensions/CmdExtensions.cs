@@ -18,10 +18,10 @@ public static class CmdExtensions
     
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(ICmd<>), typeof(Cmd<>));
+        services.TryAddSingleton<ICmd, Cmd>();
         
         return services;
     }
     
-    public static ICmd Cmd(this IModuleContext context) => (ICmd) context.ServiceProvider.GetRequiredService(typeof(ICmd<>).MakeGenericType(context.ModuleType));
+    public static ICmd Cmd(this IModuleContext context) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
 }

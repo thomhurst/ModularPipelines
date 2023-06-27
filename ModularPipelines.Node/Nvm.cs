@@ -4,11 +4,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
-public class Nvm<T> : INvm<T>
+public class Nvm : INvm
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public Nvm(IModuleContext<T> context)
+    public Nvm(IModuleContext context)
     {
         _context = context;
     }

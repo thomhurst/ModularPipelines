@@ -8,11 +8,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet;
 
-public class NuGet<T> : INuGet<T>
+public class NuGet : INuGet
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public NuGet(IModuleContext<T> context)
+    public NuGet(IModuleContext context)
     {
         _context = context;
     }

@@ -1,16 +1,17 @@
 ﻿using CliWrap.Buffered;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
+using ModularPipelines.Git.Enums;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
 
-public class GitOperations<T> : IGitOperations<T>
+public class GitOperations : IGitOperations
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public GitOperations(IModuleContext<T> context)
+    public GitOperations(IModuleContext context)
     {
         _context = context;
     }
@@ -38,6 +39,18 @@ public class GitOperations<T> : IGitOperations<T>
     public Task<BufferedCommandResult> Push(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
         return CustomCommand(ToGitCommandOptions(options, new []{"push"}), cancellationToken);
+    }
+
+    public Task<BufferedCommandResult> Stage(GitStageOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var stageOption = options?.GitStageOption ?? GitStageOption.All;
+        
+        return CustomCommand(ToGitCommandOptions(options, new []{ "add", stageOption.GetCommandLineSwitch() }), cancellationToken);
+    }
+
+    public Task<BufferedCommandResult> Commit(string message, GitOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        return CustomCommand(ToGitCommandOptions(options, new []{ "commit", "-m", message }), cancellationToken);
     }
 
     public Task<BufferedCommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken)

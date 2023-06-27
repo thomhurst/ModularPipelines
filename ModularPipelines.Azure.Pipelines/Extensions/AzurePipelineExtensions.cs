@@ -18,11 +18,11 @@ public static class AzurePipelineExtensions
     
     public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IAzurePipeline<>), typeof(AzurePipeline<>));
-        services.TryAddSingleton(typeof(AzurePipelineVariables));
-        services.TryAddSingleton(typeof(AzurePipelineAgentVariables));
+        services.TryAddSingleton<IAzurePipeline, AzurePipeline>();
+        services.TryAddSingleton<AzurePipelineVariables>();
+        services.TryAddSingleton<AzurePipelineAgentVariables>();
         return services;
     }
 
-    public static IAzurePipeline AzurePipeline(this IModuleContext context) => (IAzurePipeline) context.ServiceProvider.GetRequiredService(typeof(IAzurePipeline<>).MakeGenericType(context.ModuleType));
+    public static IAzurePipeline AzurePipeline(this IModuleContext context) => (IAzurePipeline) context.ServiceProvider.GetRequiredService<IAzurePipeline>();
 }

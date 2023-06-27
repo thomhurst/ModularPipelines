@@ -21,13 +21,15 @@ var modules = await PipelineHostBuilder.Create()
     .ConfigureServices((context, collection) =>
     {
         collection.AddModule<SuccessModule>()
-            .AddModule<SuccessModule2>()
-            .AddModule<SuccessModule3>()
-            .AddModule<IgnoredModule>()
-            .AddModule<FailedModule>()
-            .AddModule<GitVersionModule>()
-            .AddModule<DependentOnSuccessModule>()
-            .AddModule<NugetVersionGeneratorModule>();
+            // .AddModule<SuccessModule2>()
+            // .AddModule<SuccessModule3>()
+            // .AddModule<IgnoredModule>()
+            // .AddModule<FailedModule>()
+            // .AddModule<GitVersionModule>()
+            .AddModule<GitLastCommitModule>()
+            .AddModule<DotnetTestModule>();
+        // .AddModule<DependentOnSuccessModule>()
+        // .AddModule<NugetVersionGeneratorModule>();
         //.AddModule<NotepadPlusPlusInstallerModule>()
         //.AddRequirement<WindowsAdminRequirement>();
     })

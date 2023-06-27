@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Azure.Pipelines;
 
-public class AzurePipeline<T> : IAzurePipeline<T>
+public class AzurePipeline : IAzurePipeline
 {
     public AzurePipeline(AzurePipelineVariables variables)
     {

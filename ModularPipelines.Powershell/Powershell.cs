@@ -5,11 +5,11 @@ using ModularPipelines.Powershell.Models;
 
 namespace ModularPipelines.Powershell;
 
-public class Powershell<T> : IPowershell<T>
+public class Powershell : IPowershell
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public Powershell(IModuleContext<T> context)
+    public Powershell(IModuleContext context)
     {
         _context = context;
     }

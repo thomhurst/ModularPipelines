@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Extensions;
-using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -9,16 +8,16 @@ namespace ModularPipelines.Engine;
 internal class ModuleExecutor : IModuleExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IModuleContextCreator _moduleContextCreator;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly IModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleContextCreator moduleContextCreator,
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        IModuleEstimatedTimeProvider moduleEstimatedTimeProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
-        _moduleContextCreator = moduleContextCreator;
         _pipelineOptions = pipelineOptions;
+        _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IEnumerable<ModuleBase> modules)
@@ -39,6 +38,8 @@ internal class ModuleExecutor : IModuleExecutor
 
         await module.StartAsync();
 
+        await _moduleEstimatedTimeProvider.SaveTimeAsync(module.GetType(), module.Duration);
+        
         await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
 
         return module;

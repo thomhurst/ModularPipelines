@@ -18,10 +18,11 @@ public static class DotNetExtensions
     
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IDotNet<>), typeof(DotNet<>));
+        services.TryAddSingleton<IDotNet, DotNet>();
+        services.TryAddSingleton<ITrxParser, TrxParser>();
         return services;
     }
 
-    public static IDotNet DotNet(this IModuleContext context) => (IDotNet) context.ServiceProvider.GetRequiredService(typeof(IDotNet<>).MakeGenericType(context.ModuleType));
+    public static IDotNet DotNet(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
 
 }

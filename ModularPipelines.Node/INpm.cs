@@ -3,10 +3,6 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Node;
 
-public interface INpm<T> : INpm
-{
-}
-
 public interface INpm
 {
     Task<BufferedCommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default);

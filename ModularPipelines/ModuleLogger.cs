@@ -10,8 +10,7 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
 
-    private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
-        Func<object, Exception?, string>? formatter)> _logEvents = new();
+    private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
     private bool _isDisposed;
 
@@ -40,13 +39,20 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
         }
 
         var mappedFormatter = MapFormatter(formatter);
+
+        var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
         
-        _logEvents.Add((logLevel, eventId, state, exception, mappedFormatter));
+        _logEvents.Add(valueTuple!);
     }
 
-    private Func<object, Exception?, string?>? MapFormatter<TState>(Func<TState,Exception?,string>? formatter)
+    private Func<object, Exception?, string> MapFormatter<TState>(Func<TState,Exception?,string>? formatter)
     {
-        return (o, exception) => formatter?.Invoke((TState) o, exception);
+        if (formatter is null)
+        {
+            return (_, _) => string.Empty;
+        }
+        
+        return (o, exception) => formatter.Invoke((TState) o, exception);
     }
 
     private class NoopDisposable : IDisposable
@@ -61,12 +67,12 @@ public class ModuleLogger<T> : ILogger<T>, IDisposable
     {
         _isDisposed = true;
 
-        var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception, string> formatter)>());
+        var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
         foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
         {
-            _defaultLogger.Log(logLevel, eventId, state, exception, formatter!);
+            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
         }
-        
+
         logEvents.Clear();
         _logEvents.Clear();
         

@@ -4,13 +4,13 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
-public class Node<T> : INode<T>
+public class Node : INode
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
     public INpm Npm { get; }
     public INvm Nvm { get; }
 
-    public Node(INpm<T> npm, INvm<T> nvm, IModuleContext<T> context)
+    public Node(INpm npm, INvm nvm, IModuleContext context)
     {
         _context = context;
         Npm = npm;

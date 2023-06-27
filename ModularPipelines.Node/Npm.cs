@@ -5,11 +5,11 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Node;
 
-public class Npm<T> : INpm<T>
+public class Npm : INpm
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public Npm(IModuleContext<T> context)
+    public Npm(IModuleContext context)
     {
         _context = context;
     }

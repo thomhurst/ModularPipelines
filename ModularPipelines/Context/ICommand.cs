@@ -7,7 +7,3 @@ public interface ICommand
 {
     Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
 }
-
-public interface ICommand<T> : ICommand
-{
-}

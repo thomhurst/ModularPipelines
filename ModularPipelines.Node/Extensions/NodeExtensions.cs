@@ -18,11 +18,11 @@ public static class NodeExtensions
     
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(INode<>), typeof(Node<>));
-        services.TryAddSingleton(typeof(INvm<>), typeof(Nvm<>));
-        services.TryAddSingleton(typeof(INpm<>), typeof(Npm<>));
+        services.TryAddSingleton<INode, Node>();
+        services.TryAddSingleton<INvm, Nvm>();
+        services.TryAddSingleton<INpm, Npm>();
         return services;
     }
-    
-    public static INode Node(this IModuleContext context) => (INode) context.ServiceProvider.GetRequiredService(typeof(INode<>).MakeGenericType(context.ModuleType));
+
+    public static INode Node(this IModuleContext context) => context.ServiceProvider.GetRequiredService<INode>();
 }

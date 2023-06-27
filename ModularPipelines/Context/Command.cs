@@ -3,17 +3,19 @@ using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Command<T> : ICommand<T>
+internal class Command : ICommand
 {
-    private readonly ModuleLogger<T> _logger;
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private ILogger Logger => _moduleLoggerProvider.Logger;
 
-    public Command(ModuleLogger<T> logger)
+    public Command(IModuleLoggerProvider moduleLoggerProvider)
     {
-        _logger = logger;
+        _moduleLoggerProvider = moduleLoggerProvider;
     }
     
     public async Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
@@ -36,14 +38,14 @@ internal class Command<T> : ICommand<T>
 
         if (options.LogInput)
         {
-            _logger.LogInformation("Executing Command: {Input}", command.ToString());
+            Logger.LogInformation("---Executing Command---\r\n{Input}", command.ToString());
         }
 
         var result = await Of(command, cancellationToken);
 
         if (options.LogOutput)
         {
-            _logger.LogInformation("Command Result: {Output}",
+            Logger.LogInformation("---Command Result---\r\n{Output}",
                 string.IsNullOrEmpty(result.StandardError)
                     ? result.StandardOutput
                     : result.StandardError);
@@ -52,7 +54,7 @@ internal class Command<T> : ICommand<T>
         return result;
     }
 
-    public async Task<BufferedCommandResult> Of(Command command, CancellationToken cancellationToken = default)
+    public async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
     {
         var result = await command
             .WithValidation(CommandResultValidation.None)

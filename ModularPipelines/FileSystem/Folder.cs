@@ -6,6 +6,10 @@ public class Folder
 {
     private readonly DirectoryInfo _directoryInfo;
 
+    public Folder(string path) : this(new DirectoryInfo(path))
+    {
+    }
+
     internal Folder(DirectoryInfo directoryInfo)
     {
         _directoryInfo = directoryInfo;
@@ -32,6 +36,10 @@ public class Folder
     public void Delete() => _directoryInfo.Delete();
     
     public void MoveTo(string path) => _directoryInfo.MoveTo(path);
+    
+    public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
+    
+    public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
 
     public IEnumerable<Folder> GetFolders(Func<Folder,bool> predicate) => _directoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))

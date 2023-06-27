@@ -1,19 +1,19 @@
-using ModularPipelines.Helpers;
+using ModularPipelines.Context;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
 internal class ModuleInitializer : IModuleInitializer
 {
-    private readonly IModuleContextCreator _moduleContextCreator;
+    private readonly IModuleContext _moduleContext;
 
-    public ModuleInitializer(IModuleContextCreator moduleContextCreator)
+    public ModuleInitializer(IModuleContext moduleContext)
     {
-        _moduleContextCreator = moduleContextCreator;
+        _moduleContext = moduleContext;
     }
     
     public ModuleBase Initialize(ModuleBase module)
     {
-        return module.Initialize(_moduleContextCreator.CreateContext(module.GetType()));
+        return module.Initialize(_moduleContext);
     }
 }

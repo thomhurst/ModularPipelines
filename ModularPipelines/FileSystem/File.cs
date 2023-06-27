@@ -6,9 +6,18 @@ public class File
 {
     private readonly FileInfo _fileInfo;
 
+    public File(string path) : this(new FileInfo(path))
+    {
+    }
+
     internal File(FileInfo fileInfo)
     {
         _fileInfo = fileInfo;
+    }
+
+    public Task<string> ReadAsync()
+    {
+        return System.IO.File.ReadAllTextAsync(Path);
     }
 
     public bool Exists => _fileInfo.Exists;

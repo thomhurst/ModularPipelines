@@ -9,7 +9,3 @@ public interface INuGet
 
     Task<BufferedCommandResult> AddSource(NuGetSourceOptions options);
 }
-
-public interface INuGet<T> : INuGet
-{
-}

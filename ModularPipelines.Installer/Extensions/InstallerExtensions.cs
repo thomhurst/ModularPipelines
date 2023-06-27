@@ -18,10 +18,10 @@ public static class InstallerExtensions
     
     public static IServiceCollection RegisterInstallerContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IInstaller<>), typeof(Installer<>));
+        services.TryAddSingleton<IInstaller, Installer>();
         return services;
     }
-    
-    public static IInstaller Installer(this IModuleContext context) => (IInstaller) context.ServiceProvider.GetRequiredService(typeof(IInstaller<>).MakeGenericType(context.ModuleType));
+
+    public static IInstaller Installer(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IInstaller>();
 
 }

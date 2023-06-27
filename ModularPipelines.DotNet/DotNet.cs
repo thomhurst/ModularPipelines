@@ -3,16 +3,19 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.DotNet;
 
-public class DotNet<T> : IDotNet<T>
+public class DotNet : IDotNet
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
+    private readonly ITrxParser _trxParser;
 
-    public DotNet(IModuleContext<T> context)
+    public DotNet(IModuleContext context, ITrxParser trxParser)
     {
         _context = context;
+        _trxParser = trxParser;
     }
     
     public Task<BufferedCommandResult> Restore(DotNetOptions options, CancellationToken cancellationToken = default)
@@ -40,9 +43,25 @@ public class DotNet<T> : IDotNet<T>
         return RunCommand(ToDotNetCommandOptions("clean", options), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
+    public async Task<BufferedCommandResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("test", options), cancellationToken);
+        var trxFilePath = Path.GetTempFileName();
+        var argumentsWithLogger = options.ExtraArguments?.ToList() ?? new List<string>();
+        argumentsWithLogger.Add("--logger");
+        argumentsWithLogger.Add($"trx;logfilename={trxFilePath}");
+        
+        var optionsWithLogger = options with
+        {
+            ExtraArguments = argumentsWithLogger
+        };
+        
+        var command = await RunCommand(ToDotNetCommandOptions("test", optionsWithLogger), cancellationToken);
+
+        var trxContents = await _context.FileSystem.GetFile(trxFilePath).ReadAsync();
+
+        var parsedTrx = _trxParser.ParseTestResult(trxContents);
+        
+        return command;
     }
 
     public Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options, CancellationToken cancellationToken = default)

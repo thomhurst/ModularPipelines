@@ -9,7 +9,3 @@ public interface IInstaller
     Task<BufferedCommandResult> InstallFromWeb(WebInstallerOptions options,
         CancellationToken cancellationToken = default);
 }
-
-public interface IInstaller<T> : IInstaller
-{
-}

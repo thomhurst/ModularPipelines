@@ -18,12 +18,14 @@ public static class GitExtensions
     
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IGit<>), typeof(Git<>));
-        services.TryAddSingleton(typeof(IGitOperations<>), typeof(GitOperations<>));
-        services.TryAddSingleton(typeof(IGitInformation<>), typeof(GitInformation<>));
-        services.TryAddSingleton(typeof(IGitInformation<StaticGitInformation>), typeof(StaticGitInformation));
+        services.TryAddSingleton<IGit, Git>();
+        services.TryAddSingleton<IGitOperations, GitOperations>();
+        services.TryAddSingleton<IGitInformation, GitInformation>();
+        services.TryAddSingleton<StaticGitInformation>();
+        services.TryAddSingleton<GitCommandRunner>();
+        services.TryAddSingleton<IGitCommitMapper, GitCommitMapper>();
         return services;
     }
-    
-    public static IGit Git(this IModuleContext context) => (IGit) context.ServiceProvider.GetRequiredService(typeof(IGit<>).MakeGenericType(context.ModuleType));
+
+    public static IGit Git(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IGit>();
 }

@@ -1,8 +1,8 @@
 namespace ModularPipelines.Git;
 
-public class Git<T> : IGit<T>
+public class Git : IGit
 {
-    public Git(IGitOperations<T> operations, IGitInformation<T> information)
+    public Git(IGitOperations operations, IGitInformation information)
     {
         Operations = operations;
         Information = information;

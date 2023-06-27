@@ -18,10 +18,10 @@ public static class PowershellExtensions
     
     public static IServiceCollection RegisterPowershellContext(this IServiceCollection services)
     {
-        services.TryAddSingleton(typeof(IPowershell<>), typeof(Powershell<>));
+        services.TryAddSingleton<IPowershell, Powershell>();
         
         return services;
     }
     
-    public static IPowershell Powershell(this IModuleContext context) => (IPowershell) context.ServiceProvider.GetRequiredService(typeof(IPowershell<>).MakeGenericType(context.ModuleType));
+    public static IPowershell Powershell(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IPowershell>();
 }

@@ -5,11 +5,11 @@ using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Cmd;
 
-public class Cmd<T> : ICmd<T>
+public class Cmd : ICmd
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public Cmd(IModuleContext<T> context)
+    public Cmd(IModuleContext context)
     {
         _context = context;
     }

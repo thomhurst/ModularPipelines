@@ -22,6 +22,7 @@ public interface IFileSystemContext
     FileAttributes GetFileAttributes(string filePath);
     void SetFileAttributes(string filepath, FileAttributes attributes);
 
+    File GetFile(string filePath);
     IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption);
     
     IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption, Func<File, bool> predicate);
@@ -30,5 +31,6 @@ public interface IFileSystemContext
     
     IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption, Func<Folder, bool> predicate);
 
+    Folder GetFolder(string path);
     Folder GetFolder(Environment.SpecialFolder specialFolder);
 }

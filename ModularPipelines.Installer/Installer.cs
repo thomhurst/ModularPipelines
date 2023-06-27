@@ -5,11 +5,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Installer;
 
-public class Installer<T> : IInstaller<T>
+public class Installer : IInstaller
 {
-    private readonly IModuleContext<T> _context;
+    private readonly IModuleContext _context;
 
-    public Installer(IModuleContext<T> context)
+    public Installer(IModuleContext context)
     {
         _context = context;
     }

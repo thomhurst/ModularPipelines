@@ -1,6 +1,7 @@
 ﻿using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 
@@ -8,20 +9,23 @@ internal class ModuleRetriever : IModuleRetriever
 {
     private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
     private readonly IModuleInitializer _moduleInitializer;
+    private readonly IModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<ModuleBase> _modules;
 
     public ModuleRetriever(
         IModuleIgnoreHandler moduleIgnoreHandler,
         IModuleInitializer moduleInitializer,
-        IEnumerable<ModuleBase> modules
+        IEnumerable<ModuleBase> modules,
+        IModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
         _moduleIgnoreHandler = moduleIgnoreHandler;
         _moduleInitializer = moduleInitializer;
+        _estimatedTimeProvider = estimatedTimeProvider;
         _modules = modules.ToList();
     }
 
-    public OrganizedModules GetOrganizedModules()
+    public async Task<OrganizedModules> GetOrganizedModules()
     {
         if (_modules.Count == 0)
         {
@@ -38,8 +42,16 @@ internal class ModuleRetriever : IModuleRetriever
             .Except(modulesToIgnore)
             .ToList();
 
+        var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
+            .SelectAsync(async module =>
+            {
+                var estimatedTime = await _estimatedTimeProvider.GetEstimatedTimeAsync(module.GetType());
+                return new RunnableModule(module, estimatedTime);
+            })
+            .ProcessInParallel(100, TimeSpan.FromSeconds(1));
+
         return new OrganizedModules(
-            RunnableModules: modulesToProcess,
+            RunnableModules: runnableModulesWithEstimatatedDuration,
             IgnoredModules: modulesToIgnore
         );
     }

@@ -17,7 +17,3 @@ public interface IDotNet
 
     Task<BufferedCommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default);
 }
-
-public interface IDotNet<T> : IDotNet
-{
-}

@@ -5,11 +5,11 @@ using ModularPipelines.MicrosoftTeams.Options;
 
 namespace ModularPipelines.MicrosoftTeams;
 
-public class MicrosoftTeams<T> : IMicrosoftTeams<T>
+public class MicrosoftTeams : IMicrosoftTeams
 {
-    public IModuleContext<T> Context { get; }
+    public IModuleContext Context { get; }
 
-    public MicrosoftTeams(IModuleContext<T> context)
+    public MicrosoftTeams(IModuleContext context)
     {
         Context = context;
     }

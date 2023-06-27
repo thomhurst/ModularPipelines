@@ -1,30 +1,46 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines", "ModularPipelines\ModularPipelines.csproj", "{A25FAFCF-E226-4263-B3D6-732668604BD9}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines", "ModularPipelines\ModularPipelines.csproj", "{A25FAFCF-E226-4263-B3D6-732668604BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.UnitTests", "ModularPipelines.UnitTests\ModularPipelines.UnitTests.csproj", "{937A2E0D-8D4B-4B36-848E-389CD789E141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.UnitTests", "ModularPipelines.UnitTests\ModularPipelines.UnitTests.csproj", "{937A2E0D-8D4B-4B36-848E-389CD789E141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Build", "ModularPipelines.Build\ModularPipelines.Build.csproj", "{936B9B1B-D734-4757-95FE-257B852E3358}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Build", "ModularPipelines.Build\ModularPipelines.Build.csproj", "{936B9B1B-D734-4757-95FE-257B852E3358}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.DotNet", "ModularPipelines.DotNet\ModularPipelines.DotNet.csproj", "{5A0C3F55-8D46-497D-9757-9640C3A59B43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.DotNet", "ModularPipelines.DotNet\ModularPipelines.DotNet.csproj", "{5A0C3F55-8D46-497D-9757-9640C3A59B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Examples", "ModularPipelines.Examples\ModularPipelines.Examples.csproj", "{AD5E9D03-0DF0-4CA9-9E7A-4AF41ADE198B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Examples", "ModularPipelines.Examples\ModularPipelines.Examples.csproj", "{AD5E9D03-0DF0-4CA9-9E7A-4AF41ADE198B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Git", "ModularPipelines.Git\ModularPipelines.Git.csproj", "{DA86F082-5143-40C2-8EFA-F124D68FCE02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Git", "ModularPipelines.Git\ModularPipelines.Git.csproj", "{DA86F082-5143-40C2-8EFA-F124D68FCE02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.MicrosoftTeams", "ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj", "{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.MicrosoftTeams", "ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj", "{FFBA91D0-9DC8-48A7-BD8E-6EF2E436F0AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Installer", "ModularPipelines.Installer\ModularPipelines.Installer.csproj", "{D23FE24C-9416-4ABD-84BA-49720582D8A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Installer", "ModularPipelines.Installer\ModularPipelines.Installer.csproj", "{D23FE24C-9416-4ABD-84BA-49720582D8A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.NuGet", "ModularPipelines.NuGet\ModularPipelines.NuGet.csproj", "{8A6B4058-2863-4406-A651-5E334C81777F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.NuGet", "ModularPipelines.NuGet\ModularPipelines.NuGet.csproj", "{8A6B4058-2863-4406-A651-5E334C81777F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Node", "ModularPipelines.Node\ModularPipelines.Node.csproj", "{1C075CAF-7409-4941-8622-E3D3DDD876AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Node", "ModularPipelines.Node\ModularPipelines.Node.csproj", "{1C075CAF-7409-4941-8622-E3D3DDD876AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Powershell", "ModularPipelines.Powershell\ModularPipelines.Powershell.csproj", "{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Powershell", "ModularPipelines.Powershell\ModularPipelines.Powershell.csproj", "{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Cmd", "ModularPipelines.Cmd\ModularPipelines.Cmd.csproj", "{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Cmd", "ModularPipelines.Cmd\ModularPipelines.Cmd.csproj", "{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure.Pipelines", "ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj", "{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Azure.Pipelines", "ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj", "{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers", "ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj", "{C52A9D71-DE18-4923-A241-C15E4283C49F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers.CodeFixes", "ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj", "{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers.Package", "ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj", "{424DC6AE-7293-4959-9A89-771FF67610A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers.Test", "ModularPipelines.Analyzers\ModularPipelines.Analyzers.Test\ModularPipelines.Analyzers.Test.csproj", "{B8865C27-A2D9-44ED-9069-E9E509486EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers.Vsix", "ModularPipelines.Analyzers\ModularPipelines.Analyzers.Vsix\ModularPipelines.Analyzers.Vsix.csproj", "{10E4D765-AD2F-4E95-A77C-0251FAA3E05F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Docker", "ModularPipelines.Docker\ModularPipelines.Docker.csproj", "{D275C61D-E0DF-4D76-B70A-F49EB277E451}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,5 +100,42 @@ Global
 		{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52A9D71-DE18-4923-A241-C15E4283C49F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52A9D71-DE18-4923-A241-C15E4283C49F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52A9D71-DE18-4923-A241-C15E4283C49F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52A9D71-DE18-4923-A241-C15E4283C49F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{424DC6AE-7293-4959-9A89-771FF67610A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{424DC6AE-7293-4959-9A89-771FF67610A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{424DC6AE-7293-4959-9A89-771FF67610A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{424DC6AE-7293-4959-9A89-771FF67610A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8865C27-A2D9-44ED-9069-E9E509486EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8865C27-A2D9-44ED-9069-E9E509486EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8865C27-A2D9-44ED-9069-E9E509486EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8865C27-A2D9-44ED-9069-E9E509486EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10E4D765-AD2F-4E95-A77C-0251FAA3E05F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E4D765-AD2F-4E95-A77C-0251FAA3E05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E4D765-AD2F-4E95-A77C-0251FAA3E05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E4D765-AD2F-4E95-A77C-0251FAA3E05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C52A9D71-DE18-4923-A241-C15E4283C49F} = {E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}
+		{BC7E8359-E91B-4D06-A2DF-9A7F7D5481F0} = {E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}
+		{424DC6AE-7293-4959-9A89-771FF67610A2} = {E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}
+		{B8865C27-A2D9-44ED-9069-E9E509486EBE} = {E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}
+		{10E4D765-AD2F-4E95-A77C-0251FAA3E05F} = {E6E0E7C4-D3F7-4A55-8950-28F0308EB8C6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}
 	EndGlobalSection
 EndGlobal
