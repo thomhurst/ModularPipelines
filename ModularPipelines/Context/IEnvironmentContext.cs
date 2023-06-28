@@ -15,7 +15,5 @@ public interface IEnvironmentContext
 
     Folder? GetFolder(Environment.SpecialFolder specialFolder);
     
-    string? GetEnvironmentVariable(string name);
-    
-    IDictionary<string, string> GetEnvironmentVariables();
+    IEnvironmentVariables EnvironmentVariables { get; }
 }

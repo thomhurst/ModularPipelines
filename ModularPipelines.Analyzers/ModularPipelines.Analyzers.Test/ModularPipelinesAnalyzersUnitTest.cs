@@ -38,8 +38,7 @@ public class Module2 : Module
     }
 }";
 
-    private const string FixedModuleSource = @"
-#nullable enable
+    private const string FixedModuleSource = @"#nullable enable
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,7 +49,6 @@ using ModularPipelines.Modules;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
-
 public class Module1 : Module
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -60,7 +58,7 @@ public class Module1 : Module
     }
 }
 
-[DependsOn(typeof(Module1))]
+[DependsOn<Module1>]
 public class Module2 : Module
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -72,18 +70,27 @@ public class Module2 : Module
 
     //No diagnostics expected to show up
     [TestMethod]
-    public async Task TestMethod1()
+    public async Task Empty_Source()
     {
         var test = @"";
 
         await VerifyCS.VerifyAnalyzerAsync(test);
+    }
+    
+    //No diagnostics expected to show up
+    [TestMethod]
+    public async Task Good_Source()
+    {
+        var test = @"";
+
+        await VerifyCS.VerifyAnalyzerAsync(FixedModuleSource);
     }
 
     //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
     public async Task AnalyzerIsTriggered()
     {
-        var expected = VerifyCS.Diagnostic("MissingDependsOnAttribute").WithArguments("Module1").WithLocation(0);
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
             
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
     }
@@ -91,7 +98,7 @@ public class Module2 : Module
     [TestMethod]
     public async Task CodeFixWorks()
     {
-        var expected = VerifyCS.Diagnostic("MissingDependsOnAttribute").WithArguments("Module1").WithLocation(0);
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
     }

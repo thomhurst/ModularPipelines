@@ -20,7 +20,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -76,7 +76,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             var properties = new Dictionary<string, string>
             {
-                ["FullName"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).Replace("global::", string.Empty)
+                ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
@@ -114,8 +114,21 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
+        if (attributeData.AttributeClass!.IsGenericType)
+        {
+            return SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass.TypeArguments.First(), namedTypeSymbol);
+        }
+
         return attributeData.ConstructorArguments.Any(x =>
-            x.Type?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) ==
-            namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+        {
+            var argumentValue = x.Value;
+
+            if (argumentValue is INamedTypeSymbol argumentNamedTypeSymbol)
+            {
+                return SymbolEqualityComparer.Default.Equals(argumentNamedTypeSymbol, namedTypeSymbol);
+            }
+
+            return false;
+        });
     }
 }

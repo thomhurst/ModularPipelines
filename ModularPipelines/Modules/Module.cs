@@ -206,9 +206,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new ModuleReferencingSelfException("A module cannot get itself");
         }
-
-        _context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
-
+        
         return _context.GetModule<TModule>();
     }
 

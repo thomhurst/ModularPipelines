@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Installer.Options;
+﻿namespace ModularPipelines.Options;
 
 public record InstallerOptions(string Path)
 {

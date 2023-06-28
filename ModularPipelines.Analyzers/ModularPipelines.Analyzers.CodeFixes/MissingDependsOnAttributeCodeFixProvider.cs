@@ -5,16 +5,14 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Composition;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MissingDependsOnAttributeCodeFixProvider)), Shared]
 public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 {
-    public sealed override ImmutableArray<string> FixableDiagnosticIds
-    {
-        get { return ImmutableArray.Create(MissingDependsOnAttributeAnalyzer.DiagnosticId); }
-    }
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(MissingDependsOnAttributeAnalyzer.DiagnosticId);
 
     public sealed override FixAllProvider GetFixAllProvider()
     {
@@ -44,32 +42,45 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
     private async Task<Document> AddAttribute(CodeFixContext context, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
     {
         var document = context.Document;
-        var documentRoot = await document.GetSyntaxRootAsync(cancellationToken);
 
-        var name = context.Diagnostics.First().Properties["FullName"]!;
+        var syntaxTree = await context.Document.GetSyntaxTreeAsync(cancellationToken);
+        
+        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
+        
+        var name = context.Diagnostics.First().Properties["Name"]!;
 
         var attributes = typeDecl.AttributeLists.Add(
-            SyntaxFactory.AttributeList(
-                SyntaxFactory.SingletonSeparatedList(
-                    SyntaxFactory.Attribute(
-                            SyntaxFactory.IdentifierName("ModularPipelines.Attributes.DependsOnAttribute")
-                        )
-                        .WithArgumentList(
-                            SyntaxFactory.AttributeArgumentList(
-                                SyntaxFactory.SingletonSeparatedList(
-                                    SyntaxFactory.AttributeArgument(
-                                        SyntaxFactory.TypeOfExpression(SyntaxFactory.ParseTypeName(name))
-                                    )
-                                )
-                            )
-                        )
-                )).NormalizeWhitespace());
-            
-        // TODO
-        //documentRoot.DescendantNodes().OfType<UsingStatementSyntax>().Any(x => x.Statement.)
-        
+            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree)))
+                .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed)
+                .NormalizeWhitespace());
+
+
         return document.WithSyntaxRoot(
-            documentRoot!.ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes))
+            documentRoot
+                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed))
+                .AddUsings()
+                .NormalizeWhitespace()
         );
+    }
+
+    private static AttributeSyntax CreateDependsOnAttribute(string name, SyntaxTree syntaxTree)
+    {
+        var cSharpParseOptions = (CSharpParseOptions) syntaxTree.Options;
+
+        if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion) 1100)
+        {
+            return SyntaxFactory.Attribute(SyntaxFactory.ParseName($"DependsOn<{name}>"));
+        }
+
+        return SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("DependsOn"))
+            .WithArgumentList(
+                SyntaxFactory.AttributeArgumentList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.AttributeArgument(
+                            SyntaxFactory.TypeOfExpression(SyntaxFactory.ParseTypeName(name))
+                        )
+                    )
+                )
+            );
     }
 }

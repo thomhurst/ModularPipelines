@@ -6,5 +6,3 @@ internal record OrganizedModules(IReadOnlyList<RunnableModule> RunnableModules, 
 {
     public IReadOnlyList<ModuleBase> AllModules { get; } = RunnableModules.Select(x => x.Module).Concat(IgnoredModules).ToList();
 };
-
-internal record RunnableModule(ModuleBase Module, TimeSpan EstimatedDuration);

@@ -21,34 +21,29 @@ public class TrxParser : ITrxParser
     {
         return XDocument.Load(new StringReader(input)).Descendants()
             .Where(d => d.Name.LocalName == "UnitTestResult")
-            .Select(element => _xml.FromXml<UnitTestResult>(element)!)
+            .Select(ParseElement)
             .ToList();
     }
+
+    private UnitTestResult ParseElement(XElement element)
+    {
+        return new UnitTestResult
+        {
+            ExecutionId = element.Attribute("executionId")!.Value,
+            TestId = element.Attribute("testId")!.Value,
+            TestName = element.Attribute("testName")!.Value,
+            ComputerName = element.Attribute("computerName")!.Value,
+            Duration = element.Attribute("duration")!.Value,
+            StartTime = element.Attribute("startTime")!.Value,
+            EndTime = element.Attribute("endTime")!.Value,
+            TestType = element.Attribute("testType")!.Value,
+            Outcome = element.Attribute("outcome")!.Value,
+            TestListId = element.Attribute("testListId")!.Value,
+            RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")!.Value,
+            Output = new TestOutput
+            {
+                StdOut = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value
+            }
+        };
+    }
 }
-
-public interface ITrxParser
-{
-    DotNetTestResult ParseTestResult(string input);
-}
-
-public record DotNetTestResult(IReadOnlyList<UnitTestResult> UnitTestResults)
-{
-}
-
-public record UnitTestResult
-(
-    string ExecutionId,
-    string TestId,
-    string TestName,
-    string ComputerName,
-    string Duration,
-    string StartTime,
-    string EndTime,
-    string TestType,
-    string Outcome,
-    string TestListId,
-    string RelativeResultsDirectory,
-    TestOutput Output
-);
-
-public record TestOutput(string StdOut);

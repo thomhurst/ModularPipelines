@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -6,15 +7,13 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class DotnetTestModule : Module
+public class DotnetTestModule : Module<DotNetTestResult>
 {
-    protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<DotNetTestResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Test(new DotNetOptions
+        return await context.DotNet().Test(new DotNetOptions
         {
             WorkingDirectory = context.Environment.GitRootDirectory!.GetFolder("ModularPipelines.UnitTests").Path
         }, cancellationToken);
-
-        return null;
     }
 }

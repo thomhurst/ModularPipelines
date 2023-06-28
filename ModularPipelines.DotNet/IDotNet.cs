@@ -11,7 +11,7 @@ public interface IDotNet
     Task<BufferedCommandResult> Publish(DotNetOptions options, CancellationToken cancellationToken = default);
     Task<BufferedCommandResult> Pack(DotNetOptions options, CancellationToken cancellationToken = default);
     Task<BufferedCommandResult> Clean(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<BufferedCommandResult> Test(DotNetOptions options, CancellationToken cancellationToken = default);
+    Task<DotNetTestResult> Test(DotNetOptions options, CancellationToken cancellationToken = default);
 
     Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options = null, CancellationToken cancellationToken = default);
 

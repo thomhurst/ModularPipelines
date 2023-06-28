@@ -68,6 +68,22 @@ public abstract class ModuleBase
     internal abstract Task StartAsync();
     internal abstract void SetSkipped();
     internal abstract ModuleBase Initialize(IModuleContext context);
+
+    internal readonly List<SubModuleBase> SubModuleBases = new();
+
+    protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
+    {
+        var submodule = new SubModule<T>(GetType(), name, action);
+        SubModuleBases.Add(submodule);
+        return await submodule.Task;
+    }
+    
+    protected async Task SubModule(string name, Func<Task> action)
+    {
+        var submodule = new SubModule(GetType(), name, action);
+        SubModuleBases.Add(submodule);
+        await submodule.Task;
+    }
 }
 
 public abstract class ModuleBase<T> : ModuleBase

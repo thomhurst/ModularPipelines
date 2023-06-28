@@ -13,10 +13,13 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     private readonly ILogger<EnvironmentContext> _logger;
     private readonly IHostEnvironment _hostEnvironment;
 
-    public EnvironmentContext(ILogger<EnvironmentContext> logger, IHostEnvironment hostEnvironment)
+    public EnvironmentContext(ILogger<EnvironmentContext> logger, 
+        IHostEnvironment hostEnvironment, 
+        IEnvironmentVariables environmentVariables)
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
+        EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
     }
 
@@ -33,17 +36,7 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         return Environment.GetFolderPath(specialFolder);
     }
 
-    public string? GetEnvironmentVariable(string name)
-    {
-        return Environment.GetEnvironmentVariable(name);
-    }
-
-    public IDictionary<string, string> GetEnvironmentVariables()
-    {
-        return Environment.GetEnvironmentVariables()
-            .Cast<DictionaryEntry>()
-            .ToDictionary(variable => variable.Key.ToString()!, variable => variable.Value!.ToString()!);
-    }
+    public IEnvironmentVariables EnvironmentVariables { get; }
 
     public async Task InitializeAsync()
     {

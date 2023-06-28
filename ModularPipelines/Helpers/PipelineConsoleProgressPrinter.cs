@@ -48,11 +48,12 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
             
+            
             var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}", new ProgressTaskSettings
             {
                 AutoStart = false
             });
-            
+
             // Callback for Module has started
             _ = moduleToProcess.Module.StartTask.ContinueWith(async t =>
             {

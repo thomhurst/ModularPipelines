@@ -11,7 +11,6 @@
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
       <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Installer\ModularPipelines.Installer.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 

@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>ModularPipelines.Analyzers</PackageId>
-    <PackageVersion>0.0.1-alpha01</PackageVersion>
+    <PackageVersion>1.0.0-alpha06</PackageVersion>
     <Authors>Tom Longhurst</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
     <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>

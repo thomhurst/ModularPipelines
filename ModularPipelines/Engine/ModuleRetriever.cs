@@ -45,7 +45,7 @@ internal class ModuleRetriever : IModuleRetriever
         var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {
-                var estimatedTime = await _estimatedTimeProvider.GetEstimatedTimeAsync(module.GetType());
+                var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
                 return new RunnableModule(module, estimatedTime);
             })
             .ProcessInParallel(100, TimeSpan.FromSeconds(1));

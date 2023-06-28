@@ -34,7 +34,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
             services.AddTransient<IModuleContext, ModuleContext>()
                 .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
                 .AddTransient<IHttp, Http>();
-            
+
             // Singletons
             services
                 .AddSingleton<EngineCancellationToken>()
@@ -47,8 +47,13 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IModuleExecutor, ModuleExecutor>()
                 .AddSingleton(typeof(ModuleLogger<>))
                 .AddSingleton<ICommand, Command>()
+                .AddSingleton<ICertificates, Certificates>()
+                .AddSingleton<IDownloader, Downloader>()
+                .AddSingleton<IInstaller, Installer>()
+                .AddSingleton<IDependencyDetector, DependencyDetector>()
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
                 .AddSingleton<IEnvironmentContext, EnvironmentContext>()
+                .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
                 .AddSingleton<IFileSystemContext, FileSystemContext>()
                 .AddSingleton<IRequirementChecker, RequirementChecker>()
                 .AddSingleton<IModuleRetriever, ModuleRetriever>()

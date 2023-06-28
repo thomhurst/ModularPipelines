@@ -4,4 +4,4 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
-CA1000  |  Design  |  Warning | CA1000_AnalyzerName
+MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer

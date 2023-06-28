@@ -26,6 +26,7 @@ public interface IModuleContext
     public IEnvironmentContext Environment { get; }
     public IFileSystemContext FileSystem { get; }
     public ICommand Command { get; }
+    public IInstaller Installer { get; }
     public IZip Zip { get; }
     public IHex Hex { get; }
     public IBase64 Base64 { get; }

@@ -1,5 +1,6 @@
 using CliWrap.Buffered;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -7,11 +8,11 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class RunUnitTestsModule : Module<List<BufferedCommandResult>>
+public class RunUnitTestsModule : Module<List<DotNetTestResult>>
 {
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<DotNetTestResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var results = new List<BufferedCommandResult>();
+        var results = new List<DotNetTestResult>();
 
         foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!

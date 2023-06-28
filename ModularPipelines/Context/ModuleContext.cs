@@ -31,6 +31,7 @@ internal class ModuleContext : IModuleContext
     public IXml Xml { get; }
     public IModuleResultRepository ModuleResultRepository { get; }
     public ICommand Command { get; }
+    public IInstaller Installer { get; }
     public IZip Zip { get; }
     public IHex Hex { get; }
     public IBase64 Base64 { get; }
@@ -54,7 +55,7 @@ internal class ModuleContext : IModuleContext
         IZip zip, 
         IHex hex, 
         IBase64 base64, 
-        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken)
+        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken, IInstaller installer)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Zip = zip;
@@ -64,6 +65,7 @@ internal class ModuleContext : IModuleContext
         Json = json;
         Xml = xml;
         EngineCancellationToken = engineCancellationToken;
+        Installer = installer;
         ModuleResultRepository = moduleResultRepository;
         Command = command;
         Configuration = configuration;

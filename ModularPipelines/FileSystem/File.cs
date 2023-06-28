@@ -21,6 +21,8 @@ public class File
     }
 
     public bool Exists => _fileInfo.Exists;
+    
+    public bool Hidden => (_fileInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     public string Name => _fileInfo.Name;
 

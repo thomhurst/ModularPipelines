@@ -21,6 +21,10 @@ var modules = await PipelineHostBuilder.Create()
     .ConfigureServices((context, collection) =>
     {
         collection.AddModule<SuccessModule>()
+            .AddModule<DependentOnSuccessModule>()
+            .AddModule<DependentOn2>()
+            .AddModule<DependentOn3>()
+            .AddModule<DependentOn4>()
             // .AddModule<SuccessModule2>()
             // .AddModule<SuccessModule3>()
             // .AddModule<IgnoredModule>()

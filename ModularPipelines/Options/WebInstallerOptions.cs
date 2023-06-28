@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Installer.Options;
+﻿namespace ModularPipelines.Options;
 
 public record WebInstallerOptions(Uri DownloadUri)
 {

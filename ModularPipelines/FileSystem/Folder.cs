@@ -16,6 +16,8 @@ public class Folder
     }
 
     public bool Exists => _directoryInfo.Exists;
+    
+    public bool Hidden => (_directoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     public string Name => _directoryInfo.Name;
 
@@ -33,8 +35,21 @@ public class Folder
 
     public string Extension => _directoryInfo.Extension;
     
-    public void Delete() => _directoryInfo.Delete();
+    public void Delete() => _directoryInfo.Delete(true);
     
+    public void Clean()
+    {
+        foreach (var directory in _directoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
+        {
+            directory.Delete(true);
+        }
+        
+        foreach (var file in _directoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
+        {
+            file.Delete();
+        }
+    }
+
     public void MoveTo(string path) => _directoryInfo.MoveTo(path);
     
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));

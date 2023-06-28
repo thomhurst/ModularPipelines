@@ -43,7 +43,7 @@ public class DotNet : IDotNet
         return RunCommand(ToDotNetCommandOptions("clean", options), cancellationToken);
     }
 
-    public async Task<BufferedCommandResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
+    public async Task<DotNetTestResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
     {
         var trxFilePath = Path.GetTempFileName();
         var argumentsWithLogger = options.ExtraArguments?.ToList() ?? new List<string>();
@@ -59,9 +59,7 @@ public class DotNet : IDotNet
 
         var trxContents = await _context.FileSystem.GetFile(trxFilePath).ReadAsync();
 
-        var parsedTrx = _trxParser.ParseTestResult(trxContents);
-        
-        return command;
+        return _trxParser.ParseTestResult(trxContents);
     }
 
     public Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options, CancellationToken cancellationToken = default)
