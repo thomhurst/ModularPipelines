@@ -48,13 +48,23 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             return false;
         }
 
-        if (path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
+        if (path.Contains("Tests", StringComparison.OrdinalIgnoreCase))
         {
             return false;
         }
 
         if (path.EndsWith("ModularPipelines.Build.csproj")
-            || path.EndsWith("ModularPipelines.Examples.csproj"))
+            || path.Contains("Example"))
+        {
+            return false;
+        }
+        
+        if (path.EndsWith("ModularPipelines.Analyzers.Package.csproj"))
+        {
+            return true;
+        }
+
+        if (path.Contains("ModularPipelines.Analyzers"))
         {
             return false;
         }
