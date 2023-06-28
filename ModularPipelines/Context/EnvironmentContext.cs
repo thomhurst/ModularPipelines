@@ -1,4 +1,3 @@
-using System.Collections;
 using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Hosting;

@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
