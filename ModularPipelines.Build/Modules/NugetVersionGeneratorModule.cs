@@ -14,6 +14,6 @@ public class NugetVersionGeneratorModule : Module<string>
         var branchName = context.Git().Information.BranchName;
         var commitDate = context.Git().Information.LastCommitDateTime;
 
-        return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSourcePadded}";
+        return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSource}";
     }
 }
