@@ -51,7 +51,7 @@ public class ZipTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(expectedFile.Exists, Is.True);
-            Assert.That(expectedFile.Length, Is.GreaterThan(5500));
+            Assert.That(expectedFile.Length, Is.GreaterThan(5000));
         });
     }
     

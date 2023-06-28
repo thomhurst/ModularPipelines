@@ -8,6 +8,15 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class CmdTests : TestBase
 {
+    [SetUp]
+    public void Setup()
+    {
+        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+        {
+            Assert.Ignore("Cmd is Windows only");
+        }
+    }
+    
     private class CmdEchoModule : Module<BufferedCommandResult>
     {
         protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
