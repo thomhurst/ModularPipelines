@@ -25,6 +25,12 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
 
         foreach (var unitTestProjectFile in unitTestProjectFiles)
         {
+            await context.DotNet().Build(new DotNetOptions
+            {
+                TargetPath = unitTestProjectFile.Path,
+                Configuration = Configuration.Release,
+            }, cancellationToken);
+            
             results.Add(await context.DotNet().Pack(new DotNetOptions
             {
                 TargetPath = unitTestProjectFile.Path,
