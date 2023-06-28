@@ -57,7 +57,6 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         {
             TestCode = source,
             FixedCode = fixedSource,
-            CodeActionValidationMode = CodeActionValidationMode.SemanticStructure,
             ReferenceAssemblies = Net.Net60,
             TestState =
             {
