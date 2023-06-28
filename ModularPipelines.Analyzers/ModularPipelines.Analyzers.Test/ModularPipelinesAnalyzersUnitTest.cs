@@ -83,7 +83,7 @@ public class Module2 : Module
     {
         var test = @"";
 
-        await VerifyCS.VerifyAnalyzerAsync(FixedModuleSource);
+        await VerifyCS.VerifyAnalyzerAsync(NormalizeLineEndings(FixedModuleSource));
     }
 
     //Diagnostic and CodeFix both triggered and checked for
@@ -92,7 +92,7 @@ public class Module2 : Module
     {
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
             
-        await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
+        await VerifyCS.VerifyAnalyzerAsync(NormalizeLineEndings(BadModuleSource), expected);
     }
         
     [TestMethod]
@@ -100,6 +100,12 @@ public class Module2 : Module
     {
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
-        await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
+        await VerifyCS.VerifyCodeFixAsync(NormalizeLineEndings(BadModuleSource), expected, NormalizeLineEndings(FixedModuleSource));
+    }
+
+    private string NormalizeLineEndings(string input)
+    {
+        return input.Replace("\r\n", Environment.NewLine)
+            .Replace("\n", Environment.NewLine);
     }
 }
