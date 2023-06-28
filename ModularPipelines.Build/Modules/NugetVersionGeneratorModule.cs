@@ -2,6 +2,8 @@
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+// ReSharper disable HeuristicUnreachableCode
+#pragma warning disable CS0162
 
 namespace ModularPipelines.Build.Modules;
 
