@@ -105,7 +105,6 @@ public class Module2 : Module
 
     private string NormalizeLineEndings(string input)
     {
-        return input.Replace("\r\n", Environment.NewLine)
-            .Replace("\n", Environment.NewLine);
+        return input.Replace("\r\n", Environment.NewLine);
     }
 }
