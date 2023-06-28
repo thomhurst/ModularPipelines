@@ -1,8 +1,8 @@
-using ModularPipelines.Modules;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Helpers;
 
-public interface IPipelineConsolePrinter
+internal interface IPipelineConsolePrinter
 {
-    void PrintProgress(List<IModule> modulesToProcess, List<IModule> modulesToIgnore);
+    void PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken);
 }

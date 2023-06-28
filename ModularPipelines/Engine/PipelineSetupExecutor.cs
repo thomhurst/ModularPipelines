@@ -4,19 +4,19 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-public class PipelineSetupExecutor : IPipelineSetupExecutor
+internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IModuleContext _moduleContext;
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
     private readonly IEnumerable<IPipelineModuleHooks> _moduleHooks;
 
-    public PipelineSetupExecutor(IModuleContext moduleContext, 
-        IEnumerable<IPipelineGlobalHooks> globalHooks,
-        IEnumerable<IPipelineModuleHooks> moduleHooks)
+    public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
+        IEnumerable<IPipelineModuleHooks> moduleHooks, 
+        IModuleContext moduleContext)
     {
-        _moduleContext = moduleContext;
         _globalHooks = globalHooks;
         _moduleHooks = moduleHooks;
+        _moduleContext = moduleContext;
     }
     
     public Task OnStartAsync()
@@ -24,17 +24,17 @@ public class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_globalHooks.Select(x => x.OnStartAsync(_moduleContext)));
     }
 
-    public Task OnEndAsync()
+    public Task OnEndAsync(IReadOnlyList<ModuleBase> modules)
     {
-        return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(_moduleContext)));
+        return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(_moduleContext, modules)));
     }
     
-    public Task OnBeforeModuleStartAsync(IModule module)
+    public Task OnBeforeModuleStartAsync(ModuleBase module)
     {
         return Task.WhenAll(_moduleHooks.Select(x => x.OnBeforeModuleStartAsync(_moduleContext, module)));
     }
 
-    public Task OnAfterModuleEndAsync(IModule module)
+    public Task OnAfterModuleEndAsync(ModuleBase module)
     {
         return Task.WhenAll(_moduleHooks.Select(x => x.OnBeforeModuleEndAsync(_moduleContext, module)));
     }

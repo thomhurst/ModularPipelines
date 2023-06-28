@@ -34,7 +34,8 @@ public class FileSystemContext : IFileSystemContext
     
     public FileAttributes GetFileAttributes(string filePath) => System.IO.File.GetAttributes(filePath);
     public void SetFileAttributes(string filepath, FileAttributes attributes) => System.IO.File.SetAttributes(filepath, attributes);
-    
+    public File GetFile(string filePath) => new FileInfo(filePath);
+
     public IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption)
     {
         return Directory.EnumerateFiles(folderPath, "*", searchOption).Select(filePath => new File(new FileInfo(filePath)));
@@ -54,6 +55,8 @@ public class FileSystemContext : IFileSystemContext
     {
         return GetFolders(folderPath, searchOption).Where(predicate);
     }
+
+    public Folder GetFolder(string path) => new DirectoryInfo(path);
 
     public Folder GetFolder(Environment.SpecialFolder specialFolder)
     {

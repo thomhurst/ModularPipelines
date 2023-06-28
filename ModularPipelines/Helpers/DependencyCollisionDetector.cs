@@ -5,14 +5,50 @@ namespace ModularPipelines.Helpers;
 
 internal class DependencyCollisionDetector : IDependencyCollisionDetector
 {
+    private readonly IDependencyDetector _dependencyDetector;
     private readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _history = new();
 
+    public DependencyCollisionDetector(IDependencyDetector dependencyDetector)
+    {
+        _dependencyDetector = dependencyDetector;
+    }
+    
     public void CheckDependency(Type dependentType, Type dependencyType)
     {
         CheckDependency(dependentType, dependencyType, new()
         {
             $"**{dependentType.FullName}**"
         }, true);
+    }
+    
+    public void CheckDependencies()
+    {
+        foreach (var moduleDependencyModel in _dependencyDetector.ModuleDependencyModels)
+        {
+            var allDescendentDependencies = GetDescendents(moduleDependencyModel).ToList();
+
+            var backwardsDependencyReference = allDescendentDependencies.FirstOrDefault(x => x.IsDependentOn.Contains(moduleDependencyModel));
+
+            if (backwardsDependencyReference != null)
+            {
+                var index = allDescendentDependencies.IndexOf(backwardsDependencyReference);
+                var typeChain = string.Join(" -> ", allDescendentDependencies.Take(index + 1));
+                throw new DependencyCollisionException($"Dependency collision detected: {typeChain}");
+            }
+        }
+    }
+
+    private IEnumerable<ModuleDependencyModel> GetDescendents(ModuleDependencyModel moduleDependencyModel)
+    {
+        foreach (var directDependency in moduleDependencyModel.IsDependentOn)
+        {
+            yield return directDependency;
+
+            foreach (var nestedDependency in directDependency.IsDependentOn.SelectMany(GetDescendents))
+            {
+                yield return nestedDependency;
+            }
+        }
     }
 
     private void CheckDependency(Type dependentType, Type dependencyType, List<string> enumeratedTypes, bool shouldAdd)

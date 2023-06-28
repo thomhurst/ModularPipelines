@@ -10,13 +10,9 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<PackagePathsParserModule>]
 public class CreateLocalNugetFolderModule : Module<string>
 {
-    public CreateLocalNugetFolderModule(IModuleContext context) : base(context)
+    protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-    }
-
-    protected override async Task<ModuleResult<string>?> ExecuteAsync(CancellationToken cancellationToken)
-    {
-        var userAppData = Context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData).Path;
+        var userAppData = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData).Path;
 
         var localNugetRepositoryFolderPath = Path.Combine(userAppData, "ModularPipelines", "LocalNuget");
 
@@ -27,7 +23,7 @@ public class CreateLocalNugetFolderModule : Module<string>
 
         await Task.Yield();
         
-        Context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolderPath);
+        context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolderPath);
 
         return localNugetRepositoryFolderPath;
     }

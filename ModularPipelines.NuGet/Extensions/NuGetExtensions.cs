@@ -1,21 +1,30 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.Command.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.NuGet.Extensions;
 
 public static class NuGetExtensions
 {
-    public static IServiceCollection RegisterNuGetContext(this IServiceCollection services)
+#pragma warning disable CA2255
+    [ModuleInitializer]
+#pragma warning restore CA2255
+    public static void RegisterNuGetContext()
     {
-        services.RegisterCommandContext()
-            .RegisterDotNetContext();
-
-        services.TryAddSingleton<INuGet, NuGet>();
-        return services;
+        ServiceContextRegistry.RegisterContext(collection => RegisterNuGetContext(collection));
     }
     
-    public static INuGet NuGet(this IModuleContext context) => context.Get<INuGet>()!;
+    public static IServiceCollection RegisterNuGetContext(this IServiceCollection services)
+    {
+        services.RegisterDotNetContext();
+        
+        services.TryAddSingleton<INuGet, NuGet>();
+        
+        return services;
+    }
+
+    public static INuGet NuGet(this IModuleContext context) => (INuGet) context.ServiceProvider.GetRequiredService<INuGet>();
 }

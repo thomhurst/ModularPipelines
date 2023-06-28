@@ -1,5 +1,6 @@
 using CliWrap.Buffered;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -7,24 +8,21 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class RunUnitTestsModule : Module<List<BufferedCommandResult>>
+public class RunUnitTestsModule : Module<List<DotNetTestResult>>
 {
-    public RunUnitTestsModule(IModuleContext context) : base(context)
+    protected override async Task<ModuleResult<List<DotNetTestResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-    }
+        var results = new List<DotNetTestResult>();
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
-    {
-        var results = new List<BufferedCommandResult>();
-
-        foreach (var unitTestProjectFile in Context.Environment
+        foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!
                      .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                                        && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)))
         {
-            results.Add(await Context.DotNet().Test(new DotNetOptions
+            results.Add(await context.DotNet().Test(new DotNetOptions
             {
-                TargetPath = unitTestProjectFile.Path
+                TargetPath = unitTestProjectFile.Path,
+                LogOutput = false
             }, cancellationToken));
         }
 

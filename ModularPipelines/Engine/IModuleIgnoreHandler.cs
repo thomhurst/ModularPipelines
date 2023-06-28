@@ -2,7 +2,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-public interface IModuleIgnoreHandler
+internal interface IModuleIgnoreHandler
 {
-    bool ShouldIgnore(IModule module);
+    bool ShouldIgnore(ModuleBase module);
 }

@@ -1,18 +1,21 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
+using ModularPipelines.Options;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.DotNet;
 
 public class DotNet : IDotNet
 {
-    public IModuleContext Context { get; }
+    private readonly IModuleContext _context;
+    private readonly ITrxParser _trxParser;
 
-    public DotNet(IModuleContext context)
+    public DotNet(IModuleContext context, ITrxParser trxParser)
     {
-        Context = context;
+        _context = context;
+        _trxParser = trxParser;
     }
     
     public Task<BufferedCommandResult> Restore(DotNetOptions options, CancellationToken cancellationToken = default)
@@ -40,11 +43,40 @@ public class DotNet : IDotNet
         return RunCommand(ToDotNetCommandOptions("clean", options), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
+    public async Task<DotNetTestResult> Test(DotNetOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("test", options), cancellationToken);
+        var trxFilePath = Path.GetTempFileName();
+        var argumentsWithLogger = options.ExtraArguments?.ToList() ?? new List<string>();
+        argumentsWithLogger.Add("--logger");
+        argumentsWithLogger.Add($"trx;logfilename={trxFilePath}");
+        
+        var optionsWithLogger = options with
+        {
+            ExtraArguments = argumentsWithLogger
+        };
+        
+        var command = await RunCommand(ToDotNetCommandOptions("test", optionsWithLogger), cancellationToken);
+
+        var trxContents = await _context.FileSystem.GetFile(trxFilePath).ReadAsync();
+
+        return _trxParser.ParseTestResult(trxContents);
     }
-    
+
+    public Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options, CancellationToken cancellationToken = default)
+    {
+        options ??= new CommandEnvironmentOptions();
+        
+        return RunCommand(new DotNetCommandOptions
+        {
+            Command = new[] { "--version" },
+            EnvironmentVariables = options.EnvironmentVariables,
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
+        }, cancellationToken);
+    }
+
     public Task<BufferedCommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
     {
         return RunCommand(options, cancellationToken);
@@ -59,36 +91,29 @@ public class DotNet : IDotNet
             ExtraArguments = options.ExtraArguments,
             TargetPath = options.TargetPath,
             Configuration = options.Configuration,
-            WorkingDirectory = options.WorkingDirectory
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
         };
     }
 
-    private Task<BufferedCommandResult> RunCommand(DotNetCommandOptions options,
-        CancellationToken cancellationToken = default)
+    private Task<BufferedCommandResult> RunCommand(DotNetCommandOptions options, CancellationToken cancellationToken)
     {
         var arguments = options.Command?.ToList() ?? new List<string>();
 
-        if (options.TargetPath != null)
-        {
-            arguments.Add(options.TargetPath);
-        }
+        arguments.AddNonNullOrEmpty(options.TargetPath);
+        arguments.AddRangeNonNullOrEmpty(options.ExtraArguments);
+        arguments.AddNonNullOrEmptyArgumentWithSwitch("-c", options.Configuration?.ToString());
 
-        if (options.ExtraArguments != null)
-        {
-            arguments.AddRange(options.ExtraArguments);
-        }
-
-        if (options.Configuration != null)
-        {
-            arguments.Add("-c");
-            arguments.Add(options.Configuration.ToString()!);
-        }
-        
-        return Context.Command().UsingCommandLineTool(new CommandLineToolOptions("dotnet")
+        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions("dotnet")
         {
             Arguments = arguments,
             EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
         }, cancellationToken);
     }
 }

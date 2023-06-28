@@ -11,12 +11,17 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
       <ProjectReference Include="..\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.11.0" />
+      <PackageReference Include="GitVersion.MsBuild" Version="6.0.0-beta.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
     <ItemGroup>

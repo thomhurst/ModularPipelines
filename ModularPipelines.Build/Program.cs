@@ -5,11 +5,8 @@ using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
-using ModularPipelines.NuGet.Extensions;
 
 var modules = await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
@@ -21,15 +18,10 @@ var modules = await PipelineHostBuilder.Create()
     .ConfigureServices((context, collection) =>
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
-        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
 
-        collection.RegisterCommandContext()
-            .RegisterDotNetContext()
-            .RegisterNuGetContext();
-        
         collection.AddModule<RunUnitTestsModule>()
+            .AddModule<NugetVersionGeneratorModule>()
             .AddModule<PackProjectsModule>()
-            .AddModule<CleanModule>()
             .AddModule<PackageFilesRemovalModule>()
             .AddModule<PackagePathsParserModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();

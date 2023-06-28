@@ -12,5 +12,5 @@ public interface IPipelineHostBuilder
     IPipelineHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate);
     IPipelineHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate);
     IPipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate);
-    Task<IModule[]> ExecutePipelineAsync();
+    Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync();
 }

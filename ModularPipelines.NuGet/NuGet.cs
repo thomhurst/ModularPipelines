@@ -1,38 +1,39 @@
 ﻿using CliWrap.Buffered;
-using ModularPipelines.Command.Extensions;
-using ModularPipelines.Command.Options;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
 using ModularPipelines.NuGet.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet;
 
 public class NuGet : INuGet
 {
-    public IModuleContext Context { get; }
+    private readonly IModuleContext _context;
 
     public NuGet(IModuleContext context)
     {
-        Context = context;
+        _context = context;
     }
     
-    public async Task<List<BufferedCommandResult>> UploadPackage(NuGetUploadOptions options)
+    public async Task<List<BufferedCommandResult>> UploadPackages(NuGetUploadOptions options)
     {
         var results = new List<BufferedCommandResult>();
         foreach (var packagePath in options.PackagePaths)
         {
-            var commandResult = await Context.Command()
+            var arguments = new List<string>
+            { 
+                "nuget", "push", packagePath, "-n"
+            };
+
+            arguments.AddNonNullOrEmptyArgumentWithSwitch("-s", options.FeedUri.AbsoluteUri);
+            arguments.AddNonNullOrEmptyArgumentWithSwitch("-k", options.ApiKey);
+            
+            var commandResult = await _context.Command
                 .UsingCommandLineTool(new CommandLineToolOptions("dotnet")
                 {
-                    Arguments = new []
-                    { 
-                        "nuget", "push", 
-                        packagePath, 
-                        "-s", options.FeedUri.AbsoluteUri,
-                        "-k", options.ApiKey ?? string.Empty,
-                        "-n"
-                    }
+                    Arguments = arguments
                 });
             
             results.Add(commandResult);
@@ -49,21 +50,17 @@ public class NuGet : INuGet
             "-n", options.Name
         };
 
-        if (options.Username != null)
+        arguments.AddNonNullOrEmptyArgumentWithSwitch("--username", options.Username);
+        arguments.AddNonNullOrEmptyArgumentWithSwitch("--password", options.Password);
+
+        return _context.DotNet().CustomCommand(new DotNetCommandOptions
         {
-            arguments.Add("--username");
-            arguments.Add(options.Username);
-        }
-        
-        if (options.Password != null)
-        {
-            arguments.Add("--password");
-            arguments.Add(options.Password);
-        }
-        
-        return Context.DotNet().CustomCommand(new DotNetCommandOptions
-        {
-            Command = arguments
+            Command = arguments,
+            EnvironmentVariables = options.EnvironmentVariables,
+            WorkingDirectory = options.WorkingDirectory,
+            Credentials = options.Credentials,
+            LogInput = options.LogInput,
+            LogOutput = options.LogOutput
         });
     }
 }

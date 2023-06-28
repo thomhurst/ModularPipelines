@@ -1,22 +1,22 @@
-using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+// ReSharper disable SuggestBaseTypeForParameterInConstructor
 
 namespace ModularPipelines.Context;
 
 internal class ModuleContext : IModuleContext
 {
-    private readonly ILogger<ModuleContext> _logger;
-    private readonly ConcurrentDictionary<Type, object> _resolvedInstances = new();
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+
+    public ILogger Logger => _moduleLoggerProvider.Logger;
 
     public IServiceProvider ServiceProvider { get; }
-
-    public ILogger Logger => _logger;
 
     public IConfiguration Configuration { get; }
 
@@ -25,6 +25,16 @@ internal class ModuleContext : IModuleContext
     public IDependencyCollisionDetector DependencyCollisionDetector { get; }
 
     public IEnvironmentContext Environment { get; }
+
+    public IHasher Hasher { get; }
+    public IJson Json { get; }
+    public IXml Xml { get; }
+    public IModuleResultRepository ModuleResultRepository { get; }
+    public ICommand Command { get; }
+    public IInstaller Installer { get; }
+    public IZip Zip { get; }
+    public IHex Hex { get; }
+    public IBase64 Base64 { get; }
 
     public T Get<T>()
     {
@@ -37,11 +47,27 @@ internal class ModuleContext : IModuleContext
         IDependencyCollisionDetector dependencyCollisionDetector, 
         IEnvironmentContext environment, 
         IFileSystemContext fileSystem,
-        ILogger<ModuleContext> logger, 
         IConfiguration configuration, 
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        IModuleResultRepository moduleResultRepository,
+        ICommand command,
+        IModuleLoggerProvider moduleLoggerProvider, 
+        IZip zip, 
+        IHex hex, 
+        IBase64 base64, 
+        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken, IInstaller installer)
     {
-        _logger = logger;
+        _moduleLoggerProvider = moduleLoggerProvider;
+        Zip = zip;
+        Hex = hex;
+        Base64 = base64;
+        Hasher = hasher;
+        Json = json;
+        Xml = xml;
+        EngineCancellationToken = engineCancellationToken;
+        Installer = installer;
+        ModuleResultRepository = moduleResultRepository;
+        Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
         ServiceProvider = serviceProvider;
@@ -50,13 +76,15 @@ internal class ModuleContext : IModuleContext
         FileSystem = fileSystem;
     }
 
-    public TModule GetModule<TModule>() where TModule : IModule
+    public EngineCancellationToken EngineCancellationToken { get; }
+
+    public TModule GetModule<TModule>() where TModule : ModuleBase
     {
-        return ServiceProvider.GetServices<IModule>().OfType<TModule>().Single();
+        return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().Single();
     }
 
-    public IModule GetModule(Type type)
+    public ModuleBase GetModule(Type type)
     {
-        return ServiceProvider.GetServices<IModule>().Single(module => module.GetType() == type);
+        return ServiceProvider.GetServices<ModuleBase>().Single(module => module.GetType() == type);
     }
 }

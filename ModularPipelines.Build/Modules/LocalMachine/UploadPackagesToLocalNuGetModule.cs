@@ -12,28 +12,24 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<AddLocalNugetSourceModule>]
 public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResult>>
 {
-    public UploadPackagesToLocalNuGetModule(IModuleContext context) : base(context)
-    {
-    }
-
-    protected override async Task InitialiseAsync()
+    protected override async Task OnBeforeExecute(IModuleContext context)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
         
         foreach (var packagePath in packagePaths.Value!)
         {
-            Context.Logger.LogInformation("Uploading {File}", packagePath);
+            context.Logger.LogInformation("Uploading {File}", packagePath);
         }
         
-        await base.InitialiseAsync();
+        await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
-        return await Context.NuGet()
-            .UploadPackage(new NuGetUploadOptions(packagePaths.Value!, new Uri(localRepoLocation.Value!)));
+        return await context.NuGet()
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!, new Uri(localRepoLocation.Value!)));
     }
 }

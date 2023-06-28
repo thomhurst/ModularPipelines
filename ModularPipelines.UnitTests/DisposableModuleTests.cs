@@ -24,11 +24,8 @@ public class DisposableModuleTests
     public class DisposableModule : Module, IDisposable
     {
         public bool IsDisposed { get; private set; }
-        public DisposableModule(IModuleContext context) : base(context)
-        {
-        }
 
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(100, cancellationToken);
             return null;

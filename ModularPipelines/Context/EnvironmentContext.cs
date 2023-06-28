@@ -13,31 +13,30 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     private readonly ILogger<EnvironmentContext> _logger;
     private readonly IHostEnvironment _hostEnvironment;
 
-    public EnvironmentContext(ILogger<EnvironmentContext> logger, IHostEnvironment hostEnvironment)
+    public EnvironmentContext(ILogger<EnvironmentContext> logger, 
+        IHostEnvironment hostEnvironment, 
+        IEnvironmentVariables environmentVariables)
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
-        ContentDirectory = new(new DirectoryInfo(_hostEnvironment.ContentRootPath));
+        EnvironmentVariables = environmentVariables;
+        ContentDirectory = _hostEnvironment.ContentRootPath!;
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
     public OperatingSystem OperatingSystem { get; } = Environment.OSVersion;
     public bool Is64BitOperatingSystem { get; } = Environment.Is64BitOperatingSystem;
+    public Folder AppDomainDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory!;
     public Folder ContentDirectory { get; set; }
-    public Folder WorkingDirectory { get; set; } = new(new DirectoryInfo(Environment.CurrentDirectory));
+    public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
     public Folder? GitRootDirectory { get; set; }
-    
-    public string? GetEnvironmentVariable(string name)
+
+    public Folder? GetFolder(Environment.SpecialFolder specialFolder)
     {
-        return Environment.GetEnvironmentVariable(name);
+        return Environment.GetFolderPath(specialFolder);
     }
 
-    public IDictionary<string, string> GetEnvironmentVariables()
-    {
-        return Environment.GetEnvironmentVariables()
-            .Cast<DictionaryEntry>()
-            .ToDictionary(variable => variable.Key.ToString()!, variable => variable.Value!.ToString()!);
-    }
+    public IEnvironmentVariables EnvironmentVariables { get; }
 
     public async Task InitializeAsync()
     {

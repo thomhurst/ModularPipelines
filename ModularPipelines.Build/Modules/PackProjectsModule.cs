@@ -1,8 +1,6 @@
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -15,29 +13,26 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackageFilesRemovalModule>]
 public class PackProjectsModule : Module<List<BufferedCommandResult>>
 {
-    private readonly IOptions<PublishSettings> _options;
-
-    public PackProjectsModule(IModuleContext context, IOptions<PublishSettings> options) : base(context)
-    {
-        _options = options;
-    }
-
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var results = new List<BufferedCommandResult>();
 
-        foreach (var unitTestProjectFile in Context.Environment
-                     .GitRootDirectory!
-                     .GetFiles(GetProjectsPredicate))
+        var packageVersion = await GetModule<NugetVersionGeneratorModule>();
+
+        var unitTestProjectFiles = context.Environment
+            .GitRootDirectory!
+            .GetFiles(f => GetProjectsPredicate(f, context));
+
+        foreach (var unitTestProjectFile in unitTestProjectFiles)
         {
-            results.Add(await Context.DotNet().Pack(new DotNetOptions
+            results.Add(await context.DotNet().Pack(new DotNetOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 Configuration = Configuration.Release,
                 ExtraArguments = new List<string>
                 {
-                    $"/p:PackageVersion={_options.Value.Version}",
-                    $"/p:Version={_options.Value.Version}"
+                    $"/p:PackageVersion={packageVersion.Value}",
+                    $"/p:Version={packageVersion.Value}"
                 }
             }, cancellationToken));
         }
@@ -45,7 +40,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
         return results;
     }
 
-    private bool GetProjectsPredicate(File file)
+    private bool GetProjectsPredicate(File file, IModuleContext context)
     {
         var path = file.Path;
         if (!path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
@@ -64,7 +59,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             return false;
         }
         
-        Context.Logger.LogInformation("Found File: {File}", path);
+        context.Logger.LogInformation("Found File: {File}", path);
 
         return true;
     }

@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,27 +15,56 @@ namespace ModularPipelines.Host;
 public class PipelineHostBuilder : IPipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
+    private readonly PipelineEngineOverrides _overrides;
 
     internal PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
+        _overrides = new PipelineEngineOverrides(_internalHost);
         _internalHost.ConfigureServices(services =>
         {
+            // Bundles
             services
                 .Configure<PipelineOptions>(_ => {})
                 .AddLogging()
                 .AddHttpClient()
-                .AddInitializers()
+                .AddInitializers();
+            
+            // Transient
+            services.AddTransient<IModuleContext, ModuleContext>()
+                .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
+                .AddTransient<IHttp, Http>();
+
+            // Singletons
+            services
+                .AddSingleton<EngineCancellationToken>()
                 .AddSingleton<IPipelineInitializer, PipelineInitializer>()
                 .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
+                .AddSingleton<IModuleInitializer, ModuleInitializer>()
                 .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
-                .AddSingleton<IPipelineConsolePrinter, PipelineConsolePrinter>()
+                .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
                 .AddSingleton<IPipelineExecutor, PipelineExecutor>()
-                .AddSingleton<IModuleContext, ModuleContext>()
+                .AddSingleton<IModuleExecutor, ModuleExecutor>()
+                .AddSingleton(typeof(ModuleLogger<>))
+                .AddSingleton<ICommand, Command>()
+                .AddSingleton<ICertificates, Certificates>()
+                .AddSingleton<IDownloader, Downloader>()
+                .AddSingleton<IInstaller, Installer>()
+                .AddSingleton<IDependencyDetector, DependencyDetector>()
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
                 .AddSingleton<IEnvironmentContext, EnvironmentContext>()
+                .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
                 .AddSingleton<IFileSystemContext, FileSystemContext>()
-                .AddSingleton<IRequirementChecker, RequirementChecker>();
+                .AddSingleton<IRequirementChecker, RequirementChecker>()
+                .AddSingleton<IModuleRetriever, ModuleRetriever>()
+                .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
+                .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
+                .AddSingleton<IHasher, Hasher>()
+                .AddSingleton<IBase64, Base64>()
+                .AddSingleton<IHex, Hex>()
+                .AddSingleton<IZip, Zip>()
+                .AddSingleton<IJson, Json>()
+                .AddSingleton<IXml, Xml>();
         });
     }
 
@@ -55,17 +86,79 @@ public class PipelineHostBuilder : IPipelineHostBuilder
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
-            
             collection.Configure<PipelineOptions>(options => configureDelegate(context, options));
         });
         
         return this;
     }
-
-    public async Task<IModule[]> ExecutePipelineAsync()
+    
+    public IPipelineHostBuilder ConfigureOverrides(Action<PipelineEngineOverrides> configureDelegate)
     {
+        configureDelegate(_overrides);
+        return this;
+    }
+
+    public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
+    {
+        LoadModularPipelineAssembliesIfNotLoadedYet();
+        
+        _internalHost.ConfigureServices(collection =>
+        {
+            foreach (var contextRegistrationDelegate in ServiceContextRegistry.ContextRegistrationDelegates)
+            {
+                contextRegistrationDelegate(collection);
+            }
+        });
+        
         var host = _internalHost.Build();
+        
         await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
-        return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+
+        try
+        {
+            return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+        }
+        finally
+        {
+            await ((ServiceProvider) host.Services).DisposeAsync();
+        }
+    }
+
+    private void LoadModularPipelineAssembliesIfNotLoadedYet()
+    {
+        var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        var unloadedModularPipelineAssemblies = GetDlls()
+            .Select(Path.GetFileNameWithoutExtension)
+            .Except(currentAssemblies.Select(x => x.GetName().Name))
+            .OfType<string>()
+            .ToList();
+        
+        foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
+        {
+            Assembly.Load(new AssemblyName(modularPipelineAssembly));
+        }
+        
+        foreach (var assembly in AppDomain.CurrentDomain
+                     .GetAssemblies()
+                     .Where(a => a.GetName().Name?.Contains("ModularPipeline", StringComparison.InvariantCultureIgnoreCase) == true))
+        {
+            RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+        }
+    }
+
+    private static IEnumerable<string> GetDlls()
+    {
+        var baseDirectoryDlls = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly);
+
+        if (string.IsNullOrEmpty(AppDomain.CurrentDomain.DynamicDirectory))
+        {
+            return baseDirectoryDlls;
+        }
+        
+        return baseDirectoryDlls
+            .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
+            .Distinct();
+
     }
 }

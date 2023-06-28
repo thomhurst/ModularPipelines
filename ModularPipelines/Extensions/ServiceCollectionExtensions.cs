@@ -8,19 +8,19 @@ namespace ModularPipelines.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-     public static IServiceCollection AddModule<TModule>(this IServiceCollection services) where TModule : class, IModule
+     public static IServiceCollection AddModule<TModule>(this IServiceCollection services) where TModule : ModuleBase
     {
-        return services.AddSingleton<IModule, TModule>();
+        return services.AddSingleton<ModuleBase, TModule>();
     }
     
-    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule) where TModule : class, IModule
+    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule) where TModule : ModuleBase
     {
-        return services.AddSingleton<IModule>(tModule);
+        return services.AddSingleton<ModuleBase>(tModule);
     }
     
-    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory) where TModule : class, IModule
+    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory) where TModule : ModuleBase
     {
-        return services.AddSingleton<IModule>(tModuleFactory);
+        return services.AddSingleton<ModuleBase>(tModuleFactory);
     }
     
     public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services) where TRequirement : class, IPipelineRequirement
@@ -46,13 +46,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var modules = assembly.GetTypes()
-            .Where(type => type.IsAssignableTo(typeof(IModule)))
+            .Where(type => type.IsAssignableTo(typeof(ModuleBase)))
             .Where(type => type.IsClass)
             .Where(type => !type.IsAbstract);
 
         foreach (var module in modules)
         {
-            services.AddSingleton(typeof(IModule), module);
+            services.AddSingleton(typeof(ModuleBase), module);
         }
 
         return services;

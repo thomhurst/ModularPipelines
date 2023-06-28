@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -9,14 +10,29 @@ namespace ModularPipelines.Context;
 
 public interface IModuleContext
 {
-    internal TModule GetModule<TModule>() where TModule : IModule;
-    internal IModule GetModule(Type type);
+    internal EngineCancellationToken EngineCancellationToken { get; }
+    internal TModule GetModule<TModule>() where TModule : ModuleBase;
+    internal ModuleBase GetModule(Type type);
     public IServiceProvider ServiceProvider { get; }
-    public ILogger Logger { get; }
     public IConfiguration Configuration { get; }
     public IOptions<PipelineOptions> PipelineOptions { get; }
     internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
+    internal IModuleResultRepository ModuleResultRepository { get; }
+    public T? Get<T>();
+    public ILogger Logger { get; }
+
+    #region Helpers
+
     public IEnvironmentContext Environment { get; }
     public IFileSystemContext FileSystem { get; }
-    public T? Get<T>();
+    public ICommand Command { get; }
+    public IInstaller Installer { get; }
+    public IZip Zip { get; }
+    public IHex Hex { get; }
+    public IBase64 Base64 { get; }
+    public IHasher Hasher { get; }
+    public IJson Json { get; }
+    public IXml Xml { get; }
+
+    #endregion
 }

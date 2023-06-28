@@ -1,8 +1,9 @@
 namespace ModularPipelines.Options;
 
-public class PipelineOptions
+public record PipelineOptions
 {
-    public bool StopOnFirstException { get; set; }
+    public ExecutionMode ExecutionMode { get; set; } = ExecutionMode.StopOnFirstException;
     public string[]? RunOnlyCategories { get; set; }
     public string[]? IgnoreCategories { get; set; }
+    public ModuleLoggerOptions LoggerOptions { get; } = new();
 }

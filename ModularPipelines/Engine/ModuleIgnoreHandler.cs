@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-public class ModuleIgnoreHandler : IModuleIgnoreHandler
+internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
@@ -15,12 +15,18 @@ public class ModuleIgnoreHandler : IModuleIgnoreHandler
         _pipelineOptions = pipelineOptions;
     }
     
-    public bool ShouldIgnore(IModule module)
+    public bool ShouldIgnore(ModuleBase module)
     {
-        return module.ShouldSkip || IsIgnoreCategory(module) || !IsRunnableCategory(module);
+        if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
+        {
+            module.SetSkipped();
+            return true;
+        }
+
+        return false;
     }
 
-    private bool IsRunnableCategory(IModule module)
+    private bool IsRunnableCategory(ModuleBase module)
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
         
@@ -34,7 +40,7 @@ public class ModuleIgnoreHandler : IModuleIgnoreHandler
         return category != null && !runOnlyCategories.Contains(category.Category);
     }
 
-    private bool IsIgnoreCategory(IModule module)
+    private bool IsIgnoreCategory(ModuleBase module)
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
         

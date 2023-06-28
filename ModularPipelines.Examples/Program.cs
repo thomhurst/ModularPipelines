@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
-using ModularPipelines.Requirements;
+using ModularPipelines.Options;
 
 var modules = await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
@@ -15,17 +15,26 @@ var modules = await PipelineHostBuilder.Create()
     })
     .ConfigurePipelineOptions((context, options) =>
     {
+        options.ExecutionMode = ExecutionMode.StopOnFirstException;
         options.IgnoreCategories = new[] { "Ignore" };
     })
     .ConfigureServices((context, collection) =>
     {
         collection.AddModule<SuccessModule>()
-            .AddModule<SuccessModule2>()
-            .AddModule<SuccessModule3>()
-            .AddModule<IgnoredModule>()
-            .AddModule<FailedModule>()
-            .AddModule<GitVersionModule>()
-            .AddModule<NotepadPlusPlusInstallerModule>()
-            .AddRequirement<WindowsAdminRequirement>();
+            .AddModule<DependentOnSuccessModule>()
+            .AddModule<DependentOn2>()
+            .AddModule<DependentOn3>()
+            .AddModule<DependentOn4>()
+            // .AddModule<SuccessModule2>()
+            // .AddModule<SuccessModule3>()
+            // .AddModule<IgnoredModule>()
+            // .AddModule<FailedModule>()
+            // .AddModule<GitVersionModule>()
+            .AddModule<GitLastCommitModule>()
+            .AddModule<DotnetTestModule>();
+        // .AddModule<DependentOnSuccessModule>()
+        // .AddModule<NugetVersionGeneratorModule>();
+        //.AddModule<NotepadPlusPlusInstallerModule>()
+        //.AddRequirement<WindowsAdminRequirement>();
     })
     .ExecutePipelineAsync();
