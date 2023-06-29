@@ -49,6 +49,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
     private bool GetProjectsPredicate(File file, IModuleContext context)
     {
         var path = file.Path;
+        
         if (!path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
         {
             return false;
