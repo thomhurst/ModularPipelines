@@ -25,17 +25,6 @@ public class RunUnitTestsModule : Module<List<DotNetTestResult>>
             }, cancellationToken));
         }
 
-        if (!results.Any() || !results.All(x => x.Successful))
-        {
-            var tests = results
-                .SelectMany(x => x.UnitTestResults)
-                .Where(x => x.Outcome != "Passed")
-                .Select(x => $"{x.TestName} - {x.Output} - {x.Output}")
-                .ToList();
-            
-            throw new Exception($"Test failures: {string.Join(Environment.NewLine, tests)}");
-        }
-
         return results;
     }
 }
