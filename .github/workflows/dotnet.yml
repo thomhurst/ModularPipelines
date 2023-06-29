@@ -18,13 +18,12 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: GitHub Action to Setup GitVersion
-      # You may pin to the exact commit or the version.
-      # uses: StanleyGoldman/setup-gitversion@a374f5e1b8c33fb6efd03c402cb511f02eafa245
-      uses: StanleyGoldman/setup-gitversion@v1.0.1
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
       with:
-        gitversion-version: 5.x
-        run-gitversion: true
+        versionSpec: '5.x'
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
