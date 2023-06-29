@@ -31,5 +31,5 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Run Pipeline
-      run: dotnet run --project "ModularPipelines.Build\ModularPipelines.Build.csproj"
+      run: dotnet run -c Release
       working-directory: "ModularPipelines.Build"
