@@ -20,10 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj"
-                        PrivateAssets="all"
-                        ReferenceOutputAssembly="false"
-                        OutputItemType="Analyzer"
-                        SetTargetFramework="TargetFramework=netstandard2.0"/>
+      Name="ModularPipelines.Analyzers" />
     </ItemGroup>
 
 </Project>

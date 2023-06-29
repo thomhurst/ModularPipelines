@@ -23,16 +23,8 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             .GitRootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context));
 
-        var index = 0;
         foreach (var projectFile in projectFiles)
         {
-            index++;
-
-            if (index == 11)
-            {
-                Console.WriteLine("break");
-            }
-            
             await context.DotNet().Build(new DotNetOptions
             {
                 TargetPath = projectFile.Path,
