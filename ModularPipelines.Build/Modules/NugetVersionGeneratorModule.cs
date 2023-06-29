@@ -14,7 +14,7 @@ public class NugetVersionGeneratorModule : Module<string>
 
         if (GitVersionInformation.BranchName == "main")
         {
-            return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}";
+            return GitVersionInformation.SemVer;
         }
         
         return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSource}";
