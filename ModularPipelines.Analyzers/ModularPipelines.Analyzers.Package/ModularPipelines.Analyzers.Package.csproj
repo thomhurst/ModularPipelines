@@ -4,12 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectFile)' == 'ModularPipelines.Analyzers.Package.csproj'">
     <PackageId>ModularPipelines.Analyzers</PackageId>
-    <PackageVersion>1.0.0-alpha06</PackageVersion>
     <Authors>Tom Longhurst</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
     <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>

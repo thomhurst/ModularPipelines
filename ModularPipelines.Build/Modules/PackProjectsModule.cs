@@ -19,21 +19,29 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
 
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
 
-        var unitTestProjectFiles = context.Environment
+        var projectFiles = context.Environment
             .GitRootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context));
 
-        foreach (var unitTestProjectFile in unitTestProjectFiles)
+        var index = 0;
+        foreach (var projectFile in projectFiles)
         {
+            index++;
+
+            if (index == 11)
+            {
+                Console.WriteLine("break");
+            }
+            
             await context.DotNet().Build(new DotNetOptions
             {
-                TargetPath = unitTestProjectFile.Path,
+                TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
             }, cancellationToken);
             
             results.Add(await context.DotNet().Pack(new DotNetOptions
             {
-                TargetPath = unitTestProjectFile.Path,
+                TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
                 ExtraArguments = new List<string>
                 {

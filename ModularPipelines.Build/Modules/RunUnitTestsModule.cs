@@ -25,6 +25,11 @@ public class RunUnitTestsModule : Module<List<DotNetTestResult>>
             }, cancellationToken));
         }
 
+        if (!results.Any() || !results.All(x => x.Successful))
+        {
+            throw new Exception("Test failures.");
+        }
+
         return results;
     }
 }
