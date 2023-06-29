@@ -37,6 +37,11 @@ public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
 
     protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        if (GitVersionInformation.BranchName != "main")
+        {
+            return await NothingAsync();
+        }
+        
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
