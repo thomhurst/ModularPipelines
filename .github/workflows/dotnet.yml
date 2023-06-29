@@ -34,9 +34,7 @@ jobs:
     - name: Run Pipeline
       run: dotnet run -c Release
       working-directory: "ModularPipelines.Build"
-      env:
-        NuGet__ApiKey: '${{ secrets.NuGet__ApiKey }}'
-
+      
   release:
       environment: Production
       if: github.ref == 'refs/heads/main'
