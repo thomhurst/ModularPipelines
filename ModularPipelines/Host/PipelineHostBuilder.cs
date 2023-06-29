@@ -57,6 +57,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IFileSystemContext, FileSystemContext>()
                 .AddSingleton<IRequirementChecker, RequirementChecker>()
                 .AddSingleton<IModuleRetriever, ModuleRetriever>()
+                .AddSingleton<IModuleResultPrinter, ModuleResultPrinter>()
                 .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
                 .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
                 .AddSingleton<IHasher, Hasher>()

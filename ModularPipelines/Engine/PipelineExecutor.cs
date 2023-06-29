@@ -14,6 +14,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDependencyDetector _dependencyDetector;
     private readonly IDependencyCollisionDetector _dependencyCollisionDetector;
+    private readonly IModuleResultPrinter _moduleResultPrinter;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -23,7 +24,8 @@ internal class PipelineExecutor : IPipelineExecutor
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         IDependencyDetector dependencyDetector,
-        IDependencyCollisionDetector dependencyCollisionDetector)
+        IDependencyCollisionDetector dependencyCollisionDetector,
+        IModuleResultPrinter moduleResultPrinter)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineConsolePrinter = pipelineConsolePrinter;
@@ -33,6 +35,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _engineCancellationToken = engineCancellationToken;
         _dependencyDetector = dependencyDetector;
         _dependencyCollisionDetector = dependencyCollisionDetector;
+        _moduleResultPrinter = moduleResultPrinter;
     }
     
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
@@ -72,6 +75,8 @@ internal class PipelineExecutor : IPipelineExecutor
             await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
 
             await Task.Delay(200);
+            
+            _moduleResultPrinter.PrintModuleResults();
         }
 
         return organizedModules.AllModules;
