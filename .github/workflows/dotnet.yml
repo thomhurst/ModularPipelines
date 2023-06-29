@@ -24,6 +24,8 @@ jobs:
         versionSpec: '5.x'
     - name: Determine Version
       uses: gittools/actions/gitversion/execute@v0
+      with:
+        useConfigFile: true
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
