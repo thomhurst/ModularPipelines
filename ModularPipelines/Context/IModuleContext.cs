@@ -11,8 +11,8 @@ namespace ModularPipelines.Context;
 public interface IModuleContext
 {
     internal EngineCancellationToken EngineCancellationToken { get; }
-    internal TModule GetModule<TModule>() where TModule : ModuleBase;
-    internal ModuleBase GetModule(Type type);
+    internal TModule? GetModule<TModule>() where TModule : ModuleBase;
+    internal ModuleBase? GetModule(Type type);
     public IServiceProvider ServiceProvider { get; }
     public IConfiguration Configuration { get; }
     public IOptions<PipelineOptions> PipelineOptions { get; }

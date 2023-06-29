@@ -16,6 +16,8 @@ public class DependsOnAttribute : Attribute
         
         Type = type;
     }
+    
+    public bool IgnoreIfNotRegistered { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]

@@ -21,7 +21,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     
-    private readonly List<Type> _dependentModules = new();
+    private readonly List<DependsOnAttribute> _dependentModules = new();
 
     private bool _initialized;
     private IModuleContext _context = null!; // Late Initialisation
@@ -30,12 +30,14 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         foreach (var customAttribute in GetType().GetCustomAttributes<DependsOnAttribute>(true))
         {
-            AddDependency(customAttribute.Type);
+            AddDependency(customAttribute);
         }
     }
 
-    private void AddDependency(Type type)
+    private void AddDependency(DependsOnAttribute dependsOnAttribute)
     {
+        var type = dependsOnAttribute.Type;
+        
         if (type == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
@@ -46,14 +48,14 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
         
-        _dependentModules.Add(type);
+        _dependentModules.Add(dependsOnAttribute);
     }
 
     private void CheckDependencyConflicts()
     {
         foreach (var dependentModule in _dependentModules)
         {
-            _context.DependencyCollisionDetector.CheckDependency(GetType(), dependentModule);
+            _context.DependencyCollisionDetector.CheckDependency(GetType(), dependentModule.Type);
         }
     }
 
@@ -201,6 +203,24 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     protected TModule GetModule<TModule>() where TModule : ModuleBase
     {
+        var module = GetModuleIfRegistered<TModule>();
+
+        if (module is null)
+        {
+            throw new ModuleNotRegisteredException(
+                $"The module {typeof(TModule)} has not been registered", null);
+        }
+        
+        return module;
+    }
+
+    protected TModule? GetModuleIfRegistered<TModule>() where TModule : ModuleBase
+    {
+        if (!_initialized)
+        {
+            throw new ModuleNotInitializedException(GetType());
+        }
+        
         if (typeof(TModule) == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot get itself");
@@ -209,24 +229,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         _context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
 
         return _context.GetModule<TModule>();
-    }
-
-    protected async Task WaitForModule<TModule>() where TModule : ModuleBase
-    {
-        var module = GetModule<TModule>();
-
-        var stopwatch = Stopwatch.StartNew();
-        
-        _context.Logger.LogDebug("Waiting for Module {ModuleType}", typeof(TModule).FullName);
-
-        var result = await module.ResultTaskInternal;
-
-        if (IsSkippedResult(result))
-        {
-            throw new DependsOnSkippedModuleException(this, module);
-        }
-        
-        _context.Logger.LogDebug("Finished waiting for Module {ModuleType} after {Elapsed}", typeof(TModule).FullName, stopwatch.Elapsed);
     }
 
     private async Task WaitForModuleDependencies()
@@ -238,13 +240,29 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            var modules = _dependentModules.Select(_context.GetModule).ToList();
+            var modules = _dependentModules.Select(x => _context.GetModule(x.Type)).ToList();
 
-            var tasks = modules.Select(module => module.ResultTaskInternal);
+            var tasks = _dependentModules.Select(dependsOnAttribute =>
+            {
+                var module = _context.GetModule(dependsOnAttribute.Type);
+
+                if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
+                {
+                    return Task.CompletedTask;
+                }
+
+                if (module is null)
+                {
+                    throw new ModuleNotRegisteredException(
+                        $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
+                }
+
+                return module.ResultTaskInternal;
+            });
 
             await Task.WhenAll(tasks);
 
-            foreach (var moduleBase in modules)
+            foreach (var moduleBase in modules.OfType<ModuleBase>())
             {
                 var result = await moduleBase.ResultTaskInternal;
                 if (IsSkippedResult(result))

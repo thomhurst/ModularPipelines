@@ -78,13 +78,13 @@ internal class ModuleContext : IModuleContext
 
     public EngineCancellationToken EngineCancellationToken { get; }
 
-    public TModule GetModule<TModule>() where TModule : ModuleBase
+    public TModule? GetModule<TModule>() where TModule : ModuleBase
     {
-        return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().Single();
+        return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().SingleOrDefault();
     }
 
-    public ModuleBase GetModule(Type type)
+    public ModuleBase? GetModule(Type type)
     {
-        return ServiceProvider.GetServices<ModuleBase>().Single(module => module.GetType() == type);
+        return ServiceProvider.GetServices<ModuleBase>().SingleOrDefault(module => module.GetType() == type);
     }
 }
