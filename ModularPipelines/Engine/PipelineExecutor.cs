@@ -39,7 +39,7 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         _dependencyDetector.Print();
         
-        _dependencyCollisionDetector.CheckDependencies();
+        //_dependencyCollisionDetector.CheckDependencies();
         
         await _pipelineSetupExecutor.OnStartAsync();
 

@@ -73,8 +73,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            CheckDependencyConflicts();
-            
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             await WaitForModuleDependencies();
@@ -176,6 +174,9 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override ModuleBase Initialize(IModuleContext context)
     {
         _context = context;
+        
+        CheckDependencyConflicts();
+        
         _initialized = true;
         return this;
     }
