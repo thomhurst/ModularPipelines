@@ -38,17 +38,21 @@ internal class Command : ICommand
 
         if (options.LogInput)
         {
-            Logger.LogInformation("---Executing Command---\r\n{Input}", command.ToString());
+            var inputManipulator = options.InputManipulator ?? (s => s);
+
+            Logger.LogInformation("---Executing Command---\r\n{Input}", inputManipulator(command.ToString()));
         }
 
         var result = await Of(command, cancellationToken);
 
         if (options.LogOutput)
         {
+            var outputManipulator = options.OutputManipulator ?? (s => s);
+            
             Logger.LogInformation("---Command Result---\r\n{Output}",
                 string.IsNullOrEmpty(result.StandardError)
-                    ? result.StandardOutput
-                    : result.StandardError);
+                    ? outputManipulator(result.StandardOutput)
+                    : outputManipulator(result.StandardError));
         }
 
         return result;
