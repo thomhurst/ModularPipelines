@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 // ReSharper disable HeuristicUnreachableCode
@@ -18,5 +19,11 @@ public class NugetVersionGeneratorModule : Module<string>
         }
         
         return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSource}";
+    }
+
+    protected override async Task OnAfterExecute(IModuleContext context)
+    {
+        var moduleResult = await this;
+        context.Logger.LogInformation("NuGet Version to Package: {Version}", moduleResult.Value);
     }
 }
