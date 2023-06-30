@@ -29,6 +29,7 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
+                LogOutput = false
             }, cancellationToken);
             
             results.Add(await context.DotNet().Pack(new DotNetOptions
