@@ -24,7 +24,7 @@ public class NestedCollisionTests
                 })
                 .ExecutePipelineAsync(), 
             Throws.Exception.TypeOf<DependencyCollisionException>()
-                .With.Message.EqualTo("Dependency collision detected: **ModularPipelines.UnitTests.NestedCollisionTests+DependencyConflictModule5** -> ModularPipelines.UnitTests.NestedCollisionTests+DependencyConflictModule2 -> ModularPipelines.UnitTests.NestedCollisionTests+DependencyConflictModule3 -> ModularPipelines.UnitTests.NestedCollisionTests+DependencyConflictModule4 -> **ModularPipelines.UnitTests.NestedCollisionTests+DependencyConflictModule5**"));
+                .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**"));
     }
     
     [DependsOn<DependencyConflictModule2>]

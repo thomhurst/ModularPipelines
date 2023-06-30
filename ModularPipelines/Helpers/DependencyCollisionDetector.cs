@@ -1,79 +1,47 @@
-using System.Collections.Concurrent;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Helpers;
 
 internal class DependencyCollisionDetector : IDependencyCollisionDetector
 {
-    private readonly IDependencyDetector _dependencyDetector;
-    private readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _history = new();
+    private readonly IDependencyChainProvider _dependencyChainProvider;
 
-    public DependencyCollisionDetector(IDependencyDetector dependencyDetector)
+    public DependencyCollisionDetector(IDependencyChainProvider dependencyChainProvider)
     {
-        _dependencyDetector = dependencyDetector;
+        _dependencyChainProvider = dependencyChainProvider;
     }
-    
-    public void CheckDependency(Type dependentType, Type dependencyType)
-    {
-        CheckDependency(dependentType, dependencyType, new()
-        {
-            $"**{dependentType.FullName}**"
-        }, true);
-    }
-    
-    public void CheckDependencies()
-    {
-        foreach (var moduleDependencyModel in _dependencyDetector.ModuleDependencyModels)
-        {
-            var allDescendentDependencies = GetDescendents(moduleDependencyModel).ToList();
 
-            var backwardsDependencyReference = allDescendentDependencies.FirstOrDefault(x => x.IsDependentOn.Contains(moduleDependencyModel));
-
-            if (backwardsDependencyReference != null)
-            {
-                var index = allDescendentDependencies.IndexOf(backwardsDependencyReference);
-                var typeChain = string.Join(" -> ", allDescendentDependencies.Take(index + 1));
-                throw new DependencyCollisionException($"Dependency collision detected: {typeChain}");
-            }
+    public void CheckCollisions()
+    {
+        foreach (var moduleDependencyModel in _dependencyChainProvider.ModuleDependencyModels)
+        {
+            CheckCollision(moduleDependencyModel);
         }
     }
 
-    private IEnumerable<ModuleDependencyModel> GetDescendents(ModuleDependencyModel moduleDependencyModel)
+    private static void CheckCollision(ModuleDependencyModel moduleDependencyModel)
     {
-        foreach (var directDependency in moduleDependencyModel.IsDependentOn)
+        var allDescendentDependenciesAndSelf = moduleDependencyModel.AllDescendantDependenciesAndSelf().ToList();
+        var allDescendentDependencies = allDescendentDependenciesAndSelf.Skip(1).ToList();
+
+        if (!allDescendentDependencies.Contains(moduleDependencyModel))
         {
-            yield return directDependency;
-
-            foreach (var nestedDependency in directDependency.IsDependentOn.SelectMany(GetDescendents))
-            {
-                yield return nestedDependency;
-            }
+            return;
         }
-    }
 
-    private void CheckDependency(Type dependentType, Type dependencyType, List<string> enumeratedTypes, bool shouldAdd)
-    {
-        enumeratedTypes.Add(dependencyType.FullName!);
+        var index = allDescendentDependencies.IndexOf(moduleDependencyModel) + 1;
+
+        var formattedArray = allDescendentDependenciesAndSelf
+            .Take(index + 1)
+            .Select(x => x.Module.GetType().Name)
+            .ToArray();
         
-        var existingDependenciesOfDependencyToAdd = _history.GetOrAdd(dependencyType, new ConcurrentBag<Type>());
+        formattedArray[0] = $"**{formattedArray[0]}**";
+        formattedArray[^1] = $"**{formattedArray[^1]}**";
 
-        if (existingDependenciesOfDependencyToAdd.Contains(dependentType))
-        {
-            enumeratedTypes.Add($"**{dependentType.FullName}**");
-            var typeChain = string.Join(" -> ", enumeratedTypes);
-            throw new DependencyCollisionException($"Dependency collision detected: {typeChain}");
-        }
-        
-        foreach (var innerDependencyType in existingDependenciesOfDependencyToAdd)
-        {
-            CheckDependency(dependentType, innerDependencyType, enumeratedTypes.ToList(), false);
-        }
-
-        if (shouldAdd)
-        {
-            var existingDependencies = _history.GetOrAdd(dependentType, new ConcurrentBag<Type>());
-
-            existingDependencies.Add(dependencyType);
-        }
+        var typeChain = string.Join(" -> ", formattedArray);
+        throw new DependencyCollisionException($"Dependency collision detected: {typeChain}");
     }
 }

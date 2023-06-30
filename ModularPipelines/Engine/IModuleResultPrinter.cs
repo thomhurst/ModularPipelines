@@ -1,6 +1,4 @@
-﻿using ModularPipelines.Enums;
-
-namespace ModularPipelines.Engine;
+﻿namespace ModularPipelines.Engine;
 
 public interface IModuleResultPrinter
 {
