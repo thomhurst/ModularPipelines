@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 
@@ -5,15 +6,15 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleInitializer : IModuleInitializer
 {
-    private readonly IModuleContext _moduleContext;
+    private readonly IServiceProvider _serviceProvider;
 
-    public ModuleInitializer(IModuleContext moduleContext)
+    public ModuleInitializer(IServiceProvider serviceProvider)
     {
-        _moduleContext = moduleContext;
+        _serviceProvider = serviceProvider;
     }
     
     public ModuleBase Initialize(ModuleBase module)
     {
-        return module.Initialize(_moduleContext);
+        return module.Initialize(_serviceProvider.GetRequiredService<IModuleContext>());
     }
 }

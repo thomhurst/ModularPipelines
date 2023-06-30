@@ -48,7 +48,7 @@ internal class Http : IHttp
         
         await PrintBody(sb, request.Content);
         
-        _moduleLoggerProvider.Logger.LogInformation("---Request---\r\n{Request}", sb.ToString());
+        _moduleLoggerProvider.GetLogger().LogInformation("---Request---\r\n{Request}", sb.ToString());
     }
 
     public async Task PrintResponse(HttpResponseMessage response)
@@ -67,7 +67,7 @@ internal class Http : IHttp
         
         await PrintBody(sb, response.Content);
 
-        _moduleLoggerProvider.Logger.LogInformation("---Response---\r\n{Response}", sb.ToString());
+        _moduleLoggerProvider.GetLogger().LogInformation("---Response---\r\n{Response}", sb.ToString());
     }
 
     private static void PrintHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders)

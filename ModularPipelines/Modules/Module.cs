@@ -165,6 +165,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override ModuleBase Initialize(IModuleContext context)
     {
+        context.FetchLogger(GetType());
         _context = context;
         _initialized = true;
         return this;

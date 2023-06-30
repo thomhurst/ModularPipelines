@@ -13,8 +13,9 @@ namespace ModularPipelines.Context;
 internal class ModuleContext : IModuleContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private ILogger? _logger;
 
-    public ILogger Logger => _moduleLoggerProvider.Logger;
+    public ILogger Logger => _logger ?? _moduleLoggerProvider.GetLogger();
 
     public IServiceProvider ServiceProvider { get; }
 
@@ -35,6 +36,11 @@ internal class ModuleContext : IModuleContext
     public IZip Zip { get; }
     public IHex Hex { get; }
     public IBase64 Base64 { get; }
+
+    public void FetchLogger(Type getType)
+    {
+        _logger = _moduleLoggerProvider.GetLogger(getType);
+    }
 
     public T Get<T>()
     {

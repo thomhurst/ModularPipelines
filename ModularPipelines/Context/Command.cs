@@ -11,7 +11,7 @@ namespace ModularPipelines.Context;
 internal class Command : ICommand
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private ILogger Logger => _moduleLoggerProvider.Logger;
+    private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
     public Command(IModuleLoggerProvider moduleLoggerProvider)
     {

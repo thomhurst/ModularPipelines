@@ -15,8 +15,54 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
     {
         _serviceProvider = serviceProvider;
     }
-    public ILogger Logger => _logger ??= GetLogger();
     
+    public ILogger GetLogger(Type type) => _logger ??= MakeLogger(type);
+
+    public ILogger GetLogger()
+    {
+        if (_logger != null)
+        {
+            return _logger;
+        }
+
+        var stackFrames = new StackTrace().GetFrames().ToList();
+        var module = stackFrames.Select(x => x.GetMethod()?.ReflectedType?.ReflectedType).FirstOrDefault(IsModule);
+
+        if (module == null)
+        {
+            var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger");
+
+            if (getLoggerFrame == null)
+            {
+                return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
+            }
+
+            var getLoggerFrameIndex = stackFrames.IndexOf(getLoggerFrame);
+            var nextFrame = stackFrames[getLoggerFrameIndex + 1];
+            var type = nextFrame.GetMethod()?.ReflectedType;
+
+            if (type != null)
+            {
+                return MakeLogger(type);
+            }
+            
+            return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
+        }
+
+        return MakeLogger(module);
+    }
+
+    private ILogger MakeLogger(Type module)
+    {
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
+
+        var logger = (ILogger) _serviceProvider.GetRequiredService(loggerType);
+
+        _logger = logger;
+        
+        return logger;
+    }
+
     private bool IsModule(Type? type)
     {
         if (type is null)
@@ -25,19 +71,5 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
         }
         
         return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
-    }
-
-    private ILogger GetLogger()
-    {
-        var module = new StackTrace().GetFrames().Select(x => x.GetMethod()?.ReflectedType?.ReflectedType).FirstOrDefault(IsModule);
-
-        if (module == null)
-        {
-            return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
-        }
-
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
-
-        return (ILogger) _serviceProvider.GetRequiredService(loggerType);
     }
 }

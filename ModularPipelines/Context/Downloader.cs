@@ -37,7 +37,7 @@ internal class Downloader : IDownloader
         
         await stream.CopyToAsync(newFile, cancellationToken);
         
-        _moduleLoggerProvider.Logger.LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
+        _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
 
         return filePathToSave!;
     }

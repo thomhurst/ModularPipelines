@@ -33,7 +33,17 @@ public class PipelineHostBuilder : IPipelineHostBuilder
             // Transient
             services.AddTransient<IModuleContext, ModuleContext>()
                 .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
-                .AddTransient<IHttp, Http>();
+                .AddTransient<IHttp, Http>()
+                .AddTransient<ICommand, Command>()
+                .AddTransient<ICertificates, Certificates>()
+                .AddTransient<IDownloader, Downloader>()
+                .AddTransient<IInstaller, Installer>()
+                .AddTransient<IHasher, Hasher>()
+                .AddTransient<IBase64, Base64>()
+                .AddTransient<IHex, Hex>()
+                .AddTransient<IZip, Zip>()
+                .AddTransient<IJson, Json>()
+                .AddTransient<IXml, Xml>();
 
             // Singletons
             services
@@ -46,10 +56,6 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IPipelineExecutor, PipelineExecutor>()
                 .AddSingleton<IModuleExecutor, ModuleExecutor>()
                 .AddSingleton(typeof(ModuleLogger<>))
-                .AddSingleton<ICommand, Command>()
-                .AddSingleton<ICertificates, Certificates>()
-                .AddSingleton<IDownloader, Downloader>()
-                .AddSingleton<IInstaller, Installer>()
                 .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
                 .AddSingleton<IDependencyDetector, DependencyDetector>()
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
@@ -61,13 +67,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IModuleRetriever, ModuleRetriever>()
                 .AddSingleton<IModuleResultPrinter, ModuleResultPrinter>()
                 .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
-                .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
-                .AddSingleton<IHasher, Hasher>()
-                .AddSingleton<IBase64, Base64>()
-                .AddSingleton<IHex, Hex>()
-                .AddSingleton<IZip, Zip>()
-                .AddSingleton<IJson, Json>()
-                .AddSingleton<IXml, Xml>();
+                .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>();
         });
     }
 

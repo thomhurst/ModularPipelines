@@ -18,6 +18,7 @@ public interface IModuleContext
     public IOptions<PipelineOptions> PipelineOptions { get; }
     internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
     internal IModuleResultRepository ModuleResultRepository { get; }
+    internal void FetchLogger(Type getType);
     public T? Get<T>();
     public ILogger Logger { get; }
 

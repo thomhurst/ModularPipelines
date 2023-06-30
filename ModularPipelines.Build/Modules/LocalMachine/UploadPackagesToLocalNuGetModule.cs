@@ -18,7 +18,7 @@ public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResul
         
         foreach (var packagePath in packagePaths.Value!)
         {
-            context.Logger.LogInformation("Uploading {File}", packagePath);
+            context.Logger.LogInformation("[Local Directory] Uploading {File}", packagePath);
         }
         
         await base.OnBeforeExecute(context);
