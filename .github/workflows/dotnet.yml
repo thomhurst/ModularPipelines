@@ -34,6 +34,8 @@ jobs:
     - name: Run Pipeline
       run: dotnet run -c Release
       working-directory: "ModularPipelines.Build"
+      env:
+        DOTNET_ENVIRONMENT: Development
       
   release:
       environment: Production
@@ -61,3 +63,4 @@ jobs:
         working-directory: "ModularPipelines.Build"
         env:
           NuGet__ApiKey: '${{ secrets.NuGet__ApiKey }}'
+          DOTNET_ENVIRONMENT: Production
