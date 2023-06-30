@@ -11,8 +11,7 @@ on:
 
 jobs:
   modularpipeline:
-    environment: Pull Requests
-    if: github.ref != 'refs/heads/main'
+    environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     runs-on: ubuntu-latest
 
     steps:
