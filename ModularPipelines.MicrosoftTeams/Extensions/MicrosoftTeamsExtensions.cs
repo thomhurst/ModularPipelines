@@ -18,7 +18,7 @@ public static class MicrosoftTeamsExtensions
     
     public static IServiceCollection RegisterMicrosoftTeamsContext(this IServiceCollection services)
     {
-        services.TryAddSingleton<IMicrosoftTeams, MicrosoftTeams>();
+        services.TryAddTransient<IMicrosoftTeams, MicrosoftTeams>();
         return services;
     }
 

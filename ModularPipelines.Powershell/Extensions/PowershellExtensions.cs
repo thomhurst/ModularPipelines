@@ -18,7 +18,7 @@ public static class PowershellExtensions
     
     public static IServiceCollection RegisterPowershellContext(this IServiceCollection services)
     {
-        services.TryAddSingleton<IPowershell, Powershell>();
+        services.TryAddTransient<IPowershell, Powershell>();
         
         return services;
     }
