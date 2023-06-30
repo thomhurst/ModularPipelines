@@ -56,6 +56,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddSingleton<IPipelineExecutor, PipelineExecutor>()
                 .AddSingleton<IModuleExecutor, ModuleExecutor>()
                 .AddSingleton(typeof(ModuleLogger<>))
+                .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
                 .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
                 .AddSingleton<IDependencyDetector, DependencyDetector>()
                 .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
