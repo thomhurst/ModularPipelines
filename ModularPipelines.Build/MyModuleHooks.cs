@@ -9,13 +9,13 @@ public class MyModuleHooks : IPipelineModuleHooks
 {
     public Task OnBeforeModuleStartAsync(IModuleContext moduleContext, ModuleBase module)
     {
-        moduleContext.Logger.LogInformation("{Module} is starting", module.GetType().Name);
+        moduleContext.Logger.LogInformation("{Module} is starting at {DateTime}", module.GetType().Name, DateTimeOffset.UtcNow);
         return Task.CompletedTask;
     }
 
     public Task OnBeforeModuleEndAsync(IModuleContext moduleContext, ModuleBase module)
     {
-        moduleContext.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
+        moduleContext.Logger.LogInformation("{Module} finished at {DateTime} after {Elapsed}", module.GetType().Name, DateTimeOffset.UtcNow, module.Duration);
         return Task.CompletedTask;
     }
 }
