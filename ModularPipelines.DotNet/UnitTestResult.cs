@@ -7,38 +7,38 @@ namespace ModularPipelines.DotNet;
 public record UnitTestResult
 {
     [XmlAttribute("executionId")]
-    public string ExecutionId { get; init; }
+    public string? ExecutionId { get; init; }
     
     [XmlAttribute("testId")]
-    public string TestId { get; init; }
+    public string? TestId { get; init; }
     
     [XmlAttribute("testName")]
-    public string TestName { get; init; }
+    public string? TestName { get; init; }
     
     [XmlAttribute("computerName")]
-    public string ComputerName { get; init; }
+    public string? ComputerName { get; init; }
     
     [XmlAttribute("duration")]
-    public string Duration { get; init; }
+    public string? Duration { get; init; }
     
     [XmlAttribute("startTime")]
-    public string StartTime { get; init; }
+    public string? StartTime { get; init; }
     
     [XmlAttribute("endTime")]
-    public string EndTime { get; init; }
+    public string? EndTime { get; init; }
     
     [XmlAttribute("testType")]
-    public string TestType { get; init; }
+    public string? TestType { get; init; }
     
     [XmlAttribute("outcome")]
-    public string Outcome { get; init; }
+    public string? Outcome { get; init; }
     
     [XmlAttribute("testListId")]
-    public string TestListId { get; init; }
+    public string? TestListId { get; init; }
     
     [XmlAttribute("relativeResultsDirectory")]
-    public string RelativeResultsDirectory { get; init; }
+    public string? RelativeResultsDirectory { get; init; }
     
     [XmlElement("Output")]
-    public TestOutput Output { get; init; }
+    public TestOutput? Output { get; init; }
 }

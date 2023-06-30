@@ -60,7 +60,7 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing DependsOn Attribute.
+        ///   Looks up a localized string similar to Missing DependsOn Attribute..
         /// </summary>
         internal static string AnalyzerDescription {
             get {

@@ -2,6 +2,6 @@
 
 public record GitFileStatus
 {
-    public string Status { get; set; }
-    public string File { get; set; }
+    public string? Status { get; set; }
+    public string? File { get; set; }
 }

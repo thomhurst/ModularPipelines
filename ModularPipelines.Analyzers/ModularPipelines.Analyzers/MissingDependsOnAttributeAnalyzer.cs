@@ -74,7 +74,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         if (!attributes.Any(x => IsDependsOnAttributeFor(x, namedTypeSymbol)))
         {
-            var properties = new Dictionary<string, string>
+            var properties = new Dictionary<string, string?>
             {
                 ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
             }.ToImmutableDictionary();

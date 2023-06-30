@@ -23,13 +23,23 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+
+        if (root is null)
+        {
+            return;
+        }
         
         var diagnostic = context.Diagnostics.First();
         var diagnosticSpan = diagnostic.Location.SourceSpan;
 
         // Find the type declaration identified by the diagnostic.
-        var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+        var declaration = root.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
 
+        if (declaration is null)
+        {
+            return;
+        }
+        
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
@@ -50,7 +60,7 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         var name = context.Diagnostics.First().Properties["Name"]!;
 
         var attributes = typeDecl.AttributeLists.Add(
-            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree)))
+            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree!)))
                 .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed)
                 .NormalizeWhitespace());
 

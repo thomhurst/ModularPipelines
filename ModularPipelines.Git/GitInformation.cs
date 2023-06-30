@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using ModularPipelines.Context;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 
@@ -10,32 +9,29 @@ internal class GitInformation : IGitInformation
     private readonly StaticGitInformation _staticGitInformation;
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
-    private readonly IModuleContext _context;
 
     public GitInformation(StaticGitInformation staticGitInformation,
         GitCommandRunner gitCommandRunner,
-        IGitCommitMapper gitCommitMapper,
-        IModuleContext context)
+        IGitCommitMapper gitCommitMapper)
     {
         _staticGitInformation = staticGitInformation;
         _gitCommandRunner = gitCommandRunner;
         _gitCommitMapper = gitCommitMapper;
-        _context = context;
     }
 
-    public string BranchName => _staticGitInformation.BranchName;
-    public string DefaultBranchName => _staticGitInformation.DefaultBranchName;
+    public string? BranchName => _staticGitInformation.BranchName;
+    public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
 
-    public string Tag => _staticGitInformation.Tag;
+    public string? Tag => _staticGitInformation.Tag;
     
     public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
 
     public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
     public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
         
-    public string LastCommitSha => _staticGitInformation.LastCommitSha;
+    public string? LastCommitSha => _staticGitInformation.LastCommitSha;
 
-    public string LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
+    public string? LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
     
         
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)

@@ -81,8 +81,6 @@ public class Module2 : Module
     [TestMethod]
     public async Task Good_Source()
     {
-        var test = @"";
-
         await VerifyCS.VerifyAnalyzerAsync(FixedModuleSource);
     }
 
