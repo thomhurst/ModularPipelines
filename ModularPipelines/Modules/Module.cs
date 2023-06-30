@@ -21,7 +21,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     
-    private readonly List<DependsOnAttribute> _dependentModules = new();
+    internal List<DependsOnAttribute> DependentModules { get; } = new();
 
     private bool _initialized;
     private IModuleContext _context = null!; // Late Initialisation
@@ -48,15 +48,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
         
-        _dependentModules.Add(dependsOnAttribute);
-    }
-
-    private void CheckDependencyConflicts()
-    {
-        foreach (var dependentModule in _dependentModules)
-        {
-            _context.DependencyCollisionDetector.CheckDependency(GetType(), dependentModule.Type);
-        }
+        DependentModules.Add(dependsOnAttribute);
     }
 
     internal override async Task StartAsync()
@@ -173,10 +165,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override ModuleBase Initialize(IModuleContext context)
     {
+        context.FetchLogger(GetType());
         _context = context;
-        
-        CheckDependencyConflicts();
-        
         _initialized = true;
         return this;
     }
@@ -227,23 +217,21 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new ModuleReferencingSelfException("A module cannot get itself");
         }
         
-        _context.DependencyCollisionDetector.CheckDependency(GetType(), typeof(TModule));
-
         return _context.GetModule<TModule>();
     }
 
     private async Task WaitForModuleDependencies()
     {
-        if (!_dependentModules.Any())
+        if (!DependentModules.Any())
         {
             return;
         }
 
         try
         {
-            var modules = _dependentModules.Select(x => _context.GetModule(x.Type)).ToList();
+            var modules = DependentModules.Select(x => _context.GetModule(x.Type)).ToList();
 
-            var tasks = _dependentModules.Select(dependsOnAttribute =>
+            var tasks = DependentModules.Select(dependsOnAttribute =>
             {
                 var module = _context.GetModule(dependsOnAttribute.Type);
 

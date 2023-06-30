@@ -4,5 +4,6 @@ namespace ModularPipelines.Helpers;
 
 internal interface IModuleLoggerProvider
 {
-    ILogger Logger { get; }
+    ILogger GetLogger(Type type);
+    ILogger GetLogger();
 }

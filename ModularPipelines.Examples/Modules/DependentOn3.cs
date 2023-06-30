@@ -1,12 +1,12 @@
-using ModularPipelines.Attributes;
+﻿using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-[DependsOn<SuccessModule>]
-public class DependentOnSuccessModule : Module
+[DependsOn<DependentOn2>]
+public class DependentOn3 : Module
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

@@ -1,7 +1,6 @@
-namespace ModularPipelines;
+namespace ModularPipelines.Engine;
 
-public interface IDependencyDetector
-{
-    IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; }
-    void Print();
+internal interface IDependencyDetector
+{ 
+    void Check();
 }
