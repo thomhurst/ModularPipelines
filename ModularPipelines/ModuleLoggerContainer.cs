@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-
 namespace ModularPipelines;
 
 internal class ModuleLoggerContainer : IModuleLoggerContainer

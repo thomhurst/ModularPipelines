@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines;
+﻿namespace ModularPipelines;
 
 internal interface IModuleLoggerContainer
 {
