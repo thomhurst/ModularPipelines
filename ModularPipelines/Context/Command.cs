@@ -38,7 +38,7 @@ internal class Command : ICommand
 
         if (options.LogInput)
         {
-            var inputManipulator = options.InputManipulator ?? (s => s);
+            var inputManipulator = options.InputLoggingManipulator ?? (s => s);
 
             Logger.LogInformation("---Executing Command---\r\n{Input}", inputManipulator(command.ToString()));
         }
@@ -47,7 +47,7 @@ internal class Command : ICommand
 
         if (options.LogOutput)
         {
-            var outputManipulator = options.OutputManipulator ?? (s => s);
+            var outputManipulator = options.OutputLoggingManipulator ?? (s => s);
             
             Logger.LogInformation("---Command Result---\r\n{Output}",
                 string.IsNullOrEmpty(result.StandardError)
