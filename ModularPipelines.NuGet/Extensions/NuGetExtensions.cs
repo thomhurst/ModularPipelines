@@ -21,7 +21,7 @@ public static class NuGetExtensions
     {
         services.RegisterDotNetContext();
         
-        services.TryAddSingleton<INuGet, NuGet>();
+        services.TryAddTransient<INuGet, NuGet>();
         
         return services;
     }

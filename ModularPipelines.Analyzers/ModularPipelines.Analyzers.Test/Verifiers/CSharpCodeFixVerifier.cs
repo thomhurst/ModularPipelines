@@ -18,9 +18,24 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             {
                 var project = solution.GetProject(projectId);
 
+                if (project is null)
+                {
+                    return solution;
+                }
+                
                 var compilationOptions = project.CompilationOptions;
 
+                if (compilationOptions is null)
+                {
+                    return solution;
+                }
+                
                 var parseOptions = project.ParseOptions as CSharpParseOptions;
+                
+                if (parseOptions is null)
+                {
+                    return solution;
+                }
                 
                 compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
 

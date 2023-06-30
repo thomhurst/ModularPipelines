@@ -15,6 +15,8 @@ internal class ModuleInitializer : IModuleInitializer
     
     public ModuleBase Initialize(ModuleBase module)
     {
-        return module.Initialize(_serviceProvider.GetRequiredService<IModuleContext>());
+        // Each context needs to be transient
+        var context = _serviceProvider.GetRequiredService<IModuleContext>();
+        return module.Initialize(context);
     }
 }

@@ -18,9 +18,9 @@ public static class AzurePipelineExtensions
     
     public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)
     {
-        services.TryAddSingleton<IAzurePipeline, AzurePipeline>();
-        services.TryAddSingleton<AzurePipelineVariables>();
-        services.TryAddSingleton<AzurePipelineAgentVariables>();
+        services.TryAddTransient<IAzurePipeline, AzurePipeline>();
+        services.TryAddTransient<AzurePipelineVariables>();
+        services.TryAddTransient<AzurePipelineAgentVariables>();
         return services;
     }
 

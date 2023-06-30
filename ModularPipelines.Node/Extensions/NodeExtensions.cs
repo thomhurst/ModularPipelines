@@ -18,9 +18,9 @@ public static class NodeExtensions
     
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
-        services.TryAddSingleton<INode, Node>();
-        services.TryAddSingleton<INvm, Nvm>();
-        services.TryAddSingleton<INpm, Npm>();
+        services.TryAddTransient<INode, Node>();
+        services.TryAddTransient<INvm, Nvm>();
+        services.TryAddTransient<INpm, Npm>();
         return services;
     }
 
