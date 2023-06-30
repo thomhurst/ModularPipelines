@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  modularpipeline:
     environment: Pull Requests
     if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -35,32 +35,5 @@ jobs:
       run: dotnet run -c Release
       working-directory: "ModularPipelines.Build"
       env:
-        DOTNET_ENVIRONMENT: Development
-      
-  release:
-      environment: Production
-      if: github.ref == 'refs/heads/main'
-      runs-on: ubuntu-latest
-
-      steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: '5.x'
-      - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0
-        with:
-          useConfigFile: true
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-      - name: Run Pipeline
-        run: dotnet run -c Release
-        working-directory: "ModularPipelines.Build"
-        env:
-          NuGet__ApiKey: '${{ secrets.NuGet__ApiKey }}'
-          DOTNET_ENVIRONMENT: Production
+        DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
+        NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}

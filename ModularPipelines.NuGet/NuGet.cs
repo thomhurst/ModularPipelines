@@ -34,8 +34,8 @@ public class NuGet : INuGet
                 .UsingCommandLineTool(new CommandLineToolOptions("dotnet")
                 {
                     Arguments = arguments,
-                    InputManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
-                    OutputManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********")
+                    InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
+                    OutputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********")
                 });
 
             results.Add(commandResult);

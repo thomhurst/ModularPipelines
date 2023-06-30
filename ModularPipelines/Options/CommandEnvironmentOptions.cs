@@ -10,6 +10,6 @@ public record CommandEnvironmentOptions
     public bool LogInput { get; init; } = true;
     public bool LogOutput { get; init; } = true;
     
-    public Func<string, string>? InputManipulator { get; init; }
-    public Func<string, string>? OutputManipulator { get; init; }
+    public Func<string, string>? InputLoggingManipulator { get; init; }
+    public Func<string, string>? OutputLoggingManipulator { get; init; }
 }
