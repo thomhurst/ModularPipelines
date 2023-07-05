@@ -13,15 +13,15 @@ public static class DockerExtensions
 #pragma warning restore CA2255
     public static void RegisterDockerContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDockerContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterDockerContext( collection ) );
     }
-    
-    public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
+
+    public static IServiceCollection RegisterDockerContext( this IServiceCollection services )
     {
         services.TryAddTransient<IDocker, Docker>();
         return services;
     }
 
-    public static IDocker Docker(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IDocker>();
+    public static IDocker Docker( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IDocker>();
 
 }

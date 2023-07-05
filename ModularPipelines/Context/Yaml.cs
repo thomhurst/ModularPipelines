@@ -4,19 +4,19 @@ namespace ModularPipelines.Context;
 
 public class Yaml : IYaml
 {
-    public string ToYaml<T>(T input, INamingConvention namingConvention)
+    public string ToYaml<T>( T input, INamingConvention namingConvention )
     {
         return new SerializerBuilder()
-            .WithNamingConvention(namingConvention)
+            .WithNamingConvention( namingConvention )
             .Build()
-            .Serialize(input);
+            .Serialize( input );
     }
 
-    public T FromYaml<T>(string input, INamingConvention namingConvention)
+    public T FromYaml<T>( string input, INamingConvention namingConvention )
     {
         return new DeserializerBuilder()
-            .WithNamingConvention(namingConvention)
+            .WithNamingConvention( namingConvention )
             .Build()
-            .Deserialize<T>(input);
+            .Deserialize<T>( input );
     }
 }

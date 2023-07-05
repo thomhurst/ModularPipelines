@@ -4,5 +4,5 @@ namespace ModularPipelines.MicrosoftTeams;
 
 public interface IMicrosoftTeams
 {
-    Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default);
+    Task<HttpResponseMessage> PostMicrosoftTeamsCard( MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default );
 }

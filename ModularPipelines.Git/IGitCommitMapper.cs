@@ -4,5 +4,5 @@ namespace ModularPipelines.Git;
 
 internal interface IGitCommitMapper
 {
-    GitCommit Map(string commandLineOutput);
+    GitCommit Map( string commandLineOutput );
 }

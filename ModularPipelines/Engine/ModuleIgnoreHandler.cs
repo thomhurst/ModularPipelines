@@ -10,14 +10,14 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    public ModuleIgnoreHandler(IOptions<PipelineOptions> pipelineOptions)
+    public ModuleIgnoreHandler( IOptions<PipelineOptions> pipelineOptions )
     {
         _pipelineOptions = pipelineOptions;
     }
-    
-    public bool ShouldIgnore(ModuleBase module)
+
+    public bool ShouldIgnore( ModuleBase module )
     {
-        if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
+        if (IsIgnoreCategory( module ) || !IsRunnableCategory( module ))
         {
             module.SetSkipped();
             return true;
@@ -26,10 +26,10 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         return false;
     }
 
-    private bool IsRunnableCategory(ModuleBase module)
+    private bool IsRunnableCategory( ModuleBase module )
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
-        
+
         if (runOnlyCategories?.Any() != true)
         {
             return true;
@@ -37,13 +37,13 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 
         var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
 
-        return category != null && !runOnlyCategories.Contains(category.Category);
+        return category != null && !runOnlyCategories.Contains( category.Category );
     }
 
-    private bool IsIgnoreCategory(ModuleBase module)
+    private bool IsIgnoreCategory( ModuleBase module )
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
-        
+
         if (ignoreCategories?.Any() != true)
         {
             return false;
@@ -51,6 +51,6 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 
         var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
 
-        return category != null && ignoreCategories.Contains(category.Category);
+        return category != null && ignoreCategories.Contains( category.Category );
     }
 }

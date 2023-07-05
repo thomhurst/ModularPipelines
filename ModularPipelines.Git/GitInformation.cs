@@ -10,9 +10,9 @@ internal class GitInformation : IGitInformation
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitInformation(StaticGitInformation staticGitInformation,
+    public GitInformation( StaticGitInformation staticGitInformation,
         GitCommandRunner gitCommandRunner,
-        IGitCommitMapper gitCommitMapper)
+        IGitCommitMapper gitCommitMapper )
     {
         _staticGitInformation = staticGitInformation;
         _gitCommandRunner = gitCommandRunner;
@@ -23,37 +23,37 @@ internal class GitInformation : IGitInformation
     public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
 
     public string? Tag => _staticGitInformation.Tag;
-    
+
     public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
 
     public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
     public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
-        
+
     public string? LastCommitSha => _staticGitInformation.LastCommitSha;
 
     public string? LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
-    
-        
-    public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
+
+
+    public IAsyncEnumerable<GitCommit> Commits( GitOptions? options = null, CancellationToken cancellationToken = default )
     {
-        return Commits(null, options, cancellationToken);
+        return Commits( null, options, cancellationToken );
     }
 
-    public async IAsyncEnumerable<GitCommit> Commits(string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<GitCommit> Commits( string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default )
     {
         var index = 0;
         while (true)
         {
-            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index-1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
+            var output = await _gitCommandRunner.RunCommandsOrNull( options, "log", branch, $"--skip={index - 1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'" );
 
             index++;
-            
-            if (string.IsNullOrWhiteSpace(output) || cancellationToken.IsCancellationRequested)
+
+            if (string.IsNullOrWhiteSpace( output ) || cancellationToken.IsCancellationRequested)
             {
                 yield break;
             }
 
-            yield return _gitCommitMapper.Map(output);
+            yield return _gitCommitMapper.Map( output );
         }
     }
 }

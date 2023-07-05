@@ -2,7 +2,7 @@
 
 public class AzurePipeline : IAzurePipeline
 {
-    public AzurePipeline(AzurePipelineVariables variables)
+    public AzurePipeline( AzurePipelineVariables variables )
     {
         Variables = variables;
     }

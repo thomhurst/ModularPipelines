@@ -9,15 +9,15 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 
 var modules = await PipelineHostBuilder.Create()
-    .ConfigureAppConfiguration((context, builder) =>
+    .ConfigureAppConfiguration( ( context, builder ) =>
     {
-        builder.AddJsonFile("appsettings.json")
+        builder.AddJsonFile( "appsettings.json" )
             .AddUserSecrets<Program>()
             .AddEnvironmentVariables();
-    })
-    .ConfigureServices((context, collection) =>
+    } )
+    .ConfigureServices( ( context, collection ) =>
     {
-        collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
+        collection.Configure<NuGetSettings>( context.Configuration.GetSection( "NuGet" ) );
 
         collection.AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
@@ -36,5 +36,5 @@ var modules = await PipelineHostBuilder.Create()
         {
             collection.AddModule<UploadPackagesToNugetModule>();
         }
-    })
+    } )
     .ExecutePipelineAsync();

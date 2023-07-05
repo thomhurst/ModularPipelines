@@ -2,4 +2,4 @@
 
 namespace ModularPipelines.Kubernetes.Options;
 
-public record KubernetesOptions() : CommandLineToolOptions("kubectl");
+public record KubernetesOptions() : CommandLineToolOptions( "kubectl" );

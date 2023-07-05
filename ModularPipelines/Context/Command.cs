@@ -14,76 +14,76 @@ internal class Command : ICommand
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public Command(IModuleLoggerProvider moduleLoggerProvider)
+    public Command( IModuleLoggerProvider moduleLoggerProvider )
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    
-    public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
+
+    public async Task<CommandResult> ExecuteCommandLineTool( CommandLineToolOptions options, CancellationToken cancellationToken = default )
     {
-        var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool) 
-            ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
+        var parsedArgs = (string.Equals( options.Arguments?.ElementAtOrDefault( 0 ), options.Tool )
+            ? options.Arguments?.Skip( 1 ).ToList() : options.Arguments?.ToList()) ?? new List<string>();
 
         if (options.ArgumentsOptionObject != null)
         {
-            CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, options.ArgumentsOptionObject);
+            CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject( parsedArgs, options.ArgumentsOptionObject );
         }
 
         if (options.AdditionalSwitches != null)
         {
-            parsedArgs.AddRange(options.AdditionalSwitches);
+            parsedArgs.AddRange( options.AdditionalSwitches );
         }
-        
-        var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
-      
+
+        var command = Cli.Wrap( options.Tool ).WithArguments( parsedArgs );
+
         if (options.WorkingDirectory != null)
         {
-            command = command.WithWorkingDirectory(options.WorkingDirectory);
+            command = command.WithWorkingDirectory( options.WorkingDirectory );
         }
-        
+
         if (options.EnvironmentVariables != null)
         {
-            command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
+            command = command.WithEnvironmentVariables( new ReadOnlyDictionary<string, string?>( options.EnvironmentVariables ) );
         }
 
         var commandInput = command.ToString();
-        
+
         if (options.LogInput)
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
 
-            Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputLoggingManipulator(commandInput));
+            Logger.LogInformation( "---Executing Command---\r\n\t{Input}", inputLoggingManipulator( commandInput ) );
         }
 
-        var result = await Of(command, cancellationToken);
+        var result = await Of( command, cancellationToken );
 
         if (options.LogOutput)
         {
             var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-            
-            Logger.LogInformation("---Command Result---\r\n\t{Output}",
-                string.IsNullOrEmpty(result.StandardError)
-                    ? outputLoggingManipulator(result.StandardOutput)
-                    : outputLoggingManipulator(result.StandardError));
+
+            Logger.LogInformation( "---Command Result---\r\n\t{Output}",
+                string.IsNullOrEmpty( result.StandardError )
+                    ? outputLoggingManipulator( result.StandardOutput )
+                    : outputLoggingManipulator( result.StandardError ) );
         }
 
-        return new CommandResult(commandInput, result);
+        return new CommandResult( commandInput, result );
     }
 
-    private static async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
+    private static async Task<BufferedCommandResult> Of( CliWrap.Command command, CancellationToken cancellationToken = default )
     {
         var result = await command
-            .WithValidation(CommandResultValidation.None)
-            .ExecuteBufferedAsync(cancellationToken);
+            .WithValidation( CommandResultValidation.None )
+            .ExecuteBufferedAsync( cancellationToken );
 
         if (result.ExitCode != 0)
         {
             var input = command.ToString();
-            throw new CommandException(input, result);
+            throw new CommandException( input, result );
         }
 
         return result;
     }
-    
-    
+
+
 }

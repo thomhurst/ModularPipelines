@@ -9,20 +9,20 @@ namespace ModularPipelines.Build.Modules;
 
 public class RunUnitTestsModule : Module<List<DotNetTestResult>>
 {
-    protected override async Task<ModuleResult<List<DotNetTestResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<DotNetTestResult>>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
     {
         var results = new List<DotNetTestResult>();
 
         foreach (var unitTestProjectFile in context.Environment
                      .GitRootDirectory!
-                     .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
-                                       && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)))
+                     .GetFiles( file => file.Path.EndsWith( ".csproj", StringComparison.OrdinalIgnoreCase )
+                                       && file.Path.Contains( "UnitTests", StringComparison.OrdinalIgnoreCase ) ))
         {
-            results.Add(await context.DotNet().Test(new DotNetTestOptions
+            results.Add( await context.DotNet().Test( new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 LogOutput = false
-            }, cancellationToken));
+            }, cancellationToken ) );
         }
 
         return results;

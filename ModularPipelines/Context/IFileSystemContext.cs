@@ -5,32 +5,32 @@ namespace ModularPipelines.Context;
 
 public interface IFileSystemContext
 {
-    void DeleteFile(string filePath);
-    void DeleteFolder(string folderPath);
+    void DeleteFile( string filePath );
+    void DeleteFolder( string folderPath );
 
-    void CopyFile(string filePath, string destinationFilePath);
+    void CopyFile( string filePath, string destinationFilePath );
 
-    void CopyFolder(string folderPath, string destinationFolder);
+    void CopyFolder( string folderPath, string destinationFolder );
 
-    void MoveFile(string filePath, string destinationFilePath);
+    void MoveFile( string filePath, string destinationFilePath );
 
-    void MoveFolder(string filePath, string destinationFilePath);
+    void MoveFolder( string filePath, string destinationFilePath );
 
-    bool FileExists(string filePath);
-    bool FolderExists(string filePath);
+    bool FileExists( string filePath );
+    bool FolderExists( string filePath );
 
-    FileAttributes GetFileAttributes(string filePath);
-    void SetFileAttributes(string filepath, FileAttributes attributes);
+    FileAttributes GetFileAttributes( string filePath );
+    void SetFileAttributes( string filepath, FileAttributes attributes );
 
-    File GetFile(string filePath);
-    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption);
-    
-    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption, Func<File, bool> predicate);
-    
-    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption);
-    
-    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption, Func<Folder, bool> predicate);
+    File GetFile( string filePath );
+    IEnumerable<File> GetFiles( string folderPath, SearchOption searchOption );
 
-    Folder GetFolder(string path);
-    Folder GetFolder(Environment.SpecialFolder specialFolder);
+    IEnumerable<File> GetFiles( string folderPath, SearchOption searchOption, Func<File, bool> predicate );
+
+    IEnumerable<Folder> GetFolders( string folderPath, SearchOption searchOption );
+
+    IEnumerable<Folder> GetFolders( string folderPath, SearchOption searchOption, Func<Folder, bool> predicate );
+
+    Folder GetFolder( string path );
+    Folder GetFolder( Environment.SpecialFolder specialFolder );
 }

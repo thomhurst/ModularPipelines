@@ -1,1 +1,1 @@
-﻿[assembly: Parallelizable(ParallelScope.All)]
+﻿[assembly: Parallelizable( ParallelScope.All )]

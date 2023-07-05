@@ -11,73 +11,73 @@ internal class Http : IHttp
     private readonly HttpClient _defaultHttpClient;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
-    public Http(HttpClient defaultHttpClient,
-        IModuleLoggerProvider moduleLoggerProvider)
+    public Http( HttpClient defaultHttpClient,
+        IModuleLoggerProvider moduleLoggerProvider )
     {
         _defaultHttpClient = defaultHttpClient;
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    public async Task<HttpResponseMessage> Send(HttpOptions httpOptions)
+    public async Task<HttpResponseMessage> Send( HttpOptions httpOptions )
     {
         if (httpOptions.LogRequest)
         {
-            await PrintRequest(httpOptions.HttpRequestMessage);
+            await PrintRequest( httpOptions.HttpRequestMessage );
         }
 
-        var response = await (httpOptions.HttpClient ?? _defaultHttpClient).SendAsync(httpOptions.HttpRequestMessage);
+        var response = await (httpOptions.HttpClient ?? _defaultHttpClient).SendAsync( httpOptions.HttpRequestMessage );
 
         if (httpOptions.LogResponse)
         {
-            await PrintResponse(response);
+            await PrintResponse( response );
         }
 
         return response.EnsureSuccessStatusCode();
     }
-    
-    public async Task PrintRequest(HttpRequestMessage request)
+
+    public async Task PrintRequest( HttpRequestMessage request )
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine($"{request.Method} {request.RequestUri} HTTP/{request.Version}");
-        
-        sb.AppendLine();
-        
-        PrintHeaders(sb, request.Headers, request.Content?.Headers);
+        sb.AppendLine( $"{request.Method} {request.RequestUri} HTTP/{request.Version}" );
 
         sb.AppendLine();
-        
-        await PrintBody(sb, request.Content);
-        
-        _moduleLoggerProvider.GetLogger().LogInformation("---Request---\r\n{Request}", sb.ToString());
+
+        PrintHeaders( sb, request.Headers, request.Content?.Headers );
+
+        sb.AppendLine();
+
+        await PrintBody( sb, request.Content );
+
+        _moduleLoggerProvider.GetLogger().LogInformation( "---Request---\r\n{Request}", sb.ToString() );
     }
 
-    public async Task PrintResponse(HttpResponseMessage response)
+    public async Task PrintResponse( HttpResponseMessage response )
     {
         var sb = new StringBuilder();
 
         var statusCode = (int) response.StatusCode;
-        
-        sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
+
+        sb.AppendLine( $"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}" );
 
         sb.AppendLine();
-        
-        PrintHeaders(sb, response.Headers, response.Content.Headers);
+
+        PrintHeaders( sb, response.Headers, response.Content.Headers );
 
         sb.AppendLine();
-        
-        await PrintBody(sb, response.Content);
 
-        _moduleLoggerProvider.GetLogger().LogInformation("---Response---\r\n{Response}", sb.ToString());
+        await PrintBody( sb, response.Content );
+
+        _moduleLoggerProvider.GetLogger().LogInformation( "---Response---\r\n{Response}", sb.ToString() );
     }
 
-    private static void PrintHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders)
+    private static void PrintHeaders( StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders )
     {
-        sb.AppendLine("Headers");
+        sb.AppendLine( "Headers" );
         foreach (var (key, values) in baseHeaders)
         {
             foreach (var value in values)
             {
-                sb.AppendLine($"\t{key}: {value}");
+                sb.AppendLine( $"\t{key}: {value}" );
             }
         }
 
@@ -87,27 +87,27 @@ internal class Http : IHttp
         {
             foreach (var value in values)
             {
-                sb.AppendLine($"\t{key}: {value}");
+                sb.AppendLine( $"\t{key}: {value}" );
             }
         }
 
         if (!baseHeaders.Any() && (!contentHeaders?.Any() ?? true))
         {
-            sb.AppendLine("\t(null)");
+            sb.AppendLine( "\t(null)" );
         }
     }
 
-    private static async Task PrintBody(StringBuilder sb, HttpContent? content)
+    private static async Task PrintBody( StringBuilder sb, HttpContent? content )
     {
-        sb.AppendLine("Body");
-        var body = await (content?.ReadAsStringAsync() ?? Task.FromResult(string.Empty));
-        if (!string.IsNullOrWhiteSpace(body))
+        sb.AppendLine( "Body" );
+        var body = await (content?.ReadAsStringAsync() ?? Task.FromResult( string.Empty ));
+        if (!string.IsNullOrWhiteSpace( body ))
         {
-            sb.AppendLine($"\t{body}");
+            sb.AppendLine( $"\t{body}" );
         }
         else
         {
-            sb.AppendLine("\t(null)");
+            sb.AppendLine( "\t(null)" );
         }
     }
 }

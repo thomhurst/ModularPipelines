@@ -2,5 +2,5 @@
 
 public interface ITrxParser
 {
-    DotNetTestResult ParseTestResult(string input);
+    DotNetTestResult ParseTestResult( string input );
 }

@@ -14,6 +14,6 @@ public interface IGitInformation
     public int CommitsOnBranch { get; }
     public DateTimeOffset LastCommitDateTime { get; }
     public GitCommit? PreviousCommit { get; }
-    IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default);
-    IAsyncEnumerable<GitCommit> Commits(string branch, GitOptions? options = null, CancellationToken cancellationToken = default);
+    IAsyncEnumerable<GitCommit> Commits( GitOptions? options = null, CancellationToken cancellationToken = default );
+    IAsyncEnumerable<GitCommit> Commits( string branch, GitOptions? options = null, CancellationToken cancellationToken = default );
 }

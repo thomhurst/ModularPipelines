@@ -37,31 +37,31 @@ internal class ModuleContext : IModuleContext
     public IHex Hex { get; }
     public IBase64 Base64 { get; }
 
-    public void FetchLogger(Type getType)
+    public void FetchLogger( Type getType )
     {
-        _logger = _moduleLoggerProvider.GetLogger(getType);
+        _logger = _moduleLoggerProvider.GetLogger( getType );
     }
 
     public T Get<T>()
     {
-        return (T) ServiceProvider.GetRequiredService(typeof(T));
+        return (T) ServiceProvider.GetRequiredService( typeof( T ) );
     }
 
     public IFileSystemContext FileSystem { get; }
 
-    public ModuleContext(IServiceProvider serviceProvider, 
-        IDependencyCollisionDetector dependencyCollisionDetector, 
-        IEnvironmentContext environment, 
+    public ModuleContext( IServiceProvider serviceProvider,
+        IDependencyCollisionDetector dependencyCollisionDetector,
+        IEnvironmentContext environment,
         IFileSystemContext fileSystem,
-        IConfiguration configuration, 
+        IConfiguration configuration,
         IOptions<PipelineOptions> pipelineOptions,
         IModuleResultRepository moduleResultRepository,
         ICommand command,
-        IModuleLoggerProvider moduleLoggerProvider, 
-        IZip zip, 
-        IHex hex, 
-        IBase64 base64, 
-        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken, IInstaller installer)
+        IModuleLoggerProvider moduleLoggerProvider,
+        IZip zip,
+        IHex hex,
+        IBase64 base64,
+        IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken, IInstaller installer )
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Zip = zip;
@@ -89,8 +89,8 @@ internal class ModuleContext : IModuleContext
         return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().SingleOrDefault();
     }
 
-    public ModuleBase? GetModule(Type type)
+    public ModuleBase? GetModule( Type type )
     {
-        return ServiceProvider.GetServices<ModuleBase>().SingleOrDefault(module => module.GetType() == type);
+        return ServiceProvider.GetServices<ModuleBase>().SingleOrDefault( module => module.GetType() == type );
     }
 }

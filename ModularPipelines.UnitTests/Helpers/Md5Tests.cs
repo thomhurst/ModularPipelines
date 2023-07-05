@@ -8,10 +8,10 @@ public class Md5Tests : TestBase
 {
     private class ToMd5Module : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<string>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
         {
             await Task.Yield();
-            return context.Hasher.Md5("Foo bar!");
+            return context.Hasher.Md5( "Foo bar!" );
         }
     }
 
@@ -21,13 +21,13 @@ public class Md5Tests : TestBase
         var module = await RunModule<ToMd5Module>();
 
         var moduleResult = await module;
-        
-        Assert.Multiple(() =>
+
+        Assert.Multiple( () =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
-        });
+            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
+            Assert.That( moduleResult.Exception, Is.Null );
+            Assert.That( moduleResult.Value, Is.Not.Null );
+        } );
     }
 
     [Test]
@@ -36,7 +36,7 @@ public class Md5Tests : TestBase
         var module = await RunModule<ToMd5Module>();
 
         var moduleResult = await module;
-        
-        Assert.That(moduleResult.Value, Is.EqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd"));
+
+        Assert.That( moduleResult.Value, Is.EqualTo( "b9c291e3274aa5c8010a7c5c22a4e6dd" ) );
     }
 }

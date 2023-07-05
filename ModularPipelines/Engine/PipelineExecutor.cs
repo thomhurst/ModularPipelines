@@ -25,7 +25,7 @@ internal class PipelineExecutor : IPipelineExecutor
         EngineCancellationToken engineCancellationToken,
         IDependencyDetector dependencyDetector,
         IModuleResultPrinter moduleResultPrinter,
-        IModuleLoggerContainer moduleLoggerContainer)
+        IModuleLoggerContainer moduleLoggerContainer )
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineConsolePrinter = pipelineConsolePrinter;
@@ -37,7 +37,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _moduleResultPrinter = moduleResultPrinter;
         _moduleLoggerContainer = moduleLoggerContainer;
     }
-    
+
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
     {
         _dependencyDetector.Check();
@@ -48,44 +48,44 @@ internal class PipelineExecutor : IPipelineExecutor
 
         var organizedModules = await _moduleRetriever.GetOrganizedModules();
 
-        _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
+        _pipelineConsolePrinter.PrintProgress( organizedModules, _engineCancellationToken.Token );
 
-        var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
-        
+        var runnableModules = organizedModules.RunnableModules.Select( x => x.Module ).ToList();
+
         try
         {
-            await _moduleExecutor.ExecuteAsync(runnableModules);
+            await _moduleExecutor.ExecuteAsync( runnableModules );
         }
         catch
         {
             // Give time for the console to update modules to Failed
-            await Task.Delay(100);
+            await Task.Delay( 100 );
             _engineCancellationToken.Cancel();
             throw;
         }
         finally
         {
-            await WaitForAlwaysRunModules(runnableModules);
-            
-            await Dispose(runnableModules);
-            
-            await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
+            await WaitForAlwaysRunModules( runnableModules );
 
-            await Task.Delay(200);
-            
+            await Dispose( runnableModules );
+
+            await _pipelineSetupExecutor.OnEndAsync( organizedModules.AllModules );
+
+            await Task.Delay( 200 );
+
             _moduleLoggerContainer.PrintAllLoggers();
-            
+
             _moduleResultPrinter.PrintModuleResults();
         }
 
         return organizedModules.AllModules;
     }
 
-    private async Task WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
+    private async Task WaitForAlwaysRunModules( IEnumerable<ModuleBase> runnableModules )
     {
         try
         {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ResultTaskInternal));
+            await Task.WhenAll( runnableModules.Where( m => m.ModuleRunType == ModuleRunType.AlwaysRun ).Select( m => m.ResultTaskInternal ) );
         }
         catch
         {
@@ -93,15 +93,15 @@ internal class PipelineExecutor : IPipelineExecutor
         }
     }
 
-    private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)
+    private async Task Dispose( IEnumerable<ModuleBase> modulesToProcess )
     {
         foreach (var module in modulesToProcess)
         {
-            await Dispose(module);
+            await Dispose( module );
         }
     }
 
-    private static async Task Dispose(ModuleBase module)
+    private static async Task Dispose( ModuleBase module )
     {
         if (module is IAsyncDisposable asyncDisposable)
         {

@@ -4,18 +4,18 @@ namespace ModularPipelines.DotNet.Options;
 
 public enum Verbosity
 {
-    [EnumValue("quiet")]
+    [EnumValue( "quiet" )]
     Quiet,
-    
-    [EnumValue("minimal")]
+
+    [EnumValue( "minimal" )]
     Minimal,
-    
-    [EnumValue("normal")]
+
+    [EnumValue( "normal" )]
     Normal,
-    
-    [EnumValue("detailed")]
+
+    [EnumValue( "detailed" )]
     Detailed,
-    
-    [EnumValue("diagnostic")]
+
+    [EnumValue( "diagnostic" )]
     Diagnostic
 }

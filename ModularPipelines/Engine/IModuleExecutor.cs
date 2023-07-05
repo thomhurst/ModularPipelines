@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 public interface IModuleExecutor
 {
-    Task<IEnumerable<ModuleBase>> ExecuteAsync(IEnumerable<ModuleBase> modules);
+    Task<IEnumerable<ModuleBase>> ExecuteAsync( IEnumerable<ModuleBase> modules );
 }

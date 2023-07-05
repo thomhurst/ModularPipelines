@@ -13,14 +13,14 @@ public static class MicrosoftTeamsExtensions
 #pragma warning restore CA2255
     public static void RegisterMicrosoftTeamsContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterMicrosoftTeamsContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterMicrosoftTeamsContext( collection ) );
     }
-    
-    public static IServiceCollection RegisterMicrosoftTeamsContext(this IServiceCollection services)
+
+    public static IServiceCollection RegisterMicrosoftTeamsContext( this IServiceCollection services )
     {
         services.TryAddTransient<IMicrosoftTeams, MicrosoftTeams>();
         return services;
     }
 
-    public static IMicrosoftTeams MicrosoftTeams(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IMicrosoftTeams>();
+    public static IMicrosoftTeams MicrosoftTeams( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IMicrosoftTeams>();
 }

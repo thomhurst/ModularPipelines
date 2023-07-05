@@ -4,48 +4,48 @@ namespace ModularPipelines.DotNet.Options;
 
 public record DotNetBuildOptions : DotNetOptions
 {
-    [CommandSwitch("c")]
+    [CommandSwitch( "c" )]
     public Configuration? Configuration { get; init; }
-    
-    [CommandSwitch("f")]
+
+    [CommandSwitch( "f" )]
     public string? Framework { get; init; }
-    
-    [CommandSwitch("a")]
+
+    [CommandSwitch( "a" )]
     public string? Architecture { get; init; }
-    
-    [CommandSwitch("o")]
+
+    [CommandSwitch( "o" )]
     public string? Output { get; init; }
-    
-    [CommandSwitch("s")]
+
+    [CommandSwitch( "s" )]
     public string? Source { get; init; }
-    
-    [CommandLongSwitch("os", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "os", SwitchValueSeparator = " " )]
     public string? OperatingSystem { get; init; }
-    
-    [CommandLongSwitch("version-suffix", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "version-suffix", SwitchValueSeparator = " " )]
     public string? VersionSuffix { get; init; }
-    
-    [CommandLongSwitch("tl", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "tl", SwitchValueSeparator = " " )]
     public string? TerminalLogger { get; init; }
-    
-    [BooleanCommandSwitch("force")]
+
+    [BooleanCommandSwitch( "force" )]
     public bool? Force { get; init; }
-    
-    [BooleanCommandSwitch("no-dependencies")]
+
+    [BooleanCommandSwitch( "no-dependencies" )]
     public bool? NoDependencies { get; init; }
-    
-    [BooleanCommandSwitch("no-incremental")]
+
+    [BooleanCommandSwitch( "no-incremental" )]
     public bool? NoIncremental { get; init; }
-    
-    [BooleanCommandSwitch("no-restore")]
+
+    [BooleanCommandSwitch( "no-restore" )]
     public bool? NoRestore { get; init; }
-    
-    [BooleanCommandSwitch("nologo")]
+
+    [BooleanCommandSwitch( "nologo" )]
     public bool? NoLogo { get; init; }
-    
-    [BooleanCommandSwitch("no-self-contained")]
+
+    [BooleanCommandSwitch( "no-self-contained" )]
     public bool? NoSelfContained { get; init; }
-    
-    [BooleanCommandSwitch("use-current-runtime")]
+
+    [BooleanCommandSwitch( "use-current-runtime" )]
     public bool? UseCurrentRuntime { get; init; }
 }

@@ -9,9 +9,9 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
         {
-            return await context.DotNet().Version(cancellationToken: cancellationToken);
+            return await context.DotNet().Version( cancellationToken: cancellationToken );
         }
     }
 
@@ -21,13 +21,13 @@ public class DotNetTests : TestBase
         var module = await RunModule<DotNetVersionModule>();
 
         var moduleResult = await module;
-        
-        Assert.Multiple(() =>
+
+        Assert.Multiple( () =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
-        });
+            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
+            Assert.That( moduleResult.Exception, Is.Null );
+            Assert.That( moduleResult.Value, Is.Not.Null );
+        } );
     }
 
     [Test]
@@ -36,11 +36,11 @@ public class DotNetTests : TestBase
         var module = await RunModule<DotNetVersionModule>();
 
         var moduleResult = await module;
-        
-        Assert.Multiple(() =>
+
+        Assert.Multiple( () =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput, Does.Match("\\d+"));
-        });
+            Assert.That( moduleResult.Value!.StandardError, Is.Null.Or.Empty );
+            Assert.That( moduleResult.Value.StandardOutput, Does.Match( "\\d+" ) );
+        } );
     }
 }

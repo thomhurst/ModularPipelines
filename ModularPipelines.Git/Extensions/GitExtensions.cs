@@ -13,10 +13,10 @@ public static class GitExtensions
 #pragma warning restore CA2255
     public static void RegisterGitContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGitContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterGitContext( collection ) );
     }
-    
-    public static IServiceCollection RegisterGitContext(this IServiceCollection services)
+
+    public static IServiceCollection RegisterGitContext( this IServiceCollection services )
     {
         services.TryAddTransient<IGit, Git>();
         services.TryAddTransient<IGitOperations, GitOperations>();
@@ -27,5 +27,5 @@ public static class GitExtensions
         return services;
     }
 
-    public static IGit Git(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IGit>();
+    public static IGit Git( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IGit>();
 }

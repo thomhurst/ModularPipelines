@@ -13,16 +13,16 @@ public static class DotNetExtensions
 #pragma warning restore CA2255
     public static void RegisterDotNetContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDotNetContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterDotNetContext( collection ) );
     }
-    
-    public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
+
+    public static IServiceCollection RegisterDotNetContext( this IServiceCollection services )
     {
         services.TryAddTransient<IDotNet, DotNet>();
         services.TryAddTransient<ITrxParser, TrxParser>();
         return services;
     }
 
-    public static IDotNet DotNet(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
+    public static IDotNet DotNet( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IDotNet>();
 
 }

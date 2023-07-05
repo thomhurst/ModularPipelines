@@ -14,10 +14,10 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     private readonly IHostEnvironment _hostEnvironment;
     private readonly ICommand _command;
 
-    public EnvironmentContext(ILogger<EnvironmentContext> logger, 
-        IHostEnvironment hostEnvironment, 
+    public EnvironmentContext( ILogger<EnvironmentContext> logger,
+        IHostEnvironment hostEnvironment,
         IEnvironmentVariables environmentVariables,
-        ICommand command)
+        ICommand command )
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
@@ -34,9 +34,9 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
     public Folder? GitRootDirectory { get; set; }
 
-    public Folder? GetFolder(Environment.SpecialFolder specialFolder)
+    public Folder? GetFolder( Environment.SpecialFolder specialFolder )
     {
-        return Environment.GetFolderPath(specialFolder);
+        return Environment.GetFolderPath( specialFolder );
     }
 
     public IEnvironmentVariables EnvironmentVariables { get; }
@@ -46,17 +46,17 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         CommandResult gitCommandOutput;
         try
         {
-            gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            gitCommandOutput = await _command.ExecuteCommandLineTool( new CommandLineToolOptions( "git" )
             {
-                Arguments = new []{ "rev-parse", "--show-toplevel" }
-            });
+                Arguments = new[] { "rev-parse", "--show-toplevel" }
+            } );
         }
         catch (CommandException e)
         {
-            _logger.LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
+            _logger.LogDebug( "Error retrieving Git root directory: {Error}", e.CommandResult.StandardError );
             return;
         }
 
-        GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
+        GitRootDirectory = new Folder( new DirectoryInfo( gitCommandOutput.StandardOutput.Trim() ) );
     }
 }

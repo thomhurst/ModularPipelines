@@ -18,14 +18,14 @@ internal static class CSharpVerifierHelper
     private static ImmutableDictionary<string, ReportDiagnostic> GetNullableWarningsFromCompiler()
     {
         string[] args = { "/warnaserror:nullable", "-p:LangVersion=preview" };
-        var commandLineArguments = CSharpCommandLineParser.Default.Parse(args, baseDirectory: Environment.CurrentDirectory, sdkDirectory: Environment.CurrentDirectory);
+        var commandLineArguments = CSharpCommandLineParser.Default.Parse( args, baseDirectory: Environment.CurrentDirectory, sdkDirectory: Environment.CurrentDirectory );
         var nullableWarnings = commandLineArguments.CompilationOptions.SpecificDiagnosticOptions;
 
         // Workaround for https://github.com/dotnet/roslyn/issues/41610
         nullableWarnings = nullableWarnings
-            .SetItem("CS8632", ReportDiagnostic.Error)
-            .SetItem("CS8669", ReportDiagnostic.Error)
-            .SetItem("CS8652", ReportDiagnostic.Suppress);
+            .SetItem( "CS8632", ReportDiagnostic.Error )
+            .SetItem( "CS8669", ReportDiagnostic.Error )
+            .SetItem( "CS8652", ReportDiagnostic.Suppress );
 
         return nullableWarnings;
     }

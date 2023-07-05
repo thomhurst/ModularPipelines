@@ -17,37 +17,37 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
 {
     private readonly IOptions<NuGetSettings> _options;
 
-    public UploadPackagesToNugetModule(IOptions<NuGetSettings> options)
+    public UploadPackagesToNugetModule( IOptions<NuGetSettings> options )
     {
-        ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
+        ArgumentNullException.ThrowIfNull( options.Value.ApiKey );
         _options = options;
     }
 
-    protected override async Task OnBeforeExecute(IModuleContext context)
+    protected override async Task OnBeforeExecute( IModuleContext context )
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
-        
+
         foreach (var packagePath in packagePaths.Value!)
         {
-            context.Logger.LogInformation("Uploading {File}", packagePath);
+            context.Logger.LogInformation( "Uploading {File}", packagePath );
         }
-        
-        await base.OnBeforeExecute(context);
+
+        await base.OnBeforeExecute( context );
     }
 
-    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
     {
         if (GitVersionInformation.BranchName != "main")
         {
             return await NothingAsync();
         }
-        
+
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
+            .UploadPackages( new NuGetUploadOptions( packagePaths.Value!, new Uri( "https://api.nuget.org/v3/index.json" ) )
             {
                 ApiKey = _options.Value.ApiKey!
-            });
+            } );
     }
 }

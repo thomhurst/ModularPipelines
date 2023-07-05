@@ -13,15 +13,15 @@ public static class CmdExtensions
 #pragma warning restore CA2255
     public static void RegisterCmdContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterCmdContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterCmdContext( collection ) );
     }
-    
-    public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
+
+    public static IServiceCollection RegisterCmdContext( this IServiceCollection services )
     {
         services.TryAddTransient<ICmd, Cmd>();
-        
+
         return services;
     }
-    
-    public static ICmd Cmd(this IModuleContext context) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
+
+    public static ICmd Cmd( this IModuleContext context ) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
 }

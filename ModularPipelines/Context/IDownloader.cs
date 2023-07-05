@@ -5,5 +5,5 @@ namespace ModularPipelines.Context;
 
 public interface IDownloader
 {
-    public Task<File> DownloadFileAsync(DownloadOptions options, CancellationToken cancellationToken = default);
+    public Task<File> DownloadFileAsync( DownloadOptions options, CancellationToken cancellationToken = default );
 }

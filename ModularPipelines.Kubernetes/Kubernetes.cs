@@ -8,17 +8,17 @@ internal class Kubernetes : IKubernetes
 {
     private readonly ICommand _command;
 
-    public Kubernetes(IKubernetesConfig config,
-        ICommand command)
+    public Kubernetes( IKubernetesConfig config,
+        ICommand command )
     {
         _command = command;
         Config = config;
     }
 
     public IKubernetesConfig Config { get; }
-    
-    public Task Apply(KubernetesApplyOptions applyOptions, CancellationToken cancellationToken = default)
+
+    public Task Apply( KubernetesApplyOptions applyOptions, CancellationToken cancellationToken = default )
     {
-        return _command.ExecuteCommandLineTool(applyOptions.ToCommandLineToolOptions("kubectl", "apply"), cancellationToken);
+        return _command.ExecuteCommandLineTool( applyOptions.ToCommandLineToolOptions( "kubectl", "apply" ), cancellationToken );
     }
 }

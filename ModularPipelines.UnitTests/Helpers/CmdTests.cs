@@ -12,15 +12,15 @@ public class CmdTests : TestBase
     {
         if (Environment.OSVersion.Platform != PlatformID.Win32NT)
         {
-            Assert.Ignore("Cmd is Windows only");
+            Assert.Ignore( "Cmd is Windows only" );
         }
     }
-    
+
     private class CmdEchoModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
         {
-            return await context.Cmd().Script(new("echo Foo bar!"), cancellationToken: cancellationToken);
+            return await context.Cmd().Script( new( "echo Foo bar!" ), cancellationToken: cancellationToken );
         }
     }
 
@@ -30,13 +30,13 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-        
-        Assert.Multiple(() =>
+
+        Assert.Multiple( () =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
-        });
+            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
+            Assert.That( moduleResult.Exception, Is.Null );
+            Assert.That( moduleResult.Value, Is.Not.Null );
+        } );
     }
 
     [Test]
@@ -45,11 +45,11 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-        
-        Assert.Multiple(() =>
+
+        Assert.Multiple( () =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput.Trim(), Is.EqualTo("Foo bar!"));
-        });
+            Assert.That( moduleResult.Value!.StandardError, Is.Null.Or.Empty );
+            Assert.That( moduleResult.Value.StandardOutput.Trim(), Is.EqualTo( "Foo bar!" ) );
+        } );
     }
 }

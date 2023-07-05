@@ -2,9 +2,9 @@
 
 namespace ModularPipelines.DotNet;
 
-[XmlRoot(ElementName = "Output")]
+[XmlRoot( ElementName = "Output" )]
 public record TestOutput
 {
-    [XmlElement("StdOut")]
+    [XmlElement( "StdOut" )]
     public string? StdOut { get; init; }
 }

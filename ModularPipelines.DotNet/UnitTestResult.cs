@@ -3,42 +3,42 @@
 namespace ModularPipelines.DotNet;
 
 [Serializable]
-[XmlRoot(ElementName = "UnitTestResult")]
+[XmlRoot( ElementName = "UnitTestResult" )]
 public record UnitTestResult
 {
-    [XmlAttribute("executionId")]
+    [XmlAttribute( "executionId" )]
     public string? ExecutionId { get; init; }
-    
-    [XmlAttribute("testId")]
+
+    [XmlAttribute( "testId" )]
     public string? TestId { get; init; }
-    
-    [XmlAttribute("testName")]
+
+    [XmlAttribute( "testName" )]
     public string? TestName { get; init; }
-    
-    [XmlAttribute("computerName")]
+
+    [XmlAttribute( "computerName" )]
     public string? ComputerName { get; init; }
-    
-    [XmlAttribute("duration")]
+
+    [XmlAttribute( "duration" )]
     public string? Duration { get; init; }
-    
-    [XmlAttribute("startTime")]
+
+    [XmlAttribute( "startTime" )]
     public string? StartTime { get; init; }
-    
-    [XmlAttribute("endTime")]
+
+    [XmlAttribute( "endTime" )]
     public string? EndTime { get; init; }
-    
-    [XmlAttribute("testType")]
+
+    [XmlAttribute( "testType" )]
     public string? TestType { get; init; }
-    
-    [XmlAttribute("outcome")]
+
+    [XmlAttribute( "outcome" )]
     public string? Outcome { get; init; }
-    
-    [XmlAttribute("testListId")]
+
+    [XmlAttribute( "testListId" )]
     public string? TestListId { get; init; }
-    
-    [XmlAttribute("relativeResultsDirectory")]
+
+    [XmlAttribute( "relativeResultsDirectory" )]
     public string? RelativeResultsDirectory { get; init; }
-    
-    [XmlElement("Output")]
+
+    [XmlElement( "Output" )]
     public TestOutput? Output { get; init; }
 }

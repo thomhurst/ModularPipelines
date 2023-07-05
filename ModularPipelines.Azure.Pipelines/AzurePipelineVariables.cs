@@ -4,7 +4,7 @@ public class AzurePipelineVariables
 {
     public AzurePipelineAgentVariables Agent { get; }
 
-    public AzurePipelineVariables(AzurePipelineAgentVariables agent)
+    public AzurePipelineVariables( AzurePipelineAgentVariables agent )
     {
         Agent = agent;
     }

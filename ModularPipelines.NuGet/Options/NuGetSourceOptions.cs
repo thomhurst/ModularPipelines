@@ -11,10 +11,10 @@ public record NuGetSourceOptions
     string Name
 ) : CommandLineOptions
 {
-    
-    [CommandLongSwitch("username", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "username", SwitchValueSeparator = " " )]
     public string? Username { get; init; }
-    
-    [CommandLongSwitch("password", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "password", SwitchValueSeparator = " " )]
     public string? Password { get; init; }
 }

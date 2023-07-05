@@ -8,15 +8,15 @@ public class ModuleFailedException : PipelineException
     {
     }
 
-    protected ModuleFailedException(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected ModuleFailedException( SerializationInfo info, StreamingContext context ) : base( info, context )
     {
     }
 
-    public ModuleFailedException(string? message) : base(message)
+    public ModuleFailedException( string? message ) : base( message )
     {
     }
 
-    public ModuleFailedException(string? message, Exception? innerException) : base(message, innerException)
+    public ModuleFailedException( string? message, Exception? innerException ) : base( message, innerException )
     {
     }
 }

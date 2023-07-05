@@ -6,90 +6,90 @@ public record DotNetTestOptions : DotNetOptions
 {
     public IEnumerable<string>? RunSettingsArguments { get; init; }
 
-    [BooleanCommandSwitch("blame")]
+    [BooleanCommandSwitch( "blame" )]
     public bool? Blame { get; init; }
 
-    [BooleanCommandSwitch("blame-crash")]
+    [BooleanCommandSwitch( "blame-crash" )]
     public bool? BlameCrash { get; init; }
 
-    [CommandLongSwitch("blame-crash-dump-type")]
+    [CommandLongSwitch( "blame-crash-dump-type" )]
     public string? BlameCrashDumpType { get; init; }
 
-    [BooleanCommandSwitch("blame-crash-collect-always")]
-    public bool? BlameCrashCollectAlways{ get; init; }
+    [BooleanCommandSwitch( "blame-crash-collect-always" )]
+    public bool? BlameCrashCollectAlways { get; init; }
 
-    [BooleanCommandSwitch("blame-hang")]
+    [BooleanCommandSwitch( "blame-hang" )]
     public bool? BlameHang { get; init; }
 
-    [CommandLongSwitch("blame-hang-dump-type")]
+    [CommandLongSwitch( "blame-hang-dump-type" )]
     public string? BlameHangDumpType { get; init; }
 
-    [CommandLongSwitch("blame-hang-timeout")]
+    [CommandLongSwitch( "blame-hang-timeout" )]
     public string? BlameHangTimeout { get; init; }
 
-    [CommandSwitch("c")]
+    [CommandSwitch( "c" )]
     public Configuration? Configuration { get; init; }
 
-    [CommandSwitch("f")]
+    [CommandSwitch( "f" )]
     public string? Framework { get; init; }
-    
-    [CommandLongSwitch("filter", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "filter", SwitchValueSeparator = " " )]
     public string? Filter { get; init; }
 
-    [CommandLongSwitch("environment", SwitchValueSeparator = " ")]
+    [CommandLongSwitch( "environment", SwitchValueSeparator = " " )]
     public string? Environment { get; init; }
 
-    [CommandSwitch("d")]
+    [CommandSwitch( "d" )]
     public string? DiagnosticLogFile { get; init; }
-    
-    [CommandSwitch("l")]
+
+    [CommandSwitch( "l" )]
     public ICollection<string>? Logger { get; set; }
-    
-    [CommandLongSwitch("results-directory", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "results-directory", SwitchValueSeparator = " " )]
     public string? ResultsDirectory { get; init; }
 
-    [CommandSwitch("s")]
+    [CommandSwitch( "s" )]
     public string? SettingsFile { get; init; }
 
-    [CommandLongSwitch("collect", SwitchValueSeparator = " ")]
+    [CommandLongSwitch( "collect", SwitchValueSeparator = " " )]
     public string? Collect { get; init; }
 
-    [CommandSwitch("a")]
+    [CommandSwitch( "a" )]
     public string? Architecture { get; init; }
-    
-    [CommandSwitch("o")]
+
+    [CommandSwitch( "o" )]
     public string? Output { get; init; }
-    
-    [CommandSwitch("s")]
+
+    [CommandSwitch( "s" )]
     public string? Source { get; init; }
-    
-    [CommandLongSwitch("os", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "os", SwitchValueSeparator = " " )]
     public string? OperatingSystem { get; init; }
-    
-    [CommandLongSwitch("version-suffix", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "version-suffix", SwitchValueSeparator = " " )]
     public string? VersionSuffix { get; init; }
-    
-    [CommandLongSwitch("tl", SwitchValueSeparator = " ")]
+
+    [CommandLongSwitch( "tl", SwitchValueSeparator = " " )]
     public string? TerminalLogger { get; init; }
-    
-    [BooleanCommandSwitch("force")]
+
+    [BooleanCommandSwitch( "force" )]
     public bool? Force { get; init; }
-    
-    [BooleanCommandSwitch("no-dependencies")]
+
+    [BooleanCommandSwitch( "no-dependencies" )]
     public bool? NoDependencies { get; init; }
-    
-    [BooleanCommandSwitch("no-incremental")]
+
+    [BooleanCommandSwitch( "no-incremental" )]
     public bool? NoIncremental { get; init; }
-    
-    [BooleanCommandSwitch("no-restore")]
+
+    [BooleanCommandSwitch( "no-restore" )]
     public bool? NoRestore { get; init; }
-    
-    [BooleanCommandSwitch("nologo")]
+
+    [BooleanCommandSwitch( "nologo" )]
     public bool? NoLogo { get; init; }
-    
-    [BooleanCommandSwitch("no-self-contained")]
+
+    [BooleanCommandSwitch( "no-self-contained" )]
     public bool? NoSelfContained { get; init; }
-    
-    [BooleanCommandSwitch("use-current-runtime")]
+
+    [BooleanCommandSwitch( "use-current-runtime" )]
     public bool? UseCurrentRuntime { get; init; }
 }
