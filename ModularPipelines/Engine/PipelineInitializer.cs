@@ -6,7 +6,7 @@ public class PipelineInitializer : IPipelineInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public PipelineInitializer( IServiceProvider serviceProvider )
+    public PipelineInitializer(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

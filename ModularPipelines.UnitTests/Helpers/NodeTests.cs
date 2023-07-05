@@ -9,16 +9,16 @@ public class NodeTests : TestBase
 {
     private class NodeVersionModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var task = () =>
             {
-                context.Node().Npm.Install( null!, cancellationToken );
-                context.Node().Npm.Run( null!, cancellationToken );
-                context.Node().Nvm.Use( null!, cancellationToken );
+                context.Node().Npm.Install(null!, cancellationToken);
+                context.Node().Npm.Run(null!, cancellationToken);
+                context.Node().Nvm.Use(null!, cancellationToken);
             };
 
-            return await context.Node().Version( cancellationToken: cancellationToken );
+            return await context.Node().Version(cancellationToken: cancellationToken);
         }
     }
 
@@ -29,12 +29,12 @@ public class NodeTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple( () =>
+        Assert.Multiple(() =>
         {
-            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
-            Assert.That( moduleResult.Exception, Is.Null );
-            Assert.That( moduleResult.Value, Is.Not.Null );
-        } );
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.Value, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -44,10 +44,10 @@ public class NodeTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple( () =>
+        Assert.Multiple(() =>
         {
-            Assert.That( moduleResult.Value!.StandardError, Is.Null.Or.Empty );
-            Assert.That( moduleResult.Value.StandardOutput, Does.Match( "v\\d+" ) );
-        } );
+            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
+            Assert.That(moduleResult.Value.StandardOutput, Does.Match("v\\d+"));
+        });
     }
 }

@@ -9,7 +9,7 @@ public class PipelineEngineOverrides
 {
     private readonly IHostBuilder _internalHost;
 
-    internal PipelineEngineOverrides( IHostBuilder internalHost )
+    internal PipelineEngineOverrides(IHostBuilder internalHost)
     {
         _internalHost = internalHost;
     }
@@ -26,11 +26,11 @@ public class PipelineEngineOverrides
 
     private PipelineEngineOverrides OverrideGeneric<TBase, T>() where T : class, TBase where TBase : class
     {
-        _internalHost.ConfigureServices( s =>
+        _internalHost.ConfigureServices(s =>
         {
             s.RemoveAll<TBase>()
                 .AddSingleton<TBase, T>();
-        } );
+        });
 
         return this;
     }

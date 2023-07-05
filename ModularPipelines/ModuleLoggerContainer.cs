@@ -6,14 +6,14 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
 
     public void PrintAllLoggers()
     {
-        foreach (var logger in _loggers.OrderBy( x => x.LastLogWritten ))
+        foreach (var logger in _loggers.OrderBy(x => x.LastLogWritten))
         {
             logger.Dispose();
         }
     }
 
-    public void AddLogger( ModuleLogger logger )
+    public void AddLogger(ModuleLogger logger)
     {
-        _loggers.Add( logger );
+        _loggers.Add(logger);
     }
 }

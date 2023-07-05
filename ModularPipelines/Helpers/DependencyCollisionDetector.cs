@@ -8,7 +8,7 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
 
-    public DependencyCollisionDetector( IDependencyChainProvider dependencyChainProvider )
+    public DependencyCollisionDetector(IDependencyChainProvider dependencyChainProvider)
     {
         _dependencyChainProvider = dependencyChainProvider;
     }
@@ -17,31 +17,31 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
     {
         foreach (var moduleDependencyModel in _dependencyChainProvider.ModuleDependencyModels)
         {
-            CheckCollision( moduleDependencyModel );
+            CheckCollision(moduleDependencyModel);
         }
     }
 
-    private static void CheckCollision( ModuleDependencyModel moduleDependencyModel )
+    private static void CheckCollision(ModuleDependencyModel moduleDependencyModel)
     {
         var allDescendentDependenciesAndSelf = moduleDependencyModel.AllDescendantDependenciesAndSelf().ToList();
-        var allDescendentDependencies = allDescendentDependenciesAndSelf.Skip( 1 ).ToList();
+        var allDescendentDependencies = allDescendentDependenciesAndSelf.Skip(1).ToList();
 
-        if (!allDescendentDependencies.Contains( moduleDependencyModel ))
+        if (!allDescendentDependencies.Contains(moduleDependencyModel))
         {
             return;
         }
 
-        var index = allDescendentDependencies.IndexOf( moduleDependencyModel ) + 1;
+        var index = allDescendentDependencies.IndexOf(moduleDependencyModel) + 1;
 
         var formattedArray = allDescendentDependenciesAndSelf
-            .Take( index + 1 )
-            .Select( x => x.Module.GetType().Name )
+            .Take(index + 1)
+            .Select(x => x.Module.GetType().Name)
             .ToArray();
 
         formattedArray[0] = $"**{formattedArray[0]}**";
         formattedArray[^1] = $"**{formattedArray[^1]}**";
 
-        var typeChain = string.Join( " -> ", formattedArray );
-        throw new DependencyCollisionException( $"Dependency collision detected: {typeChain}" );
+        var typeChain = string.Join(" -> ", formattedArray);
+        throw new DependencyCollisionException($"Dependency collision detected: {typeChain}");
     }
 }

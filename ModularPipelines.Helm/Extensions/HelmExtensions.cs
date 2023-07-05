@@ -13,15 +13,15 @@ public static class HelmExtensions
 #pragma warning restore CA2255
     public static void RegisterHelmContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterHelmContext( collection ) );
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterHelmContext(collection));
     }
 
-    public static IServiceCollection RegisterHelmContext( this IServiceCollection services )
+    public static IServiceCollection RegisterHelmContext(this IServiceCollection services)
     {
         services.TryAddTransient<IHelm, Helm>();
         return services;
     }
 
-    public static IHelm Helm( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IHelm>();
+    public static IHelm Helm(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IHelm>();
 
 }

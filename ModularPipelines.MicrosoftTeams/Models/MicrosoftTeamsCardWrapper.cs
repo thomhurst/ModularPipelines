@@ -4,13 +4,13 @@ namespace ModularPipelines.MicrosoftTeams.Models;
 
 internal class MicrosoftTeamsCardWrapper
 {
-    [JsonPropertyName( "type" )]
+    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
-    [JsonPropertyName( "attachments" )]
+    [JsonPropertyName("attachments")]
     public Attachment[]? Attachments { get; set; }
 
-    public static MicrosoftTeamsCardWrapper Wrap( MicrosoftTeamsAdaptiveCard adaptiveCard )
+    public static MicrosoftTeamsCardWrapper Wrap(MicrosoftTeamsAdaptiveCard adaptiveCard)
     {
         return new MicrosoftTeamsCardWrapper
         {

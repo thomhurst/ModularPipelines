@@ -5,5 +5,5 @@ namespace ModularPipelines.Context;
 
 public interface ICommand
 {
-    Task<CommandResult> ExecuteCommandLineTool( CommandLineToolOptions options, CancellationToken cancellationToken = default );
+    Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
 }

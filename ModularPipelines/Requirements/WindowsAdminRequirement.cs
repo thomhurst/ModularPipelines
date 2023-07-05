@@ -9,10 +9,10 @@ public class WindowsAdminRequirement : IPipelineRequirement
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
 #pragma warning disable CA1416
-            return Task.FromResult( WindowsIdentity.GetCurrent().Owner?.IsWellKnown( WellKnownSidType.BuiltinAdministratorsSid ) ?? true );
+            return Task.FromResult(WindowsIdentity.GetCurrent().Owner?.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid) ?? true);
 #pragma warning restore CA1416
         }
 
-        return Task.FromResult( true );
+        return Task.FromResult(true);
     }
 }

@@ -9,7 +9,7 @@ public abstract class SubModuleBase
     internal DateTimeOffset StartTime { get; set; }
     internal DateTimeOffset EndTime { get; set; }
 
-    internal SubModuleBase( Type parentModule, string name )
+    internal SubModuleBase(Type parentModule, string name)
     {
         ParentModule = parentModule;
         Name = name;

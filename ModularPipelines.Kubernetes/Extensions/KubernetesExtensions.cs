@@ -13,15 +13,15 @@ public static class KubernetesExtensions
 #pragma warning restore CA2255
     public static void RegisterKubernetesContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterKubernetesContext( collection ) );
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterKubernetesContext(collection));
     }
 
-    public static IServiceCollection RegisterKubernetesContext( this IServiceCollection services )
+    public static IServiceCollection RegisterKubernetesContext(this IServiceCollection services)
     {
         services.TryAddTransient<IKubernetes, Kubernetes>();
         return services;
     }
 
-    public static IKubernetes Kubernetes( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<IKubernetes>();
+    public static IKubernetes Kubernetes(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
 
 }

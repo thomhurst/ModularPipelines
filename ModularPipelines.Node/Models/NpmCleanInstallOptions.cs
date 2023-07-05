@@ -5,9 +5,9 @@ namespace ModularPipelines.Node.Models;
 
 public record NpmCleanInstallOptions : CommandLineOptions
 {
-    [CommandLongSwitch( "install-strategy" )]
+    [CommandLongSwitch("install-strategy")]
     public string? InstallStrategy { get; init; }
 
-    [CommandLongSwitch( "omit" )]
+    [CommandLongSwitch("omit")]
     public IEnumerable<string>? Omit { get; init; }
 }

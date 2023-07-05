@@ -4,9 +4,9 @@ namespace ModularPipelines.Git;
 
 internal class GitCommitMapper : IGitCommitMapper
 {
-    public GitCommit Map( string commandLineOutput )
+    public GitCommit Map(string commandLineOutput)
     {
-        var lines = commandLineOutput.Split( GitConstants.DotNetLineSeparator, StringSplitOptions.RemoveEmptyEntries ).Select( x => x.Trim() ).ToList();
+        var lines = commandLineOutput.Split(GitConstants.DotNetLineSeparator, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToList();
 
         return new GitCommit
         {
@@ -14,13 +14,13 @@ internal class GitCommitMapper : IGitCommitMapper
             {
                 Name = lines[0],
                 Email = lines[1],
-                Date = DateTime.Parse( lines[2] )
+                Date = DateTime.Parse(lines[2])
             },
             Committer = new GitAuthor
             {
                 Name = lines[3],
                 Email = lines[4],
-                Date = DateTime.Parse( lines[5] )
+                Date = DateTime.Parse(lines[5])
             },
             Hash = new GitHash
             {

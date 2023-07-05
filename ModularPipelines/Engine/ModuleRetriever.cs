@@ -29,26 +29,26 @@ internal class ModuleRetriever : IModuleRetriever
     {
         if (_modules.Count == 0)
         {
-            throw new PipelineException( "No modules have been registered" );
+            throw new PipelineException("No modules have been registered");
         }
 
-        _modules.ForEach( m => _moduleInitializer.Initialize( m ) );
+        _modules.ForEach(m => _moduleInitializer.Initialize(m));
 
         var modulesToIgnore = _modules
-            .Where( m => _moduleIgnoreHandler.ShouldIgnore( m ) )
+            .Where(m => _moduleIgnoreHandler.ShouldIgnore(m))
             .ToList();
 
         var modulesToProcess = _modules
-            .Except( modulesToIgnore )
+            .Except(modulesToIgnore)
             .ToList();
 
         var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
-            .SelectAsync( async module =>
+            .SelectAsync(async module =>
             {
-                var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync( module.GetType() );
-                return new RunnableModule( module, estimatedTime );
-            } )
-            .ProcessInParallel( 100, TimeSpan.FromSeconds( 1 ) );
+                var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
+                return new RunnableModule(module, estimatedTime);
+            })
+            .ProcessInParallel(100, TimeSpan.FromSeconds(1));
 
         return new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,

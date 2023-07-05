@@ -3,5 +3,5 @@
 internal interface IModuleLoggerContainer
 {
     void PrintAllLoggers();
-    void AddLogger( ModuleLogger logger );
+    void AddLogger(ModuleLogger logger);
 }

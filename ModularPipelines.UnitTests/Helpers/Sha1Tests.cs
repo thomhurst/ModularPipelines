@@ -8,10 +8,10 @@ public class Sha1Tests : TestBase
 {
     private class ToSha1Module : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
+        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Hasher.Sha1( "Foo bar!" );
+            return context.Hasher.Sha1("Foo bar!");
         }
     }
 
@@ -22,12 +22,12 @@ public class Sha1Tests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple( () =>
+        Assert.Multiple(() =>
         {
-            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
-            Assert.That( moduleResult.Exception, Is.Null );
-            Assert.That( moduleResult.Value, Is.Not.Null );
-        } );
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.Value, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -37,6 +37,6 @@ public class Sha1Tests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That( moduleResult.Value, Is.EqualTo( "cc3626c5ad2e3aff0779dc63e80555c463fd99dc" ) );
+        Assert.That(moduleResult.Value, Is.EqualTo("cc3626c5ad2e3aff0779dc63e80555c463fd99dc"));
     }
 }

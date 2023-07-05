@@ -1,9 +1,9 @@
 namespace ModularPipelines.Attributes;
 
-[AttributeUsage( AttributeTargets.Property )]
+[AttributeUsage(AttributeTargets.Property)]
 public class CommandLongSwitchAttribute : CommandSwitchAttribute
 {
-    public CommandLongSwitchAttribute( string switchName ) : base( switchName )
+    public CommandLongSwitchAttribute(string switchName) : base(switchName)
     {
         HyphenCount = 2;
         SwitchValueSeparator = "=";

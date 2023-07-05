@@ -7,8 +7,8 @@ internal class DependencyDetector : IDependencyDetector
     private readonly IDependencyCollisionDetector _dependencyCollisionDetector;
     private readonly IDependencyPrinter _dependencyPrinter;
 
-    public DependencyDetector( IDependencyCollisionDetector dependencyCollisionDetector,
-        IDependencyPrinter dependencyPrinter )
+    public DependencyDetector(IDependencyCollisionDetector dependencyCollisionDetector,
+        IDependencyPrinter dependencyPrinter)
     {
         _dependencyCollisionDetector = dependencyCollisionDetector;
         _dependencyPrinter = dependencyPrinter;

@@ -5,13 +5,13 @@ namespace ModularPipelines.Context;
 
 public class Zip : IZip
 {
-    public void ZipFolder( Folder folder, string outputPath, CompressionLevel compressionLevel )
+    public void ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
-        ZipFile.CreateFromDirectory( folder.Path, outputPath, compressionLevel, false );
+        ZipFile.CreateFromDirectory(folder.Path, outputPath, compressionLevel, false);
     }
 
-    public void UnZipToFolder( string zipPath, string outputFolderPath )
+    public void UnZipToFolder(string zipPath, string outputFolderPath)
     {
-        ZipFile.ExtractToDirectory( zipPath, outputFolderPath, true );
+        ZipFile.ExtractToDirectory(zipPath, outputFolderPath, true);
     }
 }

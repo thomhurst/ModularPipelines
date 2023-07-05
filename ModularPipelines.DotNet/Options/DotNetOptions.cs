@@ -7,13 +7,13 @@ public record DotNetOptions : CommandLineOptions
 {
     public string? TargetPath { get; init; }
 
-    [CommandLongSwitch( "runtime", SwitchValueSeparator = " " )]
+    [CommandLongSwitch("runtime", SwitchValueSeparator = " ")]
     public string? Runtime { get; init; }
 
-    [CommandSwitch( "v" )]
+    [CommandSwitch("v")]
     public Verbosity? Verbosity { get; init; }
 
-    [CommandLongSwitch( "property", SwitchValueSeparator = ":" )]
+    [CommandLongSwitch("property", SwitchValueSeparator = ":")]
     public string[]? Properties { get; init; }
 
     public IEnumerable<string>? AdditionalSwitches { get; init; }

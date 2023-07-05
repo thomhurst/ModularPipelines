@@ -12,13 +12,13 @@ public interface IModuleContext
 {
     internal EngineCancellationToken EngineCancellationToken { get; }
     internal TModule? GetModule<TModule>() where TModule : ModuleBase;
-    internal ModuleBase? GetModule( Type type );
+    internal ModuleBase? GetModule(Type type);
     public IServiceProvider ServiceProvider { get; }
     public IConfiguration Configuration { get; }
     public IOptions<PipelineOptions> PipelineOptions { get; }
     internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
     internal IModuleResultRepository ModuleResultRepository { get; }
-    internal void FetchLogger( Type getType );
+    internal void FetchLogger(Type getType);
     public T? Get<T>();
     public ILogger Logger { get; }
 

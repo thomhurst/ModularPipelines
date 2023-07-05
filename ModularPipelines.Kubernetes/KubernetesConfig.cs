@@ -10,38 +10,38 @@ public class KubernetesConfig : IKubernetesConfig
 {
     private readonly ICommand _command;
 
-    public KubernetesConfig( ICommand command )
+    public KubernetesConfig(ICommand command)
     {
         _command = command;
     }
 
-    public async Task UseContext( KubernetesUseContextOptions kubernetesUseContextOptions )
+    public async Task UseContext(KubernetesUseContextOptions kubernetesUseContextOptions)
     {
-        await _command.ExecuteCommandLineTool( kubernetesUseContextOptions.ToCommandLineToolOptions( "kubernetes",
-            "config", "use-context", kubernetesUseContextOptions.ContextName )
+        await _command.ExecuteCommandLineTool(kubernetesUseContextOptions.ToCommandLineToolOptions("kubernetes",
+            "config", "use-context", kubernetesUseContextOptions.ContextName)
         );
     }
 
-    public async Task<CommandResult> View( KubernetesViewConfigOptions viewConfigOptions )
+    public async Task<CommandResult> View(KubernetesViewConfigOptions viewConfigOptions)
     {
-        return await _command.ExecuteCommandLineTool( viewConfigOptions.ToCommandLineToolOptions( "kubernetes",
-            "config", "view" )
+        return await _command.ExecuteCommandLineTool(viewConfigOptions.ToCommandLineToolOptions("kubernetes",
+            "config", "view")
         );
     }
 
     public async Task<CommandResult> GetContexts()
     {
-        return await _command.ExecuteCommandLineTool( new CommandLineToolOptions( "kubernetes" )
+        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("kubernetes")
         {
             Arguments = new[] { "config", "get-contexts" }
-        } );
+        });
     }
 
     public async Task<CommandResult> CurrentContext()
     {
-        return await _command.ExecuteCommandLineTool( new CommandLineToolOptions( "kubernetes" )
+        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("kubernetes")
         {
             Arguments = new[] { "config", "current-context" }
-        } );
+        });
     }
 }

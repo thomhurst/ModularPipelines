@@ -14,9 +14,9 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
     {
         public Test()
         {
-            SolutionTransforms.Add( ( solution, projectId ) =>
+            SolutionTransforms.Add((solution, projectId) =>
             {
-                var project = solution.GetProject( projectId );
+                var project = solution.GetProject(projectId);
 
                 if (project is null)
                 {
@@ -37,13 +37,13 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
                     return solution;
                 }
 
-                compilationOptions = compilationOptions.WithSpecificDiagnosticOptions( compilationOptions.SpecificDiagnosticOptions.SetItems( CSharpVerifierHelper.NullableWarnings ) );
+                compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
 
-                solution = solution.WithProjectCompilationOptions( projectId, compilationOptions )
-                    .WithProjectParseOptions( projectId, parseOptions.WithLanguageVersion( LanguageVersion.Preview ) );
+                solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)
+                    .WithProjectParseOptions(projectId, parseOptions.WithLanguageVersion(LanguageVersion.Preview));
 
                 return solution;
-            } );
+            });
         }
     }
 }

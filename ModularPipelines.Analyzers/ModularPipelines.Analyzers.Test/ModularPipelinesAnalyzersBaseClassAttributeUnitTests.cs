@@ -85,12 +85,12 @@ public interface DependsOnModule1
     [TestMethod]
     public async Task Attribute_On_Base_Type_No_Analyzer_Error()
     {
-        await VerifyCS.VerifyAnalyzerAsync( BaseTypeWithAttribute );
+        await VerifyCS.VerifyAnalyzerAsync(BaseTypeWithAttribute);
     }
 
     [TestMethod]
     public async Task Attribute_On_Interface_Type_No_Analyzer_Error()
     {
-        await VerifyCS.VerifyAnalyzerAsync( InterfaceWithAttribute );
+        await VerifyCS.VerifyAnalyzerAsync(InterfaceWithAttribute);
     }
 }

@@ -4,9 +4,9 @@ namespace ModularPipelines.DotNet.Options;
 
 public enum Configuration
 {
-    [EnumValue( "Debug" )]
+    [EnumValue("Debug")]
     Debug,
 
-    [EnumValue( "Release" )]
+    [EnumValue("Release")]
     Release
 }

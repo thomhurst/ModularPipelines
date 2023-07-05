@@ -13,10 +13,10 @@ public static class NodeExtensions
 #pragma warning restore CA2255
     public static void RegisterNodeContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterNodeContext( collection ) );
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNodeContext(collection));
     }
 
-    public static IServiceCollection RegisterNodeContext( this IServiceCollection services )
+    public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
         services.TryAddTransient<INode, Node>();
         services.TryAddTransient<INvm, Nvm>();
@@ -24,5 +24,5 @@ public static class NodeExtensions
         return services;
     }
 
-    public static INode Node( this IModuleContext context ) => context.ServiceProvider.GetRequiredService<INode>();
+    public static INode Node(this IModuleContext context) => context.ServiceProvider.GetRequiredService<INode>();
 }

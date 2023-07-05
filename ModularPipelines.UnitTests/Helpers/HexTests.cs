@@ -8,10 +8,10 @@ public class HexTests : TestBase
 {
     private class ToHexModule : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
+        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Hex.ToHex( "Foo bar!" );
+            return context.Hex.ToHex("Foo bar!");
         }
     }
 
@@ -22,12 +22,12 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple( () =>
+        Assert.Multiple(() =>
         {
-            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
-            Assert.That( moduleResult.Exception, Is.Null );
-            Assert.That( moduleResult.Value, Is.Not.Null );
-        } );
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.Value, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -37,15 +37,15 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That( moduleResult.Value, Is.EqualTo( "466f6f2062617221" ) );
+        Assert.That(moduleResult.Value, Is.EqualTo("466f6f2062617221"));
     }
 
     private class FromHexModule : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
+        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Hex.FromHex( "466f6f2062617221" );
+            return context.Hex.FromHex("466f6f2062617221");
         }
     }
 
@@ -56,12 +56,12 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple( () =>
+        Assert.Multiple(() =>
         {
-            Assert.That( moduleResult.ModuleResultType, Is.EqualTo( ModuleResultType.SuccessfulResult ) );
-            Assert.That( moduleResult.Exception, Is.Null );
-            Assert.That( moduleResult.Value, Is.Not.Null );
-        } );
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.Value, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -71,6 +71,6 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That( moduleResult.Value, Is.EqualTo( "Foo bar!" ) );
+        Assert.That(moduleResult.Value, Is.EqualTo("Foo bar!"));
     }
 }

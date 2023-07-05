@@ -11,6 +11,6 @@ public record NuGetUploadOptions
     Uri FeedUri
 ) : CommandLineOptions
 {
-    [property: CommandSwitch( "k" )]
+    [property: CommandSwitch("k")]
     public string? ApiKey { get; init; }
 }

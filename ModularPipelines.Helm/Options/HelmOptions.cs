@@ -5,48 +5,48 @@ namespace ModularPipelines.Helm.Options;
 
 public record HelmOptions : CommandLineOptions
 {
-    [CommandLongSwitch( "burst-limit" )]
+    [CommandLongSwitch("burst-limit")]
     public int? BurstLimit { get; set; }
 
-    [BooleanCommandSwitch( "debug" )]
+    [BooleanCommandSwitch("debug")]
     public bool? Debug { get; set; }
 
-    [CommandLongSwitch( "kube-apiserver" )]
+    [CommandLongSwitch("kube-apiserver")]
     public string? KubeApiServer { get; set; }
 
-    [CommandLongSwitch( "kube-as-group" )]
+    [CommandLongSwitch("kube-as-group")]
     public string[]? KubeAsGroup { get; set; }
 
-    [CommandLongSwitch( "kube-as-user" )]
+    [CommandLongSwitch("kube-as-user")]
     public string? KubeAsUser { get; set; }
 
-    [CommandLongSwitch( "kube-ca-file" )]
+    [CommandLongSwitch("kube-ca-file")]
     public string? KubeCaFile { get; set; }
 
-    [CommandLongSwitch( "kube-context" )]
+    [CommandLongSwitch("kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandLongSwitch( "kube-insecure-skip-tls-verify" )]
+    [CommandLongSwitch("kube-insecure-skip-tls-verify")]
     public string? KubeInsecureSkipTlsVerify { get; set; }
 
-    [CommandLongSwitch( "kube-tls-server-name" )]
+    [CommandLongSwitch("kube-tls-server-name")]
     public string? KubeTlsServerName { get; set; }
 
-    [CommandLongSwitch( "kube-token" )]
+    [CommandLongSwitch("kube-token")]
     public string? KubeToken { get; set; }
 
-    [CommandLongSwitch( "kubeconfig" )]
+    [CommandLongSwitch("kubeconfig")]
     public string? KubeConfig { get; set; }
 
-    [CommandLongSwitch( "namespace" )]
+    [CommandLongSwitch("namespace")]
     public string? Namespace { get; set; }
 
-    [CommandLongSwitch( "registry-config" )]
+    [CommandLongSwitch("registry-config")]
     public string? RegistryConfig { get; set; }
 
-    [CommandLongSwitch( "repository-cache" )]
+    [CommandLongSwitch("repository-cache")]
     public string? RepositoryCache { get; set; }
 
-    [CommandLongSwitch( "repository-config" )]
+    [CommandLongSwitch("repository-config")]
     public string? RepositoryConfig { get; set; }
 };

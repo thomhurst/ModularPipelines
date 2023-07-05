@@ -8,15 +8,15 @@ internal class ModuleInitializer : IModuleInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public ModuleInitializer( IServiceProvider serviceProvider )
+    public ModuleInitializer(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    public ModuleBase Initialize( ModuleBase module )
+    public ModuleBase Initialize(ModuleBase module)
     {
         // Each context needs to be transient
         var context = _serviceProvider.GetRequiredService<IModuleContext>();
-        return module.Initialize( context );
+        return module.Initialize(context);
     }
 }

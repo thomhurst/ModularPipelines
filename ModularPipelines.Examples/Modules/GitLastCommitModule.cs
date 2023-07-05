@@ -9,15 +9,15 @@ namespace ModularPipelines.Examples.Modules;
 
 public class GitLastCommitModule : Module<GitCommit?>
 {
-    protected override async Task<ModuleResult<GitCommit?>?> ExecuteAsync( IModuleContext context, CancellationToken cancellationToken )
+    protected override async Task<ModuleResult<GitCommit?>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 
-        context.Logger.LogInformation( "Getting Last Git Commit" );
+        context.Logger.LogInformation("Getting Last Git Commit");
 
         var lastCommit = context.Git().Information.PreviousCommit;
 
-        var allCommits = await context.Git().Information.Commits( cancellationToken: cancellationToken ).ToListAsync( cancellationToken: cancellationToken );
+        var allCommits = await context.Git().Information.Commits(cancellationToken: cancellationToken).ToListAsync(cancellationToken: cancellationToken);
 
         return lastCommit;
     }

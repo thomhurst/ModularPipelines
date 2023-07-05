@@ -13,10 +13,10 @@ public static class AzurePipelineExtensions
 #pragma warning restore CA2255
     public static void RegisterAzurePipelineContext()
     {
-        ModularPipelinesContextRegistry.RegisterContext( collection => RegisterAzurePipelineContext( collection ) );
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzurePipelineContext(collection));
     }
 
-    public static IServiceCollection RegisterAzurePipelineContext( this IServiceCollection services )
+    public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)
     {
         services.TryAddTransient<IAzurePipeline, AzurePipeline>();
         services.TryAddTransient<AzurePipelineVariables>();
@@ -24,5 +24,5 @@ public static class AzurePipelineExtensions
         return services;
     }
 
-    public static IAzurePipeline AzurePipeline( this IModuleContext context ) => (IAzurePipeline) context.ServiceProvider.GetRequiredService<IAzurePipeline>();
+    public static IAzurePipeline AzurePipeline(this IModuleContext context) => (IAzurePipeline) context.ServiceProvider.GetRequiredService<IAzurePipeline>();
 }

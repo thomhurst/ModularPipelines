@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Models;
 
-internal record ModuleDependencyModel( ModuleBase Module )
+internal record ModuleDependencyModel(ModuleBase Module)
 {
     public List<ModuleDependencyModel> IsDependencyFor { get; } = new();
     public List<ModuleDependencyModel> IsDependentOn { get; } = new();
@@ -29,7 +29,7 @@ internal record ModuleDependencyModel( ModuleBase Module )
             }
         }
 
-        foreach (var moduleDependencyModel in IsDependentOn.SelectMany( d => d.AllDescendantDependencies() ))
+        foreach (var moduleDependencyModel in IsDependentOn.SelectMany(d => d.AllDescendantDependencies()))
         {
             yield return moduleDependencyModel;
 
@@ -40,14 +40,14 @@ internal record ModuleDependencyModel( ModuleBase Module )
         }
     }
 
-    public virtual bool Equals( ModuleDependencyModel? other )
+    public virtual bool Equals(ModuleDependencyModel? other)
     {
-        if (ReferenceEquals( null, other ))
+        if (ReferenceEquals(null, other))
         {
             return false;
         }
 
-        if (ReferenceEquals( this, other ))
+        if (ReferenceEquals(this, other))
         {
             return true;
         }

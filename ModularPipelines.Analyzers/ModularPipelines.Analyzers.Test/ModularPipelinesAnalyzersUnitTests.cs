@@ -74,23 +74,23 @@ public class Module2 : Module
     {
         var test = @"";
 
-        await VerifyCS.VerifyAnalyzerAsync( test );
+        await VerifyCS.VerifyAnalyzerAsync(test);
     }
 
     //No diagnostics expected to show up
     [TestMethod]
     public async Task Good_Source()
     {
-        await VerifyCS.VerifyAnalyzerAsync( FixedModuleSource );
+        await VerifyCS.VerifyAnalyzerAsync(FixedModuleSource);
     }
 
     //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
     public async Task AnalyzerIsTriggered()
     {
-        var expected = VerifyCS.Diagnostic( MissingDependsOnAttributeAnalyzer.DiagnosticId ).WithArguments( "Module1" ).WithLocation( 0 );
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
-        await VerifyCS.VerifyAnalyzerAsync( BadModuleSource, expected );
+        await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
     }
 
     [TestMethod]
@@ -103,8 +103,8 @@ public class Module2 : Module
             return;
         }
 
-        var expected = VerifyCS.Diagnostic( MissingDependsOnAttributeAnalyzer.DiagnosticId ).WithArguments( "Module1" ).WithLocation( 0 );
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
-        await VerifyCS.VerifyCodeFixAsync( BadModuleSource, expected, FixedModuleSource );
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
     }
 }

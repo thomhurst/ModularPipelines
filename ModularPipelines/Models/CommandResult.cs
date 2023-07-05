@@ -9,7 +9,7 @@ public class CommandResult
     /// </summary>
     public string CommandInput { get; }
 
-    internal CommandResult( string commandInput, BufferedCommandResult commandResult )
+    internal CommandResult(string commandInput, BufferedCommandResult commandResult)
     {
         CommandInput = commandInput;
         StandardOutput = commandResult.StandardOutput;
