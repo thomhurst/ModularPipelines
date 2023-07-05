@@ -1,10 +1,10 @@
 using System.Diagnostics;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
@@ -28,7 +28,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     protected Module()
     {
-        foreach (var customAttribute in GetType().GetCustomAttributes<DependsOnAttribute>(true))
+        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
             AddDependency(customAttribute);
         }
@@ -71,7 +71,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             var shouldSkipModule = await ShouldSkip(_context);
             
-            if (shouldSkipModule && await CanRunFromHistory(_context))
+            if (shouldSkipModule && await UseResultFromHistoryIfSkipped(_context))
             {
                 await SetupModuleFromHistory();
                 return;
@@ -110,7 +110,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             var moduleResult = await executeAsyncTask ?? ModuleResult.Empty<T>();
             moduleResult.ModuleName = GetType().Name;
             
-            await _context.ModuleResultRepository.PersistResultAsync(this, moduleResult);
+            await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
             
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
@@ -147,7 +147,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 var moduleResult = ModuleResult.FromException<T>(exception);
                 moduleResult.ModuleName = GetType().Name;
                 
-                await _context.ModuleResultRepository.PersistResultAsync(this, moduleResult);
+                await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
                 
                 TaskCompletionSource.SetResult(moduleResult);
             }
@@ -274,7 +274,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override void SetSkipped()
     {
-        Status = Status.Ignored;
+        Status = Status.Skipped;
         
         IgnoreTask.Start(TaskScheduler.Default);
         

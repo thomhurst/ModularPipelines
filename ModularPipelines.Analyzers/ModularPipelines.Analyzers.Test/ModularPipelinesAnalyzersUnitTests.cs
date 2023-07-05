@@ -6,7 +6,7 @@ using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier
 namespace ModularPipelines.Analyzers.Test;
 
 [TestClass]
-public class ModularPipelinesAnalyzersUnitTest
+public class ModularPipelinesAnalyzersUnitTests
 {
     private const string BadModuleSource = @"
 #nullable enable

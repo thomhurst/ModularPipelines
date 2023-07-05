@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Powershell.Extensions;
@@ -8,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class PowershellTests : TestBase
 {
-    private class PowershellEchoModule : Module<BufferedCommandResult>
+    private class PowershellEchoModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Powershell().Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }

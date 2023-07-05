@@ -1,8 +1,9 @@
-using CliWrap;
-using CliWrap.Buffered;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Context;
@@ -11,13 +12,16 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
 {
     private readonly ILogger<EnvironmentContext> _logger;
     private readonly IHostEnvironment _hostEnvironment;
+    private readonly ICommand _command;
 
     public EnvironmentContext(ILogger<EnvironmentContext> logger, 
         IHostEnvironment hostEnvironment, 
-        IEnvironmentVariables environmentVariables)
+        IEnvironmentVariables environmentVariables,
+        ICommand command)
     {
         _logger = logger;
         _hostEnvironment = hostEnvironment;
+        _command = command;
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
     }
@@ -39,17 +43,20 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
 
     public async Task InitializeAsync()
     {
-        var gitCommandOutput = await Cli.Wrap("git")
-            .WithArguments("rev-parse --show-toplevel")
-            .WithValidation(CommandResultValidation.None)
-            .ExecuteBufferedAsync();
-
-        if (gitCommandOutput.ExitCode != 0)
+        CommandResult gitCommandOutput;
+        try
         {
-            _logger.LogDebug("Error retrieving Git root directory: {Error}", gitCommandOutput.StandardError);
+            gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            {
+                Arguments = new []{ "rev-parse", "--show-toplevel" }
+            });
+        }
+        catch (CommandException e)
+        {
+            _logger.LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
             return;
         }
-        
+
         GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
     }
 }

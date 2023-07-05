@@ -14,7 +14,7 @@ public static class NuGetExtensions
 #pragma warning restore CA2255
     public static void RegisterNuGetContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterNuGetContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNuGetContext(collection));
     }
     
     public static IServiceCollection RegisterNuGetContext(this IServiceCollection services)

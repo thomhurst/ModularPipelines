@@ -13,7 +13,7 @@ public static class CmdExtensions
 #pragma warning restore CA2255
     public static void RegisterCmdContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterCmdContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterCmdContext(collection));
     }
     
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)

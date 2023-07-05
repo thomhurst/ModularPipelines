@@ -13,7 +13,7 @@ public static class GitExtensions
 #pragma warning restore CA2255
     public static void RegisterGitContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterGitContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGitContext(collection));
     }
     
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)

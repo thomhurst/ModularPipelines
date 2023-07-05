@@ -11,7 +11,7 @@ public class DotnetTestModule : Module<DotNetTestResult>
 {
     protected override async Task<ModuleResult<DotNetTestResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await context.DotNet().Test(new DotNetOptions
+        return await context.DotNet().Test(new DotNetTestOptions
         {
             WorkingDirectory = context.Environment.GitRootDirectory!.GetFolder("ModularPipelines.UnitTests").Path
         }, cancellationToken);

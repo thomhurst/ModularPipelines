@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Cmd.Extensions;
+﻿using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -17,9 +16,9 @@ public class CmdTests : TestBase
         }
     }
     
-    private class CmdEchoModule : Module<BufferedCommandResult>
+    private class CmdEchoModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Cmd().Script(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }

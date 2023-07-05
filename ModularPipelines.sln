@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Docker", "ModularPipelines.Docker\ModularPipelines.Docker.csproj", "{D275C61D-E0DF-4D76-B70A-F49EB277E451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Helm", "ModularPipelines.Helm\ModularPipelines.Helm.csproj", "{3A4CD1E9-E26E-481C-9B42-E1C9A32BF021}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Kubernetes", "ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj", "{8D9D763A-4BFA-4A34-8CFB-7318F204A2D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,6 +116,14 @@ Global
 		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D275C61D-E0DF-4D76-B70A-F49EB277E451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A4CD1E9-E26E-481C-9B42-E1C9A32BF021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A4CD1E9-E26E-481C-9B42-E1C9A32BF021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A4CD1E9-E26E-481C-9B42-E1C9A32BF021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A4CD1E9-E26E-481C-9B42-E1C9A32BF021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D9D763A-4BFA-4A34-8CFB-7318F204A2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D9D763A-4BFA-4A34-8CFB-7318F204A2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D9D763A-4BFA-4A34-8CFB-7318F204A2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D9D763A-4BFA-4A34-8CFB-7318F204A2D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

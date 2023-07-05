@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -8,11 +7,11 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class CommandTests : TestBase
 {
-    private class CommandEchoModule : Module<BufferedCommandResult>
+    private class CommandEchoModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Command.UsingCommandLineTool(new CommandLineToolOptions("pwsh")
+            return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("pwsh")
             {
                 Arguments = new []{ "-Command", "echo 'Foo bar!'" }
             }, cancellationToken: cancellationToken);

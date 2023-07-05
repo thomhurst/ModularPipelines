@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Options;
 
@@ -6,14 +6,14 @@ namespace ModularPipelines.DotNet;
 
 public interface IDotNet
 {
-    Task<BufferedCommandResult> Restore(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<BufferedCommandResult> Build(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<BufferedCommandResult> Publish(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<BufferedCommandResult> Pack(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<BufferedCommandResult> Clean(DotNetOptions options, CancellationToken cancellationToken = default);
-    Task<DotNetTestResult> Test(DotNetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default);
+    Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default);
 
-    Task<BufferedCommandResult> Version(CommandEnvironmentOptions? options = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Version(CommandLineOptions? options = null, CancellationToken cancellationToken = default);
 
-    Task<BufferedCommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,4 @@
-using CliWrap.Buffered;
+using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Options;
 
@@ -17,9 +17,9 @@ public class Node : INode
         Nvm = nvm;
     }
 
-    public Task<BufferedCommandResult> Version(CancellationToken cancellationToken = default)
+    public Task<CommandResult> Version(CancellationToken cancellationToken = default)
     {
-        return _context.Command.UsingCommandLineTool(new CommandLineToolOptions("node")
+        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("node")
         {
             Arguments = new []{ "-v" }
         }, cancellationToken);

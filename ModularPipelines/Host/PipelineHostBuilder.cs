@@ -108,7 +108,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         
         _internalHost.ConfigureServices(collection =>
         {
-            foreach (var contextRegistrationDelegate in ServiceContextRegistry.ContextRegistrationDelegates)
+            foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
             {
                 contextRegistrationDelegate(collection);
             }

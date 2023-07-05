@@ -1,8 +1,8 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 
 namespace ModularPipelines.Node;
 
 public interface INvm
 {
-    Task<BufferedCommandResult> Use(string version, CancellationToken cancellationToken = default);
+    Task<CommandResult> Use(string version, CancellationToken cancellationToken = default);
 }

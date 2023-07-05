@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -8,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DotNetTests : TestBase
 {
-    private class DotNetVersionModule : Module<BufferedCommandResult>
+    private class DotNetVersionModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Version(cancellationToken: cancellationToken);
         }

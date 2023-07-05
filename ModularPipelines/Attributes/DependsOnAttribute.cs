@@ -2,7 +2,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Attributes;
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
 public class DependsOnAttribute : Attribute
 {
     public Type Type { get; }
@@ -20,7 +20,7 @@ public class DependsOnAttribute : Attribute
     public bool IgnoreIfNotRegistered { get; set; }
 }
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
 public class DependsOnAttribute<TModule> : DependsOnAttribute where TModule : ModuleBase
 {
     public DependsOnAttribute() : base(typeof(TModule))

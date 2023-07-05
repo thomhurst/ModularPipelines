@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -6,9 +5,9 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class NotepadPlusPlusInstallerModule : Module<BufferedCommandResult>
+public class NotepadPlusPlusInstallerModule : Module<CommandResult>
 {
-    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Installer
             .InstallFromWebAsync(new WebInstallerOptions(new Uri(

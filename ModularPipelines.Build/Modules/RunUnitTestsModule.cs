@@ -18,7 +18,7 @@ public class RunUnitTestsModule : Module<List<DotNetTestResult>>
                      .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                                        && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase)))
         {
-            results.Add(await context.DotNet().Test(new DotNetOptions
+            results.Add(await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 LogOutput = false

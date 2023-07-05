@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -17,9 +17,9 @@ public class NuGet : INuGet
         _context = context;
     }
     
-    public async Task<List<BufferedCommandResult>> UploadPackages(NuGetUploadOptions options)
+    public async Task<List<CommandResult>> UploadPackages(NuGetUploadOptions options)
     {
-        var results = new List<BufferedCommandResult>();
+        var results = new List<CommandResult>();
         foreach (var packagePath in options.PackagePaths)
         {
             var arguments = new List<string>
@@ -27,11 +27,8 @@ public class NuGet : INuGet
                 "nuget", "push", packagePath, "-n"
             };
 
-            arguments.AddNonNullOrEmptyArgumentWithSwitch("-s", options.FeedUri.AbsoluteUri);
-            arguments.AddNonNullOrEmptyArgumentWithSwitch("-k", options.ApiKey);
-            
             var commandResult = await _context.Command
-                .UsingCommandLineTool(new CommandLineToolOptions("dotnet")
+                .ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", arguments) with
                 {
                     Arguments = arguments,
                     InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
@@ -44,25 +41,9 @@ public class NuGet : INuGet
         return results;
     }
 
-    public Task<BufferedCommandResult> AddSource(NuGetSourceOptions options)
+    public async Task<CommandResult> AddSource(NuGetSourceOptions options)
     {
-        var arguments = new List<string>
-        {
-            "nuget", "add", "source", options.FeedUri.AbsoluteUri, 
-            "-n", options.Name
-        };
-
-        arguments.AddNonNullOrEmptyArgumentWithSwitch("--username", options.Username);
-        arguments.AddNonNullOrEmptyArgumentWithSwitch("--password", options.Password);
-
-        return _context.DotNet().CustomCommand(new DotNetCommandOptions
-        {
-            Command = arguments,
-            EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
-        });
+        return await _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", 
+            "nuget", "add", "source", options.FeedUri.AbsoluteUri));
     }
 }

@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
@@ -14,16 +14,16 @@ public class Installer : IInstaller
         _downloader = downloader;
     }
 
-    public Task<BufferedCommandResult> InstallFromFileAsync(InstallerOptions options,
+    public Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        return _command.UsingCommandLineTool(new CommandLineToolOptions(options.Path)
+        return _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
         {
             Arguments = options.Arguments ?? Array.Empty<string>()
         }, cancellationToken);
     }
 
-    public async Task<BufferedCommandResult> InstallFromWebAsync(WebInstallerOptions options,
+    public async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
         var file = await _downloader.DownloadFileAsync(new DownloadOptions(options.DownloadUri), cancellationToken);

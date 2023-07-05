@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Engine;
 
-public static class ServiceContextRegistry
+public static class ModularPipelinesContextRegistry
 {
     internal static readonly List<Action<IServiceCollection>> ContextRegistrationDelegates = new();
 

@@ -29,6 +29,7 @@ public class DirectCollisionTests
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            GetModule<DependencyConflictModule2>();
             await Task.CompletedTask;
             return null;
         }
