@@ -4,7 +4,7 @@ namespace ModularPipelines.Analyzers.Test;
 
 public class Net
 {
-    private static readonly Lazy<ReferenceAssemblies> _lazyNet60 = new(() =>
+    private static readonly Lazy<ReferenceAssemblies> LazyNet60 = new(() =>
         new ReferenceAssemblies(
             "net6.0",
             new PackageIdentity(
@@ -12,5 +12,5 @@ public class Net
                 "6.0.19"),
             Path.Combine("ref", "net6.0")));
     
-    public static ReferenceAssemblies Net60 => _lazyNet60.Value;
+    public static ReferenceAssemblies Net60 => LazyNet60.Value;
 }
