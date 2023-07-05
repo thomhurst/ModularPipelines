@@ -77,26 +77,31 @@ public abstract class CommandOptionsObjectArgumentParser
     {
         var rawValue = propertyInfo.GetValue(optionsArgumentsObject);
 
+        var singleValue = GetSingleValue(rawValue);
+
+        if (singleValue is not null)
+        {
+            return new[] {singleValue};
+        }
+        
         return GetValues(rawValue);
     }
-
-    private static IEnumerable<string>? GetValues(object? rawValue)
+    
+    private static string? GetSingleValue(object? rawValue)
     {
         if (rawValue is null)
         {
-            yield break;
+            return null;
         }
 
         if (rawValue is string stringValue)
         {
-            yield return stringValue;
-            yield break;
+            return stringValue;
         }
 
         if (rawValue is bool boolValue)
         {
-            yield return boolValue.ToString().ToLowerInvariant();
-            yield break;
+            return boolValue.ToString().ToLowerInvariant();
         }
 
         if (rawValue
@@ -111,33 +116,41 @@ public abstract class CommandOptionsObjectArgumentParser
             or double
             or decimal)
         {
-            yield return rawValue.ToString()!;
-            yield break;
+            return rawValue.ToString()!;
         }
 
         if (rawValue.GetType().IsEnum)
         {
-            yield return ParseEnum(rawValue);
-            yield break;
-        }
-
-        if (rawValue is IEnumerable enumerable)
-        {
-            foreach (var obj in enumerable.Cast<object>().SelectMany(GetValues!))
-            {
-                yield return obj;
-            }
-            
-            yield break;
+            return ParseEnum(rawValue);
         }
 
         if (rawValue is Uri uri)
         {
-            yield return ParseUri(uri);
-            yield break;
+            return ParseUri(uri);
         }
 
-        yield return rawValue.ToString()!;
+        return rawValue.ToString()!;
+    }
+
+    private static IEnumerable<string>? GetValues(object? rawValue)
+    {
+        if (rawValue is not IEnumerable enumerable)
+        {
+            return null;
+        }
+
+        var objects = enumerable.Cast<object>().ToArray();
+            
+        var list1 = objects
+            .Select(GetSingleValue)
+            .OfType<string>()
+            .ToList();
+
+        var list2 = objects
+            .SelectMany(x => GetValues(x) ?? Array.Empty<string>())
+            .ToList();
+            
+        return list1.Concat(list2);
     }
 
     private static string ParseEnum(object rawValue)
