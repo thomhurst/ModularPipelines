@@ -13,7 +13,7 @@ public static class PowershellExtensions
 #pragma warning restore CA2255
     public static void RegisterPowershellContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterPowershellContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterPowershellContext(collection));
     }
     
     public static IServiceCollection RegisterPowershellContext(this IServiceCollection services)

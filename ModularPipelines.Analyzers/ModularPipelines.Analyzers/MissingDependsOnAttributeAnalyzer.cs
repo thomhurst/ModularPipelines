@@ -70,7 +70,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var attributes = classSymbol.GetAttributes();
+        var attributes = GetAttributes(classSymbol);
 
         if (!attributes.Any(x => IsDependsOnAttributeFor(x, namedTypeSymbol)))
         {
@@ -82,7 +82,32 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
-        
+
+    private IEnumerable<AttributeData> GetAttributes(INamedTypeSymbol classSymbol)
+    {
+        foreach (var attributeData in classSymbol.AllInterfaces.SelectMany(x => x.GetAttributes()))
+        {
+            yield return attributeData;
+        }
+
+        while (true)
+        {
+            foreach (var attributeData in classSymbol.GetAttributes())
+            {
+                yield return attributeData;
+            }
+
+            var baseType = classSymbol.BaseType;
+
+            if (baseType == null)
+            {
+                yield break;
+            }
+
+            classSymbol = baseType;
+        }
+    }
+
     private ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
     {
         var parent = invocationExpressionSyntax.Parent;

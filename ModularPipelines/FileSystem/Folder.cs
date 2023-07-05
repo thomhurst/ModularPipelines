@@ -84,4 +84,14 @@ public class Folder
         
         return new Folder(directoryInfo);
     }
+    
+    public static implicit operator string(Folder folder)
+    {
+        return folder.Path;
+    }
+
+    public override string ToString()
+    {
+        return Path;
+    }
 }

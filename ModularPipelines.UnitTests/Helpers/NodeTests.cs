@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
@@ -8,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class NodeTests : TestBase
 {
-    private class NodeVersionModule : Module<BufferedCommandResult>
+    private class NodeVersionModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var task = () =>
             {

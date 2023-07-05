@@ -1,9 +1,9 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Options;
+﻿using ModularPipelines.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Context;
 
 public interface ICommand
 {
-    Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
 }

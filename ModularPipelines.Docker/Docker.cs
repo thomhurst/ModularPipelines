@@ -17,14 +17,12 @@ public class Docker : IDocker
     {
         var arguments = new List<string>
         {
-            "login",
-            $"--username={dockerLoginOptions.Username}",
-            $"--password={dockerLoginOptions.Password}"
+            "login"
         };
 
         arguments.AddNonNullOrEmpty(dockerLoginOptions.Server?.AbsolutePath);
         
-        await _command.UsingCommandLineTool(dockerLoginOptions.ToCommandLineToolOptions("docker", arguments));
+        await _command.ExecuteCommandLineTool(dockerLoginOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
     public async Task BuildFromDockerfile(DockerBuildOptions dockerBuildOptions)
@@ -37,21 +35,17 @@ public class Docker : IDocker
             "build",
             workingDirectory,
         };
-
-        arguments.AddNonNullOrEmptyArgumentWithSwitch("-t", dockerBuildOptions.Tag);
-
-        arguments.AddRangeNonNullOrEmptyArgumentWithSwitch("--build-arg", dockerBuildOptions.BuildArguments);
-
-        arguments.AddNonNullOrEmpty(dockerBuildOptions.Dockerfile?.Path);
         
-        await _command.UsingCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
+        arguments.AddNonNullOrEmpty(dockerBuildOptions.Dockerfile);
+        
+        await _command.ExecuteCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
     public Task Logout(DockerOptions? options = null)
     {
         options ??= new DockerOptions();
 
-        return _command.UsingCommandLineTool(options.ToCommandLineToolOptions("docker", new[] { "logout" }));
+        return _command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("docker", "logout"));
     }
 
     public Task Push(DockerPushOptions dockerPushOptions)
@@ -59,18 +53,17 @@ public class Docker : IDocker
         var arguments = new List<string>
         {
             "push",
-            $"--disable-content-trust={dockerPushOptions.DisableContentTrust.ToString().ToLower()}",
             $"{dockerPushOptions.Name}:{dockerPushOptions.Tag}"
         };
         
-        return _command.UsingCommandLineTool(dockerPushOptions.ToCommandLineToolOptions("docker", arguments));
+        return _command.ExecuteCommandLineTool(dockerPushOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
     public async Task<string> Version(DockerArgumentOptions? dockerArgumentOptions = null)
     {
         dockerArgumentOptions ??= new DockerArgumentOptions();
         
-        var result = await _command.UsingCommandLineTool(dockerArgumentOptions.ToCommandLineToolOptions("docker", new []{ "version" }));
+        var result = await _command.ExecuteCommandLineTool(dockerArgumentOptions.ToCommandLineToolOptions("docker", "version"));
         
         return result.StandardOutput;
     }

@@ -64,4 +64,14 @@ public class File
         
         return new File(fileInfo);
     }
+    
+    public static implicit operator string(File file)
+    {
+        return file.Path;
+    }
+
+    public override string ToString()
+    {
+        return Path;
+    }
 }

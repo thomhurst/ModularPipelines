@@ -13,7 +13,7 @@ public static class NodeExtensions
 #pragma warning restore CA2255
     public static void RegisterNodeContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterNodeContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNodeContext(collection));
     }
     
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)

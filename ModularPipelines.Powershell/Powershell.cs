@@ -1,4 +1,4 @@
-using CliWrap.Buffered;
+using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Powershell.Models;
@@ -14,21 +14,21 @@ public class Powershell : IPowershell
         _context = context;
     }
     
-    public Task<BufferedCommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "-Command", options.Script };
         
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
         
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "-File", options.FilePath };
         
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
         
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
     }
 }

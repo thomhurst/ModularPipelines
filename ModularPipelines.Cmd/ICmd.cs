@@ -1,9 +1,9 @@
-using CliWrap.Buffered;
+using ModularPipelines.Models;
 using ModularPipelines.Cmd.Models;
 
 namespace ModularPipelines.Cmd;
 
 public interface ICmd
 {
-    Task<BufferedCommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default);
 }

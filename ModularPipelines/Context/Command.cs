@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Options;
+using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
@@ -18,13 +19,22 @@ internal class Command : ICommand
         _moduleLoggerProvider = moduleLoggerProvider;
     }
     
-    public async Task<BufferedCommandResult> UsingCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
-        var parsedArgs = string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool) 
-            ? options.Arguments?.Skip(1) : options.Arguments;
+        var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool) 
+            ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
+
+        if (options.ArgumentsOptionObject != null)
+        {
+            CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, options.ArgumentsOptionObject);
+        }
+
+        if (options.AdditionalSwitches != null)
+        {
+            parsedArgs.AddRange(options.AdditionalSwitches);
+        }
         
-        var command = Cli.Wrap(options.Tool)
-            .WithArguments(parsedArgs ?? Array.Empty<string>());
+        var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
       
         if (options.WorkingDirectory != null)
         {
@@ -36,29 +46,31 @@ internal class Command : ICommand
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
 
+        var commandInput = command.ToString();
+        
         if (options.LogInput)
         {
-            var inputManipulator = options.InputLoggingManipulator ?? (s => s);
+            var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
 
-            Logger.LogInformation("---Executing Command---\r\n{Input}", inputManipulator(command.ToString()));
+            Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputLoggingManipulator(commandInput));
         }
 
         var result = await Of(command, cancellationToken);
 
         if (options.LogOutput)
         {
-            var outputManipulator = options.OutputLoggingManipulator ?? (s => s);
+            var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
             
-            Logger.LogInformation("---Command Result---\r\n{Output}",
+            Logger.LogInformation("---Command Result---\r\n\t{Output}",
                 string.IsNullOrEmpty(result.StandardError)
-                    ? outputManipulator(result.StandardOutput)
-                    : outputManipulator(result.StandardError));
+                    ? outputLoggingManipulator(result.StandardOutput)
+                    : outputLoggingManipulator(result.StandardError));
         }
 
-        return result;
+        return new CommandResult(commandInput, result);
     }
 
-    public async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
+    private static async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
     {
         var result = await command
             .WithValidation(CommandResultValidation.None)

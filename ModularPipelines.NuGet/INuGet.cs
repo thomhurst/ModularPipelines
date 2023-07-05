@@ -1,11 +1,11 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.NuGet.Options;
 
 namespace ModularPipelines.NuGet;
 
 public interface INuGet
 {
-    Task<List<BufferedCommandResult>> UploadPackages(NuGetUploadOptions options);
+    Task<List<CommandResult>> UploadPackages(NuGetUploadOptions options);
 
-    Task<BufferedCommandResult> AddSource(NuGetSourceOptions options);
+    Task<CommandResult> AddSource(NuGetSourceOptions options);
 }

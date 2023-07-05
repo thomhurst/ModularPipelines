@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
@@ -14,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
-public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
+public class UploadPackagesToNugetModule : Module<List<CommandResult>>
 {
     private readonly IOptions<NuGetSettings> _options;
 
@@ -36,7 +35,7 @@ public class UploadPackagesToNugetModule : Module<List<BufferedCommandResult>>
         await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         if (GitVersionInformation.BranchName != "main")
         {

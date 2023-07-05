@@ -61,7 +61,7 @@ public abstract class ModuleBase
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    protected virtual Task<bool> CanRunFromHistory(IModuleContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
+    protected virtual Task<bool> UseResultFromHistoryIfSkipped(IModuleContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
 

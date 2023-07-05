@@ -7,6 +7,6 @@ public enum Status
     Successful,
     Failed,
     TimedOut,
-    Ignored,
+    Skipped,
     Unknown
 }

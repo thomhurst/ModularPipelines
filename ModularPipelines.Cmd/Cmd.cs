@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -14,7 +14,7 @@ public class Cmd : ICmd
         _context = context;
     }
     
-    public Task<BufferedCommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "/c" };
 
@@ -25,6 +25,6 @@ public class Cmd : ICmd
         
         arguments.Add(options.Script);
 
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);
     }
 }

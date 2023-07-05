@@ -13,7 +13,7 @@ public static class AzurePipelineExtensions
 #pragma warning restore CA2255
     public static void RegisterAzurePipelineContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterAzurePipelineContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzurePipelineContext(collection));
     }
     
     public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)

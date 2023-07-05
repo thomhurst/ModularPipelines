@@ -13,7 +13,7 @@ public static class MicrosoftTeamsExtensions
 #pragma warning restore CA2255
     public static void RegisterMicrosoftTeamsContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterMicrosoftTeamsContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterMicrosoftTeamsContext(collection));
     }
     
     public static IServiceCollection RegisterMicrosoftTeamsContext(this IServiceCollection services)

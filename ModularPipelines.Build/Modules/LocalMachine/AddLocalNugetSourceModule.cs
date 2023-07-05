@@ -1,5 +1,4 @@
-﻿using CliWrap.Buffered;
-using ModularPipelines.Attributes;
+﻿using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -10,7 +9,7 @@ using ModularPipelines.NuGet.Options;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<CreateLocalNugetFolderModule>]
-public class AddLocalNugetSourceModule : Module<BufferedCommandResult>
+public class AddLocalNugetSourceModule : Module<CommandResult>
 {
     protected override Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception)
     {
@@ -18,7 +17,7 @@ public class AddLocalNugetSourceModule : Module<BufferedCommandResult>
                                commandException.CommandResult.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
     }
 
-    protected override async Task<ModuleResult<BufferedCommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
         

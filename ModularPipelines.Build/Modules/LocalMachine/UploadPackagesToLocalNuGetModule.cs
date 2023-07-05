@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -10,7 +9,7 @@ using ModularPipelines.NuGet.Options;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<AddLocalNugetSourceModule>]
-public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResult>>
+public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
 {
     protected override async Task OnBeforeExecute(IModuleContext context)
     {
@@ -24,7 +23,7 @@ public class UploadPackagesToLocalNuGetModule : Module<List<BufferedCommandResul
         await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
         var packagePaths = await GetModule<PackagePathsParserModule>();

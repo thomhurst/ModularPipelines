@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+﻿using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Node.Models;
@@ -14,41 +14,23 @@ public class Npm : INpm
         _context = context;
     }
     
-    public Task<BufferedCommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "install" };
 
         arguments.AddNonNullOrEmpty(options.Target);
 
-        if (options.Global)
-        {
-            arguments.Add("-g");
-        }
-        
-        if (options.Force)
-        {
-            arguments.Add("--force");
-        }
-        
-        if (options.DryRun)
-        {
-            arguments.Add("--dry-run");
-        }
-        
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> CleanInstall(NpmCleanInstallOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CleanInstall(NpmCleanInstallOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "ci" };
 
-        arguments.AddNonNullOrEmptyArgumentWithPrefix("--install-strategy=", options.InstallStrategy);
-        arguments.AddRangeNonNullOrEmptyArgumentWithPrefix("--omit=", options.Omit);
-
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 
-    public Task<BufferedCommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "run" };
 
@@ -60,6 +42,6 @@ public class Npm : INpm
             arguments.AddRange(options.Arguments);
         }
 
-        return _context.Command.UsingCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("npm", arguments), cancellationToken);
     }
 }

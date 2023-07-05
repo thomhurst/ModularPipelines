@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -11,11 +10,11 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackageFilesRemovalModule>]
-public class PackProjectsModule : Module<List<BufferedCommandResult>>
+public class PackProjectsModule : Module<List<CommandResult>>
 {
-    protected override async Task<ModuleResult<List<BufferedCommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var results = new List<BufferedCommandResult>();
+        var results = new List<CommandResult>();
 
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
 
@@ -25,21 +24,21 @@ public class PackProjectsModule : Module<List<BufferedCommandResult>>
 
         foreach (var projectFile in projectFiles)
         {
-            await context.DotNet().Build(new DotNetOptions
+            await context.DotNet().Build(new DotNetBuildOptions
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
                 LogOutput = false
             }, cancellationToken);
             
-            results.Add(await context.DotNet().Pack(new DotNetOptions
+            results.Add(await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
-                ExtraArguments = new List<string>
+                Properties = new []
                 {
-                    $"/p:PackageVersion={packageVersion.Value}",
-                    $"/p:Version={packageVersion.Value}"
+                    $"PackageVersion={packageVersion.Value}",
+                    $"Version={packageVersion.Value}",
                 }
             }, cancellationToken));
         }

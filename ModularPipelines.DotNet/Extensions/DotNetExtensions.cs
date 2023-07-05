@@ -13,7 +13,7 @@ public static class DotNetExtensions
 #pragma warning restore CA2255
     public static void RegisterDotNetContext()
     {
-        ServiceContextRegistry.RegisterContext(collection => RegisterDotNetContext(collection));
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDotNetContext(collection));
     }
     
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)

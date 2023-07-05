@@ -5,7 +5,7 @@ namespace ModularPipelines.Engine;
 
 internal class NoOpModuleResultRepository : IModuleResultRepository
 {
-    public Task PersistResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult)
+    public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult)
     {
         return Task.CompletedTask;
     }
