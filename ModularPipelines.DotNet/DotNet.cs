@@ -2,7 +2,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet;
 
@@ -21,48 +20,34 @@ public class DotNet : IDotNet
 
     public Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "restore") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
+        var args = new List<string> {"restore"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);
+    }
 
     public Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "build") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
+        var args = new List<string> {"build"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);    }
 
     public Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "publish") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
+        var args = new List<string> {"publish"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);  }
 
     public Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "pack") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
+        var args = new List<string> {"pack"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);   }
 
     public Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "clean") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
+        var args = new List<string> {"clean"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);
     }
 
     public async Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default)
@@ -72,12 +57,9 @@ public class DotNet : IDotNet
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
 
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "test") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
-
-        await _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
+        var args = new List<string> {"test"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        await ExecuteCommandLineTool(options, args, cancellationToken);
 
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
@@ -86,25 +68,31 @@ public class DotNet : IDotNet
 
     public Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)
     {
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "format") with
-        {
-            AdditionalSwitches = options.AdditionalSwitches
-        };
+        var args = new List<string> {"format"};
+        args.AddNonNullOrEmpty(options.TargetPath);
+        return ExecuteCommandLineTool(options, args, cancellationToken);
+    }
 
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
-
-    public Task<CommandResult> Version(CommandLineOptions? options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Version(DotNetOptions? options, CancellationToken cancellationToken = default)
     {
-        options ??= new CommandLineOptions();
+        options ??= new DotNetOptions();
 
-        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "--version");
-
-        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
+        return ExecuteCommandLineTool(options, new[] {"--version"}, cancellationToken);
     }
 
     public Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
     {
         var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", options.Command ?? ArraySegment<string>.Empty) with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
+    }
+
+    private Task<CommandResult> ExecuteCommandLineTool(DotNetOptions options, IEnumerable<string> arguments, CancellationToken cancellationToken)
+    {
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", arguments) with
         {
             AdditionalSwitches = options.AdditionalSwitches
         };

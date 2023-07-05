@@ -1,10 +1,7 @@
 ﻿using ModularPipelines.Models;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.NuGet.Options;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet;
 

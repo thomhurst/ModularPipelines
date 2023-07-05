@@ -1,7 +1,6 @@
 ﻿using ModularPipelines.Attributes;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Options;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Docker.Options;
 
