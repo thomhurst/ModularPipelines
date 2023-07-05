@@ -28,16 +28,14 @@ public class Docker : IDocker
     public async Task BuildFromDockerfile(DockerBuildOptions dockerBuildOptions)
     {
         var workingDirectory =
-            dockerBuildOptions.DockerfileFolder.Path == dockerBuildOptions.WorkingDirectory ? "." : dockerBuildOptions.DockerfileFolder.Path;
+            dockerBuildOptions.DockerfileFolder == dockerBuildOptions.WorkingDirectory ? "." : dockerBuildOptions.DockerfileFolder;
 
         var arguments = new List<string>
         {
             "build",
             workingDirectory,
         };
-
-        arguments.AddNonNullOrEmpty(dockerBuildOptions.Dockerfile);
-
+        
         await _command.ExecuteCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
