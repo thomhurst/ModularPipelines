@@ -2,7 +2,7 @@ using CliWrap;
 
 namespace ModularPipelines.Options;
 
-public record CommandEnvironmentOptions
+public record CommandLineOptions
 {
     public IDictionary<string, string?>? EnvironmentVariables { get; init; }
     public string? WorkingDirectory { get; init; }

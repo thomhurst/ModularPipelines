@@ -3,7 +3,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
-public record NpmInstallOptions : CommandEnvironmentOptions
+public record NpmInstallOptions : CommandLineOptions
 {
     public string? Target { get; init; }
     

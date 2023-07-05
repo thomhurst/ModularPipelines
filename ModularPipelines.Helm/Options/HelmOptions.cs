@@ -3,7 +3,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Helm.Options;
 
-public record HelmOptions : CommandEnvironmentOptions
+public record HelmOptions : CommandLineOptions
 {
     [CommandLongSwitch("burst-limit")]
     public int? BurstLimit { get; set; }

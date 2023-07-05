@@ -13,7 +13,7 @@ public interface IDotNet
     Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default);
     Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Version(CommandEnvironmentOptions? options = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Version(CommandLineOptions? options = null, CancellationToken cancellationToken = default);
 
     Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default);
 }

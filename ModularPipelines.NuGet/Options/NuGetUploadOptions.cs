@@ -9,7 +9,7 @@ public record NuGetUploadOptions
     
     [property: CommandSwitch("s")]
     Uri FeedUri
-) : CommandEnvironmentOptions
+) : CommandLineOptions
 {
     [property: CommandSwitch("k")]
     public string? ApiKey { get; init; }

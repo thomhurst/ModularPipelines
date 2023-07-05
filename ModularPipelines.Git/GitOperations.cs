@@ -58,9 +58,9 @@ public class GitOperations : IGitOperations
         return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("git", options.Arguments), cancellationToken);
     }
 
-    private GitCommandOptions ToGitCommandOptions(CommandEnvironmentOptions? options, IEnumerable<string> arguments)
+    private GitCommandOptions ToGitCommandOptions(CommandLineOptions? options, IEnumerable<string> arguments)
     {
-        options ??= new CommandEnvironmentOptions();
+        options ??= new CommandLineOptions();
         
         return new GitCommandOptions(arguments)
         {

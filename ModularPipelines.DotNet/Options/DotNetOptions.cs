@@ -3,7 +3,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
-public record DotNetOptions : CommandEnvironmentOptions
+public record DotNetOptions : CommandLineOptions
 {
     public string? TargetPath { get; init; }
 

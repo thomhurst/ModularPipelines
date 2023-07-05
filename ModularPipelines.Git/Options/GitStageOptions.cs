@@ -3,4 +3,4 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Git.Options;
 
-public record GitStageOptions(GitStageOption GitStageOption) : CommandEnvironmentOptions;
+public record GitStageOptions(GitStageOption GitStageOption) : CommandLineOptions;

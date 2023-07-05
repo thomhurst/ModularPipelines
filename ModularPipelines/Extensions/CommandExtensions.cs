@@ -4,13 +4,13 @@ namespace ModularPipelines.Extensions;
 
 public static class CommandExtensions
 {
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandEnvironmentOptions options, string tool,
+    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool,
         IEnumerable<string> arguments)
     {
         return ToCommandLineToolOptions(options, tool, arguments.ToArray());
     }
     
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandEnvironmentOptions options, string tool, params string[] arguments)
+    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, params string[] arguments)
     {
         return new CommandLineToolOptions(tool)
         {

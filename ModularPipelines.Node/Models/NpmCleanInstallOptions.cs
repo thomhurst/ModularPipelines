@@ -3,7 +3,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
-public record NpmCleanInstallOptions : CommandEnvironmentOptions
+public record NpmCleanInstallOptions : CommandLineOptions
 {
     [CommandLongSwitch("install-strategy")]
     public string? InstallStrategy { get; init; }

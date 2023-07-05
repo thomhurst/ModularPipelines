@@ -9,7 +9,7 @@ public record NuGetSourceOptions
 
     [property: CommandSwitch("n")]
     string Name
-) : CommandEnvironmentOptions
+) : CommandLineOptions
 {
     
     [CommandLongSwitch("username", SwitchValueSeparator = " ")]

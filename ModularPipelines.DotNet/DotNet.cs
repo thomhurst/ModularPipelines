@@ -56,9 +56,9 @@ public class DotNet : IDotNet
         return _trxParser.ParseTestResult(trxContents);
     }
 
-    public Task<CommandResult> Version(CommandEnvironmentOptions? options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> Version(CommandLineOptions? options, CancellationToken cancellationToken = default)
     {
-        options ??= new CommandEnvironmentOptions();
+        options ??= new CommandLineOptions();
         
         return RunCommand(new DotNetCommandOptions
         {
