@@ -30,12 +30,12 @@ public class PackProjectsModule : Module<List<CommandResult>>
                 Configuration = Configuration.Release,
                 LogOutput = false
             }, cancellationToken);
-            
+
             results.Add(await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
-                Properties = new []
+                Properties = new[]
                 {
                     $"PackageVersion={packageVersion.Value}",
                     $"Version={packageVersion.Value}",
@@ -49,7 +49,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
     private bool GetProjectsPredicate(File file, IModuleContext context)
     {
         var path = file.Path;
-        
+
         if (!path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
         {
             return false;
@@ -65,7 +65,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
         {
             return false;
         }
-        
+
         if (path.EndsWith("ModularPipelines.Analyzers.Package.csproj"))
         {
             return true;
@@ -75,7 +75,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
         {
             return false;
         }
-        
+
         context.Logger.LogInformation("Found File: {File}", path);
 
         return true;

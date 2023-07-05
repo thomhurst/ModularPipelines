@@ -23,7 +23,7 @@ internal class ModuleExecutor : IModuleExecutor
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IEnumerable<ModuleBase> modules)
     {
         var moduleTasks = modules.Select(ExecuteAsync).ToArray();
-        
+
         if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
         {
             return await moduleTasks.WhenAllFailFast();
@@ -39,7 +39,7 @@ internal class ModuleExecutor : IModuleExecutor
         await module.StartAsync();
 
         await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-        
+
         await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
 
         return module;

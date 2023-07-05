@@ -22,11 +22,11 @@ public class NestedCollisionTests
                         .AddModule<DependencyConflictModule4>()
                         .AddModule<DependencyConflictModule5>();
                 })
-                .ExecutePipelineAsync(), 
+                .ExecutePipelineAsync(),
             Throws.Exception.TypeOf<DependencyCollisionException>()
                 .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**"));
     }
-    
+
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
@@ -36,7 +36,7 @@ public class NestedCollisionTests
             return null;
         }
     }
-    
+
     [DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module
     {
@@ -46,7 +46,7 @@ public class NestedCollisionTests
             return null;
         }
     }
-    
+
     [DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module
     {
@@ -56,7 +56,7 @@ public class NestedCollisionTests
             return null;
         }
     }
-    
+
     [DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module
     {
@@ -66,7 +66,7 @@ public class NestedCollisionTests
             return null;
         }
     }
-    
+
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule5 : Module
     {

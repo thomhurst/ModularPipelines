@@ -37,7 +37,7 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
             .Take(index + 1)
             .Select(x => x.Module.GetType().Name)
             .ToArray();
-        
+
         formattedArray[0] = $"**{formattedArray[0]}**";
         formattedArray[^1] = $"**{formattedArray[^1]}**";
 

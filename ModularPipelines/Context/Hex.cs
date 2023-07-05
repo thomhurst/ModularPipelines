@@ -26,14 +26,14 @@ public class Hex : IHex
     public string FromHex(string hexInput, Encoding encoding)
     {
         hexInput = hexInput.Replace("-", "");
-        
+
         var raw = new byte[hexInput.Length / 2];
-        
+
         for (var i = 0; i < raw.Length; i++)
         {
             raw[i] = Convert.ToByte(hexInput.Substring(i * 2, 2), 16);
         }
-        
+
         return encoding.GetString(raw);
     }
 }

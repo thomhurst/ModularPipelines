@@ -37,7 +37,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _moduleResultPrinter = moduleResultPrinter;
         _moduleLoggerContainer = moduleLoggerContainer;
     }
-    
+
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
     {
         _dependencyDetector.Check();
@@ -51,7 +51,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
 
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
-        
+
         try
         {
             await _moduleExecutor.ExecuteAsync(runnableModules);
@@ -66,15 +66,15 @@ internal class PipelineExecutor : IPipelineExecutor
         finally
         {
             await WaitForAlwaysRunModules(runnableModules);
-            
+
             await Dispose(runnableModules);
-            
+
             await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
 
             await Task.Delay(200);
-            
+
             _moduleLoggerContainer.PrintAllLoggers();
-            
+
             _moduleResultPrinter.PrintModuleResults();
         }
 

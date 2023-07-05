@@ -15,7 +15,7 @@ public static class DockerExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDockerContext(collection));
     }
-    
+
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
         services.TryAddTransient<IDocker, Docker>();

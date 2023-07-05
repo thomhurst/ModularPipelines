@@ -15,7 +15,7 @@ public static class MicrosoftTeamsExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterMicrosoftTeamsContext(collection));
     }
-    
+
     public static IServiceCollection RegisterMicrosoftTeamsContext(this IServiceCollection services)
     {
         services.TryAddTransient<IMicrosoftTeams, MicrosoftTeams>();

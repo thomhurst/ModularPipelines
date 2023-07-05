@@ -13,14 +13,14 @@ public class NuGet : INuGet
     {
         _context = context;
     }
-    
+
     public async Task<List<CommandResult>> UploadPackages(NuGetUploadOptions options)
     {
         var results = new List<CommandResult>();
         foreach (var packagePath in options.PackagePaths)
         {
             var arguments = new List<string>
-            { 
+            {
                 "nuget", "push", packagePath, "-n"
             };
 
@@ -40,7 +40,7 @@ public class NuGet : INuGet
 
     public async Task<CommandResult> AddSource(NuGetSourceOptions options)
     {
-        return await _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", 
+        return await _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet",
             "nuget", "add", "source", options.FeedUri.AbsoluteUri));
     }
 }

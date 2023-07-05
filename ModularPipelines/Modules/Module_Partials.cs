@@ -8,7 +8,7 @@ public partial class Module<T>
     {
         return Task.CompletedTask;
     }
-    
+
     protected virtual Task OnAfterExecute(IModuleContext context)
     {
         return Task.CompletedTask;

@@ -15,13 +15,13 @@ public static class CmdExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterCmdContext(collection));
     }
-    
+
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
     {
         services.TryAddTransient<ICmd, Cmd>();
-        
+
         return services;
     }
-    
+
     public static ICmd Cmd(this IModuleContext context) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
 }

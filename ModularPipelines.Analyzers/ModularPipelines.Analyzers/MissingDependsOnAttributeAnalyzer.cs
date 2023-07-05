@@ -26,10 +26,10 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        
+
         context.RegisterSyntaxNodeAction(AnalyzeMissingDependsOnAttributes, SyntaxKind.InvocationExpression);
     }
-        
+
     private void AnalyzeMissingDependsOnAttributes(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not InvocationExpressionSyntax invocationExpressionSyntax)
@@ -50,7 +50,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         var genericArgument = genericNameSyntax.TypeArgumentList.Arguments.First();
 
         var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(genericArgument).Symbol;
-        
+
         if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
         {
             return;
@@ -111,14 +111,14 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     private ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
     {
         var parent = invocationExpressionSyntax.Parent;
-            
+
         while (parent is not null)
         {
             if (parent is ClassDeclarationSyntax classDeclarationSyntax)
             {
                 return classDeclarationSyntax;
             }
-            
+
             parent = parent.Parent;
         }
 
@@ -133,7 +133,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             return false;
         }
-        
+
         if (!attributeClassName!.StartsWith("global::ModularPipelines.Attributes.DependsOnAttribute"))
         {
             return false;

@@ -10,19 +10,19 @@ internal record ModuleDependencyModel(ModuleBase Module)
     public IEnumerable<ModuleDependencyModel> AllDescendantDependenciesAndSelf()
     {
         yield return this;
-        
+
         foreach (var dependency in AllDescendantDependencies())
         {
             yield return dependency;
         }
     }
-    
+
     public IEnumerable<ModuleDependencyModel> AllDescendantDependencies()
     {
         foreach (var moduleDependencyModel in IsDependentOn)
         {
             yield return moduleDependencyModel;
-            
+
             if (moduleDependencyModel.Module.GetType() == Module.GetType())
             {
                 yield break;
@@ -32,7 +32,7 @@ internal record ModuleDependencyModel(ModuleBase Module)
         foreach (var moduleDependencyModel in IsDependentOn.SelectMany(d => d.AllDescendantDependencies()))
         {
             yield return moduleDependencyModel;
-            
+
             if (moduleDependencyModel.Module.GetType() == Module.GetType())
             {
                 yield break;

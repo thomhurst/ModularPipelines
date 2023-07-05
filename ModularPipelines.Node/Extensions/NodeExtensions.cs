@@ -15,7 +15,7 @@ public static class NodeExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNodeContext(collection));
     }
-    
+
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
         services.TryAddTransient<INode, Node>();

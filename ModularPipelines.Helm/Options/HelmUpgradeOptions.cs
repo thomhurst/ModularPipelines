@@ -4,7 +4,7 @@ namespace ModularPipelines.Helm.Options;
 
 public record HelmUpgradeOptions : HelmOptions
 {
-    [BooleanCommandSwitch("atomic")] 
+    [BooleanCommandSwitch("atomic")]
     public bool? Atomic { get; set; }
 
     [CommandLongSwitch("ca-file", SwitchValueSeparator = " ")]
@@ -35,14 +35,14 @@ public record HelmUpgradeOptions : HelmOptions
     [BooleanCommandSwitch("enable-dns")] public bool? EnableDns { get; set; }
 
     [BooleanCommandSwitch("force")] public bool? Force { get; set; }
-    
+
     [CommandLongSwitch("history-max", SwitchValueSeparator = " ")]
     public int? HistoryMax { get; set; }
 
     [BooleanCommandSwitch("insecure-skip-tls-verify")]
     public bool? InsecureSkipTlsVerify { get; set; }
 
-    [BooleanCommandSwitch("install")] 
+    [BooleanCommandSwitch("install")]
     public bool? Install { get; set; }
 
     [CommandLongSwitch("key-file", SwitchValueSeparator = " ")]
@@ -103,17 +103,17 @@ public record HelmUpgradeOptions : HelmOptions
 
     [CommandSwitch("f")]
     public string[]? Values { get; set; }
-    
+
     [CommandSwitch("f")]
     public string[]? Files { get; set; }
 
-    [BooleanCommandSwitch("verify")] 
+    [BooleanCommandSwitch("verify")]
     public bool? Verify { get; set; }
 
     [CommandLongSwitch("version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
 
-    [BooleanCommandSwitch("wait")] 
+    [BooleanCommandSwitch("wait")]
     public bool? Wait { get; set; }
 
     [BooleanCommandSwitch("wait-for-jobs")]

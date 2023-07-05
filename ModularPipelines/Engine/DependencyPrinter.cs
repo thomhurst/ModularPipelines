@@ -14,7 +14,7 @@ internal class DependencyPrinter : IDependencyPrinter
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
     }
-    
+
     public void Print()
     {
         var stringBuilder = new StringBuilder();
@@ -24,7 +24,7 @@ internal class DependencyPrinter : IDependencyPrinter
             stringBuilder.AppendLine();
             Print(stringBuilder, moduleDependencyModel, 1);
         }
-        
+
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
     }
 
@@ -36,7 +36,7 @@ internal class DependencyPrinter : IDependencyPrinter
 
         foreach (var dependencyModel in moduleDependencyModel.IsDependencyFor)
         {
-            Print(stringBuilder, dependencyModel, i+2);
+            Print(stringBuilder, dependencyModel, i + 2);
         }
     }
 }

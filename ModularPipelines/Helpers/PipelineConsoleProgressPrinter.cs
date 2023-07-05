@@ -13,7 +13,7 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
             .StartAsync(async progressContext =>
             {
                 var totalProgressTask = progressContext.AddTask($"[green]Total[/]");
-                
+
                 RegisterModules(organizedModules.RunnableModules, progressContext, totalProgressTask, cancellationToken);
 
                 RegisterIgnoredModules(organizedModules.IgnoredModules, progressContext);
@@ -21,22 +21,22 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                 CompleteTotalWhenFinished(organizedModules.RunnableModules, totalProgressTask, cancellationToken);
 
                 progressContext.Refresh();
-                
+
                 while (!progressContext.IsFinished)
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return;
                     }
-                    
+
                     await Task.Delay(1000);
                 }
-                
+
                 if (cancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
-                
+
                 progressContext.Refresh();
             });
     }
@@ -47,8 +47,8 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
         foreach (var moduleToProcess in modulesToProcess)
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
-            
-            
+
+
             var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}", new ProgressTaskSettings
             {
                 AutoStart = false
@@ -60,10 +60,10 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                 progressTask.StartTask();
                 var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
 
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1; 
-                
+                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
+
                 var ticksPerSecond = 100 / totalEstimatedSeconds;
-                
+
                 progressTask.Description = moduleName;
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {

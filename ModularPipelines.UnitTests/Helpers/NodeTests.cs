@@ -17,7 +17,7 @@ public class NodeTests : TestBase
                 context.Node().Npm.Run(null!, cancellationToken);
                 context.Node().Nvm.Use(null!, cancellationToken);
             };
-            
+
             return await context.Node().Version(cancellationToken: cancellationToken);
         }
     }
@@ -28,7 +28,7 @@ public class NodeTests : TestBase
         var module = await RunModule<NodeVersionModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -43,7 +43,7 @@ public class NodeTests : TestBase
         var module = await RunModule<NodeVersionModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);

@@ -13,7 +13,7 @@ public class Cmd : ICmd
     {
         _context = context;
     }
-    
+
     public Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "/c" };
@@ -22,7 +22,7 @@ public class Cmd : ICmd
         {
             arguments.Add("/q");
         }
-        
+
         arguments.Add(options.Script);
 
         return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);

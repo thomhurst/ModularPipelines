@@ -17,10 +17,10 @@ public class DisposableModuleTests
                 collection.AddModule<DisposableModule>();
             })
             .ExecutePipelineAsync();
-        
+
         Assert.That(modules.OfType<DisposableModule>().Single().IsDisposed, Is.True);
     }
-    
+
     public class DisposableModule : Module, IDisposable
     {
         public bool IsDisposed { get; private set; }

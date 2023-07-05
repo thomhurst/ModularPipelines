@@ -76,7 +76,7 @@ public class Module2 : Module
 
         await VerifyCS.VerifyAnalyzerAsync(test);
     }
-    
+
     //No diagnostics expected to show up
     [TestMethod]
     public async Task Good_Source()
@@ -89,10 +89,10 @@ public class Module2 : Module
     public async Task AnalyzerIsTriggered()
     {
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
-            
+
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
     }
-        
+
     [TestMethod]
     public async Task CodeFixWorks()
     {
@@ -102,7 +102,7 @@ public class Module2 : Module
             // Is there a way around that?
             return;
         }
-        
+
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);

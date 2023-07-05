@@ -15,7 +15,7 @@ public class ModuleResult<T> : ModuleResult
     }
 
     private readonly T? _value;
-    
+
     internal string? ModuleName { get; set; }
 
     public T? Value
@@ -26,7 +26,7 @@ public class ModuleResult<T> : ModuleResult
             {
                 throw new Exception($"{GetModuleName()} has errored. No Value available");
             }
-            
+
             if (ModuleResultType == ModuleResultType.Skipped)
             {
                 throw new Exception($"{GetModuleName()} was skipped. No Value available");
@@ -54,8 +54,8 @@ public class ModuleResult
     {
         return t == null ? Empty<T>() : new ModuleResult<T>(t);
     }
-    
+
     public static ModuleResult<T> FromException<T>(Exception exception) => new(exception);
-    
+
     public ModuleResultType ModuleResultType { get; private protected set; }
 }

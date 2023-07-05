@@ -22,21 +22,21 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
                 {
                     return solution;
                 }
-                
+
                 var compilationOptions = project.CompilationOptions;
 
                 if (compilationOptions is null)
                 {
                     return solution;
                 }
-                
+
                 var parseOptions = project.ParseOptions as CSharpParseOptions;
-                
+
                 if (parseOptions is null)
                 {
                     return solution;
                 }
-                
+
                 compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
 
                 solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)

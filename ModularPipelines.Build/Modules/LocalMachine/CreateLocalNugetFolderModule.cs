@@ -22,7 +22,7 @@ public class CreateLocalNugetFolderModule : Module<string>
         }
 
         await Task.Yield();
-        
+
         context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolderPath);
 
         return localNugetRepositoryFolderPath;

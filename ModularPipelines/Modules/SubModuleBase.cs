@@ -3,7 +3,7 @@
 public abstract class SubModuleBase
 {
     public Type ParentModule { get; }
-    
+
     internal readonly string Name;
     internal TimeSpan Duration { get; set; }
     internal DateTimeOffset StartTime { get; set; }

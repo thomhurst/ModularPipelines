@@ -33,9 +33,9 @@ public class Xml : IXml
     public T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace) where T : class
     {
         using var reader = element.CreateReader();
-        
+
         var serializer = new XmlSerializer(typeof(T));
-        
+
         return serializer.Deserialize(reader) as T;
     }
 }

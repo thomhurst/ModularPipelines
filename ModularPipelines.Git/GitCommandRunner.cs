@@ -20,7 +20,7 @@ internal class GitCommandRunner
             LogInput = false,
             LogOutput = false
         };
-        
+
         var commandResult = await _context.Command.ExecuteCommandLineTool(commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray()));
 
         return commandResult.StandardOutput.Trim();

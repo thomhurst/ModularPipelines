@@ -26,12 +26,12 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
     protected override async Task OnBeforeExecute(IModuleContext context)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
-        
+
         foreach (var packagePath in packagePaths.Value!)
         {
             context.Logger.LogInformation("Uploading {File}", packagePath);
         }
-        
+
         await base.OnBeforeExecute(context);
     }
 
@@ -41,7 +41,7 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         {
             return await NothingAsync();
         }
-        
+
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()

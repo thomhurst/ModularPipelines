@@ -12,7 +12,7 @@ internal class ModuleInitializer : IModuleInitializer
     {
         _serviceProvider = serviceProvider;
     }
-    
+
     public ModuleBase Initialize(ModuleBase module)
     {
         // Each context needs to be transient

@@ -14,9 +14,9 @@ public class RequirementChecker : IRequirementChecker
     public async Task CheckRequirementsAsync()
     {
         var failedRequirementsNames = new List<string>();
-        
+
         var requirementTasks = _requirements.Select(x => x.MustAsync()).ToList();
-        
+
         for (var index = 0; index < requirementTasks.Count; index++)
         {
             var requirement = _requirements[index];

@@ -12,13 +12,13 @@ public record DotNetRestoreOptions : DotNetOptions
 
     [CommandSwitch("a")]
     public string? Architecture { get; init; }
-    
+
     [CommandSwitch("o")]
     public string? Output { get; init; }
-    
+
     [CommandSwitch("s")]
     public string? Source { get; init; }
-    
+
     [CommandLongSwitch("config-file", SwitchValueSeparator = " ")]
     public string? ConfigFile { get; init; }
 
@@ -33,19 +33,19 @@ public record DotNetRestoreOptions : DotNetOptions
 
     [BooleanCommandSwitch("disable-parallel")]
     public bool? DisableParallel { get; init; }
-    
+
     [BooleanCommandSwitch("locked-mode")]
     public bool? LockedMode { get; init; }
-    
+
     [BooleanCommandSwitch("use-lock-file")]
     public bool? UseLockFile { get; init; }
-    
+
     [BooleanCommandSwitch("force")]
     public bool? Force { get; init; }
-    
+
     [BooleanCommandSwitch("nologo")]
     public bool? NoLogo { get; init; }
-        
+
     [BooleanCommandSwitch("no-cache")]
     public bool? NoCache { get; init; }
 

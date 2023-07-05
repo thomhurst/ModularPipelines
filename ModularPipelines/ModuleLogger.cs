@@ -30,7 +30,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         _defaultLogger = defaultLogger;
         moduleLoggerContainer.AddLogger(this);
     }
-    
+
     public override IDisposable BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
@@ -51,19 +51,19 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         var mappedFormatter = MapFormatter(formatter);
 
         var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
-        
+
         _logEvents.Add(valueTuple!);
-        
+
         LastLogWritten = DateTime.UtcNow;
     }
 
-    private Func<object, Exception?, string> MapFormatter<TState>(Func<TState,Exception?,string>? formatter)
+    private Func<object, Exception?, string> MapFormatter<TState>(Func<TState, Exception?, string>? formatter)
     {
         if (formatter is null)
         {
             return (_, _) => string.Empty;
         }
-        
+
         return (o, exception) => formatter.Invoke((TState) o, exception);
     }
 
@@ -81,7 +81,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         {
             return;
         }
-        
+
         _isDisposed = true;
 
         var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
@@ -92,7 +92,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
         logEvents.Clear();
         _logEvents.Clear();
-        
+
         GC.SuppressFinalize(this);
     }
 }

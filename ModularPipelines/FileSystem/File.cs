@@ -21,7 +21,7 @@ public class File
     }
 
     public bool Exists => _fileInfo.Exists;
-    
+
     public bool Hidden => (_fileInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     public string Name => _fileInfo.Name;
@@ -35,22 +35,22 @@ public class File
     public bool IsReadOnly => _fileInfo.IsReadOnly;
 
     public DateTime CreationTime => _fileInfo.CreationTime;
-    
+
     public DateTime LastWriteTimeUtc => _fileInfo.LastWriteTimeUtc;
 
     public string Extension => _fileInfo.Extension;
-    
+
     public void Delete() => _fileInfo.Delete();
-    
+
     public void MoveTo(string path) => _fileInfo.MoveTo(path);
-    
+
     public static implicit operator File?(string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
             return null;
         }
-        
+
         return new FileInfo(path);
     }
 
@@ -61,10 +61,10 @@ public class File
         {
             return null;
         }
-        
+
         return new File(fileInfo);
     }
-    
+
     public static implicit operator string(File file)
     {
         return file.Path;

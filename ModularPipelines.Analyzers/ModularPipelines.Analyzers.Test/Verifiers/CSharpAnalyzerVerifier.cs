@@ -34,7 +34,7 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
                 {
                     return solution;
                 }
-                
+
                 compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
 
                 solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)

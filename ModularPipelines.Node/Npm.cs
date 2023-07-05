@@ -13,7 +13,7 @@ public class Npm : INpm
     {
         _context = context;
     }
-    
+
     public Task<CommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default)
     {
         var arguments = new List<string> { "install" };

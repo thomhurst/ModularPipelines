@@ -11,7 +11,7 @@ public abstract class ModuleBase
     internal readonly Task StartTask = new(() => { });
     internal readonly Task IgnoreTask = new(() => { });
     internal abstract Task<object> ResultTaskInternal { get; }
-    
+
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
 
@@ -19,7 +19,7 @@ public abstract class ModuleBase
     /// The start time of the module
     /// </summary>
     public DateTimeOffset StartTime { get; internal set; }
-    
+
     /// <summary>
     /// The end time of the module.
     /// </summary>
@@ -29,7 +29,7 @@ public abstract class ModuleBase
     /// The duration of the module. This will be set after the module has finished.
     /// </summary>
     public TimeSpan Duration { get; internal set; }
-    
+
     /// <summary>
     /// The status of the module.
     /// </summary>
@@ -39,7 +39,7 @@ public abstract class ModuleBase
     /// A Timeout for the module
     /// </summary>
     protected virtual TimeSpan Timeout => TimeSpan.FromMinutes(30);
-    
+
     /// <summary>
     /// If true, the pipeline will not fail is this module fails.
     /// </summary>
@@ -47,14 +47,14 @@ public abstract class ModuleBase
     /// <param name="exception"></param>
     /// <returns></returns>
     protected virtual Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception) => Task.FromResult(false);
-    
+
     /// <summary>
     /// If true, this module will not run.
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
     protected virtual Task<bool> ShouldSkip(IModuleContext context) => Task.FromResult(false);
-    
+
     /// <summary>
     /// If this module is skipped, and this returns true, the last persisted result of this module will be reconstructed.
     /// If no persisted result can be reconstructed, this module will fail.
@@ -77,7 +77,7 @@ public abstract class ModuleBase
         SubModuleBases.Add(submodule);
         return await submodule.Task;
     }
-    
+
     protected async Task SubModule(string name, Func<Task> action)
     {
         var submodule = new SubModule(GetType(), name, action);
@@ -106,7 +106,7 @@ public abstract class ModuleBase<T> : ModuleBase
     /// </summary>
     /// <returns></returns>
     protected Task<ModuleResult<T>?> NothingAsync() => Task.FromResult(ModuleResult.Empty<T>())!;
-    
+
     /// <summary>
     /// The core logic of the module goes here
     /// </summary>

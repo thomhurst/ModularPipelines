@@ -13,7 +13,7 @@ internal class Helm : IHelm
     {
         _command = command;
     }
-    
+
     public Task<CommandResult> Install(HelmInstallOptions options, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("helm", "install"), cancellationToken);

@@ -28,7 +28,7 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         {
             return;
         }
-        
+
         var diagnostic = context.Diagnostics.First();
         var diagnosticSpan = diagnostic.Location.SourceSpan;
 
@@ -39,7 +39,7 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         {
             return;
         }
-        
+
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
@@ -54,9 +54,9 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         var document = context.Document;
 
         var syntaxTree = await context.Document.GetSyntaxTreeAsync(cancellationToken);
-        
+
         var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
-        
+
         var name = context.Diagnostics.First().Properties["Name"]!;
 
         var attributes = typeDecl.AttributeLists.Add(

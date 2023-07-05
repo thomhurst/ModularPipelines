@@ -15,7 +15,7 @@ public static class KubernetesExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterKubernetesContext(collection));
     }
-    
+
     public static IServiceCollection RegisterKubernetesContext(this IServiceCollection services)
     {
         services.TryAddTransient<IKubernetes, Kubernetes>();

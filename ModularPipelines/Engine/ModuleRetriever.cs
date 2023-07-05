@@ -31,9 +31,9 @@ internal class ModuleRetriever : IModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
-        
+
         _modules.ForEach(m => _moduleInitializer.Initialize(m));
-        
+
         var modulesToIgnore = _modules
             .Where(m => _moduleIgnoreHandler.ShouldIgnore(m))
             .ToList();

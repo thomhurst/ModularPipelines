@@ -20,7 +20,7 @@ public abstract class Module : Module<IDictionary<string, object>>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    
+
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
     private bool _initialized;
@@ -37,7 +37,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     private void AddDependency(DependsOnAttribute dependsOnAttribute)
     {
         var type = dependsOnAttribute.Type;
-        
+
         if (type == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
@@ -47,7 +47,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
-        
+
         DependentModules.Add(dependsOnAttribute);
     }
 
@@ -66,25 +66,25 @@ public abstract partial class Module<T> : ModuleBase<T>
         try
         {
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-            
+
             await WaitForModuleDependencies();
 
             var shouldSkipModule = await ShouldSkip(_context);
-            
+
             if (shouldSkipModule && await UseResultFromHistoryIfSkipped(_context))
             {
                 await SetupModuleFromHistory();
                 return;
             }
-            
+
             if (shouldSkipModule)
             {
                 SetSkipped();
                 return;
             }
-            
+
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-            
+
             await OnBeforeExecute(_context);
 
             StartTask.Start(TaskScheduler.Default);
@@ -93,31 +93,31 @@ public abstract partial class Module<T> : ModuleBase<T>
             StartTime = DateTimeOffset.UtcNow;
 
             var timeoutExceptionTask = Task.CompletedTask;
-            
+
             if (Timeout != TimeSpan.Zero)
             {
                 ModuleCancellationTokenSource.CancelAfter(Timeout);
                 timeoutExceptionTask = Task.Delay(Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
             }
-            
+
             _stopwatch.Start();
 
             var executeAsyncTask = ExecuteAsync(_context, ModuleCancellationTokenSource.Token);
-            
+
             // Will throw a timeout exception if configured and timeout is reached
             await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-            
+
             var moduleResult = await executeAsyncTask ?? ModuleResult.Empty<T>();
             moduleResult.ModuleName = GetType().Name;
-            
+
             await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
-            
+
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
-            
+
             Status = Status.Successful;
             EndTime = DateTimeOffset.UtcNow;
-            
+
             _context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
 
             TaskCompletionSource.SetResult(moduleResult);
@@ -127,7 +127,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
-            
+
             _context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
@@ -146,9 +146,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 var moduleResult = ModuleResult.FromException<T>(exception);
                 moduleResult.ModuleName = GetType().Name;
-                
+
                 await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
-                
+
                 TaskCompletionSource.SetResult(moduleResult);
             }
             else
@@ -174,7 +174,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     private async Task SetupModuleFromHistory()
     {
         Status = Status.Successful;
-        
+
         var result = await _context.ModuleResultRepository.GetResultAsync<T>(this);
 
         if (result == null)
@@ -182,12 +182,12 @@ public abstract partial class Module<T> : ModuleBase<T>
             SetSkipped();
             return;
         }
-        
+
         var utcNow = DateTimeOffset.UtcNow;
-        
+
         StartTime = utcNow;
         EndTime = utcNow;
-        
+
         StartTask.Start(TaskScheduler.Default);
         TaskCompletionSource.SetResult(result);
     }
@@ -201,7 +201,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new ModuleNotRegisteredException(
                 $"The module {typeof(TModule)} has not been registered", null);
         }
-        
+
         return module;
     }
 
@@ -211,12 +211,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new ModuleNotInitializedException(GetType());
         }
-        
+
         if (typeof(TModule) == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot get itself");
         }
-        
+
         return _context.GetModule<TModule>();
     }
 
@@ -275,9 +275,9 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override void SetSkipped()
     {
         Status = Status.Skipped;
-        
+
         IgnoreTask.Start(TaskScheduler.Default);
-        
+
         TaskCompletionSource.SetResult(new SkippedModuleResult<T>());
 
         _context.Logger.LogInformation("{Module} Ignored", GetType().Name);

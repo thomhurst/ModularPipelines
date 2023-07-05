@@ -15,13 +15,13 @@ public static class PowershellExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterPowershellContext(collection));
     }
-    
+
     public static IServiceCollection RegisterPowershellContext(this IServiceCollection services)
     {
         services.TryAddTransient<IPowershell, Powershell>();
-        
+
         return services;
     }
-    
+
     public static IPowershell Powershell(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IPowershell>();
 }

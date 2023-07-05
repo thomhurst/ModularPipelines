@@ -9,7 +9,7 @@ public static class CommandExtensions
     {
         return ToCommandLineToolOptions(options, tool, arguments.ToArray());
     }
-    
+
     public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, params string[] arguments)
     {
         return new CommandLineToolOptions(tool)
@@ -23,7 +23,7 @@ public static class CommandExtensions
             ArgumentsOptionObject = options
         };
     }
-    
+
     public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineToolOptions options, string tool, IEnumerable<string> arguments)
     {
         return new CommandLineToolOptions(tool)

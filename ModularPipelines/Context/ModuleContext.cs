@@ -49,18 +49,18 @@ internal class ModuleContext : IModuleContext
 
     public IFileSystemContext FileSystem { get; }
 
-    public ModuleContext(IServiceProvider serviceProvider, 
-        IDependencyCollisionDetector dependencyCollisionDetector, 
-        IEnvironmentContext environment, 
+    public ModuleContext(IServiceProvider serviceProvider,
+        IDependencyCollisionDetector dependencyCollisionDetector,
+        IEnvironmentContext environment,
         IFileSystemContext fileSystem,
-        IConfiguration configuration, 
+        IConfiguration configuration,
         IOptions<PipelineOptions> pipelineOptions,
         IModuleResultRepository moduleResultRepository,
         ICommand command,
-        IModuleLoggerProvider moduleLoggerProvider, 
-        IZip zip, 
-        IHex hex, 
-        IBase64 base64, 
+        IModuleLoggerProvider moduleLoggerProvider,
+        IZip zip,
+        IHex hex,
+        IBase64 base64,
         IHasher hasher, IJson json, IXml xml, EngineCancellationToken engineCancellationToken, IInstaller installer)
     {
         _moduleLoggerProvider = moduleLoggerProvider;

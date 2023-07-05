@@ -14,8 +14,8 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
     private readonly IHostEnvironment _hostEnvironment;
     private readonly ICommand _command;
 
-    public EnvironmentContext(ILogger<EnvironmentContext> logger, 
-        IHostEnvironment hostEnvironment, 
+    public EnvironmentContext(ILogger<EnvironmentContext> logger,
+        IHostEnvironment hostEnvironment,
         IEnvironmentVariables environmentVariables,
         ICommand command)
     {
@@ -48,7 +48,7 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         {
             gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
-                Arguments = new []{ "rev-parse", "--show-toplevel" }
+                Arguments = new[] { "rev-parse", "--show-toplevel" }
             });
         }
         catch (CommandException e)

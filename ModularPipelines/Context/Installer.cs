@@ -33,6 +33,6 @@ public class Installer : IInstaller
             Arguments = options.Arguments
         }, cancellationToken);
     }
-    
+
 
 }

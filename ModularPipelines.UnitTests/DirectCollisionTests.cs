@@ -19,11 +19,11 @@ public class DirectCollisionTests
                     collection.AddModule<DependencyConflictModule1>()
                         .AddModule<DependencyConflictModule2>();
                 })
-            .ExecutePipelineAsync(), 
+            .ExecutePipelineAsync(),
             Throws.Exception.TypeOf<DependencyCollisionException>()
                 .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**"));
     }
-    
+
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
@@ -34,7 +34,7 @@ public class DirectCollisionTests
             return null;
         }
     }
-    
+
     [DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module
     {

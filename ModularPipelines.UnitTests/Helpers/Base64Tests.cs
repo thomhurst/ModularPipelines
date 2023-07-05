@@ -21,7 +21,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<ToBase64Module>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -36,10 +36,10 @@ public class Base64Tests : TestBase
         var module = await RunModule<ToBase64Module>();
 
         var moduleResult = await module;
-        
+
         Assert.That(moduleResult.Value, Is.EqualTo("Rm9vIGJhciE="));
     }
-    
+
     private class FromBase64Module : Module<string>
     {
         protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<FromBase64Module>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -70,7 +70,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<FromBase64Module>();
 
         var moduleResult = await module;
-        
+
         Assert.That(moduleResult.Value, Is.EqualTo("Foo bar!"));
     }
 }

@@ -18,12 +18,12 @@ public class PipelineEngineOverrides
     {
         return OverrideGeneric<IModuleEstimatedTimeProvider, T>();
     }
-    
+
     public PipelineEngineOverrides OverrideResultsRepository<T>() where T : class, IModuleResultRepository
     {
         return OverrideGeneric<IModuleResultRepository, T>();
     }
-    
+
     private PipelineEngineOverrides OverrideGeneric<TBase, T>() where T : class, TBase where TBase : class
     {
         _internalHost.ConfigureServices(s =>
@@ -31,7 +31,7 @@ public class PipelineEngineOverrides
             s.RemoveAll<TBase>()
                 .AddSingleton<TBase, T>();
         });
-        
+
         return this;
     }
 }

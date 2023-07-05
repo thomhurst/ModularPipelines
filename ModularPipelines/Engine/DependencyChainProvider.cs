@@ -13,7 +13,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
     {
         ModuleDependencyModels = Detect(modules.Select(x => new ModuleDependencyModel(x)).ToList());
     }
-    
+
     private List<ModuleDependencyModel> Detect(List<ModuleDependencyModel> allModules)
     {
         foreach (var moduleDependencyModel in allModules)
@@ -21,7 +21,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
             var dependencies = GetModuleDependencies(moduleDependencyModel, allModules).ToList();
 
             moduleDependencyModel.IsDependentOn.AddRange(dependencies);
-            
+
             foreach (var dependencyModel in dependencies)
             {
                 dependencyModel.IsDependencyFor.Add(moduleDependencyModel);
@@ -30,7 +30,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
 
         return allModules;
     }
-    
+
     private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
     {
         var customAttributes = moduleDependencyModel.Module.GetType().GetCustomAttributes<DependsOnAttribute>(true);

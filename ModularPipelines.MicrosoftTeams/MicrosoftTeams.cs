@@ -13,7 +13,7 @@ public class MicrosoftTeams : IMicrosoftTeams
     {
         Context = context;
     }
-    
+
     public async Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default)
     {
         var serializedCard = JsonSerializer.Serialize(MicrosoftTeamsCardWrapper.Wrap(options.Card), new JsonSerializerOptions

@@ -12,7 +12,7 @@ public class Docker : IDocker
     {
         _command = command;
     }
-    
+
     public async Task Login(DockerLoginOptions dockerLoginOptions)
     {
         var arguments = new List<string>
@@ -21,7 +21,7 @@ public class Docker : IDocker
         };
 
         arguments.AddNonNullOrEmpty(dockerLoginOptions.Server?.AbsolutePath);
-        
+
         await _command.ExecuteCommandLineTool(dockerLoginOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
@@ -29,15 +29,15 @@ public class Docker : IDocker
     {
         var workingDirectory =
             dockerBuildOptions.DockerfileFolder.Path == dockerBuildOptions.WorkingDirectory ? "." : dockerBuildOptions.DockerfileFolder.Path;
-        
+
         var arguments = new List<string>
         {
             "build",
             workingDirectory,
         };
-        
+
         arguments.AddNonNullOrEmpty(dockerBuildOptions.Dockerfile);
-        
+
         await _command.ExecuteCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
@@ -55,16 +55,16 @@ public class Docker : IDocker
             "push",
             $"{dockerPushOptions.Name}:{dockerPushOptions.Tag}"
         };
-        
+
         return _command.ExecuteCommandLineTool(dockerPushOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
     public async Task<string> Version(DockerArgumentOptions? dockerArgumentOptions = null)
     {
         dockerArgumentOptions ??= new DockerArgumentOptions();
-        
+
         var result = await _command.ExecuteCommandLineTool(dockerArgumentOptions.ToCommandLineToolOptions("docker", "version"));
-        
+
         return result.StandardOutput;
     }
 }

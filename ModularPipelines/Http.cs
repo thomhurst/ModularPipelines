@@ -33,21 +33,21 @@ internal class Http : IHttp
 
         return response.EnsureSuccessStatusCode();
     }
-    
+
     public async Task PrintRequest(HttpRequestMessage request)
     {
         var sb = new StringBuilder();
 
         sb.AppendLine($"{request.Method} {request.RequestUri} HTTP/{request.Version}");
-        
+
         sb.AppendLine();
-        
+
         PrintHeaders(sb, request.Headers, request.Content?.Headers);
 
         sb.AppendLine();
-        
+
         await PrintBody(sb, request.Content);
-        
+
         _moduleLoggerProvider.GetLogger().LogInformation("---Request---\r\n{Request}", sb.ToString());
     }
 
@@ -56,15 +56,15 @@ internal class Http : IHttp
         var sb = new StringBuilder();
 
         var statusCode = (int) response.StatusCode;
-        
+
         sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
 
         sb.AppendLine();
-        
+
         PrintHeaders(sb, response.Headers, response.Content.Headers);
 
         sb.AppendLine();
-        
+
         await PrintBody(sb, response.Content);
 
         _moduleLoggerProvider.GetLogger().LogInformation("---Response---\r\n{Response}", sb.ToString());

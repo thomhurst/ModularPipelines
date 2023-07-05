@@ -16,13 +16,13 @@ public static class NuGetExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterNuGetContext(collection));
     }
-    
+
     public static IServiceCollection RegisterNuGetContext(this IServiceCollection services)
     {
         services.RegisterDotNetContext();
-        
+
         services.TryAddTransient<INuGet, NuGet>();
-        
+
         return services;
     }
 

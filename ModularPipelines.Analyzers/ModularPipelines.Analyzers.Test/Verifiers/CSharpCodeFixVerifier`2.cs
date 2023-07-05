@@ -60,7 +60,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             ReferenceAssemblies = Net.Net60,
             TestState =
             {
-                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },   
+                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
             }
         };
 

@@ -18,10 +18,10 @@ internal class Command : ICommand
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    
+
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
-        var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool) 
+        var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
 
         if (options.ArgumentsOptionObject != null)
@@ -33,21 +33,21 @@ internal class Command : ICommand
         {
             parsedArgs.AddRange(options.AdditionalSwitches);
         }
-        
+
         var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
-      
+
         if (options.WorkingDirectory != null)
         {
             command = command.WithWorkingDirectory(options.WorkingDirectory);
         }
-        
+
         if (options.EnvironmentVariables != null)
         {
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
 
         var commandInput = command.ToString();
-        
+
         if (options.LogInput)
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
@@ -60,7 +60,7 @@ internal class Command : ICommand
         if (options.LogOutput)
         {
             var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-            
+
             Logger.LogInformation("---Command Result---\r\n\t{Output}",
                 string.IsNullOrEmpty(result.StandardError)
                     ? outputLoggingManipulator(result.StandardOutput)
@@ -84,6 +84,6 @@ internal class Command : ICommand
 
         return result;
     }
-    
-    
+
+
 }

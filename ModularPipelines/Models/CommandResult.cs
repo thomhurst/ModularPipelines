@@ -18,7 +18,7 @@ public class CommandResult
         EndTime = commandResult.ExitTime;
         Duration = commandResult.RunTime;
     }
-    
+
     /// <summary>
     /// Standard output data produced by the underlying process.
     /// </summary>
@@ -28,7 +28,7 @@ public class CommandResult
     /// Standard error data produced by the underlying process.
     /// </summary>
     public string StandardError { get; }
-    
+
     /// <summary>
     /// Exit code set by the underlying process.
     /// </summary>

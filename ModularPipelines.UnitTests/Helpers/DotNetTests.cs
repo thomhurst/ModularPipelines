@@ -21,7 +21,7 @@ public class DotNetTests : TestBase
         var module = await RunModule<DotNetVersionModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -36,7 +36,7 @@ public class DotNetTests : TestBase
         var module = await RunModule<DotNetVersionModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);

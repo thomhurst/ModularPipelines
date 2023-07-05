@@ -15,7 +15,7 @@ public static class GitExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterGitContext(collection));
     }
-    
+
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
         services.TryAddTransient<IGit, Git>();

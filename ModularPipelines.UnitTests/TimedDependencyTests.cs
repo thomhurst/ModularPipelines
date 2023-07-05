@@ -22,7 +22,7 @@ public class TimedDependencyTests
 
         var fiveSecondModule = modules.OfType<FiveSecondModule>().Single();
         var oneSecondModuleDependentOnFiveSecondModule = modules.OfType<OneSecondModuleDependentOnFiveSecondModule>().Single();
-        
+
         Assert.Multiple(() =>
         {
 

@@ -13,7 +13,7 @@ public class Hasher : IHasher
         _hex = hex;
         _base64 = base64;
     }
-    
+
     public string Sha1(string input, HashType hashType = HashType.Hex)
     {
         return ComputeHash(SHA1.Create(), input, hashType);

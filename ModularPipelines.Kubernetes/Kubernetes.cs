@@ -16,7 +16,7 @@ internal class Kubernetes : IKubernetes
     }
 
     public IKubernetesConfig Config { get; }
-    
+
     public Task Apply(KubernetesApplyOptions applyOptions, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineTool(applyOptions.ToCommandLineToolOptions("kubectl", "apply"), cancellationToken);

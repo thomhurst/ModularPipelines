@@ -34,7 +34,7 @@ public record HelmInstallOptions : HelmOptions
 
     [BooleanCommandSwitch("generate-name")]
     public bool? GenerateName { get; set; }
-    
+
     [BooleanCommandSwitch("insecure-skip-tls-verify")]
     public bool? InsecureSkipTlsVerify { get; set; }
 

@@ -13,10 +13,10 @@ public class DependsOnAttribute : Attribute
         {
             throw new Exception($"{type.FullName} is not a Module class");
         }
-        
+
         Type = type;
     }
-    
+
     public bool IgnoreIfNotRegistered { get; set; }
 }
 

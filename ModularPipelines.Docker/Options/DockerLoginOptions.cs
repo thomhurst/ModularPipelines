@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 public record DockerLoginOptions(
-    [property: CommandLongSwitch("username")] string Username, 
+    [property: CommandLongSwitch("username")] string Username,
     [property: CommandLongSwitch("password")] string Password
 ) : DockerOptions
 {

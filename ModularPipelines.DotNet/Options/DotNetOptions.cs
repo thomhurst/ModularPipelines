@@ -9,10 +9,10 @@ public record DotNetOptions : CommandLineOptions
 
     [CommandLongSwitch("runtime", SwitchValueSeparator = " ")]
     public string? Runtime { get; init; }
-    
+
     [CommandSwitch("v")]
     public Verbosity? Verbosity { get; init; }
-    
+
     [CommandLongSwitch("property", SwitchValueSeparator = ":")]
     public string[]? Properties { get; init; }
 

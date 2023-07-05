@@ -15,7 +15,7 @@ public static class HelmExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterHelmContext(collection));
     }
-    
+
     public static IServiceCollection RegisterHelmContext(this IServiceCollection services)
     {
         services.TryAddTransient<IHelm, Helm>();

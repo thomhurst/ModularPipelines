@@ -11,7 +11,7 @@ public abstract class CommandOptionsObjectArgumentParser
         foreach (var propertyInfo in optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
             var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
-            
+
             if (propertyValues is null || !propertyValues.Any())
             {
                 continue;
@@ -81,12 +81,12 @@ public abstract class CommandOptionsObjectArgumentParser
 
         if (singleValue is not null)
         {
-            return new[] {singleValue};
+            return new[] { singleValue };
         }
-        
+
         return GetValues(rawValue);
     }
-    
+
     private static string? GetSingleValue(object? rawValue)
     {
         if (rawValue is null or IEnumerable and not IEnumerable<char>)
@@ -145,7 +145,7 @@ public abstract class CommandOptionsObjectArgumentParser
         }
 
         var objects = enumerable.Cast<object>().ToArray();
-            
+
         var list1 = objects
             .Select(GetSingleValue)
             .OfType<string>()
@@ -154,7 +154,7 @@ public abstract class CommandOptionsObjectArgumentParser
         var list2 = objects
             .SelectMany(x => GetValues(x) ?? Array.Empty<string>())
             .ToList();
-            
+
         return list1.Concat(list2);
     }
 
@@ -165,8 +165,8 @@ public abstract class CommandOptionsObjectArgumentParser
             .GetField(rawValue.ToString()!)
             ?.GetCustomAttribute<EnumValueAttribute>();
 
-        return enumValueAttribute is not null 
-            ? enumValueAttribute.Value 
+        return enumValueAttribute is not null
+            ? enumValueAttribute.Value
             : rawValue.ToString()!;
     }
 

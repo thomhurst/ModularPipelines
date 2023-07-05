@@ -23,17 +23,17 @@ internal class GitInformation : IGitInformation
     public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
 
     public string? Tag => _staticGitInformation.Tag;
-    
+
     public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
 
     public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
     public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
-        
+
     public string? LastCommitSha => _staticGitInformation.LastCommitSha;
 
     public string? LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
-    
-        
+
+
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
         return Commits(null, options, cancellationToken);
@@ -44,10 +44,10 @@ internal class GitInformation : IGitInformation
         var index = 0;
         while (true)
         {
-            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index-1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
+            var output = await _gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index - 1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %B'");
 
             index++;
-            
+
             if (string.IsNullOrWhiteSpace(output) || cancellationToken.IsCancellationRequested)
             {
                 yield break;

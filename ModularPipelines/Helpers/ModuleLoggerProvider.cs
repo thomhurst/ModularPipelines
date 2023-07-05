@@ -8,14 +8,14 @@ namespace ModularPipelines.Helpers;
 internal class ModuleLoggerProvider : IModuleLoggerProvider
 {
     private readonly IServiceProvider _serviceProvider;
-    
+
     private ILogger? _logger;
 
     public ModuleLoggerProvider(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
-    
+
     public ILogger GetLogger(Type type) => _logger ??= MakeLogger(type);
 
     public ILogger GetLogger()
@@ -45,7 +45,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
             {
                 return MakeLogger(type);
             }
-            
+
             return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
         }
 
@@ -59,7 +59,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
         var logger = (ILogger) _serviceProvider.GetRequiredService(loggerType);
 
         _logger = logger;
-        
+
         return logger;
     }
 
@@ -69,7 +69,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
         {
             return false;
         }
-        
+
         return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
     }
 }

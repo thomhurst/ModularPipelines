@@ -14,12 +14,12 @@ public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
     protected override async Task OnBeforeExecute(IModuleContext context)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
-        
+
         foreach (var packagePath in packagePaths.Value!)
         {
             context.Logger.LogInformation("[Local Directory] Uploading {File}", packagePath);
         }
-        
+
         await base.OnBeforeExecute(context);
     }
 

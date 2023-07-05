@@ -6,7 +6,7 @@ namespace ModularPipelines.NuGet.Options;
 public record NuGetUploadOptions
 (
     IEnumerable<string> PackagePaths,
-    
+
     [property: CommandSwitch("s")]
     Uri FeedUri
 ) : CommandLineOptions

@@ -15,11 +15,11 @@ internal class Downloader : IDownloader
         _moduleLoggerProvider = moduleLoggerProvider;
         _defaultHttpClient = defaultHttpClient;
     }
-    
+
     public async Task<File> DownloadFileAsync(DownloadOptions options, CancellationToken cancellationToken = default)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, options.DownloadUri);
-        
+
         options.RequestConfigurator?.Invoke(request);
 
         var response = await (options.HttpClient ?? _defaultHttpClient).GetAsync(options.DownloadUri, cancellationToken);
@@ -32,11 +32,11 @@ internal class Downloader : IDownloader
         {
             throw new IOException($"{filePathToSave} already exists and overwrite is false");
         }
-        
+
         await using var newFile = System.IO.File.Create(filePathToSave);
-        
+
         await stream.CopyToAsync(newFile, cancellationToken);
-        
+
         _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
 
         return filePathToSave!;

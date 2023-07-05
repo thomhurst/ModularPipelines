@@ -15,7 +15,7 @@ public class CmdTests : TestBase
             Assert.Ignore("Cmd is Windows only");
         }
     }
-    
+
     private class CmdEchoModule : Module<CommandResult>
     {
         protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -45,7 +45,7 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);

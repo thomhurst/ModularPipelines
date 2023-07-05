@@ -6,7 +6,7 @@ public enum Configuration
 {
     [EnumValue("Debug")]
     Debug,
-    
+
     [EnumValue("Release")]
     Release
 }

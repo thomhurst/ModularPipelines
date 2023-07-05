@@ -11,7 +11,7 @@ public class TrxParser : ITrxParser
     {
         _xml = xml;
     }
-    
+
     public DotNetTestResult ParseTestResult(string input)
     {
         return new DotNetTestResult(GetUnitTestResults(input));

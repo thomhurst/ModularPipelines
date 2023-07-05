@@ -17,7 +17,7 @@ public class NugetVersionGeneratorModule : Module<string>
         {
             return GitVersionInformation.SemVer;
         }
-        
+
         return $"{GitVersionInformation.Major}.{GitVersionInformation.Minor}.{GitVersionInformation.Patch}-{GitVersionInformation.PreReleaseLabel}-{GitVersionInformation.CommitsSinceVersionSource}";
     }
 

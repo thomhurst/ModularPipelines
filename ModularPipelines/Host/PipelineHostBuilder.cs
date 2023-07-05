@@ -25,11 +25,11 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         {
             // Bundles
             services
-                .Configure<PipelineOptions>(_ => {})
+                .Configure<PipelineOptions>(_ => { })
                 .AddLogging()
                 .AddHttpClient()
                 .AddInitializers();
-            
+
             // Transient
             services.AddTransient<IModuleContext, ModuleContext>()
                 .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
@@ -73,7 +73,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
     }
 
     public static IPipelineHostBuilder Create() => new PipelineHostBuilder();
-    
+
     public IPipelineHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
     {
         _internalHost.ConfigureAppConfiguration(configureDelegate);
@@ -85,17 +85,17 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         _internalHost.ConfigureServices(configureDelegate);
         return this;
     }
-    
+
     public IPipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate)
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
             collection.Configure<PipelineOptions>(options => configureDelegate(context, options));
         });
-        
+
         return this;
     }
-    
+
     public IPipelineHostBuilder ConfigureOverrides(Action<PipelineEngineOverrides> configureDelegate)
     {
         configureDelegate(_overrides);
@@ -105,7 +105,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
     public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
-        
+
         _internalHost.ConfigureServices(collection =>
         {
             foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
@@ -113,9 +113,9 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 contextRegistrationDelegate(collection);
             }
         });
-        
+
         var host = _internalHost.Build();
-        
+
         await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
 
         try
@@ -137,12 +137,12 @@ public class PipelineHostBuilder : IPipelineHostBuilder
             .Except(currentAssemblies.Select(x => x.GetName().Name))
             .OfType<string>()
             .ToList();
-        
+
         foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
         {
             Assembly.Load(new AssemblyName(modularPipelineAssembly));
         }
-        
+
         foreach (var assembly in AppDomain.CurrentDomain
                      .GetAssemblies()
                      .Where(a => a.GetName().Name?.Contains("ModularPipeline", StringComparison.InvariantCultureIgnoreCase) == true))
@@ -159,7 +159,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         {
             return baseDirectoryDlls;
         }
-        
+
         return baseDirectoryDlls
             .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
             .Distinct();

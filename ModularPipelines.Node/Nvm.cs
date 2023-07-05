@@ -12,12 +12,12 @@ public class Nvm : INvm
     {
         _context = context;
     }
-    
+
     public Task<CommandResult> Use(string version, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new []{ "use", version }
+            Arguments = new[] { "use", version }
         }, cancellationToken);
     }
 }

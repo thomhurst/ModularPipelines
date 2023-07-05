@@ -20,32 +20,35 @@ public class DotNet : IDotNet
 
     public Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"restore"};
+        var args = new List<string> { "restore" };
         args.AddNonNullOrEmpty(options.TargetPath);
         return ExecuteCommandLineTool(options, args, cancellationToken);
     }
 
     public Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"build"};
+        var args = new List<string> { "build" };
         args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);    }
+        return ExecuteCommandLineTool(options, args, cancellationToken);
+    }
 
     public Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"publish"};
+        var args = new List<string> { "publish" };
         args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);  }
+        return ExecuteCommandLineTool(options, args, cancellationToken);
+    }
 
     public Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"pack"};
+        var args = new List<string> { "pack" };
         args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);   }
+        return ExecuteCommandLineTool(options, args, cancellationToken);
+    }
 
     public Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"clean"};
+        var args = new List<string> { "clean" };
         args.AddNonNullOrEmpty(options.TargetPath);
         return ExecuteCommandLineTool(options, args, cancellationToken);
     }
@@ -57,7 +60,7 @@ public class DotNet : IDotNet
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
 
-        var args = new List<string> {"test"};
+        var args = new List<string> { "test" };
         args.AddNonNullOrEmpty(options.TargetPath);
         await ExecuteCommandLineTool(options, args, cancellationToken);
 
@@ -68,7 +71,7 @@ public class DotNet : IDotNet
 
     public Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string> {"format"};
+        var args = new List<string> { "format" };
         args.AddNonNullOrEmpty(options.TargetPath);
         return ExecuteCommandLineTool(options, args, cancellationToken);
     }
@@ -77,7 +80,7 @@ public class DotNet : IDotNet
     {
         options ??= new DotNetOptions();
 
-        return ExecuteCommandLineTool(options, new[] {"--version"}, cancellationToken);
+        return ExecuteCommandLineTool(options, new[] { "--version" }, cancellationToken);
     }
 
     public Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)

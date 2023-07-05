@@ -44,7 +44,7 @@ public abstract class DependsOnModule1 : Module
 {
 }
 ";
-    
+
     private const string InterfaceWithAttribute = @"
 #nullable enable
 using System;
@@ -81,13 +81,13 @@ public interface DependsOnModule1
 {
 }
 ";
-    
+
     [TestMethod]
     public async Task Attribute_On_Base_Type_No_Analyzer_Error()
     {
         await VerifyCS.VerifyAnalyzerAsync(BaseTypeWithAttribute);
     }
-    
+
     [TestMethod]
     public async Task Attribute_On_Interface_Type_No_Analyzer_Error()
     {

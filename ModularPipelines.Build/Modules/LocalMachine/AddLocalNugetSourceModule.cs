@@ -20,7 +20,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
-        
+
         return await context.NuGet()
             .AddSource(new NuGetSourceOptions(new Uri(localNugetPathResult.Value!), "ModularPipelinesLocalNuGet"));
     }

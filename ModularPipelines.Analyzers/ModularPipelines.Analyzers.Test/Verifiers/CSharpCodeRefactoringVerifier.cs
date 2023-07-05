@@ -20,7 +20,7 @@ public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
                 {
                     return solution;
                 }
-                
+
                 var compilationOptions = project.CompilationOptions;
 
                 if (compilationOptions is null)
@@ -34,7 +34,7 @@ public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
                 {
                     return solution;
                 }
-                
+
                 compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
 
                 solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)

@@ -13,7 +13,7 @@ public class CommandTests : TestBase
         {
             return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("pwsh")
             {
-                Arguments = new []{ "-Command", "echo 'Foo bar!'" }
+                Arguments = new[] { "-Command", "echo 'Foo bar!'" }
             }, cancellationToken: cancellationToken);
         }
     }
@@ -24,7 +24,7 @@ public class CommandTests : TestBase
         var module = await RunModule<CommandEchoModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
@@ -39,7 +39,7 @@ public class CommandTests : TestBase
         var module = await RunModule<CommandEchoModule>();
 
         var moduleResult = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);

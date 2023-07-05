@@ -14,7 +14,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
     {
         _pipelineOptions = pipelineOptions;
     }
-    
+
     public bool ShouldIgnore(ModuleBase module)
     {
         if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
@@ -29,7 +29,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
     private bool IsRunnableCategory(ModuleBase module)
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
-        
+
         if (runOnlyCategories?.Any() != true)
         {
             return true;
@@ -43,7 +43,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
     private bool IsIgnoreCategory(ModuleBase module)
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
-        
+
         if (ignoreCategories?.Any() != true)
         {
             return false;

@@ -14,7 +14,7 @@ public class KubernetesConfig : IKubernetesConfig
     {
         _command = command;
     }
-    
+
     public async Task UseContext(KubernetesUseContextOptions kubernetesUseContextOptions)
     {
         await _command.ExecuteCommandLineTool(kubernetesUseContextOptions.ToCommandLineToolOptions("kubernetes",

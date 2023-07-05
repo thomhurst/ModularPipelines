@@ -14,6 +14,6 @@ public interface IEnvironmentContext
     Folder? GitRootDirectory { get; set; }
 
     Folder? GetFolder(Environment.SpecialFolder specialFolder);
-    
+
     IEnvironmentVariables EnvironmentVariables { get; }
 }

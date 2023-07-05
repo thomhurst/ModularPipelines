@@ -13,7 +13,7 @@ internal class ModuleResultPrinter : IModuleResultPrinter
         _modules = modules;
         _logger = logger;
     }
-    
+
     public void PrintModuleResults()
     {
         foreach (var moduleBase in _modules)

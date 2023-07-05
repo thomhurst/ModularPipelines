@@ -26,13 +26,13 @@ internal class StaticGitInformation : IGitInformation, IInitializer
         {
             throw new Exception("Error detecting Git repository", e);
         }
-        
+
         BranchName = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "HEAD");
         DefaultBranchName = (await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "origin/HEAD"))?.Replace("origin/", string.Empty);
         LastCommitSha = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "HEAD");
-        LastCommitShortSha = await  _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--short", "HEAD");
-        Tag =  await _gitCommandRunner.RunCommandsOrNull(null, "describe", "--tags");
-        CommitsOnBranch =  int.Parse(await _gitCommandRunner.RunCommandsOrNull(null, "rev-list", "HEAD", "--count") ?? "0");
+        LastCommitShortSha = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--short", "HEAD");
+        Tag = await _gitCommandRunner.RunCommandsOrNull(null, "describe", "--tags");
+        CommitsOnBranch = int.Parse(await _gitCommandRunner.RunCommandsOrNull(null, "rev-list", "HEAD", "--count") ?? "0");
         LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(await _gitCommandRunner.RunCommandsOrNull(null, "log", "-1", "--format=%at") ?? "0"));
         PreviousCommit = await LastCommits(1).FirstOrDefaultAsync();
     }
@@ -41,7 +41,7 @@ internal class StaticGitInformation : IGitInformation, IInitializer
     {
         for (var i = 0; i < count; i++)
         {
-            var output = await _gitCommandRunner.RunCommandsOrNull(gitOptions, "log", $"--skip={i-1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %b'");
+            var output = await _gitCommandRunner.RunCommandsOrNull(gitOptions, "log", $"--skip={i - 1}", "-1", $"--format='%aN {GitConstants.GitEscapedLineSeparator} %aE {GitConstants.GitEscapedLineSeparator} %aI {GitConstants.GitEscapedLineSeparator} %cN {GitConstants.GitEscapedLineSeparator} %cE {GitConstants.GitEscapedLineSeparator} %cI {GitConstants.GitEscapedLineSeparator} %H {GitConstants.GitEscapedLineSeparator} %h {GitConstants.GitEscapedLineSeparator} %s {GitConstants.GitEscapedLineSeparator} %b'");
 
             if (string.IsNullOrWhiteSpace(output) || cancellationToken.IsCancellationRequested)
             {
@@ -58,14 +58,14 @@ internal class StaticGitInformation : IGitInformation, IInitializer
     public string? DefaultBranchName { get; private set; } = null!;
 
     public string? Tag { get; private set; } = null!;
-    
+
     public int CommitsOnBranch { get; private set; }
     public DateTimeOffset LastCommitDateTime { get; private set; }
-        
+
     public string? LastCommitSha { get; private set; } = null!;
 
     public string? LastCommitShortSha { get; private set; } = null!;
-    
+
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();

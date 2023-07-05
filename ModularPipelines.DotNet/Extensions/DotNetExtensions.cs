@@ -15,7 +15,7 @@ public static class DotNetExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterDotNetContext(collection));
     }
-    
+
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
         services.TryAddTransient<IDotNet, DotNet>();

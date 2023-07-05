@@ -6,7 +6,7 @@ namespace ModularPipelines.Context;
 public class FileSystemContext : IFileSystemContext
 {
     public void DeleteFile(string filePath) => System.IO.File.Delete(filePath);
-    
+
     public void DeleteFolder(string folderPath) => Directory.Delete(folderPath, true);
 
     public void CopyFile(string filePath, string destinationFilePath) => System.IO.File.Copy(filePath, destinationFilePath);
@@ -17,7 +17,7 @@ public class FileSystemContext : IFileSystemContext
         {
             Directory.CreateDirectory(innerFolder.Replace(folderPath, destinationFolder));
         }
-        
+
         foreach (var newPath in Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories))
         {
             System.IO.File.Copy(newPath, newPath.Replace(folderPath, destinationFolder), true);
@@ -25,13 +25,13 @@ public class FileSystemContext : IFileSystemContext
     }
 
     public void MoveFile(string filePath, string destinationFilePath) => System.IO.File.Move(filePath, destinationFilePath);
-    
+
     public void MoveFolder(string filePath, string destinationFilePath) => Directory.Move(filePath, destinationFilePath);
 
     public bool FileExists(string filePath) => System.IO.File.Exists(filePath);
-    
+
     public bool FolderExists(string filePath) => Directory.Exists(filePath);
-    
+
     public FileAttributes GetFileAttributes(string filePath) => System.IO.File.GetAttributes(filePath);
     public void SetFileAttributes(string filepath, FileAttributes attributes) => System.IO.File.SetAttributes(filepath, attributes);
     public File GetFile(string filePath) => new FileInfo(filePath);

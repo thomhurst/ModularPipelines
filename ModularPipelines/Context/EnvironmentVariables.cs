@@ -24,11 +24,11 @@ public class EnvironmentVariables : IEnvironmentVariables
     public void AddToPath(string pathToAdd)
     {
         const string pathVariableName = "PATH";
-        
+
         var oldValue = Environment.GetEnvironmentVariable(pathVariableName);
-        
-        var newValue  = $@"{oldValue};{pathToAdd}";
-        
+
+        var newValue = $@"{oldValue};{pathToAdd}";
+
         Environment.SetEnvironmentVariable(pathVariableName, newValue);
     }
 }

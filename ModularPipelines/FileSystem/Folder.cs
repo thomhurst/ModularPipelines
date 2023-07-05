@@ -16,7 +16,7 @@ public class Folder
     }
 
     public bool Exists => _directoryInfo.Exists;
-    
+
     public bool Hidden => (_directoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     public string Name => _directoryInfo.Name;
@@ -30,20 +30,20 @@ public class Folder
     public Folder Root => _directoryInfo.Root;
 
     public DateTime CreationTime => _directoryInfo.CreationTime;
-    
+
     public DateTime LastWriteTimeUtc => _directoryInfo.LastWriteTimeUtc;
 
     public string Extension => _directoryInfo.Extension;
-    
+
     public void Delete() => _directoryInfo.Delete(true);
-    
+
     public void Clean()
     {
         foreach (var directory in _directoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             directory.Delete(true);
         }
-        
+
         foreach (var file in _directoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
             file.Delete();
@@ -51,26 +51,26 @@ public class Folder
     }
 
     public void MoveTo(string path) => _directoryInfo.MoveTo(path);
-    
+
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
-    
+
     public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
 
-    public IEnumerable<Folder> GetFolders(Func<Folder,bool> predicate) => _directoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => _directoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))
         .Where(predicate);
-    
-    public IEnumerable<File> GetFiles(Func<File,bool> predicate) => _directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => _directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
         .Where(predicate);
-    
+
     public static implicit operator Folder?(string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
             return null;
         }
-        
+
         return new DirectoryInfo(path);
     }
 
@@ -81,10 +81,10 @@ public class Folder
         {
             return null;
         }
-        
+
         return new Folder(directoryInfo);
     }
-    
+
     public static implicit operator string(Folder folder)
     {
         return folder.Path;

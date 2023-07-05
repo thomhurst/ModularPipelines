@@ -15,7 +15,7 @@ public static class AzurePipelineExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzurePipelineContext(collection));
     }
-    
+
     public static IServiceCollection RegisterAzurePipelineContext(this IServiceCollection services)
     {
         services.TryAddTransient<IAzurePipeline, AzurePipeline>();
