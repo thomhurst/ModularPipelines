@@ -3,7 +3,6 @@ root = true
 [*]
 end_of_line = unset
 insert_final_newline = false
-trim_trailing_whitespace = true
 
 ij_any_if_brace_force = always
 ij_any_do_while_brace_force = always

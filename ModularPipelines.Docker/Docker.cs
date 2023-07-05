@@ -35,7 +35,7 @@ public class Docker : IDocker
             "build",
             workingDirectory,
         };
-        
+
         await _command.ExecuteCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
     }
 
