@@ -8,38 +8,61 @@ namespace ModularPipelines.DotNet;
 
 public class DotNet : IDotNet
 {
-    private readonly IModuleContext _context;
+    private readonly ICommand _command;
+    private readonly IFileSystemContext _fileSystemContext;
     private readonly ITrxParser _trxParser;
 
-    public DotNet(IModuleContext context, ITrxParser trxParser)
+    public DotNet(ITrxParser trxParser, ICommand command, IFileSystemContext fileSystemContext)
     {
-        _context = context;
         _trxParser = trxParser;
+        _command = command;
+        _fileSystemContext = fileSystemContext;
     }
-    
+
     public Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("restore", options), options, cancellationToken);
-    }
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "restore") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
 
     public Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("build", options), options, cancellationToken);
-    }
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "build") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
 
     public Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("publish", options), options, cancellationToken);
-    }
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "publish") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
 
     public Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("pack", options), options, cancellationToken);
-    }
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "pack") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
 
     public Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(ToDotNetCommandOptions("clean", options), options, cancellationToken);
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "clean") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
     }
 
     public async Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default)
@@ -48,65 +71,44 @@ public class DotNet : IDotNet
 
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
-        
-        var command = await RunCommand(ToDotNetCommandOptions("test", options), options, cancellationToken);
 
-        var trxContents = await _context.FileSystem.GetFile(trxFilePath).ReadAsync();
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "test") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        await _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
+
+        var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
         return _trxParser.ParseTestResult(trxContents);
     }
 
+    public Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)
+    {
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "format") with
+        {
+            AdditionalSwitches = options.AdditionalSwitches
+        };
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);    }
+
     public Task<CommandResult> Version(CommandLineOptions? options, CancellationToken cancellationToken = default)
     {
         options ??= new CommandLineOptions();
-        
-        return RunCommand(new DotNetCommandOptions
-        {
-            Command = new[] { "--version" },
-            EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
-        }, null, cancellationToken);
+
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", "--version");
+
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
     }
 
     public Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
     {
-        return RunCommand(options, null, cancellationToken);
-    }
-
-    private static DotNetCommandOptions ToDotNetCommandOptions(string command, DotNetOptions options)
-    {
-        return new DotNetCommandOptions
+        var commandLineToolOptions = options.ToCommandLineToolOptions("dotnet", options.Command ?? ArraySegment<string>.Empty) with
         {
-            Command = new []{ command },
-            EnvironmentVariables = options.EnvironmentVariables,
-            AdditionalSwitches = options.AdditionalSwitches,
-            TargetPath = options.TargetPath,
-            WorkingDirectory = options.WorkingDirectory,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
+            AdditionalSwitches = options.AdditionalSwitches
         };
-    }
 
-    private Task<CommandResult> RunCommand(DotNetCommandOptions options, object? optionsObject, CancellationToken cancellationToken)
-    {
-        var arguments = options.Command?.ToList() ?? new List<string>();
-
-        arguments.AddNonNullOrEmpty(options.TargetPath);
-
-        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
-        {
-            Arguments = arguments,
-            EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput,
-            AdditionalSwitches = options.AdditionalSwitches,
-            ArgumentsOptionObject = optionsObject
-        }, cancellationToken);
+        return _command.ExecuteCommandLineTool(commandLineToolOptions, cancellationToken);
     }
 }

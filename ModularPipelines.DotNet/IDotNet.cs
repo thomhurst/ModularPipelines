@@ -12,6 +12,7 @@ public interface IDotNet
     Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default);
     Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default);
     Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default);
 
     Task<CommandResult> Version(CommandLineOptions? options = null, CancellationToken cancellationToken = default);
 
