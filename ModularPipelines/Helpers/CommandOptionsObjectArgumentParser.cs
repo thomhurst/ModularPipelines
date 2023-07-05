@@ -134,6 +134,7 @@ public abstract class CommandOptionsObjectArgumentParser
         if (rawValue is Uri uri)
         {
             yield return ParseUri(uri);
+            yield break;
         }
 
         yield return rawValue.ToString()!;
