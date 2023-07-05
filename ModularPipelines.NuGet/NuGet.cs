@@ -28,7 +28,7 @@ public class NuGet : INuGet
             };
 
             var commandResult = await _context.Command
-                .ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+                .ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", arguments) with
                 {
                     Arguments = arguments,
                     InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
@@ -41,21 +41,9 @@ public class NuGet : INuGet
         return results;
     }
 
-    public Task<CommandResult> AddSource(NuGetSourceOptions options)
+    public async Task<CommandResult> AddSource(NuGetSourceOptions options)
     {
-        var arguments = new List<string>
-        {
-            "nuget", "add", "source", options.FeedUri.AbsoluteUri
-        };
-        
-        return _context.DotNet().CustomCommand(new DotNetCommandOptions
-        {
-            Command = arguments,
-            EnvironmentVariables = options.EnvironmentVariables,
-            WorkingDirectory = options.WorkingDirectory,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
-        });
+        return await _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", 
+            "nuget", "add", "source", options.FeedUri.AbsoluteUri));
     }
 }

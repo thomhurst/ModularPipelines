@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet.Options;
 
@@ -8,7 +9,7 @@ public record NuGetUploadOptions
     
     [property: CommandSwitch("s")]
     Uri FeedUri
-)
+) : CommandEnvironmentOptions
 {
     [property: CommandSwitch("k")]
     public string? ApiKey { get; init; }
