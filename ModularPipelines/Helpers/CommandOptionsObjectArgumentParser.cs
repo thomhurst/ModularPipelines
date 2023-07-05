@@ -118,6 +118,7 @@ public abstract class CommandOptionsObjectArgumentParser
         if (rawValue.GetType().IsEnum)
         {
             yield return ParseEnum(rawValue);
+            yield break;
         }
 
         if (rawValue is IEnumerable enumerable)
