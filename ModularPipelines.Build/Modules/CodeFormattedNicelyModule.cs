@@ -28,7 +28,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = true
             }, cancellationToken);
         }
-        catch (Exception)
+        catch (Exception e)
         {
             // Something dodgy went wrong - It should've been formatted but it still isn't?
             if (context.Git().Information.PreviousCommit?.Message?.Subject == DotnetFormatGitMessage)
@@ -74,7 +74,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
-            throw;
+            throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");
         }
     }
 }
