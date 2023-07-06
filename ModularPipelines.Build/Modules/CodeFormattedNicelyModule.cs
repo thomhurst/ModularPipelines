@@ -67,9 +67,6 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.Git().Operations
                 .Checkout(new GitCheckoutOptions(branchTrigerringPullRequest), cancellationToken);
-
-            await context.Git().Operations
-                .SetUpstream(new GitSetUpstreamOptions(branchTrigerringPullRequest), cancellationToken);
             
             // Actually perform the formatting
             await context.DotNet().Format(new DotNetFormatOptions
