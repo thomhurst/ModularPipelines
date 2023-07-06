@@ -66,12 +66,10 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 Arguments = new[]
                 {
-                    "remote", "set-url", "origin",
+                    "remote", "set-url", "--push", "origin",
                     $"https://thomhurst:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
-            //await context.Git().Operations.SetUpstream(new GitSetUpstreamOptions(context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!), cancellationToken: cancellationToken);
-            await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
             throw;
