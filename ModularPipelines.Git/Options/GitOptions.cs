@@ -2,4 +2,4 @@
 
 namespace ModularPipelines.Git.Options;
 
-public record GitOptions : CommandLineOptions;
+public record GitOptions() : CommandLineToolOptions("git");

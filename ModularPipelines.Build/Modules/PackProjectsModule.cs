@@ -9,7 +9,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<PackageFilesRemovalModule>]
+[DependsOn<PackageFilesRemovalModule>, DependsOn<CodeFormattedNicelyModule>]
 public class PackProjectsModule : Module<List<CommandResult>>
 {
     protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

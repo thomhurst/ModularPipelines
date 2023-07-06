@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
@@ -7,6 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[DependsOn<CodeFormattedNicelyModule>]
 public class RunUnitTestsModule : Module<List<DotNetTestResult>>
 {
     protected override async Task<ModuleResult<List<DotNetTestResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

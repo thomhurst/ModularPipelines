@@ -39,15 +39,21 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             }, cancellationToken);
 
             // Commit the formatting
-            await context.Git().Operations.CustomCommand(new GitCommandOptions(new List<string>
+            await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
-                "config", "user.email", "\"30480171+thomhurst@users.noreply.github.com\""
-            }), cancellationToken);
+                Arguments = new List<string>
+                {
+                    "config", "user.email", "\"30480171+thomhurst@users.noreply.github.com\""
+                }
+            }, cancellationToken);
             
-            await context.Git().Operations.CustomCommand(new GitCommandOptions(new List<string>
+            await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
-                "config", "user.name", "\"Tom Longhurst\""
-            }), cancellationToken);
+                Arguments = new List<string>
+                {
+                    "config", "user.name", "\"Tom Longhurst\""
+                } 
+            }, cancellationToken);
             
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
