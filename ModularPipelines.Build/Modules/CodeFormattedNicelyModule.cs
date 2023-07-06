@@ -36,7 +36,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 throw;
             }
             
-            var branchTrigerringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
+            var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
             
             await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
@@ -66,7 +66,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             await context.Git().Operations.Fetch(cancellationToken: cancellationToken);
 
             await context.Git().Operations
-                .Checkout(new GitCheckoutOptions(branchTrigerringPullRequest), cancellationToken);
+                .Checkout(new GitCheckoutOptions(branchTriggeringPullRequest), cancellationToken);
             
             // Actually perform the formatting
             await context.DotNet().Format(new DotNetFormatOptions
@@ -81,7 +81,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.Git().Operations.Push(new GitOptions
             {
-                Arguments = new[] { "-u", "origin", $"HEAD:{branchTrigerringPullRequest}" }
+                Arguments = new[] { "-u", "origin", $"HEAD:{branchTriggeringPullRequest}" }
             }, cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
