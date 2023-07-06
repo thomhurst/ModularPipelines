@@ -60,6 +60,14 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 }
             }, cancellationToken);
 
+            await context.Git().Operations.CustomCommand(new GitCommandOptions
+            {
+                Arguments = new List<string>
+                {
+                    "config", "--global", "--add", "--bool", "push.autoSetupRemote", "true"
+                }
+            }, cancellationToken);
+            
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
             await context.Git().Operations.CustomCommand(new GitCommandOptions()
