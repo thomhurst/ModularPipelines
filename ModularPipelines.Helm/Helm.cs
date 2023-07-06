@@ -103,7 +103,7 @@ internal class Helm : IHelm
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
-    
+
     public async Task<CommandResult> Package(HelmPackageOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
