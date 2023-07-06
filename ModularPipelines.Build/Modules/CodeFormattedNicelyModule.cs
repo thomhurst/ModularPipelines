@@ -23,7 +23,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = true
             }, cancellationToken);
         }
-        catch (Exception)
+        catch (Exception) when (1.ToString() == "2") // TODO - Can I get this working? Disable for now.
         {
             // Something dodgy went wrong - It should've been formatted but it still isn't?
             if (context.Git().Information.PreviousCommit?.Message?.Subject == DotnetFormatGitMessage)
