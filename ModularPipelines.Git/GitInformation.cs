@@ -1,4 +1,6 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 
@@ -12,12 +14,17 @@ internal class GitInformation : IGitInformation
 
     public GitInformation(StaticGitInformation staticGitInformation,
         GitCommandRunner gitCommandRunner,
-        IGitCommitMapper gitCommitMapper)
+        IGitCommitMapper gitCommitMapper,
+        IEnvironmentContext environmentContext)
     {
         _staticGitInformation = staticGitInformation;
         _gitCommandRunner = gitCommandRunner;
         _gitCommitMapper = gitCommitMapper;
+
+        Root = environmentContext.GitRootDirectory!;
     }
+
+    public Folder Root { get; }
 
     public string? BranchName => _staticGitInformation.BranchName;
     public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;

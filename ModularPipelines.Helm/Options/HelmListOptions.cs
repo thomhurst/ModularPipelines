@@ -2,13 +2,14 @@
 
 namespace ModularPipelines.Helm.Options;
 
+[CommandPrecedingArguments("list")]
 public record HelmListOptions : HelmOptions
 {
     [BooleanCommandSwitch("all")]
     public bool? All { get; set; }
 
-    [CommandLongSwitch("all-namespaces", SwitchValueSeparator = " ")]
-    public string? AllNamespaces { get; set; }
+    [BooleanCommandSwitch("all-namespaces")]
+    public bool? AllNamespaces { get; set; }
 
     [BooleanCommandSwitch("date")]
     public bool? Date { get; set; }
@@ -21,9 +22,6 @@ public record HelmListOptions : HelmOptions
 
     [CommandLongSwitch("filter", SwitchValueSeparator = " ")]
     public string? Filter { get; set; }
-
-    [BooleanCommandSwitch("help")]
-    public bool? Help { get; set; }
 
     [CommandLongSwitch("max", SwitchValueSeparator = " ")]
     public int? Max { get; set; }
@@ -60,6 +58,5 @@ public record HelmListOptions : HelmOptions
 
     [BooleanCommandSwitch("uninstalling")]
     public bool? Uninstalling { get; set; }
-
 
 }

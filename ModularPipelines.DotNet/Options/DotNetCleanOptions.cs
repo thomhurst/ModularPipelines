@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
+[CommandPrecedingArguments("clean")]
 public record DotNetCleanOptions : DotNetOptions
 {
     [CommandSwitch("c")]

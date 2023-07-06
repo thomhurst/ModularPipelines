@@ -2,6 +2,7 @@
 
 namespace ModularPipelines.DotNet.Options;
 
+[CommandPrecedingArguments("format")]
 public record DotNetFormatOptions : DotNetOptions
 {
     [CommandLongSwitch("diagnostics", SwitchValueSeparator = " ")]

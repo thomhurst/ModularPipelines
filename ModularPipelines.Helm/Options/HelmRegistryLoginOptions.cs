@@ -2,6 +2,7 @@
 
 namespace ModularPipelines.Helm.Options;
 
+[CommandPrecedingArguments("registry", "login")]
 public record HelmRegistryLoginOptions : HelmOptions
 {
     [CommandLongSwitch("ca-file", SwitchValueSeparator = " ")]
@@ -9,9 +10,6 @@ public record HelmRegistryLoginOptions : HelmOptions
 
     [CommandLongSwitch("cert-file", SwitchValueSeparator = " ")]
     public string? CertFile { get; set; }
-
-    [BooleanCommandSwitch("help")]
-    public bool? Help { get; set; }
 
     [BooleanCommandSwitch("insecure")]
     public bool? Insecure { get; set; }
@@ -22,8 +20,8 @@ public record HelmRegistryLoginOptions : HelmOptions
     [CommandLongSwitch("password", SwitchValueSeparator = " ")]
     public string? Password { get; set; }
 
-    [CommandLongSwitch("password-stdin", SwitchValueSeparator = " ")]
-    public string? PasswordStdin { get; set; }
+    [BooleanCommandSwitch("password-stdin")]
+    public bool? PasswordStdin { get; set; }
 
     [CommandLongSwitch("username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }

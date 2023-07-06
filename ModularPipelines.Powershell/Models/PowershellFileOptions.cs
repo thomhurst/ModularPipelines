@@ -1,8 +1,6 @@
-using ModularPipelines.Options;
-
 namespace ModularPipelines.Powershell.Models;
 
-public record PowershellFileOptions(string FilePath) : CommandLineOptions
+public record PowershellFileOptions(string FilePath) : PowershellOptions
 {
     public IEnumerable<string>? Arguments { get; init; }
 }

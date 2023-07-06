@@ -1,8 +1,6 @@
-using ModularPipelines.Options;
-
 namespace ModularPipelines.Powershell.Models;
 
-public record PowershellScriptOptions(string Script) : CommandLineOptions
+public record PowershellScriptOptions(string Script) : PowershellOptions
 {
     public IEnumerable<string>? Arguments { get; init; }
 }

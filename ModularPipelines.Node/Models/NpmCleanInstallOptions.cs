@@ -1,9 +1,9 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
-public record NpmCleanInstallOptions : CommandLineOptions
+[CommandPrecedingArguments("ci")]
+public record NpmCleanInstallOptions(string Target) : NpmOptions
 {
     [CommandLongSwitch("install-strategy")]
     public string? InstallStrategy { get; init; }

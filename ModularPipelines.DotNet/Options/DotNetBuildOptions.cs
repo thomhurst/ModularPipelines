@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
+[CommandPrecedingArguments("build")]
 public record DotNetBuildOptions : DotNetOptions
 {
     [CommandSwitch("c")]

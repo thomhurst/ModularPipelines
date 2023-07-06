@@ -1,15 +1,15 @@
 ﻿using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet.Options;
 
+[CommandPrecedingArguments("nuget", "push")]
 public record NuGetUploadOptions
 (
     IEnumerable<string> PackagePaths,
 
-    [property: CommandSwitch("s")]
+[property: CommandSwitch("s")]
     Uri FeedUri
-) : CommandLineOptions
+)  : NuGetOptions
 {
     [property: CommandSwitch("k")]
     public string? ApiKey { get; init; }

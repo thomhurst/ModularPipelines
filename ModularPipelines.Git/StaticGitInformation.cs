@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
@@ -54,6 +55,7 @@ internal class StaticGitInformation : IGitInformation, IInitializer
 
     public GitCommit? PreviousCommit { get; private set; }
 
+    public Folder Root { get; } = null!;
     public string? BranchName { get; private set; } = null!;
     public string? DefaultBranchName { get; private set; } = null!;
 

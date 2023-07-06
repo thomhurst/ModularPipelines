@@ -1,8 +1,9 @@
-using ModularPipelines.Options;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
-public record NpmRunOptions(string Target) : CommandLineOptions
+[CommandPrecedingArguments("run")]
+public record NpmRunOptions(string Target) : NpmOptions
 {
     public IEnumerable<string>? Arguments { get; init; }
 }

@@ -1,15 +1,15 @@
 ﻿using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.NuGet.Options;
 
+[CommandPrecedingArguments("nuget", "add", "source")]
 public record NuGetSourceOptions
 (
     Uri FeedUri,
 
     [property: CommandSwitch("n")]
     string Name
-) : CommandLineOptions
+) : NuGetOptions
 {
 
     [CommandLongSwitch("username", SwitchValueSeparator = " ")]

@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
+[CommandPrecedingArguments("test")]
 public record DotNetTestOptions : DotNetOptions
 {
     public IEnumerable<string>? RunSettingsArguments { get; init; }
