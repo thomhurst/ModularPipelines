@@ -37,15 +37,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             }
             
             var branchTrigerringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
-
-            // Actually perform the formatting
-            await context.DotNet().Format(new DotNetFormatOptions
-            {
-                WorkingDirectory = context.Environment.GitRootDirectory!,
-                VerifyNoChanges = false
-            }, cancellationToken);
-
-            // Commit the formatting
+            
             await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
                 Arguments = new List<string>
@@ -77,6 +69,14 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             await context.Git().Operations
                 .SetUpstream(new GitSetUpstreamOptions(branchTrigerringPullRequest), cancellationToken);
             
+            // Actually perform the formatting
+            await context.DotNet().Format(new DotNetFormatOptions
+            {
+                WorkingDirectory = context.Environment.GitRootDirectory!,
+                VerifyNoChanges = false
+            }, cancellationToken);
+
+            // Commit the formatting
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
 
