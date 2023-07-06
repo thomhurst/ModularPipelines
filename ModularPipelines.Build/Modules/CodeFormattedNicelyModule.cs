@@ -62,13 +62,6 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 }
             }, cancellationToken);
 
-            await context.Git().Operations.CustomCommand(new GitCommandOptions()
-            {
-                Arguments = new[] { "switch", "-c", branchTrigerringPullRequest, "--track", $"origin/{branchTrigerringPullRequest}" }
-            }, cancellationToken);
-            
-            await context.Git().Operations.Stage(cancellationToken: cancellationToken);
-            await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
             await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
                 Arguments = new[]
@@ -78,6 +71,15 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 }
             }, cancellationToken);
             
+            await context.Git().Operations
+                .Checkout(new GitCheckoutOptions(branchTrigerringPullRequest), cancellationToken);
+
+            await context.Git().Operations
+                .SetUpstream(new GitSetUpstreamOptions(branchTrigerringPullRequest), cancellationToken);
+            
+            await context.Git().Operations.Stage(cancellationToken: cancellationToken);
+            await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
+
             await context.Git().Operations.Push(new GitOptions
             {
                 Arguments = new[] { ".", $"HEAD:{branchTrigerringPullRequest}" }
