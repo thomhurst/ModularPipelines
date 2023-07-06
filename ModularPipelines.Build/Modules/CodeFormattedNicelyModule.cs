@@ -28,7 +28,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = true
             }, cancellationToken);
         }
-        catch (Exception) when (1.ToString() == "2") // TODO - Can I get this working? Disable for now.
+        catch (Exception)
         {
             // Something dodgy went wrong - It should've been formatted but it still isn't?
             if (context.Git().Information.PreviousCommit?.Message?.Subject == DotnetFormatGitMessage)
@@ -62,6 +62,14 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
+            await context.Git().Operations.CustomCommand(new GitCommandOptions()
+            {
+                Arguments = new[]
+                {
+                    "remote", "set-url", "origin",
+                    $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
+                }
+            }, cancellationToken);
             await context.Git().Operations.SetUpstream(cancellationToken: cancellationToken);
             await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
