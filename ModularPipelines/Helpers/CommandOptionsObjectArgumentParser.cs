@@ -81,7 +81,7 @@ public abstract class CommandOptionsObjectArgumentParser
 
         if (singleValue is not null)
         {
-            return new[]{ singleValue };
+            return new[] { singleValue };
         }
 
         return GetValues(rawValue);
