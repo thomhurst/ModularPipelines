@@ -10,7 +10,13 @@ public static class CommandExtensions
         return ToCommandLineToolOptions(options, tool, arguments.ToArray());
     }
 
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, params string[] arguments)
+    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool,
+        string singleArgument)
+    {
+        return ToCommandLineToolOptions(options, tool, new[] { singleArgument });
+    }
+
+    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, string[] arguments)
     {
         return new CommandLineToolOptions(tool)
         {
@@ -24,9 +30,19 @@ public static class CommandExtensions
         };
     }
 
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineToolOptions options, string tool, IEnumerable<string> arguments)
+    public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, string singleArgument)
     {
-        return new CommandLineToolOptions(tool)
+        return WithArguments(options, new[] { singleArgument });
+    }
+
+    public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, IEnumerable<string>? arguments)
+    {
+        return WithArguments(options, arguments?.ToArray() ?? Array.Empty<string>());
+    }
+
+    public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, params string[] arguments)
+    {
+        return new CommandLineToolOptions(options.Tool)
         {
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
             Credentials = options.Credentials,
@@ -34,7 +50,8 @@ public static class CommandExtensions
             LogInput = options.LogInput,
             LogOutput = options.LogOutput,
             WorkingDirectory = options.WorkingDirectory,
-            ArgumentsOptionObject = options.ArgumentsOptionObject ?? options
+            ArgumentsOptionObject = options.ArgumentsOptionObject ?? options,
+            AdditionalSwitches = options.AdditionalSwitches,
         };
     }
 }

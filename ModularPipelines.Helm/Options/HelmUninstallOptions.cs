@@ -2,6 +2,7 @@
 
 namespace ModularPipelines.Helm.Options;
 
+[CommandPrecedingArguments("uninstall")]
 public record HelmUninstallOptions : HelmOptions
 {
     [CommandLongSwitch("cascade", SwitchValueSeparator = " ")]
@@ -24,4 +25,5 @@ public record HelmUninstallOptions : HelmOptions
 
     [BooleanCommandSwitch("wait")]
     public bool? Wait { get; set; }
+
 }

@@ -21,11 +21,11 @@ public class NuGet : INuGet
         {
             var arguments = new List<string>
             {
-                "nuget", "push", packagePath, "-n"
+                packagePath, "-n"
             };
 
             var commandResult = await _context.Command
-                .ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet", arguments) with
+                .ExecuteCommandLineTool(options.WithArguments(arguments) with
                 {
                     Arguments = arguments,
                     InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
@@ -40,7 +40,6 @@ public class NuGet : INuGet
 
     public async Task<CommandResult> AddSource(NuGetSourceOptions options)
     {
-        return await _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("dotnet",
-            "nuget", "add", "source", options.FeedUri.AbsoluteUri));
+        return await _context.Command.ExecuteCommandLineTool(options.WithArguments(options.FeedUri.AbsoluteUri));
     }
 }

@@ -20,7 +20,7 @@ public class Powershell : IPowershell
 
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
 
-        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
     }
 
     public Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
@@ -29,6 +29,6 @@ public class Powershell : IPowershell
 
         arguments.AddRangeNonNullOrEmpty(options.Arguments);
 
-        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("pwsh", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
     }
 }

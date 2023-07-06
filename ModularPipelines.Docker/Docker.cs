@@ -22,7 +22,7 @@ public class Docker : IDocker
 
         arguments.AddNonNullOrEmpty(dockerLoginOptions.Server?.AbsolutePath);
 
-        await _command.ExecuteCommandLineTool(dockerLoginOptions.ToCommandLineToolOptions("docker", arguments));
+        await _command.ExecuteCommandLineTool(dockerLoginOptions.WithArguments(arguments));
     }
 
     public async Task BuildFromDockerfile(DockerBuildOptions dockerBuildOptions)
@@ -36,14 +36,14 @@ public class Docker : IDocker
             workingDirectory,
         };
 
-        await _command.ExecuteCommandLineTool(dockerBuildOptions.ToCommandLineToolOptions("docker", arguments));
+        await _command.ExecuteCommandLineTool(dockerBuildOptions.WithArguments(arguments));
     }
 
     public Task Logout(DockerOptions? options = null)
     {
         options ??= new DockerOptions();
 
-        return _command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("docker", "logout"));
+        return _command.ExecuteCommandLineTool(options.WithArguments("logout"));
     }
 
     public Task Push(DockerPushOptions dockerPushOptions)
@@ -54,14 +54,14 @@ public class Docker : IDocker
             $"{dockerPushOptions.Name}:{dockerPushOptions.Tag}"
         };
 
-        return _command.ExecuteCommandLineTool(dockerPushOptions.ToCommandLineToolOptions("docker", arguments));
+        return _command.ExecuteCommandLineTool(dockerPushOptions.WithArguments(arguments));
     }
 
     public async Task<string> Version(DockerArgumentOptions? dockerArgumentOptions = null)
     {
         dockerArgumentOptions ??= new DockerArgumentOptions();
 
-        var result = await _command.ExecuteCommandLineTool(dockerArgumentOptions.ToCommandLineToolOptions("docker", "version"));
+        var result = await _command.ExecuteCommandLineTool(dockerArgumentOptions.WithArguments("version"));
 
         return result.StandardOutput;
     }

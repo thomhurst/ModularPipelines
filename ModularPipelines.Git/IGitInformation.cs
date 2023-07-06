@@ -1,3 +1,4 @@
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 
@@ -5,6 +6,7 @@ namespace ModularPipelines.Git;
 
 public interface IGitInformation
 {
+    public Folder Root { get; }
     public string? BranchName { get; }
     public string? DefaultBranchName { get; }
     public string? LastCommitSha { get; }

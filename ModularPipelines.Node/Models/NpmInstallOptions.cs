@@ -1,9 +1,9 @@
 ﻿using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
-public record NpmInstallOptions : CommandLineOptions
+[CommandPrecedingArguments("install")]
+public record NpmInstallOptions : NpmOptions
 {
     public string? Target { get; init; }
 

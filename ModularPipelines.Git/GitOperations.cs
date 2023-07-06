@@ -2,6 +2,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Enums;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
@@ -36,6 +37,12 @@ public class GitOperations : IGitOperations
         return CustomCommand(ToGitCommandOptions(options, new[] { "pull" }), cancellationToken);
     }
 
+    public Task<CommandResult> SetUpstream(GitSetUpstreamOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        options ??= new GitSetUpstreamOptions(_context.Git().Information.BranchName!);
+        return _context.Command.ExecuteCommandLineTool(options.WithArguments(options.BranchName), cancellationToken);
+    }
+
     public Task<CommandResult> Push(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
         return CustomCommand(ToGitCommandOptions(options, new[] { "push" }), cancellationToken);
@@ -53,17 +60,18 @@ public class GitOperations : IGitOperations
         return CustomCommand(ToGitCommandOptions(options, new[] { "commit", "-m", message }), cancellationToken);
     }
 
-    public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken)
+    public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("git", options.Arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     private GitCommandOptions ToGitCommandOptions(CommandLineOptions? options, IEnumerable<string> arguments)
     {
         options ??= new CommandLineOptions();
 
-        return new GitCommandOptions(arguments)
+        return new GitCommandOptions
         {
+            Arguments = arguments,
             WorkingDirectory = options.WorkingDirectory,
             EnvironmentVariables = options.EnvironmentVariables,
             Credentials = options.Credentials,

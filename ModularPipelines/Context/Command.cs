@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Options;
@@ -21,8 +23,14 @@ internal class Command : ICommand
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
+        var precedingArgs =
+            options.ArgumentsOptionObject?.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
+                ?.PrecedingArguments ?? Array.Empty<string>();
+
         var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
+
+        parsedArgs = precedingArgs.Concat(parsedArgs).ToList();
 
         if (options.ArgumentsOptionObject != null)
         {

@@ -2,4 +2,4 @@
 
 namespace ModularPipelines.Docker.Options;
 
-public record DockerOptions : CommandLineOptions;
+public record DockerOptions() : CommandLineToolOptions("docker");

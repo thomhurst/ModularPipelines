@@ -2,6 +2,7 @@
 
 namespace ModularPipelines.Helm.Options;
 
+[CommandPrecedingArguments("upgrade")]
 public record HelmUpgradeOptions : HelmOptions
 {
     [BooleanCommandSwitch("atomic")]
@@ -25,16 +26,20 @@ public record HelmUpgradeOptions : HelmOptions
     [CommandLongSwitch("description", SwitchValueSeparator = " ")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("devel")] public bool? Devel { get; set; }
+    [BooleanCommandSwitch("devel")]
+    public bool? Devel { get; set; }
 
     [BooleanCommandSwitch("disable-openapi-validation")]
     public bool? DisableOpenapiValidation { get; set; }
 
-    [BooleanCommandSwitch("dry-run")] public bool? DryRun { get; set; }
+    [BooleanCommandSwitch("dry-run")]
+    public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("enable-dns")] public bool? EnableDns { get; set; }
+    [BooleanCommandSwitch("enable-dns")]
+    public bool? EnableDns { get; set; }
 
-    [BooleanCommandSwitch("force")] public bool? Force { get; set; }
+    [BooleanCommandSwitch("force")]
+    public bool? Force { get; set; }
 
     [CommandLongSwitch("history-max", SwitchValueSeparator = " ")]
     public int? HistoryMax { get; set; }
@@ -51,7 +56,8 @@ public record HelmUpgradeOptions : HelmOptions
     [CommandLongSwitch("keyring", SwitchValueSeparator = " ")]
     public string? Keyring { get; set; }
 
-    [BooleanCommandSwitch("no-hooks")] public bool? NoHooks { get; set; }
+    [BooleanCommandSwitch("no-hooks")]
+    public bool? NoHooks { get; set; }
 
     [CommandLongSwitch("output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
@@ -74,9 +80,11 @@ public record HelmUpgradeOptions : HelmOptions
     [CommandLongSwitch("repo", SwitchValueSeparator = " ")]
     public string? Repo { get; set; }
 
-    [BooleanCommandSwitch("reset-values")] public bool? ResetValues { get; set; }
+    [BooleanCommandSwitch("reset-values")]
+    public bool? ResetValues { get; set; }
 
-    [BooleanCommandSwitch("reuse-values")] public bool? ReuseValues { get; set; }
+    [BooleanCommandSwitch("reuse-values")]
+    public bool? ReuseValues { get; set; }
 
     [CommandLongSwitch("set", SwitchValueSeparator = " ")]
     public string[]? Set { get; set; }
@@ -93,7 +101,8 @@ public record HelmUpgradeOptions : HelmOptions
     [CommandLongSwitch("set-string", SwitchValueSeparator = " ")]
     public string[]? SetString { get; set; }
 
-    [BooleanCommandSwitch("skip-crds")] public bool? SkipCrds { get; set; }
+    [BooleanCommandSwitch("skip-crds")]
+    public bool? SkipCrds { get; set; }
 
     [CommandLongSwitch("timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
@@ -101,11 +110,8 @@ public record HelmUpgradeOptions : HelmOptions
     [CommandLongSwitch("username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }
 
-    [CommandSwitch("f")]
+    [CommandLongSwitch("values", SwitchValueSeparator = " ")]
     public string[]? Values { get; set; }
-
-    [CommandSwitch("f")]
-    public string[]? Files { get; set; }
 
     [BooleanCommandSwitch("verify")]
     public bool? Verify { get; set; }
@@ -118,4 +124,5 @@ public record HelmUpgradeOptions : HelmOptions
 
     [BooleanCommandSwitch("wait-for-jobs")]
     public bool? WaitForJobs { get; set; }
+
 }

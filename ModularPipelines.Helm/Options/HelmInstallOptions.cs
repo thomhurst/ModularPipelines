@@ -2,9 +2,11 @@
 
 namespace ModularPipelines.Helm.Options;
 
+[CommandPrecedingArguments("install")]
 public record HelmInstallOptions : HelmOptions
 {
-    [BooleanCommandSwitch("atomic")] public bool? Atomic { get; set; }
+    [BooleanCommandSwitch("atomic")]
+    public bool? Atomic { get; set; }
 
     [CommandLongSwitch("ca-file", SwitchValueSeparator = " ")]
     public string? CaFile { get; set; }
@@ -21,16 +23,20 @@ public record HelmInstallOptions : HelmOptions
     [CommandLongSwitch("description", SwitchValueSeparator = " ")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("devel")] public bool? Devel { get; set; }
+    [BooleanCommandSwitch("devel")]
+    public bool? Devel { get; set; }
 
     [BooleanCommandSwitch("disable-openapi-validation")]
     public bool? DisableOpenapiValidation { get; set; }
 
-    [BooleanCommandSwitch("dry-run")] public bool? DryRun { get; set; }
+    [BooleanCommandSwitch("dry-run")]
+    public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("enable-dns")] public bool? EnableDns { get; set; }
+    [BooleanCommandSwitch("enable-dns")]
+    public bool? EnableDns { get; set; }
 
-    [BooleanCommandSwitch("force")] public bool? Force { get; set; }
+    [BooleanCommandSwitch("force")]
+    public bool? Force { get; set; }
 
     [BooleanCommandSwitch("generate-name")]
     public bool? GenerateName { get; set; }
@@ -47,7 +53,8 @@ public record HelmInstallOptions : HelmOptions
     [CommandLongSwitch("name-template", SwitchValueSeparator = " ")]
     public string? NameTemplate { get; set; }
 
-    [BooleanCommandSwitch("no-hooks")] public bool? NoHooks { get; set; }
+    [BooleanCommandSwitch("no-hooks")]
+    public bool? NoHooks { get; set; }
 
     [CommandLongSwitch("output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
@@ -67,7 +74,8 @@ public record HelmInstallOptions : HelmOptions
     [BooleanCommandSwitch("render-subchart-notes")]
     public bool? RenderSubchartNotes { get; set; }
 
-    [BooleanCommandSwitch("replace")] public bool? Replace { get; set; }
+    [BooleanCommandSwitch("replace")]
+    public bool? Replace { get; set; }
 
     [CommandLongSwitch("repo", SwitchValueSeparator = " ")]
     public string? Repo { get; set; }
@@ -87,7 +95,8 @@ public record HelmInstallOptions : HelmOptions
     [CommandLongSwitch("set-string", SwitchValueSeparator = " ")]
     public string[]? SetString { get; set; }
 
-    [BooleanCommandSwitch("skip-crds")] public bool? SkipCrds { get; set; }
+    [BooleanCommandSwitch("skip-crds")]
+    public bool? SkipCrds { get; set; }
 
     [CommandLongSwitch("timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
@@ -98,13 +107,16 @@ public record HelmInstallOptions : HelmOptions
     [CommandLongSwitch("values", SwitchValueSeparator = " ")]
     public string[]? Values { get; set; }
 
-    [BooleanCommandSwitch("verify")] public bool? Verify { get; set; }
+    [BooleanCommandSwitch("verify")]
+    public bool? Verify { get; set; }
 
     [CommandLongSwitch("version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
 
-    [BooleanCommandSwitch("wait")] public bool? Wait { get; set; }
+    [BooleanCommandSwitch("wait")]
+    public bool? Wait { get; set; }
 
     [BooleanCommandSwitch("wait-for-jobs")]
     public bool? WaitForJobs { get; set; }
+
 }
