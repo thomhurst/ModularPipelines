@@ -78,6 +78,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                     $"https://thomhurst:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
+            await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
             throw;
