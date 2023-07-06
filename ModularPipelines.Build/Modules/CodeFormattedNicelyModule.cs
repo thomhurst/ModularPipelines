@@ -2,6 +2,7 @@
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -38,6 +39,16 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             }, cancellationToken);
 
             // Commit the formatting
+            await context.Git().Operations.CustomCommand(new GitCommandOptions(new List<string>
+            {
+                "config", "user.email", "\"30480171+thomhurst@users.noreply.github.com\""
+            }), cancellationToken);
+            
+            await context.Git().Operations.CustomCommand(new GitCommandOptions(new List<string>
+            {
+                "config", "user.name", "\"Tom Longhurst\""
+            }), cancellationToken);
+            
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
             await context.Git().Operations.Push(cancellationToken: cancellationToken);

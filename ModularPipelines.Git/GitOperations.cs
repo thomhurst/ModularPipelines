@@ -53,7 +53,7 @@ public class GitOperations : IGitOperations
         return CustomCommand(ToGitCommandOptions(options, new[] { "commit", "-m", message }), cancellationToken);
     }
 
-    public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken)
+    public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("git", options.Arguments), cancellationToken);
     }
