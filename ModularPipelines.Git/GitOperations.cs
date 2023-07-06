@@ -65,18 +65,10 @@ public class GitOperations : IGitOperations
         return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    private GitCommandOptions ToGitCommandOptions(CommandLineOptions? options, IEnumerable<string> arguments)
+    private CommandLineToolOptions ToGitCommandOptions(CommandLineToolOptions? options, IEnumerable<string> arguments)
     {
-        options ??= new CommandLineOptions();
+        options ??= new CommandLineToolOptions("git");
 
-        return new GitCommandOptions
-        {
-            Arguments = arguments,
-            WorkingDirectory = options.WorkingDirectory,
-            EnvironmentVariables = options.EnvironmentVariables,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
-        };
+        return options.WithArguments(arguments);
     }
 }
