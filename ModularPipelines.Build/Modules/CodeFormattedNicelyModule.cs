@@ -81,7 +81,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.Git().Operations.Push(new GitOptions
             {
-                Arguments = new[] { "-u", "origin", branchTrigerringPullRequest }
+                Arguments = new[] { "-u", "origin", $"HEAD:{branchTrigerringPullRequest}" }
             }, cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
