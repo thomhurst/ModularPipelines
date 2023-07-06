@@ -67,7 +67,15 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            await WaitForModuleDependencies();
+            try
+            {
+                await WaitForModuleDependencies();
+            }
+            catch when(_context.EngineCancellationToken.IsCancellationRequested)
+            {
+                // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
+                return;
+            }
 
             var shouldSkipModule = await ShouldSkip(_context);
 
@@ -248,8 +256,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
                 return module.ResultTaskInternal;
             });
-
-            await Task.WhenAll(tasks);
 
             foreach (var moduleBase in modules.OfType<ModuleBase>())
             {

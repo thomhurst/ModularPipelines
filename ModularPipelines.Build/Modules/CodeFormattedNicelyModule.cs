@@ -43,7 +43,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 Arguments = new List<string>
                 {
-                    "config", "user.email", "30480171+thomhurst@users.noreply.github.com"
+                    "config", "user.email", "--local", "30480171+thomhurst@users.noreply.github.com"
                 }
             }, cancellationToken);
             
@@ -51,7 +51,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 Arguments = new List<string>
                 {
-                    "config", "user.name", "Tom Longhurst"
+                    "config", "user.name", "--local", "Tom Longhurst"
                 } 
             }, cancellationToken);
             
