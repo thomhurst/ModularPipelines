@@ -71,7 +71,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 await WaitForModuleDependencies();
             }
-            catch when(_context.EngineCancellationToken.IsCancellationRequested)
+            catch when(_context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
                 return;
@@ -161,7 +161,8 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
             else
             {
-                TaskCompletionSource.SetException(exception);
+                // Give time for Engine to request cancellation
+                _ = Task.Delay(300).ContinueWith(_ => TaskCompletionSource.SetException(exception));
                 throw;
             }
         }
