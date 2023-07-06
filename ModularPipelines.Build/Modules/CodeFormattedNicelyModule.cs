@@ -14,6 +14,11 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        if (!context.Git().Information.BranchName!.Contains("pull"))
+        {
+            return await NothingAsync();
+        }
+
         try
         {
             // The code hasn't been formatted nicely!
