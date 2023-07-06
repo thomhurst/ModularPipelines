@@ -62,7 +62,7 @@ public class GitOperations : IGitOperations
 
     public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(options.Arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     private GitCommandOptions ToGitCommandOptions(CommandLineOptions? options, IEnumerable<string> arguments)
