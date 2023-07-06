@@ -21,7 +21,7 @@ public class Node : INode
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("node")
         {
-            Arguments = new[] { "-v" }
+            Arguments = new[]{ "-v" }
         }, cancellationToken);
     }
 }

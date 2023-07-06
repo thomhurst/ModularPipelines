@@ -16,7 +16,7 @@ var modules = await PipelineHostBuilder.Create()
     .ConfigurePipelineOptions((context, options) =>
     {
         options.ExecutionMode = ExecutionMode.StopOnFirstException;
-        options.IgnoreCategories = new[] { "Ignore" };
+        options.IgnoreCategories = new[]{ "Ignore" };
     })
     .ConfigureServices((context, collection) =>
     {

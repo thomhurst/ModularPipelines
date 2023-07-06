@@ -17,7 +17,7 @@ public class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "use", version }
+            Arguments = new[]{ "use", version }
         }, cancellationToken);
     }
 }
