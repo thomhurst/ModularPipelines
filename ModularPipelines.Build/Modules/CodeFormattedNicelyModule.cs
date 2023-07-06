@@ -48,7 +48,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 Arguments = new List<string>
                 {
-                    "config", "user.email", "--global", "thomhurst@users.noreply.github.com"
+                    "config", "user.email", "--local", "thomhurst@users.noreply.github.com"
                 }
             }, cancellationToken);
 
@@ -56,28 +56,21 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 Arguments = new List<string>
                 {
-                    "config", "user.name", "--global", "Tom Longhurst"
+                    "config", "user.name", "--local", "Tom Longhurst"
                 }
             }, cancellationToken);
 
-            await context.Git().Operations.CustomCommand(new GitCommandOptions
-            {
-                Arguments = new List<string>
-                {
-                    "config", "--global", "--add", "--bool", "push.autoSetupRemote", "true"
-                }
-            }, cancellationToken);
-            
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
-            await context.Git().Operations.CustomCommand(new GitCommandOptions()
+            await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
                 Arguments = new[]
                 {
-                    "remote", "set-url", "--push", "origin",
-                    $"https://thomhurst:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
+                    "remote", "set-url", "origin",
+                    $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
+            await context.Git().Operations.SetUpstream(new GitSetUpstreamOptions(context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!), cancellationToken: cancellationToken);
             await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
