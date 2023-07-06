@@ -62,6 +62,8 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                     $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
+
+            await context.Git().Operations.Fetch(cancellationToken: cancellationToken);
             
             await context.Git().Operations
                 .Checkout(new GitCheckoutOptions(branchTrigerringPullRequest), cancellationToken);
