@@ -57,6 +57,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
+            await context.Git().Operations.SetUpstream(cancellationToken: cancellationToken);
             await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
