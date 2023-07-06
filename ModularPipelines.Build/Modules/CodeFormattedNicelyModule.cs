@@ -62,7 +62,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 }
             }, cancellationToken);
 
-            await context.Git().Operations.Checkout(new GitCheckoutOptions(branchTrigerringPullRequest)
+            await context.Git().Operations.Checkout(new GitCheckoutOptions($"origin/{branchTrigerringPullRequest}")
             {
                 Arguments = new[] { "--track" }
             }, cancellationToken);
