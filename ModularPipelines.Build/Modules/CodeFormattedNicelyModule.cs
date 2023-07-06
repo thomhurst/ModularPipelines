@@ -80,10 +80,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
 
-            await context.Git().Operations.Push(new GitOptions
-            {
-                Arguments = new[] { ".", $"HEAD:{branchTrigerringPullRequest}" }
-            }, cancellationToken: cancellationToken);
+            await context.Git().Operations.Push(cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
             throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");
