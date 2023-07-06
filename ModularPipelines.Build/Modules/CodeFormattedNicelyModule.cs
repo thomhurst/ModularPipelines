@@ -77,7 +77,10 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                     $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
-            await context.Git().Operations.Push(cancellationToken: cancellationToken);
+            await context.Git().Operations.Push(new GitOptions()
+            {
+                Arguments = new[] { ".", $"HEAD:{branchTrigerringPullRequest}" }
+            }, cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
             throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");
