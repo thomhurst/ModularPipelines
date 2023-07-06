@@ -67,7 +67,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 Arguments = new[]
                 {
                     "remote", "set-url", "origin",
-                    $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
+                    $"https://thomhurst:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
             await context.Git().Operations.SetUpstream(new GitSetUpstreamOptions(context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!), cancellationToken: cancellationToken);
