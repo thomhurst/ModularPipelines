@@ -28,7 +28,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = true
             }, cancellationToken);
         }
-        catch (Exception) when (1.ToString() == "2") // TODO - Can I get this working? Disable for now.
+        catch (Exception e)
         {
             // Something dodgy went wrong - It should've been formatted but it still isn't?
             if (context.Git().Information.PreviousCommit?.Message?.Subject == DotnetFormatGitMessage)
@@ -36,19 +36,13 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 throw;
             }
 
-            // Actually perform the formatting
-            await context.DotNet().Format(new DotNetFormatOptions
-            {
-                WorkingDirectory = context.Environment.GitRootDirectory!,
-                VerifyNoChanges = false
-            }, cancellationToken);
+            var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
 
-            // Commit the formatting
             await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
                 Arguments = new List<string>
                 {
-                    "config", "user.email", "--local", "30480171+thomhurst@users.noreply.github.com"
+                    "config", "user.email", "--local", "thomhurst@users.noreply.github.com"
                 }
             }, cancellationToken);
 
@@ -60,13 +54,38 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 }
             }, cancellationToken);
 
+            await context.Git().Operations.CustomCommand(new GitCommandOptions
+            {
+                Arguments = new[]
+                {
+                    "remote", "set-url", "origin",
+                    $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
+                }
+            }, cancellationToken);
+
+            await context.Git().Operations.Fetch(cancellationToken: cancellationToken);
+
+            await context.Git().Operations
+                .Checkout(new GitCheckoutOptions(branchTriggeringPullRequest), cancellationToken);
+
+            // Actually perform the formatting
+            await context.DotNet().Format(new DotNetFormatOptions
+            {
+                WorkingDirectory = context.Environment.GitRootDirectory!,
+                VerifyNoChanges = false
+            }, cancellationToken);
+
+            // Commit the formatting
             await context.Git().Operations.Stage(cancellationToken: cancellationToken);
             await context.Git().Operations.Commit(DotnetFormatGitMessage, cancellationToken: cancellationToken);
-            await context.Git().Operations.SetUpstream(cancellationToken: cancellationToken);
-            await context.Git().Operations.Push(cancellationToken: cancellationToken);
+
+            await context.Git().Operations.Push(new GitOptions
+            {
+                Arguments = new[] { "-u", "origin", $"HEAD:{branchTriggeringPullRequest}" }
+            }, cancellationToken: cancellationToken);
 
             // Fail this run - The git push will trigger a new run
-            throw;
+            throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");
         }
     }
 }

@@ -19,7 +19,7 @@ public class GitOperations : IGitOperations
 
     public Task<CommandResult> Checkout(GitCheckoutOptions options, CancellationToken cancellationToken = default)
     {
-        return CustomCommand(options, cancellationToken);
+        return CustomCommand(options.WithArguments(options.BranchName), cancellationToken);
     }
 
     public Task<CommandResult> Version(GitOptions? options = null, CancellationToken cancellationToken = default)
@@ -60,23 +60,15 @@ public class GitOperations : IGitOperations
         return CustomCommand(ToGitCommandOptions(options, new[] { "commit", "-m", message }), cancellationToken);
     }
 
-    public Task<CommandResult> CustomCommand(GitCommandOptions options, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CustomCommand(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    private GitCommandOptions ToGitCommandOptions(CommandLineOptions? options, IEnumerable<string> arguments)
+    private CommandLineToolOptions ToGitCommandOptions(CommandLineToolOptions? options, IEnumerable<string> arguments)
     {
-        options ??= new CommandLineOptions();
+        options ??= new CommandLineToolOptions("git");
 
-        return new GitCommandOptions
-        {
-            Arguments = arguments,
-            WorkingDirectory = options.WorkingDirectory,
-            EnvironmentVariables = options.EnvironmentVariables,
-            Credentials = options.Credentials,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput
-        };
+        return options.WithArguments(arguments);
     }
 }
