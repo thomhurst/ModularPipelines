@@ -35,9 +35,9 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 throw;
             }
-            
+
             var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
-            
+
             await context.Git().Operations.CustomCommand(new GitCommandOptions
             {
                 Arguments = new List<string>
@@ -62,12 +62,12 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                     $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
                 }
             }, cancellationToken);
-            
+
             await context.Git().Operations.Fetch(cancellationToken: cancellationToken);
 
             await context.Git().Operations
                 .Checkout(new GitCheckoutOptions(branchTriggeringPullRequest), cancellationToken);
-            
+
             // Actually perform the formatting
             await context.DotNet().Format(new DotNetFormatOptions
             {
