@@ -16,7 +16,7 @@ public class Npm : INpm
 
     public Task<CommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(new[]{ options.Target ?? string.Empty }), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options.WithArguments(new[] { options.Target ?? string.Empty }), cancellationToken);
     }
 
     public Task<CommandResult> CleanInstall(NpmCleanInstallOptions options, CancellationToken cancellationToken = default)

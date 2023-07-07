@@ -48,7 +48,7 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         {
             gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
-                Arguments = new[]{ "rev-parse", "--show-toplevel" }
+                Arguments = new[] { "rev-parse", "--show-toplevel" }
             });
         }
         catch (CommandException e)
