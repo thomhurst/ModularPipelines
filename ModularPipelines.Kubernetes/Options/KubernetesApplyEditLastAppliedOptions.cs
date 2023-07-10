@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("apply", "edit-last-applied")]
-public record KubernetesApplyEditLastAppliedOptions(string Name) : KubernetesOptions
+public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

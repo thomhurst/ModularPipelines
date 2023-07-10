@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("uncordon")]
-public record KubernetesUncordonOptions(string Node) : KubernetesOptions
+public record KubernetesUncordonOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }

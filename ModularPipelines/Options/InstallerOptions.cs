@@ -1,6 +1,8 @@
-﻿namespace ModularPipelines.Options;
+﻿using ModularPipelines.Attributes;
 
-public record InstallerOptions(string Path)
+namespace ModularPipelines.Options;
+
+public record InstallerOptions([property: PositionalArgument] string Path)
 {
     public IEnumerable<string>? Arguments { get; init; }
 }

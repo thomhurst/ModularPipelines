@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.Powershell.Models;
 
-public record PowershellScriptOptions(string Script) : PowershellOptions;
+public record PowershellScriptOptions([property: CommandSwitch("Command")] string Script) : PowershellOptions;

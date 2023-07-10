@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("auth", "can-i")]
-public record KubernetesAuthCanIOptions(string Verb) : KubernetesOptions
+public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
 {
     [BooleanCommandSwitch("all-namespaces")]
     public bool? AllNamespaces { get; set; }

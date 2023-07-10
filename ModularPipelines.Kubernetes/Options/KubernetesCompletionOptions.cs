@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("completion")]
-public record KubernetesCompletionOptions(string Shell) : KubernetesOptions
+public record KubernetesCompletionOptions([property: PositionalArgument] string Shell) : KubernetesOptions
 {
     [BooleanCommandSwitch("no-headers")]
     public bool? NoHeaders { get; set; }

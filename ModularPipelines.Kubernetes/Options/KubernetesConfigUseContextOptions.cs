@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "use-context")]
-public record KubernetesConfigUseContextOptions(string Context_name) : KubernetesOptions
+public record KubernetesConfigUseContextOptions([property: PositionalArgument] string ContextName) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

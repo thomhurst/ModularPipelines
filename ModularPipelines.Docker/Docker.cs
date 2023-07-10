@@ -1009,6 +1009,6 @@ public class Docker : IDocker
 
     public async Task<CommandResult> Tag(DockerTagOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options.WithArguments(options.SourceImage, options.TargetImage), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 }

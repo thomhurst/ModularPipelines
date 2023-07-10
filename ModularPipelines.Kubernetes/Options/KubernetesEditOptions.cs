@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("edit")]
-public record KubernetesEditOptions(string Name) : KubernetesOptions
+public record KubernetesEditOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

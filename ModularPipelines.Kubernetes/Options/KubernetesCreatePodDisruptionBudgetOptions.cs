@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "poddisruptionbudget")]
-public record KubernetesCreatePodDisruptionBudgetOptions(string Name) : KubernetesOptions
+public record KubernetesCreatePodDisruptionBudgetOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

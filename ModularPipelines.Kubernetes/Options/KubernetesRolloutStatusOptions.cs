@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("rollout", "status")]
-public record KubernetesRolloutStatusOptions(string Name) : KubernetesOptions
+public record KubernetesRolloutStatusOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }

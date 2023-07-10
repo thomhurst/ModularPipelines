@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("taint")]
-public record KubernetesTaintOptions(string Node) : KubernetesOptions
+public record KubernetesTaintOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [BooleanCommandSwitch("all")]
     public bool? All { get; set; }

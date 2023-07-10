@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "unset")]
-public record KubernetesConfigUnsetOptions(string Property_name) : KubernetesOptions
+public record KubernetesConfigUnsetOptions([property: PositionalArgument] string Property_name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

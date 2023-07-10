@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("drain")]
-public record KubernetesDrainOptions(string Node) : KubernetesOptions
+public record KubernetesDrainOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [CommandLongSwitch("chunk-size", SwitchValueSeparator = " ")]
     public int? ChunkSize { get; set; }

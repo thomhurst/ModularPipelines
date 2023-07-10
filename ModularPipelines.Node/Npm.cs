@@ -16,7 +16,7 @@ public class Npm : INpm
 
     public Task<CommandResult> Install(NpmInstallOptions options, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(new[] { options.Target ?? string.Empty }), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     public Task<CommandResult> CleanInstall(NpmCleanInstallOptions options, CancellationToken cancellationToken = default)
@@ -26,16 +26,6 @@ public class Npm : INpm
 
     public Task<CommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default)
     {
-        var arguments = new List<string>();
-
-        arguments.AddNonNullOrEmpty(options.Target);
-
-        if (options.Arguments?.Any() == true)
-        {
-            arguments.Add("--");
-            arguments.AddRange(options.Arguments);
-        }
-
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 }

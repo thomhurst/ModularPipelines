@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("top", "node")]
-public record KubernetesTopNodeOptions(string Name) : KubernetesOptions
+public record KubernetesTopNodeOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("no-headers")]
     public bool? NoHeaders { get; set; }

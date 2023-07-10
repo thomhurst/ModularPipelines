@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "delete-context")]
-public record KubernetesConfigDeleteContextOptions(string Name) : KubernetesOptions
+public record KubernetesConfigDeleteContextOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("no-headers")]
     public bool? NoHeaders { get; set; }

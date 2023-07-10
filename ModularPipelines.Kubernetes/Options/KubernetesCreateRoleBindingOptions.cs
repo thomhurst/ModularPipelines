@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "rolebinding")]
-public record KubernetesCreateRoleBindingOptions(string Name) : KubernetesOptions
+public record KubernetesCreateRoleBindingOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

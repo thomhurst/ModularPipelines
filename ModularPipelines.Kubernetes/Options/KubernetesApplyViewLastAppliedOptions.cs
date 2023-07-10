@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("apply", "view-last-applied")]
-public record KubernetesApplyViewLastAppliedOptions(string Name) : KubernetesOptions
+public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("all")]
     public bool? All { get; set; }

@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("pull")]
-public record DockerPullOptions(string Name) : DockerOptions
+public record DockerPullOptions([property: PositionalArgument] string Name) : DockerOptions
 {
     [BooleanCommandSwitch("disable-content-trust")]
     public bool? DisableContentTrust { get; set; }

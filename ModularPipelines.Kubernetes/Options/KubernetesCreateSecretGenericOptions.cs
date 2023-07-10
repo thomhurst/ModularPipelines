@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "generic")]
-public record KubernetesCreateSecretGenericOptions(string Name) : KubernetesOptions
+public record KubernetesCreateSecretGenericOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

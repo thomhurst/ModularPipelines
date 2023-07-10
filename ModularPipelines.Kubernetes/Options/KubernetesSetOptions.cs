@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("set")]
-public record KubernetesSetOptions(string Subcommand) : KubernetesOptions
+public record KubernetesSetOptions([property: PositionalArgument] string Subcommand) : KubernetesOptions
 {
     [BooleanCommandSwitch("all")]
     public bool? All { get; set; }

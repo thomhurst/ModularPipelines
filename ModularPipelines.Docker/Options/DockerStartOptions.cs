@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("start")]
-public record DockerStartOptions(string Container) : DockerOptions
+public record DockerStartOptions([property: PositionalArgument] string Container) : DockerOptions
 {
     [CommandLongSwitch("attach")]
     public string? Attach { get; set; }

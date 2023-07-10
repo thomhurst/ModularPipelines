@@ -40,6 +40,6 @@ public class NuGet : INuGet
 
     public async Task<CommandResult> AddSource(NuGetSourceOptions options)
     {
-        return await _context.Command.ExecuteCommandLineTool(options.WithArguments(options.FeedUri.AbsoluteUri));
+        return await _context.Command.ExecuteCommandLineTool(options);
     }
 }

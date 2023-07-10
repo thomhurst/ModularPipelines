@@ -3,7 +3,7 @@
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("checkout")]
-public record GitCheckoutOptions(string BranchName) : GitOptions
+public record GitCheckoutOptions([property: PositionalArgument] string BranchName) : GitOptions
 {
     [BooleanCommandSwitch("quiet")]
     public bool? Quiet { get; set; }

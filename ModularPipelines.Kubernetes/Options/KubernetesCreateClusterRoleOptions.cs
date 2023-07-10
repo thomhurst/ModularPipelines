@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "clusterrole")]
-public record KubernetesCreateClusterRoleOptions(string Name) : KubernetesOptions
+public record KubernetesCreateClusterRoleOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandLongSwitch("aggregation-rule", SwitchValueSeparator = " ")]
     public string? AggregationRule { get; set; }

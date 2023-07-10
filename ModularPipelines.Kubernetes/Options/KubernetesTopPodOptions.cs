@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("top", "pod")]
-public record KubernetesTopPodOptions(string Name) : KubernetesOptions
+public record KubernetesTopPodOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("all-namespaces")]
     public bool? AllNamespaces { get; set; }

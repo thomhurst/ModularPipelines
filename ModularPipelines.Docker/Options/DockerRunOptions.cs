@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("run")]
-public record DockerRunOptions(string Image) : DockerOptions
+public record DockerRunOptions([property: PositionalArgument] string Image) : DockerOptions
 {
     [CommandLongSwitch("annotation")]
     public string? Annotation { get; set; }
