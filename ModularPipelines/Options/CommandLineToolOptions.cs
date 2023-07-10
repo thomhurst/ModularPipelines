@@ -9,6 +9,6 @@ public record CommandLineToolOptions(string Tool) : CommandLineOptions
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public object? OptionsObject { get; init; }
-    
+
     public IEnumerable<string>? RunSettings { get; init; }
 }
