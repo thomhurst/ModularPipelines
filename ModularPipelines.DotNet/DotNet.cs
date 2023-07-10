@@ -80,7 +80,7 @@ public class DotNet : IDotNet
     {
         options ??= new DotNetOptions();
 
-        return ExecuteCommandLineTool(options, new[]{ "--version" }, cancellationToken);
+        return ExecuteCommandLineTool(options, new[] { "--version" }, cancellationToken);
     }
 
     public Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
