@@ -26,7 +26,7 @@ public static class CommandExtensions
             LogInput = options.LogInput,
             LogOutput = options.LogOutput,
             WorkingDirectory = options.WorkingDirectory,
-            ArgumentsOptionObject = options
+            OptionsObject = options
         };
     }
 
@@ -42,7 +42,7 @@ public static class CommandExtensions
 
     public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, params string[] arguments)
     {
-        return new CommandLineToolOptions(options.Tool)
+        return options with
         {
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
             Credentials = options.Credentials,
@@ -50,8 +50,7 @@ public static class CommandExtensions
             LogInput = options.LogInput,
             LogOutput = options.LogOutput,
             WorkingDirectory = options.WorkingDirectory,
-            ArgumentsOptionObject = options.ArgumentsOptionObject ?? options,
-            AdditionalSwitches = options.AdditionalSwitches,
+            OptionsObject = options.OptionsObject ?? options,
         };
     }
 }

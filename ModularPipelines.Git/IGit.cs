@@ -2,6 +2,6 @@
 
 public interface IGit
 {
-    IGitOperations Operations { get; }
+    IGitCommands Commands { get; }
     IGitInformation Information { get; }
 }

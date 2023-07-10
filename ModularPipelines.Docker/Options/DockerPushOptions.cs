@@ -2,8 +2,13 @@
 
 namespace ModularPipelines.Docker.Options;
 
-public record DockerPushOptions(string Name, string Tag) : DockerOptions
+[CommandPrecedingArguments("push")]
+public record DockerPushOptions(string Name) : DockerOptions
 {
     [BooleanCommandSwitch("disable-content-trust")]
-    public bool DisableContentTrust { get; init; } = true;
-};
+    public bool? DisableContentTrust { get; set; }
+
+    [CommandLongSwitch("quiet")]
+    public string? Quiet { get; set; }
+
+}

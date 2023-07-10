@@ -23,8 +23,10 @@ internal class Command : ICommand
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
+        var optionsObject = GetOptionsObject(options);
+        
         var precedingArgs =
-            options.ArgumentsOptionObject?.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
+            optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
                 ?.PrecedingArguments ?? Array.Empty<string>();
 
         var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
@@ -32,15 +34,7 @@ internal class Command : ICommand
 
         parsedArgs = precedingArgs.Concat(parsedArgs).ToList();
 
-        if (options.ArgumentsOptionObject != null)
-        {
-            CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, options.ArgumentsOptionObject);
-        }
-
-        if (options.AdditionalSwitches != null)
-        {
-            parsedArgs.AddRange(options.AdditionalSwitches);
-        }
+        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, optionsObject);
 
         var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
 
@@ -76,6 +70,11 @@ internal class Command : ICommand
         }
 
         return new CommandResult(commandInput, result);
+    }
+
+    private static object GetOptionsObject(CommandLineToolOptions options)
+    {
+        return options.OptionsObject ?? options;
     }
 
     private static async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)

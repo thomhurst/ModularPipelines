@@ -2,12 +2,12 @@ namespace ModularPipelines.Git;
 
 public class Git : IGit
 {
-    public Git(IGitOperations operations, IGitInformation information)
+    public Git(IGitCommands commands, IGitInformation information)
     {
-        Operations = operations;
+        Commands = commands;
         Information = information;
     }
 
-    public IGitOperations Operations { get; }
+    public IGitCommands Commands { get; }
     public IGitInformation Information { get; }
 }

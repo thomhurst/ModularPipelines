@@ -19,7 +19,7 @@ public static class GitExtensions
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
         services.TryAddTransient<IGit, Git>();
-        services.TryAddTransient<IGitOperations, GitOperations>();
+        services.TryAddTransient<IGitCommands, GitCommands>();
         services.TryAddTransient<IGitInformation, GitInformation>();
         services.TryAddSingleton<StaticGitInformation>();
         services.TryAddTransient<GitCommandRunner>();
