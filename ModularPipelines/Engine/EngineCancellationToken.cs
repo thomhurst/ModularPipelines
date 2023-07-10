@@ -8,7 +8,7 @@ internal class EngineCancellationToken : CancellationTokenSource
     {
         Console.CancelKeyPress += (_, _) =>
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 Cancel();
             }
@@ -16,7 +16,7 @@ internal class EngineCancellationToken : CancellationTokenSource
 
         AppDomain.CurrentDomain.ProcessExit += (_, _) =>
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 Cancel();
             }
