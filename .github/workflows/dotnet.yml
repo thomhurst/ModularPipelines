@@ -36,5 +36,5 @@ jobs:
         env:
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
           PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
