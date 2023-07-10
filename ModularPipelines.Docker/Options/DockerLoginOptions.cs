@@ -2,10 +2,13 @@
 
 namespace ModularPipelines.Docker.Options;
 
-public record DockerLoginOptions(
-    [property: CommandLongSwitch("username")] string Username,
-    [property: CommandLongSwitch("password")] string Password
-) : DockerOptions
+[CommandPrecedingArguments("login")]
+public record DockerLoginOptions : DockerOptions
 {
-    public Uri? Server { get; init; }
+    [CommandLongSwitch("password")]
+    public string? Password { get; set; }
+
+    [CommandLongSwitch("username")]
+    public string? Username { get; set; }
+
 }

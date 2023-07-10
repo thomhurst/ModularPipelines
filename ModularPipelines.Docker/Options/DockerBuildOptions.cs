@@ -1,55 +1,65 @@
 ﻿using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-public record DockerBuildOptions(string DockerfileFolder) : CommandLineToolOptions("docker")
+[CommandPrecedingArguments("build")]
+public record DockerBuildOptions(string Dockerfile) : DockerOptions
 {
-    [CommandSwitch("t")]
-    public string? Tag { get; init; }
+    [CommandLongSwitch("compress")]
+    public string? Compress { get; set; }
 
-    [CommandSwitch("c")]
-    public string? CpuShares { get; init; }
+    [CommandLongSwitch("cpu-period")]
+    public string? CpuPeriod { get; set; }
 
-    [CommandSwitch("m")]
-    public string? MemoryLimit { get; init; }
+    [CommandLongSwitch("cpu-quota")]
+    public string? CpuQuota { get; set; }
 
-    [BooleanCommandSwitch("isolation")]
-    public bool Isolation { get; init; }
+    [CommandLongSwitch("cpu-shares")]
+    public string? CpuShares { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
-    public bool Quiet { get; init; }
+    [CommandLongSwitch("cpuset-cpus")]
+    public string? CpusetCpus { get; set; }
 
-    [BooleanCommandSwitch("pull")]
-    public bool Pull { get; init; }
+    [CommandLongSwitch("cpuset-mems")]
+    public string? CpusetMems { get; set; }
 
-    [BooleanCommandSwitch("no-cache")]
-    public bool NoCache { get; init; }
+    [BooleanCommandSwitch("disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
-    [BooleanCommandSwitch("squash")]
-    public bool Squash { get; init; }
+    [CommandLongSwitch("force-rm")]
+    public string? ForceRm { get; set; }
+
+    [CommandLongSwitch("iidfile")]
+    public string? Iidfile { get; set; }
+
+    [CommandLongSwitch("label")]
+    public string? Label { get; set; }
+
+    [CommandLongSwitch("memory")]
+    public string? Memory { get; set; }
+
+    [CommandLongSwitch("memory-swap")]
+    public string? MemorySwap { get; set; }
 
     [CommandLongSwitch("network")]
-    public string? Network { get; init; }
+    public string? Network { get; set; }
 
-    [CommandLongSwitch("target")]
-    public string? Target { get; init; }
-
-    [CommandLongSwitch("output")]
-    public string? Output { get; init; }
+    [CommandLongSwitch("no-cache")]
+    public string? NoCache { get; set; }
 
     [CommandLongSwitch("platform")]
-    public string? Platform { get; init; }
+    public string? Platform { get; set; }
+
+    [CommandLongSwitch("pull")]
+    public string? Pull { get; set; }
+
+    [CommandLongSwitch("quiet")]
+    public string? Quiet { get; set; }
+
+    [BooleanCommandSwitch("rm")]
+    public bool? Rm { get; set; }
 
     [CommandLongSwitch("shm-size")]
-    public string? ShmSize { get; init; }
+    public string? ShmSize { get; set; }
 
-    [CommandLongSwitch("build-arg", SwitchValueSeparator = " ")]
-    public IEnumerable<string>? BuildArguments { get; init; }
-
-    [CommandLongSwitch("add-host")]
-    public IEnumerable<string>? AddHosts { get; init; }
-
-    [CommandSwitch("f")]
-    public string? Dockerfile { get; init; }
 }
