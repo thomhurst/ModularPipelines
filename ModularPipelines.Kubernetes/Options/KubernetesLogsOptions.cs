@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("logs")]
-public record KubernetesLogsOptions(string Name) : KubernetesOptions
+public record KubernetesLogsOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("all-containers")]
     public bool? AllContainers { get; set; }

@@ -36,6 +36,12 @@ internal class Command : ICommand
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, optionsObject);
 
+        if (options.RunSettings != null)
+        {
+            parsedArgs.Add("--");
+            parsedArgs.AddRange(options.RunSettings);
+        }
+        
         var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)

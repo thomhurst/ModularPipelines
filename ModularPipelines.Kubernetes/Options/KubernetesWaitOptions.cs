@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("wait")]
-public record KubernetesWaitOptions(string Name) : KubernetesOptions
+public record KubernetesWaitOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("all")]
     public bool? All { get; set; }

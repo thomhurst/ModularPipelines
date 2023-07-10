@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("debug")]
-public record KubernetesDebugOptions(string Name) : KubernetesOptions
+public record KubernetesDebugOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("arguments-only")]
     public bool? ArgumentsOnly { get; set; }

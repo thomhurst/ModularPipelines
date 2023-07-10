@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("port-forward")]
-public record KubernetesPortForwardOptions(string Name) : KubernetesOptions
+public record KubernetesPortForwardOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandLongSwitch("address", SwitchValueSeparator = " ")]
     public string? Address { get; set; }

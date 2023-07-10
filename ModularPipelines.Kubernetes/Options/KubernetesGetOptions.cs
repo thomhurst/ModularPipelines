@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("get")]
-public record KubernetesGetOptions(string Name) : KubernetesOptions
+public record KubernetesGetOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("all-namespaces")]
     public bool? AllNamespaces { get; set; }

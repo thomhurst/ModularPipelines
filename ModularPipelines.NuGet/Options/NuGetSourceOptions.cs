@@ -5,6 +5,7 @@ namespace ModularPipelines.NuGet.Options;
 [CommandPrecedingArguments("nuget", "add", "source")]
 public record NuGetSourceOptions
 (
+    [property: PositionalArgument]
     Uri FeedUri,
 
     [property: CommandSwitch("n")]

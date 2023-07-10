@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("explain")]
-public record KubernetesExplainOptions(string Resource) : KubernetesOptions
+public record KubernetesExplainOptions([property: PositionalArgument] string Resource) : KubernetesOptions
 {
     [CommandLongSwitch("api-version", SwitchValueSeparator = " ")]
     public string? ApiVersion { get; set; }

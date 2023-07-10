@@ -5,6 +5,7 @@ namespace ModularPipelines.Node.Models;
 [CommandPrecedingArguments("install")]
 public record NpmInstallOptions : NpmOptions
 {
+    [PositionalArgument]
     public string? Target { get; init; }
 
     [BooleanCommandSwitch("global")]

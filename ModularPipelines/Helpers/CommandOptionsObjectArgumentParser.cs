@@ -8,7 +8,19 @@ public abstract class CommandOptionsObjectArgumentParser
 {
     public static void AddArgumentsFromOptionsObject(List<string> parsedArgs, object optionsArgumentsObject)
     {
-        foreach (var propertyInfo in optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        var properties = optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (var propertyInfo in properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null))
+        {
+            var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                parsedArgs.Add(value);
+            }
+        }
+
+        foreach (var propertyInfo in properties)
         {
             var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
 

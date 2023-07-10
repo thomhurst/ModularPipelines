@@ -81,7 +81,7 @@ public class GitCommands : IGitCommands
 
     public async Task<CommandResult> Checkout(GitCheckoutOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options.WithArguments(options.BranchName), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> CherryPick(GitCherryPickOptions options, CancellationToken token = default)

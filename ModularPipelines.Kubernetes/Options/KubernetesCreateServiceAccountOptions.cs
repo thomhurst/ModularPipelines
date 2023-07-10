@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "serviceaccount")]
-public record KubernetesCreateServiceAccountOptions(string Name) : KubernetesOptions
+public record KubernetesCreateServiceAccountOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

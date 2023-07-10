@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("kustomize")]
-public record KubernetesKustomizeOptions(string Dir) : KubernetesOptions
+public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
 {
     [BooleanCommandSwitch("as-current-user")]
     public bool? AsCurrentUser { get; set; }

@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.Powershell.Models;
 
-public record PowershellFileOptions(string FilePath) : PowershellOptions;
+public record PowershellFileOptions([property: CommandSwitch("File")] string FilePath) : PowershellOptions;

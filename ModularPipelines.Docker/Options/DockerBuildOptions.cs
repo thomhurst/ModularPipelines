@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("build")]
-public record DockerBuildOptions(string Dockerfile) : DockerOptions
+public record DockerBuildOptions([property: PositionalArgument] string Dockerfile) : DockerOptions
 {
     [CommandLongSwitch("compress")]
     public string? Compress { get; set; }

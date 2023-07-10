@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("attach")]
-public record KubernetesAttachOptions(string Name) : KubernetesOptions
+public record KubernetesAttachOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandLongSwitch("container", SwitchValueSeparator = " ")]
     public string? Container { get; set; }

@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "externalname")]
-public record KubernetesCreateServiceExternalnameOptions(string Name) : KubernetesOptions
+public record KubernetesCreateServiceExternalnameOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

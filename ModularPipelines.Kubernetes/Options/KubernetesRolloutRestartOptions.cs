@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("rollout", "restart")]
-public record KubernetesRolloutRestartOptions(string Resource) : KubernetesOptions
+public record KubernetesRolloutRestartOptions([property: PositionalArgument] string Resource) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

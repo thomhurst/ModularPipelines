@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("certificate")]
-public record KubernetesCertificateOptions(string Subcommand) : KubernetesOptions
+public record KubernetesCertificateOptions([property: PositionalArgument] string Subcommand) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

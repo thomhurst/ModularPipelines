@@ -3,7 +3,7 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network create")]
-public record DockerNetworkCreateOptions(string Network) : DockerOptions
+public record DockerNetworkCreateOptions([property: PositionalArgument] string Network) : DockerOptions
 {
     [CommandLongSwitch("attachable")]
     public string? Attachable { get; set; }

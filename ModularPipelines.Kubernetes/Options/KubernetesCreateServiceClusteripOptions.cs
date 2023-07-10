@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "clusterip")]
-public record KubernetesCreateServiceClusteripOptions(string Name) : KubernetesOptions
+public record KubernetesCreateServiceClusteripOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }

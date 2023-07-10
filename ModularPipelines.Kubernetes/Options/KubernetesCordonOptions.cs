@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("cordon")]
-public record KubernetesCordonOptions(string Node) : KubernetesOptions
+public record KubernetesCordonOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }

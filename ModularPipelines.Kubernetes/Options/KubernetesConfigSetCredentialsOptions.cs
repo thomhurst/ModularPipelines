@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "set-credentials")]
-public record KubernetesConfigSetCredentialsOptions(string Name) : KubernetesOptions
+public record KubernetesConfigSetCredentialsOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandLongSwitch("auth-provider", SwitchValueSeparator = " ")]
     public string? AuthProvider { get; set; }

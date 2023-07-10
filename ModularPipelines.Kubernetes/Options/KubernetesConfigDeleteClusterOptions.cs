@@ -3,7 +3,7 @@
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "delete-cluster")]
-public record KubernetesConfigDeleteClusterOptions(string Name) : KubernetesOptions
+public record KubernetesConfigDeleteClusterOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("no-headers")]
     public bool? NoHeaders { get; set; }

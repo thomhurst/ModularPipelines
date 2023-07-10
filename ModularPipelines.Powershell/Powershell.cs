@@ -16,19 +16,11 @@ public class Powershell : IPowershell
 
     public Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
-        var arguments = new List<string> { "-Command", options.Script };
-
-        arguments.AddRangeNonNullOrEmpty(options.Arguments);
-
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     public Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
-        var arguments = new List<string> { "-File", options.FilePath };
-
-        arguments.AddRangeNonNullOrEmpty(options.Arguments);
-
-        return _context.Command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 }
