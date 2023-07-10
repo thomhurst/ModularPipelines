@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options;
 
-public record CommandLineToolOptions([property: PositionalArgument] string Tool) : CommandLineOptions
+public record CommandLineToolOptions(string Tool) : CommandLineOptions
 {
     public IEnumerable<string>? Arguments { get; init; }
 
