@@ -24,7 +24,7 @@ internal class Command : ICommand
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         var optionsObject = GetOptionsObject(options);
-        
+
         var precedingArgs =
             optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
                 ?.PrecedingArguments ?? Array.Empty<string>();

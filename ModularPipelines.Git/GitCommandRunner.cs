@@ -26,7 +26,7 @@ internal class GitCommandRunner
             LogInput = false,
             LogOutput = false
         };
-        
+
         var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions);
 
         return commandResult.StandardOutput.Trim();

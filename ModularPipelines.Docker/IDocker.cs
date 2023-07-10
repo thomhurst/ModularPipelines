@@ -381,7 +381,7 @@ public interface IDocker
     Task<CommandResult> VolumeRm(DockerVolumeRmOptions options, CancellationToken token = default);
 
     Task<CommandResult> VolumeUpdate(DockerVolumeUpdateOptions options, CancellationToken token = default);
-    
+
     Task<CommandResult> Tag(DockerTagOptions options, CancellationToken token = default);
 
 }
