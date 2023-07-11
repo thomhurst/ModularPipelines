@@ -25,12 +25,7 @@ internal class NuGet : INuGet
             };
 
             var commandResult = await _context.Command
-                .ExecuteCommandLineTool(options.WithArguments(arguments) with
-                {
-                    Arguments = arguments,
-                    InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
-                    OutputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********")
-                });
+                .ExecuteCommandLineTool(options.WithArguments(arguments));
 
             results.Add(commandResult);
         }
