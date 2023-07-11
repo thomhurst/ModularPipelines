@@ -24,5 +24,4 @@ public static class DotNetExtensions
     }
 
     public static IDotNet DotNet(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
-
 }

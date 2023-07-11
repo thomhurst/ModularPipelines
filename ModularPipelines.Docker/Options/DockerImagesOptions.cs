@@ -24,5 +24,4 @@ public record DockerImagesOptions : DockerOptions
 
     [BooleanCommandSwitch("--no-trunc")]
     public bool? NoTrunc { get; set; }
-
 }

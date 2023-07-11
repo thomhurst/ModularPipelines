@@ -22,5 +22,4 @@ public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgumen
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
-
 }

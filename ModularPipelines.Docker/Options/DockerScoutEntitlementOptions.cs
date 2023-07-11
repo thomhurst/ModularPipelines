@@ -8,5 +8,4 @@ public record DockerScoutEntitlementOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--disable")]
     public string? Disable { get; set; }
-
 }

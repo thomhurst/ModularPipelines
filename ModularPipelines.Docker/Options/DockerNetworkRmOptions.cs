@@ -7,5 +7,4 @@ public record DockerNetworkRmOptions([property: PositionalArgument(Position = Po
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

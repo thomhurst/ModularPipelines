@@ -11,5 +11,4 @@ public record DockerContainerRestartOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--time")]
     public string? Time { get; set; }
-
 }

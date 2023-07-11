@@ -25,5 +25,4 @@ public record KubernetesDescribeOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--show-events")]
     public bool? ShowEvents { get; set; }
-
 }

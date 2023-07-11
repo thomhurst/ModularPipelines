@@ -49,5 +49,4 @@ public record GitNotesOptions : GitOptions
 
     [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
-
 }

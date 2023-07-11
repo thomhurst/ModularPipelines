@@ -23,5 +23,4 @@ public static class KubernetesExtensions
     }
 
     public static IKubernetes Kubernetes(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
-
 }

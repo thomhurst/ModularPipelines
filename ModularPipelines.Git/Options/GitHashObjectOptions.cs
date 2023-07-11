@@ -19,5 +19,4 @@ public record GitHashObjectOptions : GitOptions
 
     [BooleanCommandSwitch("--literally")]
     public bool? Literally { get; set; }
-
 }

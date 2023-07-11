@@ -8,5 +8,4 @@ public record DockerStackLsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

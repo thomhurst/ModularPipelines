@@ -118,5 +118,4 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
-
 }

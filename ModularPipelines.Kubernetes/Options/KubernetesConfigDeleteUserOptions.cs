@@ -10,5 +10,4 @@ public record KubernetesConfigDeleteUserOptions([property: PositionalArgument] s
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

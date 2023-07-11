@@ -10,5 +10,4 @@ public record KubernetesConfigGetContextsOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

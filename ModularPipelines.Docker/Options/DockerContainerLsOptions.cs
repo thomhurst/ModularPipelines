@@ -28,5 +28,4 @@ public record DockerContainerLsOptions : DockerOptions
 
     [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 }

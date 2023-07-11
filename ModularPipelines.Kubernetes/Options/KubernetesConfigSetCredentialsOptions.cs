@@ -25,5 +25,4 @@ public record KubernetesConfigSetCredentialsOptions([property: PositionalArgumen
 
     [CommandEqualsSeparatorSwitch("--exec-env", SwitchValueSeparator = " ")]
     public string[]? ExecEnv { get; set; }
-
 }

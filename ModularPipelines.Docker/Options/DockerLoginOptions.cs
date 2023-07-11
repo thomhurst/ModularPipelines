@@ -16,5 +16,4 @@ public record DockerLoginOptions : DockerOptions
 
     [CommandSwitch("--password-stdin")]
     public string? PasswordStdin { get; set; }
-
 }

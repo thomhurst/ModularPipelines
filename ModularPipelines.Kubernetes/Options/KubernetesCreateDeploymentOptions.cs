@@ -37,5 +37,4 @@ public record KubernetesCreateDeploymentOptions([property: PositionalArgument] s
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

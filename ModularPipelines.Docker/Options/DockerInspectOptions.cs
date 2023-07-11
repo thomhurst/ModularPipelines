@@ -14,5 +14,4 @@ public record DockerInspectOptions([property: PositionalArgument(Position = Posi
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }
-
 }

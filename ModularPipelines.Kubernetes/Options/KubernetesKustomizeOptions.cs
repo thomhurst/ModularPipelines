@@ -40,5 +40,4 @@ public record KubernetesKustomizeOptions([property: PositionalArgument] string D
 
     [CommandEqualsSeparatorSwitch("--reorder", SwitchValueSeparator = " ")]
     public string? Reorder { get; set; }
-
 }

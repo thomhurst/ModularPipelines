@@ -10,5 +10,4 @@ public record DockerVolumeUpdateOptions : DockerOptions
 
     [CommandSwitch("--availability")]
     public string? Availability { get; set; }
-
 }

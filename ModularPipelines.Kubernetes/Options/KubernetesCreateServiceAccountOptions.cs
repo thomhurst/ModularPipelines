@@ -28,5 +28,4 @@ public record KubernetesCreateServiceAccountOptions([property: PositionalArgumen
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

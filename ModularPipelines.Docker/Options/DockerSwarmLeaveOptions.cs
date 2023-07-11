@@ -7,5 +7,4 @@ public record DockerSwarmLeaveOptions : DockerOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

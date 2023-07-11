@@ -22,5 +22,4 @@ public record HelmSearchRepoOptions : HelmOptions
 
     [BooleanCommandSwitch("--versions")]
     public bool? Versions { get; set; }
-
 }

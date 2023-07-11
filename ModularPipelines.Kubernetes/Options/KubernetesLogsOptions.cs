@@ -49,5 +49,4 @@ public record KubernetesLogsOptions([property: PositionalArgument] string Name) 
 
     [BooleanCommandSwitch("--timestamps")]
     public bool? Timestamps { get; set; }
-
 }

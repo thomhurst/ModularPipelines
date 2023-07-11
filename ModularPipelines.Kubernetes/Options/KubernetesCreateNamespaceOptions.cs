@@ -28,5 +28,4 @@ public record KubernetesCreateNamespaceOptions([property: PositionalArgument] st
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

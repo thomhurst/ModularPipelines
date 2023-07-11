@@ -17,5 +17,4 @@ public record DockerNodeUpdateOptions([property: PositionalArgument(Position = P
 
     [CommandSwitch("--label-add")]
     public string? LabelAdd { get; set; }
-
 }

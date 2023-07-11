@@ -313,5 +313,4 @@ public record GitFormatPatchOptions : GitOptions
 
     [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
-
 }

@@ -10,5 +10,4 @@ public record GitBisectOptions : GitOptions
 
     [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
-
 }

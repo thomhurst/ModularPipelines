@@ -15,5 +15,4 @@ public record DockerComposeRestartOptions : DockerOptions
 
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
-
 }

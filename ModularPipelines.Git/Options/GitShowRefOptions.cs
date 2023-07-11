@@ -31,5 +31,4 @@ public record GitShowRefOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--exclude-existing")]
     public string? ExcludeExisting { get; set; }
-
 }

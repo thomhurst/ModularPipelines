@@ -34,5 +34,4 @@ public record KubernetesCreateServiceNodePortOptions([property: PositionalArgume
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

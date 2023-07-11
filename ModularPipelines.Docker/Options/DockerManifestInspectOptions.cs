@@ -13,5 +13,4 @@ public record DockerManifestInspectOptions([property: PositionalArgument(Positio
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
 }

@@ -34,5 +34,4 @@ public record KubernetesCreateServiceClusteripOptions([property: PositionalArgum
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

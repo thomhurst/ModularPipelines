@@ -40,5 +40,4 @@ public record HelmShowCrdsOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
-
 }

@@ -76,5 +76,4 @@ public record GitSubmoduleOptions : GitOptions
 
     [BooleanCommandSwitch("--single-branch")]
     public bool? SingleBranch { get; set; }
-
 }

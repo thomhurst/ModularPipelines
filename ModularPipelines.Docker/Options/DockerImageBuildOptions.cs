@@ -95,5 +95,4 @@ public record DockerImageBuildOptions([property: PositionalArgument(Position = P
 
     [CommandSwitch("--ulimit")]
     public string? Ulimit { get; set; }
-
 }

@@ -10,5 +10,4 @@ public record DockerTrustInspectOptions : DockerOptions
 
     [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
-
 }

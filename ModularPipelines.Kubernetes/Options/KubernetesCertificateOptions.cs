@@ -28,5 +28,4 @@ public record KubernetesCertificateOptions([property: PositionalArgument] string
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

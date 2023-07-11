@@ -72,5 +72,4 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
 
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
-
 }

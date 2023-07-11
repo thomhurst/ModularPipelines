@@ -8,5 +8,4 @@ public record DockerImageInspectOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

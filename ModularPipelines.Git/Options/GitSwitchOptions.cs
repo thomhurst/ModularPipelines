@@ -58,5 +58,4 @@ public record GitSwitchOptions : GitOptions
 
     [BooleanCommandSwitch("--no-recurse-submodules")]
     public bool? NoRecurseSubmodules { get; set; }
-
 }

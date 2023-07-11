@@ -82,5 +82,4 @@ public record GitLsFilesOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
-
 }

@@ -16,5 +16,4 @@ public record DockerHistoryOptions([property: PositionalArgument(Position = Posi
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

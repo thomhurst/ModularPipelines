@@ -196,5 +196,4 @@ public record GitPullOptions : GitOptions
 
     [BooleanCommandSwitch("--ipv6")]
     public bool? Ipv6 { get; set; }
-
 }

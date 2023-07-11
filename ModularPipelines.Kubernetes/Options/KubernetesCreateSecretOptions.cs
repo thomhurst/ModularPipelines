@@ -46,5 +46,4 @@ public record KubernetesCreateSecretOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

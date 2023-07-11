@@ -16,5 +16,4 @@ public record HelmPushOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }
-
 }

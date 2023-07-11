@@ -73,5 +73,4 @@ public record KubernetesGetOptions([property: PositionalArgument] string Name) :
 
     [BooleanCommandSwitch("--watch-only")]
     public bool? WatchOnly { get; set; }
-
 }

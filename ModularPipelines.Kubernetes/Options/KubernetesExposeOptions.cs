@@ -79,5 +79,4 @@ public record KubernetesExposeOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
     public string? Type { get; set; }
-
 }

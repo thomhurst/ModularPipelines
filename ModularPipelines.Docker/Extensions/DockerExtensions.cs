@@ -23,5 +23,4 @@ public static class DockerExtensions
     }
 
     public static IDocker Docker(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IDocker>();
-
 }

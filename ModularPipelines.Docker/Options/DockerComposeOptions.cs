@@ -35,5 +35,4 @@ public record DockerComposeOptions([property: PositionalArgument(Position = Posi
 
     [CommandSwitch("--project-name")]
     public string? ProjectName { get; set; }
-
 }

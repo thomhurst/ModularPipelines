@@ -8,5 +8,4 @@ public record DockerExportOptions([property: PositionalArgument(Position = Posit
 
     [CommandSwitch("--output")]
     public string? Output { get; set; }
-
 }

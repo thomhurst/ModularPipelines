@@ -10,5 +10,4 @@ public record DockerLoadOptions : DockerOptions
 
     [CommandSwitch("--input")]
     public string? Input { get; set; }
-
 }

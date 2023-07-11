@@ -20,5 +20,4 @@ public record DockerManifestAnnotateOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--variant")]
     public string? Variant { get; set; }
-
 }

@@ -13,5 +13,4 @@ public record DockerNodeLsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

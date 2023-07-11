@@ -46,5 +46,4 @@ public record GitDifftoolOptions : GitOptions
 
     [BooleanCommandSwitch("--trust-exit-code")]
     public bool? TrustExitCode { get; set; }
-
 }

@@ -15,5 +15,4 @@ public record DockerPushOptions : DockerOptions
 
     [BooleanCommandSwitch("--all-tags")]
     public bool? AllTags { get; set; }
-
 }

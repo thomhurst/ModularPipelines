@@ -61,5 +61,4 @@ public record GitCherryPickOptions : GitOptions
 
     [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
-
 }

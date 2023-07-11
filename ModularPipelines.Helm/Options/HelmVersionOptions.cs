@@ -10,5 +10,4 @@ public record HelmVersionOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

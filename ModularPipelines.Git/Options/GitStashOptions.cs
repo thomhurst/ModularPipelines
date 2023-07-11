@@ -40,5 +40,4 @@ public record GitStashOptions : GitOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

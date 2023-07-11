@@ -14,5 +14,4 @@ public record DockerBuildxDuOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

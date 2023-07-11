@@ -19,5 +19,4 @@ public record KubernetesAttachOptions([property: PositionalArgument] string Name
 
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
-
 }

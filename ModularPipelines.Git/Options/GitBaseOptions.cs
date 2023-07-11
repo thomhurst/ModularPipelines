@@ -49,5 +49,4 @@ public record GitBaseOptions : GitOptions
     [BooleanCommandSwitch("--list-cmds")] public bool? ListCmds { get; set; }
 
     [CommandEqualsSeparatorSwitch("--attr-source")] public string? AttrSource { get; set; }
-
 }

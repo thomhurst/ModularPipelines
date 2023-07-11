@@ -19,5 +19,4 @@ public record DockerBuildxDebugShellOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

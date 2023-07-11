@@ -52,5 +52,4 @@ public record KubernetesSetResourcesOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

@@ -11,5 +11,4 @@ public record DockerStackConfigOptions : DockerOptions
 
     [CommandSwitch("--skip-interpolation")]
     public string? SkipInterpolation { get; set; }
-
 }

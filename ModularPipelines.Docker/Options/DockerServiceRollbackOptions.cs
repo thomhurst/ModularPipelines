@@ -10,5 +10,4 @@ public record DockerServiceRollbackOptions([property: PositionalArgument(Positio
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

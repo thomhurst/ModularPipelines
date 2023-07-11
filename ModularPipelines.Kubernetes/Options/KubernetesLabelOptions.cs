@@ -58,5 +58,4 @@ public record KubernetesLabelOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

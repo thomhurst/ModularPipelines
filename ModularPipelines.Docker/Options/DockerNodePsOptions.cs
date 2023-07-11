@@ -21,5 +21,4 @@ public record DockerNodePsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

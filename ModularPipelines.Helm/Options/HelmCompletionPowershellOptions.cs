@@ -7,5 +7,4 @@ public record HelmCompletionPowershellOptions : HelmOptions
 {
     [BooleanCommandSwitch("--no-descriptions")]
     public bool? NoDescriptions { get; set; }
-
 }

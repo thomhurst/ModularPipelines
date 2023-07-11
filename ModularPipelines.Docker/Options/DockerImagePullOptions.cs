@@ -18,5 +18,4 @@ public record DockerImagePullOptions : DockerOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

@@ -10,5 +10,4 @@ public record KubernetesCpOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--no-preserve")]
     public bool? NoPreserve { get; set; }
-
 }

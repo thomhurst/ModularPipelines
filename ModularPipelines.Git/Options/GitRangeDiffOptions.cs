@@ -22,5 +22,4 @@ public record GitRangeDiffOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--notes")]
     public string? Notes { get; set; }
-
 }

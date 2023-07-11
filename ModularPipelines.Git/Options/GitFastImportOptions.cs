@@ -61,5 +61,4 @@ public record GitFastImportOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--max-pack-size")]
     public string? MaxPackSize { get; set; }
-
 }

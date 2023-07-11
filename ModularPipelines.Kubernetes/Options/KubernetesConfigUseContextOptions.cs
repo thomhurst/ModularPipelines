@@ -28,5 +28,4 @@ public record KubernetesConfigUseContextOptions([property: PositionalArgument] s
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

@@ -13,5 +13,4 @@ public record DockerRmOptions([property: PositionalArgument(Position = Position.
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
-
 }

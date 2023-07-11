@@ -16,5 +16,4 @@ public record DockerBuilderPruneOptions : DockerOptions
 
     [CommandSwitch("--keep-storage")]
     public string? KeepStorage { get; set; }
-
 }

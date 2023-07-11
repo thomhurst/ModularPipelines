@@ -53,5 +53,4 @@ public record DockerNetworkCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--internal")]
     public string? Internal { get; set; }
-
 }

@@ -250,5 +250,4 @@ public record GitDiffIndexOptions : GitOptions
 
     [BooleanCommandSwitch("--merge-base")]
     public bool? MergeBase { get; set; }
-
 }

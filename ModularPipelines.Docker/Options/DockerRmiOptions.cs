@@ -10,5 +10,4 @@ public record DockerRmiOptions([property: PositionalArgument(Position = Position
 
     [BooleanCommandSwitch("--no-prune")]
     public bool? NoPrune { get; set; }
-
 }

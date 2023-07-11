@@ -8,5 +8,4 @@ public record DockerContainerKillOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
-
 }

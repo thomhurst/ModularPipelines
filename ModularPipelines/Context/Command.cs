@@ -102,5 +102,4 @@ internal class Command : ICommand
         return result;
     }
 
-
 }

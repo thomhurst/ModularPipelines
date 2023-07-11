@@ -11,5 +11,4 @@ public record DockerScoutStreamOptions([property: PositionalArgument(Position = 
 
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
-
 }

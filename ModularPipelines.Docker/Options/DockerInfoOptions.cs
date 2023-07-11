@@ -8,5 +8,4 @@ public record DockerInfoOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

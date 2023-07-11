@@ -130,5 +130,4 @@ public record GitMergeOptions : GitOptions
 
     [BooleanCommandSwitch("--continue")]
     public bool? Continue { get; set; }
-
 }

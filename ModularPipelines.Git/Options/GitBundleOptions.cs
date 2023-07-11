@@ -13,5 +13,4 @@ public record GitBundleOptions : GitOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

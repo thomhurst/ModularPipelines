@@ -31,5 +31,4 @@ public record KubernetesRolloutUndoOptions([property: PositionalArgument] string
 
     [CommandEqualsSeparatorSwitch("--to-revision", SwitchValueSeparator = " ")]
     public int? ToRevision { get; set; }
-
 }

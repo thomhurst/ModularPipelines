@@ -7,5 +7,4 @@ public record HelmRepoListOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

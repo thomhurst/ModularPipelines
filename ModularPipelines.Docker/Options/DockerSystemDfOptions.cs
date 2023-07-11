@@ -11,5 +11,4 @@ public record DockerSystemDfOptions : DockerOptions
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
 }

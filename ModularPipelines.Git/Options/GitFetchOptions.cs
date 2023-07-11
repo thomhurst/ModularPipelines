@@ -148,5 +148,4 @@ public record GitFetchOptions : GitOptions
 
     [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
-
 }

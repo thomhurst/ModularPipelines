@@ -18,5 +18,4 @@ public record DockerContainerStatsOptions : DockerOptions
 
     [BooleanCommandSwitch("--no-trunc")]
     public bool? NoTrunc { get; set; }
-
 }

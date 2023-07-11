@@ -34,5 +34,4 @@ internal class Installer : IInstaller
         }, cancellationToken);
     }
 
-
 }

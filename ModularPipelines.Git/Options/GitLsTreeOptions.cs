@@ -28,5 +28,4 @@ public record GitLsTreeOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
-
 }

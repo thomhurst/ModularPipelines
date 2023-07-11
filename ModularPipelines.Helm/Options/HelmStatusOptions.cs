@@ -16,5 +16,4 @@ public record HelmStatusOptions : HelmOptions
 
     [BooleanCommandSwitch("--show-resources")]
     public bool? ShowResources { get; set; }
-
 }

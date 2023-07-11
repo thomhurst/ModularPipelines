@@ -28,5 +28,4 @@ public record KubernetesClusterInfoOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

@@ -19,5 +19,4 @@ public record DockerContainerCommitOptions([property: PositionalArgument(Positio
 
     [BooleanCommandSwitch("--pause")]
     public bool? Pause { get; set; }
-
 }

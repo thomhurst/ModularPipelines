@@ -10,5 +10,4 @@ public record DockerNetworkPruneOptions : DockerOptions
 
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
-
 }

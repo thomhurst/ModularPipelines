@@ -11,5 +11,4 @@ public record DockerServiceInspectOptions([property: PositionalArgument(Position
 
     [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
-
 }

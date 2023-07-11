@@ -142,5 +142,4 @@ public record GitGrepOptions : GitOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

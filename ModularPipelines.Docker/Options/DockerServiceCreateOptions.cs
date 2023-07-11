@@ -223,5 +223,4 @@ public record DockerServiceCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--with-registry-auth")]
     public string? WithRegistryAuth { get; set; }
-
 }

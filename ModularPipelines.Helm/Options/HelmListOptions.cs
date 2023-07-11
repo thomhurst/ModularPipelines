@@ -58,5 +58,4 @@ public record HelmListOptions : HelmOptions
 
     [BooleanCommandSwitch("--uninstalling")]
     public bool? Uninstalling { get; set; }
-
 }

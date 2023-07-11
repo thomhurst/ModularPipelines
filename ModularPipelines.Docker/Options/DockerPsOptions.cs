@@ -29,5 +29,4 @@ public record DockerPsOptions : DockerOptions
 
     [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 }

@@ -7,5 +7,4 @@ public record HelmGetHooksOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
     public int? Revision { get; set; }
-
 }

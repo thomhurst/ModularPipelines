@@ -34,5 +34,4 @@ public record KubernetesCreateQuotaOptions([property: PositionalArgument] string
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

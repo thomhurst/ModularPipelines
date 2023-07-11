@@ -16,5 +16,4 @@ public record DockerSystemPruneOptions : DockerOptions
 
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
-
 }

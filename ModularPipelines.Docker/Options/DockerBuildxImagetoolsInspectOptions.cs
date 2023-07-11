@@ -14,5 +14,4 @@ public record DockerBuildxImagetoolsInspectOptions([property: PositionalArgument
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

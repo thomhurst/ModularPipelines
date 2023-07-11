@@ -7,5 +7,4 @@ public record DockerServiceScaleOptions([property: PositionalArgument(Position =
 {
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
-
 }

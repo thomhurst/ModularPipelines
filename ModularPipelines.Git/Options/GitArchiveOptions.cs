@@ -37,5 +37,4 @@ public record GitArchiveOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--exec")]
     public string? Exec { get; set; }
-
 }

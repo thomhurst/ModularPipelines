@@ -13,5 +13,4 @@ public record DockerNodeInspectOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

@@ -7,5 +7,4 @@ public record KubernetesConfigSetOptions([property: PositionalArgument] string P
 {
     [BooleanCommandSwitch("--set-raw-bytes")]
     public bool? SetRawBytes { get; set; }
-
 }

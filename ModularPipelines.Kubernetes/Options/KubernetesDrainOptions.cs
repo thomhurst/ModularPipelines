@@ -43,5 +43,4 @@ public record KubernetesDrainOptions([property: PositionalArgument] string Node)
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
-
 }

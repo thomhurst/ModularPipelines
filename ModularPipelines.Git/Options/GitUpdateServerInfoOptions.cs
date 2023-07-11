@@ -7,5 +7,4 @@ public record GitUpdateServerInfoOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

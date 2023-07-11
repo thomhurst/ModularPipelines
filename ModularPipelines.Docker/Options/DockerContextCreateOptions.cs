@@ -14,5 +14,4 @@ public record DockerContextCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--from")]
     public string? From { get; set; }
-
 }

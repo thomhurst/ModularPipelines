@@ -52,5 +52,4 @@ public record KubernetesCreateOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--windows-line-endings")]
     public bool? WindowsLineEndings { get; set; }
-
 }

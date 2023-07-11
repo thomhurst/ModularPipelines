@@ -43,5 +43,4 @@ public record KubernetesWaitOptions([property: PositionalArgument] string Name) 
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
-
 }

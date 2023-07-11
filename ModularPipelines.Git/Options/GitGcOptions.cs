@@ -31,5 +31,4 @@ public record GitGcOptions : GitOptions
 
     [BooleanCommandSwitch("--keep-largest-pack")]
     public bool? KeepLargestPack { get; set; }
-
 }

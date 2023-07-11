@@ -27,5 +27,4 @@ public record DockerComposePsOptions : DockerOptions
 
     [CommandSwitch("--status")]
     public string? Status { get; set; }
-
 }

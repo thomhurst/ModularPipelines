@@ -25,5 +25,4 @@ public record GitInitOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--shared")]
     public string? Shared { get; set; }
-
 }

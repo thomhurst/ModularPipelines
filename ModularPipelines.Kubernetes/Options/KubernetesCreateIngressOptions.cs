@@ -40,5 +40,4 @@ public record KubernetesCreateIngressOptions([property: PositionalArgument] stri
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

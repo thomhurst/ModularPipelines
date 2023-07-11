@@ -34,5 +34,4 @@ public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgumen
 
     [BooleanCommandSwitch("--windows-line-endings")]
     public bool? WindowsLineEndings { get; set; }
-
 }

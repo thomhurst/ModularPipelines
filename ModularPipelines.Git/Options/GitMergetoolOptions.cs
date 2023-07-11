@@ -22,5 +22,4 @@ public record GitMergetoolOptions : GitOptions
 
     [BooleanCommandSwitch("--no-gui")]
     public bool? NoGui { get; set; }
-
 }

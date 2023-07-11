@@ -106,5 +106,4 @@ public record GitUpdateIndexOptions : GitOptions
 
     [BooleanCommandSwitch("--no-fsmonitor")]
     public bool? NoFsmonitor { get; set; }
-
 }

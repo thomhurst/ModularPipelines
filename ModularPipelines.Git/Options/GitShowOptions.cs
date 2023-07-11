@@ -298,5 +298,4 @@ public record GitShowOptions : GitOptions
 
     [BooleanCommandSwitch("--ita-invisible-in-index")]
     public bool? ItaInvisibleInIndex { get; set; }
-
 }

@@ -544,5 +544,4 @@ public record GitLogOptions : GitOptions
 
     [BooleanCommandSwitch("--ita-invisible-in-index")]
     public bool? ItaInvisibleInIndex { get; set; }
-
 }

@@ -18,5 +18,4 @@ public record DockerStatsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

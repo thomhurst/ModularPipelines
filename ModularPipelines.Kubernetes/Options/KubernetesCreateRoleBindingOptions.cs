@@ -40,5 +40,4 @@ public record KubernetesCreateRoleBindingOptions([property: PositionalArgument] 
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

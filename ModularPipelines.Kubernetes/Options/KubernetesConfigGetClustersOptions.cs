@@ -10,5 +10,4 @@ public record KubernetesConfigGetClustersOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

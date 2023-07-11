@@ -26,5 +26,4 @@ public record DockerSwarmCaOptions : DockerOptions
 
     [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }
-
 }

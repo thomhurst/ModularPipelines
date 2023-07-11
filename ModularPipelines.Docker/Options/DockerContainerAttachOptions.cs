@@ -14,5 +14,4 @@ public record DockerContainerAttachOptions([property: PositionalArgument(Positio
 
     [BooleanCommandSwitch("--sig-proxy")]
     public bool? SigProxy { get; set; }
-
 }

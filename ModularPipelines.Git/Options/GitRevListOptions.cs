@@ -319,5 +319,4 @@ public record GitRevListOptions : GitOptions
 
     [BooleanCommandSwitch("--count")]
     public bool? Count { get; set; }
-
 }

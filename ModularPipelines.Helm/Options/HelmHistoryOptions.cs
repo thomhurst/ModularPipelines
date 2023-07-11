@@ -10,5 +10,4 @@ public record HelmHistoryOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

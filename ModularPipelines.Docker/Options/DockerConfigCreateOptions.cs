@@ -11,5 +11,4 @@ public record DockerConfigCreateOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--label")]
     public string? Label { get; set; }
-
 }

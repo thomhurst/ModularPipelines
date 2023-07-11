@@ -50,5 +50,4 @@ public record DockerSwarmInitOptions : DockerOptions
 
     [CommandSwitch("--task-history-limit")]
     public int? TaskHistoryLimit { get; set; }
-
 }

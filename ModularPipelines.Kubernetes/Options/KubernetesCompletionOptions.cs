@@ -10,5 +10,4 @@ public record KubernetesCompletionOptions([property: PositionalArgument] string 
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

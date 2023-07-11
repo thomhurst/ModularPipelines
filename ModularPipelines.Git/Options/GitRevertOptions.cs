@@ -55,5 +55,4 @@ public record GitRevertOptions : GitOptions
 
     [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
-
 }

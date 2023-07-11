@@ -7,5 +7,4 @@ public record KubernetesConfigSetClusterOptions([property: PositionalArgument] s
 {
     [BooleanCommandSwitch("--embed-certs")]
     public bool? EmbedCerts { get; set; }
-
 }

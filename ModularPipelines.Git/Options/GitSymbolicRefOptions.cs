@@ -19,5 +19,4 @@ public record GitSymbolicRefOptions : GitOptions
 
     [BooleanCommandSwitch("--no-recurse")]
     public bool? NoRecurse { get; set; }
-
 }

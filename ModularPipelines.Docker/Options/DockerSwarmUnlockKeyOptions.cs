@@ -10,5 +10,4 @@ public record DockerSwarmUnlockKeyOptions : DockerOptions
 
     [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }
-
 }

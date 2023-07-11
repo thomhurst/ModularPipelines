@@ -25,5 +25,4 @@ public record KubernetesDiffOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--server-side")]
     public bool? ServerSide { get; set; }
-
 }

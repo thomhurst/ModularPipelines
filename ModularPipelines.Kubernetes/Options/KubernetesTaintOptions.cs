@@ -34,5 +34,4 @@ public record KubernetesTaintOptions([property: PositionalArgument] string Node)
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

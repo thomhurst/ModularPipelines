@@ -17,5 +17,4 @@ public record DockerStackDeployOptions([property: PositionalArgument(Position = 
 
     [CommandSwitch("--compose-file")]
     public string? ComposeFile { get; set; }
-
 }

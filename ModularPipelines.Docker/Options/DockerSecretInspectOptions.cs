@@ -11,5 +11,4 @@ public record DockerSecretInspectOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

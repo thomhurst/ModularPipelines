@@ -175,5 +175,4 @@ public record GitSvnOptions : GitOptions
 
     [BooleanCommandSwitch("--follow-parent")]
     public bool? FollowParent { get; set; }
-
 }

@@ -46,5 +46,4 @@ public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalA
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

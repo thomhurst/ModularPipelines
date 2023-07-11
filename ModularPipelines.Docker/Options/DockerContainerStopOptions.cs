@@ -11,5 +11,4 @@ public record DockerContainerStopOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--time")]
     public string? Time { get; set; }
-
 }

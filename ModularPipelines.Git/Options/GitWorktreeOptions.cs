@@ -49,5 +49,4 @@ public record GitWorktreeOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--reason")]
     public string? Reason { get; set; }
-
 }

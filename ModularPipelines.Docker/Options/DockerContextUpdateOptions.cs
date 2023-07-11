@@ -11,5 +11,4 @@ public record DockerContextUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--docker")]
     public string? Docker { get; set; }
-
 }

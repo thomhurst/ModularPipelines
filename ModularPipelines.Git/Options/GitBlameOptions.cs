@@ -70,5 +70,4 @@ public record GitBlameOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
-
 }

@@ -40,5 +40,4 @@ public record GitHelpOptions : GitOptions
 
     [BooleanCommandSwitch("--web")]
     public bool? Web { get; set; }
-
 }

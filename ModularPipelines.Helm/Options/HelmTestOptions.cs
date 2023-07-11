@@ -13,5 +13,4 @@ public record HelmTestOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
-
 }

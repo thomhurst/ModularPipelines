@@ -40,5 +40,4 @@ public record GitResetOptions : GitOptions
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
-
 }

@@ -7,5 +7,4 @@ public record DockerTrustSignerRemoveOptions([property: PositionalArgument(Posit
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

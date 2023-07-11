@@ -79,5 +79,4 @@ public record GitCheckoutOptions([property: PositionalArgument] string BranchNam
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
-
 }

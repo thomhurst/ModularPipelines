@@ -28,5 +28,4 @@ public record KubernetesRolloutOptions([property: PositionalArgument] string Sub
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

@@ -28,5 +28,4 @@ public record KubernetesRolloutPauseOptions([property: PositionalArgument] strin
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

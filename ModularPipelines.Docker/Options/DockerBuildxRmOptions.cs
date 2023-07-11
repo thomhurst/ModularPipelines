@@ -22,5 +22,4 @@ public record DockerBuildxRmOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

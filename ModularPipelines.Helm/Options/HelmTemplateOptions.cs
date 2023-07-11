@@ -142,5 +142,4 @@ public record HelmTemplateOptions : HelmOptions
 
     [BooleanCommandSwitch("--wait-for-jobs")]
     public bool? WaitForJobs { get; set; }
-
 }

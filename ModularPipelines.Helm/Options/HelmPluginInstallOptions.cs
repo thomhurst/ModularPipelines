@@ -7,5 +7,4 @@ public record HelmPluginInstallOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
-
 }

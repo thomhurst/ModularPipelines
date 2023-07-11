@@ -11,5 +11,4 @@ public record DockerCheckpointCreateOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--leave-running")]
     public string? LeaveRunning { get; set; }
-
 }

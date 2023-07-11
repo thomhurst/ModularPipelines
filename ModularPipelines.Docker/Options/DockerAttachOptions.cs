@@ -15,5 +15,4 @@ public record DockerAttachOptions([property: PositionalArgument(Position = Posit
 
     [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
-
 }

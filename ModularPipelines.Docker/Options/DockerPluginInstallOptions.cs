@@ -19,5 +19,4 @@ public record DockerPluginInstallOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }
-
 }

@@ -19,5 +19,4 @@ public record GitCleanOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
-
 }

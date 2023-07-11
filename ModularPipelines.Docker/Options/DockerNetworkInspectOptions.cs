@@ -11,5 +11,4 @@ public record DockerNetworkInspectOptions([property: PositionalArgument(Position
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
 }

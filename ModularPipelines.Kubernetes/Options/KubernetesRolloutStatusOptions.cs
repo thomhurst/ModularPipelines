@@ -22,5 +22,4 @@ public record KubernetesRolloutStatusOptions([property: PositionalArgument] stri
 
     [BooleanCommandSwitch("--watch")]
     public bool? Watch { get; set; }
-
 }

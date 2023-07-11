@@ -25,5 +25,4 @@ public record HelmRegistryLoginOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }
-
 }

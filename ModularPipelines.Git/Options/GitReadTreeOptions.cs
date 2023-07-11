@@ -37,5 +37,4 @@ public record GitReadTreeOptions : GitOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

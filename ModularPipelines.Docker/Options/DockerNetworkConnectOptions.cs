@@ -23,5 +23,4 @@ public record DockerNetworkConnectOptions([property: PositionalArgument(Position
 
     [CommandSwitch("--link")]
     public string? Link { get; set; }
-
 }

@@ -7,5 +7,4 @@ public record KubernetesConfigSetContextOptions([property: PositionalArgument] s
 {
     [BooleanCommandSwitch("--current")]
     public bool? Current { get; set; }
-
 }

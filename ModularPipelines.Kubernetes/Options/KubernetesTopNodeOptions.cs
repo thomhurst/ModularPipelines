@@ -16,5 +16,4 @@ public record KubernetesTopNodeOptions([property: PositionalArgument] string Nam
 
     [BooleanCommandSwitch("--use-protocol-buffers")]
     public bool? UseProtocolBuffers { get; set; }
-
 }

@@ -28,5 +28,4 @@ public record GitInstawebOptions : GitOptions
 
     [BooleanCommandSwitch("--restart")]
     public bool? Restart { get; set; }
-
 }

@@ -34,5 +34,4 @@ public record KubernetesCreateJobOptions([property: PositionalArgument] string N
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

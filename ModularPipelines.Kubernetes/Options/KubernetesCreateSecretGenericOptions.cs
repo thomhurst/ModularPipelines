@@ -43,5 +43,4 @@ public record KubernetesCreateSecretGenericOptions([property: PositionalArgument
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

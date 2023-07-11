@@ -112,5 +112,4 @@ public record DockerBuildxBuildOptions([property: PositionalArgument(Position = 
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

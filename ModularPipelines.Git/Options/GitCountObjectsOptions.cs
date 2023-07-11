@@ -10,5 +10,4 @@ public record GitCountObjectsOptions : GitOptions
 
     [BooleanCommandSwitch("--human-readable")]
     public bool? HumanReadable { get; set; }
-
 }

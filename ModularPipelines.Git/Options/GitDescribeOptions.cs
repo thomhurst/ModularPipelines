@@ -46,5 +46,4 @@ public record GitDescribeOptions : GitOptions
 
     [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
-
 }

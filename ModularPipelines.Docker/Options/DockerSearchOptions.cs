@@ -17,5 +17,4 @@ public record DockerSearchOptions([property: PositionalArgument(Position = Posit
 
     [BooleanCommandSwitch("--no-trunc")]
     public bool? NoTrunc { get; set; }
-
 }

@@ -17,5 +17,4 @@ public record DockerVolumeLsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

@@ -67,5 +67,4 @@ public record GitAddOptions : GitOptions
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
-
 }

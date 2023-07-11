@@ -13,5 +13,4 @@ public record GitMvOptions : GitOptions
 
     [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
-
 }

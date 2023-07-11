@@ -19,5 +19,4 @@ public record GitMergeBaseOptions : GitOptions
 
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
-
 }

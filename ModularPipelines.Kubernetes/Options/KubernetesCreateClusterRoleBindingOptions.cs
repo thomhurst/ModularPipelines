@@ -37,5 +37,4 @@ public record KubernetesCreateClusterRoleBindingOptions([property: PositionalArg
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

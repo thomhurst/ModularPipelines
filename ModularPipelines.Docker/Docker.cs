@@ -1302,5 +1302,4 @@ internal class Docker : IDocker
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
-
 }

@@ -15,5 +15,4 @@ public record DockerPluginUpgradeOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--skip-remote-check")]
     public string? SkipRemoteCheck { get; set; }
-
 }

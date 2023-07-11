@@ -17,5 +17,4 @@ public record DockerImageHistoryOptions([property: PositionalArgument(Position =
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

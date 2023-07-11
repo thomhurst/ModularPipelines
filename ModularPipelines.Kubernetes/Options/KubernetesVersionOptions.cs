@@ -13,5 +13,4 @@ public record KubernetesVersionOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
-
 }

@@ -11,5 +11,4 @@ public record DockerManifestPushOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--purge")]
     public string? Purge { get; set; }
-
 }

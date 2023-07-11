@@ -20,5 +20,4 @@ public record DockerStackPsOptions([property: PositionalArgument(Position = Posi
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

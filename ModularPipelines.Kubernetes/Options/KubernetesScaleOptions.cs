@@ -49,5 +49,4 @@ public record KubernetesScaleOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
-
 }

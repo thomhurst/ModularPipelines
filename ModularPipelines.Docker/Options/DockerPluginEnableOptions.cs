@@ -8,5 +8,4 @@ public record DockerPluginEnableOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--timeout")]
     public int? Timeout { get; set; }
-
 }

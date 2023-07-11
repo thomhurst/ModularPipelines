@@ -25,5 +25,4 @@ public record KubernetesApiResourcesOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--verbs", SwitchValueSeparator = " ")]
     public string[]? Verbs { get; set; }
-
 }

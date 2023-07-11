@@ -40,5 +40,4 @@ public record KubernetesProxyOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--www-prefix", SwitchValueSeparator = " ")]
     public string? WwwPrefix { get; set; }
-
 }

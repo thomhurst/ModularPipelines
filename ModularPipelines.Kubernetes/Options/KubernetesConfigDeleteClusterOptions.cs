@@ -10,5 +10,4 @@ public record KubernetesConfigDeleteClusterOptions([property: PositionalArgument
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

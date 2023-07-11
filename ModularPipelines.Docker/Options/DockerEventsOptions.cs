@@ -17,5 +17,4 @@ public record DockerEventsOptions : DockerOptions
 
     [CommandSwitch("--until")]
     public string? Until { get; set; }
-
 }

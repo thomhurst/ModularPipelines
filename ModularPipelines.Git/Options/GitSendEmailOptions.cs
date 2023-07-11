@@ -187,5 +187,4 @@ public record GitSendEmailOptions : GitOptions
 
     [BooleanCommandSwitch("--dump-aliases")]
     public bool? DumpAliases { get; set; }
-
 }

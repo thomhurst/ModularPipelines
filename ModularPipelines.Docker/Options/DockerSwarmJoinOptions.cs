@@ -20,5 +20,4 @@ public record DockerSwarmJoinOptions([property: PositionalArgument(Position = Po
 
     [CommandSwitch("--token")]
     public string? Token { get; set; }
-
 }

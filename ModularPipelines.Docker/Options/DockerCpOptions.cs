@@ -14,5 +14,4 @@ public record DockerCpOptions([property: PositionalArgument(Position = Position.
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

@@ -8,5 +8,4 @@ public record DockerCheckpointRmOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
-
 }

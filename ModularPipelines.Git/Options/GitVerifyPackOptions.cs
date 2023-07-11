@@ -10,5 +10,4 @@ public record GitVerifyPackOptions : GitOptions
 
     [BooleanCommandSwitch("--stat-only")]
     public bool? StatOnly { get; set; }
-
 }

@@ -16,5 +16,4 @@ public record DockerImageImportOptions : DockerOptions
 
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
-
 }

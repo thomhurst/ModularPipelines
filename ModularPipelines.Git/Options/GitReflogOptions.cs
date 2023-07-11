@@ -31,5 +31,4 @@ public record GitReflogOptions : GitOptions
 
     [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
-
 }

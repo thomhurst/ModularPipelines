@@ -19,5 +19,4 @@ public record DockerStartOptions([property: PositionalArgument(Position = Positi
 
     [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
-
 }

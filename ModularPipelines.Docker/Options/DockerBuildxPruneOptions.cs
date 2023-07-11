@@ -22,5 +22,4 @@ public record DockerBuildxPruneOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

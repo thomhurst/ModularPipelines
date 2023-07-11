@@ -55,5 +55,4 @@ public record KubernetesDeleteOptions([property: PositionalArgument] string Name
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
-
 }

@@ -40,5 +40,4 @@ public record DockerBuildxCreateOptions : DockerOptions
 
     [CommandSwitch("--use")]
     public string? Use { get; set; }
-
 }

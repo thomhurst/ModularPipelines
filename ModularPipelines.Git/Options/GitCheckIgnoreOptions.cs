@@ -10,5 +10,4 @@ public record GitCheckIgnoreOptions : GitOptions
 
     [BooleanCommandSwitch("--no-index")]
     public bool? NoIndex { get; set; }
-
 }

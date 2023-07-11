@@ -7,5 +7,4 @@ public record DockerVolumeRmOptions([property: PositionalArgument(Position = Pos
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

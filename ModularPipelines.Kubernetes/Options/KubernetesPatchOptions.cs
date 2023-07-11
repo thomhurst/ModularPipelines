@@ -46,5 +46,4 @@ public record KubernetesPatchOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
     public string? Type { get; set; }
-
 }

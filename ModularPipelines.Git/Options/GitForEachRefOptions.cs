@@ -52,5 +52,4 @@ public record GitForEachRefOptions : GitOptions
 
     [BooleanCommandSwitch("--omit-empty")]
     public bool? OmitEmpty { get; set; }
-
 }

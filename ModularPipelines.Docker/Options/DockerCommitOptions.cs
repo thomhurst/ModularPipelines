@@ -19,5 +19,4 @@ public record DockerCommitOptions([property: PositionalArgument(Position = Posit
 
     [CommandSwitch("--change")]
     public string? Change { get; set; }
-
 }

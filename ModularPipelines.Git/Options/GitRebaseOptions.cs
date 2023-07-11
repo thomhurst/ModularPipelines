@@ -157,5 +157,4 @@ public record GitRebaseOptions : GitOptions
 
     [BooleanCommandSwitch("--no-update-refs")]
     public bool? NoUpdateRefs { get; set; }
-
 }

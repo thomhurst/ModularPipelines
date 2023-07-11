@@ -11,5 +11,4 @@ public record DockerContainerInspectOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 }

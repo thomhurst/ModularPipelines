@@ -148,5 +148,4 @@ public record GitRevParseOptions : GitOptions
 
     [BooleanCommandSwitch("--before")]
     public bool? Before { get; set; }
-
 }

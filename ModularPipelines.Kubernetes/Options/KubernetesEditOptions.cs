@@ -43,5 +43,4 @@ public record KubernetesEditOptions([property: PositionalArgument] string Name) 
 
     [BooleanCommandSwitch("--windows-line-endings")]
     public bool? WindowsLineEndings { get; set; }
-
 }

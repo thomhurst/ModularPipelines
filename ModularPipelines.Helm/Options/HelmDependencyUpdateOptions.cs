@@ -13,5 +13,4 @@ public record HelmDependencyUpdateOptions : HelmOptions
 
     [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
-
 }

@@ -8,5 +8,4 @@ public record DockerInitOptions : DockerOptions
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }
-
 }

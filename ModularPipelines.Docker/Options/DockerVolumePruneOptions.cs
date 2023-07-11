@@ -13,5 +13,4 @@ public record DockerVolumePruneOptions : DockerOptions
 
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
-
 }

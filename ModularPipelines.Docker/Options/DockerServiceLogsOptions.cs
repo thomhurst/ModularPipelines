@@ -31,5 +31,4 @@ public record DockerServiceLogsOptions([property: PositionalArgument(Position = 
 
     [BooleanCommandSwitch("--timestamps")]
     public bool? Timestamps { get; set; }
-
 }

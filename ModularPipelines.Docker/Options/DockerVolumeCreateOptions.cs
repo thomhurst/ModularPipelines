@@ -46,5 +46,4 @@ public record DockerVolumeCreateOptions : DockerOptions
 
     [CommandSwitch("--opt")]
     public string? Opt { get; set; }
-
 }

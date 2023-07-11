@@ -16,5 +16,4 @@ public record GitBugreportOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--diagnose")]
     public string? Diagnose { get; set; }
-
 }

@@ -8,5 +8,4 @@ public record DockerTrustSignOptions([property: PositionalArgument(Position = Po
 
     [CommandSwitch("--local")]
     public string? Local { get; set; }
-
 }

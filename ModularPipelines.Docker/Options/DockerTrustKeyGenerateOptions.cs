@@ -8,5 +8,4 @@ public record DockerTrustKeyGenerateOptions([property: PositionalArgument(Positi
 
     [CommandSwitch("--dir")]
     public string? Dir { get; set; }
-
 }

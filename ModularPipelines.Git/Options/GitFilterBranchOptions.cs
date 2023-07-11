@@ -43,5 +43,4 @@ public record GitFilterBranchOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--state-branch")]
     public string? StateBranch { get; set; }
-
 }

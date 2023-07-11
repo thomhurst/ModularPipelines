@@ -10,5 +10,4 @@ public record HelmRepoIndexOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--url", SwitchValueSeparator = " ")]
     public string? Url { get; set; }
-
 }

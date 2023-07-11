@@ -14,5 +14,4 @@ public record DockerComposeVersionOptions : DockerOptions
 
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
-
 }

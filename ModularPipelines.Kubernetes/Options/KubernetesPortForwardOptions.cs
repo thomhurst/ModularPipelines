@@ -10,5 +10,4 @@ public record KubernetesPortForwardOptions([property: PositionalArgument] string
 
     [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
     public string? PodRunningTimeout { get; set; }
-
 }

@@ -19,5 +19,4 @@ public record KubernetesAuthCanIOptions([property: PositionalArgument] string Ve
 
     [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
     public string? Subresource { get; set; }
-
 }

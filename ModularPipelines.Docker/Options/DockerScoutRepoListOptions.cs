@@ -14,5 +14,4 @@ public record DockerScoutRepoListOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--only-enabled")]
     public string? OnlyEnabled { get; set; }
-
 }

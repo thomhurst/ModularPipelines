@@ -37,5 +37,4 @@ public record KubernetesCreateRoleOptions([property: PositionalArgument] string 
 
     [CommandEqualsSeparatorSwitch("--verb", SwitchValueSeparator = " ")]
     public string[]? Verb { get; set; }
-
 }

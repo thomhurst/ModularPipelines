@@ -85,5 +85,4 @@ public record GitDaemonOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--access-hook")]
     public string? AccessHook { get; set; }
-
 }

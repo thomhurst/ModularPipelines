@@ -43,5 +43,4 @@ public record DockerBuildxBakeOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

@@ -34,5 +34,4 @@ public record GitCheckoutIndexOptions : GitOptions
 
     [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
-
 }

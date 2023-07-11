@@ -7,5 +7,4 @@ public record DockerPluginDisableOptions([property: PositionalArgument(Position 
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
-
 }

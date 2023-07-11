@@ -19,5 +19,4 @@ public record KubernetesAuthOptions : KubernetesOptions
 
     [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
     public string? Subresource { get; set; }
-
 }

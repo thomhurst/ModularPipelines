@@ -127,5 +127,4 @@ public record GitCommitOptions : GitOptions
 
     [BooleanCommandSwitch("--no-gpg-sign")]
     public bool? NoGpgSign { get; set; }
-
 }

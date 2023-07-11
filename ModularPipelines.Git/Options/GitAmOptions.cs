@@ -127,5 +127,4 @@ public record GitAmOptions : GitOptions
 
     [BooleanCommandSwitch("--allow-empty")]
     public bool? AllowEmpty { get; set; }
-
 }

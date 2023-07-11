@@ -55,5 +55,4 @@ public record KubernetesReplaceOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
-
 }

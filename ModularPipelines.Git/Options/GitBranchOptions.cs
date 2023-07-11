@@ -106,5 +106,4 @@ public record GitBranchOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
-
 }

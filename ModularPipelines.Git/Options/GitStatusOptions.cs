@@ -52,5 +52,4 @@ public record GitStatusOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--find-renames")]
     public string? FindRenames { get; set; }
-
 }

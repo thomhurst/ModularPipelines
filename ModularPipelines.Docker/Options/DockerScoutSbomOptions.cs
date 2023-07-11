@@ -25,5 +25,4 @@ public record DockerScoutSbomOptions : DockerOptions
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }
-
 }

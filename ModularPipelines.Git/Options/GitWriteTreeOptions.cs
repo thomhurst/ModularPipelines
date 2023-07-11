@@ -10,5 +10,4 @@ public record GitWriteTreeOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
-
 }

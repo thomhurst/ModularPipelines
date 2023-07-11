@@ -37,5 +37,4 @@ public record KubernetesCreateCronJobOptions([property: PositionalArgument] stri
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

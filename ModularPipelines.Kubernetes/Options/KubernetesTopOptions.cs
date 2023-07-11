@@ -16,5 +16,4 @@ public record KubernetesTopOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--use-protocol-buffers")]
     public bool? UseProtocolBuffers { get; set; }
-
 }

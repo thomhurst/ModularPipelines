@@ -34,5 +34,4 @@ public record KubernetesCreateServiceOptions : KubernetesOptions
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

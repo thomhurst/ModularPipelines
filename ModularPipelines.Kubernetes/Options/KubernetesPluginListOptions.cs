@@ -7,5 +7,4 @@ public record KubernetesPluginListOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
-
 }

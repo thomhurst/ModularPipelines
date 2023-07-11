@@ -10,5 +10,4 @@ public record KubernetesExplainOptions([property: PositionalArgument] string Res
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
-
 }

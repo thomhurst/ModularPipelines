@@ -25,5 +25,4 @@ public record HelmUninstallOptions : HelmOptions
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
-
 }

@@ -275,5 +275,4 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--update-parallelism")]
     public string? UpdateParallelism { get; set; }
-
 }

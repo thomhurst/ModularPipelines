@@ -10,5 +10,4 @@ public record DockerImageRmOptions([property: PositionalArgument(Position = Posi
 
     [BooleanCommandSwitch("--no-prune")]
     public bool? NoPrune { get; set; }
-
 }

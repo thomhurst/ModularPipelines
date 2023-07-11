@@ -7,5 +7,4 @@ public record HelmCompletionZshOptions : HelmOptions
 {
     [BooleanCommandSwitch("--no-descriptions")]
     public bool? NoDescriptions { get; set; }
-
 }

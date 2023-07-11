@@ -25,5 +25,4 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

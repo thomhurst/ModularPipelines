@@ -31,5 +31,4 @@ public record KubernetesCreateServiceLoadbalancerOptions([property: PositionalAr
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

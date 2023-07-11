@@ -7,5 +7,4 @@ public record DockerPluginCreateOptions([property: PositionalArgument(Position =
 {
     [BooleanCommandSwitch("--compress")]
     public bool? Compress { get; set; }
-
 }

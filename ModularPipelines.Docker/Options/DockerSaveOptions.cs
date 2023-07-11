@@ -8,5 +8,4 @@ public record DockerSaveOptions([property: PositionalArgument(Position = Positio
 
     [CommandSwitch("--output")]
     public string? Output { get; set; }
-
 }

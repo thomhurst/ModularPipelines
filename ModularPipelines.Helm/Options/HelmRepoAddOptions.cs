@@ -37,5 +37,4 @@ public record HelmRepoAddOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }
-
 }

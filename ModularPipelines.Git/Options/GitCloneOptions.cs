@@ -115,5 +115,4 @@ public record GitCloneOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--bundle-uri")]
     public string? BundleUri { get; set; }
-
 }

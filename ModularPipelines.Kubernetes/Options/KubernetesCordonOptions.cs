@@ -10,5 +10,4 @@ public record KubernetesCordonOptions([property: PositionalArgument] string Node
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
-
 }

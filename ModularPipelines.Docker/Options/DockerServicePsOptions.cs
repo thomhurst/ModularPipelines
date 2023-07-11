@@ -19,5 +19,4 @@ public record DockerServicePsOptions([property: PositionalArgument(Position = Po
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

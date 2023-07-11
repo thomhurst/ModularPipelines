@@ -10,5 +10,4 @@ public record KubernetesUncordonOptions([property: PositionalArgument] string No
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
-
 }

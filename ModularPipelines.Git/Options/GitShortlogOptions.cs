@@ -193,5 +193,4 @@ public record GitShortlogOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--ancestry-path")]
     public string? AncestryPath { get; set; }
-
 }

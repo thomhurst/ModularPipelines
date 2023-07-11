@@ -43,5 +43,4 @@ public record KubernetesCreateClusterRoleOptions([property: PositionalArgument] 
 
     [CommandEqualsSeparatorSwitch("--verb", SwitchValueSeparator = " ")]
     public string[]? Verb { get; set; }
-
 }

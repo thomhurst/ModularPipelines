@@ -16,5 +16,4 @@ public record HelmSearchHubOptions : HelmOptions
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
-
 }

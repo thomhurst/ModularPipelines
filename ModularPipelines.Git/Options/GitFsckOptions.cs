@@ -49,5 +49,4 @@ public record GitFsckOptions : GitOptions
 
     [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
-
 }

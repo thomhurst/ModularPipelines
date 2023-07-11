@@ -37,5 +37,4 @@ public record KubernetesCreateSecretTlsOptions([property: PositionalArgument] st
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

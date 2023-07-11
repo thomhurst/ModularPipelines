@@ -22,5 +22,4 @@ public record DockerLogsOptions([property: PositionalArgument(Position = Positio
 
     [CommandSwitch("--until")]
     public string? Until { get; set; }
-
 }

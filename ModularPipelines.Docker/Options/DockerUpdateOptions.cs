@@ -47,5 +47,4 @@ public record DockerUpdateOptions([property: PositionalArgument(Position = Posit
 
     [CommandSwitch("--restart")]
     public string? Restart { get; set; }
-
 }

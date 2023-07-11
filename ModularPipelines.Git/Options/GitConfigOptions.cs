@@ -109,5 +109,4 @@ public record GitConfigOptions : GitOptions
 
     [CommandEqualsSeparatorSwitch("--default")]
     public string? Default { get; set; }
-
 }

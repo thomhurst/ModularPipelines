@@ -304,5 +304,4 @@ public record DockerContainerCreateOptions([property: PositionalArgument(Positio
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
 }

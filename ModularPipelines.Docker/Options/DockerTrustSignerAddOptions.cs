@@ -8,5 +8,4 @@ public record DockerTrustSignerAddOptions([property: PositionalArgument(Position
 
     [CommandSwitch("--key")]
     public string? Key { get; set; }
-
 }

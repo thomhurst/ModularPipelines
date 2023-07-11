@@ -17,5 +17,4 @@ public record DockerSystemEventsOptions : DockerOptions
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 }

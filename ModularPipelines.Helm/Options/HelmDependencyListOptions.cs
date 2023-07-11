@@ -7,5 +7,4 @@ public record HelmDependencyListOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
     public string? MaxColWidth { get; set; }
-
 }

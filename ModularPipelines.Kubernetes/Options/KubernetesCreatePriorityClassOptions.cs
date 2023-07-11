@@ -40,5 +40,4 @@ public record KubernetesCreatePriorityClassOptions([property: PositionalArgument
 
     [CommandEqualsSeparatorSwitch("--value", SwitchValueSeparator = " ")]
     public int? Value { get; set; }
-
 }

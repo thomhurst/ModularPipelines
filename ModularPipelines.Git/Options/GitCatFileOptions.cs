@@ -49,5 +49,4 @@ public record GitCatFileOptions : GitOptions
 
     [BooleanCommandSwitch("--follow-symlinks")]
     public bool? FollowSymlinks { get; set; }
-
 }
