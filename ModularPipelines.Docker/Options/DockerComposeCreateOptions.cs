@@ -25,7 +25,6 @@ public record DockerComposeCreateOptions : DockerOptions
     [BooleanCommandSwitch("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
-
     [CommandSwitch("--scale")]
     public string? Scale { get; set; }
 

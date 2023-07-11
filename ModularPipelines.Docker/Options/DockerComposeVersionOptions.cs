@@ -9,7 +9,6 @@ public record DockerComposeVersionOptions : DockerOptions
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-
     [CommandSwitch("--short")]
     public string? Short { get; set; }
 

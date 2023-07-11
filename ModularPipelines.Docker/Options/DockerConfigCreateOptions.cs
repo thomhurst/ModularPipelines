@@ -9,7 +9,6 @@ public record DockerConfigCreateOptions([property: PositionalArgument(Position =
     [CommandSwitch("--template-driver")]
     public string? TemplateDriver { get; set; }
 
-
     [CommandSwitch("--label")]
     public string? Label { get; set; }
 

@@ -9,7 +9,6 @@ public record DockerContextUpdateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-
     [CommandSwitch("--docker")]
     public string? Docker { get; set; }
 

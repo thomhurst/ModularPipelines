@@ -33,7 +33,6 @@ public interface IHex
     /// <returns></returns>
     string FromHex(string hexInput) => FromHex(hexInput, Encoding.UTF8);
 
-
     /// <summary>
     /// Converts a hex encoded string to a decoded standard string
     /// </summary>

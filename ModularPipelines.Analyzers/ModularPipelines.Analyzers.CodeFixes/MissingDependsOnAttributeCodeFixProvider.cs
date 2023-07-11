@@ -64,7 +64,6 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
                 .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed)
                 .NormalizeWhitespace());
 
-
         return document.WithSyntaxRoot(
             documentRoot
                 .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed))

@@ -9,10 +9,8 @@ public record DockerSearchOptions([property: PositionalArgument(Position = Posit
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-
     [CommandSwitch("--format")]
     public string? Format { get; set; }
-
 
     [CommandSwitch("--limit")]
     public string? Limit { get; set; }

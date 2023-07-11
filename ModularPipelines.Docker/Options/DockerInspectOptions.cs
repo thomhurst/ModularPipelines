@@ -9,10 +9,8 @@ public record DockerInspectOptions([property: PositionalArgument(Position = Posi
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-
     [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }

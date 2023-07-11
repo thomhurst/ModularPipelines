@@ -11,7 +11,6 @@ public record DockerNodeInspectOptions : DockerOptions
     [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
 
-
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

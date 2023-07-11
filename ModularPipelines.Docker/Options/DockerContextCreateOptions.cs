@@ -9,10 +9,8 @@ public record DockerContextCreateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-
     [CommandSwitch("--docker")]
     public string? Docker { get; set; }
-
 
     [CommandSwitch("--from")]
     public string? From { get; set; }

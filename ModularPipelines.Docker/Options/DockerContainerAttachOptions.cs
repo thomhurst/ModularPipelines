@@ -9,7 +9,6 @@ public record DockerContainerAttachOptions([property: PositionalArgument(Positio
     [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
 
-
     [CommandSwitch("--no-stdin")]
     public string? NoStdin { get; set; }
 

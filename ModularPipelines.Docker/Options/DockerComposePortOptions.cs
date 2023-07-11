@@ -9,7 +9,6 @@ public record DockerComposePortOptions([property: PositionalArgument(Position = 
     [CommandSwitch("--index")]
     public string? Index { get; set; }
 
-
     [CommandSwitch("--protocol")]
     public string? Protocol { get; set; }
 

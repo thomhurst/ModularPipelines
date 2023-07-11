@@ -11,7 +11,6 @@ public record DockerImagePruneOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

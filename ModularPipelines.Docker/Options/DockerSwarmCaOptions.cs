@@ -9,14 +9,11 @@ public record DockerSwarmCaOptions : DockerOptions
     [CommandSwitch("--ca-cert")]
     public string? CaCert { get; set; }
 
-
     [CommandSwitch("--ca-key")]
     public string? CaKey { get; set; }
 
-
     [CommandSwitch("--cert-expiry")]
     public string? CertExpiry { get; set; }
-
 
     [CommandSwitch("--external-ca")]
     public string? ExternalCa { get; set; }
@@ -26,7 +23,6 @@ public record DockerSwarmCaOptions : DockerOptions
 
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
-
 
     [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }

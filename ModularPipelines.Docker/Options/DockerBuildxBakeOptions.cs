@@ -11,13 +11,11 @@ public record DockerBuildxBakeOptions : DockerOptions
     [CommandSwitch("--load")]
     public string? Load { get; set; }
 
-
     [CommandSwitch("--metadata-file")]
     public string? MetadataFile { get; set; }
 
     [BooleanCommandSwitch("--push")]
     public bool? Push { get; set; }
-
 
     [CommandSwitch("--file")]
     public string? File { get; set; }
@@ -25,14 +23,11 @@ public record DockerBuildxBakeOptions : DockerOptions
     [BooleanCommandSwitch("--no-cache")]
     public bool? NoCache { get; set; }
 
-
     [CommandSwitch("--print")]
     public string? Print { get; set; }
 
-
     [CommandSwitch("--progress")]
     public string? Progress { get; set; }
-
 
     [CommandSwitch("--provenance")]
     public string? Provenance { get; set; }
@@ -43,10 +38,8 @@ public record DockerBuildxBakeOptions : DockerOptions
     [BooleanCommandSwitch("--sbom")]
     public bool? Sbom { get; set; }
 
-
     [CommandSwitch("--set")]
     public string? Set { get; set; }
-
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

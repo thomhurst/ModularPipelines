@@ -11,13 +11,11 @@ public record DockerPluginInstallOptions([property: PositionalArgument(Position 
     [CommandSwitch("--alias")]
     public string? Alias { get; set; }
 
-
     [CommandSwitch("--disable")]
     public string? Disable { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
-
 
     [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }

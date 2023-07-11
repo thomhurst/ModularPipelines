@@ -9,10 +9,8 @@ public record DotNetPackOptions : DotNetOptions
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 
-
     [CommandSwitch("-o")]
     public string? Output { get; init; }
-
 
     [CommandSwitch("-s")]
     public string? Source { get; init; }

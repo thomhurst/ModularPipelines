@@ -9,7 +9,6 @@ public record DockerStackPsOptions([property: PositionalArgument(Position = Posi
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

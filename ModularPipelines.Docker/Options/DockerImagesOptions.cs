@@ -16,10 +16,8 @@ public record DockerImagesOptions : DockerOptions
     [BooleanCommandSwitch("--digests")]
     public bool? Digests { get; set; }
 
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
-
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

@@ -9,7 +9,6 @@ public record DockerScoutStreamOptions([property: PositionalArgument(Position = 
     [CommandSwitch("--app")]
     public string? App { get; set; }
 
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

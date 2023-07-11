@@ -11,10 +11,8 @@ public record DockerSystemPruneOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
-
 
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

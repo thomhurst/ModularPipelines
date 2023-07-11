@@ -11,13 +11,11 @@ public record DockerCommitOptions([property: PositionalArgument(Position = Posit
     [CommandSwitch("--author")]
     public string? Author { get; set; }
 
-
     [CommandSwitch("--message")]
     public string? Message { get; set; }
 
     [BooleanCommandSwitch("--pause")]
     public bool? Pause { get; set; }
-
 
     [CommandSwitch("--change")]
     public string? Change { get; set; }

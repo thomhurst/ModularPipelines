@@ -11,14 +11,11 @@ public record DockerScoutQuickviewOptions : DockerOptions
     [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-
     [CommandSwitch("--ref")]
     public string? Ref { get; set; }
-
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }

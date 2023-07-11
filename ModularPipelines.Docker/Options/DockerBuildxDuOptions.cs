@@ -9,10 +9,8 @@ public record DockerBuildxDuOptions : DockerOptions
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

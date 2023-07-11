@@ -11,7 +11,6 @@ public record DockerVolumePruneOptions : DockerOptions
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

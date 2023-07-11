@@ -9,10 +9,8 @@ public record DockerComposeCpOptions([property: PositionalArgument(Position = Po
     [CommandSwitch("--archive")]
     public string? Archive { get; set; }
 
-
     [CommandSwitch("--follow-link")]
     public string? FollowLink { get; set; }
-
 
     [CommandSwitch("--index")]
     public string? Index { get; set; }

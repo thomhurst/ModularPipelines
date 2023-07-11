@@ -11,10 +11,8 @@ public record DockerImportOptions : DockerOptions
     [CommandSwitch("--change")]
     public string? Change { get; set; }
 
-
     [CommandSwitch("--message")]
     public string? Message { get; set; }
-
 
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }

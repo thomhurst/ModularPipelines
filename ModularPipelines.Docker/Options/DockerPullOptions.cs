@@ -10,7 +10,6 @@ public record DockerPullOptions : DockerOptions
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

@@ -11,10 +11,8 @@ public record DockerContainerCommitOptions([property: PositionalArgument(Positio
     [CommandSwitch("--author")]
     public string? Author { get; set; }
 
-
     [CommandSwitch("--change")]
     public string? Change { get; set; }
-
 
     [CommandSwitch("--message")]
     public string? Message { get; set; }

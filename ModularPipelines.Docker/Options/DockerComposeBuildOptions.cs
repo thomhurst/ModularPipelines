@@ -11,10 +11,8 @@ public record DockerComposeBuildOptions : DockerOptions
     [CommandSwitch("--build-arg")]
     public string? BuildArg { get; set; }
 
-
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 
     [CommandSwitch("--memory")]
     public string? Memory { get; set; }
@@ -30,7 +28,6 @@ public record DockerComposeBuildOptions : DockerOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 
     [CommandSwitch("--ssh")]
     public string? Ssh { get; set; }

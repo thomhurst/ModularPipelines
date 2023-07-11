@@ -11,7 +11,6 @@ public record DockerManifestInspectOptions([property: PositionalArgument(Positio
     [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
 
-
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
 

@@ -9,7 +9,6 @@ public record DockerManifestPushOptions([property: PositionalArgument(Position =
     [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
 
-
     [CommandSwitch("--purge")]
     public string? Purge { get; set; }
 

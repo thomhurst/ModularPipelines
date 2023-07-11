@@ -9,10 +9,8 @@ public record DockerBuildxUseOptions([property: PositionalArgument(Position = Po
     [CommandSwitch("--default")]
     public string? Default { get; set; }
 
-
     [CommandSwitch("--global")]
     public string? Global { get; set; }
-
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

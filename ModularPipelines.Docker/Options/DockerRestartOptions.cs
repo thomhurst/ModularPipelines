@@ -9,7 +9,6 @@ public record DockerRestartOptions([property: PositionalArgument(Position = Posi
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 
-
     [CommandSwitch("--time")]
     public string? Time { get; set; }
 

@@ -10,10 +10,8 @@ public record DockerComposeExecOptions([property: PositionalArgument(Position = 
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-
     [CommandSwitch("--env")]
     public string? Env { get; set; }
-
 
     [CommandSwitch("--index")]
     public string? Index { get; set; }
@@ -24,10 +22,8 @@ public record DockerComposeExecOptions([property: PositionalArgument(Position = 
     [BooleanCommandSwitch("--privileged")]
     public bool? Privileged { get; set; }
 
-
     [CommandSwitch("--user")]
     public string? User { get; set; }
-
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }

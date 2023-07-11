@@ -11,21 +11,17 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     [CommandSwitch("--progress")]
     public string? Progress { get; set; }
 
-
     [CommandSwitch("--append")]
     public string? Append { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-
     [CommandSwitch("--file")]
     public string? File { get; set; }
 
-
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
-
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

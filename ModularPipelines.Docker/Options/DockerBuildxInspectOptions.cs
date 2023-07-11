@@ -11,7 +11,6 @@ public record DockerBuildxInspectOptions : DockerOptions
     [CommandSwitch("--bootstrap")]
     public string? Bootstrap { get; set; }
 
-
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
 

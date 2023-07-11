@@ -10,7 +10,6 @@ public record DockerComposeRestartOptions : DockerOptions
     [BooleanCommandSwitch("--no-deps")]
     public bool? NoDeps { get; set; }
 
-
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 

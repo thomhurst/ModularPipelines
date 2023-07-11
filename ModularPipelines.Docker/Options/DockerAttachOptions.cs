@@ -13,7 +13,6 @@ public record DockerAttachOptions([property: PositionalArgument(Position = Posit
     [BooleanCommandSwitch("--sig-proxy")]
     public bool? SigProxy { get; set; }
 
-
     [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
 

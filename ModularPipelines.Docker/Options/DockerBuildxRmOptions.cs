@@ -14,14 +14,11 @@ public record DockerBuildxRmOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-
     [CommandSwitch("--keep-daemon")]
     public string? KeepDaemon { get; set; }
 
-
     [CommandSwitch("--keep-state")]
     public string? KeepState { get; set; }
-
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

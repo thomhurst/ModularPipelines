@@ -11,10 +11,8 @@ public record DockerComposePullOptions : DockerOptions
     [CommandSwitch("--ignore-buildable")]
     public string? IgnoreBuildable { get; set; }
 
-
     [CommandSwitch("--ignore-pull-failures")]
     public string? IgnorePullFailures { get; set; }
-
 
     [CommandSwitch("--include-deps")]
     public string? IncludeDeps { get; set; }

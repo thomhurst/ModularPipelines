@@ -8,22 +8,17 @@ public record DockerBuildOptions([property: PositionalArgument(Position = Positi
     [BooleanCommandSwitch("--compress")]
     public bool? Compress { get; set; }
 
-
     [CommandSwitch("--cpu-period")]
     public string? CpuPeriod { get; set; }
-
 
     [CommandSwitch("--cpu-quota")]
     public string? CpuQuota { get; set; }
 
-
     [CommandSwitch("--cpu-shares")]
     public string? CpuShares { get; set; }
 
-
     [CommandSwitch("--cpuset-cpus")]
     public string? CpusetCpus { get; set; }
-
 
     [CommandSwitch("--cpuset-mems")]
     public string? CpusetMems { get; set; }
@@ -34,29 +29,23 @@ public record DockerBuildOptions([property: PositionalArgument(Position = Positi
     [BooleanCommandSwitch("--force-rm")]
     public bool? ForceRm { get; set; }
 
-
     [CommandSwitch("--iidfile")]
     public string? Iidfile { get; set; }
-
 
     [CommandSwitch("--label")]
     public string? Label { get; set; }
 
-
     [CommandSwitch("--memory")]
     public string? Memory { get; set; }
 
-
     [CommandSwitch("--memory-swap")]
     public string? MemorySwap { get; set; }
-
 
     [CommandSwitch("--network")]
     public string? Network { get; set; }
 
     [BooleanCommandSwitch("--no-cache")]
     public bool? NoCache { get; set; }
-
 
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
@@ -70,26 +59,20 @@ public record DockerBuildOptions([property: PositionalArgument(Position = Positi
     [BooleanCommandSwitch("--rm")]
     public bool? Rm { get; set; }
 
-
     [CommandSwitch("--shm-size")]
     public string? ShmSize { get; set; }
-
 
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }
 
-
     [CommandSwitch("--build-arg")]
     public string? BuildArg { get; set; }
-
 
     [CommandSwitch("--cache-from")]
     public string? CacheFrom { get; set; }
 
-
     [CommandSwitch("--cgroup-parent")]
     public string? CgroupParent { get; set; }
-
 
     [CommandSwitch("--file")]
     public string? File { get; set; }
@@ -97,21 +80,17 @@ public record DockerBuildOptions([property: PositionalArgument(Position = Positi
     [BooleanCommandSwitch("--isolation")]
     public bool? Isolation { get; set; }
 
-
     [CommandSwitch("--security-opt")]
     public string? SecurityOpt { get; set; }
 
     [BooleanCommandSwitch("--squash")]
     public bool? Squash { get; set; }
 
-
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 
-
     [CommandSwitch("--target")]
     public string? Target { get; set; }
-
 
     [CommandSwitch("--ulimit")]
     public string? Ulimit { get; set; }

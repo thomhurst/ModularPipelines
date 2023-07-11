@@ -10,10 +10,8 @@ public record DockerPluginUpgradeOptions([property: PositionalArgument(Position 
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-
     [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }
-
 
     [CommandSwitch("--skip-remote-check")]
     public string? SkipRemoteCheck { get; set; }

@@ -10,13 +10,11 @@ public record DockerStatsOptions : DockerOptions
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-
     [CommandSwitch("--no-stream")]
     public string? NoStream { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
     public bool? NoTrunc { get; set; }
-
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

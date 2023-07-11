@@ -12,7 +12,6 @@ public record DockerBuildxImagetoolsInspectOptions([property: PositionalArgument
     [BooleanCommandSwitch("--raw")]
     public bool? Raw { get; set; }
 
-
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }
 

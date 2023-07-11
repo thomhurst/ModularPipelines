@@ -13,21 +13,17 @@ public record DockerComposeLogsOptions : DockerOptions
     [BooleanCommandSwitch("--no-color")]
     public bool? NoColor { get; set; }
 
-
     [CommandSwitch("--no-log-prefix")]
     public string? NoLogPrefix { get; set; }
 
-
     [CommandSwitch("--since")]
     public string? Since { get; set; }
-
 
     [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
     public bool? Timestamps { get; set; }
-
 
     [CommandSwitch("--until")]
     public string? Until { get; set; }

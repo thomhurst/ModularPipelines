@@ -14,7 +14,6 @@ public abstract class ModuleBase
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
-
     /// <summary>
     /// The start time of the module
     /// </summary>

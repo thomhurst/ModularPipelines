@@ -28,10 +28,8 @@ public record DotNetTestOptions : DotNetOptions
     [CommandEqualsSeparatorSwitch("--blame-hang-timeout")]
     public string? BlameHangTimeout { get; init; }
 
-
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
-
 
     [CommandSwitch("-f")]
     public string? Framework { get; init; }
@@ -42,10 +40,8 @@ public record DotNetTestOptions : DotNetOptions
     [CommandEqualsSeparatorSwitch("--environment", SwitchValueSeparator = " ")]
     public string? Environment { get; init; }
 
-
     [CommandSwitch("-d")]
     public string? DiagnosticLogFile { get; init; }
-
 
     [CommandSwitch("-l")]
     public ICollection<string>? Logger { get; set; }
@@ -53,21 +49,17 @@ public record DotNetTestOptions : DotNetOptions
     [CommandEqualsSeparatorSwitch("--results-directory", SwitchValueSeparator = " ")]
     public string? ResultsDirectory { get; init; }
 
-
     [CommandSwitch("-s")]
     public string? SettingsFile { get; init; }
 
     [CommandEqualsSeparatorSwitch("--collect", SwitchValueSeparator = " ")]
     public string? Collect { get; init; }
 
-
     [CommandSwitch("-a")]
     public string? Architecture { get; init; }
 
-
     [CommandSwitch("-o")]
     public string? Output { get; init; }
-
 
     [CommandSwitch("-s")]
     public string? Source { get; init; }

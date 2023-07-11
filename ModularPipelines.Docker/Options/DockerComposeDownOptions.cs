@@ -13,10 +13,8 @@ public record DockerComposeDownOptions : DockerOptions
     [BooleanCommandSwitch("--rmi")]
     public bool? Rmi { get; set; }
 
-
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
-
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }

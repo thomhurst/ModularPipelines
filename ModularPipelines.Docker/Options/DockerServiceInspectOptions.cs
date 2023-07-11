@@ -9,7 +9,6 @@ public record DockerServiceInspectOptions([property: PositionalArgument(Position
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-
     [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
 

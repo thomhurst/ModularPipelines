@@ -11,10 +11,8 @@ public record DockerLoginOptions : DockerOptions
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 
-
     [CommandSwitch("--username")]
     public string? Username { get; set; }
-
 
     [CommandSwitch("--password-stdin")]
     public string? PasswordStdin { get; set; }

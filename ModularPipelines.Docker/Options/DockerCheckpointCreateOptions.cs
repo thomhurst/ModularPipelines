@@ -9,7 +9,6 @@ public record DockerCheckpointCreateOptions([property: PositionalArgument(Positi
     [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
 
-
     [CommandSwitch("--leave-running")]
     public string? LeaveRunning { get; set; }
 

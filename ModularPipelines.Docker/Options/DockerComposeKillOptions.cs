@@ -10,7 +10,6 @@ public record DockerComposeKillOptions : DockerOptions
     [BooleanCommandSwitch("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 
-
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 

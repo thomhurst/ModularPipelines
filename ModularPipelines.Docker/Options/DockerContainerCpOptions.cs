@@ -9,7 +9,6 @@ public record DockerContainerCpOptions([property: PositionalArgument(Position = 
     [CommandSwitch("--archive")]
     public string? Archive { get; set; }
 
-
     [CommandSwitch("--follow-link")]
     public string? FollowLink { get; set; }
 

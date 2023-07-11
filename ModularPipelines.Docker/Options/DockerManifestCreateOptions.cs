@@ -9,7 +9,6 @@ public record DockerManifestCreateOptions([property: PositionalArgument(Position
     [CommandSwitch("--amend")]
     public string? Amend { get; set; }
 
-
     [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
 
