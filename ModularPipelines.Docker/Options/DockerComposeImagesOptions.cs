@@ -7,6 +7,7 @@ public record DockerComposeImagesOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Service { get; set; }
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

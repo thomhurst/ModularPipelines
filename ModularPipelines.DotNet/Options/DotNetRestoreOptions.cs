@@ -5,17 +5,22 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("restore")]
 public record DotNetRestoreOptions : DotNetOptions
 {
+
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
+
 
     [CommandSwitch("-f")]
     public string? Framework { get; init; }
 
+
     [CommandSwitch("-a")]
     public string? Architecture { get; init; }
 
+
     [CommandSwitch("-o")]
     public string? Output { get; init; }
+
 
     [CommandSwitch("-s")]
     public string? Source { get; init; }

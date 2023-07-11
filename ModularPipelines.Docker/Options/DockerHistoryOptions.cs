@@ -14,6 +14,7 @@ public record DockerHistoryOptions([property: PositionalArgument(Position = Posi
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

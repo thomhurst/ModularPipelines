@@ -13,8 +13,10 @@ public record NuGetSourceOptions
 ) : NuGetOptions
 {
 
+
     [CommandSwitch("--username")]
     public string? Username { get; init; }
+
 
     [CommandSwitch("--password")]
     public string? Password { get; init; }

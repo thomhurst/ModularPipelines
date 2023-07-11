@@ -10,8 +10,10 @@ public record DockerComposeRmOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
+
     [CommandSwitch("--stop")]
     public string? Stop { get; set; }
+
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }

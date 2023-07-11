@@ -7,11 +7,14 @@ public record DockerComposePullOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Service { get; set; }
+
     [CommandSwitch("--ignore-buildable")]
     public string? IgnoreBuildable { get; set; }
 
+
     [CommandSwitch("--ignore-pull-failures")]
     public string? IgnorePullFailures { get; set; }
+
 
     [CommandSwitch("--include-deps")]
     public string? IncludeDeps { get; set; }

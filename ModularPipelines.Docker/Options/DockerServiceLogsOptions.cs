@@ -23,8 +23,10 @@ public record DockerServiceLogsOptions([property: PositionalArgument(Position = 
     [BooleanCommandSwitch("--raw")]
     public bool? Raw { get; set; }
 
+
     [CommandSwitch("--since")]
     public string? Since { get; set; }
+
 
     [CommandSwitch("--tail")]
     public string? Tail { get; set; }

@@ -5,11 +5,14 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("clean")]
 public record DotNetCleanOptions : DotNetOptions
 {
+
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 
+
     [CommandSwitch("-f")]
     public string? Framework { get; init; }
+
 
     [CommandSwitch("-o")]
     public string? Output { get; init; }

@@ -5,8 +5,10 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("stack ps")]
 public record DockerStackPsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
 {
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
+
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

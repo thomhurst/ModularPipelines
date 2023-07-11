@@ -8,6 +8,7 @@ public record DockerContainerPruneOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

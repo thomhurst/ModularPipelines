@@ -7,8 +7,10 @@ public record DockerComposePushOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Service { get; set; }
+
     [CommandSwitch("--ignore-push-failures")]
     public string? IgnorePushFailures { get; set; }
+
 
     [CommandSwitch("--include-deps")]
     public string? IncludeDeps { get; set; }

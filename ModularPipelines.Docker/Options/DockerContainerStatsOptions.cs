@@ -10,8 +10,10 @@ public record DockerContainerStatsOptions : DockerOptions
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
+
 
     [CommandSwitch("--no-stream")]
     public string? NoStream { get; set; }

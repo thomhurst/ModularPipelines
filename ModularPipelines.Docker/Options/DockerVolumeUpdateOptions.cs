@@ -7,6 +7,7 @@ public record DockerVolumeUpdateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public string? Volume { get; set; }
+
     [CommandSwitch("--availability")]
     public string? Availability { get; set; }
 

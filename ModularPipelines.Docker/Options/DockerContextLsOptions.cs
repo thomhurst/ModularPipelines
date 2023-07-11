@@ -5,6 +5,7 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("context ls")]
 public record DockerContextLsOptions : DockerOptions
 {
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

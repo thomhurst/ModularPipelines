@@ -7,14 +7,17 @@ public record DockerCommitOptions([property: PositionalArgument(Position = Posit
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public string Repository { get; set; }
+
     [CommandSwitch("--author")]
     public string? Author { get; set; }
+
 
     [CommandSwitch("--message")]
     public string? Message { get; set; }
 
     [BooleanCommandSwitch("--pause")]
     public bool? Pause { get; set; }
+
 
     [CommandSwitch("--change")]
     public string? Change { get; set; }

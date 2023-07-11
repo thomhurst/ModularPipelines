@@ -7,14 +7,17 @@ public record DockerPluginInstallOptions([property: PositionalArgument(Position 
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> KeyValues { get; set; }
+
     [CommandSwitch("--alias")]
     public string? Alias { get; set; }
+
 
     [CommandSwitch("--disable")]
     public string? Disable { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
+
 
     [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }

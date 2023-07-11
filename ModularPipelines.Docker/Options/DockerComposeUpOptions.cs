@@ -16,6 +16,7 @@ public record DockerComposeUpOptions : DockerOptions
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 
+
     [CommandSwitch("--attach-dependencies")]
     public string? AttachDependencies { get; set; }
 
@@ -25,11 +26,13 @@ public record DockerComposeUpOptions : DockerOptions
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
+
     [CommandSwitch("--exit-code-from")]
     public string? ExitCodeFrom { get; set; }
 
     [BooleanCommandSwitch("--force-recreate")]
     public bool? ForceRecreate { get; set; }
+
 
     [CommandSwitch("--no-attach")]
     public string? NoAttach { get; set; }
@@ -42,6 +45,7 @@ public record DockerComposeUpOptions : DockerOptions
 
     [BooleanCommandSwitch("--no-deps")]
     public bool? NoDeps { get; set; }
+
 
     [CommandSwitch("--no-log-prefix")]
     public string? NoLogPrefix { get; set; }
@@ -64,8 +68,10 @@ public record DockerComposeUpOptions : DockerOptions
     [BooleanCommandSwitch("--renew-anon-volumes")]
     public bool? RenewAnonVolumes { get; set; }
 
+
     [CommandSwitch("--scale")]
     public string? Scale { get; set; }
+
 
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
@@ -75,6 +81,7 @@ public record DockerComposeUpOptions : DockerOptions
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
+
 
     [CommandSwitch("--wait-timeout")]
     public string? WaitTimeout { get; set; }

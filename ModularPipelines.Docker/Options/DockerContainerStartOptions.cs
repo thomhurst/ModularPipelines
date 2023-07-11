@@ -8,11 +8,14 @@ public record DockerContainerStartOptions([property: PositionalArgument(Position
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 
+
     [CommandSwitch("--checkpoint")]
     public string? Checkpoint { get; set; }
 
+
     [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
+
 
     [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }

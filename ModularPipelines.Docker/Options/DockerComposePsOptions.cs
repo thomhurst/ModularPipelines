@@ -13,17 +13,21 @@ public record DockerComposePsOptions : DockerOptions
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
+
     [CommandSwitch("--services")]
     public string? Services { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
+
 
     [CommandSwitch("--status")]
     public string? Status { get; set; }

@@ -7,11 +7,13 @@ public record DockerComposeConfigOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Service { get; set; }
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 
     [BooleanCommandSwitch("--hash")]
     public bool? Hash { get; set; }
+
 
     [CommandSwitch("--images")]
     public string? Images { get; set; }
@@ -28,8 +30,10 @@ public record DockerComposeConfigOptions : DockerOptions
     [BooleanCommandSwitch("--no-path-resolution")]
     public bool? NoPathResolution { get; set; }
 
+
     [CommandSwitch("--output")]
     public string? Output { get; set; }
+
 
     [CommandSwitch("--profiles")]
     public string? Profiles { get; set; }
@@ -37,11 +41,14 @@ public record DockerComposeConfigOptions : DockerOptions
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
+
     [CommandSwitch("--resolve-image-digests")]
     public string? ResolveImageDigests { get; set; }
 
+
     [CommandSwitch("--services")]
     public string? Services { get; set; }
+
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }

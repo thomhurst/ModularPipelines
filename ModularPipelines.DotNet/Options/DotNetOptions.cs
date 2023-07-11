@@ -10,6 +10,7 @@ public record DotNetOptions() : CommandLineToolOptions("dotnet")
     [CommandEqualsSeparatorSwitch("--runtime", SwitchValueSeparator = " ")]
     public string? Runtime { get; init; }
 
+
     [CommandSwitch("-v")]
     public Verbosity? Verbosity { get; init; }
 

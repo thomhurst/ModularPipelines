@@ -8,6 +8,7 @@ public record DockerSwarmJoinTokenOptions : DockerOptions
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
+
     [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }
 

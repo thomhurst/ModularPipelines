@@ -5,8 +5,10 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("container attach")]
 public record DockerContainerAttachOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
+
     [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
+
 
     [CommandSwitch("--no-stdin")]
     public string? NoStdin { get; set; }

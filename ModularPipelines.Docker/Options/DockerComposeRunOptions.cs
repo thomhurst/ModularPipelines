@@ -7,13 +7,16 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public string? Command { get; set; }
+
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Args { get; set; }
     [BooleanCommandSwitch("--build")]
     public bool? Build { get; set; }
 
+
     [CommandSwitch("--cap-add")]
     public string? CapAdd { get; set; }
+
 
     [CommandSwitch("--cap-drop")]
     public string? CapDrop { get; set; }
@@ -21,8 +24,10 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
+
     [CommandSwitch("--entrypoint")]
     public string? Entrypoint { get; set; }
+
 
     [CommandSwitch("--env")]
     public string? Env { get; set; }
@@ -30,8 +35,10 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
+
     [CommandSwitch("--label")]
     public string? Label { get; set; }
+
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
@@ -41,6 +48,7 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
 
     [BooleanCommandSwitch("--no-deps")]
     public bool? NoDeps { get; set; }
+
 
     [CommandSwitch("--publish")]
     public string? Publish { get; set; }
@@ -54,17 +62,22 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     [BooleanCommandSwitch("--rm")]
     public bool? Rm { get; set; }
 
+
     [CommandSwitch("--service-ports")]
     public string? ServicePorts { get; set; }
+
 
     [CommandSwitch("--use-aliases")]
     public string? UseAliases { get; set; }
 
+
     [CommandSwitch("--user")]
     public string? User { get; set; }
 
+
     [CommandSwitch("--volume")]
     public string? Volume { get; set; }
+
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }

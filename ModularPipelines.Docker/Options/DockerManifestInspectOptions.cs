@@ -7,8 +7,10 @@ public record DockerManifestInspectOptions([property: PositionalArgument(Positio
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public string ManifestList { get; set; }
+
     [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
+
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }

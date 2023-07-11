@@ -8,6 +8,7 @@ public record DockerNetworkPruneOptions : DockerOptions
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

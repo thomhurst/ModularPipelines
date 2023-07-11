@@ -7,11 +7,14 @@ public record DockerContainerCommitOptions([property: PositionalArgument(Positio
 {
     [PositionalArgument(Position = Position.AfterArguments)]
     public string Repository { get; set; }
+
     [CommandSwitch("--author")]
     public string? Author { get; set; }
 
+
     [CommandSwitch("--change")]
     public string? Change { get; set; }
+
 
     [CommandSwitch("--message")]
     public string? Message { get; set; }
