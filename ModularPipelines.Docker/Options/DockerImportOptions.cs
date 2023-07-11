@@ -5,13 +5,15 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("import")]
 public record DockerImportOptions : DockerOptions
 {
-    [CommandLongSwitch("change")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Repository { get; set; }
+    [CommandSwitch("--change")]
     public string? Change { get; set; }
 
-    [CommandLongSwitch("message")]
+    [CommandSwitch("--message")]
     public string? Message { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
 }

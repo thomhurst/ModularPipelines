@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Options;
 
 namespace ModularPipelines;
@@ -18,16 +19,18 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 {
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
+    private readonly ISecretObfuscator _secretObfuscator;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(IOptions<PipelineOptions> options, ILogger<T> defaultLogger, IModuleLoggerContainer moduleLoggerContainer)
+    public ModuleLogger(IOptions<PipelineOptions> options, ILogger<T> defaultLogger, IModuleLoggerContainer moduleLoggerContainer, ISecretObfuscator secretObfuscator)
     {
         _options = options;
         _defaultLogger = defaultLogger;
+        _secretObfuscator = secretObfuscator;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -64,7 +67,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             return (_, _) => string.Empty;
         }
 
-        return (o, exception) => formatter.Invoke((TState) o, exception);
+        return (o, exception) =>
+        {
+            var formattedString = formatter.Invoke((TState) o, exception);
+            return _secretObfuscator.Obfuscate(formattedString);
+        };
     }
 
     private class NoopDisposable : IDisposable

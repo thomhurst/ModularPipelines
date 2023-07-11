@@ -5,22 +5,22 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("exec")]
 public record KubernetesExecOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [CommandLongSwitch("container", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
     public string? Container { get; set; }
 
-    [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
-    [CommandLongSwitch("pod-running-timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
     public string? PodRunningTimeout { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("tty")]
+    [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
 
 }

@@ -5,7 +5,10 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("load")]
 public record DockerLoadOptions : DockerOptions
 {
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [CommandSwitch("--input")]
+    public string? Input { get; set; }
 
 }

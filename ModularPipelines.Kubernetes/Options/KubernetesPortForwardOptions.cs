@@ -5,10 +5,10 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("port-forward")]
 public record KubernetesPortForwardOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [CommandLongSwitch("address", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--address", SwitchValueSeparator = " ")]
     public string? Address { get; set; }
 
-    [CommandLongSwitch("pod-running-timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
     public string? PodRunningTimeout { get; set; }
 
 }

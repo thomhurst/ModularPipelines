@@ -5,16 +5,18 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("container stats")]
 public record DockerContainerStatsOptions : DockerOptions
 {
-    [CommandLongSwitch("all")]
-    public string? All { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Container { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("no-stream")]
+    [CommandSwitch("--no-stream")]
     public string? NoStream { get; set; }
 
-    [CommandLongSwitch("no-trunc")]
-    public string? NoTrunc { get; set; }
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

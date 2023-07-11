@@ -5,115 +5,115 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("clone")]
 public record GitCloneOptions : GitOptions
 {
-    [BooleanCommandSwitch("local")]
+    [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("no-hardlinks")]
+    [BooleanCommandSwitch("--no-hardlinks")]
     public bool? NoHardlinks { get; set; }
 
-    [BooleanCommandSwitch("shared")]
+    [BooleanCommandSwitch("--shared")]
     public bool? Shared { get; set; }
 
-    [CommandLongSwitch("reference-if-able")]
+    [CommandEqualsSeparatorSwitch("--reference-if-able")]
     public string? ReferenceIfAble { get; set; }
 
-    [CommandLongSwitch("reference")]
+    [CommandEqualsSeparatorSwitch("--reference")]
     public string? Reference { get; set; }
 
-    [BooleanCommandSwitch("dissociate")]
+    [BooleanCommandSwitch("--dissociate")]
     public bool? Dissociate { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [CommandLongSwitch("server-option")]
+    [CommandEqualsSeparatorSwitch("--server-option")]
     public string? ServerOption { get; set; }
 
-    [BooleanCommandSwitch("no-checkout")]
+    [BooleanCommandSwitch("--no-checkout")]
     public bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("no-reject-shallow")]
+    [BooleanCommandSwitch("--no-reject-shallow")]
     public bool? NoRejectShallow { get; set; }
 
-    [BooleanCommandSwitch("reject-shallow")]
+    [BooleanCommandSwitch("--reject-shallow")]
     public bool? RejectShallow { get; set; }
 
-    [BooleanCommandSwitch("bare")]
+    [BooleanCommandSwitch("--bare")]
     public bool? Bare { get; set; }
 
-    [BooleanCommandSwitch("sparse")]
+    [BooleanCommandSwitch("--sparse")]
     public bool? Sparse { get; set; }
 
-    [CommandLongSwitch("filter")]
+    [CommandEqualsSeparatorSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [BooleanCommandSwitch("also-filter-submodules")]
+    [BooleanCommandSwitch("--also-filter-submodules")]
     public bool? AlsoFilterSubmodules { get; set; }
 
-    [BooleanCommandSwitch("mirror")]
+    [BooleanCommandSwitch("--mirror")]
     public bool? Mirror { get; set; }
 
-    [CommandLongSwitch("origin")]
+    [CommandEqualsSeparatorSwitch("--origin")]
     public string? Origin { get; set; }
 
-    [CommandLongSwitch("branch")]
+    [CommandEqualsSeparatorSwitch("--branch")]
     public string? Branch { get; set; }
 
-    [CommandLongSwitch("upload-pack")]
+    [CommandEqualsSeparatorSwitch("--upload-pack")]
     public string? UploadPack { get; set; }
 
-    [CommandLongSwitch("template")]
+    [CommandEqualsSeparatorSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandLongSwitch("config")]
+    [CommandEqualsSeparatorSwitch("--config")]
     public string? Config { get; set; }
 
-    [CommandLongSwitch("depth")]
+    [CommandEqualsSeparatorSwitch("--depth")]
     public string? Depth { get; set; }
 
-    [CommandLongSwitch("shallow-since")]
+    [CommandEqualsSeparatorSwitch("--shallow-since")]
     public string? ShallowSince { get; set; }
 
-    [CommandLongSwitch("shallow-exclude")]
+    [CommandEqualsSeparatorSwitch("--shallow-exclude")]
     public string? ShallowExclude { get; set; }
 
-    [BooleanCommandSwitch("no-single-branch")]
+    [BooleanCommandSwitch("--no-single-branch")]
     public bool? NoSingleBranch { get; set; }
 
-    [BooleanCommandSwitch("single-branch")]
+    [BooleanCommandSwitch("--single-branch")]
     public bool? SingleBranch { get; set; }
 
-    [BooleanCommandSwitch("no-tags")]
+    [BooleanCommandSwitch("--no-tags")]
     public bool? NoTags { get; set; }
 
-    [CommandLongSwitch("recurse-submodules")]
+    [CommandEqualsSeparatorSwitch("--recurse-submodules")]
     public string? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("no-shallow-submodules")]
+    [BooleanCommandSwitch("--no-shallow-submodules")]
     public bool? NoShallowSubmodules { get; set; }
 
-    [BooleanCommandSwitch("shallow-submodules")]
+    [BooleanCommandSwitch("--shallow-submodules")]
     public bool? ShallowSubmodules { get; set; }
 
-    [BooleanCommandSwitch("no-remote-submodules")]
+    [BooleanCommandSwitch("--no-remote-submodules")]
     public bool? NoRemoteSubmodules { get; set; }
 
-    [BooleanCommandSwitch("remote-submodules")]
+    [BooleanCommandSwitch("--remote-submodules")]
     public bool? RemoteSubmodules { get; set; }
 
-    [CommandLongSwitch("separate-git-dir")]
+    [CommandEqualsSeparatorSwitch("--separate-git-dir")]
     public string? SeparateGitDir { get; set; }
 
-    [CommandLongSwitch("jobs")]
+    [CommandEqualsSeparatorSwitch("--jobs")]
     public string? Jobs { get; set; }
 
-    [CommandLongSwitch("bundle-uri")]
+    [CommandEqualsSeparatorSwitch("--bundle-uri")]
     public string? BundleUri { get; set; }
 
 }

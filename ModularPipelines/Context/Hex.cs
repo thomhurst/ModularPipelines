@@ -2,7 +2,7 @@ using System.Text;
 
 namespace ModularPipelines.Context;
 
-public class Hex : IHex
+internal class Hex : IHex
 {
     public string ToHex(string input, Encoding encoding)
     {

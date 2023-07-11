@@ -5,40 +5,40 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("set", "selector")]
 public record KubernetesSetSelectorOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
 
-    [CommandLongSwitch("field-manager", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
 
-    [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("local")]
+    [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("record")]
+    [BooleanCommandSwitch("--record")]
     public bool? Record { get; set; }
 
-    [BooleanCommandSwitch("recursive")]
+    [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandLongSwitch("resource-version", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--resource-version", SwitchValueSeparator = " ")]
     public string? ResourceVersion { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
 }

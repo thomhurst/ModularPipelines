@@ -2,7 +2,7 @@ using YamlDotNet.Serialization;
 
 namespace ModularPipelines.Context;
 
-public class Yaml : IYaml
+internal class Yaml : IYaml
 {
     public string ToYaml<T>(T input, INamingConvention namingConvention)
     {

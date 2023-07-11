@@ -2,7 +2,7 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Engine;
 
-public class PipelineInitializer : IPipelineInitializer
+internal class PipelineInitializer : IPipelineInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -10,6 +10,7 @@ public class PipelineInitializer : IPipelineInitializer
     {
         _serviceProvider = serviceProvider;
     }
+    
     public Task InitializeAsync()
     {
         return _serviceProvider.InitializeAsync();

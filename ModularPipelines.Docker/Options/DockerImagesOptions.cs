@@ -5,10 +5,24 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("images")]
 public record DockerImagesOptions : DockerOptions
 {
-    [CommandLongSwitch("all")]
-    public string? All { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Repository { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [BooleanCommandSwitch("--digests")]
+    public bool? Digests { get; set; }
+
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
+
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
+
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

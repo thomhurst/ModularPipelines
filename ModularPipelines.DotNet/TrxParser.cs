@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 
 namespace ModularPipelines.DotNet;
 
-public class TrxParser : ITrxParser
+internal class TrxParser : ITrxParser
 {
     private readonly IXml _xml;
 

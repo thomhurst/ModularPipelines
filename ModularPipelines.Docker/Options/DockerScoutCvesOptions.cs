@@ -5,46 +5,48 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("scout cves")]
 public record DockerScoutCvesOptions : DockerOptions
 {
-    [CommandLongSwitch("details")]
-    public string? Details { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Image { get; set; }
+    [BooleanCommandSwitch("--details")]
+    public bool? Details { get; set; }
 
-    [CommandLongSwitch("exit-code")]
+    [CommandSwitch("--exit-code")]
     public string? ExitCode { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("ignore-base")]
+    [CommandSwitch("--ignore-base")]
     public string? IgnoreBase { get; set; }
 
-    [CommandLongSwitch("locations")]
+    [CommandSwitch("--locations")]
     public string? Locations { get; set; }
 
-    [CommandLongSwitch("only-cve-id")]
+    [CommandSwitch("--only-cve-id")]
     public string? OnlyCveId { get; set; }
 
-    [CommandLongSwitch("only-fixed")]
+    [CommandSwitch("--only-fixed")]
     public string? OnlyFixed { get; set; }
 
-    [CommandLongSwitch("only-package-type")]
+    [CommandSwitch("--only-package-type")]
     public string? OnlyPackageType { get; set; }
 
-    [CommandLongSwitch("only-severity")]
+    [CommandSwitch("--only-severity")]
     public string? OnlySeverity { get; set; }
 
-    [CommandLongSwitch("only-unfixed")]
+    [CommandSwitch("--only-unfixed")]
     public string? OnlyUnfixed { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
 
 }

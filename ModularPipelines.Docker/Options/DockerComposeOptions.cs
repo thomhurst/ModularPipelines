@@ -3,36 +3,36 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose")]
-public record DockerComposeOptions : DockerOptions
+public record DockerComposeOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
-    [CommandLongSwitch("ansi")]
+    [CommandSwitch("--ansi")]
     public string? Ansi { get; set; }
 
-    [CommandLongSwitch("compatibility")]
+    [CommandSwitch("--compatibility")]
     public string? Compatibility { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
-    [CommandLongSwitch("env-file")]
+    [CommandSwitch("--env-file")]
     public string? EnvFile { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandSwitch("--file")]
     public string? File { get; set; }
 
-    [CommandLongSwitch("parallel")]
-    public string? Parallel { get; set; }
+    [CommandSwitch("--parallel")]
+    public int? Parallel { get; set; }
 
-    [CommandLongSwitch("profile")]
+    [CommandSwitch("--profile")]
     public string? Profile { get; set; }
 
-    [CommandLongSwitch("progress")]
+    [CommandSwitch("--progress")]
     public string? Progress { get; set; }
 
-    [CommandLongSwitch("project-directory")]
+    [CommandSwitch("--project-directory")]
     public string? ProjectDirectory { get; set; }
 
-    [CommandLongSwitch("project-name")]
+    [CommandSwitch("--project-name")]
     public string? ProjectName { get; set; }
 
 }

@@ -20,7 +20,7 @@ internal class Command : ICommand
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-
+    
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         var optionsObject = GetOptionsObject(options);

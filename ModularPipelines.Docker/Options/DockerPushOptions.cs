@@ -3,12 +3,17 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("push")]
-public record DockerPushOptions([property: PositionalArgument] string Name) : DockerOptions
+public record DockerPushOptions : DockerOptions
 {
-    [BooleanCommandSwitch("disable-content-trust")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Name { get; set; }
+    [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [BooleanCommandSwitch("--all-tags")]
+    public bool? AllTags { get; set; }
 
 }

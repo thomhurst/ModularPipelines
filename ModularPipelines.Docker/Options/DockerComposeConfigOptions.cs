@@ -5,46 +5,48 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose config")]
 public record DockerComposeConfigOptions : DockerOptions
 {
-    [CommandLongSwitch("format")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("hash")]
-    public string? Hash { get; set; }
+    [BooleanCommandSwitch("--hash")]
+    public bool? Hash { get; set; }
 
-    [CommandLongSwitch("images")]
+    [CommandSwitch("--images")]
     public string? Images { get; set; }
 
-    [CommandLongSwitch("no-consistency")]
-    public string? NoConsistency { get; set; }
+    [BooleanCommandSwitch("--no-consistency")]
+    public bool? NoConsistency { get; set; }
 
-    [CommandLongSwitch("no-interpolate")]
-    public string? NoInterpolate { get; set; }
+    [BooleanCommandSwitch("--no-interpolate")]
+    public bool? NoInterpolate { get; set; }
 
-    [CommandLongSwitch("no-normalize")]
-    public string? NoNormalize { get; set; }
+    [BooleanCommandSwitch("--no-normalize")]
+    public bool? NoNormalize { get; set; }
 
-    [CommandLongSwitch("no-path-resolution")]
-    public string? NoPathResolution { get; set; }
+    [BooleanCommandSwitch("--no-path-resolution")]
+    public bool? NoPathResolution { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("profiles")]
+    [CommandSwitch("--profiles")]
     public string? Profiles { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("resolve-image-digests")]
+    [CommandSwitch("--resolve-image-digests")]
     public string? ResolveImageDigests { get; set; }
 
-    [CommandLongSwitch("services")]
+    [CommandSwitch("--services")]
     public string? Services { get; set; }
 
-    [CommandLongSwitch("volumes")]
+    [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

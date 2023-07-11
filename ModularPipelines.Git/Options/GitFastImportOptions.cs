@@ -5,61 +5,61 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("fast-import")]
 public record GitFastImportOptions : GitOptions
 {
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("stats")]
+    [BooleanCommandSwitch("--stats")]
     public bool? Stats { get; set; }
 
-    [BooleanCommandSwitch("allow-unsafe-features")]
+    [BooleanCommandSwitch("--allow-unsafe-features")]
     public bool? AllowUnsafeFeatures { get; set; }
 
-    [CommandLongSwitch("cat-blob-fd")]
+    [CommandEqualsSeparatorSwitch("--cat-blob-fd")]
     public string? CatBlobFd { get; set; }
 
-    [CommandLongSwitch("date-format")]
+    [CommandEqualsSeparatorSwitch("--date-format")]
     public string? DateFormat { get; set; }
 
-    [BooleanCommandSwitch("done")]
+    [BooleanCommandSwitch("--done")]
     public bool? Done { get; set; }
 
-    [CommandLongSwitch("export-marks")]
+    [CommandEqualsSeparatorSwitch("--export-marks")]
     public string? ExportMarks { get; set; }
 
-    [CommandLongSwitch("import-marks")]
+    [CommandEqualsSeparatorSwitch("--import-marks")]
     public string? ImportMarks { get; set; }
 
-    [CommandLongSwitch("import-marks-if-exists")]
+    [CommandEqualsSeparatorSwitch("--import-marks-if-exists")]
     public string? ImportMarksIfExists { get; set; }
 
-    [BooleanCommandSwitch("no-relative-marks")]
+    [BooleanCommandSwitch("--no-relative-marks")]
     public bool? NoRelativeMarks { get; set; }
 
-    [BooleanCommandSwitch("relative-marks")]
+    [BooleanCommandSwitch("--relative-marks")]
     public bool? RelativeMarks { get; set; }
 
-    [CommandLongSwitch("rewrite-submodules-from")]
+    [CommandEqualsSeparatorSwitch("--rewrite-submodules-from")]
     public string? RewriteSubmodulesFrom { get; set; }
 
-    [CommandLongSwitch("rewrite-submodules-to")]
+    [CommandEqualsSeparatorSwitch("--rewrite-submodules-to")]
     public string? RewriteSubmodulesTo { get; set; }
 
-    [CommandLongSwitch("active-branches")]
+    [CommandEqualsSeparatorSwitch("--active-branches")]
     public string? ActiveBranches { get; set; }
 
-    [CommandLongSwitch("big-file-threshold")]
+    [CommandEqualsSeparatorSwitch("--big-file-threshold")]
     public string? BigFileThreshold { get; set; }
 
-    [CommandLongSwitch("depth")]
+    [CommandEqualsSeparatorSwitch("--depth")]
     public string? Depth { get; set; }
 
-    [CommandLongSwitch("export-pack-edges")]
+    [CommandEqualsSeparatorSwitch("--export-pack-edges")]
     public string? ExportPackEdges { get; set; }
 
-    [CommandLongSwitch("max-pack-size")]
+    [CommandEqualsSeparatorSwitch("--max-pack-size")]
     public string? MaxPackSize { get; set; }
 
 }

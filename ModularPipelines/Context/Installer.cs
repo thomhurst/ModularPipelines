@@ -3,7 +3,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-public class Installer : IInstaller
+internal class Installer : IInstaller
 {
     private readonly ICommand _command;
     private readonly IDownloader _downloader;

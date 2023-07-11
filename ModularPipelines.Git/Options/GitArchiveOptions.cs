@@ -5,37 +5,37 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("archive")]
 public record GitArchiveOptions : GitOptions
 {
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
-    [BooleanCommandSwitch("list")]
+    [BooleanCommandSwitch("--list")]
     public bool? List { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [CommandLongSwitch("prefix")]
+    [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandEqualsSeparatorSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("add-file")]
+    [CommandEqualsSeparatorSwitch("--add-file")]
     public string? AddFile { get; set; }
 
-    [CommandLongSwitch("add-virtual-file")]
+    [CommandEqualsSeparatorSwitch("--add-virtual-file")]
     public string? AddVirtualFile { get; set; }
 
-    [BooleanCommandSwitch("worktree-attributes")]
+    [BooleanCommandSwitch("--worktree-attributes")]
     public bool? WorktreeAttributes { get; set; }
 
-    [CommandLongSwitch("mtime")]
+    [CommandEqualsSeparatorSwitch("--mtime")]
     public string? Mtime { get; set; }
 
-    [CommandLongSwitch("remote")]
+    [CommandEqualsSeparatorSwitch("--remote")]
     public string? Remote { get; set; }
 
-    [CommandLongSwitch("exec")]
+    [CommandEqualsSeparatorSwitch("--exec")]
     public string? Exec { get; set; }
 
 }

@@ -5,16 +5,18 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("scout quickview")]
 public record DockerScoutQuickviewOptions : DockerOptions
 {
-    [CommandLongSwitch("output")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Image { get; set; }
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
 
 }

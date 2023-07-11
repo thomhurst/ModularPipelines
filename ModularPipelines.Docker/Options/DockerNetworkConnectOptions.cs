@@ -3,15 +3,24 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network connect")]
-public record DockerNetworkConnectOptions : DockerOptions
+public record DockerNetworkConnectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Network, [property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("driver-opt")]
+    [CommandSwitch("--driver-opt")]
     public string? DriverOpt { get; set; }
 
-    [CommandLongSwitch("ip6")]
+    [CommandSwitch("--ip6")]
     public string? Ip6 { get; set; }
 
-    [CommandLongSwitch("link-local-ip")]
+    [CommandSwitch("--link-local-ip")]
     public string? LinkLocalIp { get; set; }
+
+    [CommandSwitch("--alias")]
+    public string? Alias { get; set; }
+
+    [CommandSwitch("--ip")]
+    public string? Ip { get; set; }
+
+    [CommandSwitch("--link")]
+    public string? Link { get; set; }
 
 }

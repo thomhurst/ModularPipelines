@@ -5,82 +5,82 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("ls-files")]
 public record GitLsFilesOptions : GitOptions
 {
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("cached")]
+    [BooleanCommandSwitch("--cached")]
     public bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("deleted")]
+    [BooleanCommandSwitch("--deleted")]
     public bool? Deleted { get; set; }
 
-    [BooleanCommandSwitch("modified")]
+    [BooleanCommandSwitch("--modified")]
     public bool? Modified { get; set; }
 
-    [BooleanCommandSwitch("others")]
+    [BooleanCommandSwitch("--others")]
     public bool? Others { get; set; }
 
-    [BooleanCommandSwitch("ignored")]
+    [BooleanCommandSwitch("--ignored")]
     public bool? Ignored { get; set; }
 
-    [BooleanCommandSwitch("stage")]
+    [BooleanCommandSwitch("--stage")]
     public bool? Stage { get; set; }
 
-    [BooleanCommandSwitch("directory")]
+    [BooleanCommandSwitch("--directory")]
     public bool? Directory { get; set; }
 
-    [BooleanCommandSwitch("no-empty-directory")]
+    [BooleanCommandSwitch("--no-empty-directory")]
     public bool? NoEmptyDirectory { get; set; }
 
-    [BooleanCommandSwitch("unmerged")]
+    [BooleanCommandSwitch("--unmerged")]
     public bool? Unmerged { get; set; }
 
-    [BooleanCommandSwitch("killed")]
+    [BooleanCommandSwitch("--killed")]
     public bool? Killed { get; set; }
 
-    [BooleanCommandSwitch("resolve-undo")]
+    [BooleanCommandSwitch("--resolve-undo")]
     public bool? ResolveUndo { get; set; }
 
-    [BooleanCommandSwitch("deduplicate")]
+    [BooleanCommandSwitch("--deduplicate")]
     public bool? Deduplicate { get; set; }
 
-    [CommandLongSwitch("exclude")]
+    [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
 
-    [CommandLongSwitch("exclude-from")]
+    [CommandEqualsSeparatorSwitch("--exclude-from")]
     public string? ExcludeFrom { get; set; }
 
-    [CommandLongSwitch("exclude-per-directory")]
+    [CommandEqualsSeparatorSwitch("--exclude-per-directory")]
     public string? ExcludePerDirectory { get; set; }
 
-    [BooleanCommandSwitch("exclude-standard")]
+    [BooleanCommandSwitch("--exclude-standard")]
     public bool? ExcludeStandard { get; set; }
 
-    [BooleanCommandSwitch("error-unmatch")]
+    [BooleanCommandSwitch("--error-unmatch")]
     public bool? ErrorUnmatch { get; set; }
 
-    [CommandLongSwitch("with-tree")]
+    [CommandEqualsSeparatorSwitch("--with-tree")]
     public string? WithTree { get; set; }
 
-    [BooleanCommandSwitch("full-name")]
+    [BooleanCommandSwitch("--full-name")]
     public bool? FullName { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("debug")]
+    [BooleanCommandSwitch("--debug")]
     public bool? Debug { get; set; }
 
-    [BooleanCommandSwitch("eol")]
+    [BooleanCommandSwitch("--eol")]
     public bool? Eol { get; set; }
 
-    [BooleanCommandSwitch("sparse")]
+    [BooleanCommandSwitch("--sparse")]
     public bool? Sparse { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
 }

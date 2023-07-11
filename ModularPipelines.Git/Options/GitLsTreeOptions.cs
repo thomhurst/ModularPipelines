@@ -5,28 +5,28 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("ls-tree")]
 public record GitLsTreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("long")]
+    [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }
 
-    [BooleanCommandSwitch("name-only")]
+    [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("name-status")]
+    [BooleanCommandSwitch("--name-status")]
     public bool? NameStatus { get; set; }
 
-    [BooleanCommandSwitch("object-only")]
+    [BooleanCommandSwitch("--object-only")]
     public bool? ObjectOnly { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("full-name")]
+    [BooleanCommandSwitch("--full-name")]
     public bool? FullName { get; set; }
 
-    [BooleanCommandSwitch("full-tree")]
+    [BooleanCommandSwitch("--full-tree")]
     public bool? FullTree { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
 }

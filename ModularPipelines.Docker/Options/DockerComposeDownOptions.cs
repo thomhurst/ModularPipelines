@@ -5,19 +5,21 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose down")]
 public record DockerComposeDownOptions : DockerOptions
 {
-    [CommandLongSwitch("remove-orphans")]
-    public string? RemoveOrphans { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Services { get; set; }
+    [BooleanCommandSwitch("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CommandLongSwitch("rmi")]
-    public string? Rmi { get; set; }
+    [BooleanCommandSwitch("--rmi")]
+    public bool? Rmi { get; set; }
 
-    [CommandLongSwitch("timeout")]
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandLongSwitch("volumes")]
+    [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

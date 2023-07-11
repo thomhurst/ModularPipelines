@@ -5,13 +5,13 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose version")]
 public record DockerComposeVersionOptions : DockerOptions
 {
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("short")]
+    [CommandSwitch("--short")]
     public string? Short { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

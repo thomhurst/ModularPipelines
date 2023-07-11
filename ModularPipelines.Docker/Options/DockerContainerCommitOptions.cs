@@ -3,18 +3,20 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container commit")]
-public record DockerContainerCommitOptions : DockerOptions
+public record DockerContainerCommitOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("author")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Repository { get; set; }
+    [CommandSwitch("--author")]
     public string? Author { get; set; }
 
-    [CommandLongSwitch("change")]
+    [CommandSwitch("--change")]
     public string? Change { get; set; }
 
-    [CommandLongSwitch("message")]
+    [CommandSwitch("--message")]
     public string? Message { get; set; }
 
-    [BooleanCommandSwitch("pause")]
+    [BooleanCommandSwitch("--pause")]
     public bool? Pause { get; set; }
 
 }

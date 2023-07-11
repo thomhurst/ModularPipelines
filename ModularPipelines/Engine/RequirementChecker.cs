@@ -3,7 +3,7 @@ using ModularPipelines.Requirements;
 
 namespace ModularPipelines.Engine;
 
-public class RequirementChecker : IRequirementChecker
+internal class RequirementChecker : IRequirementChecker
 {
     private readonly List<IPipelineRequirement> _requirements;
 
@@ -11,6 +11,7 @@ public class RequirementChecker : IRequirementChecker
     {
         _requirements = requirements.ToList();
     }
+    
     public async Task CheckRequirementsAsync()
     {
         var failedRequirementsNames = new List<string>();

@@ -5,46 +5,46 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("difftool")]
 public record GitDifftoolOptions : GitOptions
 {
-    [BooleanCommandSwitch("dir-diff")]
+    [BooleanCommandSwitch("--dir-diff")]
     public bool? DirDiff { get; set; }
 
-    [BooleanCommandSwitch("no-prompt")]
+    [BooleanCommandSwitch("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
-    [BooleanCommandSwitch("prompt")]
+    [BooleanCommandSwitch("--prompt")]
     public bool? Prompt { get; set; }
 
-    [CommandLongSwitch("rotate-to")]
+    [CommandEqualsSeparatorSwitch("--rotate-to")]
     public string? RotateTo { get; set; }
 
-    [CommandLongSwitch("skip-to")]
+    [CommandEqualsSeparatorSwitch("--skip-to")]
     public string? SkipTo { get; set; }
 
-    [CommandLongSwitch("tool")]
+    [CommandEqualsSeparatorSwitch("--tool")]
     public string? GitTool { get; set; }
 
-    [BooleanCommandSwitch("tool-help")]
+    [BooleanCommandSwitch("--tool-help")]
     public bool? ToolHelp { get; set; }
 
-    [BooleanCommandSwitch("no-symlinks")]
+    [BooleanCommandSwitch("--no-symlinks")]
     public bool? NoSymlinks { get; set; }
 
-    [BooleanCommandSwitch("symlinks")]
+    [BooleanCommandSwitch("--symlinks")]
     public bool? Symlinks { get; set; }
 
-    [CommandLongSwitch("extcmd")]
+    [CommandEqualsSeparatorSwitch("--extcmd")]
     public string? Extcmd { get; set; }
 
-    [BooleanCommandSwitch("no-gui")]
+    [BooleanCommandSwitch("--no-gui")]
     public bool? NoGui { get; set; }
 
-    [BooleanCommandSwitch("gui")]
+    [BooleanCommandSwitch("--gui")]
     public bool? Gui { get; set; }
 
-    [BooleanCommandSwitch("no-trust-exit-code")]
+    [BooleanCommandSwitch("--no-trust-exit-code")]
     public bool? NoTrustExitCode { get; set; }
 
-    [BooleanCommandSwitch("trust-exit-code")]
+    [BooleanCommandSwitch("--trust-exit-code")]
     public bool? TrustExitCode { get; set; }
 
 }

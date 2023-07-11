@@ -5,16 +5,27 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose ps")]
 public record DockerComposePsOptions : DockerOptions
 {
-    [CommandLongSwitch("all")]
-    public string? All { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("services")]
+    [CommandSwitch("--services")]
     public string? Services { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
+
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
+
+    [CommandSwitch("--status")]
+    public string? Status { get; set; }
 
 }

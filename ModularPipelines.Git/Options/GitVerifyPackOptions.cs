@@ -5,10 +5,10 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("verify-pack")]
 public record GitVerifyPackOptions : GitOptions
 {
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("stat-only")]
+    [BooleanCommandSwitch("--stat-only")]
     public bool? StatOnly { get; set; }
 
 }

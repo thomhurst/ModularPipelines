@@ -5,10 +5,12 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose stop")]
 public record DockerComposeStopOptions : DockerOptions
 {
-    [CommandLongSwitch("timeout")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

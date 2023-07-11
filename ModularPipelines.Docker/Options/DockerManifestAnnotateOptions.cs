@@ -3,21 +3,21 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest annotate")]
-public record DockerManifestAnnotateOptions : DockerOptions
+public record DockerManifestAnnotateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ManifestList, [property: PositionalArgument(Position = Position.AfterArguments)] string Manifest) : DockerOptions
 {
-    [CommandLongSwitch("arch")]
+    [CommandSwitch("--arch")]
     public string? Arch { get; set; }
 
-    [CommandLongSwitch("os")]
+    [CommandSwitch("--os")]
     public string? Os { get; set; }
 
-    [CommandLongSwitch("os-features")]
+    [CommandSwitch("--os-features")]
     public string? OsFeatures { get; set; }
 
-    [CommandLongSwitch("os-version")]
+    [CommandSwitch("--os-version")]
     public string? OsVersion { get; set; }
 
-    [CommandLongSwitch("variant")]
+    [CommandSwitch("--variant")]
     public string? Variant { get; set; }
 
 }

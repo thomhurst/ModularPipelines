@@ -5,28 +5,28 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("package")]
 public record HelmPackageOptions : HelmOptions
 {
-    [CommandLongSwitch("app-version", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--app-version", SwitchValueSeparator = " ")]
     public string? AppVersion { get; set; }
 
-    [BooleanCommandSwitch("dependency-update")]
+    [BooleanCommandSwitch("--dependency-update")]
     public bool? DependencyUpdate { get; set; }
 
-    [CommandLongSwitch("destination", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--destination", SwitchValueSeparator = " ")]
     public string? Destination { get; set; }
 
-    [CommandLongSwitch("key", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--key", SwitchValueSeparator = " ")]
     public string? Key { get; set; }
 
-    [CommandLongSwitch("keyring", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
     public string? Keyring { get; set; }
 
-    [CommandLongSwitch("passphrase-file", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--passphrase-file", SwitchValueSeparator = " ")]
     public string? PassphraseFile { get; set; }
 
-    [BooleanCommandSwitch("sign")]
+    [BooleanCommandSwitch("--sign")]
     public bool? Sign { get; set; }
 
-    [CommandLongSwitch("version", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
 
 }

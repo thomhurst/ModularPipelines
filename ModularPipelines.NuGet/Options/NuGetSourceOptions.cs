@@ -13,9 +13,9 @@ public record NuGetSourceOptions
 ) : NuGetOptions
 {
 
-    [CommandLongSwitch("username", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
     public string? Username { get; init; }
 
-    [CommandLongSwitch("password", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
     public string? Password { get; init; }
 }

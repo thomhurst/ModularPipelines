@@ -5,25 +5,25 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("init")]
 public record GitInitOptions : GitOptions
 {
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("bare")]
+    [BooleanCommandSwitch("--bare")]
     public bool? Bare { get; set; }
 
-    [CommandLongSwitch("object-format")]
+    [CommandEqualsSeparatorSwitch("--object-format")]
     public string? ObjectFormat { get; set; }
 
-    [CommandLongSwitch("template")]
+    [CommandEqualsSeparatorSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandLongSwitch("separate-git-dir")]
+    [CommandEqualsSeparatorSwitch("--separate-git-dir")]
     public string? SeparateGitDir { get; set; }
 
-    [CommandLongSwitch("initial-branch")]
+    [CommandEqualsSeparatorSwitch("--initial-branch")]
     public string? InitialBranch { get; set; }
 
-    [CommandLongSwitch("shared")]
+    [CommandEqualsSeparatorSwitch("--shared")]
     public string? Shared { get; set; }
 
 }

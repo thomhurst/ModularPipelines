@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("restart")]
-public record DockerRestartOptions([property: PositionalArgument] string Container) : DockerOptions
+public record DockerRestartOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("signal")]
+    [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 
-    [CommandLongSwitch("time")]
+    [CommandSwitch("--time")]
     public string? Time { get; set; }
 
 }

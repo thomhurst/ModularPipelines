@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network rm")]
-public record DockerNetworkRmOptions : DockerOptions
+public record DockerNetworkRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Network) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
 }

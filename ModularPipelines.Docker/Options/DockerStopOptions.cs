@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stop")]
-public record DockerStopOptions([property: PositionalArgument] string Container) : DockerOptions
+public record DockerStopOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("signal")]
+    [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 
-    [CommandLongSwitch("time")]
+    [CommandSwitch("--time")]
     public string? Time { get; set; }
 
 }

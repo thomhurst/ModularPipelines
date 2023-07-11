@@ -5,7 +5,7 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("verify")]
 public record HelmVerifyOptions : HelmOptions
 {
-    [CommandLongSwitch("keyring", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
     public string? Keyring { get; set; }
 
 }

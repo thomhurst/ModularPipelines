@@ -5,40 +5,40 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("proxy")]
 public record KubernetesProxyOptions : KubernetesOptions
 {
-    [CommandLongSwitch("accept-hosts", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--accept-hosts", SwitchValueSeparator = " ")]
     public string? AcceptHosts { get; set; }
 
-    [CommandLongSwitch("accept-paths", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--accept-paths", SwitchValueSeparator = " ")]
     public string? AcceptPaths { get; set; }
 
-    [CommandLongSwitch("address", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--address", SwitchValueSeparator = " ")]
     public string? Address { get; set; }
 
-    [CommandLongSwitch("api-prefix", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--api-prefix", SwitchValueSeparator = " ")]
     public string? ApiPrefix { get; set; }
 
-    [BooleanCommandSwitch("disable-filter")]
+    [BooleanCommandSwitch("--disable-filter")]
     public bool? DisableFilter { get; set; }
 
-    [CommandLongSwitch("keepalive", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--keepalive", SwitchValueSeparator = " ")]
     public string? Keepalive { get; set; }
 
-    [CommandLongSwitch("port", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
     public int? Port { get; set; }
 
-    [CommandLongSwitch("reject-methods", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--reject-methods", SwitchValueSeparator = " ")]
     public string? RejectMethods { get; set; }
 
-    [CommandLongSwitch("reject-paths", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--reject-paths", SwitchValueSeparator = " ")]
     public string? RejectPaths { get; set; }
 
-    [CommandLongSwitch("unix-socket", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--unix-socket", SwitchValueSeparator = " ")]
     public string? UnixSocket { get; set; }
 
-    [CommandLongSwitch("www", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--www", SwitchValueSeparator = " ")]
     public string? Www { get; set; }
 
-    [CommandLongSwitch("www-prefix", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--www-prefix", SwitchValueSeparator = " ")]
     public string? WwwPrefix { get; set; }
 
 }

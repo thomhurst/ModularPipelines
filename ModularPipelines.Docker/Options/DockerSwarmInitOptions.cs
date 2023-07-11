@@ -5,49 +5,49 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm init")]
 public record DockerSwarmInitOptions : DockerOptions
 {
-    [CommandLongSwitch("advertise-addr")]
+    [CommandSwitch("--advertise-addr")]
     public string? AdvertiseAddr { get; set; }
 
-    [CommandLongSwitch("autolock")]
+    [CommandSwitch("--autolock")]
     public string? Autolock { get; set; }
 
-    [CommandLongSwitch("availability")]
+    [CommandSwitch("--availability")]
     public string? Availability { get; set; }
 
-    [CommandLongSwitch("cert-expiry")]
+    [CommandSwitch("--cert-expiry")]
     public string? CertExpiry { get; set; }
 
-    [CommandLongSwitch("data-path-addr")]
+    [CommandSwitch("--data-path-addr")]
     public string? DataPathAddr { get; set; }
 
-    [CommandLongSwitch("data-path-port")]
+    [CommandSwitch("--data-path-port")]
     public string? DataPathPort { get; set; }
 
-    [CommandLongSwitch("default-addr-pool")]
+    [CommandSwitch("--default-addr-pool")]
     public string? DefaultAddrPool { get; set; }
 
-    [CommandLongSwitch("default-addr-pool-mask-length")]
-    public string? DefaultAddrPoolMaskLength { get; set; }
+    [CommandSwitch("--default-addr-pool-mask-length")]
+    public int? DefaultAddrPoolMaskLength { get; set; }
 
-    [CommandLongSwitch("dispatcher-heartbeat")]
+    [CommandSwitch("--dispatcher-heartbeat")]
     public string? DispatcherHeartbeat { get; set; }
 
-    [CommandLongSwitch("external-ca")]
+    [CommandSwitch("--external-ca")]
     public string? ExternalCa { get; set; }
 
-    [CommandLongSwitch("force-new-cluster")]
+    [CommandSwitch("--force-new-cluster")]
     public string? ForceNewCluster { get; set; }
 
-    [CommandLongSwitch("listen-addr")]
+    [CommandSwitch("--listen-addr")]
     public string? ListenAddr { get; set; }
 
-    [CommandLongSwitch("max-snapshots")]
+    [CommandSwitch("--max-snapshots")]
     public string? MaxSnapshots { get; set; }
 
-    [CommandLongSwitch("snapshot-interval")]
-    public string? SnapshotInterval { get; set; }
+    [CommandSwitch("--snapshot-interval")]
+    public int? SnapshotInterval { get; set; }
 
-    [CommandLongSwitch("task-history-limit")]
-    public string? TaskHistoryLimit { get; set; }
+    [CommandSwitch("--task-history-limit")]
+    public int? TaskHistoryLimit { get; set; }
 
 }

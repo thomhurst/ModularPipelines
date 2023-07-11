@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network inspect")]
-public record DockerNetworkInspectOptions : DockerOptions
+public record DockerNetworkInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Network) : DockerOptions
 {
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("verbose")]
+    [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
 
 }

@@ -5,16 +5,18 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose rm")]
 public record DockerComposeRmOptions : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
-    [CommandLongSwitch("stop")]
+    [CommandSwitch("--stop")]
     public string? Stop { get; set; }
 
-    [CommandLongSwitch("volumes")]
+    [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

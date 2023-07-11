@@ -5,28 +5,28 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("rm")]
 public record GitRmOptions : GitOptions
 {
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("cached")]
+    [BooleanCommandSwitch("--cached")]
     public bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("ignore-unmatch")]
+    [BooleanCommandSwitch("--ignore-unmatch")]
     public bool? IgnoreUnmatch { get; set; }
 
-    [BooleanCommandSwitch("sparse")]
+    [BooleanCommandSwitch("--sparse")]
     public bool? Sparse { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("pathspec-from-file")]
+    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("pathspec-file-nul")]
+    [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
 
 }

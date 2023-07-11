@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin create")]
-public record DockerPluginCreateOptions : DockerOptions
+public record DockerPluginCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin, [property: PositionalArgument(Position = Position.AfterArguments)] string PluginDataDirectory) : DockerOptions
 {
-    [CommandLongSwitch("compress")]
-    public string? Compress { get; set; }
+    [BooleanCommandSwitch("--compress")]
+    public bool? Compress { get; set; }
 
 }

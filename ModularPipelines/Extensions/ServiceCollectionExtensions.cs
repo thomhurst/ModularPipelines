@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
@@ -8,6 +9,11 @@ namespace ModularPipelines.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));
+    }
+    
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services) where TModule : ModuleBase
     {
         return services.AddSingleton<ModuleBase, TModule>();

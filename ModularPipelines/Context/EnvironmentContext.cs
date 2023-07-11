@@ -8,7 +8,7 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Context;
 
-public class EnvironmentContext : IEnvironmentContext, IInitializer
+internal class EnvironmentContext : IEnvironmentContext, IInitializer
 {
     private readonly ILogger<EnvironmentContext> _logger;
     private readonly IHostEnvironment _hostEnvironment;
@@ -25,20 +25,26 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
     }
-
+    
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
+    
     public OperatingSystem OperatingSystem { get; } = Environment.OSVersion;
+    
     public bool Is64BitOperatingSystem { get; } = Environment.Is64BitOperatingSystem;
+    
     public Folder AppDomainDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory!;
+    
     public Folder ContentDirectory { get; set; }
+    
     public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
+    
     public Folder? GitRootDirectory { get; set; }
 
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
     {
         return Environment.GetFolderPath(specialFolder);
     }
-
+    
     public IEnvironmentVariables EnvironmentVariables { get; }
 
     public async Task InitializeAsync()
@@ -48,7 +54,9 @@ public class EnvironmentContext : IEnvironmentContext, IInitializer
         {
             gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
-                Arguments = new[] { "rev-parse", "--show-toplevel" }
+                Arguments = new[] { "rev-parse", "--show-toplevel" },
+                LogInput = false,
+                LogOutput = false
             });
         }
         catch (CommandException e)

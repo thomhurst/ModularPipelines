@@ -5,118 +5,118 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("run")]
 public record KubernetesRunOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandLongSwitch("annotations", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--annotations", SwitchValueSeparator = " ")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("attach")]
+    [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 
-    [CommandLongSwitch("cascade", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
     public string? Cascade { get; set; }
 
-    [BooleanCommandSwitch("command")]
+    [BooleanCommandSwitch("--command")]
     public bool? Command { get; set; }
 
-    [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
 
-    [CommandLongSwitch("env", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
     public string[]? Env { get; set; }
 
-    [BooleanCommandSwitch("expose")]
+    [BooleanCommandSwitch("--expose")]
     public bool? Expose { get; set; }
 
-    [CommandLongSwitch("field-manager", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
 
-    [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandLongSwitch("grace-period", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
     public int? GracePeriod { get; set; }
 
-    [CommandLongSwitch("hostport", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--hostport", SwitchValueSeparator = " ")]
     public int? Hostport { get; set; }
 
-    [CommandLongSwitch("image", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
     public string? Image { get; set; }
 
-    [CommandLongSwitch("image-pull-policy", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
     public string? ImagePullPolicy { get; set; }
 
-    [CommandLongSwitch("kustomize", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
     public string? Kustomize { get; set; }
 
-    [CommandLongSwitch("labels", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
     public string? Labels { get; set; }
 
-    [BooleanCommandSwitch("leave-stdin-open")]
+    [BooleanCommandSwitch("--leave-stdin-open")]
     public bool? LeaveStdinOpen { get; set; }
 
-    [CommandLongSwitch("limits", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--limits", SwitchValueSeparator = " ")]
     public string? Limits { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("overrides", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
     public string? Overrides { get; set; }
 
-    [CommandLongSwitch("pod-running-timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
     public string? PodRunningTimeout { get; set; }
 
-    [CommandLongSwitch("port", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
     public string? Port { get; set; }
 
-    [BooleanCommandSwitch("privileged")]
+    [BooleanCommandSwitch("--privileged")]
     public bool? Privileged { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("record")]
+    [BooleanCommandSwitch("--record")]
     public bool? Record { get; set; }
 
-    [BooleanCommandSwitch("recursive")]
+    [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandLongSwitch("requests", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--requests", SwitchValueSeparator = " ")]
     public string? Requests { get; set; }
 
-    [CommandLongSwitch("restart", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
     public string? Restart { get; set; }
 
-    [BooleanCommandSwitch("rm")]
+    [BooleanCommandSwitch("--rm")]
     public bool? Rm { get; set; }
 
-    [BooleanCommandSwitch("save-config")]
+    [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandLongSwitch("serviceaccount", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
     public string? Serviceaccount { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
-    [CommandLongSwitch("timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("tty")]
+    [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
 
-    [BooleanCommandSwitch("wait")]
+    [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 
 }

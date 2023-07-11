@@ -5,148 +5,148 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("fetch")]
 public record GitFetchOptions : GitOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("append")]
+    [BooleanCommandSwitch("--append")]
     public bool? Append { get; set; }
 
-    [BooleanCommandSwitch("atomic")]
+    [BooleanCommandSwitch("--atomic")]
     public bool? Atomic { get; set; }
 
-    [CommandLongSwitch("depth")]
+    [CommandEqualsSeparatorSwitch("--depth")]
     public string? Depth { get; set; }
 
-    [CommandLongSwitch("deepen")]
+    [CommandEqualsSeparatorSwitch("--deepen")]
     public string? Deepen { get; set; }
 
-    [CommandLongSwitch("shallow-since")]
+    [CommandEqualsSeparatorSwitch("--shallow-since")]
     public string? ShallowSince { get; set; }
 
-    [CommandLongSwitch("shallow-exclude")]
+    [CommandEqualsSeparatorSwitch("--shallow-exclude")]
     public string? ShallowExclude { get; set; }
 
-    [BooleanCommandSwitch("unshallow")]
+    [BooleanCommandSwitch("--unshallow")]
     public bool? Unshallow { get; set; }
 
-    [BooleanCommandSwitch("update-shallow")]
+    [BooleanCommandSwitch("--update-shallow")]
     public bool? UpdateShallow { get; set; }
 
-    [CommandLongSwitch("negotiation-tip")]
+    [CommandEqualsSeparatorSwitch("--negotiation-tip")]
     public string? NegotiationTip { get; set; }
 
-    [BooleanCommandSwitch("negotiate-only")]
+    [BooleanCommandSwitch("--negotiate-only")]
     public bool? NegotiateOnly { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("porcelain")]
+    [BooleanCommandSwitch("--porcelain")]
     public bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("no-write-fetch-head")]
+    [BooleanCommandSwitch("--no-write-fetch-head")]
     public bool? NoWriteFetchHead { get; set; }
 
-    [BooleanCommandSwitch("write-fetch-head")]
+    [BooleanCommandSwitch("--write-fetch-head")]
     public bool? WriteFetchHead { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("keep")]
+    [BooleanCommandSwitch("--keep")]
     public bool? Keep { get; set; }
 
-    [BooleanCommandSwitch("multiple")]
+    [BooleanCommandSwitch("--multiple")]
     public bool? Multiple { get; set; }
 
-    [BooleanCommandSwitch("no-auto-maintenance")]
+    [BooleanCommandSwitch("--no-auto-maintenance")]
     public bool? NoAutoMaintenance { get; set; }
 
-    [BooleanCommandSwitch("auto-maintenance")]
+    [BooleanCommandSwitch("--auto-maintenance")]
     public bool? AutoMaintenance { get; set; }
 
-    [BooleanCommandSwitch("no-auto-gc")]
+    [BooleanCommandSwitch("--no-auto-gc")]
     public bool? NoAutoGc { get; set; }
 
-    [BooleanCommandSwitch("auto-gc")]
+    [BooleanCommandSwitch("--auto-gc")]
     public bool? AutoGc { get; set; }
 
-    [BooleanCommandSwitch("no-write-commit-graph")]
+    [BooleanCommandSwitch("--no-write-commit-graph")]
     public bool? NoWriteCommitGraph { get; set; }
 
-    [BooleanCommandSwitch("write-commit-graph")]
+    [BooleanCommandSwitch("--write-commit-graph")]
     public bool? WriteCommitGraph { get; set; }
 
-    [BooleanCommandSwitch("prefetch")]
+    [BooleanCommandSwitch("--prefetch")]
     public bool? Prefetch { get; set; }
 
-    [BooleanCommandSwitch("prune")]
+    [BooleanCommandSwitch("--prune")]
     public bool? Prune { get; set; }
 
-    [BooleanCommandSwitch("prune-tags")]
+    [BooleanCommandSwitch("--prune-tags")]
     public bool? PruneTags { get; set; }
 
-    [BooleanCommandSwitch("no-tags")]
+    [BooleanCommandSwitch("--no-tags")]
     public bool? NoTags { get; set; }
 
-    [BooleanCommandSwitch("refetch")]
+    [BooleanCommandSwitch("--refetch")]
     public bool? Refetch { get; set; }
 
-    [CommandLongSwitch("refmap")]
+    [CommandEqualsSeparatorSwitch("--refmap")]
     public string? Refmap { get; set; }
 
-    [BooleanCommandSwitch("tags")]
+    [BooleanCommandSwitch("--tags")]
     public bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [CommandLongSwitch("jobs")]
+    [CommandEqualsSeparatorSwitch("--jobs")]
     public string? Jobs { get; set; }
 
-    [BooleanCommandSwitch("no-recurse-submodules")]
+    [BooleanCommandSwitch("--no-recurse-submodules")]
     public bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("set-upstream")]
+    [BooleanCommandSwitch("--set-upstream")]
     public bool? SetUpstream { get; set; }
 
-    [CommandLongSwitch("submodule-prefix")]
+    [CommandEqualsSeparatorSwitch("--submodule-prefix")]
     public string? SubmodulePrefix { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules-default")]
+    [BooleanCommandSwitch("--recurse-submodules-default")]
     public bool? RecurseSubmodulesDefault { get; set; }
 
-    [BooleanCommandSwitch("update-head-ok")]
+    [BooleanCommandSwitch("--update-head-ok")]
     public bool? UpdateHeadOk { get; set; }
 
-    [CommandLongSwitch("upload-pack")]
+    [CommandEqualsSeparatorSwitch("--upload-pack")]
     public string? UploadPack { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [CommandLongSwitch("server-option")]
+    [CommandEqualsSeparatorSwitch("--server-option")]
     public string? ServerOption { get; set; }
 
-    [BooleanCommandSwitch("show-forced-updates")]
+    [BooleanCommandSwitch("--show-forced-updates")]
     public bool? ShowForcedUpdates { get; set; }
 
-    [BooleanCommandSwitch("no-show-forced-updates")]
+    [BooleanCommandSwitch("--no-show-forced-updates")]
     public bool? NoShowForcedUpdates { get; set; }
 
-    [BooleanCommandSwitch("ipv4")]
+    [BooleanCommandSwitch("--ipv4")]
     public bool? Ipv4 { get; set; }
 
-    [BooleanCommandSwitch("ipv6")]
+    [BooleanCommandSwitch("--ipv6")]
     public bool? Ipv6 { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
 }

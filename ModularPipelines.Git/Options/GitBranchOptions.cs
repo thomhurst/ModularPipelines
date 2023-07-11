@@ -5,106 +5,106 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("branch")]
 public record GitBranchOptions : GitOptions
 {
-    [BooleanCommandSwitch("delete")]
+    [BooleanCommandSwitch("--delete")]
     public bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("create-reflog")]
+    [BooleanCommandSwitch("--create-reflog")]
     public bool? CreateReflog { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("move")]
+    [BooleanCommandSwitch("--move")]
     public bool? Move { get; set; }
 
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("copy")]
+    [BooleanCommandSwitch("--copy")]
     public bool? Copy { get; set; }
 
-    [CommandLongSwitch("color")]
+    [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("no-color")]
+    [BooleanCommandSwitch("--no-color")]
     public bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("ignore-case")]
+    [BooleanCommandSwitch("--ignore-case")]
     public bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("omit-empty")]
+    [BooleanCommandSwitch("--omit-empty")]
     public bool? OmitEmpty { get; set; }
 
-    [CommandLongSwitch("column")]
+    [CommandEqualsSeparatorSwitch("--column")]
     public string? Column { get; set; }
 
-    [BooleanCommandSwitch("no-column")]
+    [BooleanCommandSwitch("--no-column")]
     public bool? NoColumn { get; set; }
 
-    [BooleanCommandSwitch("remotes")]
+    [BooleanCommandSwitch("--remotes")]
     public bool? Remotes { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("list")]
+    [BooleanCommandSwitch("--list")]
     public bool? List { get; set; }
 
-    [BooleanCommandSwitch("show-current")]
+    [BooleanCommandSwitch("--show-current")]
     public bool? ShowCurrent { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("no-abbrev")]
+    [BooleanCommandSwitch("--no-abbrev")]
     public bool? NoAbbrev { get; set; }
 
-    [BooleanCommandSwitch("track")]
+    [BooleanCommandSwitch("--track")]
     public bool? Track { get; set; }
 
-    [BooleanCommandSwitch("no-track")]
+    [BooleanCommandSwitch("--no-track")]
     public bool? NoTrack { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("set-upstream")]
+    [BooleanCommandSwitch("--set-upstream")]
     public bool? SetUpstream { get; set; }
 
-    [CommandLongSwitch("set-upstream-to")]
+    [CommandEqualsSeparatorSwitch("--set-upstream-to")]
     public string? SetUpstreamTo { get; set; }
 
-    [BooleanCommandSwitch("unset-upstream")]
+    [BooleanCommandSwitch("--unset-upstream")]
     public bool? UnsetUpstream { get; set; }
 
-    [BooleanCommandSwitch("edit-description")]
+    [BooleanCommandSwitch("--edit-description")]
     public bool? EditDescription { get; set; }
 
-    [CommandLongSwitch("contains")]
+    [CommandEqualsSeparatorSwitch("--contains")]
     public string? Contains { get; set; }
 
-    [CommandLongSwitch("no-contains")]
+    [CommandEqualsSeparatorSwitch("--no-contains")]
     public string? NoContains { get; set; }
 
-    [CommandLongSwitch("merged")]
+    [CommandEqualsSeparatorSwitch("--merged")]
     public string? Merged { get; set; }
 
-    [CommandLongSwitch("no-merged")]
+    [CommandEqualsSeparatorSwitch("--no-merged")]
     public string? NoMerged { get; set; }
 
-    [CommandLongSwitch("sort")]
+    [CommandEqualsSeparatorSwitch("--sort")]
     public string? Sort { get; set; }
 
-    [CommandLongSwitch("points-at")]
+    [CommandEqualsSeparatorSwitch("--points-at")]
     public string? PointsAt { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
 }

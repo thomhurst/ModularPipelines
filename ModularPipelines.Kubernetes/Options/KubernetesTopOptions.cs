@@ -5,16 +5,16 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("top")]
 public record KubernetesTopOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("no-headers")]
+    [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandLongSwitch("selector", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
-    [CommandLongSwitch("sort-by", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
     public string? SortBy { get; set; }
 
-    [BooleanCommandSwitch("use-protocol-buffers")]
+    [BooleanCommandSwitch("--use-protocol-buffers")]
     public bool? UseProtocolBuffers { get; set; }
 
 }

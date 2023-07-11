@@ -5,109 +5,109 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("config")]
 public record GitConfigOptions : GitOptions
 {
-    [BooleanCommandSwitch("replace-all")]
+    [BooleanCommandSwitch("--replace-all")]
     public bool? ReplaceAll { get; set; }
 
-    [BooleanCommandSwitch("add")]
+    [BooleanCommandSwitch("--add")]
     public bool? Add { get; set; }
 
-    [BooleanCommandSwitch("get")]
+    [BooleanCommandSwitch("--get")]
     public bool? Get { get; set; }
 
-    [BooleanCommandSwitch("get-all")]
+    [BooleanCommandSwitch("--get-all")]
     public bool? GetAll { get; set; }
 
-    [BooleanCommandSwitch("get-regexp")]
+    [BooleanCommandSwitch("--get-regexp")]
     public bool? GetRegexp { get; set; }
 
-    [CommandLongSwitch("get-urlmatch")]
+    [CommandEqualsSeparatorSwitch("--get-urlmatch")]
     public string? GetUrlmatch { get; set; }
 
-    [BooleanCommandSwitch("global")]
+    [BooleanCommandSwitch("--global")]
     public bool? Global { get; set; }
 
-    [BooleanCommandSwitch("system")]
+    [BooleanCommandSwitch("--system")]
     public bool? System { get; set; }
 
-    [BooleanCommandSwitch("local")]
+    [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("worktree")]
+    [BooleanCommandSwitch("--worktree")]
     public bool? Worktree { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [CommandLongSwitch("blob")]
+    [CommandEqualsSeparatorSwitch("--blob")]
     public string? Blob { get; set; }
 
-    [BooleanCommandSwitch("remove-section")]
+    [BooleanCommandSwitch("--remove-section")]
     public bool? RemoveSection { get; set; }
 
-    [BooleanCommandSwitch("rename-section")]
+    [BooleanCommandSwitch("--rename-section")]
     public bool? RenameSection { get; set; }
 
-    [BooleanCommandSwitch("unset")]
+    [BooleanCommandSwitch("--unset")]
     public bool? Unset { get; set; }
 
-    [BooleanCommandSwitch("unset-all")]
+    [BooleanCommandSwitch("--unset-all")]
     public bool? UnsetAll { get; set; }
 
-    [BooleanCommandSwitch("list")]
+    [BooleanCommandSwitch("--list")]
     public bool? List { get; set; }
 
-    [BooleanCommandSwitch("fixed-value")]
+    [BooleanCommandSwitch("--fixed-value")]
     public bool? FixedValue { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandEqualsSeparatorSwitch("--type")]
     public string? Type { get; set; }
 
-    [BooleanCommandSwitch("bool")]
+    [BooleanCommandSwitch("--bool")]
     public bool? Bool { get; set; }
 
-    [BooleanCommandSwitch("int")]
+    [BooleanCommandSwitch("--int")]
     public bool? Int { get; set; }
 
-    [BooleanCommandSwitch("bool-or-int")]
+    [BooleanCommandSwitch("--bool-or-int")]
     public bool? BoolOrInt { get; set; }
 
-    [BooleanCommandSwitch("path")]
+    [BooleanCommandSwitch("--path")]
     public bool? Path { get; set; }
 
-    [BooleanCommandSwitch("expiry-date")]
+    [BooleanCommandSwitch("--expiry-date")]
     public bool? ExpiryDate { get; set; }
 
-    [BooleanCommandSwitch("no-type")]
+    [BooleanCommandSwitch("--no-type")]
     public bool? NoType { get; set; }
 
-    [BooleanCommandSwitch("null")]
+    [BooleanCommandSwitch("--null")]
     public bool? Null { get; set; }
 
-    [BooleanCommandSwitch("name-only")]
+    [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("show-origin")]
+    [BooleanCommandSwitch("--show-origin")]
     public bool? ShowOrigin { get; set; }
 
-    [BooleanCommandSwitch("show-scope")]
+    [BooleanCommandSwitch("--show-scope")]
     public bool? ShowScope { get; set; }
 
-    [CommandLongSwitch("get-colorbool")]
+    [CommandEqualsSeparatorSwitch("--get-colorbool")]
     public string? GetColorbool { get; set; }
 
-    [CommandLongSwitch("get-color")]
+    [CommandEqualsSeparatorSwitch("--get-color")]
     public string? GetColor { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("no-includes")]
+    [BooleanCommandSwitch("--no-includes")]
     public bool? NoIncludes { get; set; }
 
-    [BooleanCommandSwitch("includes")]
+    [BooleanCommandSwitch("--includes")]
     public bool? Includes { get; set; }
 
-    [CommandLongSwitch("default")]
+    [CommandEqualsSeparatorSwitch("--default")]
     public string? Default { get; set; }
 
 }

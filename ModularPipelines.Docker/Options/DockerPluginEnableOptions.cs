@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin enable")]
-public record DockerPluginEnableOptions : DockerOptions
+public record DockerPluginEnableOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
 {
-    [CommandLongSwitch("timeout")]
-    public string? Timeout { get; set; }
+    [CommandSwitch("--timeout")]
+    public int? Timeout { get; set; }
 
 }

@@ -5,18 +5,18 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("clean")]
 public record DotNetCleanOptions : DotNetOptions
 {
-    [CommandSwitch("c")]
+    [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 
-    [CommandSwitch("f")]
+    [CommandSwitch("-f")]
     public string? Framework { get; init; }
 
-    [CommandSwitch("o")]
+    [CommandSwitch("-o")]
     public string? Output { get; init; }
 
-    [BooleanCommandSwitch("nologo")]
+    [BooleanCommandSwitch("--nologo")]
     public bool? NoLogo { get; init; }
 
-    [BooleanCommandSwitch("use-current-runtime")]
+    [BooleanCommandSwitch("--use-current-runtime")]
     public bool? UseCurrentRuntime { get; init; }
 }

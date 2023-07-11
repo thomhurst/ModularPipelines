@@ -5,7 +5,7 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("get", "manifest")]
 public record HelmGetManifestOptions : HelmOptions
 {
-    [CommandLongSwitch("revision", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
     public int? Revision { get; set; }
 
 }

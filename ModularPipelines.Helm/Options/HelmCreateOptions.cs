@@ -5,7 +5,7 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("create")]
 public record HelmCreateOptions : HelmOptions
 {
-    [CommandLongSwitch("starter", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--starter", SwitchValueSeparator = " ")]
     public string? Starter { get; set; }
 
 }

@@ -3,21 +3,24 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("logs")]
-public record DockerLogsOptions : DockerOptions
+public record DockerLogsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("details")]
-    public string? Details { get; set; }
+    [BooleanCommandSwitch("--details")]
+    public bool? Details { get; set; }
 
-    [CommandLongSwitch("follow")]
-    public string? Follow { get; set; }
+    [BooleanCommandSwitch("--follow")]
+    public bool? Follow { get; set; }
 
-    [CommandLongSwitch("since")]
+    [CommandSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandLongSwitch("tail")]
+    [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 
-    [CommandLongSwitch("timestamps")]
-    public string? Timestamps { get; set; }
+    [BooleanCommandSwitch("--timestamps")]
+    public bool? Timestamps { get; set; }
+
+    [CommandSwitch("--until")]
+    public string? Until { get; set; }
 
 }

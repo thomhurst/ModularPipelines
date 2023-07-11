@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("checkpoint ls")]
-public record DockerCheckpointLsOptions : DockerOptions
+public record DockerCheckpointLsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("checkpoint-dir")]
+    [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
 
 }

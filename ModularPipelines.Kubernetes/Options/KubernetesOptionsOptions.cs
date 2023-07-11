@@ -5,7 +5,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("options")]
 public record KubernetesOptionsOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("name-only")]
+    [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
 
 }

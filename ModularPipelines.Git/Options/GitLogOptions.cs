@@ -5,544 +5,544 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("log")]
 public record GitLogOptions : GitOptions
 {
-    [BooleanCommandSwitch("follow")]
+    [BooleanCommandSwitch("--follow")]
     public bool? Follow { get; set; }
 
-    [BooleanCommandSwitch("no-decorate")]
+    [BooleanCommandSwitch("--no-decorate")]
     public bool? NoDecorate { get; set; }
 
-    [BooleanCommandSwitch("decorate")]
+    [BooleanCommandSwitch("--decorate")]
     public bool? Decorate { get; set; }
 
-    [CommandLongSwitch("decorate-refs")]
+    [CommandEqualsSeparatorSwitch("--decorate-refs")]
     public string? DecorateRefs { get; set; }
 
-    [CommandLongSwitch("decorate-refs-exclude")]
+    [CommandEqualsSeparatorSwitch("--decorate-refs-exclude")]
     public string? DecorateRefsExclude { get; set; }
 
-    [BooleanCommandSwitch("clear-decorations")]
+    [BooleanCommandSwitch("--clear-decorations")]
     public bool? ClearDecorations { get; set; }
 
-    [BooleanCommandSwitch("source")]
+    [BooleanCommandSwitch("--source")]
     public bool? Source { get; set; }
 
-    [BooleanCommandSwitch("no-mailmap")]
+    [BooleanCommandSwitch("--no-mailmap")]
     public bool? NoMailmap { get; set; }
 
-    [BooleanCommandSwitch("mailmap")]
+    [BooleanCommandSwitch("--mailmap")]
     public bool? Mailmap { get; set; }
 
-    [BooleanCommandSwitch("no-use-mailmap")]
+    [BooleanCommandSwitch("--no-use-mailmap")]
     public bool? NoUseMailmap { get; set; }
 
-    [BooleanCommandSwitch("use-mailmap")]
+    [BooleanCommandSwitch("--use-mailmap")]
     public bool? UseMailmap { get; set; }
 
-    [BooleanCommandSwitch("full-diff")]
+    [BooleanCommandSwitch("--full-diff")]
     public bool? FullDiff { get; set; }
 
-    [BooleanCommandSwitch("log-size")]
+    [BooleanCommandSwitch("--log-size")]
     public bool? LogSize { get; set; }
 
-    [CommandLongSwitch("max-count")]
+    [CommandEqualsSeparatorSwitch("--max-count")]
     public string? MaxCount { get; set; }
 
-    [CommandLongSwitch("skip")]
+    [CommandEqualsSeparatorSwitch("--skip")]
     public string? Skip { get; set; }
 
-    [CommandLongSwitch("since")]
+    [CommandEqualsSeparatorSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandLongSwitch("after")]
+    [CommandEqualsSeparatorSwitch("--after")]
     public string? After { get; set; }
 
-    [CommandLongSwitch("since-as-filter")]
+    [CommandEqualsSeparatorSwitch("--since-as-filter")]
     public string? SinceAsFilter { get; set; }
 
-    [CommandLongSwitch("until")]
+    [CommandEqualsSeparatorSwitch("--until")]
     public string? Until { get; set; }
 
-    [CommandLongSwitch("before")]
+    [CommandEqualsSeparatorSwitch("--before")]
     public string? Before { get; set; }
 
-    [CommandLongSwitch("author")]
+    [CommandEqualsSeparatorSwitch("--author")]
     public string? Author { get; set; }
 
-    [CommandLongSwitch("committer")]
+    [CommandEqualsSeparatorSwitch("--committer")]
     public string? Committer { get; set; }
 
-    [CommandLongSwitch("grep-reflog")]
+    [CommandEqualsSeparatorSwitch("--grep-reflog")]
     public string? GrepReflog { get; set; }
 
-    [CommandLongSwitch("grep")]
+    [CommandEqualsSeparatorSwitch("--grep")]
     public string? Grep { get; set; }
 
-    [BooleanCommandSwitch("all-match")]
+    [BooleanCommandSwitch("--all-match")]
     public bool? AllMatch { get; set; }
 
-    [BooleanCommandSwitch("invert-grep")]
+    [BooleanCommandSwitch("--invert-grep")]
     public bool? InvertGrep { get; set; }
 
-    [BooleanCommandSwitch("regexp-ignore-case")]
+    [BooleanCommandSwitch("--regexp-ignore-case")]
     public bool? RegexpIgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("basic-regexp")]
+    [BooleanCommandSwitch("--basic-regexp")]
     public bool? BasicRegexp { get; set; }
 
-    [BooleanCommandSwitch("extended-regexp")]
+    [BooleanCommandSwitch("--extended-regexp")]
     public bool? ExtendedRegexp { get; set; }
 
-    [BooleanCommandSwitch("fixed-strings")]
+    [BooleanCommandSwitch("--fixed-strings")]
     public bool? FixedStrings { get; set; }
 
-    [BooleanCommandSwitch("perl-regexp")]
+    [BooleanCommandSwitch("--perl-regexp")]
     public bool? PerlRegexp { get; set; }
 
-    [BooleanCommandSwitch("remove-empty")]
+    [BooleanCommandSwitch("--remove-empty")]
     public bool? RemoveEmpty { get; set; }
 
-    [BooleanCommandSwitch("merges")]
+    [BooleanCommandSwitch("--merges")]
     public bool? Merges { get; set; }
 
-    [BooleanCommandSwitch("no-merges")]
+    [BooleanCommandSwitch("--no-merges")]
     public bool? NoMerges { get; set; }
 
-    [CommandLongSwitch("min-parents")]
+    [CommandEqualsSeparatorSwitch("--min-parents")]
     public string? MinParents { get; set; }
 
-    [CommandLongSwitch("max-parents")]
+    [CommandEqualsSeparatorSwitch("--max-parents")]
     public string? MaxParents { get; set; }
 
-    [BooleanCommandSwitch("no-min-parents")]
+    [BooleanCommandSwitch("--no-min-parents")]
     public bool? NoMinParents { get; set; }
 
-    [BooleanCommandSwitch("no-max-parents")]
+    [BooleanCommandSwitch("--no-max-parents")]
     public bool? NoMaxParents { get; set; }
 
-    [BooleanCommandSwitch("first-parent")]
+    [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
 
-    [BooleanCommandSwitch("exclude-first-parent-only")]
+    [BooleanCommandSwitch("--exclude-first-parent-only")]
     public bool? ExcludeFirstParentOnly { get; set; }
 
-    [BooleanCommandSwitch("not")]
+    [BooleanCommandSwitch("--not")]
     public bool? Not { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [CommandLongSwitch("branches")]
+    [CommandEqualsSeparatorSwitch("--branches")]
     public string? Branches { get; set; }
 
-    [CommandLongSwitch("tags")]
+    [CommandEqualsSeparatorSwitch("--tags")]
     public string? Tags { get; set; }
 
-    [CommandLongSwitch("remotes")]
+    [CommandEqualsSeparatorSwitch("--remotes")]
     public string? Remotes { get; set; }
 
-    [CommandLongSwitch("glob")]
+    [CommandEqualsSeparatorSwitch("--glob")]
     public string? Glob { get; set; }
 
-    [CommandLongSwitch("exclude")]
+    [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("exclude-hidden")]
+    [BooleanCommandSwitch("--exclude-hidden")]
     public bool? ExcludeHidden { get; set; }
 
-    [BooleanCommandSwitch("reflog")]
+    [BooleanCommandSwitch("--reflog")]
     public bool? Reflog { get; set; }
 
-    [BooleanCommandSwitch("alternate-refs")]
+    [BooleanCommandSwitch("--alternate-refs")]
     public bool? AlternateRefs { get; set; }
 
-    [BooleanCommandSwitch("single-worktree")]
+    [BooleanCommandSwitch("--single-worktree")]
     public bool? SingleWorktree { get; set; }
 
-    [BooleanCommandSwitch("ignore-missing")]
+    [BooleanCommandSwitch("--ignore-missing")]
     public bool? IgnoreMissing { get; set; }
 
-    [BooleanCommandSwitch("bisect")]
+    [BooleanCommandSwitch("--bisect")]
     public bool? Bisect { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("cherry-mark")]
+    [BooleanCommandSwitch("--cherry-mark")]
     public bool? CherryMark { get; set; }
 
-    [BooleanCommandSwitch("cherry-pick")]
+    [BooleanCommandSwitch("--cherry-pick")]
     public bool? CherryPick { get; set; }
 
-    [BooleanCommandSwitch("left-only")]
+    [BooleanCommandSwitch("--left-only")]
     public bool? LeftOnly { get; set; }
 
-    [BooleanCommandSwitch("right-only")]
+    [BooleanCommandSwitch("--right-only")]
     public bool? RightOnly { get; set; }
 
-    [BooleanCommandSwitch("cherry")]
+    [BooleanCommandSwitch("--cherry")]
     public bool? Cherry { get; set; }
 
-    [BooleanCommandSwitch("walk-reflogs")]
+    [BooleanCommandSwitch("--walk-reflogs")]
     public bool? WalkReflogs { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("boundary")]
+    [BooleanCommandSwitch("--boundary")]
     public bool? Boundary { get; set; }
 
-    [BooleanCommandSwitch("simplify-by-decoration")]
+    [BooleanCommandSwitch("--simplify-by-decoration")]
     public bool? SimplifyByDecoration { get; set; }
 
-    [BooleanCommandSwitch("show-pulls")]
+    [BooleanCommandSwitch("--show-pulls")]
     public bool? ShowPulls { get; set; }
 
-    [BooleanCommandSwitch("full-history")]
+    [BooleanCommandSwitch("--full-history")]
     public bool? FullHistory { get; set; }
 
-    [BooleanCommandSwitch("dense")]
+    [BooleanCommandSwitch("--dense")]
     public bool? Dense { get; set; }
 
-    [BooleanCommandSwitch("sparse")]
+    [BooleanCommandSwitch("--sparse")]
     public bool? Sparse { get; set; }
 
-    [BooleanCommandSwitch("simplify-merges")]
+    [BooleanCommandSwitch("--simplify-merges")]
     public bool? SimplifyMerges { get; set; }
 
-    [CommandLongSwitch("ancestry-path")]
+    [CommandEqualsSeparatorSwitch("--ancestry-path")]
     public string? AncestryPath { get; set; }
 
-    [BooleanCommandSwitch("date-order")]
+    [BooleanCommandSwitch("--date-order")]
     public bool? DateOrder { get; set; }
 
-    [BooleanCommandSwitch("author-date-order")]
+    [BooleanCommandSwitch("--author-date-order")]
     public bool? AuthorDateOrder { get; set; }
 
-    [BooleanCommandSwitch("topo-order")]
+    [BooleanCommandSwitch("--topo-order")]
     public bool? TopoOrder { get; set; }
 
-    [BooleanCommandSwitch("reverse")]
+    [BooleanCommandSwitch("--reverse")]
     public bool? Reverse { get; set; }
 
-    [BooleanCommandSwitch("no-walk")]
+    [BooleanCommandSwitch("--no-walk")]
     public bool? NoWalk { get; set; }
 
-    [BooleanCommandSwitch("do-walk")]
+    [BooleanCommandSwitch("--do-walk")]
     public bool? DoWalk { get; set; }
 
-    [CommandLongSwitch("pretty")]
+    [CommandEqualsSeparatorSwitch("--pretty")]
     public string? Pretty { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
-    [BooleanCommandSwitch("abbrev-commit")]
+    [BooleanCommandSwitch("--abbrev-commit")]
     public bool? AbbrevCommit { get; set; }
 
-    [BooleanCommandSwitch("no-abbrev-commit")]
+    [BooleanCommandSwitch("--no-abbrev-commit")]
     public bool? NoAbbrevCommit { get; set; }
 
-    [BooleanCommandSwitch("oneline")]
+    [BooleanCommandSwitch("--oneline")]
     public bool? Oneline { get; set; }
 
-    [CommandLongSwitch("encoding")]
+    [CommandEqualsSeparatorSwitch("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandLongSwitch("expand-tabs")]
+    [CommandEqualsSeparatorSwitch("--expand-tabs")]
     public string? ExpandTabs { get; set; }
 
-    [BooleanCommandSwitch("no-expand-tabs")]
+    [BooleanCommandSwitch("--no-expand-tabs")]
     public bool? NoExpandTabs { get; set; }
 
-    [CommandLongSwitch("notes")]
+    [CommandEqualsSeparatorSwitch("--notes")]
     public string? Notes { get; set; }
 
-    [BooleanCommandSwitch("no-notes")]
+    [BooleanCommandSwitch("--no-notes")]
     public bool? NoNotes { get; set; }
 
-    [CommandLongSwitch("show-notes")]
+    [CommandEqualsSeparatorSwitch("--show-notes")]
     public string? ShowNotes { get; set; }
 
-    [BooleanCommandSwitch("no-standard-notes")]
+    [BooleanCommandSwitch("--no-standard-notes")]
     public bool? NoStandardNotes { get; set; }
 
-    [BooleanCommandSwitch("standard-notes")]
+    [BooleanCommandSwitch("--standard-notes")]
     public bool? StandardNotes { get; set; }
 
-    [BooleanCommandSwitch("show-signature")]
+    [BooleanCommandSwitch("--show-signature")]
     public bool? ShowSignature { get; set; }
 
-    [BooleanCommandSwitch("relative-date")]
+    [BooleanCommandSwitch("--relative-date")]
     public bool? RelativeDate { get; set; }
 
-    [CommandLongSwitch("date")]
+    [CommandEqualsSeparatorSwitch("--date")]
     public string? Date { get; set; }
 
-    [BooleanCommandSwitch("parents")]
+    [BooleanCommandSwitch("--parents")]
     public bool? Parents { get; set; }
 
-    [BooleanCommandSwitch("children")]
+    [BooleanCommandSwitch("--children")]
     public bool? Children { get; set; }
 
-    [BooleanCommandSwitch("left-right")]
+    [BooleanCommandSwitch("--left-right")]
     public bool? LeftRight { get; set; }
 
-    [BooleanCommandSwitch("graph")]
+    [BooleanCommandSwitch("--graph")]
     public bool? Graph { get; set; }
 
-    [CommandLongSwitch("show-linear-break")]
+    [CommandEqualsSeparatorSwitch("--show-linear-break")]
     public string? ShowLinearBreak { get; set; }
 
-    [BooleanCommandSwitch("patch")]
+    [BooleanCommandSwitch("--patch")]
     public bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("no-patch")]
+    [BooleanCommandSwitch("--no-patch")]
     public bool? NoPatch { get; set; }
 
-    [BooleanCommandSwitch("diff-merges")]
+    [BooleanCommandSwitch("--diff-merges")]
     public bool? DiffMerges { get; set; }
 
-    [BooleanCommandSwitch("no-diff-merges")]
+    [BooleanCommandSwitch("--no-diff-merges")]
     public bool? NoDiffMerges { get; set; }
 
-    [BooleanCommandSwitch("remerge-diff")]
+    [BooleanCommandSwitch("--remerge-diff")]
     public bool? RemergeDiff { get; set; }
 
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("cc")]
+    [BooleanCommandSwitch("--cc")]
     public bool? Cc { get; set; }
 
-    [BooleanCommandSwitch("combined-all-paths")]
+    [BooleanCommandSwitch("--combined-all-paths")]
     public bool? CombinedAllPaths { get; set; }
 
-    [CommandLongSwitch("unified")]
+    [CommandEqualsSeparatorSwitch("--unified")]
     public string? Unified { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandEqualsSeparatorSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("output-indicator-new")]
+    [CommandEqualsSeparatorSwitch("--output-indicator-new")]
     public string? OutputIndicatorNew { get; set; }
 
-    [CommandLongSwitch("output-indicator-old")]
+    [CommandEqualsSeparatorSwitch("--output-indicator-old")]
     public string? OutputIndicatorOld { get; set; }
 
-    [CommandLongSwitch("output-indicator-context")]
+    [CommandEqualsSeparatorSwitch("--output-indicator-context")]
     public string? OutputIndicatorContext { get; set; }
 
-    [BooleanCommandSwitch("raw")]
+    [BooleanCommandSwitch("--raw")]
     public bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("patch-with-raw")]
+    [BooleanCommandSwitch("--patch-with-raw")]
     public bool? PatchWithRaw { get; set; }
 
-    [BooleanCommandSwitch("indent-heuristic")]
+    [BooleanCommandSwitch("--indent-heuristic")]
     public bool? IndentHeuristic { get; set; }
 
-    [BooleanCommandSwitch("no-indent-heuristic")]
+    [BooleanCommandSwitch("--no-indent-heuristic")]
     public bool? NoIndentHeuristic { get; set; }
 
-    [BooleanCommandSwitch("minimal")]
+    [BooleanCommandSwitch("--minimal")]
     public bool? Minimal { get; set; }
 
-    [BooleanCommandSwitch("patience")]
+    [BooleanCommandSwitch("--patience")]
     public bool? Patience { get; set; }
 
-    [BooleanCommandSwitch("histogram")]
+    [BooleanCommandSwitch("--histogram")]
     public bool? Histogram { get; set; }
 
-    [CommandLongSwitch("anchored")]
+    [CommandEqualsSeparatorSwitch("--anchored")]
     public string? Anchored { get; set; }
 
-    [BooleanCommandSwitch("diff-algorithm")]
+    [BooleanCommandSwitch("--diff-algorithm")]
     public bool? DiffAlgorithm { get; set; }
 
-    [CommandLongSwitch("stat")]
+    [CommandEqualsSeparatorSwitch("--stat")]
     public string? Stat { get; set; }
 
-    [BooleanCommandSwitch("compact-summary")]
+    [BooleanCommandSwitch("--compact-summary")]
     public bool? CompactSummary { get; set; }
 
-    [BooleanCommandSwitch("numstat")]
+    [BooleanCommandSwitch("--numstat")]
     public bool? Numstat { get; set; }
 
-    [BooleanCommandSwitch("shortstat")]
+    [BooleanCommandSwitch("--shortstat")]
     public bool? Shortstat { get; set; }
 
-    [CommandLongSwitch("dirstat")]
+    [CommandEqualsSeparatorSwitch("--dirstat")]
     public string? Dirstat { get; set; }
 
-    [BooleanCommandSwitch("cumulative")]
+    [BooleanCommandSwitch("--cumulative")]
     public bool? Cumulative { get; set; }
 
-    [CommandLongSwitch("dirstat-by-file")]
+    [CommandEqualsSeparatorSwitch("--dirstat-by-file")]
     public string? DirstatByFile { get; set; }
 
-    [BooleanCommandSwitch("summary")]
+    [BooleanCommandSwitch("--summary")]
     public bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("patch-with-stat")]
+    [BooleanCommandSwitch("--patch-with-stat")]
     public bool? PatchWithStat { get; set; }
 
-    [BooleanCommandSwitch("name-only")]
+    [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("name-status")]
+    [BooleanCommandSwitch("--name-status")]
     public bool? NameStatus { get; set; }
 
-    [CommandLongSwitch("submodule")]
+    [CommandEqualsSeparatorSwitch("--submodule")]
     public string? Submodule { get; set; }
 
-    [CommandLongSwitch("color")]
+    [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("no-color")]
+    [BooleanCommandSwitch("--no-color")]
     public bool? NoColor { get; set; }
 
-    [CommandLongSwitch("color-moved")]
+    [CommandEqualsSeparatorSwitch("--color-moved")]
     public string? ColorMoved { get; set; }
 
-    [BooleanCommandSwitch("no-color-moved")]
+    [BooleanCommandSwitch("--no-color-moved")]
     public bool? NoColorMoved { get; set; }
 
-    [CommandLongSwitch("color-moved-ws")]
+    [CommandEqualsSeparatorSwitch("--color-moved-ws")]
     public string? ColorMovedWs { get; set; }
 
-    [BooleanCommandSwitch("no-color-moved-ws")]
+    [BooleanCommandSwitch("--no-color-moved-ws")]
     public bool? NoColorMovedWs { get; set; }
 
-    [CommandLongSwitch("word-diff")]
+    [CommandEqualsSeparatorSwitch("--word-diff")]
     public string? WordDiff { get; set; }
 
-    [CommandLongSwitch("word-diff-regex")]
+    [CommandEqualsSeparatorSwitch("--word-diff-regex")]
     public string? WordDiffRegex { get; set; }
 
-    [CommandLongSwitch("color-words")]
+    [CommandEqualsSeparatorSwitch("--color-words")]
     public string? ColorWords { get; set; }
 
-    [BooleanCommandSwitch("no-renames")]
+    [BooleanCommandSwitch("--no-renames")]
     public bool? NoRenames { get; set; }
 
-    [BooleanCommandSwitch("no-rename-empty")]
+    [BooleanCommandSwitch("--no-rename-empty")]
     public bool? NoRenameEmpty { get; set; }
 
-    [BooleanCommandSwitch("rename-empty")]
+    [BooleanCommandSwitch("--rename-empty")]
     public bool? RenameEmpty { get; set; }
 
-    [BooleanCommandSwitch("check")]
+    [BooleanCommandSwitch("--check")]
     public bool? Check { get; set; }
 
-    [CommandLongSwitch("ws-error-highlight")]
+    [CommandEqualsSeparatorSwitch("--ws-error-highlight")]
     public string? WsErrorHighlight { get; set; }
 
-    [BooleanCommandSwitch("full-index")]
+    [BooleanCommandSwitch("--full-index")]
     public bool? FullIndex { get; set; }
 
-    [BooleanCommandSwitch("binary")]
+    [BooleanCommandSwitch("--binary")]
     public bool? Binary { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [CommandLongSwitch("break-rewrites")]
+    [CommandEqualsSeparatorSwitch("--break-rewrites")]
     public string? BreakRewrites { get; set; }
 
-    [CommandLongSwitch("find-renames")]
+    [CommandEqualsSeparatorSwitch("--find-renames")]
     public string? FindRenames { get; set; }
 
-    [CommandLongSwitch("find-copies")]
+    [CommandEqualsSeparatorSwitch("--find-copies")]
     public string? FindCopies { get; set; }
 
-    [BooleanCommandSwitch("find-copies-harder")]
+    [BooleanCommandSwitch("--find-copies-harder")]
     public bool? FindCopiesHarder { get; set; }
 
-    [BooleanCommandSwitch("irreversible-delete")]
+    [BooleanCommandSwitch("--irreversible-delete")]
     public bool? IrreversibleDelete { get; set; }
 
-    [BooleanCommandSwitch("diff-filter")]
+    [BooleanCommandSwitch("--diff-filter")]
     public bool? DiffFilter { get; set; }
 
-    [CommandLongSwitch("find-object")]
+    [CommandEqualsSeparatorSwitch("--find-object")]
     public string? FindObject { get; set; }
 
-    [BooleanCommandSwitch("pickaxe-all")]
+    [BooleanCommandSwitch("--pickaxe-all")]
     public bool? PickaxeAll { get; set; }
 
-    [BooleanCommandSwitch("pickaxe-regex")]
+    [BooleanCommandSwitch("--pickaxe-regex")]
     public bool? PickaxeRegex { get; set; }
 
-    [CommandLongSwitch("skip-to")]
+    [CommandEqualsSeparatorSwitch("--skip-to")]
     public string? SkipTo { get; set; }
 
-    [CommandLongSwitch("rotate-to")]
+    [CommandEqualsSeparatorSwitch("--rotate-to")]
     public string? RotateTo { get; set; }
 
-    [CommandLongSwitch("relative")]
+    [CommandEqualsSeparatorSwitch("--relative")]
     public string? Relative { get; set; }
 
-    [BooleanCommandSwitch("no-relative")]
+    [BooleanCommandSwitch("--no-relative")]
     public bool? NoRelative { get; set; }
 
-    [BooleanCommandSwitch("text")]
+    [BooleanCommandSwitch("--text")]
     public bool? Text { get; set; }
 
-    [BooleanCommandSwitch("ignore-cr-at-eol")]
+    [BooleanCommandSwitch("--ignore-cr-at-eol")]
     public bool? IgnoreCrAtEol { get; set; }
 
-    [BooleanCommandSwitch("ignore-space-at-eol")]
+    [BooleanCommandSwitch("--ignore-space-at-eol")]
     public bool? IgnoreSpaceAtEol { get; set; }
 
-    [BooleanCommandSwitch("ignore-space-change")]
+    [BooleanCommandSwitch("--ignore-space-change")]
     public bool? IgnoreSpaceChange { get; set; }
 
-    [BooleanCommandSwitch("ignore-all-space")]
+    [BooleanCommandSwitch("--ignore-all-space")]
     public bool? IgnoreAllSpace { get; set; }
 
-    [BooleanCommandSwitch("ignore-blank-lines")]
+    [BooleanCommandSwitch("--ignore-blank-lines")]
     public bool? IgnoreBlankLines { get; set; }
 
-    [CommandLongSwitch("ignore-matching-lines")]
+    [CommandEqualsSeparatorSwitch("--ignore-matching-lines")]
     public string? IgnoreMatchingLines { get; set; }
 
-    [CommandLongSwitch("inter-hunk-context")]
+    [CommandEqualsSeparatorSwitch("--inter-hunk-context")]
     public string? InterHunkContext { get; set; }
 
-    [BooleanCommandSwitch("function-context")]
+    [BooleanCommandSwitch("--function-context")]
     public bool? FunctionContext { get; set; }
 
-    [BooleanCommandSwitch("ext-diff")]
+    [BooleanCommandSwitch("--ext-diff")]
     public bool? ExtDiff { get; set; }
 
-    [BooleanCommandSwitch("no-ext-diff")]
+    [BooleanCommandSwitch("--no-ext-diff")]
     public bool? NoExtDiff { get; set; }
 
-    [BooleanCommandSwitch("textconv")]
+    [BooleanCommandSwitch("--textconv")]
     public bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("no-textconv")]
+    [BooleanCommandSwitch("--no-textconv")]
     public bool? NoTextconv { get; set; }
 
-    [CommandLongSwitch("ignore-submodules")]
+    [CommandEqualsSeparatorSwitch("--ignore-submodules")]
     public string? IgnoreSubmodules { get; set; }
 
-    [CommandLongSwitch("src-prefix")]
+    [CommandEqualsSeparatorSwitch("--src-prefix")]
     public string? SrcPrefix { get; set; }
 
-    [CommandLongSwitch("dst-prefix")]
+    [CommandEqualsSeparatorSwitch("--dst-prefix")]
     public string? DstPrefix { get; set; }
 
-    [BooleanCommandSwitch("no-prefix")]
+    [BooleanCommandSwitch("--no-prefix")]
     public bool? NoPrefix { get; set; }
 
-    [BooleanCommandSwitch("default-prefix")]
+    [BooleanCommandSwitch("--default-prefix")]
     public bool? DefaultPrefix { get; set; }
 
-    [CommandLongSwitch("line-prefix")]
+    [CommandEqualsSeparatorSwitch("--line-prefix")]
     public string? LinePrefix { get; set; }
 
-    [BooleanCommandSwitch("ita-invisible-in-index")]
+    [BooleanCommandSwitch("--ita-invisible-in-index")]
     public bool? ItaInvisibleInIndex { get; set; }
 
 }

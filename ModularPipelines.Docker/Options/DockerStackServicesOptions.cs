@@ -3,9 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack services")]
-public record DockerStackServicesOptions : DockerOptions
+public record DockerStackServicesOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
 {
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
+
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 
 }

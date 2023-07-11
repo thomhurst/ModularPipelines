@@ -3,69 +3,73 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose run")]
-public record DockerComposeRunOptions : DockerOptions
+public record DockerComposeRunOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
-    [CommandLongSwitch("build")]
-    public string? Build { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Command { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Args { get; set; }
+    [BooleanCommandSwitch("--build")]
+    public bool? Build { get; set; }
 
-    [CommandLongSwitch("cap-add")]
+    [CommandSwitch("--cap-add")]
     public string? CapAdd { get; set; }
 
-    [CommandLongSwitch("cap-drop")]
+    [CommandSwitch("--cap-drop")]
     public string? CapDrop { get; set; }
 
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("entrypoint")]
+    [CommandSwitch("--entrypoint")]
     public string? Entrypoint { get; set; }
 
-    [CommandLongSwitch("env")]
+    [CommandSwitch("--env")]
     public string? Env { get; set; }
 
-    [BooleanCommandSwitch("interactive")]
+    [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
-    [CommandLongSwitch("label")]
+    [CommandSwitch("--label")]
     public string? Label { get; set; }
 
-    [CommandLongSwitch("name")]
+    [CommandSwitch("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("no-TTY")]
+    [BooleanCommandSwitch("--no-TTY")]
     public bool? NoTTY { get; set; }
 
-    [CommandLongSwitch("no-deps")]
-    public string? NoDeps { get; set; }
+    [BooleanCommandSwitch("--no-deps")]
+    public bool? NoDeps { get; set; }
 
-    [CommandLongSwitch("publish")]
+    [CommandSwitch("--publish")]
     public string? Publish { get; set; }
 
-    [CommandLongSwitch("quiet-pull")]
-    public string? QuietPull { get; set; }
+    [BooleanCommandSwitch("--quiet-pull")]
+    public bool? QuietPull { get; set; }
 
-    [CommandLongSwitch("remove-orphans")]
-    public string? RemoveOrphans { get; set; }
+    [BooleanCommandSwitch("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CommandLongSwitch("rm")]
-    public string? Rm { get; set; }
+    [BooleanCommandSwitch("--rm")]
+    public bool? Rm { get; set; }
 
-    [CommandLongSwitch("service-ports")]
+    [CommandSwitch("--service-ports")]
     public string? ServicePorts { get; set; }
 
-    [CommandLongSwitch("use-aliases")]
+    [CommandSwitch("--use-aliases")]
     public string? UseAliases { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("volume")]
+    [CommandSwitch("--volume")]
     public string? Volume { get; set; }
 
-    [CommandLongSwitch("workdir")]
+    [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

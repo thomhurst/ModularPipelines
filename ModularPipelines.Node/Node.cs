@@ -4,7 +4,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
-public class Node : INode
+internal class Node : INode
 {
     private readonly IModuleContext _context;
     public INpm Npm { get; }

@@ -3,7 +3,7 @@ using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context;
 
-public class Zip : IZip
+internal class Zip : IZip
 {
     public void ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {

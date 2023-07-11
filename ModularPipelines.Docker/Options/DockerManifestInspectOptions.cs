@@ -3,12 +3,14 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest inspect")]
-public record DockerManifestInspectOptions : DockerOptions
+public record DockerManifestInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Manifest) : DockerOptions
 {
-    [CommandLongSwitch("insecure")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string ManifestList { get; set; }
+    [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
 
-    [CommandLongSwitch("verbose")]
+    [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
 
 }

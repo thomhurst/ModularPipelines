@@ -5,28 +5,30 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose logs")]
 public record DockerComposeLogsOptions : DockerOptions
 {
-    [CommandLongSwitch("follow")]
-    public string? Follow { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [BooleanCommandSwitch("--follow")]
+    public bool? Follow { get; set; }
 
-    [CommandLongSwitch("no-color")]
-    public string? NoColor { get; set; }
+    [BooleanCommandSwitch("--no-color")]
+    public bool? NoColor { get; set; }
 
-    [CommandLongSwitch("no-log-prefix")]
+    [CommandSwitch("--no-log-prefix")]
     public string? NoLogPrefix { get; set; }
 
-    [CommandLongSwitch("since")]
+    [CommandSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandLongSwitch("tail")]
+    [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 
-    [CommandLongSwitch("timestamps")]
-    public string? Timestamps { get; set; }
+    [BooleanCommandSwitch("--timestamps")]
+    public bool? Timestamps { get; set; }
 
-    [CommandLongSwitch("until")]
+    [CommandSwitch("--until")]
     public string? Until { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

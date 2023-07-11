@@ -3,30 +3,32 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose exec")]
-public record DockerComposeExecOptions : DockerOptions
+public record DockerComposeExecOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service, [property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Args { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("env")]
+    [CommandSwitch("--env")]
     public string? Env { get; set; }
 
-    [CommandLongSwitch("index")]
+    [CommandSwitch("--index")]
     public string? Index { get; set; }
 
-    [BooleanCommandSwitch("no-TTY")]
+    [BooleanCommandSwitch("--no-TTY")]
     public bool? NoTTY { get; set; }
 
-    [CommandLongSwitch("privileged")]
-    public string? Privileged { get; set; }
+    [BooleanCommandSwitch("--privileged")]
+    public bool? Privileged { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("workdir")]
+    [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 
 }

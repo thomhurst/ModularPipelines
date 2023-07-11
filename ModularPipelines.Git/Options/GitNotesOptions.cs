@@ -5,49 +5,49 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("notes")]
 public record GitNotesOptions : GitOptions
 {
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandLongSwitch("message")]
+    [CommandEqualsSeparatorSwitch("--message")]
     public string? Message { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [CommandLongSwitch("reuse-message")]
+    [CommandEqualsSeparatorSwitch("--reuse-message")]
     public string? ReuseMessage { get; set; }
 
-    [CommandLongSwitch("reedit-message")]
+    [CommandEqualsSeparatorSwitch("--reedit-message")]
     public string? ReeditMessage { get; set; }
 
-    [BooleanCommandSwitch("allow-empty")]
+    [BooleanCommandSwitch("--allow-empty")]
     public bool? AllowEmpty { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandEqualsSeparatorSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [BooleanCommandSwitch("ignore-missing")]
+    [BooleanCommandSwitch("--ignore-missing")]
     public bool? IgnoreMissing { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandLongSwitch("strategy")]
+    [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
 
-    [BooleanCommandSwitch("commit")]
+    [BooleanCommandSwitch("--commit")]
     public bool? Commit { get; set; }
 
-    [BooleanCommandSwitch("abort")]
+    [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
 }

@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container rm")]
-public record DockerContainerRmOptions : DockerOptions
+public record DockerContainerRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
-    [CommandLongSwitch("link")]
+    [CommandSwitch("--link")]
     public string? Link { get; set; }
 
-    [CommandLongSwitch("volumes")]
+    [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
 
 }

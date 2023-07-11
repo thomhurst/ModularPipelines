@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace ModularPipelines.Context;
 
-public class Xml : IXml
+internal class Xml : IXml
 {
     public string ToXml<T>(T input, SaveOptions options = SaveOptions.None)
     {

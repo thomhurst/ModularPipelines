@@ -5,10 +5,10 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("version")]
 public record HelmVersionOptions : HelmOptions
 {
-    [BooleanCommandSwitch("short")]
+    [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
 }

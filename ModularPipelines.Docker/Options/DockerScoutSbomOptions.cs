@@ -5,22 +5,24 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("scout sbom")]
 public record DockerScoutSbomOptions : DockerOptions
 {
-    [CommandLongSwitch("format")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Image { get; set; }
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("only-package-type")]
+    [CommandSwitch("--only-package-type")]
     public string? OnlyPackageType { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
 
 }

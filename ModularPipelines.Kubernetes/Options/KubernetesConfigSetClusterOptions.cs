@@ -5,7 +5,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("config", "set-cluster")]
 public record KubernetesConfigSetClusterOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("embed-certs")]
+    [BooleanCommandSwitch("--embed-certs")]
     public bool? EmbedCerts { get; set; }
 
 }

@@ -5,7 +5,7 @@ using ModularPipelines.NuGet.Options;
 
 namespace ModularPipelines.NuGet;
 
-public class NuGet : INuGet
+internal class NuGet : INuGet
 {
     private readonly IModuleContext _context;
 

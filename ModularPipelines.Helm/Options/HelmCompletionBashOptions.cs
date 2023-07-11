@@ -5,7 +5,7 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("completion", "bash")]
 public record HelmCompletionBashOptions : HelmOptions
 {
-    [BooleanCommandSwitch("no-descriptions")]
+    [BooleanCommandSwitch("--no-descriptions")]
     public bool? NoDescriptions { get; set; }
 
 }

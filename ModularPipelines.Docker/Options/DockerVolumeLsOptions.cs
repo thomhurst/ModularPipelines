@@ -5,10 +5,16 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("volume ls")]
 public record DockerVolumeLsOptions : DockerOptions
 {
-    [CommandLongSwitch("cluster")]
+    [CommandSwitch("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
+
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 
 }

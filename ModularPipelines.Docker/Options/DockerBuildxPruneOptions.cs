@@ -5,19 +5,22 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("buildx prune")]
 public record DockerBuildxPruneOptions : DockerOptions
 {
-    [CommandLongSwitch("all")]
-    public string? All { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-    [CommandLongSwitch("filter")]
+    [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
-    [CommandLongSwitch("keep-storage")]
+    [CommandSwitch("--keep-storage")]
     public string? KeepStorage { get; set; }
 
-    [CommandLongSwitch("verbose")]
+    [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
+
+    [CommandSwitch("--builder")]
+    public string? Builder { get; set; }
 
 }

@@ -5,19 +5,19 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("hash-object")]
 public record GitHashObjectOptions : GitOptions
 {
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("stdin-paths")]
+    [BooleanCommandSwitch("--stdin-paths")]
     public bool? StdinPaths { get; set; }
 
-    [BooleanCommandSwitch("path")]
+    [BooleanCommandSwitch("--path")]
     public bool? Path { get; set; }
 
-    [BooleanCommandSwitch("no-filters")]
+    [BooleanCommandSwitch("--no-filters")]
     public bool? NoFilters { get; set; }
 
-    [BooleanCommandSwitch("literally")]
+    [BooleanCommandSwitch("--literally")]
     public bool? Literally { get; set; }
 
 }

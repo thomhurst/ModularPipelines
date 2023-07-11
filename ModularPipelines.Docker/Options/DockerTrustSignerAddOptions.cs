@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("trust signer add")]
-public record DockerTrustSignerAddOptions : DockerOptions
+public record DockerTrustSignerAddOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Options, [property: PositionalArgument(Position = Position.AfterArguments)] string Name, [property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Repositories) : DockerOptions
 {
-    [CommandLongSwitch("key")]
+    [CommandSwitch("--key")]
     public string? Key { get; set; }
 
 }

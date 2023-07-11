@@ -7,12 +7,12 @@ public record DotNetOptions() : CommandLineToolOptions("dotnet")
 {
     public string? TargetPath { get; init; }
 
-    [CommandLongSwitch("runtime", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--runtime", SwitchValueSeparator = " ")]
     public string? Runtime { get; init; }
 
-    [CommandSwitch("v")]
+    [CommandSwitch("-v")]
     public Verbosity? Verbosity { get; init; }
 
-    [CommandLongSwitch("property", SwitchValueSeparator = ":")]
+    [CommandEqualsSeparatorSwitch("--property", SwitchValueSeparator = ":")]
     public string[]? Properties { get; init; }
 }

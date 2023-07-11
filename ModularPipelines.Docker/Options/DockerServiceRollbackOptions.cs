@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service rollback")]
-public record DockerServiceRollbackOptions : DockerOptions
+public record DockerServiceRollbackOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
 }

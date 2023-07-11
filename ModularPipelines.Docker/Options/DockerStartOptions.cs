@@ -3,21 +3,21 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("start")]
-public record DockerStartOptions([property: PositionalArgument] string Container) : DockerOptions
+public record DockerStartOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("attach")]
-    public string? Attach { get; set; }
+    [BooleanCommandSwitch("--attach")]
+    public bool? Attach { get; set; }
 
-    [CommandLongSwitch("checkpoint")]
+    [CommandSwitch("--checkpoint")]
     public string? Checkpoint { get; set; }
 
-    [CommandLongSwitch("checkpoint-dir")]
+    [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
 
-    [CommandLongSwitch("detach-keys")]
+    [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
 
-    [CommandLongSwitch("interactive")]
-    public string? Interactive { get; set; }
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
 }

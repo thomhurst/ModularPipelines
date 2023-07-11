@@ -5,175 +5,175 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("svn")]
 public record GitSvnOptions : GitOptions
 {
-    [CommandLongSwitch("trunk")]
+    [CommandEqualsSeparatorSwitch("--trunk")]
     public string? Trunk { get; set; }
 
-    [CommandLongSwitch("tags")]
+    [CommandEqualsSeparatorSwitch("--tags")]
     public string? Tags { get; set; }
 
-    [CommandLongSwitch("branches")]
+    [CommandEqualsSeparatorSwitch("--branches")]
     public string? Branches { get; set; }
 
-    [BooleanCommandSwitch("stdlayout")]
+    [BooleanCommandSwitch("--stdlayout")]
     public bool? Stdlayout { get; set; }
 
-    [BooleanCommandSwitch("no-metadata")]
+    [BooleanCommandSwitch("--no-metadata")]
     public bool? NoMetadata { get; set; }
 
-    [BooleanCommandSwitch("use-svm-props")]
+    [BooleanCommandSwitch("--use-svm-props")]
     public bool? UseSvmProps { get; set; }
 
-    [BooleanCommandSwitch("use-svnsync-props")]
+    [BooleanCommandSwitch("--use-svnsync-props")]
     public bool? UseSvnsyncProps { get; set; }
 
-    [CommandLongSwitch("rewrite-root")]
+    [CommandEqualsSeparatorSwitch("--rewrite-root")]
     public string? RewriteRoot { get; set; }
 
-    [CommandLongSwitch("rewrite-uuid")]
+    [CommandEqualsSeparatorSwitch("--rewrite-uuid")]
     public string? RewriteUuid { get; set; }
 
-    [CommandLongSwitch("username")]
+    [CommandEqualsSeparatorSwitch("--username")]
     public string? Username { get; set; }
 
-    [CommandLongSwitch("prefix")]
+    [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandLongSwitch("ignore-refs")]
+    [CommandEqualsSeparatorSwitch("--ignore-refs")]
     public string? IgnoreRefs { get; set; }
 
-    [CommandLongSwitch("ignore-paths")]
+    [CommandEqualsSeparatorSwitch("--ignore-paths")]
     public string? IgnorePaths { get; set; }
 
-    [CommandLongSwitch("include-paths")]
+    [CommandEqualsSeparatorSwitch("--include-paths")]
     public string? IncludePaths { get; set; }
 
-    [BooleanCommandSwitch("no-minimize-url")]
+    [BooleanCommandSwitch("--no-minimize-url")]
     public bool? NoMinimizeUrl { get; set; }
 
-    [BooleanCommandSwitch("localtime")]
+    [BooleanCommandSwitch("--localtime")]
     public bool? Localtime { get; set; }
 
-    [BooleanCommandSwitch("parent")]
+    [BooleanCommandSwitch("--parent")]
     public bool? Parent { get; set; }
 
-    [CommandLongSwitch("log-window-size")]
+    [CommandEqualsSeparatorSwitch("--log-window-size")]
     public string? LogWindowSize { get; set; }
 
-    [BooleanCommandSwitch("preserve-empty-dirs")]
+    [BooleanCommandSwitch("--preserve-empty-dirs")]
     public bool? PreserveEmptyDirs { get; set; }
 
-    [CommandLongSwitch("placeholder-filename")]
+    [CommandEqualsSeparatorSwitch("--placeholder-filename")]
     public string? PlaceholderFilename { get; set; }
 
-    [BooleanCommandSwitch("local")]
+    [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("no-rebase")]
+    [BooleanCommandSwitch("--no-rebase")]
     public bool? NoRebase { get; set; }
 
-    [CommandLongSwitch("commit-url")]
+    [CommandEqualsSeparatorSwitch("--commit-url")]
     public string? CommitUrl { get; set; }
 
-    [CommandLongSwitch("mergeinfo")]
+    [CommandEqualsSeparatorSwitch("--mergeinfo")]
     public string? Mergeinfo { get; set; }
 
-    [BooleanCommandSwitch("interactive")]
+    [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("message")]
+    [BooleanCommandSwitch("--message")]
     public bool? Message { get; set; }
 
-    [BooleanCommandSwitch("tag")]
+    [BooleanCommandSwitch("--tag")]
     public bool? Tag { get; set; }
 
-    [CommandLongSwitch("destination")]
+    [CommandEqualsSeparatorSwitch("--destination")]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("parents")]
+    [BooleanCommandSwitch("--parents")]
     public bool? Parents { get; set; }
 
-    [CommandLongSwitch("revision")]
+    [CommandEqualsSeparatorSwitch("--revision")]
     public string? Revision { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [CommandLongSwitch("limit")]
+    [CommandEqualsSeparatorSwitch("--limit")]
     public string? Limit { get; set; }
 
-    [BooleanCommandSwitch("incremental")]
+    [BooleanCommandSwitch("--incremental")]
     public bool? Incremental { get; set; }
 
-    [BooleanCommandSwitch("show-commit")]
+    [BooleanCommandSwitch("--show-commit")]
     public bool? ShowCommit { get; set; }
 
-    [BooleanCommandSwitch("oneline")]
+    [BooleanCommandSwitch("--oneline")]
     public bool? Oneline { get; set; }
 
-    [BooleanCommandSwitch("git-format")]
+    [BooleanCommandSwitch("--git-format")]
     public bool? GitFormat { get; set; }
 
-    [BooleanCommandSwitch("before")]
+    [BooleanCommandSwitch("--before")]
     public bool? Before { get; set; }
 
-    [BooleanCommandSwitch("after")]
+    [BooleanCommandSwitch("--after")]
     public bool? After { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("shared")]
+    [BooleanCommandSwitch("--shared")]
     public bool? Shared { get; set; }
 
-    [CommandLongSwitch("template")]
+    [CommandEqualsSeparatorSwitch("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("rmdir")]
+    [BooleanCommandSwitch("--rmdir")]
     public bool? Rmdir { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("find-copies-harder")]
+    [BooleanCommandSwitch("--find-copies-harder")]
     public bool? FindCopiesHarder { get; set; }
 
-    [CommandLongSwitch("authors-file")]
+    [CommandEqualsSeparatorSwitch("--authors-file")]
     public string? AuthorsFile { get; set; }
 
-    [CommandLongSwitch("authors-prog")]
+    [CommandEqualsSeparatorSwitch("--authors-prog")]
     public string? AuthorsProg { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [CommandLongSwitch("strategy")]
+    [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
 
-    [BooleanCommandSwitch("rebase-merges")]
+    [BooleanCommandSwitch("--rebase-merges")]
     public bool? RebaseMerges { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("use-log-author")]
+    [BooleanCommandSwitch("--use-log-author")]
     public bool? UseLogAuthor { get; set; }
 
-    [BooleanCommandSwitch("add-author-from")]
+    [BooleanCommandSwitch("--add-author-from")]
     public bool? AddAuthorFrom { get; set; }
 
-    [CommandLongSwitch("id")]
+    [CommandEqualsSeparatorSwitch("--id")]
     public string? Id { get; set; }
 
-    [CommandLongSwitch("svn-remote")]
+    [CommandEqualsSeparatorSwitch("--svn-remote")]
     public string? SvnRemote { get; set; }
 
-    [BooleanCommandSwitch("follow-parent")]
+    [BooleanCommandSwitch("--follow-parent")]
     public bool? FollowParent { get; set; }
 
 }

@@ -5,49 +5,49 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("worktree add")]
 public record GitWorktreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("detach")]
+    [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-    [BooleanCommandSwitch("no-checkout")]
+    [BooleanCommandSwitch("--no-checkout")]
     public bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("checkout")]
+    [BooleanCommandSwitch("--checkout")]
     public bool? Checkout { get; set; }
 
-    [BooleanCommandSwitch("no-guess-remote")]
+    [BooleanCommandSwitch("--no-guess-remote")]
     public bool? NoGuessRemote { get; set; }
 
-    [BooleanCommandSwitch("guess-remote")]
+    [BooleanCommandSwitch("--guess-remote")]
     public bool? GuessRemote { get; set; }
 
-    [BooleanCommandSwitch("no-track")]
+    [BooleanCommandSwitch("--no-track")]
     public bool? NoTrack { get; set; }
 
-    [BooleanCommandSwitch("track")]
+    [BooleanCommandSwitch("--track")]
     public bool? Track { get; set; }
 
-    [BooleanCommandSwitch("lock")]
+    [BooleanCommandSwitch("--lock")]
     public bool? Lock { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("porcelain")]
+    [BooleanCommandSwitch("--porcelain")]
     public bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [CommandLongSwitch("expire")]
+    [CommandEqualsSeparatorSwitch("--expire")]
     public string? Expire { get; set; }
 
-    [CommandLongSwitch("reason")]
+    [CommandEqualsSeparatorSwitch("--reason")]
     public string? Reason { get; set; }
 
 }

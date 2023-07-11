@@ -3,255 +3,276 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service update")]
-public record DockerServiceUpdateOptions : DockerOptions
+public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
-    [CommandLongSwitch("args")]
+    [CommandSwitch("--args")]
     public string? Args { get; set; }
 
-    [CommandLongSwitch("cap-add")]
+    [CommandSwitch("--cap-add")]
     public string? CapAdd { get; set; }
 
-    [CommandLongSwitch("cap-drop")]
+    [CommandSwitch("--cap-drop")]
     public string? CapDrop { get; set; }
 
-    [CommandLongSwitch("config-add")]
+    [CommandSwitch("--config-add")]
     public string? ConfigAdd { get; set; }
 
-    [CommandLongSwitch("config-rm")]
+    [CommandSwitch("--config-rm")]
     public string? ConfigRm { get; set; }
 
-    [CommandLongSwitch("constraint-add")]
+    [CommandSwitch("--constraint-add")]
     public string? ConstraintAdd { get; set; }
 
-    [CommandLongSwitch("constraint-rm")]
+    [CommandSwitch("--constraint-rm")]
     public string? ConstraintRm { get; set; }
 
-    [CommandLongSwitch("container-label-add")]
+    [CommandSwitch("--container-label-add")]
     public string? ContainerLabelAdd { get; set; }
 
-    [CommandLongSwitch("container-label-rm")]
+    [CommandSwitch("--container-label-rm")]
     public string? ContainerLabelRm { get; set; }
 
-    [CommandLongSwitch("credential-spec")]
+    [CommandSwitch("--credential-spec")]
     public string? CredentialSpec { get; set; }
 
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("dns-add")]
+    [CommandSwitch("--dns-add")]
     public string? DnsAdd { get; set; }
 
-    [CommandLongSwitch("dns-option-add")]
+    [CommandSwitch("--dns-option-add")]
     public string? DnsOptionAdd { get; set; }
 
-    [CommandLongSwitch("dns-option-rm")]
+    [CommandSwitch("--dns-option-rm")]
     public string? DnsOptionRm { get; set; }
 
-    [CommandLongSwitch("dns-rm")]
+    [CommandSwitch("--dns-rm")]
     public string? DnsRm { get; set; }
 
-    [CommandLongSwitch("dns-search-add")]
+    [CommandSwitch("--dns-search-add")]
     public string? DnsSearchAdd { get; set; }
 
-    [CommandLongSwitch("dns-search-rm")]
+    [CommandSwitch("--dns-search-rm")]
     public string? DnsSearchRm { get; set; }
 
-    [CommandLongSwitch("endpoint-mode")]
+    [CommandSwitch("--endpoint-mode")]
     public string? EndpointMode { get; set; }
 
-    [CommandLongSwitch("entrypoint")]
+    [CommandSwitch("--entrypoint")]
     public string? Entrypoint { get; set; }
 
-    [CommandLongSwitch("env-add")]
+    [CommandSwitch("--env-add")]
     public string? EnvAdd { get; set; }
 
-    [CommandLongSwitch("env-rm")]
+    [CommandSwitch("--env-rm")]
     public string? EnvRm { get; set; }
 
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
-    [CommandLongSwitch("generic-resource-add")]
+    [CommandSwitch("--generic-resource-add")]
     public string? GenericResourceAdd { get; set; }
 
-    [CommandLongSwitch("generic-resource-rm")]
+    [CommandSwitch("--generic-resource-rm")]
     public string? GenericResourceRm { get; set; }
 
-    [CommandLongSwitch("group-add")]
+    [CommandSwitch("--group-add")]
     public string? GroupAdd { get; set; }
 
-    [CommandLongSwitch("group-rm")]
+    [CommandSwitch("--group-rm")]
     public string? GroupRm { get; set; }
 
-    [CommandLongSwitch("health-cmd")]
+    [CommandSwitch("--health-cmd")]
     public string? HealthCmd { get; set; }
 
-    [CommandLongSwitch("health-interval")]
+    [CommandSwitch("--health-interval")]
     public string? HealthInterval { get; set; }
 
-    [CommandLongSwitch("health-retries")]
+    [CommandSwitch("--health-retries")]
     public string? HealthRetries { get; set; }
 
-    [CommandLongSwitch("health-start-period")]
+    [CommandSwitch("--health-start-period")]
     public string? HealthStartPeriod { get; set; }
 
-    [CommandLongSwitch("health-timeout")]
+    [CommandSwitch("--health-timeout")]
     public string? HealthTimeout { get; set; }
 
-    [CommandLongSwitch("host-add")]
+    [CommandSwitch("--host-add")]
     public string? HostAdd { get; set; }
 
-    [CommandLongSwitch("host-rm")]
+    [CommandSwitch("--host-rm")]
     public string? HostRm { get; set; }
 
-    [CommandLongSwitch("hostname")]
+    [CommandSwitch("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandLongSwitch("image")]
+    [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [CommandLongSwitch("init")]
+    [CommandSwitch("--init")]
     public string? Init { get; set; }
 
-    [CommandLongSwitch("label-add")]
+    [CommandSwitch("--label-add")]
     public string? LabelAdd { get; set; }
 
-    [CommandLongSwitch("label-rm")]
+    [CommandSwitch("--label-rm")]
     public string? LabelRm { get; set; }
 
-    [CommandLongSwitch("limit-cpu")]
+    [CommandSwitch("--limit-cpu")]
     public string? LimitCpu { get; set; }
 
-    [CommandLongSwitch("limit-memory")]
+    [CommandSwitch("--limit-memory")]
     public string? LimitMemory { get; set; }
 
-    [CommandLongSwitch("limit-pids")]
+    [CommandSwitch("--limit-pids")]
     public string? LimitPids { get; set; }
 
-    [CommandLongSwitch("log-driver")]
+    [CommandSwitch("--log-driver")]
     public string? LogDriver { get; set; }
 
-    [CommandLongSwitch("log-opt")]
+    [CommandSwitch("--log-opt")]
     public string? LogOpt { get; set; }
 
-    [CommandLongSwitch("max-concurrent")]
+    [CommandSwitch("--max-concurrent")]
     public string? MaxConcurrent { get; set; }
 
-    [CommandLongSwitch("mount-rm")]
+    [CommandSwitch("--mount-rm")]
     public string? MountRm { get; set; }
 
-    [CommandLongSwitch("network-rm")]
+    [CommandSwitch("--network-rm")]
     public string? NetworkRm { get; set; }
 
-    [CommandLongSwitch("no-healthcheck")]
-    public string? NoHealthcheck { get; set; }
+    [BooleanCommandSwitch("--no-healthcheck")]
+    public bool? NoHealthcheck { get; set; }
 
-    [CommandLongSwitch("no-resolve-image")]
+    [CommandSwitch("--no-resolve-image")]
     public string? NoResolveImage { get; set; }
 
-    [CommandLongSwitch("placement-pref-add")]
+    [CommandSwitch("--placement-pref-add")]
     public string? PlacementPrefAdd { get; set; }
 
-    [CommandLongSwitch("placement-pref-rm")]
+    [CommandSwitch("--placement-pref-rm")]
     public string? PlacementPrefRm { get; set; }
 
-    [CommandLongSwitch("publish-rm")]
+    [CommandSwitch("--publish-rm")]
     public string? PublishRm { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("read-only")]
-    public string? ReadOnly { get; set; }
+    [BooleanCommandSwitch("--read-only")]
+    public bool? ReadOnly { get; set; }
 
-    [CommandLongSwitch("replicas")]
+    [CommandSwitch("--replicas")]
     public string? Replicas { get; set; }
 
-    [CommandLongSwitch("replicas-max-per-node")]
+    [CommandSwitch("--replicas-max-per-node")]
     public string? ReplicasMaxPerNode { get; set; }
 
-    [CommandLongSwitch("reserve-cpu")]
+    [CommandSwitch("--reserve-cpu")]
     public string? ReserveCpu { get; set; }
 
-    [CommandLongSwitch("reserve-memory")]
+    [CommandSwitch("--reserve-memory")]
     public string? ReserveMemory { get; set; }
 
-    [CommandLongSwitch("restart-condition")]
+    [CommandSwitch("--restart-condition")]
     public string? RestartCondition { get; set; }
 
-    [CommandLongSwitch("restart-delay")]
+    [CommandSwitch("--restart-delay")]
     public string? RestartDelay { get; set; }
 
-    [CommandLongSwitch("restart-max-attempts")]
+    [CommandSwitch("--restart-max-attempts")]
     public string? RestartMaxAttempts { get; set; }
 
-    [CommandLongSwitch("restart-window")]
+    [CommandSwitch("--restart-window")]
     public string? RestartWindow { get; set; }
 
-    [CommandLongSwitch("rollback-delay")]
+    [CommandSwitch("--rollback-delay")]
     public string? RollbackDelay { get; set; }
 
-    [CommandLongSwitch("rollback-failure-action")]
+    [CommandSwitch("--rollback-failure-action")]
     public string? RollbackFailureAction { get; set; }
 
-    [CommandLongSwitch("rollback-max-failure-ratio")]
+    [CommandSwitch("--rollback-max-failure-ratio")]
     public string? RollbackMaxFailureRatio { get; set; }
 
-    [CommandLongSwitch("rollback-monitor")]
+    [CommandSwitch("--rollback-monitor")]
     public string? RollbackMonitor { get; set; }
 
-    [CommandLongSwitch("rollback-order")]
+    [CommandSwitch("--rollback-order")]
     public string? RollbackOrder { get; set; }
 
-    [CommandLongSwitch("rollback-parallelism")]
+    [CommandSwitch("--rollback-parallelism")]
     public string? RollbackParallelism { get; set; }
 
-    [CommandLongSwitch("secret-rm")]
+    [CommandSwitch("--secret-rm")]
     public string? SecretRm { get; set; }
 
-    [CommandLongSwitch("stop-grace-period")]
+    [CommandSwitch("--stop-grace-period")]
     public string? StopGracePeriod { get; set; }
 
-    [CommandLongSwitch("stop-signal")]
+    [CommandSwitch("--stop-signal")]
     public string? StopSignal { get; set; }
 
-    [CommandLongSwitch("sysctl-add")]
+    [CommandSwitch("--sysctl-add")]
     public string? SysctlAdd { get; set; }
 
-    [CommandLongSwitch("sysctl-rm")]
+    [CommandSwitch("--sysctl-rm")]
     public string? SysctlRm { get; set; }
 
-    [CommandLongSwitch("tty")]
+    [CommandSwitch("--tty")]
     public string? Tty { get; set; }
 
-    [CommandLongSwitch("ulimit-add")]
+    [CommandSwitch("--ulimit-add")]
     public string? UlimitAdd { get; set; }
 
-    [CommandLongSwitch("ulimit-rm")]
+    [CommandSwitch("--ulimit-rm")]
     public string? UlimitRm { get; set; }
 
-    [CommandLongSwitch("update-delay")]
+    [CommandSwitch("--update-delay")]
     public string? UpdateDelay { get; set; }
 
-    [CommandLongSwitch("update-failure-action")]
+    [CommandSwitch("--update-failure-action")]
     public string? UpdateFailureAction { get; set; }
 
-    [CommandLongSwitch("update-max-failure-ratio")]
+    [CommandSwitch("--update-max-failure-ratio")]
     public string? UpdateMaxFailureRatio { get; set; }
 
-    [CommandLongSwitch("update-monitor")]
+    [CommandSwitch("--update-monitor")]
     public string? UpdateMonitor { get; set; }
 
-    [CommandLongSwitch("update-order")]
+    [CommandSwitch("--update-order")]
     public string? UpdateOrder { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("with-registry-auth")]
+    [CommandSwitch("--with-registry-auth")]
     public string? WithRegistryAuth { get; set; }
 
-    [CommandLongSwitch("workdir")]
+    [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
+
+    [BooleanCommandSwitch("--isolation")]
+    public bool? Isolation { get; set; }
+
+    [CommandSwitch("--mount-add")]
+    public string? MountAdd { get; set; }
+
+    [CommandSwitch("--network-add")]
+    public string? NetworkAdd { get; set; }
+
+    [CommandSwitch("--publish-add")]
+    public string? PublishAdd { get; set; }
+
+    [CommandSwitch("--rollback")]
+    public string? Rollback { get; set; }
+
+    [CommandSwitch("--secret-add")]
+    public string? SecretAdd { get; set; }
+
+    [CommandSwitch("--update-parallelism")]
+    public string? UpdateParallelism { get; set; }
 
 }

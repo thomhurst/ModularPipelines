@@ -5,67 +5,67 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("add")]
 public record GitAddOptions : GitOptions
 {
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("sparse")]
+    [BooleanCommandSwitch("--sparse")]
     public bool? Sparse { get; set; }
 
-    [BooleanCommandSwitch("interactive")]
+    [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("patch")]
+    [BooleanCommandSwitch("--patch")]
     public bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("update")]
+    [BooleanCommandSwitch("--update")]
     public bool? Update { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("no-ignore-removal")]
+    [BooleanCommandSwitch("--no-ignore-removal")]
     public bool? NoIgnoreRemoval { get; set; }
 
-    [BooleanCommandSwitch("no-all")]
+    [BooleanCommandSwitch("--no-all")]
     public bool? NoAll { get; set; }
 
-    [BooleanCommandSwitch("ignore-removal")]
+    [BooleanCommandSwitch("--ignore-removal")]
     public bool? IgnoreRemoval { get; set; }
 
-    [BooleanCommandSwitch("intent-to-add")]
+    [BooleanCommandSwitch("--intent-to-add")]
     public bool? IntentToAdd { get; set; }
 
-    [BooleanCommandSwitch("refresh")]
+    [BooleanCommandSwitch("--refresh")]
     public bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("ignore-errors")]
+    [BooleanCommandSwitch("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
-    [BooleanCommandSwitch("ignore-missing")]
+    [BooleanCommandSwitch("--ignore-missing")]
     public bool? IgnoreMissing { get; set; }
 
-    [BooleanCommandSwitch("no-warn-embedded-repo")]
+    [BooleanCommandSwitch("--no-warn-embedded-repo")]
     public bool? NoWarnEmbeddedRepo { get; set; }
 
-    [BooleanCommandSwitch("renormalize")]
+    [BooleanCommandSwitch("--renormalize")]
     public bool? Renormalize { get; set; }
 
-    [BooleanCommandSwitch("chmod")]
+    [BooleanCommandSwitch("--chmod")]
     public bool? Chmod { get; set; }
 
-    [CommandLongSwitch("pathspec-from-file")]
+    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("pathspec-file-nul")]
+    [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
 
 }

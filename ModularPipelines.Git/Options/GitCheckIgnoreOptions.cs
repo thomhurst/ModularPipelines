@@ -5,10 +5,10 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("check-ignore")]
 public record GitCheckIgnoreOptions : GitOptions
 {
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("no-index")]
+    [BooleanCommandSwitch("--no-index")]
     public bool? NoIndex { get; set; }
 
 }

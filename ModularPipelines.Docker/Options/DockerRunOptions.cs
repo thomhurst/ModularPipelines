@@ -3,222 +3,313 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("run")]
-public record DockerRunOptions([property: PositionalArgument] string Image) : DockerOptions
+public record DockerRunOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-    [CommandLongSwitch("annotation")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Command { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Arg { get; set; }
+    [CommandSwitch("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandLongSwitch("blkio-weight")]
+    [CommandSwitch("--blkio-weight")]
     public string? BlkioWeight { get; set; }
 
-    [CommandLongSwitch("blkio-weight-device")]
+    [CommandSwitch("--blkio-weight-device")]
     public string? BlkioWeightDevice { get; set; }
 
-    [CommandLongSwitch("cap-add")]
+    [CommandSwitch("--cap-add")]
     public string? CapAdd { get; set; }
 
-    [CommandLongSwitch("cap-drop")]
+    [CommandSwitch("--cap-drop")]
     public string? CapDrop { get; set; }
 
-    [CommandLongSwitch("cgroup-parent")]
+    [CommandSwitch("--cgroup-parent")]
     public string? CgroupParent { get; set; }
 
-    [CommandLongSwitch("cgroupns")]
+    [CommandSwitch("--cgroupns")]
     public string? Cgroupns { get; set; }
 
-    [CommandLongSwitch("cpu-count")]
+    [CommandSwitch("--cpu-count")]
     public string? CpuCount { get; set; }
 
-    [CommandLongSwitch("cpu-percent")]
+    [CommandSwitch("--cpu-percent")]
     public string? CpuPercent { get; set; }
 
-    [CommandLongSwitch("cpu-period")]
+    [CommandSwitch("--cpu-period")]
     public string? CpuPeriod { get; set; }
 
-    [CommandLongSwitch("cpu-quota")]
+    [CommandSwitch("--cpu-quota")]
     public string? CpuQuota { get; set; }
 
-    [CommandLongSwitch("cpu-rt-period")]
+    [CommandSwitch("--cpu-rt-period")]
     public string? CpuRtPeriod { get; set; }
 
-    [CommandLongSwitch("cpu-rt-runtime")]
+    [CommandSwitch("--cpu-rt-runtime")]
     public string? CpuRtRuntime { get; set; }
 
-    [CommandLongSwitch("cpu-shares")]
+    [CommandSwitch("--cpu-shares")]
     public string? CpuShares { get; set; }
 
-    [CommandLongSwitch("cpus")]
+    [CommandSwitch("--cpus")]
     public string? Cpus { get; set; }
 
-    [CommandLongSwitch("cpuset-cpus")]
+    [CommandSwitch("--cpuset-cpus")]
     public string? CpusetCpus { get; set; }
 
-    [CommandLongSwitch("cpuset-mems")]
+    [CommandSwitch("--cpuset-mems")]
     public string? CpusetMems { get; set; }
 
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("device-read-bps")]
+    [CommandSwitch("--device-read-bps")]
     public string? DeviceReadBps { get; set; }
 
-    [CommandLongSwitch("device-read-iops")]
+    [CommandSwitch("--device-read-iops")]
     public string? DeviceReadIops { get; set; }
 
-    [CommandLongSwitch("device-write-bps")]
+    [CommandSwitch("--device-write-bps")]
     public string? DeviceWriteBps { get; set; }
 
-    [CommandLongSwitch("device-write-iops")]
+    [CommandSwitch("--device-write-iops")]
     public string? DeviceWriteIops { get; set; }
 
-    [BooleanCommandSwitch("disable-content-trust")]
+    [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-    [CommandLongSwitch("dns")]
+    [CommandSwitch("--dns")]
     public string? Dns { get; set; }
 
-    [CommandLongSwitch("dns-option")]
+    [CommandSwitch("--dns-option")]
     public string? DnsOption { get; set; }
 
-    [CommandLongSwitch("dns-search")]
+    [CommandSwitch("--dns-search")]
     public string? DnsSearch { get; set; }
 
-    [CommandLongSwitch("domainname")]
+    [CommandSwitch("--domainname")]
     public string? Domainname { get; set; }
 
-    [CommandLongSwitch("entrypoint")]
+    [CommandSwitch("--entrypoint")]
     public string? Entrypoint { get; set; }
 
-    [CommandLongSwitch("env-file")]
+    [CommandSwitch("--env-file")]
     public string? EnvFile { get; set; }
 
-    [CommandLongSwitch("expose")]
+    [CommandSwitch("--expose")]
     public string? Expose { get; set; }
 
-    [CommandLongSwitch("group-add")]
+    [CommandSwitch("--group-add")]
     public string? GroupAdd { get; set; }
 
-    [CommandLongSwitch("health-cmd")]
+    [CommandSwitch("--health-cmd")]
     public string? HealthCmd { get; set; }
 
-    [CommandLongSwitch("health-interval")]
+    [CommandSwitch("--health-interval")]
     public string? HealthInterval { get; set; }
 
-    [CommandLongSwitch("health-retries")]
+    [CommandSwitch("--health-retries")]
     public string? HealthRetries { get; set; }
 
-    [CommandLongSwitch("health-start-period")]
+    [CommandSwitch("--health-start-period")]
     public string? HealthStartPeriod { get; set; }
 
-    [CommandLongSwitch("health-timeout")]
+    [CommandSwitch("--health-timeout")]
     public string? HealthTimeout { get; set; }
 
-    [CommandLongSwitch("hostname")]
+    [CommandSwitch("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandLongSwitch("init")]
+    [CommandSwitch("--init")]
     public string? Init { get; set; }
 
-    [CommandLongSwitch("interactive")]
-    public string? Interactive { get; set; }
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
-    [CommandLongSwitch("io-maxbandwidth")]
+    [CommandSwitch("--io-maxbandwidth")]
     public string? IoMaxbandwidth { get; set; }
 
-    [CommandLongSwitch("io-maxiops")]
+    [CommandSwitch("--io-maxiops")]
     public string? IoMaxiops { get; set; }
 
-    [CommandLongSwitch("ip")]
+    [CommandSwitch("--ip")]
     public string? Ip { get; set; }
 
-    [CommandLongSwitch("ip6")]
+    [CommandSwitch("--ip6")]
     public string? Ip6 { get; set; }
 
-    [CommandLongSwitch("ipc")]
+    [CommandSwitch("--ipc")]
     public string? Ipc { get; set; }
 
-    [CommandLongSwitch("kernel-memory")]
+    [CommandSwitch("--kernel-memory")]
     public string? KernelMemory { get; set; }
 
-    [CommandLongSwitch("label-file")]
+    [CommandSwitch("--label-file")]
     public string? LabelFile { get; set; }
 
-    [CommandLongSwitch("link")]
+    [CommandSwitch("--link")]
     public string? Link { get; set; }
 
-    [CommandLongSwitch("link-local-ip")]
+    [CommandSwitch("--link-local-ip")]
     public string? LinkLocalIp { get; set; }
 
-    [CommandLongSwitch("log-driver")]
+    [CommandSwitch("--log-driver")]
     public string? LogDriver { get; set; }
 
-    [CommandLongSwitch("log-opt")]
+    [CommandSwitch("--log-opt")]
     public string? LogOpt { get; set; }
 
-    [CommandLongSwitch("mac-address")]
+    [CommandSwitch("--mac-address")]
     public string? MacAddress { get; set; }
 
-    [CommandLongSwitch("memory-reservation")]
+    [CommandSwitch("--memory-reservation")]
     public string? MemoryReservation { get; set; }
 
-    [CommandLongSwitch("memory-swap")]
+    [CommandSwitch("--memory-swap")]
     public string? MemorySwap { get; set; }
 
-    [CommandLongSwitch("memory-swappiness")]
-    public string? MemorySwappiness { get; set; }
+    [CommandSwitch("--memory-swappiness")]
+    public int? MemorySwappiness { get; set; }
 
-    [CommandLongSwitch("network-alias")]
+    [CommandSwitch("--network-alias")]
     public string? NetworkAlias { get; set; }
 
-    [CommandLongSwitch("no-healthcheck")]
-    public string? NoHealthcheck { get; set; }
+    [BooleanCommandSwitch("--no-healthcheck")]
+    public bool? NoHealthcheck { get; set; }
 
-    [CommandLongSwitch("oom-kill-disable")]
-    public string? OomKillDisable { get; set; }
+    [BooleanCommandSwitch("--oom-kill-disable")]
+    public bool? OomKillDisable { get; set; }
 
-    [CommandLongSwitch("oom-score-adj")]
+    [CommandSwitch("--oom-score-adj")]
     public string? OomScoreAdj { get; set; }
 
-    [CommandLongSwitch("pid")]
+    [CommandSwitch("--pid")]
     public string? Pid { get; set; }
 
-    [CommandLongSwitch("pids-limit")]
+    [CommandSwitch("--pids-limit")]
     public string? PidsLimit { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("publish-all")]
+    [CommandSwitch("--publish-all")]
     public string? PublishAll { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("rm")]
-    public string? Rm { get; set; }
+    [BooleanCommandSwitch("--rm")]
+    public bool? Rm { get; set; }
 
-    [CommandLongSwitch("runtime")]
+    [CommandSwitch("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandLongSwitch("shm-size")]
+    [CommandSwitch("--shm-size")]
     public string? ShmSize { get; set; }
 
-    [BooleanCommandSwitch("sig-proxy")]
+    [BooleanCommandSwitch("--sig-proxy")]
     public bool? SigProxy { get; set; }
 
-    [CommandLongSwitch("tty")]
+    [CommandSwitch("--tty")]
     public string? Tty { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("userns")]
+    [CommandSwitch("--userns")]
     public string? Userns { get; set; }
 
-    [CommandLongSwitch("uts")]
+    [CommandSwitch("--uts")]
     public string? Uts { get; set; }
 
-    [CommandLongSwitch("volume-driver")]
+    [CommandSwitch("--volume-driver")]
     public string? VolumeDriver { get; set; }
+
+    [CommandSwitch("--add-host")]
+    public string? AddHost { get; set; }
+
+    [BooleanCommandSwitch("--attach")]
+    public bool? Attach { get; set; }
+
+    [CommandSwitch("--cidfile")]
+    public string? Cidfile { get; set; }
+
+    [CommandSwitch("--detach-keys")]
+    public string? DetachKeys { get; set; }
+
+    [CommandSwitch("--device")]
+    public string? Device { get; set; }
+
+    [CommandSwitch("--device-cgroup-rule")]
+    public string? DeviceCgroupRule { get; set; }
+
+    [CommandSwitch("--env")]
+    public string? Env { get; set; }
+
+    [CommandSwitch("--gpus")]
+    public string? Gpus { get; set; }
+
+    [BooleanCommandSwitch("--isolation")]
+    public bool? Isolation { get; set; }
+
+    [CommandSwitch("--label")]
+    public string? Label { get; set; }
+
+    [CommandSwitch("--memory")]
+    public string? Memory { get; set; }
+
+    [CommandSwitch("--mount")]
+    public string? Mount { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--network")]
+    public string? Network { get; set; }
+
+    [BooleanCommandSwitch("--privileged")]
+    public bool? Privileged { get; set; }
+
+    [CommandSwitch("--publish")]
+    public string? Publish { get; set; }
+
+    [BooleanCommandSwitch("--pull")]
+    public bool? Pull { get; set; }
+
+    [BooleanCommandSwitch("--read-only")]
+    public bool? ReadOnly { get; set; }
+
+    [CommandSwitch("--restart")]
+    public string? Restart { get; set; }
+
+    [CommandSwitch("--security-opt")]
+    public string? SecurityOpt { get; set; }
+
+    [CommandSwitch("--stop-signal")]
+    public string? StopSignal { get; set; }
+
+    [CommandSwitch("--stop-timeout")]
+    public string? StopTimeout { get; set; }
+
+    [CommandSwitch("--storage-opt")]
+    public string? StorageOpt { get; set; }
+
+    [CommandSwitch("--sysctl")]
+    public string? Sysctl { get; set; }
+
+    [CommandSwitch("--tmpfs")]
+    public string? Tmpfs { get; set; }
+
+    [CommandSwitch("--ulimit")]
+    public string? Ulimit { get; set; }
+
+    [CommandSwitch("--volume")]
+    public string? Volume { get; set; }
+
+    [CommandSwitch("--volumes-from")]
+    public string? VolumesFrom { get; set; }
+
+    [CommandSwitch("--workdir")]
+    public string? Workdir { get; set; }
 
 }

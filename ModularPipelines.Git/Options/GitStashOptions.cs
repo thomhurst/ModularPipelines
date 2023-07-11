@@ -5,40 +5,40 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("stash")]
 public record GitStashOptions : GitOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("include-untracked")]
+    [BooleanCommandSwitch("--include-untracked")]
     public bool? IncludeUntracked { get; set; }
 
-    [BooleanCommandSwitch("no-include-untracked")]
+    [BooleanCommandSwitch("--no-include-untracked")]
     public bool? NoIncludeUntracked { get; set; }
 
-    [BooleanCommandSwitch("only-untracked")]
+    [BooleanCommandSwitch("--only-untracked")]
     public bool? OnlyUntracked { get; set; }
 
-    [BooleanCommandSwitch("index")]
+    [BooleanCommandSwitch("--index")]
     public bool? Index { get; set; }
 
-    [BooleanCommandSwitch("keep-index")]
+    [BooleanCommandSwitch("--keep-index")]
     public bool? KeepIndex { get; set; }
 
-    [BooleanCommandSwitch("no-keep-index")]
+    [BooleanCommandSwitch("--no-keep-index")]
     public bool? NoKeepIndex { get; set; }
 
-    [BooleanCommandSwitch("patch")]
+    [BooleanCommandSwitch("--patch")]
     public bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("staged")]
+    [BooleanCommandSwitch("--staged")]
     public bool? Staged { get; set; }
 
-    [CommandLongSwitch("pathspec-from-file")]
+    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("pathspec-file-nul")]
+    [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
 }

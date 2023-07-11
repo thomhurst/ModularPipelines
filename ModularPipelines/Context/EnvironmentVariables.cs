@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace ModularPipelines.Context;
 
-public class EnvironmentVariables : IEnvironmentVariables
+internal class EnvironmentVariables : IEnvironmentVariables
 {
     public string? GetEnvironmentVariable(string name)
     {

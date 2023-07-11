@@ -5,46 +5,46 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("describe")]
 public record GitDescribeOptions : GitOptions
 {
-    [CommandLongSwitch("dirty")]
+    [CommandEqualsSeparatorSwitch("--dirty")]
     public string? Dirty { get; set; }
 
-    [CommandLongSwitch("broken")]
+    [CommandEqualsSeparatorSwitch("--broken")]
     public string? Broken { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("tags")]
+    [BooleanCommandSwitch("--tags")]
     public bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("contains")]
+    [BooleanCommandSwitch("--contains")]
     public bool? Contains { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [CommandLongSwitch("candidates")]
+    [CommandEqualsSeparatorSwitch("--candidates")]
     public string? Candidates { get; set; }
 
-    [BooleanCommandSwitch("exact-match")]
+    [BooleanCommandSwitch("--exact-match")]
     public bool? ExactMatch { get; set; }
 
-    [BooleanCommandSwitch("debug")]
+    [BooleanCommandSwitch("--debug")]
     public bool? Debug { get; set; }
 
-    [BooleanCommandSwitch("long")]
+    [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }
 
-    [CommandLongSwitch("match")]
+    [CommandEqualsSeparatorSwitch("--match")]
     public string? Match { get; set; }
 
-    [CommandLongSwitch("exclude")]
+    [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("always")]
+    [BooleanCommandSwitch("--always")]
     public bool? Always { get; set; }
 
-    [BooleanCommandSwitch("first-parent")]
+    [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
 
 }

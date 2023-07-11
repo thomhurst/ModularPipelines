@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("trust signer remove")]
-public record DockerTrustSignerRemoveOptions : DockerOptions
+public record DockerTrustSignerRemoveOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name, [property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Repositories) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
 }

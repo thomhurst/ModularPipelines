@@ -5,31 +5,31 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("gc")]
 public record GitGcOptions : GitOptions
 {
-    [BooleanCommandSwitch("aggressive")]
+    [BooleanCommandSwitch("--aggressive")]
     public bool? Aggressive { get; set; }
 
-    [BooleanCommandSwitch("auto")]
+    [BooleanCommandSwitch("--auto")]
     public bool? Auto { get; set; }
 
-    [BooleanCommandSwitch("no-cruft")]
+    [BooleanCommandSwitch("--no-cruft")]
     public bool? NoCruft { get; set; }
 
-    [BooleanCommandSwitch("cruft")]
+    [BooleanCommandSwitch("--cruft")]
     public bool? Cruft { get; set; }
 
-    [CommandLongSwitch("prune")]
+    [CommandEqualsSeparatorSwitch("--prune")]
     public string? Prune { get; set; }
 
-    [BooleanCommandSwitch("no-prune")]
+    [BooleanCommandSwitch("--no-prune")]
     public bool? NoPrune { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("keep-largest-pack")]
+    [BooleanCommandSwitch("--keep-largest-pack")]
     public bool? KeepLargestPack { get; set; }
 
 }

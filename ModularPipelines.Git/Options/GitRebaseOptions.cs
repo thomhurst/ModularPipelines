@@ -5,157 +5,157 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("rebase")]
 public record GitRebaseOptions : GitOptions
 {
-    [BooleanCommandSwitch("continue")]
+    [BooleanCommandSwitch("--continue")]
     public bool? Continue { get; set; }
 
-    [BooleanCommandSwitch("skip")]
+    [BooleanCommandSwitch("--skip")]
     public bool? Skip { get; set; }
 
-    [BooleanCommandSwitch("abort")]
+    [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("quit")]
+    [BooleanCommandSwitch("--quit")]
     public bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("edit-todo")]
+    [BooleanCommandSwitch("--edit-todo")]
     public bool? EditTodo { get; set; }
 
-    [BooleanCommandSwitch("show-current-patch")]
+    [BooleanCommandSwitch("--show-current-patch")]
     public bool? ShowCurrentPatch { get; set; }
 
-    [CommandLongSwitch("onto")]
+    [CommandEqualsSeparatorSwitch("--onto")]
     public string? Onto { get; set; }
 
-    [BooleanCommandSwitch("keep-base")]
+    [BooleanCommandSwitch("--keep-base")]
     public bool? KeepBase { get; set; }
 
-    [BooleanCommandSwitch("apply")]
+    [BooleanCommandSwitch("--apply")]
     public bool? Apply { get; set; }
 
-    [BooleanCommandSwitch("empty")]
+    [BooleanCommandSwitch("--empty")]
     public bool? Empty { get; set; }
 
-    [BooleanCommandSwitch("no-keep-empty")]
+    [BooleanCommandSwitch("--no-keep-empty")]
     public bool? NoKeepEmpty { get; set; }
 
-    [BooleanCommandSwitch("keep-empty")]
+    [BooleanCommandSwitch("--keep-empty")]
     public bool? KeepEmpty { get; set; }
 
-    [BooleanCommandSwitch("reapply-cherry-picks")]
+    [BooleanCommandSwitch("--reapply-cherry-picks")]
     public bool? ReapplyCherryPicks { get; set; }
 
-    [BooleanCommandSwitch("no-reapply-cherry-picks")]
+    [BooleanCommandSwitch("--no-reapply-cherry-picks")]
     public bool? NoReapplyCherryPicks { get; set; }
 
-    [BooleanCommandSwitch("allow-empty-message")]
+    [BooleanCommandSwitch("--allow-empty-message")]
     public bool? AllowEmptyMessage { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [CommandLongSwitch("strategy")]
+    [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
 
-    [CommandLongSwitch("strategy-option")]
+    [CommandEqualsSeparatorSwitch("--strategy-option")]
     public string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("rerere-autoupdate")]
+    [BooleanCommandSwitch("--rerere-autoupdate")]
     public bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("no-rerere-autoupdate")]
+    [BooleanCommandSwitch("--no-rerere-autoupdate")]
     public bool? NoRerereAutoupdate { get; set; }
 
-    [CommandLongSwitch("gpg-sign")]
+    [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("no-gpg-sign")]
+    [BooleanCommandSwitch("--no-gpg-sign")]
     public bool? NoGpgSign { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("stat")]
+    [BooleanCommandSwitch("--stat")]
     public bool? Stat { get; set; }
 
-    [BooleanCommandSwitch("no-stat")]
+    [BooleanCommandSwitch("--no-stat")]
     public bool? NoStat { get; set; }
 
-    [BooleanCommandSwitch("no-verify")]
+    [BooleanCommandSwitch("--no-verify")]
     public bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("no-ff")]
+    [BooleanCommandSwitch("--no-ff")]
     public bool? NoFf { get; set; }
 
-    [BooleanCommandSwitch("force-rebase")]
+    [BooleanCommandSwitch("--force-rebase")]
     public bool? ForceRebase { get; set; }
 
-    [BooleanCommandSwitch("fork-point")]
+    [BooleanCommandSwitch("--fork-point")]
     public bool? ForkPoint { get; set; }
 
-    [BooleanCommandSwitch("no-fork-point")]
+    [BooleanCommandSwitch("--no-fork-point")]
     public bool? NoForkPoint { get; set; }
 
-    [BooleanCommandSwitch("ignore-whitespace")]
+    [BooleanCommandSwitch("--ignore-whitespace")]
     public bool? IgnoreWhitespace { get; set; }
 
-    [CommandLongSwitch("whitespace")]
+    [CommandEqualsSeparatorSwitch("--whitespace")]
     public string? Whitespace { get; set; }
 
-    [BooleanCommandSwitch("committer-date-is-author-date")]
+    [BooleanCommandSwitch("--committer-date-is-author-date")]
     public bool? CommitterDateIsAuthorDate { get; set; }
 
-    [BooleanCommandSwitch("ignore-date")]
+    [BooleanCommandSwitch("--ignore-date")]
     public bool? IgnoreDate { get; set; }
 
-    [BooleanCommandSwitch("reset-author-date")]
+    [BooleanCommandSwitch("--reset-author-date")]
     public bool? ResetAuthorDate { get; set; }
 
-    [BooleanCommandSwitch("signoff")]
+    [BooleanCommandSwitch("--signoff")]
     public bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("interactive")]
+    [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("rebase-merges")]
+    [BooleanCommandSwitch("--rebase-merges")]
     public bool? RebaseMerges { get; set; }
 
-    [BooleanCommandSwitch("no-rebase-merges")]
+    [BooleanCommandSwitch("--no-rebase-merges")]
     public bool? NoRebaseMerges { get; set; }
 
-    [CommandLongSwitch("exec")]
+    [CommandEqualsSeparatorSwitch("--exec")]
     public string? Exec { get; set; }
 
-    [BooleanCommandSwitch("root")]
+    [BooleanCommandSwitch("--root")]
     public bool? Root { get; set; }
 
-    [BooleanCommandSwitch("autosquash")]
+    [BooleanCommandSwitch("--autosquash")]
     public bool? Autosquash { get; set; }
 
-    [BooleanCommandSwitch("no-autosquash")]
+    [BooleanCommandSwitch("--no-autosquash")]
     public bool? NoAutosquash { get; set; }
 
-    [BooleanCommandSwitch("autostash")]
+    [BooleanCommandSwitch("--autostash")]
     public bool? Autostash { get; set; }
 
-    [BooleanCommandSwitch("no-autostash")]
+    [BooleanCommandSwitch("--no-autostash")]
     public bool? NoAutostash { get; set; }
 
-    [BooleanCommandSwitch("reschedule-failed-exec")]
+    [BooleanCommandSwitch("--reschedule-failed-exec")]
     public bool? RescheduleFailedExec { get; set; }
 
-    [BooleanCommandSwitch("no-reschedule-failed-exec")]
+    [BooleanCommandSwitch("--no-reschedule-failed-exec")]
     public bool? NoRescheduleFailedExec { get; set; }
 
-    [BooleanCommandSwitch("update-refs")]
+    [BooleanCommandSwitch("--update-refs")]
     public bool? UpdateRefs { get; set; }
 
-    [BooleanCommandSwitch("no-update-refs")]
+    [BooleanCommandSwitch("--no-update-refs")]
     public bool? NoUpdateRefs { get; set; }
 
 }

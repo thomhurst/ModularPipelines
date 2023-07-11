@@ -5,19 +5,25 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm ca")]
 public record DockerSwarmCaOptions : DockerOptions
 {
-    [CommandLongSwitch("ca-cert")]
+    [CommandSwitch("--ca-cert")]
     public string? CaCert { get; set; }
 
-    [CommandLongSwitch("ca-key")]
+    [CommandSwitch("--ca-key")]
     public string? CaKey { get; set; }
 
-    [CommandLongSwitch("cert-expiry")]
+    [CommandSwitch("--cert-expiry")]
     public string? CertExpiry { get; set; }
 
-    [CommandLongSwitch("external-ca")]
+    [CommandSwitch("--external-ca")]
     public string? ExternalCa { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
+
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
+
+    [CommandSwitch("--rotate")]
+    public string? Rotate { get; set; }
 
 }

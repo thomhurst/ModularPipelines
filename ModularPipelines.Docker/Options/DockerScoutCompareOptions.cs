@@ -3,57 +3,57 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout compare")]
-public record DockerScoutCompareOptions : DockerOptions
+public record DockerScoutCompareOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-    [CommandLongSwitch("exit-code")]
+    [CommandSwitch("--exit-code")]
     public string? ExitCode { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("ignore-base")]
+    [CommandSwitch("--ignore-base")]
     public string? IgnoreBase { get; set; }
 
-    [CommandLongSwitch("ignore-unchanged")]
+    [CommandSwitch("--ignore-unchanged")]
     public string? IgnoreUnchanged { get; set; }
 
-    [CommandLongSwitch("only-fixed")]
+    [CommandSwitch("--only-fixed")]
     public string? OnlyFixed { get; set; }
 
-    [CommandLongSwitch("only-package-type")]
+    [CommandSwitch("--only-package-type")]
     public string? OnlyPackageType { get; set; }
 
-    [CommandLongSwitch("only-severity")]
+    [CommandSwitch("--only-severity")]
     public string? OnlySeverity { get; set; }
 
-    [CommandLongSwitch("only-unfixed")]
+    [CommandSwitch("--only-unfixed")]
     public string? OnlyUnfixed { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [CommandLongSwitch("to")]
+    [CommandSwitch("--to")]
     public string? To { get; set; }
 
-    [CommandLongSwitch("to-latest")]
+    [CommandSwitch("--to-latest")]
     public string? ToLatest { get; set; }
 
-    [CommandLongSwitch("to-ref")]
+    [CommandSwitch("--to-ref")]
     public string? ToRef { get; set; }
 
-    [CommandLongSwitch("to-stream")]
+    [CommandSwitch("--to-stream")]
     public string? ToStream { get; set; }
 
-    [CommandLongSwitch("to-type")]
+    [CommandSwitch("--to-type")]
     public string? ToType { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
 
 }
