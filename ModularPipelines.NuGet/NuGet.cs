@@ -21,7 +21,7 @@ internal class NuGet : INuGet
         {
             var arguments = new List<string>
             {
-                packagePath, "-n"
+                packagePath
             };
 
             var commandResult = await _context.Command

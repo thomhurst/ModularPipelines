@@ -8,14 +8,14 @@ public record NuGetSourceOptions
     [property: PositionalArgument]
     Uri FeedUri,
 
-    [property: CommandSwitch("n")]
+    [property: CommandSwitch("--name")]
     string Name
 ) : NuGetOptions
 {
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
+    [CommandSwitch("--username")]
     public string? Username { get; init; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
+    [CommandSwitch("--password")]
     public string? Password { get; init; }
 }

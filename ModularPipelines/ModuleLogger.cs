@@ -70,7 +70,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         return (o, exception) =>
         {
             var formattedString = formatter.Invoke((TState) o, exception);
-            return _secretObfuscator.Obfuscate(formattedString);
+            return _secretObfuscator.Obfuscate(formattedString, null);
         };
     }
 

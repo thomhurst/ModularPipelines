@@ -8,7 +8,7 @@ namespace ModularPipelines.Engine;
 
 public interface ISecretObfuscator
 {
-    string Obfuscate(string input);
+    string Obfuscate(string input, object? optionsObject);
 }
 
 internal class SecretObfuscator : ISecretObfuscator
@@ -24,11 +24,13 @@ internal class SecretObfuscator : ISecretObfuscator
         _secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
     }
 
-    public string Obfuscate(string input)
+    public string Obfuscate(string input, object? optionsObject)
     {
         var stringBuilder = new StringBuilder(input);
 
-        foreach (var secret in _secrets)
+        var secretsFromExtraObject = GetSecrets(optionsObject);
+        
+        foreach (var secret in _secrets.Concat(secretsFromExtraObject))
         {
             if (input.Contains(secret))
             {
@@ -43,22 +45,37 @@ internal class SecretObfuscator : ISecretObfuscator
     {
         foreach (var option in options)
         {
-            foreach (var secretValueMember in option.GetType()
-                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                         .Concat(option.GetType()
-                             .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
-                         .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null))
+            foreach (var secret in GetSecrets(option))
             {
-                var secret = secretValueMember.GetValue(option)?.ToString();
+                yield return secret;
+            }
+        }
+    }
 
-                if (!string.IsNullOrWhiteSpace(secret))
-                {
-                    yield return secret;
-                }
+    public IEnumerable<string> GetSecrets(object? option)
+    {
+        if (option is null)
+        {
+            yield break;
+        }
+        
+        foreach (var secretValueMember in option.GetType()
+                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                     .Concat(option.GetType()
+                         .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
+                     .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null))
+        {
+            var secret = secretValueMember.GetValue(option)?.ToString();
+
+            if (!string.IsNullOrWhiteSpace(secret))
+            {
+                yield return secret;
             }
         }
     }
 }
+
+
 
 public interface IOptionsProvider
 {

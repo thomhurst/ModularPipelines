@@ -47,7 +47,8 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         return await context.NuGet()
             .UploadPackages(new NuGetUploadOptions(packagePaths.Value!, new Uri("https://api.nuget.org/v3/index.json"))
             {
-                ApiKey = _options.Value.ApiKey!
+                ApiKey = _options.Value.ApiKey!,
+                NoSymbols = true
             });
     }
 }
