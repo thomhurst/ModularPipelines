@@ -5,10 +5,9 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm unlock-key")]
 public record DockerSwarmUnlockKeyOptions : DockerOptions
 {
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("rotate")]
+    [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }
-
 }

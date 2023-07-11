@@ -5,10 +5,10 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("context ls")]
 public record DockerContextLsOptions : DockerOptions
 {
-    [CommandLongSwitch("format")]
+
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
-
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 }

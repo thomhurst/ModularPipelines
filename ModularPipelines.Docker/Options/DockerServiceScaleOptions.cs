@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service scale")]
-public record DockerServiceScaleOptions : DockerOptions
+public record DockerServiceScaleOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> ServiceReplicas) : DockerOptions
 {
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
-
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 }

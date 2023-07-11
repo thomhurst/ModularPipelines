@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose port")]
-public record DockerComposePortOptions : DockerOptions
+public record DockerComposePortOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service, [property: PositionalArgument(Position = Position.AfterArguments)] string Privateport) : DockerOptions
 {
-    [CommandLongSwitch("index")]
+
+    [CommandSwitch("--index")]
     public string? Index { get; set; }
 
-    [CommandLongSwitch("protocol")]
+    [CommandSwitch("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

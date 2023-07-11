@@ -5,34 +5,33 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("checkout-index")]
 public record GitCheckoutIndexOptions : GitOptions
 {
-    [BooleanCommandSwitch("index")]
+    [BooleanCommandSwitch("--index")]
     public bool? Index { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("no-create")]
+    [BooleanCommandSwitch("--no-create")]
     public bool? NoCreate { get; set; }
 
-    [CommandLongSwitch("prefix")]
+    [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandLongSwitch("stage")]
+    [CommandEqualsSeparatorSwitch("--stage")]
     public string? Stage { get; set; }
 
-    [BooleanCommandSwitch("temp")]
+    [BooleanCommandSwitch("--temp")]
     public bool? Temp { get; set; }
 
-    [BooleanCommandSwitch("ignore-skip-worktree-bits")]
+    [BooleanCommandSwitch("--ignore-skip-worktree-bits")]
     public bool? IgnoreSkipWorktreeBits { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
-
 }

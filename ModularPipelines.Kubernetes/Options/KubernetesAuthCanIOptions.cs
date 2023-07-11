@@ -5,19 +5,18 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("auth", "can-i")]
 public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
 {
-    [BooleanCommandSwitch("all-namespaces")]
+    [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("list")]
+    [BooleanCommandSwitch("--list")]
     public bool? List { get; set; }
 
-    [BooleanCommandSwitch("no-headers")]
+    [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("subresource", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
     public string? Subresource { get; set; }
-
 }

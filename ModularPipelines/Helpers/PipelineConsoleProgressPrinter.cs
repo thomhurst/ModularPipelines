@@ -48,7 +48,6 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
 
-
             var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}", new ProgressTaskSettings
             {
                 AutoStart = false

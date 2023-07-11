@@ -5,76 +5,75 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("submodule")]
 public record GitSubmoduleOptions : GitOptions
 {
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [CommandLongSwitch("branch")]
+    [CommandEqualsSeparatorSwitch("--branch")]
     public string? Branch { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("cached")]
+    [BooleanCommandSwitch("--cached")]
     public bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("files")]
+    [BooleanCommandSwitch("--files")]
     public bool? Files { get; set; }
 
-    [BooleanCommandSwitch("summary-limit")]
+    [BooleanCommandSwitch("--summary-limit")]
     public bool? SummaryLimit { get; set; }
 
-    [BooleanCommandSwitch("remote")]
+    [BooleanCommandSwitch("--remote")]
     public bool? Remote { get; set; }
 
-    [BooleanCommandSwitch("no-fetch")]
+    [BooleanCommandSwitch("--no-fetch")]
     public bool? NoFetch { get; set; }
 
-    [BooleanCommandSwitch("checkout")]
+    [BooleanCommandSwitch("--checkout")]
     public bool? Checkout { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("rebase")]
+    [BooleanCommandSwitch("--rebase")]
     public bool? Rebase { get; set; }
 
-    [BooleanCommandSwitch("init")]
+    [BooleanCommandSwitch("--init")]
     public bool? Init { get; set; }
 
-    [BooleanCommandSwitch("name")]
+    [BooleanCommandSwitch("--name")]
     public bool? Name { get; set; }
 
-    [CommandLongSwitch("reference")]
+    [CommandEqualsSeparatorSwitch("--reference")]
     public string? Reference { get; set; }
 
-    [BooleanCommandSwitch("dissociate")]
+    [BooleanCommandSwitch("--dissociate")]
     public bool? Dissociate { get; set; }
 
-    [BooleanCommandSwitch("recursive")]
+    [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("depth")]
+    [BooleanCommandSwitch("--depth")]
     public bool? Depth { get; set; }
 
-    [BooleanCommandSwitch("no-recommend-shallow")]
+    [BooleanCommandSwitch("--no-recommend-shallow")]
     public bool? NoRecommendShallow { get; set; }
 
-    [BooleanCommandSwitch("recommend-shallow")]
+    [BooleanCommandSwitch("--recommend-shallow")]
     public bool? RecommendShallow { get; set; }
 
-    [CommandLongSwitch("jobs")]
+    [CommandEqualsSeparatorSwitch("--jobs")]
     public string? Jobs { get; set; }
 
-    [BooleanCommandSwitch("no-single-branch")]
+    [BooleanCommandSwitch("--no-single-branch")]
     public bool? NoSingleBranch { get; set; }
 
-    [BooleanCommandSwitch("single-branch")]
+    [BooleanCommandSwitch("--single-branch")]
     public bool? SingleBranch { get; set; }
-
 }

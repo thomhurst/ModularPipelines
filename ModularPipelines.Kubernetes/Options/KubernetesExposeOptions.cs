@@ -5,79 +5,78 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("expose")]
 public record KubernetesExposeOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandLongSwitch("cluster-ip", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--cluster-ip", SwitchValueSeparator = " ")]
     public string? ClusterIp { get; set; }
 
-    [CommandLongSwitch("container-port", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--container-port", SwitchValueSeparator = " ")]
     public string? ContainerPort { get; set; }
 
-    [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
 
-    [CommandLongSwitch("external-ip", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--external-ip", SwitchValueSeparator = " ")]
     public string? ExternalIp { get; set; }
 
-    [CommandLongSwitch("field-manager", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
 
-    [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
-    [CommandLongSwitch("generator", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--generator", SwitchValueSeparator = " ")]
     public string? Generator { get; set; }
 
-    [CommandLongSwitch("kustomize", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
     public string? Kustomize { get; set; }
 
-    [CommandLongSwitch("labels", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
     public string? Labels { get; set; }
 
-    [CommandLongSwitch("load-balancer-ip", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--load-balancer-ip", SwitchValueSeparator = " ")]
     public string? LoadBalancerIp { get; set; }
 
-    [CommandLongSwitch("name", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
     public string? Name { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("overrides", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
     public string? Overrides { get; set; }
 
-    [CommandLongSwitch("port", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
     public string? Port { get; set; }
 
-    [CommandLongSwitch("protocol", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--protocol", SwitchValueSeparator = " ")]
     public string? Protocol { get; set; }
 
-    [BooleanCommandSwitch("record")]
+    [BooleanCommandSwitch("--record")]
     public bool? Record { get; set; }
 
-    [BooleanCommandSwitch("recursive")]
+    [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("save-config")]
+    [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandLongSwitch("selector", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
-    [CommandLongSwitch("session-affinity", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--session-affinity", SwitchValueSeparator = " ")]
     public string? SessionAffinity { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandLongSwitch("target-port", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--target-port", SwitchValueSeparator = " ")]
     public string? TargetPort { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
-    [CommandLongSwitch("type", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
     public string? Type { get; set; }
-
 }

@@ -3,15 +3,18 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack deploy")]
-public record DockerStackDeployOptions : DockerOptions
+public record DockerStackDeployOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
 {
-    [CommandLongSwitch("prune")]
+
+    [CommandSwitch("--prune")]
     public string? Prune { get; set; }
 
-    [CommandLongSwitch("resolve-image")]
+    [CommandSwitch("--resolve-image")]
     public string? ResolveImage { get; set; }
 
-    [CommandLongSwitch("with-registry-auth")]
+    [CommandSwitch("--with-registry-auth")]
     public string? WithRegistryAuth { get; set; }
 
+    [CommandSwitch("--compose-file")]
+    public string? ComposeFile { get; set; }
 }

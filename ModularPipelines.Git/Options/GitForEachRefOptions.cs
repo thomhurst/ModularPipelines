@@ -5,52 +5,51 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("for-each-ref")]
 public record GitForEachRefOptions : GitOptions
 {
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [CommandLongSwitch("count")]
+    [CommandEqualsSeparatorSwitch("--count")]
     public string? Count { get; set; }
 
-    [CommandLongSwitch("sort")]
+    [CommandEqualsSeparatorSwitch("--sort")]
     public string? Sort { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("color")]
+    [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("shell")]
+    [BooleanCommandSwitch("--shell")]
     public bool? Shell { get; set; }
 
-    [BooleanCommandSwitch("perl")]
+    [BooleanCommandSwitch("--perl")]
     public bool? Perl { get; set; }
 
-    [BooleanCommandSwitch("python")]
+    [BooleanCommandSwitch("--python")]
     public bool? Python { get; set; }
 
-    [BooleanCommandSwitch("tcl")]
+    [BooleanCommandSwitch("--tcl")]
     public bool? Tcl { get; set; }
 
-    [CommandLongSwitch("points-at")]
+    [CommandEqualsSeparatorSwitch("--points-at")]
     public string? PointsAt { get; set; }
 
-    [CommandLongSwitch("merged")]
+    [CommandEqualsSeparatorSwitch("--merged")]
     public string? Merged { get; set; }
 
-    [CommandLongSwitch("no-merged")]
+    [CommandEqualsSeparatorSwitch("--no-merged")]
     public string? NoMerged { get; set; }
 
-    [CommandLongSwitch("contains")]
+    [CommandEqualsSeparatorSwitch("--contains")]
     public string? Contains { get; set; }
 
-    [CommandLongSwitch("no-contains")]
+    [CommandEqualsSeparatorSwitch("--no-contains")]
     public string? NoContains { get; set; }
 
-    [BooleanCommandSwitch("ignore-case")]
+    [BooleanCommandSwitch("--ignore-case")]
     public bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("omit-empty")]
+    [BooleanCommandSwitch("--omit-empty")]
     public bool? OmitEmpty { get; set; }
-
 }

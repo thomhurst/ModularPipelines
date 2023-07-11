@@ -5,6 +5,6 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("publish")]
 public record DotNetPublishOptions : DotNetBuildOptions
 {
-    [CommandLongSwitch("manifest", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--manifest", SwitchValueSeparator = " ")]
     public string? Manifest { get; init; }
 }

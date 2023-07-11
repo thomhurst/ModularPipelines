@@ -5,28 +5,33 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose build")]
 public record DockerComposeBuildOptions : DockerOptions
 {
-    [CommandLongSwitch("build-arg")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+
+    [CommandSwitch("--build-arg")]
     public string? BuildArg { get; set; }
 
-    [CommandLongSwitch("memory")]
+    [CommandSwitch("--builder")]
+    public string? Builder { get; set; }
+
+    [CommandSwitch("--memory")]
     public string? Memory { get; set; }
 
-    [CommandLongSwitch("no-cache")]
-    public string? NoCache { get; set; }
+    [BooleanCommandSwitch("--no-cache")]
+    public bool? NoCache { get; set; }
 
-    [CommandLongSwitch("pull")]
-    public string? Pull { get; set; }
+    [BooleanCommandSwitch("--pull")]
+    public bool? Pull { get; set; }
 
-    [CommandLongSwitch("push")]
-    public string? Push { get; set; }
+    [BooleanCommandSwitch("--push")]
+    public bool? Push { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("ssh")]
+    [CommandSwitch("--ssh")]
     public string? Ssh { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

@@ -3,18 +3,18 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose cp")]
-public record DockerComposeCpOptions : DockerOptions
+public record DockerComposeCpOptions([property: PositionalArgument(Position = Position.AfterArguments)] string SrcPath, [property: PositionalArgument(Position = Position.AfterArguments)] string DestPath) : DockerOptions
 {
-    [CommandLongSwitch("archive")]
+
+    [CommandSwitch("--archive")]
     public string? Archive { get; set; }
 
-    [CommandLongSwitch("follow-link")]
+    [CommandSwitch("--follow-link")]
     public string? FollowLink { get; set; }
 
-    [CommandLongSwitch("index")]
+    [CommandSwitch("--index")]
     public string? Index { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

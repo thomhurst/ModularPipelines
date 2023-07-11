@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest push")]
-public record DockerManifestPushOptions : DockerOptions
+public record DockerManifestPushOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ManifestList) : DockerOptions
 {
-    [CommandLongSwitch("insecure")]
+
+    [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
 
-    [CommandLongSwitch("purge")]
+    [CommandSwitch("--purge")]
     public string? Purge { get; set; }
-
 }

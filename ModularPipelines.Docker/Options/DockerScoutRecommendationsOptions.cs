@@ -5,25 +5,27 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("scout recommendations")]
 public record DockerScoutRecommendationsOptions : DockerOptions
 {
-    [CommandLongSwitch("only-refresh")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Image { get; set; }
+
+    [CommandSwitch("--only-refresh")]
     public string? OnlyRefresh { get; set; }
 
-    [CommandLongSwitch("only-update")]
+    [CommandSwitch("--only-update")]
     public string? OnlyUpdate { get; set; }
 
-    [CommandLongSwitch("output")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("ref")]
+    [CommandSwitch("--ref")]
     public string? Ref { get; set; }
 
-    [CommandLongSwitch("tag")]
+    [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
-
 }

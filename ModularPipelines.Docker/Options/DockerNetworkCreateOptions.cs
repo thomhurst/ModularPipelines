@@ -3,48 +3,54 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network create")]
-public record DockerNetworkCreateOptions([property: PositionalArgument] string Network) : DockerOptions
+public record DockerNetworkCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Network) : DockerOptions
 {
-    [CommandLongSwitch("attachable")]
+
+    [CommandSwitch("--attachable")]
     public string? Attachable { get; set; }
 
-    [CommandLongSwitch("aux-address")]
+    [CommandSwitch("--aux-address")]
     public string? AuxAddress { get; set; }
 
-    [CommandLongSwitch("config-from")]
+    [CommandSwitch("--config-from")]
     public string? ConfigFrom { get; set; }
 
-    [CommandLongSwitch("config-only")]
+    [CommandSwitch("--config-only")]
     public string? ConfigOnly { get; set; }
 
-    [CommandLongSwitch("driver")]
+    [CommandSwitch("--driver")]
     public string? Driver { get; set; }
 
-    [CommandLongSwitch("gateway")]
+    [CommandSwitch("--gateway")]
     public string? Gateway { get; set; }
 
-    [CommandLongSwitch("ip-range")]
+    [CommandSwitch("--ip-range")]
     public string? IpRange { get; set; }
 
-    [CommandLongSwitch("ipam-driver")]
+    [CommandSwitch("--ipam-driver")]
     public string? IpamDriver { get; set; }
 
-    [CommandLongSwitch("ipam-opt")]
+    [CommandSwitch("--ipam-opt")]
     public string? IpamOpt { get; set; }
 
-    [CommandLongSwitch("ipv6")]
+    [CommandSwitch("--ipv6")]
     public string? Ipv6 { get; set; }
 
-    [CommandLongSwitch("label")]
+    [CommandSwitch("--label")]
     public string? Label { get; set; }
 
-    [CommandLongSwitch("opt")]
+    [CommandSwitch("--opt")]
     public string? Opt { get; set; }
 
-    [CommandLongSwitch("scope")]
+    [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 
-    [CommandLongSwitch("subnet")]
+    [CommandSwitch("--subnet")]
     public string? Subnet { get; set; }
 
+    [CommandSwitch("--ingress")]
+    public string? Ingress { get; set; }
+
+    [CommandSwitch("--internal")]
+    public string? Internal { get; set; }
 }

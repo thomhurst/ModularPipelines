@@ -3,6 +3,6 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack")]
-public record DockerStackOptions : DockerOptions
+public record DockerStackOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
 }

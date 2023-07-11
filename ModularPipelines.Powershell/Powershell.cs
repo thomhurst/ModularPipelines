@@ -5,7 +5,7 @@ using ModularPipelines.Powershell.Models;
 
 namespace ModularPipelines.Powershell;
 
-public class Powershell : IPowershell
+internal class Powershell : IPowershell
 {
     private readonly IModuleContext _context;
 

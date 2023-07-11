@@ -5,25 +5,24 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("top", "pod")]
 public record KubernetesTopPodOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("all-namespaces")]
+    [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("containers")]
+    [BooleanCommandSwitch("--containers")]
     public bool? Containers { get; set; }
 
-    [CommandLongSwitch("field-selector", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
     public string? FieldSelector { get; set; }
 
-    [BooleanCommandSwitch("no-headers")]
+    [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandLongSwitch("selector", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
-    [CommandLongSwitch("sort-by", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
     public string? SortBy { get; set; }
 
-    [BooleanCommandSwitch("use-protocol-buffers")]
+    [BooleanCommandSwitch("--use-protocol-buffers")]
     public bool? UseProtocolBuffers { get; set; }
-
 }

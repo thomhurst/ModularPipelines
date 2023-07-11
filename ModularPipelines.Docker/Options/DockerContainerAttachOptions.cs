@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container attach")]
-public record DockerContainerAttachOptions : DockerOptions
+public record DockerContainerAttachOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("detach-keys")]
+
+    [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
 
-    [CommandLongSwitch("no-stdin")]
+    [CommandSwitch("--no-stdin")]
     public string? NoStdin { get; set; }
 
-    [BooleanCommandSwitch("sig-proxy")]
+    [BooleanCommandSwitch("--sig-proxy")]
     public bool? SigProxy { get; set; }
-
 }

@@ -5,70 +5,69 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("blame")]
 public record GitBlameOptions : GitOptions
 {
-    [BooleanCommandSwitch("root")]
+    [BooleanCommandSwitch("--root")]
     public bool? Root { get; set; }
 
-    [BooleanCommandSwitch("show-stats")]
+    [BooleanCommandSwitch("--show-stats")]
     public bool? ShowStats { get; set; }
 
-    [CommandLongSwitch("reverse")]
+    [CommandEqualsSeparatorSwitch("--reverse")]
     public string? Reverse { get; set; }
 
-    [BooleanCommandSwitch("first-parent")]
+    [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
 
-    [BooleanCommandSwitch("porcelain")]
+    [BooleanCommandSwitch("--porcelain")]
     public bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("line-porcelain")]
+    [BooleanCommandSwitch("--line-porcelain")]
     public bool? LinePorcelain { get; set; }
 
-    [BooleanCommandSwitch("incremental")]
+    [BooleanCommandSwitch("--incremental")]
     public bool? Incremental { get; set; }
 
-    [CommandLongSwitch("encoding")]
+    [CommandEqualsSeparatorSwitch("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandLongSwitch("contents")]
+    [CommandEqualsSeparatorSwitch("--contents")]
     public string? Contents { get; set; }
 
-    [CommandLongSwitch("date")]
+    [CommandEqualsSeparatorSwitch("--date")]
     public string? Date { get; set; }
 
-    [BooleanCommandSwitch("no-progress")]
+    [BooleanCommandSwitch("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [CommandLongSwitch("ignore-rev")]
+    [CommandEqualsSeparatorSwitch("--ignore-rev")]
     public string? IgnoreRev { get; set; }
 
-    [CommandLongSwitch("ignore-revs-file")]
+    [CommandEqualsSeparatorSwitch("--ignore-revs-file")]
     public string? IgnoreRevsFile { get; set; }
 
-    [BooleanCommandSwitch("color-lines")]
+    [BooleanCommandSwitch("--color-lines")]
     public bool? ColorLines { get; set; }
 
-    [BooleanCommandSwitch("color-by-age")]
+    [BooleanCommandSwitch("--color-by-age")]
     public bool? ColorByAge { get; set; }
 
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("score-debug")]
+    [BooleanCommandSwitch("--score-debug")]
     public bool? ScoreDebug { get; set; }
 
-    [BooleanCommandSwitch("show-name")]
+    [BooleanCommandSwitch("--show-name")]
     public bool? ShowName { get; set; }
 
-    [BooleanCommandSwitch("show-number")]
+    [BooleanCommandSwitch("--show-number")]
     public bool? ShowNumber { get; set; }
 
-    [BooleanCommandSwitch("show-email")]
+    [BooleanCommandSwitch("--show-email")]
     public bool? ShowEmail { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
-
 }

@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout repo list")]
-public record DockerScoutRepoListOptions : DockerOptions
+public record DockerScoutRepoListOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Org) : DockerOptions
 {
-    [CommandLongSwitch("filter")]
+
+    [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("only-disabled")]
+    [CommandSwitch("--only-disabled")]
     public string? OnlyDisabled { get; set; }
 
-    [CommandLongSwitch("only-enabled")]
+    [CommandSwitch("--only-enabled")]
     public string? OnlyEnabled { get; set; }
-
 }

@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container cp")]
-public record DockerContainerCpOptions : DockerOptions
+public record DockerContainerCpOptions([property: PositionalArgument(Position = Position.AfterArguments)] string SrcPath, [property: PositionalArgument(Position = Position.AfterArguments)] string DestPath) : DockerOptions
 {
-    [CommandLongSwitch("archive")]
+
+    [CommandSwitch("--archive")]
     public string? Archive { get; set; }
 
-    [CommandLongSwitch("follow-link")]
+    [CommandSwitch("--follow-link")]
     public string? FollowLink { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
-
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 }

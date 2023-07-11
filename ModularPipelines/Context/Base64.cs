@@ -2,7 +2,7 @@ using System.Text;
 
 namespace ModularPipelines.Context;
 
-public class Base64 : IBase64
+internal class Base64 : IBase64
 {
     public string ToBase64String(string input, Encoding encoding)
     {

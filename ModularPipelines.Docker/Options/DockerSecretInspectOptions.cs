@@ -3,9 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("secret inspect")]
-public record DockerSecretInspectOptions : DockerOptions
+public record DockerSecretInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Secret) : DockerOptions
 {
-    [CommandLongSwitch("pretty")]
+
+    [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
 
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 }

@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest create")]
-public record DockerManifestCreateOptions : DockerOptions
+public record DockerManifestCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ManifestList, [property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Manifests) : DockerOptions
 {
-    [CommandLongSwitch("amend")]
+
+    [CommandSwitch("--amend")]
     public string? Amend { get; set; }
 
-    [CommandLongSwitch("insecure")]
+    [CommandSwitch("--insecure")]
     public string? Insecure { get; set; }
-
 }

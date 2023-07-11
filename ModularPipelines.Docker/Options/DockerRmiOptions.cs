@@ -3,12 +3,11 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("rmi")]
-public record DockerRmiOptions : DockerOptions
+public record DockerRmiOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Image) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 
-    [CommandLongSwitch("no-prune")]
-    public string? NoPrune { get; set; }
-
+    [BooleanCommandSwitch("--no-prune")]
+    public bool? NoPrune { get; set; }
 }

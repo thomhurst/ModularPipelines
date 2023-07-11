@@ -5,10 +5,9 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("bisect")]
 public record GitBisectOptions : GitOptions
 {
-    [BooleanCommandSwitch("no-checkout")]
+    [BooleanCommandSwitch("--no-checkout")]
     public bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("first-parent")]
+    [BooleanCommandSwitch("--first-parent")]
     public bool? FirstParent { get; set; }
-
 }

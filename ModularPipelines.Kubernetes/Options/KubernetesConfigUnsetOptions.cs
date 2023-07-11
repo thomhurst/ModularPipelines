@@ -5,28 +5,27 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("config", "unset")]
 public record KubernetesConfigUnsetOptions([property: PositionalArgument] string Property_name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [BooleanCommandSwitch("flatten")]
+    [BooleanCommandSwitch("--flatten")]
     public bool? Flatten { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("minify")]
+    [BooleanCommandSwitch("--minify")]
     public bool? Minify { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("raw")]
+    [BooleanCommandSwitch("--raw")]
     public bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

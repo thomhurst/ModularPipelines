@@ -5,88 +5,87 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("apply")]
 public record GitApplyOptions : GitOptions
 {
-    [BooleanCommandSwitch("stat")]
+    [BooleanCommandSwitch("--stat")]
     public bool? Stat { get; set; }
 
-    [BooleanCommandSwitch("numstat")]
+    [BooleanCommandSwitch("--numstat")]
     public bool? Numstat { get; set; }
 
-    [BooleanCommandSwitch("summary")]
+    [BooleanCommandSwitch("--summary")]
     public bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("check")]
+    [BooleanCommandSwitch("--check")]
     public bool? Check { get; set; }
 
-    [BooleanCommandSwitch("index")]
+    [BooleanCommandSwitch("--index")]
     public bool? Index { get; set; }
 
-    [BooleanCommandSwitch("cached")]
+    [BooleanCommandSwitch("--cached")]
     public bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("intent-to-add")]
+    [BooleanCommandSwitch("--intent-to-add")]
     public bool? IntentToAdd { get; set; }
 
-    [BooleanCommandSwitch("3way")]
+    [BooleanCommandSwitch("--3way")]
     public bool? ThreeWay { get; set; }
 
-    [CommandLongSwitch("build-fake-ancestor")]
+    [CommandEqualsSeparatorSwitch("--build-fake-ancestor")]
     public string? BuildFakeAncestor { get; set; }
 
-    [BooleanCommandSwitch("reverse")]
+    [BooleanCommandSwitch("--reverse")]
     public bool? Reverse { get; set; }
 
-    [BooleanCommandSwitch("reject")]
+    [BooleanCommandSwitch("--reject")]
     public bool? Reject { get; set; }
 
-    [BooleanCommandSwitch("unidiff-zero")]
+    [BooleanCommandSwitch("--unidiff-zero")]
     public bool? UnidiffZero { get; set; }
 
-    [BooleanCommandSwitch("apply")]
+    [BooleanCommandSwitch("--apply")]
     public bool? Apply { get; set; }
 
-    [BooleanCommandSwitch("no-add")]
+    [BooleanCommandSwitch("--no-add")]
     public bool? NoAdd { get; set; }
 
-    [BooleanCommandSwitch("allow-binary-replacement")]
+    [BooleanCommandSwitch("--allow-binary-replacement")]
     public bool? AllowBinaryReplacement { get; set; }
 
-    [BooleanCommandSwitch("binary")]
+    [BooleanCommandSwitch("--binary")]
     public bool? Binary { get; set; }
 
-    [CommandLongSwitch("exclude")]
+    [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
 
-    [CommandLongSwitch("include")]
+    [CommandEqualsSeparatorSwitch("--include")]
     public string? Include { get; set; }
 
-    [BooleanCommandSwitch("ignore-space-change")]
+    [BooleanCommandSwitch("--ignore-space-change")]
     public bool? IgnoreSpaceChange { get; set; }
 
-    [BooleanCommandSwitch("ignore-whitespace")]
+    [BooleanCommandSwitch("--ignore-whitespace")]
     public bool? IgnoreWhitespace { get; set; }
 
-    [CommandLongSwitch("whitespace")]
+    [CommandEqualsSeparatorSwitch("--whitespace")]
     public string? Whitespace { get; set; }
 
-    [BooleanCommandSwitch("inaccurate-eof")]
+    [BooleanCommandSwitch("--inaccurate-eof")]
     public bool? InaccurateEof { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("recount")]
+    [BooleanCommandSwitch("--recount")]
     public bool? Recount { get; set; }
 
-    [CommandLongSwitch("directory")]
+    [CommandEqualsSeparatorSwitch("--directory")]
     public string? Directory { get; set; }
 
-    [BooleanCommandSwitch("unsafe-paths")]
+    [BooleanCommandSwitch("--unsafe-paths")]
     public bool? UnsafePaths { get; set; }
 
-    [BooleanCommandSwitch("allow-empty")]
+    [BooleanCommandSwitch("--allow-empty")]
     public bool? AllowEmpty { get; set; }
-
 }

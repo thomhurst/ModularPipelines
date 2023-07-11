@@ -5,10 +5,13 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("buildx du")]
 public record DockerBuildxDuOptions : DockerOptions
 {
-    [CommandLongSwitch("filter")]
+
+    [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("verbose")]
+    [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
 
+    [CommandSwitch("--builder")]
+    public string? Builder { get; set; }
 }

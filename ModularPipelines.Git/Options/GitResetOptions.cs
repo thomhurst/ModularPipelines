@@ -5,40 +5,39 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("reset")]
 public record GitResetOptions : GitOptions
 {
-    [BooleanCommandSwitch("soft")]
+    [BooleanCommandSwitch("--soft")]
     public bool? Soft { get; set; }
 
-    [BooleanCommandSwitch("mixed")]
+    [BooleanCommandSwitch("--mixed")]
     public bool? Mixed { get; set; }
 
-    [BooleanCommandSwitch("hard")]
+    [BooleanCommandSwitch("--hard")]
     public bool? Hard { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("keep")]
+    [BooleanCommandSwitch("--keep")]
     public bool? Keep { get; set; }
 
-    [BooleanCommandSwitch("no-recurse-submodules")]
+    [BooleanCommandSwitch("--no-recurse-submodules")]
     public bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("refresh")]
+    [BooleanCommandSwitch("--refresh")]
     public bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("no-refresh")]
+    [BooleanCommandSwitch("--no-refresh")]
     public bool? NoRefresh { get; set; }
 
-    [CommandLongSwitch("pathspec-from-file")]
+    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("pathspec-file-nul")]
+    [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
-
 }

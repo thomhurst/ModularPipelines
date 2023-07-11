@@ -5,7 +5,7 @@ using ModularPipelines.NuGet.Options;
 
 namespace ModularPipelines.NuGet;
 
-public class NuGet : INuGet
+internal class NuGet : INuGet
 {
     private readonly IModuleContext _context;
 
@@ -21,16 +21,11 @@ public class NuGet : INuGet
         {
             var arguments = new List<string>
             {
-                packagePath, "-n"
+                packagePath
             };
 
             var commandResult = await _context.Command
-                .ExecuteCommandLineTool(options.WithArguments(arguments) with
-                {
-                    Arguments = arguments,
-                    InputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********"),
-                    OutputLoggingManipulator = string.IsNullOrWhiteSpace(options.ApiKey) ? s => s : s => s.Replace(options.ApiKey, "**********")
-                });
+                .ExecuteCommandLineTool(options.WithArguments(arguments));
 
             results.Add(commandResult);
         }

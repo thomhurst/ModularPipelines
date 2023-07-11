@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("context update")]
-public record DockerContextUpdateOptions : DockerOptions
+public record DockerContextUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Context) : DockerOptions
 {
-    [CommandLongSwitch("description")]
+
+    [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-    [CommandLongSwitch("docker")]
+    [CommandSwitch("--docker")]
     public string? Docker { get; set; }
-
 }

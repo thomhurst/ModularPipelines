@@ -5,31 +5,30 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("reflog")]
 public record GitReflogOptions : GitOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("single-worktree")]
+    [BooleanCommandSwitch("--single-worktree")]
     public bool? SingleWorktree { get; set; }
 
-    [CommandLongSwitch("expire")]
+    [CommandEqualsSeparatorSwitch("--expire")]
     public string? Expire { get; set; }
 
-    [CommandLongSwitch("expire-unreachable")]
+    [CommandEqualsSeparatorSwitch("--expire-unreachable")]
     public string? ExpireUnreachable { get; set; }
 
-    [BooleanCommandSwitch("updateref")]
+    [BooleanCommandSwitch("--updateref")]
     public bool? Updateref { get; set; }
 
-    [BooleanCommandSwitch("rewrite")]
+    [BooleanCommandSwitch("--rewrite")]
     public bool? Rewrite { get; set; }
 
-    [BooleanCommandSwitch("stale-fix")]
+    [BooleanCommandSwitch("--stale-fix")]
     public bool? StaleFix { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
-
 }

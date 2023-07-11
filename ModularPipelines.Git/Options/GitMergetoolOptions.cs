@@ -5,22 +5,21 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("mergetool")]
 public record GitMergetoolOptions : GitOptions
 {
-    [CommandLongSwitch("tool")]
-    public string? Tool { get; set; }
+    [CommandEqualsSeparatorSwitch("--tool")]
+    public string? MergeTool { get; set; }
 
-    [BooleanCommandSwitch("tool-help")]
+    [BooleanCommandSwitch("--tool-help")]
     public bool? ToolHelp { get; set; }
 
-    [BooleanCommandSwitch("no-prompt")]
+    [BooleanCommandSwitch("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
-    [BooleanCommandSwitch("prompt")]
+    [BooleanCommandSwitch("--prompt")]
     public bool? Prompt { get; set; }
 
-    [BooleanCommandSwitch("gui")]
+    [BooleanCommandSwitch("--gui")]
     public bool? Gui { get; set; }
 
-    [BooleanCommandSwitch("no-gui")]
+    [BooleanCommandSwitch("--no-gui")]
     public bool? NoGui { get; set; }
-
 }

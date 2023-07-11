@@ -5,31 +5,30 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("rollback")]
 public record HelmRollbackOptions : HelmOptions
 {
-    [BooleanCommandSwitch("cleanup-on-fail")]
+    [BooleanCommandSwitch("--cleanup-on-fail")]
     public bool? CleanupOnFail { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandLongSwitch("history-max", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--history-max", SwitchValueSeparator = " ")]
     public int? HistoryMax { get; set; }
 
-    [BooleanCommandSwitch("no-hooks")]
+    [BooleanCommandSwitch("--no-hooks")]
     public bool? NoHooks { get; set; }
 
-    [BooleanCommandSwitch("recreate-pods")]
+    [BooleanCommandSwitch("--recreate-pods")]
     public bool? RecreatePods { get; set; }
 
-    [CommandLongSwitch("timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("wait")]
+    [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("wait-for-jobs")]
+    [BooleanCommandSwitch("--wait-for-jobs")]
     public bool? WaitForJobs { get; set; }
-
 }

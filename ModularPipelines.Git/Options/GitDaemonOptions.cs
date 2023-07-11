@@ -5,85 +5,84 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("daemon")]
 public record GitDaemonOptions : GitOptions
 {
-    [BooleanCommandSwitch("strict-paths")]
+    [BooleanCommandSwitch("--strict-paths")]
     public bool? StrictPaths { get; set; }
 
-    [CommandLongSwitch("base-path")]
+    [CommandEqualsSeparatorSwitch("--base-path")]
     public string? BasePath { get; set; }
 
-    [BooleanCommandSwitch("base-path-relaxed")]
+    [BooleanCommandSwitch("--base-path-relaxed")]
     public bool? BasePathRelaxed { get; set; }
 
-    [CommandLongSwitch("interpolated-path")]
+    [CommandEqualsSeparatorSwitch("--interpolated-path")]
     public string? InterpolatedPath { get; set; }
 
-    [BooleanCommandSwitch("export-all")]
+    [BooleanCommandSwitch("--export-all")]
     public bool? ExportAll { get; set; }
 
-    [BooleanCommandSwitch("inetd")]
+    [BooleanCommandSwitch("--inetd")]
     public bool? Inetd { get; set; }
 
-    [CommandLongSwitch("listen")]
+    [CommandEqualsSeparatorSwitch("--listen")]
     public string? Listen { get; set; }
 
-    [CommandLongSwitch("port")]
+    [CommandEqualsSeparatorSwitch("--port")]
     public string? Port { get; set; }
 
-    [CommandLongSwitch("init-timeout")]
+    [CommandEqualsSeparatorSwitch("--init-timeout")]
     public string? InitTimeout { get; set; }
 
-    [CommandLongSwitch("timeout")]
+    [CommandEqualsSeparatorSwitch("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandLongSwitch("max-connections")]
+    [CommandEqualsSeparatorSwitch("--max-connections")]
     public string? MaxConnections { get; set; }
 
-    [BooleanCommandSwitch("syslog")]
+    [BooleanCommandSwitch("--syslog")]
     public bool? Syslog { get; set; }
 
-    [CommandLongSwitch("log-destination")]
+    [CommandEqualsSeparatorSwitch("--log-destination")]
     public string? LogDestination { get; set; }
 
-    [BooleanCommandSwitch("user-path")]
+    [BooleanCommandSwitch("--user-path")]
     public bool? UserPath { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("reuseaddr")]
+    [BooleanCommandSwitch("--reuseaddr")]
     public bool? Reuseaddr { get; set; }
 
-    [BooleanCommandSwitch("detach")]
+    [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-    [CommandLongSwitch("pid-file")]
+    [CommandEqualsSeparatorSwitch("--pid-file")]
     public string? PidFile { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandEqualsSeparatorSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("group")]
+    [CommandEqualsSeparatorSwitch("--group")]
     public string? Group { get; set; }
 
-    [CommandLongSwitch("enable")]
+    [CommandEqualsSeparatorSwitch("--enable")]
     public string? Enable { get; set; }
 
-    [CommandLongSwitch("disable")]
+    [CommandEqualsSeparatorSwitch("--disable")]
     public string? Disable { get; set; }
 
-    [CommandLongSwitch("allow-override")]
+    [CommandEqualsSeparatorSwitch("--allow-override")]
     public string? AllowOverride { get; set; }
 
-    [CommandLongSwitch("forbid-override")]
+    [CommandEqualsSeparatorSwitch("--forbid-override")]
     public string? ForbidOverride { get; set; }
 
-    [BooleanCommandSwitch("no-informative-errors")]
+    [BooleanCommandSwitch("--no-informative-errors")]
     public bool? NoInformativeErrors { get; set; }
 
-    [BooleanCommandSwitch("informative-errors")]
+    [BooleanCommandSwitch("--informative-errors")]
     public bool? InformativeErrors { get; set; }
 
-    [CommandLongSwitch("access-hook")]
+    [CommandEqualsSeparatorSwitch("--access-hook")]
     public string? AccessHook { get; set; }
-
 }

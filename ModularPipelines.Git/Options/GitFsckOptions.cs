@@ -5,49 +5,48 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("fsck")]
 public record GitFsckOptions : GitOptions
 {
-    [BooleanCommandSwitch("unreachable")]
+    [BooleanCommandSwitch("--unreachable")]
     public bool? Unreachable { get; set; }
 
-    [BooleanCommandSwitch("no-dangling")]
+    [BooleanCommandSwitch("--no-dangling")]
     public bool? NoDangling { get; set; }
 
-    [BooleanCommandSwitch("dangling")]
+    [BooleanCommandSwitch("--dangling")]
     public bool? Dangling { get; set; }
 
-    [BooleanCommandSwitch("root")]
+    [BooleanCommandSwitch("--root")]
     public bool? Root { get; set; }
 
-    [BooleanCommandSwitch("tags")]
+    [BooleanCommandSwitch("--tags")]
     public bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("cache")]
+    [BooleanCommandSwitch("--cache")]
     public bool? Cache { get; set; }
 
-    [BooleanCommandSwitch("no-reflogs")]
+    [BooleanCommandSwitch("--no-reflogs")]
     public bool? NoReflogs { get; set; }
 
-    [BooleanCommandSwitch("full")]
+    [BooleanCommandSwitch("--full")]
     public bool? Full { get; set; }
 
-    [BooleanCommandSwitch("connectivity-only")]
+    [BooleanCommandSwitch("--connectivity-only")]
     public bool? ConnectivityOnly { get; set; }
 
-    [BooleanCommandSwitch("strict")]
+    [BooleanCommandSwitch("--strict")]
     public bool? Strict { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("lost-found")]
+    [BooleanCommandSwitch("--lost-found")]
     public bool? LostFound { get; set; }
 
-    [BooleanCommandSwitch("name-objects")]
+    [BooleanCommandSwitch("--name-objects")]
     public bool? NameObjects { get; set; }
 
-    [BooleanCommandSwitch("no-progress")]
+    [BooleanCommandSwitch("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
-
 }

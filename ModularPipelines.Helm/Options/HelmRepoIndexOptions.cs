@@ -5,10 +5,9 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("repo", "index")]
 public record HelmRepoIndexOptions : HelmOptions
 {
-    [CommandLongSwitch("merge", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--merge", SwitchValueSeparator = " ")]
     public string? Merge { get; set; }
 
-    [CommandLongSwitch("url", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--url", SwitchValueSeparator = " ")]
     public string? Url { get; set; }
-
 }

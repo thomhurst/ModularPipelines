@@ -5,127 +5,126 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("commit")]
 public record GitCommitOptions : GitOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("patch")]
+    [BooleanCommandSwitch("--patch")]
     public bool? Patch { get; set; }
 
-    [CommandLongSwitch("reuse-message")]
+    [CommandEqualsSeparatorSwitch("--reuse-message")]
     public string? ReuseMessage { get; set; }
 
-    [CommandLongSwitch("reedit-message")]
+    [CommandEqualsSeparatorSwitch("--reedit-message")]
     public string? ReeditMessage { get; set; }
 
-    [CommandLongSwitch("fixup")]
+    [CommandEqualsSeparatorSwitch("--fixup")]
     public string? Fixup { get; set; }
 
-    [CommandLongSwitch("squash")]
+    [CommandEqualsSeparatorSwitch("--squash")]
     public string? Squash { get; set; }
 
-    [BooleanCommandSwitch("reset-author")]
+    [BooleanCommandSwitch("--reset-author")]
     public bool? ResetAuthor { get; set; }
 
-    [BooleanCommandSwitch("short")]
+    [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
 
-    [BooleanCommandSwitch("branch")]
+    [BooleanCommandSwitch("--branch")]
     public bool? Branch { get; set; }
 
-    [BooleanCommandSwitch("porcelain")]
+    [BooleanCommandSwitch("--porcelain")]
     public bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("long")]
+    [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }
 
-    [BooleanCommandSwitch("null")]
+    [BooleanCommandSwitch("--null")]
     public bool? Null { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [CommandLongSwitch("author")]
+    [CommandEqualsSeparatorSwitch("--author")]
     public string? Author { get; set; }
 
-    [CommandLongSwitch("date")]
+    [CommandEqualsSeparatorSwitch("--date")]
     public string? Date { get; set; }
 
-    [CommandLongSwitch("message")]
+    [CommandEqualsSeparatorSwitch("--message")]
     public string? Message { get; set; }
 
-    [CommandLongSwitch("template")]
+    [CommandEqualsSeparatorSwitch("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("signoff")]
+    [BooleanCommandSwitch("--signoff")]
     public bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("no-signoff")]
+    [BooleanCommandSwitch("--no-signoff")]
     public bool? NoSignoff { get; set; }
 
-    [CommandLongSwitch("trailer")]
+    [CommandEqualsSeparatorSwitch("--trailer")]
     public string? Trailer { get; set; }
 
-    [BooleanCommandSwitch("no-verify")]
+    [BooleanCommandSwitch("--no-verify")]
     public bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("allow-empty")]
+    [BooleanCommandSwitch("--allow-empty")]
     public bool? AllowEmpty { get; set; }
 
-    [BooleanCommandSwitch("allow-empty-message")]
+    [BooleanCommandSwitch("--allow-empty-message")]
     public bool? AllowEmptyMessage { get; set; }
 
-    [CommandLongSwitch("cleanup")]
+    [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("no-edit")]
+    [BooleanCommandSwitch("--no-edit")]
     public bool? NoEdit { get; set; }
 
-    [BooleanCommandSwitch("amend")]
+    [BooleanCommandSwitch("--amend")]
     public bool? Amend { get; set; }
 
-    [BooleanCommandSwitch("no-post-rewrite")]
+    [BooleanCommandSwitch("--no-post-rewrite")]
     public bool? NoPostRewrite { get; set; }
 
-    [BooleanCommandSwitch("include")]
+    [BooleanCommandSwitch("--include")]
     public bool? Include { get; set; }
 
-    [BooleanCommandSwitch("only")]
+    [BooleanCommandSwitch("--only")]
     public bool? Only { get; set; }
 
-    [CommandLongSwitch("pathspec-from-file")]
+    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("pathspec-file-nul")]
+    [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
 
-    [CommandLongSwitch("untracked-files")]
+    [CommandEqualsSeparatorSwitch("--untracked-files")]
     public string? UntrackedFiles { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("status")]
+    [BooleanCommandSwitch("--status")]
     public bool? Status { get; set; }
 
-    [BooleanCommandSwitch("no-status")]
+    [BooleanCommandSwitch("--no-status")]
     public bool? NoStatus { get; set; }
 
-    [CommandLongSwitch("gpg-sign")]
+    [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("no-gpg-sign")]
+    [BooleanCommandSwitch("--no-gpg-sign")]
     public bool? NoGpgSign { get; set; }
-
 }

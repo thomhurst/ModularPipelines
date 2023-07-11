@@ -5,36 +5,37 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("pack")]
 public record DotNetPackOptions : DotNetOptions
 {
-    [CommandSwitch("c")]
+
+    [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 
-    [CommandSwitch("o")]
+    [CommandSwitch("-o")]
     public string? Output { get; init; }
 
-    [CommandSwitch("s")]
+    [CommandSwitch("-s")]
     public string? Source { get; init; }
 
-    [CommandLongSwitch("version-suffix", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--version-suffix", SwitchValueSeparator = " ")]
     public string? VersionSuffix { get; init; }
 
-    [BooleanCommandSwitch("include-source")]
+    [BooleanCommandSwitch("--include-source")]
     public bool? IncludeSource { get; init; }
 
-    [BooleanCommandSwitch("include-symbols")]
+    [BooleanCommandSwitch("--include-symbols")]
     public bool? IncludeSymbols { get; init; }
 
-    [BooleanCommandSwitch("serviceable")]
+    [BooleanCommandSwitch("--serviceable")]
     public bool? Serviceable { get; init; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; init; }
 
-    [BooleanCommandSwitch("no-dependencies")]
+    [BooleanCommandSwitch("--no-dependencies")]
     public bool? NoDependencies { get; init; }
 
-    [BooleanCommandSwitch("no-restore")]
+    [BooleanCommandSwitch("--no-restore")]
     public bool? NoRestore { get; init; }
 
-    [BooleanCommandSwitch("nologo")]
+    [BooleanCommandSwitch("--nologo")]
     public bool? NoLogo { get; init; }
 }

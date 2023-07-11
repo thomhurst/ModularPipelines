@@ -5,37 +5,36 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("create", "cronjob")]
 public record KubernetesCreateCronJobOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
 
-    [CommandLongSwitch("field-manager", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
 
-    [CommandLongSwitch("image", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
     public string? Image { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("restart", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
     public string? Restart { get; set; }
 
-    [BooleanCommandSwitch("save-config")]
+    [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandLongSwitch("schedule", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--schedule", SwitchValueSeparator = " ")]
     public string? Schedule { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("validate")]
+    [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
-
 }

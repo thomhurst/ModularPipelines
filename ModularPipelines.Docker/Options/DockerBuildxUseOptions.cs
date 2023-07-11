@@ -3,12 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx use")]
-public record DockerBuildxUseOptions : DockerOptions
+public record DockerBuildxUseOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name) : DockerOptions
 {
-    [CommandLongSwitch("default")]
+
+    [CommandSwitch("--default")]
     public string? Default { get; set; }
 
-    [CommandLongSwitch("global")]
+    [CommandSwitch("--global")]
     public string? Global { get; set; }
 
+    [CommandSwitch("--builder")]
+    public string? Builder { get; set; }
 }

@@ -5,13 +5,12 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("get", "values")]
 public record HelmGetValuesOptions : HelmOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [CommandLongSwitch("revision", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
     public int? Revision { get; set; }
-
 }

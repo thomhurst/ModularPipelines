@@ -5,16 +5,16 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("events")]
 public record DockerEventsOptions : DockerOptions
 {
-    [CommandLongSwitch("filter")]
+
+    [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("since")]
+    [CommandSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandLongSwitch("until")]
+    [CommandSwitch("--until")]
     public string? Until { get; set; }
-
 }

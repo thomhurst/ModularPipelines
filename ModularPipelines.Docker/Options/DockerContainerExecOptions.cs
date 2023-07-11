@@ -3,33 +3,34 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container exec")]
-public record DockerContainerExecOptions : DockerOptions
+public record DockerContainerExecOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container, [property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
-    [CommandLongSwitch("detach")]
-    public string? Detach { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string>? DockerArgs { get; set; }
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
 
-    [CommandLongSwitch("detach-keys")]
+    [CommandSwitch("--detach-keys")]
     public string? DetachKeys { get; set; }
 
-    [CommandLongSwitch("env")]
+    [CommandSwitch("--env")]
     public string? Env { get; set; }
 
-    [CommandLongSwitch("env-file")]
+    [CommandSwitch("--env-file")]
     public string? EnvFile { get; set; }
 
-    [CommandLongSwitch("interactive")]
-    public string? Interactive { get; set; }
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
-    [CommandLongSwitch("privileged")]
-    public string? Privileged { get; set; }
+    [BooleanCommandSwitch("--privileged")]
+    public bool? Privileged { get; set; }
 
-    [CommandLongSwitch("tty")]
+    [CommandSwitch("--tty")]
     public string? Tty { get; set; }
 
-    [CommandLongSwitch("user")]
+    [CommandSwitch("--user")]
     public string? User { get; set; }
 
-    [CommandLongSwitch("workdir")]
+    [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
 }

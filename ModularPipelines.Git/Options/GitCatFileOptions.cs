@@ -5,49 +5,48 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("cat-file")]
 public record GitCatFileOptions : GitOptions
 {
-    [BooleanCommandSwitch("no-mailmap")]
+    [BooleanCommandSwitch("--no-mailmap")]
     public bool? NoMailmap { get; set; }
 
-    [BooleanCommandSwitch("mailmap")]
+    [BooleanCommandSwitch("--mailmap")]
     public bool? Mailmap { get; set; }
 
-    [BooleanCommandSwitch("no-use-mailmap")]
+    [BooleanCommandSwitch("--no-use-mailmap")]
     public bool? NoUseMailmap { get; set; }
 
-    [BooleanCommandSwitch("use-mailmap")]
+    [BooleanCommandSwitch("--use-mailmap")]
     public bool? UseMailmap { get; set; }
 
-    [BooleanCommandSwitch("textconv")]
+    [BooleanCommandSwitch("--textconv")]
     public bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("filters")]
+    [BooleanCommandSwitch("--filters")]
     public bool? Filters { get; set; }
 
-    [CommandLongSwitch("path")]
+    [CommandEqualsSeparatorSwitch("--path")]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("batch")]
+    [BooleanCommandSwitch("--batch")]
     public bool? Batch { get; set; }
 
-    [BooleanCommandSwitch("batch-check")]
+    [BooleanCommandSwitch("--batch-check")]
     public bool? BatchCheck { get; set; }
 
-    [BooleanCommandSwitch("batch-command")]
+    [BooleanCommandSwitch("--batch-command")]
     public bool? BatchCommand { get; set; }
 
-    [BooleanCommandSwitch("batch-all-objects")]
+    [BooleanCommandSwitch("--batch-all-objects")]
     public bool? BatchAllObjects { get; set; }
 
-    [BooleanCommandSwitch("buffer")]
+    [BooleanCommandSwitch("--buffer")]
     public bool? Buffer { get; set; }
 
-    [BooleanCommandSwitch("unordered")]
+    [BooleanCommandSwitch("--unordered")]
     public bool? Unordered { get; set; }
 
-    [BooleanCommandSwitch("allow-unknown-type")]
+    [BooleanCommandSwitch("--allow-unknown-type")]
     public bool? AllowUnknownType { get; set; }
 
-    [BooleanCommandSwitch("follow-symlinks")]
+    [BooleanCommandSwitch("--follow-symlinks")]
     public bool? FollowSymlinks { get; set; }
-
 }

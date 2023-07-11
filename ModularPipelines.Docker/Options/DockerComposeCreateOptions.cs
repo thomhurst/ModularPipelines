@@ -5,28 +5,29 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose create")]
 public record DockerComposeCreateOptions : DockerOptions
 {
-    [CommandLongSwitch("build")]
-    public string? Build { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [BooleanCommandSwitch("--build")]
+    public bool? Build { get; set; }
 
-    [CommandLongSwitch("force-recreate")]
-    public string? ForceRecreate { get; set; }
+    [BooleanCommandSwitch("--force-recreate")]
+    public bool? ForceRecreate { get; set; }
 
-    [CommandLongSwitch("no-build")]
-    public string? NoBuild { get; set; }
+    [BooleanCommandSwitch("--no-build")]
+    public bool? NoBuild { get; set; }
 
-    [CommandLongSwitch("no-recreate")]
-    public string? NoRecreate { get; set; }
+    [BooleanCommandSwitch("--no-recreate")]
+    public bool? NoRecreate { get; set; }
 
-    [CommandLongSwitch("pull")]
-    public string? Pull { get; set; }
+    [BooleanCommandSwitch("--pull")]
+    public bool? Pull { get; set; }
 
-    [CommandLongSwitch("remove-orphans")]
-    public string? RemoveOrphans { get; set; }
+    [BooleanCommandSwitch("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CommandLongSwitch("scale")]
+    [CommandSwitch("--scale")]
     public string? Scale { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

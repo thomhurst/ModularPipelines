@@ -5,28 +5,27 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("container ls")]
 public record DockerContainerLsOptions : DockerOptions
 {
-    [CommandLongSwitch("all")]
-    public string? All { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-    [CommandLongSwitch("filter")]
+    [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("last")]
-    public string? Last { get; set; }
+    [CommandSwitch("--last")]
+    public int? Last { get; set; }
 
-    [CommandLongSwitch("latest")]
+    [CommandSwitch("--latest")]
     public string? Latest { get; set; }
 
-    [CommandLongSwitch("no-trunc")]
-    public string? NoTrunc { get; set; }
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("size")]
+    [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 }

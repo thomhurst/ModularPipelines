@@ -5,7 +5,7 @@ using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Cmd;
 
-public class Cmd : ICmd
+internal class Cmd : ICmd
 {
     private readonly IModuleContext _context;
 
@@ -16,15 +16,6 @@ public class Cmd : ICmd
 
     public Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
     {
-        var arguments = new List<string> { "/c" };
-
-        if (!options.Echo)
-        {
-            arguments.Add("/q");
-        }
-
-        arguments.Add(options.Script);
-
-        return _context.Command.ExecuteCommandLineTool(options.ToCommandLineToolOptions("cmd", arguments), cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }
 }

@@ -3,15 +3,18 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("node update")]
-public record DockerNodeUpdateOptions : DockerOptions
+public record DockerNodeUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Node) : DockerOptions
 {
-    [CommandLongSwitch("availability")]
+
+    [CommandSwitch("--availability")]
     public string? Availability { get; set; }
 
-    [CommandLongSwitch("label-rm")]
+    [CommandSwitch("--label-rm")]
     public string? LabelRm { get; set; }
 
-    [CommandLongSwitch("role")]
+    [CommandSwitch("--role")]
     public string? Role { get; set; }
 
+    [CommandSwitch("--label-add")]
+    public string? LabelAdd { get; set; }
 }

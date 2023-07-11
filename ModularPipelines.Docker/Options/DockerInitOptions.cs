@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("init")]
 public record DockerInitOptions : DockerOptions
 {
-    [CommandLongSwitch("version")]
-    public string? Version { get; set; }
 
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 }

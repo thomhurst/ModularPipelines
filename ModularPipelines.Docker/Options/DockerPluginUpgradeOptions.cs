@@ -3,15 +3,16 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin upgrade")]
-public record DockerPluginUpgradeOptions : DockerOptions
+public record DockerPluginUpgradeOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
 {
-    [BooleanCommandSwitch("disable-content-trust")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Remote { get; set; }
+    [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-    [CommandLongSwitch("grant-all-permissions")]
+    [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }
 
-    [CommandLongSwitch("skip-remote-check")]
+    [CommandSwitch("--skip-remote-check")]
     public string? SkipRemoteCheck { get; set; }
-
 }

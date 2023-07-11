@@ -5,48 +5,48 @@ namespace ModularPipelines.Helm.Options;
 
 public record HelmOptions() : CommandLineToolOptions("helm")
 {
-    [CommandLongSwitch("burst-limit")]
+    [CommandEqualsSeparatorSwitch("--burst-limit")]
     public int? BurstLimit { get; set; }
 
-    [BooleanCommandSwitch("debug")]
+    [BooleanCommandSwitch("--debug")]
     public bool? Debug { get; set; }
 
-    [CommandLongSwitch("kube-apiserver")]
+    [CommandEqualsSeparatorSwitch("--kube-apiserver")]
     public string? KubeApiServer { get; set; }
 
-    [CommandLongSwitch("kube-as-group")]
+    [CommandEqualsSeparatorSwitch("--kube-as-group")]
     public string[]? KubeAsGroup { get; set; }
 
-    [CommandLongSwitch("kube-as-user")]
+    [CommandEqualsSeparatorSwitch("--kube-as-user")]
     public string? KubeAsUser { get; set; }
 
-    [CommandLongSwitch("kube-ca-file")]
+    [CommandEqualsSeparatorSwitch("--kube-ca-file")]
     public string? KubeCaFile { get; set; }
 
-    [CommandLongSwitch("kube-context")]
+    [CommandEqualsSeparatorSwitch("--kube-context")]
     public string? KubeContext { get; set; }
 
-    [CommandLongSwitch("kube-insecure-skip-tls-verify")]
+    [CommandEqualsSeparatorSwitch("--kube-insecure-skip-tls-verify")]
     public string? KubeInsecureSkipTlsVerify { get; set; }
 
-    [CommandLongSwitch("kube-tls-server-name")]
+    [CommandEqualsSeparatorSwitch("--kube-tls-server-name")]
     public string? KubeTlsServerName { get; set; }
 
-    [CommandLongSwitch("kube-token")]
+    [CommandEqualsSeparatorSwitch("--kube-token")]
     public string? KubeToken { get; set; }
 
-    [CommandLongSwitch("kubeconfig")]
+    [CommandEqualsSeparatorSwitch("--kubeconfig")]
     public string? KubeConfig { get; set; }
 
-    [CommandLongSwitch("namespace")]
+    [CommandEqualsSeparatorSwitch("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandLongSwitch("registry-config")]
+    [CommandEqualsSeparatorSwitch("--registry-config")]
     public string? RegistryConfig { get; set; }
 
-    [CommandLongSwitch("repository-cache")]
+    [CommandEqualsSeparatorSwitch("--repository-cache")]
     public string? RepositoryCache { get; set; }
 
-    [CommandLongSwitch("repository-config")]
+    [CommandEqualsSeparatorSwitch("--repository-config")]
     public string? RepositoryConfig { get; set; }
 };

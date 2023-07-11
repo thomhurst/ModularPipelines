@@ -3,7 +3,7 @@ using System.Text;
 
 namespace ModularPipelines.Context;
 
-public class Hasher : IHasher
+internal class Hasher : IHasher
 {
     private readonly IHex _hex;
     private readonly IBase64 _base64;

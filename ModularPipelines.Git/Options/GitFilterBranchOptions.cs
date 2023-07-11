@@ -5,43 +5,42 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("filter-branch")]
 public record GitFilterBranchOptions : GitOptions
 {
-    [CommandLongSwitch("setup")]
+    [CommandEqualsSeparatorSwitch("--setup")]
     public string? Setup { get; set; }
 
-    [CommandLongSwitch("subdirectory-filter")]
+    [CommandEqualsSeparatorSwitch("--subdirectory-filter")]
     public string? SubdirectoryFilter { get; set; }
 
-    [CommandLongSwitch("env-filter")]
+    [CommandEqualsSeparatorSwitch("--env-filter")]
     public string? EnvFilter { get; set; }
 
-    [CommandLongSwitch("tree-filter")]
+    [CommandEqualsSeparatorSwitch("--tree-filter")]
     public string? TreeFilter { get; set; }
 
-    [CommandLongSwitch("index-filter")]
+    [CommandEqualsSeparatorSwitch("--index-filter")]
     public string? IndexFilter { get; set; }
 
-    [CommandLongSwitch("parent-filter")]
+    [CommandEqualsSeparatorSwitch("--parent-filter")]
     public string? ParentFilter { get; set; }
 
-    [CommandLongSwitch("msg-filter")]
+    [CommandEqualsSeparatorSwitch("--msg-filter")]
     public string? MsgFilter { get; set; }
 
-    [CommandLongSwitch("commit-filter")]
+    [CommandEqualsSeparatorSwitch("--commit-filter")]
     public string? CommitFilter { get; set; }
 
-    [CommandLongSwitch("tag-name-filter")]
+    [CommandEqualsSeparatorSwitch("--tag-name-filter")]
     public string? TagNameFilter { get; set; }
 
-    [BooleanCommandSwitch("prune-empty")]
+    [BooleanCommandSwitch("--prune-empty")]
     public bool? PruneEmpty { get; set; }
 
-    [CommandLongSwitch("original")]
+    [CommandEqualsSeparatorSwitch("--original")]
     public string? Original { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandLongSwitch("state-branch")]
+    [CommandEqualsSeparatorSwitch("--state-branch")]
     public string? StateBranch { get; set; }
-
 }

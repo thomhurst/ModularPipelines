@@ -3,15 +3,15 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("inspect")]
-public record DockerInspectOptions : DockerOptions
+public record DockerInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Name) : DockerOptions
 {
-    [CommandLongSwitch("format")]
+
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("size")]
+    [CommandSwitch("--size")]
     public string? Size { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
-
 }

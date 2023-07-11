@@ -5,142 +5,141 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("grep")]
 public record GitGrepOptions : GitOptions
 {
-    [BooleanCommandSwitch("cached")]
+    [BooleanCommandSwitch("--cached")]
     public bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("no-index")]
+    [BooleanCommandSwitch("--no-index")]
     public bool? NoIndex { get; set; }
 
-    [BooleanCommandSwitch("untracked")]
+    [BooleanCommandSwitch("--untracked")]
     public bool? Untracked { get; set; }
 
-    [BooleanCommandSwitch("no-exclude-standard")]
+    [BooleanCommandSwitch("--no-exclude-standard")]
     public bool? NoExcludeStandard { get; set; }
 
-    [BooleanCommandSwitch("exclude-standard")]
+    [BooleanCommandSwitch("--exclude-standard")]
     public bool? ExcludeStandard { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("text")]
+    [BooleanCommandSwitch("--text")]
     public bool? Text { get; set; }
 
-    [BooleanCommandSwitch("textconv")]
+    [BooleanCommandSwitch("--textconv")]
     public bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("no-textconv")]
+    [BooleanCommandSwitch("--no-textconv")]
     public bool? NoTextconv { get; set; }
 
-    [BooleanCommandSwitch("ignore-case")]
+    [BooleanCommandSwitch("--ignore-case")]
     public bool? IgnoreCase { get; set; }
 
-    [CommandLongSwitch("max-depth")]
+    [CommandEqualsSeparatorSwitch("--max-depth")]
     public string? MaxDepth { get; set; }
 
-    [BooleanCommandSwitch("recursive")]
+    [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("no-recursive")]
+    [BooleanCommandSwitch("--no-recursive")]
     public bool? NoRecursive { get; set; }
 
-    [BooleanCommandSwitch("word-regexp")]
+    [BooleanCommandSwitch("--word-regexp")]
     public bool? WordRegexp { get; set; }
 
-    [BooleanCommandSwitch("invert-match")]
+    [BooleanCommandSwitch("--invert-match")]
     public bool? InvertMatch { get; set; }
 
-    [BooleanCommandSwitch("full-name")]
+    [BooleanCommandSwitch("--full-name")]
     public bool? FullName { get; set; }
 
-    [BooleanCommandSwitch("extended-regexp")]
+    [BooleanCommandSwitch("--extended-regexp")]
     public bool? ExtendedRegexp { get; set; }
 
-    [BooleanCommandSwitch("basic-regexp")]
+    [BooleanCommandSwitch("--basic-regexp")]
     public bool? BasicRegexp { get; set; }
 
-    [BooleanCommandSwitch("perl-regexp")]
+    [BooleanCommandSwitch("--perl-regexp")]
     public bool? PerlRegexp { get; set; }
 
-    [BooleanCommandSwitch("fixed-strings")]
+    [BooleanCommandSwitch("--fixed-strings")]
     public bool? FixedStrings { get; set; }
 
-    [BooleanCommandSwitch("line-number")]
+    [BooleanCommandSwitch("--line-number")]
     public bool? LineNumber { get; set; }
 
-    [BooleanCommandSwitch("column")]
+    [BooleanCommandSwitch("--column")]
     public bool? Column { get; set; }
 
-    [BooleanCommandSwitch("files-with-matches")]
+    [BooleanCommandSwitch("--files-with-matches")]
     public bool? FilesWithMatches { get; set; }
 
-    [BooleanCommandSwitch("name-only")]
+    [BooleanCommandSwitch("--name-only")]
     public bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("files-without-match")]
+    [BooleanCommandSwitch("--files-without-match")]
     public bool? FilesWithoutMatch { get; set; }
 
-    [CommandLongSwitch("open-files-in-pager")]
+    [CommandEqualsSeparatorSwitch("--open-files-in-pager")]
     public string? OpenFilesInPager { get; set; }
 
-    [BooleanCommandSwitch("null")]
+    [BooleanCommandSwitch("--null")]
     public bool? Null { get; set; }
 
-    [BooleanCommandSwitch("only-matching")]
+    [BooleanCommandSwitch("--only-matching")]
     public bool? OnlyMatching { get; set; }
 
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("count")]
+    [BooleanCommandSwitch("--count")]
     public bool? Count { get; set; }
 
-    [CommandLongSwitch("color")]
+    [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("no-color")]
+    [BooleanCommandSwitch("--no-color")]
     public bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("break")]
+    [BooleanCommandSwitch("--break")]
     public bool? Break { get; set; }
 
-    [BooleanCommandSwitch("heading")]
+    [BooleanCommandSwitch("--heading")]
     public bool? Heading { get; set; }
 
-    [BooleanCommandSwitch("show-function")]
+    [BooleanCommandSwitch("--show-function")]
     public bool? ShowFunction { get; set; }
 
-    [CommandLongSwitch("context")]
+    [CommandEqualsSeparatorSwitch("--context")]
     public string? Context { get; set; }
 
-    [CommandLongSwitch("after-context")]
+    [CommandEqualsSeparatorSwitch("--after-context")]
     public string? AfterContext { get; set; }
 
-    [CommandLongSwitch("before-context")]
+    [CommandEqualsSeparatorSwitch("--before-context")]
     public string? BeforeContext { get; set; }
 
-    [BooleanCommandSwitch("function-context")]
+    [BooleanCommandSwitch("--function-context")]
     public bool? FunctionContext { get; set; }
 
-    [CommandLongSwitch("max-count")]
+    [CommandEqualsSeparatorSwitch("--max-count")]
     public string? MaxCount { get; set; }
 
-    [CommandLongSwitch("threads")]
+    [CommandEqualsSeparatorSwitch("--threads")]
     public string? Threads { get; set; }
 
-    [BooleanCommandSwitch("and")]
+    [BooleanCommandSwitch("--and")]
     public bool? And { get; set; }
 
-    [BooleanCommandSwitch("or")]
+    [BooleanCommandSwitch("--or")]
     public bool? Or { get; set; }
 
-    [BooleanCommandSwitch("not")]
+    [BooleanCommandSwitch("--not")]
     public bool? Not { get; set; }
 
-    [BooleanCommandSwitch("all-match")]
+    [BooleanCommandSwitch("--all-match")]
     public bool? AllMatch { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

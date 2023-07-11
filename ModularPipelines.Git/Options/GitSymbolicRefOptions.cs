@@ -5,19 +5,18 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("symbolic-ref")]
 public record GitSymbolicRefOptions : GitOptions
 {
-    [BooleanCommandSwitch("delete")]
+    [BooleanCommandSwitch("--delete")]
     public bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("short")]
+    [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
 
-    [BooleanCommandSwitch("recurse")]
+    [BooleanCommandSwitch("--recurse")]
     public bool? Recurse { get; set; }
 
-    [BooleanCommandSwitch("no-recurse")]
+    [BooleanCommandSwitch("--no-recurse")]
     public bool? NoRecurse { get; set; }
-
 }

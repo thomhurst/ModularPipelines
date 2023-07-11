@@ -5,130 +5,129 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("merge")]
 public record GitMergeOptions : GitOptions
 {
-    [BooleanCommandSwitch("commit")]
+    [BooleanCommandSwitch("--commit")]
     public bool? Commit { get; set; }
 
-    [BooleanCommandSwitch("no-commit")]
+    [BooleanCommandSwitch("--no-commit")]
     public bool? NoCommit { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("no-edit")]
+    [BooleanCommandSwitch("--no-edit")]
     public bool? NoEdit { get; set; }
 
-    [CommandLongSwitch("cleanup")]
+    [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("ff")]
+    [BooleanCommandSwitch("--ff")]
     public bool? Ff { get; set; }
 
-    [BooleanCommandSwitch("no-ff")]
+    [BooleanCommandSwitch("--no-ff")]
     public bool? NoFf { get; set; }
 
-    [BooleanCommandSwitch("ff-only")]
+    [BooleanCommandSwitch("--ff-only")]
     public bool? FfOnly { get; set; }
 
-    [CommandLongSwitch("gpg-sign")]
+    [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("no-gpg-sign")]
+    [BooleanCommandSwitch("--no-gpg-sign")]
     public bool? NoGpgSign { get; set; }
 
-    [CommandLongSwitch("log")]
+    [CommandEqualsSeparatorSwitch("--log")]
     public string? Log { get; set; }
 
-    [BooleanCommandSwitch("no-log")]
+    [BooleanCommandSwitch("--no-log")]
     public bool? NoLog { get; set; }
 
-    [BooleanCommandSwitch("signoff")]
+    [BooleanCommandSwitch("--signoff")]
     public bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("no-signoff")]
+    [BooleanCommandSwitch("--no-signoff")]
     public bool? NoSignoff { get; set; }
 
-    [BooleanCommandSwitch("stat")]
+    [BooleanCommandSwitch("--stat")]
     public bool? Stat { get; set; }
 
-    [BooleanCommandSwitch("no-stat")]
+    [BooleanCommandSwitch("--no-stat")]
     public bool? NoStat { get; set; }
 
-    [BooleanCommandSwitch("squash")]
+    [BooleanCommandSwitch("--squash")]
     public bool? Squash { get; set; }
 
-    [BooleanCommandSwitch("no-squash")]
+    [BooleanCommandSwitch("--no-squash")]
     public bool? NoSquash { get; set; }
 
-    [BooleanCommandSwitch("no-verify")]
+    [BooleanCommandSwitch("--no-verify")]
     public bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [CommandLongSwitch("strategy")]
+    [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
 
-    [CommandLongSwitch("strategy-option")]
+    [CommandEqualsSeparatorSwitch("--strategy-option")]
     public string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("verify-signatures")]
+    [BooleanCommandSwitch("--verify-signatures")]
     public bool? VerifySignatures { get; set; }
 
-    [BooleanCommandSwitch("no-verify-signatures")]
+    [BooleanCommandSwitch("--no-verify-signatures")]
     public bool? NoVerifySignatures { get; set; }
 
-    [BooleanCommandSwitch("summary")]
+    [BooleanCommandSwitch("--summary")]
     public bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("no-summary")]
+    [BooleanCommandSwitch("--no-summary")]
     public bool? NoSummary { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("no-progress")]
+    [BooleanCommandSwitch("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("autostash")]
+    [BooleanCommandSwitch("--autostash")]
     public bool? Autostash { get; set; }
 
-    [BooleanCommandSwitch("no-autostash")]
+    [BooleanCommandSwitch("--no-autostash")]
     public bool? NoAutostash { get; set; }
 
-    [BooleanCommandSwitch("allow-unrelated-histories")]
+    [BooleanCommandSwitch("--allow-unrelated-histories")]
     public bool? AllowUnrelatedHistories { get; set; }
 
-    [CommandLongSwitch("into-name")]
+    [CommandEqualsSeparatorSwitch("--into-name")]
     public string? IntoName { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("rerere-autoupdate")]
+    [BooleanCommandSwitch("--rerere-autoupdate")]
     public bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("no-rerere-autoupdate")]
+    [BooleanCommandSwitch("--no-rerere-autoupdate")]
     public bool? NoRerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("overwrite-ignore")]
+    [BooleanCommandSwitch("--overwrite-ignore")]
     public bool? OverwriteIgnore { get; set; }
 
-    [BooleanCommandSwitch("no-overwrite-ignore")]
+    [BooleanCommandSwitch("--no-overwrite-ignore")]
     public bool? NoOverwriteIgnore { get; set; }
 
-    [BooleanCommandSwitch("abort")]
+    [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("quit")]
+    [BooleanCommandSwitch("--quit")]
     public bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("continue")]
+    [BooleanCommandSwitch("--continue")]
     public bool? Continue { get; set; }
-
 }

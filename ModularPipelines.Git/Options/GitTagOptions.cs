@@ -5,79 +5,78 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("tag")]
 public record GitTagOptions : GitOptions
 {
-    [BooleanCommandSwitch("annotate")]
+    [BooleanCommandSwitch("--annotate")]
     public bool? Annotate { get; set; }
 
-    [BooleanCommandSwitch("sign")]
+    [BooleanCommandSwitch("--sign")]
     public bool? Sign { get; set; }
 
-    [BooleanCommandSwitch("no-sign")]
+    [BooleanCommandSwitch("--no-sign")]
     public bool? NoSign { get; set; }
 
-    [CommandLongSwitch("local-user")]
+    [CommandEqualsSeparatorSwitch("--local-user")]
     public string? LocalUser { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("delete")]
+    [BooleanCommandSwitch("--delete")]
     public bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("list")]
+    [BooleanCommandSwitch("--list")]
     public bool? List { get; set; }
 
-    [CommandLongSwitch("sort")]
+    [CommandEqualsSeparatorSwitch("--sort")]
     public string? Sort { get; set; }
 
-    [CommandLongSwitch("color")]
+    [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("ignore-case")]
+    [BooleanCommandSwitch("--ignore-case")]
     public bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("omit-empty")]
+    [BooleanCommandSwitch("--omit-empty")]
     public bool? OmitEmpty { get; set; }
 
-    [CommandLongSwitch("column")]
+    [CommandEqualsSeparatorSwitch("--column")]
     public string? Column { get; set; }
 
-    [BooleanCommandSwitch("no-column")]
+    [BooleanCommandSwitch("--no-column")]
     public bool? NoColumn { get; set; }
 
-    [CommandLongSwitch("contains")]
+    [CommandEqualsSeparatorSwitch("--contains")]
     public string? Contains { get; set; }
 
-    [CommandLongSwitch("no-contains")]
+    [CommandEqualsSeparatorSwitch("--no-contains")]
     public string? NoContains { get; set; }
 
-    [CommandLongSwitch("merged")]
+    [CommandEqualsSeparatorSwitch("--merged")]
     public string? Merged { get; set; }
 
-    [CommandLongSwitch("no-merged")]
+    [CommandEqualsSeparatorSwitch("--no-merged")]
     public string? NoMerged { get; set; }
 
-    [CommandLongSwitch("points-at")]
+    [CommandEqualsSeparatorSwitch("--points-at")]
     public string? PointsAt { get; set; }
 
-    [CommandLongSwitch("message")]
+    [CommandEqualsSeparatorSwitch("--message")]
     public string? Message { get; set; }
 
-    [CommandLongSwitch("file")]
+    [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("edit")]
+    [BooleanCommandSwitch("--edit")]
     public bool? Edit { get; set; }
 
-    [CommandLongSwitch("cleanup")]
+    [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("create-reflog")]
+    [BooleanCommandSwitch("--create-reflog")]
     public bool? CreateReflog { get; set; }
 
-    [CommandLongSwitch("format")]
+    [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }
-
 }

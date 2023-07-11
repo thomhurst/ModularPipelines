@@ -5,13 +5,12 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("bundle")]
 public record GitBundleOptions : GitOptions
 {
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [CommandLongSwitch("version")]
+    [CommandEqualsSeparatorSwitch("--version")]
     public string? Version { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
 }

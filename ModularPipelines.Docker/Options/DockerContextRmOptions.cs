@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("context rm")]
-public record DockerContextRmOptions : DockerOptions
+public record DockerContextRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Context) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
-
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 }

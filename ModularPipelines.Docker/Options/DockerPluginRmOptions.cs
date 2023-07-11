@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin rm")]
-public record DockerPluginRmOptions : DockerOptions
+public record DockerPluginRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Plugin) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
-
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 }

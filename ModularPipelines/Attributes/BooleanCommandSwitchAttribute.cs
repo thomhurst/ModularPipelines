@@ -4,7 +4,6 @@ namespace ModularPipelines.Attributes;
 public class BooleanCommandSwitchAttribute : Attribute
 {
     public string SwitchName { get; }
-    public int HyphenCount { get; set; } = 2;
 
     public BooleanCommandSwitchAttribute(string switchName)
     {

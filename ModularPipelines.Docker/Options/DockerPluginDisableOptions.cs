@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin disable")]
-public record DockerPluginDisableOptions : DockerOptions
+public record DockerPluginDisableOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
-
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 }

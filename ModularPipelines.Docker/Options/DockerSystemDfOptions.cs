@@ -5,10 +5,10 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("system df")]
 public record DockerSystemDfOptions : DockerOptions
 {
-    [CommandLongSwitch("format")]
+
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("verbose")]
+    [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
 }

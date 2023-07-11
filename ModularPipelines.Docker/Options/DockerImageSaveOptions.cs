@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image save")]
-public record DockerImageSaveOptions : DockerOptions
+public record DockerImageSaveOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Image) : DockerOptions
 {
-    [CommandLongSwitch("output")]
-    public string? Output { get; set; }
 
+    [CommandSwitch("--output")]
+    public string? Output { get; set; }
 }

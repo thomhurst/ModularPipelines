@@ -4,6 +4,7 @@ using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Options;
@@ -14,11 +15,14 @@ namespace ModularPipelines.Context;
 internal class Command : ICommand
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly ISecretObfuscator _secretObfuscator;
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public Command(IModuleLoggerProvider moduleLoggerProvider)
+    public Command(IModuleLoggerProvider moduleLoggerProvider,
+        ISecretObfuscator secretObfuscator)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
+        _secretObfuscator = secretObfuscator;
     }
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
@@ -54,7 +58,7 @@ internal class Command : ICommand
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
 
-        var commandInput = command.ToString();
+        var commandInput = _secretObfuscator.Obfuscate(command.ToString(), optionsObject);
 
         if (options.LogInput)
         {
@@ -71,8 +75,8 @@ internal class Command : ICommand
 
             Logger.LogInformation("---Command Result---\r\n\t{Output}",
                 string.IsNullOrEmpty(result.StandardError)
-                    ? outputLoggingManipulator(result.StandardOutput)
-                    : outputLoggingManipulator(result.StandardError));
+                    ? outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, optionsObject))
+                    : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject)));
         }
 
         return new CommandResult(commandInput, result);
@@ -97,6 +101,5 @@ internal class Command : ICommand
 
         return result;
     }
-
 
 }

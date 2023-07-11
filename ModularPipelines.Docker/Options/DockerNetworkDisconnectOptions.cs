@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network disconnect")]
-public record DockerNetworkDisconnectOptions : DockerOptions
+public record DockerNetworkDisconnectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Network, [property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("force")]
-    public string? Force { get; set; }
-
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
 }

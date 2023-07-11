@@ -5,31 +5,30 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("show-ref")]
 public record GitShowRefOptions : GitOptions
 {
-    [BooleanCommandSwitch("head")]
+    [BooleanCommandSwitch("--head")]
     public bool? Head { get; set; }
 
-    [BooleanCommandSwitch("heads")]
+    [BooleanCommandSwitch("--heads")]
     public bool? Heads { get; set; }
 
-    [BooleanCommandSwitch("tags")]
+    [BooleanCommandSwitch("--tags")]
     public bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("dereference")]
+    [BooleanCommandSwitch("--dereference")]
     public bool? Dereference { get; set; }
 
-    [CommandLongSwitch("hash")]
+    [CommandEqualsSeparatorSwitch("--hash")]
     public string? Hash { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [CommandLongSwitch("abbrev")]
+    [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("exclude-existing")]
+    [CommandEqualsSeparatorSwitch("--exclude-existing")]
     public string? ExcludeExisting { get; set; }
-
 }

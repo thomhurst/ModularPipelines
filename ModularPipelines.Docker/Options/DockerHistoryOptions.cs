@@ -3,15 +3,17 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("history")]
-public record DockerHistoryOptions : DockerOptions
+public record DockerHistoryOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-    [BooleanCommandSwitch("human")]
+    [BooleanCommandSwitch("--human")]
     public bool? Human { get; set; }
 
-    [CommandLongSwitch("no-trunc")]
-    public string? NoTrunc { get; set; }
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 }

@@ -5,7 +5,7 @@ using ModularPipelines.Extensions;
 
 namespace ModularPipelines.DotNet;
 
-public class DotNet : IDotNet
+internal class DotNet : IDotNet
 {
     private readonly ICommand _command;
     private readonly IFileSystemContext _fileSystemContext;

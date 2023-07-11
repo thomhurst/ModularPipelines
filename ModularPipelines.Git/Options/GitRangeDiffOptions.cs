@@ -5,22 +5,21 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("range-diff")]
 public record GitRangeDiffOptions : GitOptions
 {
-    [BooleanCommandSwitch("no-dual-color")]
+    [BooleanCommandSwitch("--no-dual-color")]
     public bool? NoDualColor { get; set; }
 
-    [CommandLongSwitch("creation-factor")]
+    [CommandEqualsSeparatorSwitch("--creation-factor")]
     public string? CreationFactor { get; set; }
 
-    [BooleanCommandSwitch("left-only")]
+    [BooleanCommandSwitch("--left-only")]
     public bool? LeftOnly { get; set; }
 
-    [BooleanCommandSwitch("right-only")]
+    [BooleanCommandSwitch("--right-only")]
     public bool? RightOnly { get; set; }
 
-    [CommandLongSwitch("no-notes")]
+    [CommandEqualsSeparatorSwitch("--no-notes")]
     public string? NoNotes { get; set; }
 
-    [CommandLongSwitch("notes")]
+    [CommandEqualsSeparatorSwitch("--notes")]
     public string? Notes { get; set; }
-
 }

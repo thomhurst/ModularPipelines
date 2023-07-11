@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("trust sign")]
-public record DockerTrustSignOptions : DockerOptions
+public record DockerTrustSignOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-    [CommandLongSwitch("local")]
-    public string? Local { get; set; }
 
+    [CommandSwitch("--local")]
+    public string? Local { get; set; }
 }

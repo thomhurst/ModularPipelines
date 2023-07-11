@@ -3,48 +3,48 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container update")]
-public record DockerContainerUpdateOptions : DockerOptions
+public record DockerContainerUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("blkio-weight")]
+
+    [CommandSwitch("--blkio-weight")]
     public string? BlkioWeight { get; set; }
 
-    [CommandLongSwitch("cpu-period")]
+    [CommandSwitch("--cpu-period")]
     public string? CpuPeriod { get; set; }
 
-    [CommandLongSwitch("cpu-quota")]
+    [CommandSwitch("--cpu-quota")]
     public string? CpuQuota { get; set; }
 
-    [CommandLongSwitch("cpu-rt-period")]
+    [CommandSwitch("--cpu-rt-period")]
     public string? CpuRtPeriod { get; set; }
 
-    [CommandLongSwitch("cpu-rt-runtime")]
+    [CommandSwitch("--cpu-rt-runtime")]
     public string? CpuRtRuntime { get; set; }
 
-    [CommandLongSwitch("cpu-shares")]
+    [CommandSwitch("--cpu-shares")]
     public string? CpuShares { get; set; }
 
-    [CommandLongSwitch("cpus")]
+    [CommandSwitch("--cpus")]
     public string? Cpus { get; set; }
 
-    [CommandLongSwitch("cpuset-cpus")]
+    [CommandSwitch("--cpuset-cpus")]
     public string? CpusetCpus { get; set; }
 
-    [CommandLongSwitch("cpuset-mems")]
+    [CommandSwitch("--cpuset-mems")]
     public string? CpusetMems { get; set; }
 
-    [CommandLongSwitch("memory")]
+    [CommandSwitch("--memory")]
     public string? Memory { get; set; }
 
-    [CommandLongSwitch("memory-reservation")]
+    [CommandSwitch("--memory-reservation")]
     public string? MemoryReservation { get; set; }
 
-    [CommandLongSwitch("memory-swap")]
+    [CommandSwitch("--memory-swap")]
     public string? MemorySwap { get; set; }
 
-    [CommandLongSwitch("pids-limit")]
+    [CommandSwitch("--pids-limit")]
     public string? PidsLimit { get; set; }
 
-    [CommandLongSwitch("restart")]
+    [CommandSwitch("--restart")]
     public string? Restart { get; set; }
-
 }

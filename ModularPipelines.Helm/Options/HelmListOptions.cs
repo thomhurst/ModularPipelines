@@ -5,58 +5,57 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("list")]
 public record HelmListOptions : HelmOptions
 {
-    [BooleanCommandSwitch("all")]
+    [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("all-namespaces")]
+    [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("date")]
+    [BooleanCommandSwitch("--date")]
     public bool? Date { get; set; }
 
-    [BooleanCommandSwitch("deployed")]
+    [BooleanCommandSwitch("--deployed")]
     public bool? Deployed { get; set; }
 
-    [BooleanCommandSwitch("failed")]
+    [BooleanCommandSwitch("--failed")]
     public bool? Failed { get; set; }
 
-    [CommandLongSwitch("filter", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
     public string? Filter { get; set; }
 
-    [CommandLongSwitch("max", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
     public int? Max { get; set; }
 
-    [BooleanCommandSwitch("no-headers")]
+    [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandLongSwitch("offset", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--offset", SwitchValueSeparator = " ")]
     public int? Offset { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("pending")]
+    [BooleanCommandSwitch("--pending")]
     public bool? Pending { get; set; }
 
-    [BooleanCommandSwitch("reverse")]
+    [BooleanCommandSwitch("--reverse")]
     public bool? Reverse { get; set; }
 
-    [CommandLongSwitch("selector", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("short")]
+    [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
 
-    [BooleanCommandSwitch("superseded")]
+    [BooleanCommandSwitch("--superseded")]
     public bool? Superseded { get; set; }
 
-    [CommandLongSwitch("time-format", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--time-format", SwitchValueSeparator = " ")]
     public string? TimeFormat { get; set; }
 
-    [BooleanCommandSwitch("uninstalled")]
+    [BooleanCommandSwitch("--uninstalled")]
     public bool? Uninstalled { get; set; }
 
-    [BooleanCommandSwitch("uninstalling")]
+    [BooleanCommandSwitch("--uninstalling")]
     public bool? Uninstalling { get; set; }
-
 }

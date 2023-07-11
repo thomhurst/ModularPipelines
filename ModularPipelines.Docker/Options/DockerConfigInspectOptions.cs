@@ -3,9 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("config inspect")]
-public record DockerConfigInspectOptions : DockerOptions
+public record DockerConfigInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> ConfigNames) : DockerOptions
 {
-    [CommandLongSwitch("pretty")]
+
+    [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }
 
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 }

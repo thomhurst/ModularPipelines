@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout entitlement")]
-public record DockerScoutEntitlementOptions : DockerOptions
+public record DockerScoutEntitlementOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Repository) : DockerOptions
 {
-    [CommandLongSwitch("disable")]
-    public string? Disable { get; set; }
 
+    [CommandSwitch("--disable")]
+    public string? Disable { get; set; }
 }

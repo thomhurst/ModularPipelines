@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container inspect")]
-public record DockerContainerInspectOptions : DockerOptions
+public record DockerContainerInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("format")]
+
+    [CommandSwitch("--format")]
     public string? Format { get; set; }
 
-    [CommandLongSwitch("size")]
+    [CommandSwitch("--size")]
     public string? Size { get; set; }
-
 }

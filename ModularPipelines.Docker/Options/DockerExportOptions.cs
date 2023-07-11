@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("export")]
-public record DockerExportOptions : DockerOptions
+public record DockerExportOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
-    [CommandLongSwitch("output")]
-    public string? Output { get; set; }
 
+    [CommandSwitch("--output")]
+    public string? Output { get; set; }
 }

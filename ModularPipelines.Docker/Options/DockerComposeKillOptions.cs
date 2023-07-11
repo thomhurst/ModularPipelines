@@ -5,13 +5,14 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose kill")]
 public record DockerComposeKillOptions : DockerOptions
 {
-    [CommandLongSwitch("remove-orphans")]
-    public string? RemoveOrphans { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+    [BooleanCommandSwitch("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CommandLongSwitch("signal")]
+    [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

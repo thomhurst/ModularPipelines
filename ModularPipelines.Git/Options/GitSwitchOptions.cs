@@ -5,58 +5,57 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("switch")]
 public record GitSwitchOptions : GitOptions
 {
-    [CommandLongSwitch("create")]
+    [CommandEqualsSeparatorSwitch("--create")]
     public string? Create { get; set; }
 
-    [CommandLongSwitch("force-create")]
+    [CommandEqualsSeparatorSwitch("--force-create")]
     public string? ForceCreate { get; set; }
 
-    [BooleanCommandSwitch("detach")]
+    [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-    [BooleanCommandSwitch("guess")]
+    [BooleanCommandSwitch("--guess")]
     public bool? Guess { get; set; }
 
-    [BooleanCommandSwitch("no-guess")]
+    [BooleanCommandSwitch("--no-guess")]
     public bool? NoGuess { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("discard-changes")]
+    [BooleanCommandSwitch("--discard-changes")]
     public bool? DiscardChanges { get; set; }
 
-    [BooleanCommandSwitch("merge")]
+    [BooleanCommandSwitch("--merge")]
     public bool? Merge { get; set; }
 
-    [CommandLongSwitch("conflict")]
+    [CommandEqualsSeparatorSwitch("--conflict")]
     public string? Conflict { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("progress")]
+    [BooleanCommandSwitch("--progress")]
     public bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("no-progress")]
+    [BooleanCommandSwitch("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("track")]
+    [BooleanCommandSwitch("--track")]
     public bool? Track { get; set; }
 
-    [BooleanCommandSwitch("no-track")]
+    [BooleanCommandSwitch("--no-track")]
     public bool? NoTrack { get; set; }
 
-    [CommandLongSwitch("orphan")]
+    [CommandEqualsSeparatorSwitch("--orphan")]
     public string? Orphan { get; set; }
 
-    [BooleanCommandSwitch("ignore-other-worktrees")]
+    [BooleanCommandSwitch("--ignore-other-worktrees")]
     public bool? IgnoreOtherWorktrees { get; set; }
 
-    [BooleanCommandSwitch("recurse-submodules")]
+    [BooleanCommandSwitch("--recurse-submodules")]
     public bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("no-recurse-submodules")]
+    [BooleanCommandSwitch("--no-recurse-submodules")]
     public bool? NoRecurseSubmodules { get; set; }
-
 }

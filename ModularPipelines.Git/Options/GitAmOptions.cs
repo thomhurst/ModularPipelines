@@ -5,127 +5,126 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("am")]
 public record GitAmOptions : GitOptions
 {
-    [BooleanCommandSwitch("signoff")]
+    [BooleanCommandSwitch("--signoff")]
     public bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("keep")]
+    [BooleanCommandSwitch("--keep")]
     public bool? Keep { get; set; }
 
-    [BooleanCommandSwitch("keep-non-patch")]
+    [BooleanCommandSwitch("--keep-non-patch")]
     public bool? KeepNonPatch { get; set; }
 
-    [BooleanCommandSwitch("no-keep-cr")]
+    [BooleanCommandSwitch("--no-keep-cr")]
     public bool? NoKeepCr { get; set; }
 
-    [BooleanCommandSwitch("keep-cr")]
+    [BooleanCommandSwitch("--keep-cr")]
     public bool? KeepCr { get; set; }
 
-    [BooleanCommandSwitch("c")]
+    [BooleanCommandSwitch("--c")]
     public bool? C { get; set; }
 
-    [BooleanCommandSwitch("scissors")]
+    [BooleanCommandSwitch("--scissors")]
     public bool? Scissors { get; set; }
 
-    [BooleanCommandSwitch("no-scissors")]
+    [BooleanCommandSwitch("--no-scissors")]
     public bool? NoScissors { get; set; }
 
-    [CommandLongSwitch("quoted-cr")]
+    [CommandEqualsSeparatorSwitch("--quoted-cr")]
     public string? QuotedCr { get; set; }
 
-    [BooleanCommandSwitch("empty")]
+    [BooleanCommandSwitch("--empty")]
     public bool? Empty { get; set; }
 
-    [BooleanCommandSwitch("message-id")]
+    [BooleanCommandSwitch("--message-id")]
     public bool? MessageId { get; set; }
 
-    [BooleanCommandSwitch("no-message-id")]
+    [BooleanCommandSwitch("--no-message-id")]
     public bool? NoMessageId { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("utf8")]
+    [BooleanCommandSwitch("--utf8")]
     public bool? Utf8 { get; set; }
 
-    [BooleanCommandSwitch("no-utf8")]
+    [BooleanCommandSwitch("--no-utf8")]
     public bool? NoUtf8 { get; set; }
 
-    [BooleanCommandSwitch("3way")]
+    [BooleanCommandSwitch("--3way")]
     public bool? ThreeWay { get; set; }
 
-    [BooleanCommandSwitch("no-3way")]
+    [BooleanCommandSwitch("--no-3way")]
     public bool? NoThreeway { get; set; }
 
-    [BooleanCommandSwitch("rerere-autoupdate")]
+    [BooleanCommandSwitch("--rerere-autoupdate")]
     public bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("no-rerere-autoupdate")]
+    [BooleanCommandSwitch("--no-rerere-autoupdate")]
     public bool? NoRerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("ignore-space-change")]
+    [BooleanCommandSwitch("--ignore-space-change")]
     public bool? IgnoreSpaceChange { get; set; }
 
-    [BooleanCommandSwitch("ignore-whitespace")]
+    [BooleanCommandSwitch("--ignore-whitespace")]
     public bool? IgnoreWhitespace { get; set; }
 
-    [CommandLongSwitch("whitespace")]
+    [CommandEqualsSeparatorSwitch("--whitespace")]
     public string? Whitespace { get; set; }
 
-    [CommandLongSwitch("directory")]
+    [CommandEqualsSeparatorSwitch("--directory")]
     public string? Directory { get; set; }
 
-    [CommandLongSwitch("exclude")]
+    [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
 
-    [CommandLongSwitch("include")]
+    [CommandEqualsSeparatorSwitch("--include")]
     public string? Include { get; set; }
 
-    [BooleanCommandSwitch("reject")]
+    [BooleanCommandSwitch("--reject")]
     public bool? Reject { get; set; }
 
-    [BooleanCommandSwitch("patch-format")]
+    [BooleanCommandSwitch("--patch-format")]
     public bool? PatchFormat { get; set; }
 
-    [BooleanCommandSwitch("interactive")]
+    [BooleanCommandSwitch("--interactive")]
     public bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("no-verify")]
+    [BooleanCommandSwitch("--no-verify")]
     public bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("committer-date-is-author-date")]
+    [BooleanCommandSwitch("--committer-date-is-author-date")]
     public bool? CommitterDateIsAuthorDate { get; set; }
 
-    [BooleanCommandSwitch("ignore-date")]
+    [BooleanCommandSwitch("--ignore-date")]
     public bool? IgnoreDate { get; set; }
 
-    [BooleanCommandSwitch("skip")]
+    [BooleanCommandSwitch("--skip")]
     public bool? Skip { get; set; }
 
-    [CommandLongSwitch("gpg-sign")]
+    [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("no-gpg-sign")]
+    [BooleanCommandSwitch("--no-gpg-sign")]
     public bool? NoGpgSign { get; set; }
 
-    [BooleanCommandSwitch("continue")]
+    [BooleanCommandSwitch("--continue")]
     public bool? Continue { get; set; }
 
-    [BooleanCommandSwitch("resolved")]
+    [BooleanCommandSwitch("--resolved")]
     public bool? Resolved { get; set; }
 
-    [CommandLongSwitch("resolvemsg")]
+    [CommandEqualsSeparatorSwitch("--resolvemsg")]
     public string? Resolvemsg { get; set; }
 
-    [BooleanCommandSwitch("abort")]
+    [BooleanCommandSwitch("--abort")]
     public bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("quit")]
+    [BooleanCommandSwitch("--quit")]
     public bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("show-current-patch")]
+    [BooleanCommandSwitch("--show-current-patch")]
     public bool? ShowCurrentPatch { get; set; }
 
-    [BooleanCommandSwitch("allow-empty")]
+    [BooleanCommandSwitch("--allow-empty")]
     public bool? AllowEmpty { get; set; }
-
 }

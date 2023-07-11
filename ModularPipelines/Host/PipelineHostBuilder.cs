@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -28,7 +29,8 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .Configure<PipelineOptions>(_ => { })
                 .AddLogging()
                 .AddHttpClient()
-                .AddInitializers();
+                .AddInitializers()
+                .AddServiceCollection();
 
             // Transient
             services.AddTransient<IModuleContext, ModuleContext>()
@@ -43,7 +45,9 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddTransient<IHex, Hex>()
                 .AddTransient<IZip, Zip>()
                 .AddTransient<IJson, Json>()
-                .AddTransient<IXml, Xml>();
+                .AddTransient<IXml, Xml>()
+                .AddTransient<ISecretObfuscator, SecretObfuscator>()
+                .AddTransient<IOptionsProvider, OptionsProvider>();
 
             // Singletons
             services

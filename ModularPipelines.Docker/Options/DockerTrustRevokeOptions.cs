@@ -5,7 +5,8 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("trust revoke")]
 public record DockerTrustRevokeOptions : DockerOptions
 {
-    [CommandLongSwitch("yes")]
-    public string? Yes { get; set; }
-
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Image { get; set; }
+    [BooleanCommandSwitch("--yes")]
+    public bool? Yes { get; set; }
 }

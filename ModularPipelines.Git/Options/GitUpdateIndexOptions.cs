@@ -5,106 +5,105 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("update-index")]
 public record GitUpdateIndexOptions : GitOptions
 {
-    [BooleanCommandSwitch("add")]
+    [BooleanCommandSwitch("--add")]
     public bool? Add { get; set; }
 
-    [BooleanCommandSwitch("remove")]
+    [BooleanCommandSwitch("--remove")]
     public bool? Remove { get; set; }
 
-    [BooleanCommandSwitch("refresh")]
+    [BooleanCommandSwitch("--refresh")]
     public bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("ignore-submodules")]
+    [BooleanCommandSwitch("--ignore-submodules")]
     public bool? IgnoreSubmodules { get; set; }
 
-    [BooleanCommandSwitch("unmerged")]
+    [BooleanCommandSwitch("--unmerged")]
     public bool? Unmerged { get; set; }
 
-    [BooleanCommandSwitch("ignore-missing")]
+    [BooleanCommandSwitch("--ignore-missing")]
     public bool? IgnoreMissing { get; set; }
 
-    [CommandLongSwitch("cacheinfo")]
+    [CommandEqualsSeparatorSwitch("--cacheinfo")]
     public string? Cacheinfo { get; set; }
 
-    [BooleanCommandSwitch("index-info")]
+    [BooleanCommandSwitch("--index-info")]
     public bool? IndexInfo { get; set; }
 
-    [BooleanCommandSwitch("chmod")]
+    [BooleanCommandSwitch("--chmod")]
     public bool? Chmod { get; set; }
 
-    [BooleanCommandSwitch("no-assume-unchanged")]
+    [BooleanCommandSwitch("--no-assume-unchanged")]
     public bool? NoAssumeUnchanged { get; set; }
 
-    [BooleanCommandSwitch("assume-unchanged")]
+    [BooleanCommandSwitch("--assume-unchanged")]
     public bool? AssumeUnchanged { get; set; }
 
-    [BooleanCommandSwitch("really-refresh")]
+    [BooleanCommandSwitch("--really-refresh")]
     public bool? ReallyRefresh { get; set; }
 
-    [BooleanCommandSwitch("no-skip-worktree")]
+    [BooleanCommandSwitch("--no-skip-worktree")]
     public bool? NoSkipWorktree { get; set; }
 
-    [BooleanCommandSwitch("skip-worktree")]
+    [BooleanCommandSwitch("--skip-worktree")]
     public bool? SkipWorktree { get; set; }
 
-    [BooleanCommandSwitch("no-ignore-skip-worktree-entries")]
+    [BooleanCommandSwitch("--no-ignore-skip-worktree-entries")]
     public bool? NoIgnoreSkipWorktreeEntries { get; set; }
 
-    [BooleanCommandSwitch("ignore-skip-worktree-entries")]
+    [BooleanCommandSwitch("--ignore-skip-worktree-entries")]
     public bool? IgnoreSkipWorktreeEntries { get; set; }
 
-    [BooleanCommandSwitch("no-fsmonitor-valid")]
+    [BooleanCommandSwitch("--no-fsmonitor-valid")]
     public bool? NoFsmonitorValid { get; set; }
 
-    [BooleanCommandSwitch("fsmonitor-valid")]
+    [BooleanCommandSwitch("--fsmonitor-valid")]
     public bool? FsmonitorValid { get; set; }
 
-    [BooleanCommandSwitch("again")]
+    [BooleanCommandSwitch("--again")]
     public bool? Again { get; set; }
 
-    [BooleanCommandSwitch("unresolve")]
+    [BooleanCommandSwitch("--unresolve")]
     public bool? Unresolve { get; set; }
 
-    [BooleanCommandSwitch("info-only")]
+    [BooleanCommandSwitch("--info-only")]
     public bool? InfoOnly { get; set; }
 
-    [BooleanCommandSwitch("force-remove")]
+    [BooleanCommandSwitch("--force-remove")]
     public bool? ForceRemove { get; set; }
 
-    [BooleanCommandSwitch("replace")]
+    [BooleanCommandSwitch("--replace")]
     public bool? Replace { get; set; }
 
-    [BooleanCommandSwitch("stdin")]
+    [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("verbose")]
+    [BooleanCommandSwitch("--verbose")]
     public bool? Verbose { get; set; }
 
-    [CommandLongSwitch("index-version")]
+    [CommandEqualsSeparatorSwitch("--index-version")]
     public string? IndexVersion { get; set; }
 
-    [BooleanCommandSwitch("split-index")]
+    [BooleanCommandSwitch("--split-index")]
     public bool? SplitIndex { get; set; }
 
-    [BooleanCommandSwitch("no-split-index")]
+    [BooleanCommandSwitch("--no-split-index")]
     public bool? NoSplitIndex { get; set; }
 
-    [BooleanCommandSwitch("untracked-cache")]
+    [BooleanCommandSwitch("--untracked-cache")]
     public bool? UntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("no-untracked-cache")]
+    [BooleanCommandSwitch("--no-untracked-cache")]
     public bool? NoUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("test-untracked-cache")]
+    [BooleanCommandSwitch("--test-untracked-cache")]
     public bool? TestUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("force-untracked-cache")]
+    [BooleanCommandSwitch("--force-untracked-cache")]
     public bool? ForceUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("fsmonitor")]
+    [BooleanCommandSwitch("--fsmonitor")]
     public bool? Fsmonitor { get; set; }
 
-    [BooleanCommandSwitch("no-fsmonitor")]
+    [BooleanCommandSwitch("--no-fsmonitor")]
     public bool? NoFsmonitor { get; set; }
-
 }

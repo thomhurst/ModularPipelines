@@ -5,19 +5,18 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("buildx debug-shell")]
 public record DockerBuildxDebugShellOptions : DockerOptions
 {
-    [BooleanCommandSwitch("detach")]
+    [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-    [CommandLongSwitch("progress")]
+    [CommandSwitch("--progress")]
     public string? Progress { get; set; }
 
-    [CommandLongSwitch("root")]
+    [CommandSwitch("--root")]
     public string? Root { get; set; }
 
-    [CommandLongSwitch("server-config")]
+    [CommandSwitch("--server-config")]
     public string? ServerConfig { get; set; }
 
-    [CommandLongSwitch("builder")]
+    [CommandSwitch("--builder")]
     public string? Builder { get; set; }
-
 }

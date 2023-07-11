@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image inspect")]
-public record DockerImageInspectOptions : DockerOptions
+public record DockerImageInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Image) : DockerOptions
 {
-    [CommandLongSwitch("format")]
-    public string? Format { get; set; }
 
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 }

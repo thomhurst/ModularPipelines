@@ -40,7 +40,6 @@ internal class GitInformation : IGitInformation
 
     public string? LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
 
-
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
         return Commits(null, options, cancellationToken);

@@ -3,18 +3,20 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin install")]
-public record DockerPluginInstallOptions : DockerOptions
+public record DockerPluginInstallOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
 {
-    [CommandLongSwitch("alias")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> KeyValues { get; set; }
+
+    [CommandSwitch("--alias")]
     public string? Alias { get; set; }
 
-    [CommandLongSwitch("disable")]
+    [CommandSwitch("--disable")]
     public string? Disable { get; set; }
 
-    [BooleanCommandSwitch("disable-content-trust")]
+    [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-    [CommandLongSwitch("grant-all-permissions")]
+    [CommandSwitch("--grant-all-permissions")]
     public string? GrantAllPermissions { get; set; }
-
 }

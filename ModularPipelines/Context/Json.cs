@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Context;
 
-public class Json : IJson
+internal class Json : IJson
 {
     public string ToJson<T>(T input)
     {

@@ -5,13 +5,12 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("test")]
 public record HelmTestOptions : HelmOptions
 {
-    [CommandLongSwitch("filter", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
     public string[]? Filter { get; set; }
 
-    [BooleanCommandSwitch("logs")]
+    [BooleanCommandSwitch("--logs")]
     public bool? Logs { get; set; }
 
-    [CommandLongSwitch("timeout", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
-
 }

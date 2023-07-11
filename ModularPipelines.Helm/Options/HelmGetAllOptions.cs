@@ -5,10 +5,9 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("get", "all")]
 public record HelmGetAllOptions : HelmOptions
 {
-    [CommandLongSwitch("revision", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
     public int? Revision { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

@@ -5,19 +5,21 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("compose pull")]
 public record DockerComposePullOptions : DockerOptions
 {
-    [CommandLongSwitch("ignore-buildable")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Service { get; set; }
+
+    [CommandSwitch("--ignore-buildable")]
     public string? IgnoreBuildable { get; set; }
 
-    [CommandLongSwitch("ignore-pull-failures")]
+    [CommandSwitch("--ignore-pull-failures")]
     public string? IgnorePullFailures { get; set; }
 
-    [CommandLongSwitch("include-deps")]
+    [CommandSwitch("--include-deps")]
     public string? IncludeDeps { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
-    [CommandLongSwitch("dry-run")]
-    public string? DryRun { get; set; }
-
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
 }

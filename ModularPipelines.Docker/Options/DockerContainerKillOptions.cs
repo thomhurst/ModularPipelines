@@ -3,9 +3,9 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container kill")]
-public record DockerContainerKillOptions : DockerOptions
+public record DockerContainerKillOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
 {
-    [CommandLongSwitch("signal")]
-    public string? Signal { get; set; }
 
+    [CommandSwitch("--signal")]
+    public string? Signal { get; set; }
 }

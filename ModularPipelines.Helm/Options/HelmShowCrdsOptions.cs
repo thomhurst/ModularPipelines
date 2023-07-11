@@ -5,40 +5,39 @@ namespace ModularPipelines.Helm.Options;
 [CommandPrecedingArguments("show", "crds")]
 public record HelmShowCrdsOptions : HelmOptions
 {
-    [CommandLongSwitch("ca-file", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
     public string? CaFile { get; set; }
 
-    [CommandLongSwitch("cert-file", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
     public string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("devel")]
+    [BooleanCommandSwitch("--devel")]
     public bool? Devel { get; set; }
 
-    [BooleanCommandSwitch("insecure-skip-tls-verify")]
+    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
     public bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandLongSwitch("key-file", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }
 
-    [CommandLongSwitch("keyring", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
     public string? Keyring { get; set; }
 
-    [BooleanCommandSwitch("pass-credentials")]
+    [BooleanCommandSwitch("--pass-credentials")]
     public bool? PassCredentials { get; set; }
 
-    [CommandLongSwitch("password", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
     public string? Password { get; set; }
 
-    [CommandLongSwitch("repo", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--repo", SwitchValueSeparator = " ")]
     public string? Repo { get; set; }
 
-    [CommandLongSwitch("username", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("verify")]
+    [BooleanCommandSwitch("--verify")]
     public bool? Verify { get; set; }
 
-    [CommandLongSwitch("version", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
-
 }

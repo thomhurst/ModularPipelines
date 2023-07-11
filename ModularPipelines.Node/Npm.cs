@@ -5,7 +5,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Node;
 
-public class Npm : INpm
+internal class Npm : INpm
 {
     private readonly IModuleContext _context;
 

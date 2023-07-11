@@ -5,187 +5,186 @@ namespace ModularPipelines.Git.Options;
 [CommandPrecedingArguments("send-email")]
 public record GitSendEmailOptions : GitOptions
 {
-    [BooleanCommandSwitch("annotate")]
+    [BooleanCommandSwitch("--annotate")]
     public bool? Annotate { get; set; }
 
-    [CommandLongSwitch("bcc")]
+    [CommandEqualsSeparatorSwitch("--bcc")]
     public string? Bcc { get; set; }
 
-    [CommandLongSwitch("cc")]
+    [CommandEqualsSeparatorSwitch("--cc")]
     public string? Cc { get; set; }
 
-    [BooleanCommandSwitch("compose")]
+    [BooleanCommandSwitch("--compose")]
     public bool? Compose { get; set; }
 
-    [CommandLongSwitch("from")]
+    [CommandEqualsSeparatorSwitch("--from")]
     public string? From { get; set; }
 
-    [CommandLongSwitch("reply-to")]
+    [CommandEqualsSeparatorSwitch("--reply-to")]
     public string? ReplyTo { get; set; }
 
-    [CommandLongSwitch("in-reply-to")]
+    [CommandEqualsSeparatorSwitch("--in-reply-to")]
     public string? InReplyTo { get; set; }
 
-    [CommandLongSwitch("subject")]
+    [CommandEqualsSeparatorSwitch("--subject")]
     public string? Subject { get; set; }
 
-    [CommandLongSwitch("to")]
+    [CommandEqualsSeparatorSwitch("--to")]
     public string? To { get; set; }
 
-    [CommandLongSwitch("8bit-encoding")]
+    [CommandEqualsSeparatorSwitch("--8bit-encoding")]
     public string? EightBitEncoding { get; set; }
 
-    [CommandLongSwitch("compose-encoding")]
+    [CommandEqualsSeparatorSwitch("--compose-encoding")]
     public string? ComposeEncoding { get; set; }
 
-    [BooleanCommandSwitch("transfer-encoding")]
+    [BooleanCommandSwitch("--transfer-encoding")]
     public bool? TransferEncoding { get; set; }
 
-    [BooleanCommandSwitch("xmailer")]
+    [BooleanCommandSwitch("--xmailer")]
     public bool? Xmailer { get; set; }
 
-    [BooleanCommandSwitch("no-xmailer")]
+    [BooleanCommandSwitch("--no-xmailer")]
     public bool? NoXmailer { get; set; }
 
-    [CommandLongSwitch("envelope-sender")]
+    [CommandEqualsSeparatorSwitch("--envelope-sender")]
     public string? EnvelopeSender { get; set; }
 
-    [CommandLongSwitch("sendmail-cmd")]
+    [CommandEqualsSeparatorSwitch("--sendmail-cmd")]
     public string? SendmailCmd { get; set; }
 
-    [CommandLongSwitch("smtp-encryption")]
+    [CommandEqualsSeparatorSwitch("--smtp-encryption")]
     public string? SmtpEncryption { get; set; }
 
-    [CommandLongSwitch("smtp-domain")]
+    [CommandEqualsSeparatorSwitch("--smtp-domain")]
     public string? SmtpDomain { get; set; }
 
-    [CommandLongSwitch("smtp-auth")]
+    [CommandEqualsSeparatorSwitch("--smtp-auth")]
     public string? SmtpAuth { get; set; }
 
-    [CommandLongSwitch("smtp-pass")]
+    [CommandEqualsSeparatorSwitch("--smtp-pass")]
     public string? SmtpPass { get; set; }
 
-    [BooleanCommandSwitch("no-smtp-auth")]
+    [BooleanCommandSwitch("--no-smtp-auth")]
     public bool? NoSmtpAuth { get; set; }
 
-    [CommandLongSwitch("smtp-server")]
+    [CommandEqualsSeparatorSwitch("--smtp-server")]
     public string? SmtpServer { get; set; }
 
-    [CommandLongSwitch("smtp-server-port")]
+    [CommandEqualsSeparatorSwitch("--smtp-server-port")]
     public string? SmtpServerPort { get; set; }
 
-    [CommandLongSwitch("smtp-server-option")]
+    [CommandEqualsSeparatorSwitch("--smtp-server-option")]
     public string? SmtpServerOption { get; set; }
 
-    [BooleanCommandSwitch("smtp-ssl")]
+    [BooleanCommandSwitch("--smtp-ssl")]
     public bool? SmtpSsl { get; set; }
 
-    [BooleanCommandSwitch("smtp-ssl-cert-path")]
+    [BooleanCommandSwitch("--smtp-ssl-cert-path")]
     public bool? SmtpSslCertPath { get; set; }
 
-    [CommandLongSwitch("smtp-user")]
+    [CommandEqualsSeparatorSwitch("--smtp-user")]
     public string? SmtpUser { get; set; }
 
-    [BooleanCommandSwitch("smtp-debug")]
+    [BooleanCommandSwitch("--smtp-debug")]
     public bool? SmtpDebug { get; set; }
 
-    [CommandLongSwitch("batch-size")]
+    [CommandEqualsSeparatorSwitch("--batch-size")]
     public string? BatchSize { get; set; }
 
-    [CommandLongSwitch("relogin-delay")]
+    [CommandEqualsSeparatorSwitch("--relogin-delay")]
     public string? ReloginDelay { get; set; }
 
-    [BooleanCommandSwitch("no-to")]
+    [BooleanCommandSwitch("--no-to")]
     public bool? NoTo { get; set; }
 
-    [BooleanCommandSwitch("no-cc")]
+    [BooleanCommandSwitch("--no-cc")]
     public bool? NoCc { get; set; }
 
-    [BooleanCommandSwitch("no-bcc")]
+    [BooleanCommandSwitch("--no-bcc")]
     public bool? NoBcc { get; set; }
 
-    [BooleanCommandSwitch("no-identity")]
+    [BooleanCommandSwitch("--no-identity")]
     public bool? NoIdentity { get; set; }
 
-    [CommandLongSwitch("to-cmd")]
+    [CommandEqualsSeparatorSwitch("--to-cmd")]
     public string? ToCmd { get; set; }
 
-    [CommandLongSwitch("cc-cmd")]
+    [CommandEqualsSeparatorSwitch("--cc-cmd")]
     public string? CcCmd { get; set; }
 
-    [CommandLongSwitch("header-cmd")]
+    [CommandEqualsSeparatorSwitch("--header-cmd")]
     public string? HeaderCmd { get; set; }
 
-    [BooleanCommandSwitch("no-header-cmd")]
+    [BooleanCommandSwitch("--no-header-cmd")]
     public bool? NoHeaderCmd { get; set; }
 
-    [BooleanCommandSwitch("no-chain-reply-to")]
+    [BooleanCommandSwitch("--no-chain-reply-to")]
     public bool? NoChainReplyTo { get; set; }
 
-    [BooleanCommandSwitch("chain-reply-to")]
+    [BooleanCommandSwitch("--chain-reply-to")]
     public bool? ChainReplyTo { get; set; }
 
-    [CommandLongSwitch("identity")]
+    [CommandEqualsSeparatorSwitch("--identity")]
     public string? Identity { get; set; }
 
-    [BooleanCommandSwitch("no-signed-off-by-cc")]
+    [BooleanCommandSwitch("--no-signed-off-by-cc")]
     public bool? NoSignedOffByCc { get; set; }
 
-    [BooleanCommandSwitch("signed-off-by-cc")]
+    [BooleanCommandSwitch("--signed-off-by-cc")]
     public bool? SignedOffByCc { get; set; }
 
-    [BooleanCommandSwitch("no-cc-cover")]
+    [BooleanCommandSwitch("--no-cc-cover")]
     public bool? NoCcCover { get; set; }
 
-    [BooleanCommandSwitch("cc-cover")]
+    [BooleanCommandSwitch("--cc-cover")]
     public bool? CcCover { get; set; }
 
-    [BooleanCommandSwitch("no-to-cover")]
+    [BooleanCommandSwitch("--no-to-cover")]
     public bool? NoToCover { get; set; }
 
-    [BooleanCommandSwitch("to-cover")]
+    [BooleanCommandSwitch("--to-cover")]
     public bool? ToCover { get; set; }
 
-    [CommandLongSwitch("suppress-cc")]
+    [CommandEqualsSeparatorSwitch("--suppress-cc")]
     public string? SuppressCc { get; set; }
 
-    [BooleanCommandSwitch("no-suppress-from")]
+    [BooleanCommandSwitch("--no-suppress-from")]
     public bool? NoSuppressFrom { get; set; }
 
-    [BooleanCommandSwitch("suppress-from")]
+    [BooleanCommandSwitch("--suppress-from")]
     public bool? SuppressFrom { get; set; }
 
-    [BooleanCommandSwitch("no-thread")]
+    [BooleanCommandSwitch("--no-thread")]
     public bool? NoThread { get; set; }
 
-    [BooleanCommandSwitch("thread")]
+    [BooleanCommandSwitch("--thread")]
     public bool? Thread { get; set; }
 
-    [CommandLongSwitch("confirm")]
+    [CommandEqualsSeparatorSwitch("--confirm")]
     public string? Confirm { get; set; }
 
-    [BooleanCommandSwitch("dry-run")]
+    [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("no-format-patch")]
+    [BooleanCommandSwitch("--no-format-patch")]
     public bool? NoFormatPatch { get; set; }
 
-    [BooleanCommandSwitch("format-patch")]
+    [BooleanCommandSwitch("--format-patch")]
     public bool? FormatPatch { get; set; }
 
-    [BooleanCommandSwitch("quiet")]
+    [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("no-validate")]
+    [BooleanCommandSwitch("--no-validate")]
     public bool? NoValidate { get; set; }
 
-    [BooleanCommandSwitch("validate")]
+    [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
 
-    [BooleanCommandSwitch("force")]
+    [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("dump-aliases")]
+    [BooleanCommandSwitch("--dump-aliases")]
     public bool? DumpAliases { get; set; }
-
 }

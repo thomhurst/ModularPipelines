@@ -5,30 +5,30 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("format")]
 public record DotNetFormatOptions : DotNetOptions
 {
-    [CommandLongSwitch("diagnostics", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--diagnostics", SwitchValueSeparator = " ")]
     public string? Diagnostics { get; init; }
 
-    [BooleanCommandSwitch("severity")]
+    [BooleanCommandSwitch("--severity")]
     public string? Severity { get; init; }
 
-    [BooleanCommandSwitch("no-restore")]
+    [BooleanCommandSwitch("--no-restore")]
     public bool NoRestore { get; init; }
 
-    [BooleanCommandSwitch("verify-no-changes")]
+    [BooleanCommandSwitch("--verify-no-changes")]
     public bool VerifyNoChanges { get; init; } = true;
 
-    [CommandLongSwitch("include", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--include", SwitchValueSeparator = " ")]
     public string? Include { get; init; }
 
-    [CommandLongSwitch("exclude", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--exclude", SwitchValueSeparator = " ")]
     public string? Exclude { get; init; }
 
-    [BooleanCommandSwitch("include-generated")]
+    [BooleanCommandSwitch("--include-generated")]
     public bool IncludeGenerated { get; init; }
 
-    [CommandLongSwitch("binary-log", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--binary-log", SwitchValueSeparator = " ")]
     public string? BinaryLogPath { get; init; }
 
-    [CommandLongSwitch("report", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--report", SwitchValueSeparator = " ")]
     public string? ReportPath { get; init; }
 }

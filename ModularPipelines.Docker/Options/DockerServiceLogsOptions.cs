@@ -3,33 +3,32 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service logs")]
-public record DockerServiceLogsOptions : DockerOptions
+public record DockerServiceLogsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
-    [CommandLongSwitch("details")]
-    public string? Details { get; set; }
+    [BooleanCommandSwitch("--details")]
+    public bool? Details { get; set; }
 
-    [CommandLongSwitch("follow")]
-    public string? Follow { get; set; }
+    [BooleanCommandSwitch("--follow")]
+    public bool? Follow { get; set; }
 
-    [CommandLongSwitch("no-resolve")]
-    public string? NoResolve { get; set; }
+    [BooleanCommandSwitch("--no-resolve")]
+    public bool? NoResolve { get; set; }
 
-    [CommandLongSwitch("no-task-ids")]
-    public string? NoTaskIds { get; set; }
+    [BooleanCommandSwitch("--no-task-ids")]
+    public bool? NoTaskIds { get; set; }
 
-    [CommandLongSwitch("no-trunc")]
-    public string? NoTrunc { get; set; }
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CommandLongSwitch("raw")]
-    public string? Raw { get; set; }
+    [BooleanCommandSwitch("--raw")]
+    public bool? Raw { get; set; }
 
-    [CommandLongSwitch("since")]
+    [CommandSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandLongSwitch("tail")]
+    [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 
-    [CommandLongSwitch("timestamps")]
-    public string? Timestamps { get; set; }
-
+    [BooleanCommandSwitch("--timestamps")]
+    public bool? Timestamps { get; set; }
 }

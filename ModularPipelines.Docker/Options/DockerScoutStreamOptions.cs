@@ -3,12 +3,12 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout stream")]
-public record DockerScoutStreamOptions : DockerOptions
+public record DockerScoutStreamOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stream, [property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-    [CommandLongSwitch("app")]
+
+    [CommandSwitch("--app")]
     public string? App { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
-
 }

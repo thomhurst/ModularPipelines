@@ -3,21 +3,21 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("swarm join")]
-public record DockerSwarmJoinOptions : DockerOptions
+public record DockerSwarmJoinOptions([property: PositionalArgument(Position = Position.AfterArguments)] string HostPort) : DockerOptions
 {
-    [CommandLongSwitch("advertise-addr")]
+
+    [CommandSwitch("--advertise-addr")]
     public string? AdvertiseAddr { get; set; }
 
-    [CommandLongSwitch("availability")]
+    [CommandSwitch("--availability")]
     public string? Availability { get; set; }
 
-    [CommandLongSwitch("data-path-addr")]
+    [CommandSwitch("--data-path-addr")]
     public string? DataPathAddr { get; set; }
 
-    [CommandLongSwitch("listen-addr")]
+    [CommandSwitch("--listen-addr")]
     public string? ListenAddr { get; set; }
 
-    [CommandLongSwitch("token")]
+    [CommandSwitch("--token")]
     public string? Token { get; set; }
-
 }

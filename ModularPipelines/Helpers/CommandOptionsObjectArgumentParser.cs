@@ -10,7 +10,9 @@ public abstract class CommandOptionsObjectArgumentParser
     {
         var properties = optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        foreach (var propertyInfo in properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null))
+        var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
+
+        foreach (var propertyInfo in positionalArgumentProperties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeArguments))
         {
             var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
 
@@ -30,6 +32,16 @@ public abstract class CommandOptionsObjectArgumentParser
             }
 
             AddSwitches(parsedArgs, propertyValues, propertyInfo);
+        }
+
+        foreach (var propertyInfo in positionalArgumentProperties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterArguments))
+        {
+            var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                parsedArgs.Add(value);
+            }
         }
     }
 
@@ -55,17 +67,14 @@ public abstract class CommandOptionsObjectArgumentParser
             return;
         }
 
-        var precedingHyphens = new string('-', commandSwitchAttribute.HyphenCount);
-        var @switch = $"{precedingHyphens}{commandSwitchAttribute.SwitchName}";
-
         if (commandSwitchAttribute.SwitchValueSeparator == " ")
         {
-            parsedArgs.Add(@switch);
+            parsedArgs.Add(commandSwitchAttribute.SwitchName);
             parsedArgs.Add(propertyValue);
         }
         else
         {
-            parsedArgs.Add($"{@switch}{commandSwitchAttribute.SwitchValueSeparator}{propertyValue}");
+            parsedArgs.Add($"{commandSwitchAttribute.SwitchName}{commandSwitchAttribute.SwitchValueSeparator}{propertyValue}");
         }
     }
 
@@ -77,8 +86,7 @@ public abstract class CommandOptionsObjectArgumentParser
             bool.TryParse(propertyValue, out var boolValue)
             && boolValue)
         {
-            var hyphens = new string('-', booleanCommandSwitchAttribute.HyphenCount);
-            parsedArgs.Add($"{hyphens}{booleanCommandSwitchAttribute.SwitchName}");
+            parsedArgs.Add(booleanCommandSwitchAttribute.SwitchName);
             return true;
         }
 

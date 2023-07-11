@@ -1,6 +1,6 @@
 namespace ModularPipelines.Git;
 
-public class Git : IGit
+internal class Git : IGit
 {
     public Git(IGitCommands commands, IGitInformation information)
     {

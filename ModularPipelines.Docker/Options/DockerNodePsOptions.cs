@@ -5,13 +5,20 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("node ps")]
 public record DockerNodePsOptions : DockerOptions
 {
-    [CommandLongSwitch("no-resolve")]
-    public string? NoResolve { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public IEnumerable<string> Node { get; set; }
+    [BooleanCommandSwitch("--no-resolve")]
+    public bool? NoResolve { get; set; }
 
-    [CommandLongSwitch("no-trunc")]
-    public string? NoTrunc { get; set; }
+    [BooleanCommandSwitch("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
+
+    [CommandSwitch("--format")]
+    public string? Format { get; set; }
 }

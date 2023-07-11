@@ -5,40 +5,45 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("volume create")]
 public record DockerVolumeCreateOptions : DockerOptions
 {
-    [CommandLongSwitch("availability")]
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string? Volume { get; set; }
+
+    [CommandSwitch("--availability")]
     public string? Availability { get; set; }
 
-    [CommandLongSwitch("driver")]
+    [CommandSwitch("--driver")]
     public string? Driver { get; set; }
 
-    [CommandLongSwitch("group")]
+    [CommandSwitch("--group")]
     public string? Group { get; set; }
 
-    [CommandLongSwitch("label")]
+    [CommandSwitch("--label")]
     public string? Label { get; set; }
 
-    [CommandLongSwitch("limit-bytes")]
+    [CommandSwitch("--limit-bytes")]
     public string? LimitBytes { get; set; }
 
-    [CommandLongSwitch("required-bytes")]
+    [CommandSwitch("--required-bytes")]
     public string? RequiredBytes { get; set; }
 
-    [CommandLongSwitch("scope")]
+    [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 
-    [CommandLongSwitch("secret")]
+    [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 
-    [CommandLongSwitch("sharing")]
+    [CommandSwitch("--sharing")]
     public string? Sharing { get; set; }
 
-    [CommandLongSwitch("topology-preferred")]
+    [CommandSwitch("--topology-preferred")]
     public string? TopologyPreferred { get; set; }
 
-    [CommandLongSwitch("topology-required")]
+    [CommandSwitch("--topology-required")]
     public string? TopologyRequired { get; set; }
 
-    [CommandLongSwitch("type")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
 
+    [CommandSwitch("--opt")]
+    public string? Opt { get; set; }
 }

@@ -5,25 +5,24 @@ namespace ModularPipelines.Kubernetes.Options;
 [CommandPrecedingArguments("apply", "set-last-applied")]
 public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("allow-missing-template-keys")]
+    [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [BooleanCommandSwitch("create-annotation")]
+    [BooleanCommandSwitch("--create-annotation")]
     public bool? CreateAnnotation { get; set; }
 
-    [CommandLongSwitch("dry-run", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
 
-    [CommandLongSwitch("filename", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
-    [CommandLongSwitch("output", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("show-managed-fields")]
+    [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandLongSwitch("template", SwitchValueSeparator = " ")]
+    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
-
 }

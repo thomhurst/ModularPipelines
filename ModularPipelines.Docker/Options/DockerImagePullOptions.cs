@@ -5,16 +5,17 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("image pull")]
 public record DockerImagePullOptions : DockerOptions
 {
-    [CommandLongSwitch("all-tags")]
-    public string? AllTags { get; set; }
+    [PositionalArgument(Position = Position.AfterArguments)]
+    public string Name { get; set; }
+    [BooleanCommandSwitch("--all-tags")]
+    public bool? AllTags { get; set; }
 
-    [BooleanCommandSwitch("disable-content-trust")]
+    [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
-    [CommandLongSwitch("platform")]
+    [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
-    [CommandLongSwitch("quiet")]
-    public string? Quiet { get; set; }
-
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 }

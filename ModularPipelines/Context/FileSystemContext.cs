@@ -3,7 +3,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-public class FileSystemContext : IFileSystemContext
+internal class FileSystemContext : IFileSystemContext
 {
     public void DeleteFile(string filePath) => System.IO.File.Delete(filePath);
 
