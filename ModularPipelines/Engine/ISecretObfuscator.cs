@@ -29,7 +29,7 @@ internal class SecretObfuscator : ISecretObfuscator
         var stringBuilder = new StringBuilder(input);
 
         var secretsFromExtraObject = GetSecrets(optionsObject);
-        
+
         foreach (var secret in _secrets.Concat(secretsFromExtraObject))
         {
             if (input.Contains(secret))
@@ -58,7 +58,7 @@ internal class SecretObfuscator : ISecretObfuscator
         {
             yield break;
         }
-        
+
         foreach (var secretValueMember in option.GetType()
                      .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                      .Concat(option.GetType()
