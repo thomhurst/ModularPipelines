@@ -6,7 +6,7 @@ namespace ModularPipelines.NuGet.Options;
 public record NuGetUploadOptions
 (
     IEnumerable<string> PackagePaths,
-    
+
     [property: CommandSwitch("-s")]
     Uri FeedUri
 ) : NuGetOptions
@@ -15,7 +15,7 @@ public record NuGetUploadOptions
     [CommandSwitch("-k")]
     [SecretValue]
     public string? ApiKey { get; init; }
-    
+
     [BooleanCommandSwitch("-n")]
     public bool? NoSymbols { get; init; }
 }
