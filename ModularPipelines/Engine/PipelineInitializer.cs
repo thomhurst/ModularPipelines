@@ -10,7 +10,7 @@ internal class PipelineInitializer : IPipelineInitializer
     {
         _serviceProvider = serviceProvider;
     }
-    
+
     public Task InitializeAsync()
     {
         return _serviceProvider.InitializeAsync();

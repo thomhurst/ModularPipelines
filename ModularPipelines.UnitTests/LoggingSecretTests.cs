@@ -25,7 +25,7 @@ public class LoggingSecretTests
         {
             _options = options;
         }
-        
+
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("My Secret Value is: {SecretValue}", _options.Value.Secret1);
@@ -33,7 +33,7 @@ public class LoggingSecretTests
             return null;
         }
     }
-    
+
     [TestCase("Shh!", "****")]
     [TestCase("SuperSecret!", "************")]
     [TestCase("🤐", "**")]
@@ -52,7 +52,7 @@ public class LoggingSecretTests
             .ExecutePipelineAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
-        
+
         Assert.That(actualLogResult, Is.EqualTo($"My Secret Value is: {expectedCensoredValue}"));
     }
 }

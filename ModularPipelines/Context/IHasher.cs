@@ -9,7 +9,7 @@ public interface IHasher
     /// <param name="hashType">The encoded string output format</param>
     /// <returns></returns>
     string Sha1(string input, HashType hashType = HashType.Hex);
-    
+
     /// <summary>
     /// Hashes the input to an Sha256 encoded string
     /// </summary>
@@ -17,7 +17,7 @@ public interface IHasher
     /// <param name="hashType">The encoded string output format</param>
     /// <returns></returns>
     string Sha256(string input, HashType hashType = HashType.Hex);
-    
+
     /// <summary>
     /// Hashes the input to an Sha384 encoded string
     /// </summary>
@@ -25,7 +25,7 @@ public interface IHasher
     /// <param name="hashType">The encoded string output format</param>
     /// <returns></returns>
     string Sha384(string input, HashType hashType = HashType.Hex);
-    
+
     /// <summary>
     /// Hashes the input to an Sha512 encoded string
     /// </summary>
@@ -33,7 +33,7 @@ public interface IHasher
     /// <param name="hashType">The encoded string output format</param>
     /// <returns></returns>
     string Sha512(string input, HashType hashType = HashType.Hex);
-    
+
     /// <summary>
     /// Hashes the input to an md5 encoded string
     /// </summary>

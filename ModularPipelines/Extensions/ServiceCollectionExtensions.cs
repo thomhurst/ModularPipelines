@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     {
         return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));
     }
-    
+
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services) where TModule : ModuleBase
     {
         return services.AddSingleton<ModuleBase, TModule>();

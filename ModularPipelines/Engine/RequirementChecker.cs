@@ -11,7 +11,7 @@ internal class RequirementChecker : IRequirementChecker
     {
         _requirements = requirements.ToList();
     }
-    
+
     public async Task CheckRequirementsAsync()
     {
         var failedRequirementsNames = new List<string>();

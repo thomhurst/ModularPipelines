@@ -8,7 +8,7 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
-    
+
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, ILogger<DependencyPrinter> logger)
     {
         _dependencyChainProvider = dependencyChainProvider;
@@ -18,7 +18,7 @@ internal class DependencyPrinter : IDependencyPrinter
     public void Print()
     {
         var alreadyPrinted = new HashSet<ModuleDependencyModel>();
-        
+
         var stringBuilder = new StringBuilder();
 
         foreach (var moduleDependencyModel in _dependencyChainProvider.ModuleDependencyModels.OrderBy(m => m.AllDescendantDependencies().Count()))
@@ -27,11 +27,11 @@ internal class DependencyPrinter : IDependencyPrinter
             {
                 continue;
             }
-            
+
             stringBuilder.AppendLine();
             Print(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
         }
-        
+
         alreadyPrinted.Clear();
 
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
@@ -40,7 +40,7 @@ internal class DependencyPrinter : IDependencyPrinter
     private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
     {
         alreadyPrinted.Add(moduleDependencyModel);
-        
+
         stringBuilder.Append(new string('-', dashCount));
         stringBuilder.Append('>');
         stringBuilder.Append(' ');

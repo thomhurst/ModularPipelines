@@ -19,7 +19,7 @@ public record CommandLineToolOptions(string Tool) : CommandLineOptions
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public object? OptionsObject { get; init; }
-    
+
     /// <summary>
     /// Used for command line tools that support the following syntax: MyTool -Arg1 -Arg2 -- RunSetting1 RunSetting2
     /// </summary>

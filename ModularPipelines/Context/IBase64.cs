@@ -18,7 +18,7 @@ public interface IBase64
     /// <param name="encoding">The string encoding</param>
     /// <returns></returns>
     string ToBase64String(string input, Encoding encoding);
-    
+
     /// <summary>
     /// Converts a byte array to a base64 encoded string
     /// </summary>

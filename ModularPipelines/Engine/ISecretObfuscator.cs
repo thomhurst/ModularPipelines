@@ -14,7 +14,7 @@ public interface ISecretObfuscator
 internal class SecretObfuscator : ISecretObfuscator
 {
     private readonly IOptionsProvider _optionsProvider;
-    
+
     private readonly string[] _secrets;
 
     public SecretObfuscator(IOptionsProvider optionsProvider)
@@ -23,11 +23,11 @@ internal class SecretObfuscator : ISecretObfuscator
 
         _secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
     }
-    
+
     public string Obfuscate(string input)
     {
         var stringBuilder = new StringBuilder(input);
-        
+
         foreach (var secret in _secrets)
         {
             if (input.Contains(secret))

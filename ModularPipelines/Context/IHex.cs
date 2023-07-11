@@ -18,7 +18,7 @@ public interface IHex
     /// <param name="encoding">The string encoding</param>
     /// <returns></returns>
     string ToHex(string input, Encoding encoding);
-    
+
     /// <summary>
     /// Converts a byte sequence to a hex encoded string
     /// </summary>
@@ -32,8 +32,8 @@ public interface IHex
     /// <param name="hexInput">The hex string to decode</param>
     /// <returns></returns>
     string FromHex(string hexInput) => FromHex(hexInput, Encoding.UTF8);
-    
-    
+
+
     /// <summary>
     /// Converts a hex encoded string to a decoded standard string
     /// </summary>

@@ -13,7 +13,7 @@ public class StringLogger<T> : ILogger<T>
     {
         _stringBuilder = stringBuilder;
     }
-    
+
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var log = formatter.Invoke(state, exception);
@@ -29,7 +29,7 @@ public class StringLogger<T> : ILogger<T>
     {
         return new NoOpDisposable();
     }
-    
+
     private class NoOpDisposable : IDisposable
     {
         public void Dispose()

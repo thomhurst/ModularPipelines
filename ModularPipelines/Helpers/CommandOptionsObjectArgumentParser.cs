@@ -11,7 +11,7 @@ public abstract class CommandOptionsObjectArgumentParser
         var properties = optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
-        
+
         foreach (var propertyInfo in positionalArgumentProperties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeArguments))
         {
             var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
@@ -66,7 +66,7 @@ public abstract class CommandOptionsObjectArgumentParser
         {
             return;
         }
-        
+
         if (commandSwitchAttribute.SwitchValueSeparator == " ")
         {
             parsedArgs.Add(commandSwitchAttribute.SwitchName);

@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.DependencyInjection;
 
-internal class PipelineServiceContainerWrapper : IPipelineServiceContainerWrapper 
+internal class PipelineServiceContainerWrapper : IPipelineServiceContainerWrapper
 {
     public IServiceCollection ServiceCollection { get; }
 
