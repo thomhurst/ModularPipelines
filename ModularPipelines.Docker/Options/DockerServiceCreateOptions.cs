@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerServiceCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Command { get; set; }
+    public string? Command { get; set; }
     [PositionalArgument(Position = Position.AfterArguments)]
     public IEnumerable<string> Arg { get; set; }
     [CommandSwitch("--cap-add")]

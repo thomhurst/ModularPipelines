@@ -104,7 +104,7 @@ internal class OptionsProvider : IOptionsProvider
 
         foreach (var option in types.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(new Type[] { t }))))
         {
-            yield return option.GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance).GetValue(option);
+            yield return option!.GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance)!.GetValue(option);
         }
     }
 }

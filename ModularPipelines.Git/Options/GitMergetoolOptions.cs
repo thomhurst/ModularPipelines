@@ -6,7 +6,7 @@ namespace ModularPipelines.Git.Options;
 public record GitMergetoolOptions : GitOptions
 {
     [CommandEqualsSeparatorSwitch("--tool")]
-    public string? Tool { get; set; }
+    public string? MergeTool { get; set; }
 
     [BooleanCommandSwitch("--tool-help")]
     public bool? ToolHelp { get; set; }
