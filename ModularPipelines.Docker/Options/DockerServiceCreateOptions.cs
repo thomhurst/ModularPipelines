@@ -8,7 +8,7 @@ public record DockerServiceCreateOptions([property: PositionalArgument(Position 
     [PositionalArgument(Position = Position.AfterArguments)]
     public string? Command { get; set; }
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Arg { get; set; }
+    public IEnumerable<string>? DockerArgs { get; set; }
     [CommandSwitch("--cap-add")]
     public string? CapAdd { get; set; }
 

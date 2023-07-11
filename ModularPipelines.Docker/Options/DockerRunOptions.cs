@@ -8,7 +8,7 @@ public record DockerRunOptions([property: PositionalArgument(Position = Position
     [PositionalArgument(Position = Position.AfterArguments)]
     public string? Command { get; set; }
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Arg { get; set; }
+    public IEnumerable<string>? DockerArgs { get; set; }
     [CommandSwitch("--annotation")]
     public string? Annotation { get; set; }
 

@@ -8,7 +8,7 @@ public record DockerContainerCreateOptions([property: PositionalArgument(Positio
     [PositionalArgument(Position = Position.AfterArguments)]
     public string? Command { get; set; }
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Arg { get; set; }
+    public IEnumerable<string>? DockerArgs { get; set; }
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }
 
