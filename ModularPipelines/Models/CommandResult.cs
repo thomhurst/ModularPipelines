@@ -1,4 +1,5 @@
-﻿using CliWrap.Buffered;
+﻿using CliWrap;
+using CliWrap.Buffered;
 
 namespace ModularPipelines.Models;
 
@@ -8,10 +9,27 @@ public class CommandResult
     /// The command that was executed.
     /// </summary>
     public string CommandInput { get; }
+    public IReadOnlyDictionary<string,string?> EnvironmentVariables { get; }
+    public string WorkingDirectory { get; }
+    
 
-    internal CommandResult(string commandInput, BufferedCommandResult commandResult)
+    // For Dry-Run Unit Tests
+    //[SetsRequiredMembersAttribute] TODO Once we upgrade past .NET 7
+#pragma warning disable CS8618
+    internal CommandResult(Command command)
+#pragma warning restore CS8618
     {
-        CommandInput = commandInput;
+        CommandInput = command.ToString();
+        WorkingDirectory = command.WorkingDirPath;
+        EnvironmentVariables = command.EnvironmentVariables;
+    }
+
+    internal CommandResult(Command command, BufferedCommandResult commandResult)
+    {
+        CommandInput = command.ToString();
+        WorkingDirectory = command.WorkingDirPath;
+        EnvironmentVariables = command.EnvironmentVariables;
+        
         StandardOutput = commandResult.StandardOutput;
         StandardError = commandResult.StandardError;
         StartTime = commandResult.StartTime;

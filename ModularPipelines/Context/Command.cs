@@ -67,6 +67,12 @@ internal class Command : ICommand
             Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputLoggingManipulator(commandInput));
         }
 
+        if (options.InternalDryRun)
+        {
+            Logger.LogInformation("---Dry-Run Command - No Output---");
+            return new CommandResult(command);
+        }
+
         var result = await Of(command, cancellationToken);
 
         if (options.LogOutput)
@@ -79,7 +85,7 @@ internal class Command : ICommand
                     : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject)));
         }
 
-        return new CommandResult(commandInput, result);
+        return new CommandResult(command, result);
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)

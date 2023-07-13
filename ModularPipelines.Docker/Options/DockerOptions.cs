@@ -10,6 +10,9 @@ public record DockerOptions() : CommandLineToolOptions("docker")
 
     [CommandSwitch("--context")]
     public string? ContextOverride { get; set; }
+    
+    [CommandSwitch("--output")]
+    public string? Output { get; set; }
 
     [BooleanCommandSwitch("--debug")]
     public bool? Debug { get; set; }
