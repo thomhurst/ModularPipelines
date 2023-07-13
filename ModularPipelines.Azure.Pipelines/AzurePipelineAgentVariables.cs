@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Azure.Pipelines;
 
-public class AzurePipelineAgentVariables : AzurePipelineVariableBase
+public record AzurePipelineAgentVariables : AzurePipelineVariableBase
 {
     protected override string Prefix => "Agent";
 

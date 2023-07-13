@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Azure.Pipelines;
 
-public class AzurePipelineVariables
+public record AzurePipelineVariables
 {
     public AzurePipelineAgentVariables Agent { get; }
 

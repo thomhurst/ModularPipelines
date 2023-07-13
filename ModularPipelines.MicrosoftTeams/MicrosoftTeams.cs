@@ -5,7 +5,7 @@ using ModularPipelines.MicrosoftTeams.Options;
 
 namespace ModularPipelines.MicrosoftTeams;
 
-public class MicrosoftTeams : IMicrosoftTeams
+internal class MicrosoftTeams : IMicrosoftTeams
 {
     public IModuleContext Context { get; }
 

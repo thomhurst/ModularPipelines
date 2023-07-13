@@ -13,7 +13,7 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Host;
 
-public class PipelineHostBuilder : IPipelineHostBuilder
+internal class  PipelineHostBuilder : IPipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
     private readonly PipelineEngineOverrides _overrides;

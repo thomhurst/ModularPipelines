@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Azure.Pipelines;
 
-public abstract class AzurePipelineVariableBase
+public abstract record AzurePipelineVariableBase
 {
     protected abstract string Prefix { get; }
 
