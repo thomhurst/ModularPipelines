@@ -6,5 +6,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeUnpauseOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 }

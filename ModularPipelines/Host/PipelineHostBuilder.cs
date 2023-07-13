@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
@@ -40,6 +41,12 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddTransient<ICertificates, Certificates>()
                 .AddTransient<IDownloader, Downloader>()
                 .AddTransient<IInstaller, Installer>()
+                .AddTransient<IFileInstaller, FileInstaller>()
+                .AddTransient<IPredefinedInstallers, PredefinedInstallers>()
+                .AddTransient<IWindowsInstaller, WindowsInstaller>()
+                .AddTransient<IMacInstaller, MacInstaller>()
+                .AddTransient<ILinuxInstaller, LinuxInstaller>()
+                .AddTransient<IAptGet, AptGet>()
                 .AddTransient<IHasher, Hasher>()
                 .AddTransient<IBase64, Base64>()
                 .AddTransient<IHex, Hex>()
@@ -108,17 +115,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
 
     public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
     {
-        LoadModularPipelineAssembliesIfNotLoadedYet();
-
-        _internalHost.ConfigureServices(collection =>
-        {
-            foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
-            {
-                contextRegistrationDelegate(collection);
-            }
-        });
-
-        var host = _internalHost.Build();
+        var host = BuildHost();
 
         await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
 
@@ -130,6 +127,22 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         {
             await ((ServiceProvider) host.Services).DisposeAsync();
         }
+    }
+
+    public IHost BuildHost()
+    {
+        LoadModularPipelineAssembliesIfNotLoadedYet();
+
+        _internalHost.ConfigureServices(collection =>
+        {
+            foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
+            {
+                contextRegistrationDelegate(collection);
+            }
+        });
+
+        var host = _internalHost.Build();
+        return host;
     }
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()

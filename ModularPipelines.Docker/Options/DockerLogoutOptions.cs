@@ -6,5 +6,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerLogoutOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Server { get; set; }
+    public string? Server { get; set; }
 }

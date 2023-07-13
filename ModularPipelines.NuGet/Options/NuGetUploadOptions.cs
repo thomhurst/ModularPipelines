@@ -11,7 +11,6 @@ public record NuGetUploadOptions
     Uri FeedUri
 ) : NuGetOptions
 {
-
     [CommandSwitch("-k")]
     [SecretValue]
     public string? ApiKey { get; init; }

@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeExecOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service, [property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 

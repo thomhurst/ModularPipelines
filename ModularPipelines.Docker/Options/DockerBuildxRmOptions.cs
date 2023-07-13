@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxRmOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [CommandSwitch("--all-inactive")]
     public string? AllInactive { get; set; }

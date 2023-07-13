@@ -3,9 +3,8 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("config create")]
-public record DockerConfigCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Config) : DockerOptions
+public record DockerConfigCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ConfigName) : DockerOptions
 {
-
     [CommandSwitch("--template-driver")]
     public string? TemplateDriver { get; set; }
 

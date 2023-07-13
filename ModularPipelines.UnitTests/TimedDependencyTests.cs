@@ -25,7 +25,6 @@ public class TimedDependencyTests
 
         Assert.Multiple(() =>
         {
-
             // 5 + 1
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900)));
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime, Is.GreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900)));

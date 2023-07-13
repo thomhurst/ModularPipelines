@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImageLsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Repository { get; set; }
+    public string? Repository { get; set; }
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm join")]
 public record DockerSwarmJoinOptions([property: PositionalArgument(Position = Position.AfterArguments)] string HostPort) : DockerOptions
 {
-
     [CommandSwitch("--advertise-addr")]
     public string? AdvertiseAddr { get; set; }
 

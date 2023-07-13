@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeUpOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
     [BooleanCommandSwitch("--abort-on-container-exit")]
     public bool? AbortOnContainerExit { get; set; }
 

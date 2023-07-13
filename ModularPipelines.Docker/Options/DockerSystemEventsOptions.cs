@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("system events")]
 public record DockerSystemEventsOptions : DockerOptions
 {
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

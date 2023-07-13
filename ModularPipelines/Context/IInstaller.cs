@@ -1,11 +1,10 @@
-﻿using ModularPipelines.Models;
-using ModularPipelines.Options;
-
-namespace ModularPipelines.Context;
+﻿namespace ModularPipelines.Context;
 
 public interface IInstaller
 {
-    Task<CommandResult> InstallFromFileAsync(InstallerOptions options, CancellationToken cancellationToken = default);
-    Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
-        CancellationToken cancellationToken = default);
+    IPredefinedInstallers PredefinedInstallers { get; }
+    IFileInstaller FileInstaller { get; }
+    ILinuxInstaller LinuxInstaller { get; }
+    IWindowsInstaller WindowsInstaller { get; }
+    IMacInstaller MacInstaller { get; }
 }

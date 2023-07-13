@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("scout compare")]
 public record DockerScoutCompareOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-
     [CommandSwitch("--exit-code")]
     public string? ExitCode { get; set; }
 

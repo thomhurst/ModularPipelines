@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("image history")]
 public record DockerImageHistoryOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
-
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

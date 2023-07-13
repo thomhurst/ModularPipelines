@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -66,7 +67,7 @@ public record DockerBuildOptions([property: PositionalArgument(Position = Positi
     public string? AddHost { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public string? BuildArg { get; set; }
+    public KeyValueVariables? BuildArgs { get; set; }
 
     [CommandSwitch("--cache-from")]
     public string? CacheFrom { get; set; }

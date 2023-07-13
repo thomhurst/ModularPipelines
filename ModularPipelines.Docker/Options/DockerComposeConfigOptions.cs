@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeConfigOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

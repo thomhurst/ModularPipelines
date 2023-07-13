@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.FileSystem;
 
@@ -17,7 +18,8 @@ public interface IEnvironmentContext
     /// <summary>
     /// The current operating system
     /// </summary>
-    public OperatingSystem OperatingSystem { get; }
+    public OSPlatform OperatingSystem { get; }
+    public Version OperatingSystemVersion { get; }
 
     /// <summary>
     /// Whether the current operating system is 64 bit

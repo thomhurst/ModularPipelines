@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("search")]
 public record DockerSearchOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Term) : DockerOptions
 {
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

@@ -12,7 +12,6 @@ public record NuGetSourceOptions
     string Name
 ) : NuGetOptions
 {
-
     [CommandSwitch("--username")]
     public string? Username { get; init; }
 

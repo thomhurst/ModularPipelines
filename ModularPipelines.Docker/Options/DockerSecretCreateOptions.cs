@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("secret create")]
 public record DockerSecretCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Secret) : DockerOptions
 {
-
     [CommandSwitch("--driver")]
     public string? Driver { get; set; }
 

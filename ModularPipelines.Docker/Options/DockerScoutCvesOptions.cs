@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutCvesOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Image { get; set; }
+    public string? Image { get; set; }
     [BooleanCommandSwitch("--details")]
     public bool? Details { get; set; }
 

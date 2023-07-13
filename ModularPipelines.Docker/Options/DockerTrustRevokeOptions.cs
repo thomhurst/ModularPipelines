@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerTrustRevokeOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Image { get; set; }
+    public string? Image { get; set; }
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }

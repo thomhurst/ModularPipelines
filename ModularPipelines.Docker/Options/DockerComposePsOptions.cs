@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposePsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Exceptions;
@@ -24,11 +25,15 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
         _command = command;
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
+
+        OperatingSystem = GetOperatingSystem();
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
 
-    public OperatingSystem OperatingSystem { get; } = Environment.OSVersion;
+    public OSPlatform OperatingSystem { get; }
+
+    public Version OperatingSystemVersion { get; } = Environment.OSVersion.Version;
 
     public bool Is64BitOperatingSystem { get; } = Environment.Is64BitOperatingSystem;
 
@@ -66,5 +71,30 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
         }
 
         GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
+    }
+
+    private OSPlatform GetOperatingSystem()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return OSPlatform.Linux;
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return OSPlatform.Windows;
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return OSPlatform.OSX;
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+        {
+            return OSPlatform.FreeBSD;
+        }
+
+        return OSPlatform.Create("Unknown");
     }
 }

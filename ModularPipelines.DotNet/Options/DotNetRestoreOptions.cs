@@ -5,7 +5,6 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("restore")]
 public record DotNetRestoreOptions : DotNetOptions
 {
-
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 

@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Reflection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Helpers;
 
-public abstract class CommandOptionsObjectArgumentParser
+public static class CommandOptionsObjectArgumentParser
 {
     public static void AddArgumentsFromOptionsObject(List<string> parsedArgs, object optionsArgumentsObject)
     {
@@ -12,16 +13,22 @@ public abstract class CommandOptionsObjectArgumentParser
 
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
 
-        foreach (var propertyInfo in positionalArgumentProperties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeArguments))
-        {
-            var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
+        var positionalArgumentsBefore = positionalArgumentProperties.Where(p =>
+            p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeArguments);
 
-            if (!string.IsNullOrEmpty(value))
-            {
-                parsedArgs.Add(value);
-            }
-        }
+        var positionalArgumentsAfter = positionalArgumentProperties
+            .Where(p =>
+                p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterArguments);
 
+        AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsBefore);
+
+        AddSwitches(parsedArgs, optionsArgumentsObject, properties);
+
+        AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsAfter);
+    }
+
+    private static void AddSwitches(List<string> parsedArgs, object optionsArgumentsObject, PropertyInfo[] properties)
+    {
         foreach (var propertyInfo in properties)
         {
             var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
@@ -33,15 +40,20 @@ public abstract class CommandOptionsObjectArgumentParser
 
             AddSwitches(parsedArgs, propertyValues, propertyInfo);
         }
+    }
 
-        foreach (var propertyInfo in positionalArgumentProperties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterArguments))
+    private static void AddPositionalArguments(List<string> parsedArgs, object optionsArgumentsObject, IEnumerable<PropertyInfo> positionalArgumentProperties)
+    {
+        foreach (var positionalArgumentPropertyInfo in positionalArgumentProperties)
         {
-            var value = propertyInfo.GetValue(optionsArgumentsObject)?.ToString();
+            var propertyValues = GetValues(optionsArgumentsObject, positionalArgumentPropertyInfo)?.ToList();
 
-            if (!string.IsNullOrEmpty(value))
+            if (propertyValues is null || !propertyValues.Any())
             {
-                parsedArgs.Add(value);
+                continue;
             }
+
+            parsedArgs.AddRange(propertyValues);
         }
     }
 
@@ -109,7 +121,7 @@ public abstract class CommandOptionsObjectArgumentParser
 
     private static string? GetSingleValue(object? rawValue)
     {
-        if (rawValue is null or IEnumerable and not IEnumerable<char>)
+        if (rawValue is null)
         {
             return null;
         }
@@ -117,6 +129,11 @@ public abstract class CommandOptionsObjectArgumentParser
         if (rawValue is string stringValue)
         {
             return stringValue;
+        }
+
+        if (rawValue is IEnumerable and not IEnumerable<char>)
+        {
+            return null;
         }
 
         if (rawValue is bool boolValue)
@@ -154,6 +171,11 @@ public abstract class CommandOptionsObjectArgumentParser
 
     private static IEnumerable<string>? GetValues(object? rawValue)
     {
+        if (rawValue is KeyValueVariables keyValueVariables)
+        {
+            return ParseKeyValueVariables(keyValueVariables);
+        }
+
         if (rawValue is not IEnumerable enumerable)
         {
             return null;
@@ -176,6 +198,16 @@ public abstract class CommandOptionsObjectArgumentParser
             .ToList();
 
         return list1.Concat(list2);
+    }
+
+    private static IEnumerable<string>? ParseKeyValueVariables(KeyValueVariables keyValueVariables)
+    {
+        var separator = keyValueVariables.Separator;
+
+        foreach (var (key, value) in keyValueVariables)
+        {
+            yield return $"{key}{separator}{value}";
+        }
     }
 
     private static string ParseEnum(object rawValue)

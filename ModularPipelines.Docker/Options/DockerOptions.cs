@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 public record DockerOptions() : CommandLineToolOptions("docker")
 {
-
     [CommandSwitch("--config")]
     public string? Config { get; set; }
 

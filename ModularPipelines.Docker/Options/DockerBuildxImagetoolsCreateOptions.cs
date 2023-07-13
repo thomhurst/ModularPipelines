@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Source { get; set; }
+    public IEnumerable<string>? Source { get; set; }
 
     [CommandSwitch("--progress")]
     public string? Progress { get; set; }

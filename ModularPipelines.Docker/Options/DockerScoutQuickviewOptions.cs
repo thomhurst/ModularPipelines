@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutQuickviewOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
     [CommandSwitch("--output")]
     public string? Output { get; set; }

@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm update")]
 public record DockerSwarmUpdateOptions : DockerOptions
 {
-
     [CommandSwitch("--autolock")]
     public string? Autolock { get; set; }
 

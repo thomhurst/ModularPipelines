@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Analyzers.Test;
 
-public class Net
+internal class Net
 {
     private static readonly Lazy<ReferenceAssemblies> LazyNet60 = new(() =>
         new ReferenceAssemblies(

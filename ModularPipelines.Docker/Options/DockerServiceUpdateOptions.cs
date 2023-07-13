@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("service update")]
 public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
-
     [CommandSwitch("--args")]
     public string? Args { get; set; }
 

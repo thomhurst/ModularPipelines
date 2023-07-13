@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm ca")]
 public record DockerSwarmCaOptions : DockerOptions
 {
-
     [CommandSwitch("--ca-cert")]
     public string? CaCert { get; set; }
 

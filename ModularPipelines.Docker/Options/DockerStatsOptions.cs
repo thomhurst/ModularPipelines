@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerStatsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Container { get; set; }
+    public IEnumerable<string>? Container { get; set; }
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutRecommendationsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
     [CommandSwitch("--only-refresh")]
     public string? OnlyRefresh { get; set; }

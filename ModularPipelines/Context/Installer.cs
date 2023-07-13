@@ -1,37 +1,23 @@
-﻿using ModularPipelines.Models;
-using ModularPipelines.Options;
-
-namespace ModularPipelines.Context;
+﻿namespace ModularPipelines.Context;
 
 internal class Installer : IInstaller
 {
-    private readonly ICommand _command;
-    private readonly IDownloader _downloader;
+    public IPredefinedInstallers PredefinedInstallers { get; }
 
-    public Installer(ICommand command, IDownloader downloader)
+    public IFileInstaller FileInstaller { get; }
+
+    public ILinuxInstaller LinuxInstaller { get; }
+
+    public IWindowsInstaller WindowsInstaller { get; }
+
+    public IMacInstaller MacInstaller { get; }
+
+    public Installer(IPredefinedInstallers predefinedInstallers, IFileInstaller fileInstaller, ILinuxInstaller linuxInstaller, IWindowsInstaller windowsInstaller, IMacInstaller macInstaller)
     {
-        _command = command;
-        _downloader = downloader;
+        PredefinedInstallers = predefinedInstallers;
+        FileInstaller = fileInstaller;
+        LinuxInstaller = linuxInstaller;
+        WindowsInstaller = windowsInstaller;
+        MacInstaller = macInstaller;
     }
-
-    public Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
-        CancellationToken cancellationToken = default)
-    {
-        return _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
-        {
-            Arguments = options.Arguments ?? Array.Empty<string>()
-        }, cancellationToken);
-    }
-
-    public async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
-        CancellationToken cancellationToken = default)
-    {
-        var file = await _downloader.DownloadFileAsync(new DownloadOptions(options.DownloadUri), cancellationToken);
-
-        return await InstallFromFileAsync(new InstallerOptions(file.Path)
-        {
-            Arguments = options.Arguments
-        }, cancellationToken);
-    }
-
 }
