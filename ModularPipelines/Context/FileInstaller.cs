@@ -13,7 +13,7 @@ public class FileInstaller : IFileInstaller
         _command = command;
         _downloader = downloader;
     }
-    
+
     public Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {

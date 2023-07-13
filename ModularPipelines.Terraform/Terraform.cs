@@ -12,7 +12,7 @@ public class Terraform : ITerraform
     {
         _command = command;
     }
-    
+
     public async Task<CommandResult> Apply(TerraformApplyOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformApplyOptions(), token);
@@ -59,7 +59,7 @@ public class Terraform : ITerraform
     {
         return await _command.ExecuteCommandLineTool(options ?? new TerraformInitOptions(), token);
     }
-    
+
     public async Task<CommandResult> Output(TerraformOutputOptions? options = default,
         CancellationToken token = default)
     {

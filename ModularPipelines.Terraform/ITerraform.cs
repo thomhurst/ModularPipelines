@@ -22,7 +22,7 @@ public interface ITerraform
     Task<CommandResult> Import(TerraformImportOptions options, CancellationToken token = default);
 
     Task<CommandResult> Init(TerraformInitOptions? options = default, CancellationToken token = default);
-    
+
     Task<CommandResult> Output(TerraformOutputOptions? options = default, CancellationToken token = default);
 
     Task<CommandResult> Plan(TerraformPlanOptions? options = default, CancellationToken token = default);

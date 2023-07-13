@@ -11,7 +11,7 @@ public class AptGet : IAptGet
     {
         _command = command;
     }
-    
+
     public async Task<CommandResult> Autoclean(AptGetAutocleanOptions? options = default,
         CancellationToken token = default)
     {

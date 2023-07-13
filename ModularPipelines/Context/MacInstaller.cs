@@ -12,7 +12,7 @@ internal class MacInstaller : IMacInstaller
     {
         _command = command;
     }
-    
+
     public async Task<CommandResult> InstallFromBrew(MacBrewOptions macBrewOptions)
     {
         return await _command.ExecuteCommandLineTool(macBrewOptions);

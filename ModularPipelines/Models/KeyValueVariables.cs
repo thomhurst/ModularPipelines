@@ -10,12 +10,12 @@ public class KeyValueVariables : IDictionary<string, string>
     public KeyValueVariables() : this("=")
     {
     }
-    
+
     public KeyValueVariables(string separator)
     {
         Separator = separator;
     }
-    
+
     public static implicit operator KeyValueVariables(Dictionary<string, string> dictionary)
     {
         return FromDictionary(dictionary);
@@ -24,12 +24,12 @@ public class KeyValueVariables : IDictionary<string, string>
     public static KeyValueVariables FromDictionary(IDictionary<string, string> dictionary, string separator = "=")
     {
         var keyValueVariables = new KeyValueVariables(separator);
-        
+
         foreach (var (key, value) in dictionary)
         {
             keyValueVariables.Add(key, value);
         }
-        
+
         return keyValueVariables;
     }
 

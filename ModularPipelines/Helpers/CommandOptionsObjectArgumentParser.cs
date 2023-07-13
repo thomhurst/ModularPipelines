@@ -19,7 +19,7 @@ public static class CommandOptionsObjectArgumentParser
         var positionalArgumentsAfter = positionalArgumentProperties
             .Where(p =>
                 p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterArguments);
-        
+
         AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsBefore);
 
         AddSwitches(parsedArgs, optionsArgumentsObject, properties);
@@ -125,12 +125,12 @@ public static class CommandOptionsObjectArgumentParser
         {
             return null;
         }
-        
+
         if (rawValue is string stringValue)
         {
             return stringValue;
         }
-        
+
         if (rawValue is IEnumerable and not IEnumerable<char>)
         {
             return null;
@@ -175,7 +175,7 @@ public static class CommandOptionsObjectArgumentParser
         {
             return ParseKeyValueVariables(keyValueVariables);
         }
-        
+
         if (rawValue is not IEnumerable enumerable)
         {
             return null;

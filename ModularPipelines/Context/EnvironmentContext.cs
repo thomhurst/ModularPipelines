@@ -79,17 +79,17 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
         {
             return OSPlatform.Linux;
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             return OSPlatform.Windows;
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             return OSPlatform.OSX;
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
         {
             return OSPlatform.FreeBSD;

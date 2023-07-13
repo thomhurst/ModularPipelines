@@ -6,10 +6,10 @@ public record ExeInstallerOptions(string ExePath) : CommandLineToolOptions(ExePa
 {
     [BooleanCommandSwitch("/exenoui")]
     public bool? DisableUserInterface { get; set; } = true;
-    
+
     [BooleanCommandSwitch("/qn")]
     public bool Quiet { get; } = true;
-    
+
     [BooleanCommandSwitch("/norestart")]
     public bool NoRestart { get; } = true;
 }

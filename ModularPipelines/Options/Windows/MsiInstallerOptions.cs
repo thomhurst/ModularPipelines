@@ -6,10 +6,10 @@ public record MsiInstallerOptions([property: CommandSwitch("/package")] string M
 {
     [BooleanCommandSwitch("/quiet")]
     public bool Quiet { get; } = true;
-    
+
     [BooleanCommandSwitch("/qn")]
     public bool? DisableUserInterface { get; set; } = true;
-    
+
     [BooleanCommandSwitch("/norestart")]
     public bool NoRestart { get; } = true;
 }
