@@ -5,7 +5,6 @@ namespace ModularPipelines.DotNet.Options;
 [CommandPrecedingArguments("clean")]
 public record DotNetCleanOptions : DotNetOptions
 {
-
     [CommandSwitch("-c")]
     public Configuration? Configuration { get; init; }
 

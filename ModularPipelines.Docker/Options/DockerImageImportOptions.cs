@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImageImportOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Repository { get; set; }
+    public string? Repository { get; set; }
 
     [CommandSwitch("--change")]
     public string? Change { get; set; }

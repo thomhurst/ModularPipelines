@@ -41,4 +41,6 @@ public record CommandLineOptions
     /// E.g. if you want to replace a secret value with stars
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
+    
+    internal bool InternalDryRun { get; set; }
 }

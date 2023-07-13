@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxBakeOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Target { get; set; }
+    public IEnumerable<string>? Target { get; set; }
 
     [CommandSwitch("--load")]
     public string? Load { get; set; }

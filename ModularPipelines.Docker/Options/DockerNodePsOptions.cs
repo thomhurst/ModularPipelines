@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNodePsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Node { get; set; }
+    public IEnumerable<string>? Node { get; set; }
     [BooleanCommandSwitch("--no-resolve")]
     public bool? NoResolve { get; set; }
 

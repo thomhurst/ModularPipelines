@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImagePullOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     [BooleanCommandSwitch("--all-tags")]
     public bool? AllTags { get; set; }
 

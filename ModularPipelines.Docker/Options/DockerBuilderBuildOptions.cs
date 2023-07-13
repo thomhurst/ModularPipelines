@@ -1,16 +1,16 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("builder build")]
 public record DockerBuilderBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
 {
-
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public string? BuildArg { get; set; }
+    public KeyValueVariables? BuildArgs { get; set; }
 
     [CommandSwitch("--cache-from")]
     public string? CacheFrom { get; set; }

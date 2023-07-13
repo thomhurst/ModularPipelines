@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Context { get; set; }
+    public string? Context { get; set; }
 
     [CommandSwitch("--bootstrap")]
     public string? Bootstrap { get; set; }
@@ -16,9 +16,6 @@ public record DockerBuildxCreateOptions : DockerOptions
 
     [CommandSwitch("--buildkitd-flags")]
     public string? BuildkitdFlags { get; set; }
-
-    [CommandSwitch("--config")]
-    public string? Config { get; set; }
 
     [CommandSwitch("--driver")]
     public string? Driver { get; set; }

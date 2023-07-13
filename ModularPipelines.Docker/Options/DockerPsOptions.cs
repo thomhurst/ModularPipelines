@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("ps")]
 public record DockerPsOptions : DockerOptions
 {
-
     [CommandSwitch("--last")]
     public int? Last { get; set; }
 

@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeDownOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Services { get; set; }
+    public string? Services { get; set; }
     [BooleanCommandSwitch("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 

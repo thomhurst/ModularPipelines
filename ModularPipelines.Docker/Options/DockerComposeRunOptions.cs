@@ -9,7 +9,7 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     public string? Command { get; set; }
 
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
     [BooleanCommandSwitch("--build")]
     public bool? Build { get; set; }
 

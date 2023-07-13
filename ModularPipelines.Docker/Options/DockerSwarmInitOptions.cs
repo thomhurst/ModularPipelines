@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("swarm init")]
 public record DockerSwarmInitOptions : DockerOptions
 {
-
     [CommandSwitch("--advertise-addr")]
     public string? AdvertiseAddr { get; set; }
 

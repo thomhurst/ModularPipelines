@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContextInspectOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> ContextNames { get; set; }
+    public IEnumerable<string>? ContextNames { get; set; }
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

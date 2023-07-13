@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("volume ls")]
 public record DockerVolumeLsOptions : DockerOptions
 {
-
     [CommandSwitch("--cluster")]
     public string? Cluster { get; set; }
 

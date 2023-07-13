@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("stack config")]
 public record DockerStackConfigOptions : DockerOptions
 {
-
     [CommandSwitch("--compose-file")]
     public string? ComposeFile { get; set; }
 

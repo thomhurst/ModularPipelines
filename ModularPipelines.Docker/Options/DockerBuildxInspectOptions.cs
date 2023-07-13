@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxInspectOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [CommandSwitch("--bootstrap")]
     public string? Bootstrap { get; set; }

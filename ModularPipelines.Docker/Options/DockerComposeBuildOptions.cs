@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -6,10 +7,10 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeBuildOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public IEnumerable<string> Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public string? BuildArg { get; set; }
+    public KeyValueVariables? BuildArgs { get; set; }
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

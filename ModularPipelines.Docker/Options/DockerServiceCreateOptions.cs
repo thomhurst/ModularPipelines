@@ -65,9 +65,6 @@ public record DockerServiceCreateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--health-timeout")]
     public string? HealthTimeout { get; set; }
 
-    [CommandSwitch("--host")]
-    public string? Host { get; set; }
-
     [CommandSwitch("--init")]
     public string? Init { get; set; }
 
@@ -175,9 +172,6 @@ public record DockerServiceCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
-    [CommandSwitch("--config")]
-    public string? Config { get; set; }
 
     [CommandSwitch("--constraint")]
     public string? Constraint { get; set; }

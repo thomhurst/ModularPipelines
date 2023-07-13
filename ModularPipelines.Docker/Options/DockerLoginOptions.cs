@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerLoginOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Server { get; set; }
+    public string? Server { get; set; }
 
     [CommandSwitch("--password")]
     public string? Password { get; set; }

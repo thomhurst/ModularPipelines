@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerPluginUpgradeOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Remote { get; set; }
+    public string? Remote { get; set; }
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 

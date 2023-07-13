@@ -6,5 +6,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContextExportOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Context) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string File { get; set; }
+    public string? File { get; set; }
 }

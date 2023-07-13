@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutSbomOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }

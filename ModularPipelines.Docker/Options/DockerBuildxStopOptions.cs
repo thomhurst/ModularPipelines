@@ -6,5 +6,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxStopOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

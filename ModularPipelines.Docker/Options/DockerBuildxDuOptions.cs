@@ -5,7 +5,6 @@ namespace ModularPipelines.Docker.Options;
 [CommandPrecedingArguments("buildx du")]
 public record DockerBuildxDuOptions : DockerOptions
 {
-
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
