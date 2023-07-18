@@ -20,39 +20,29 @@ internal class DotNet : IDotNet
         _fileSystemContext = fileSystemContext;
     }
 
-    public Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Build(DotNetBuildOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Publish(DotNetPublishOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Pack(DotNetPackOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Clean(DotNetCleanOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
     public async Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default)
@@ -78,27 +68,20 @@ internal class DotNet : IDotNet
         return parsedTestResults;
     }
 
-    public Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)
     {
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        return ExecuteCommandLineTool(options, args, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> Version(DotNetOptions? options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Version(DotNetOptions? options, CancellationToken cancellationToken = default)
     {
         options ??= new DotNetOptions();
 
-        return ExecuteCommandLineTool(options, new[] { "--version" }, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options.WithArguments("--version"), cancellationToken);
     }
 
     public Task<CommandResult> CustomCommand(DotNetCommandOptions options, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineTool(options.WithArguments(options.Command ?? ArraySegment<string>.Empty), cancellationToken);
-    }
-
-    private Task<CommandResult> ExecuteCommandLineTool(DotNetOptions options, IEnumerable<string> arguments, CancellationToken cancellationToken)
-    {
-        return _command.ExecuteCommandLineTool(options.WithArguments(arguments), cancellationToken);
     }
 }
