@@ -43,4 +43,5 @@ public record CommandLineOptions
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
     internal bool InternalDryRun { get; set; }
+    public bool DoNotErrorOnNonZeroExitCode { get; set; }
 }

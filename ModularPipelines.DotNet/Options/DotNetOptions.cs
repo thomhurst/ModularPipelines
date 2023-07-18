@@ -5,6 +5,7 @@ namespace ModularPipelines.DotNet.Options;
 
 public record DotNetOptions() : CommandLineToolOptions("dotnet")
 {
+    [PositionalArgument]
     public string? TargetPath { get; init; }
 
     [CommandEqualsSeparatorSwitch("--runtime", SwitchValueSeparator = " ")]

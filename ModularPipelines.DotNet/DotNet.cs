@@ -1,6 +1,8 @@
 ﻿using ModularPipelines.Models;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 
 namespace ModularPipelines.DotNet;
@@ -60,13 +62,20 @@ internal class DotNet : IDotNet
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
 
-        var args = new List<string>();
-        args.AddNonNullOrEmpty(options.TargetPath);
-        await ExecuteCommandLineTool(options, args, cancellationToken);
+        options.DoNotErrorOnNonZeroExitCode = true;
+
+        var result = await _command.ExecuteCommandLineTool(options, cancellationToken);
 
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
-        return _trxParser.ParseTestResult(trxContents);
+        var parsedTestResults = _trxParser.ParseTestResult(trxContents);
+
+        if (!parsedTestResults.Successful || result.ExitCode != 0)
+        {
+            throw new DotNetTestFailedException(result, parsedTestResults);
+        }
+        
+        return parsedTestResults;
     }
 
     public Task<CommandResult> Format(DotNetFormatOptions options, CancellationToken cancellationToken = default)

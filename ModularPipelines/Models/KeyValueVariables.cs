@@ -89,7 +89,7 @@ public class KeyValueVariables : IDictionary<string, string>
 
     public bool TryGetValue(string key, out string value)
     {
-        return _innerDictionary.TryGetValue(key, out value);
+        return _innerDictionary.TryGetValue(key, out value!);
     }
 
     public string this[string key]

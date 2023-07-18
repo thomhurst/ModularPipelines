@@ -14,9 +14,6 @@ public record DockerScoutRecommendationsOptions : DockerOptions
     [CommandSwitch("--only-update")]
     public string? OnlyUpdate { get; set; }
 
-    [CommandSwitch("--output")]
-    public string? Output { get; set; }
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

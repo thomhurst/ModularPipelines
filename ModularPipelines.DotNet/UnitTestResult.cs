@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet;
 
@@ -19,19 +20,19 @@ public record UnitTestResult
     public string? ComputerName { get; init; }
 
     [XmlAttribute("duration")]
-    public string? Duration { get; init; }
+    public TimeSpan? Duration { get; init; }
 
     [XmlAttribute("startTime")]
-    public string? StartTime { get; init; }
+    public DateTimeOffset? StartTime { get; init; }
 
     [XmlAttribute("endTime")]
-    public string? EndTime { get; init; }
+    public DateTimeOffset? EndTime { get; init; }
 
     [XmlAttribute("testType")]
     public string? TestType { get; init; }
 
     [XmlAttribute("outcome")]
-    public string? Outcome { get; init; }
+    public TestOutcome? Outcome { get; init; }
 
     [XmlAttribute("testListId")]
     public string? TestListId { get; init; }
