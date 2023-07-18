@@ -1,6 +1,6 @@
-﻿using ModularPipelines.Cmd.Extensions;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -41,6 +41,9 @@ public class DockerTests : TestBase
 
         var result = await module;
 
-        Assert.That(result.Value!.CommandInput, Is.EqualTo("docker build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env --output type=local,dest=out C:\\git\\other\\Pipeline.NET\\src\\MyApp\\Dockerfile"));
+        var dockerfilePath = new Folder(Environment.CurrentDirectory).Parent!.Parent!.Parent!.Parent!.GetFolder("src")
+            .GetFolder("MyApp").GetFile("Dockerfile").Path;
+
+        Assert.That(result.Value!.CommandInput, Is.EqualTo($"docker build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env --output type=local,dest=out {dockerfilePath}"));
     }
 }
