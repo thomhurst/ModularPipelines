@@ -26,14 +26,14 @@ public class DotNetTestFailedException : PipelineException
             }
 
             var sb = new StringBuilder();
-        
+
             foreach (var unitTestResult in unitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
             {
                 sb.AppendLine($"Failed Test: {unitTestResult.TestName}");
                 sb.AppendLine($"Output: {unitTestResult.Output}");
             }
 
-            return sb.ToString();       
+            return sb.ToString();
         }
     }
 
