@@ -24,13 +24,6 @@ public class PackProjectsModule : Module<List<CommandResult>>
 
         foreach (var projectFile in projectFiles)
         {
-            await context.DotNet().Build(new DotNetBuildOptions
-            {
-                TargetPath = projectFile.Path,
-                Configuration = Configuration.Release,
-                LogOutput = false
-            }, cancellationToken);
-
             results.Add(await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
