@@ -29,9 +29,6 @@ public record DockerComposeConfigOptions : DockerOptions
     [BooleanCommandSwitch("--no-path-resolution")]
     public bool? NoPathResolution { get; set; }
 
-    [CommandSwitch("--output")]
-    public string? Output { get; set; }
-
     [CommandSwitch("--profiles")]
     public string? Profiles { get; set; }
 

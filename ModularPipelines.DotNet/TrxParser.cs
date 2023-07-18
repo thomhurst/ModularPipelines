@@ -1,17 +1,10 @@
 ﻿using System.Xml.Linq;
-using ModularPipelines.Context;
+using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet;
 
 internal class TrxParser : ITrxParser
 {
-    private readonly IXml _xml;
-
-    public TrxParser(IXml xml)
-    {
-        _xml = xml;
-    }
-
     public DotNetTestResult ParseTestResult(string input)
     {
         return new DotNetTestResult(GetUnitTestResults(input));
@@ -33,11 +26,11 @@ internal class TrxParser : ITrxParser
             TestId = element.Attribute("testId")!.Value,
             TestName = element.Attribute("testName")!.Value,
             ComputerName = element.Attribute("computerName")!.Value,
-            Duration = element.Attribute("duration")!.Value,
-            StartTime = element.Attribute("startTime")!.Value,
-            EndTime = element.Attribute("endTime")!.Value,
+            Duration = TimeSpan.Parse(element.Attribute("duration")!.Value),
+            StartTime = DateTimeOffset.Parse(element.Attribute("startTime")!.Value),
+            EndTime = DateTimeOffset.Parse(element.Attribute("endTime")!.Value),
             TestType = element.Attribute("testType")!.Value,
-            Outcome = element.Attribute("outcome")!.Value,
+            Outcome = Enum.Parse<TestOutcome>(element.Attribute("outcome")!.Value),
             TestListId = element.Attribute("testListId")!.Value,
             RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")!.Value,
             Output = new TestOutput

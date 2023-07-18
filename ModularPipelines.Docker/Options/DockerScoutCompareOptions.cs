@@ -29,9 +29,6 @@ public record DockerScoutCompareOptions([property: PositionalArgument(Position =
     [CommandSwitch("--only-unfixed")]
     public string? OnlyUnfixed { get; set; }
 
-    [CommandSwitch("--output")]
-    public string? Output { get; set; }
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

@@ -3,6 +3,6 @@
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("wait")]
-public record DockerWaitOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Container) : DockerOptions
+public record DockerWaitOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Containers) : DockerOptions
 {
 }

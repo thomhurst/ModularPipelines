@@ -75,9 +75,6 @@ public record DockerBuildxBuildOptions([property: PositionalArgument(Position = 
     [CommandSwitch("--metadata-file")]
     public string? MetadataFile { get; set; }
 
-    [CommandSwitch("--output")]
-    public string? Output { get; set; }
-
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 
