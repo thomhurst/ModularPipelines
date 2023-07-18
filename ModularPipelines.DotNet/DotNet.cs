@@ -74,7 +74,7 @@ internal class DotNet : IDotNet
         {
             throw new DotNetTestFailedException(result, parsedTestResults);
         }
-        
+
         return parsedTestResults;
     }
 

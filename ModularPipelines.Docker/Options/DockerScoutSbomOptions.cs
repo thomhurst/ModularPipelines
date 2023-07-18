@@ -13,7 +13,7 @@ public record DockerScoutSbomOptions : DockerOptions
 
     [CommandSwitch("--only-package-type")]
     public string? OnlyPackageType { get; set; }
-    
+
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

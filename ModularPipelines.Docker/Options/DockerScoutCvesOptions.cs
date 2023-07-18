@@ -36,7 +36,7 @@ public record DockerScoutCvesOptions : DockerOptions
 
     [CommandSwitch("--only-unfixed")]
     public string? OnlyUnfixed { get; set; }
-    
+
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
 

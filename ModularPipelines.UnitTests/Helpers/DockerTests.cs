@@ -17,7 +17,7 @@ public class DockerTests : TestBase
                 .GetFolder("src")
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
-            
+
             return await context.Docker().Build(new(pretendPath)
             {
                 InternalDryRun = true,
@@ -33,12 +33,12 @@ public class DockerTests : TestBase
             }, token: cancellationToken);
         }
     }
-    
+
     [Test]
     public async Task DockerBuild_CorrectInputCommand()
     {
         var module = await RunModule<DockerBuildModule>();
-   
+
         var result = await module;
 
         Assert.That(result.Value!.CommandInput, Is.EqualTo("docker build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env --output type=local,dest=out C:\\git\\other\\Pipeline.NET\\src\\MyApp\\Dockerfile"));
