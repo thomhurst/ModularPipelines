@@ -1,5 +1,10 @@
 # ModularPipelines
 
+![Nuget](https://img.shields.io/nuget/dt/ModularPipelines)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thomhurst/ModularPipelines/dotnet.yml)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/thomhurst/ModularPipelines/main)
+
+
 ## Work in Progress
 I'd really appreciate some feedback around what people think, and anything that could improved.
 If you'd like to install, the packages are available on NuGet, just make sure to show 'prerelease' packages!
