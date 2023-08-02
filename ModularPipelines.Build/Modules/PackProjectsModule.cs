@@ -72,7 +72,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
         // Not yet ready
         if (path.EndsWith("ModularPipelines.AWS.csproj"))
         {
-            return true;
+            return false;
         }
 
         context.Logger.LogInformation("Found File: {File}", path);
