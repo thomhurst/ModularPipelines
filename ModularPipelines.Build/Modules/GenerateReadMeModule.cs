@@ -35,7 +35,7 @@ public class GenerateReadMeModule : Module
         {
             var moduleName = availableModule.NameWithoutExtension
                 .Replace($".{nugetVersion.Value!}", string.Empty);
-            
+
             var url = $"https://nuget.org/packages/{moduleName}";
 
             generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) | [{url}]({url} |");
