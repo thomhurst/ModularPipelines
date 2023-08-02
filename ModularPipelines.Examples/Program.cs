@@ -29,9 +29,9 @@ var modules = await PipelineHostBuilder.Create()
             // .AddModule<SuccessModule3>()
             // .AddModule<IgnoredModule>()
             // .AddModule<FailedModule>()
-            // .AddModule<GitVersionModule>()
-            .AddModule<GitLastCommitModule>()
-            .AddModule<DotnetTestModule>();
+            .AddModule<GitVersionModule>()
+            .AddModule<GitLastCommitModule>();
+        // .AddModule<DotnetTestModule>();
         // .AddModule<DependentOnSuccessModule>()
         // .AddModule<NugetVersionGeneratorModule>();
         //.AddModule<NotepadPlusPlusInstallerModule>()

@@ -44,6 +44,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Kubernetes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Terraform", "ModularPipelines.Terraform\ModularPipelines.Terraform.csproj", "{4FF0B74A-CC18-4B90-B50C-E8564F5136B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "ModularPipelines.Azure\ModularPipelines.Azure.csproj", "{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AWS", "ModularPipelines.AWS\ModularPipelines.AWS.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +134,14 @@ Global
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

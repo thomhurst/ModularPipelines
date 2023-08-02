@@ -1,7 +1,6 @@
 ﻿using ModularPipelines.Models;
 using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 
 namespace ModularPipelines.Cmd;
 

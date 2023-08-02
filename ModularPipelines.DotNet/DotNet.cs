@@ -2,7 +2,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 
 namespace ModularPipelines.DotNet;

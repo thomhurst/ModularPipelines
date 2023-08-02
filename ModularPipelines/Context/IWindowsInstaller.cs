@@ -1,5 +1,4 @@
 ﻿using ModularPipelines.Models;
-using ModularPipelines.Options;
 using ModularPipelines.Options.Windows;
 
 namespace ModularPipelines.Context;

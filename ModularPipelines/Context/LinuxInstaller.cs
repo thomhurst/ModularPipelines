@@ -1,6 +1,5 @@
 ﻿using ModularPipelines.Context.Linux;
 using ModularPipelines.Models;
-using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Linux.AptGet;
 

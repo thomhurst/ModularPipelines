@@ -16,13 +16,17 @@ internal class Downloader : IDownloader
         _defaultHttpClient = defaultHttpClient;
     }
 
-    public async Task<File> DownloadFileAsync(DownloadOptions options, CancellationToken cancellationToken = default)
+    public async Task<string?> DownloadStringAsync(DownloadOptions options,
+        CancellationToken cancellationToken = default)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, options.DownloadUri);
+        var response = await DownloadResponseAsync(options, cancellationToken);
 
-        options.RequestConfigurator?.Invoke(request);
+        return await response.Content.ReadAsStringAsync(cancellationToken);
+    }
 
-        var response = await (options.HttpClient ?? _defaultHttpClient).GetAsync(options.DownloadUri, cancellationToken);
+    public async Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
+    {
+        var response = await DownloadResponseAsync(options, cancellationToken);
 
         await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
@@ -42,7 +46,18 @@ internal class Downloader : IDownloader
         return filePathToSave!;
     }
 
-    private string GetSaveLocation(DownloadOptions options)
+    public async Task<HttpResponseMessage> DownloadResponseAsync(DownloadOptions options, CancellationToken cancellationToken = default)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, options.DownloadUri);
+
+        options.RequestConfigurator?.Invoke(request);
+
+        var response = await (options.HttpClient ?? _defaultHttpClient).GetAsync(options.DownloadUri, cancellationToken);
+
+        return response.EnsureSuccessStatusCode();
+    }
+
+    private string GetSaveLocation(DownloadFileOptions options)
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
         {

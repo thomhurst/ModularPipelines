@@ -66,7 +66,7 @@ public class PredefinedInstallers : IPredefinedInstallers
             return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell"));
         }
 
-        var linuxFile = await _downloader.DownloadFileAsync(new DownloadOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb")));
+        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb")));
 
         return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile));
     }

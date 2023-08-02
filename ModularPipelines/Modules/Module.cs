@@ -238,8 +238,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            var modules = DependentModules.Select(x => _context.GetModule(x.Type)).ToList();
-
             var tasks = DependentModules.Select(dependsOnAttribute =>
             {
                 var module = _context.GetModule(dependsOnAttribute.Type);
@@ -258,25 +256,12 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return module.ResultTaskInternal;
             });
 
-            foreach (var moduleBase in modules.OfType<ModuleBase>())
-            {
-                var result = await moduleBase.ResultTaskInternal;
-                if (IsSkippedResult(result))
-                {
-                    throw new DependsOnSkippedModuleException(this, moduleBase);
-                }
-            }
+            await Task.WhenAll(tasks);
         }
         catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
         {
             _context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
-    }
-
-    private bool IsSkippedResult(object result)
-    {
-        var resultType = result.GetType();
-        return resultType.IsGenericType && resultType.GetGenericTypeDefinition() == typeof(SkippedModuleResult<>);
     }
 
     internal override void SetSkipped()

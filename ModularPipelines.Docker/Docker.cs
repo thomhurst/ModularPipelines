@@ -1,6 +1,5 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Docker.Options;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker;

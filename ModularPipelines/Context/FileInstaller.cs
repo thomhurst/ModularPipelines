@@ -26,7 +26,7 @@ public class FileInstaller : IFileInstaller
     public async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        var file = await _downloader.DownloadFileAsync(new DownloadOptions(options.DownloadUri), cancellationToken);
+        var file = await _downloader.DownloadFileAsync(new DownloadFileOptions(options.DownloadUri), cancellationToken);
 
         return await InstallFromFileAsync(new InstallerOptions(file.Path)
         {
