@@ -26,9 +26,9 @@ public class GenerateReadMeModule : Module
             .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers"))
             .OrderBy(x => x.NameWithoutExtension)
             .ToList();
-        
+
         var nugetVersion = await GetModule<NugetVersionGeneratorModule>();
-        
+
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Version | URL |");
