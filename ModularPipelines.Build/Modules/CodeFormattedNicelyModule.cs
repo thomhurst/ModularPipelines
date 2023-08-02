@@ -35,62 +35,21 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 throw;
             }
-
-            var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
-
-            await context.Git().Commands.Config(new GitConfigOptions
-            {
-                Local = true,
-                Arguments = new List<string>
-                {
-                    "user.email", "thomhurst@users.noreply.github.com"
-                }
-            }, cancellationToken);
-
-            await context.Git().Commands.Config(new GitConfigOptions
-            {
-                Local = true,
-                Arguments = new List<string>
-                {
-                    "user.name", "Tom Longhurst"
-                }
-            }, cancellationToken);
-
-            await context.Git().Commands.Remote(new GitRemoteOptions
-            {
-                Arguments = new[]
-                {
-                    "set-url", "origin",
-                    $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
-                }
-            }, cancellationToken);
-
-            await context.Git().Commands.Fetch(new GitFetchOptions(), token: cancellationToken);
-
-            await context.Git().Commands
-                .Checkout(new GitCheckoutOptions(branchTriggeringPullRequest), cancellationToken);
-
-            // Actually perform the formatting
+            
             await context.DotNet().Format(new DotNetFormatOptions
             {
                 WorkingDirectory = context.Environment.GitRootDirectory!,
                 VerifyNoChanges = false
             }, cancellationToken);
 
-            // Commit the formatting
-            await context.Git().Commands.Add(new GitAddOptions
-            {
-                All = true
-            }, token: cancellationToken);
-            await context.Git().Commands.Commit(new GitCommitOptions
-            {
-                Message = DotnetFormatGitMessage
-            }, token: cancellationToken);
+            var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
 
-            await context.Git().Commands.Push(new GitPushOptions
-            {
-                Arguments = new[] { "-u", "origin", $"HEAD:{branchTriggeringPullRequest}" }
-            }, token: cancellationToken);
+            await GitHelpers.SetUserCommitInformation(context, cancellationToken);
+
+            await GitHelpers.CheckoutBranch(context, branchTriggeringPullRequest, cancellationToken);
+
+            await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, DotnetFormatGitMessage,
+                cancellationToken);
 
             // Fail this run - The git push will trigger a new run
             throw new Exception("Formatting code. This run will abort. Another run will trigger with the formatted code.");

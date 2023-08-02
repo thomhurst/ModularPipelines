@@ -1,5 +1,4 @@
 ﻿using ModularPipelines.Attributes;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Options.Linux.AptGet;
 

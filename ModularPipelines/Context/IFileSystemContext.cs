@@ -33,4 +33,6 @@ public interface IFileSystemContext
 
     Folder GetFolder(string path);
     Folder GetFolder(Environment.SpecialFolder specialFolder);
+    Folder CreateTemporaryFolder();
+    string GetNewTemporaryFilePath();
 }

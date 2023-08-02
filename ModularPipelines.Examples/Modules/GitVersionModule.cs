@@ -10,6 +10,10 @@ public class GitVersionModule : Module<CommandResult>
 {
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        var gitVersioning = await context.Git().Versioning.GetGitVersioningInformation();
+
+        var gitVersion = gitVersioning.FullSemVer;
+        
         return await context.Git().Commands.Git(new GitBaseOptions
         {
             Version = true

@@ -21,6 +21,7 @@ public static class GitExtensions
         services.TryAddTransient<IGit, Git>();
         services.TryAddTransient<IGitCommands, GitCommands>();
         services.TryAddTransient<IGitInformation, GitInformation>();
+        services.TryAddSingleton<IGitVersioning, GitVersioning>();
         services.TryAddSingleton<StaticGitInformation>();
         services.TryAddTransient<GitCommandRunner>();
         services.TryAddTransient<IGitCommitMapper, GitCommitMapper>();

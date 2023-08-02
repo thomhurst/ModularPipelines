@@ -1,6 +1,5 @@
 ﻿using ModularPipelines.Models;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Git;

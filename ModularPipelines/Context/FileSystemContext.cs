@@ -62,4 +62,16 @@ internal class FileSystemContext : IFileSystemContext
     {
         return new Folder(new DirectoryInfo(Environment.GetFolderPath(specialFolder)));
     }
+
+    public Folder CreateTemporaryFolder()
+    {
+        var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDirectory);
+        return tempDirectory!;
+    }
+
+    public string GetNewTemporaryFilePath()
+    {
+        return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+    }
 }
