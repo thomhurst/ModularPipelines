@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -14,11 +15,17 @@ public class NugetVersionGeneratorModule : Module<string>
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 
+        gitVersionInformation.BranchName.Should().NotBeNullOrWhiteSpace();
+
         if (gitVersionInformation.BranchName == "main")
         {
+            gitVersionInformation.SemVer.Should().NotBeNullOrWhiteSpace();
+            
             return gitVersionInformation.SemVer!;
         }
 
+        gitVersionInformation.Major.Should().BePositive();
+        
         return $"{gitVersionInformation.Major}.{gitVersionInformation.Minor}.{gitVersionInformation.Patch}-{gitVersionInformation.PreReleaseLabel}-{gitVersionInformation.CommitsSinceVersionSource}";
     }
 
