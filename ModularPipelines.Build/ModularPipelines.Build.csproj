@@ -18,10 +18,6 @@
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.11.0" />
-      <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
     </ItemGroup>
 
     <ItemGroup>

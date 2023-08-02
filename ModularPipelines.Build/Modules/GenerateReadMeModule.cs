@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -7,7 +8,8 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-
+[DependsOn<PackagePathsParserModule>]
+[DependsOn<NugetVersionGeneratorModule>]
 public class GenerateReadMeModule : Module
 {
     private static readonly string AutomatedReadMeUpdateGitMessage = "Automated README.md Update";
@@ -20,6 +22,7 @@ public class GenerateReadMeModule : Module
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();
 
         var producedPackages = await GetModule<PackagePathsParserModule>();
+        var nugetVersion = await GetModule<NugetVersionGeneratorModule>();
 
         var availableModules = producedPackages.Value ?? new List<File>();
 
@@ -30,7 +33,7 @@ public class GenerateReadMeModule : Module
 
         foreach (var availableModule in availableModules)
         {
-            var moduleName = availableModule.NameWithoutExtension;
+            var moduleName = availableModule.NameWithoutExtension.Replace(nugetVersion.Value!, string.Empty);
             var url = $"https://nuget.org/packages/{moduleName}";
 
             generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) | [{url}]({url} |");

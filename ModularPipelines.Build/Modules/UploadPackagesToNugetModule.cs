@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.NuGet.Extensions;
@@ -37,7 +38,9 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
 
     protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        if (GitVersionInformation.BranchName != "main")
+        var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
+        
+        if (gitVersionInformation.BranchName != "main")
         {
             return await NothingAsync();
         }
