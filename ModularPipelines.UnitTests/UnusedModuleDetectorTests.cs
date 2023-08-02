@@ -1,0 +1,109 @@
+﻿using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
+using ModularPipelines.DependencyInjection;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+using Moq;
+
+namespace ModularPipelines.UnitTests;
+
+public class UnusedModuleDetectorTests
+{
+    private readonly UnusedModuleDetector _unusedModuleDetector;
+    private readonly Mock<IPipelineServiceContainerWrapper> _serviceContainerWrapper;
+    private readonly Mock<IAssemblyLoadedTypesProvider> _assemblyLoadedTypesProvider;
+    private readonly StringBuilder _sb;
+
+    public UnusedModuleDetectorTests()
+    {
+        _sb = new StringBuilder();
+
+        _serviceContainerWrapper = new Mock<IPipelineServiceContainerWrapper>();
+
+        _assemblyLoadedTypesProvider = new Mock<IAssemblyLoadedTypesProvider>();
+
+        _unusedModuleDetector = new UnusedModuleDetector(
+            _assemblyLoadedTypesProvider.Object,
+            _serviceContainerWrapper.Object,
+            new StringLogger<UnusedModuleDetector>(_sb)
+            );
+    }
+
+    [Test]
+    public void Logs_Unregisted_Modules_Correctly()
+    {
+        _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(ModuleBase)))
+            .Returns(new[]
+            {
+                typeof(Module1),
+                typeof(Module2),
+                typeof(Module3),
+                typeof(Module4),
+                typeof(Module5),
+            });
+
+        var serviceCollection = new ServiceCollection()
+            .AddModule<Module1>()
+            .AddModule<Module3>()
+            .AddModule<Module4>();
+
+        _serviceContainerWrapper.Setup(x => x.ServiceCollection)
+            .Returns(serviceCollection);
+
+        _unusedModuleDetector.Log();
+
+        Assert.That(_sb.ToString(), Is.Not.Empty);
+        Assert.That(_sb.ToString().Trim(), Is.EqualTo("""
+Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
+ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
+"""));
+    }
+
+    private class Module1 : Module
+    {
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
+
+    private class Module2 : Module
+    {
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
+
+    private class Module3 : Module
+    {
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
+
+    private class Module4 : Module
+    {
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
+
+    private class Module5 : Module
+    {
+        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
+}
