@@ -10,7 +10,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
     private readonly IPipelineServiceContainerWrapper _serviceContainerWrapper;
     private readonly ILogger<UnusedModuleDetector> _logger;
 
-    public UnusedModuleDetector(IAssemblyLoadedTypesProvider assemblyLoadedTypesProvider, 
+    public UnusedModuleDetector(IAssemblyLoadedTypesProvider assemblyLoadedTypesProvider,
         IPipelineServiceContainerWrapper serviceContainerWrapper,
         ILogger<UnusedModuleDetector> logger)
     {
@@ -29,7 +29,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
         var unregisteredModules = allDetectedModules
             .Except(registeredServices)
             .ToList();
-        
+
         _logger.LogWarning("Unregistered Modules: {Modules}", string.Join(Environment.NewLine, unregisteredModules));
     }
 }

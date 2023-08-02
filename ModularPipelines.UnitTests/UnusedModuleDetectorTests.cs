@@ -24,7 +24,7 @@ public class UnusedModuleDetectorTests
         _serviceContainerWrapper = new Mock<IPipelineServiceContainerWrapper>();
 
         _assemblyLoadedTypesProvider = new Mock<IAssemblyLoadedTypesProvider>();
-        
+
         _unusedModuleDetector = new UnusedModuleDetector(
             _assemblyLoadedTypesProvider.Object,
             _serviceContainerWrapper.Object,
@@ -49,19 +49,19 @@ public class UnusedModuleDetectorTests
             .AddModule<Module1>()
             .AddModule<Module3>()
             .AddModule<Module4>();
-        
+
         _serviceContainerWrapper.Setup(x => x.ServiceCollection)
             .Returns(serviceCollection);
-        
+
         _unusedModuleDetector.Log();
-        
+
         Assert.That(_sb.ToString(), Is.Not.Empty);
         Assert.That(_sb.ToString().Trim(), Is.EqualTo("""
 Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
 ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 """));
     }
-    
+
     private class Module1 : Module
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
             return null;
         }
     }
-    
+
     private class Module2 : Module
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -79,7 +79,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
             return null;
         }
     }
-    
+
     private class Module3 : Module
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -88,7 +88,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
             return null;
         }
     }
-    
+
     private class Module4 : Module
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -97,7 +97,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
             return null;
         }
     }
-    
+
     private class Module5 : Module
     {
         protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
