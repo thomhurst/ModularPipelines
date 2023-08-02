@@ -39,7 +39,7 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
     protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
-        
+
         if (gitVersionInformation.BranchName != "main")
         {
             return await NothingAsync();
