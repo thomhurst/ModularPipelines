@@ -1,24 +1,15 @@
 ﻿using System.Text;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
-using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
+
 public class GenerateReadMeModule : Module
 {
-    private readonly Func<string, bool>[] _excludedProjects =
-    {
-        s => s == "ModularPipelines.Build.csproj",
-        s => s.Contains("Test"),
-        s => s.StartsWith("ModularPipelines.Analyzers"),
-        s => s == "ModularPipelines.Examples.csproj"
-    };
-    
     private static readonly string AutomatedReadMeUpdateGitMessage = "Automated README.md Update";
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -28,9 +19,9 @@ public class GenerateReadMeModule : Module
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync();
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();
 
-        var availableModules = gitRootDirectory
-            .GetFiles(file => file.Extension == ".csproj")
-            .Where(file => !_excludedProjects.Any(x => x(file.Name)));
+        var producedPackages = await GetModule<PackagePathsParserModule>();
+        
+        var availableModules = producedPackages.Value ?? new List<File>();
 
         var generatedContentStringBuilder = new StringBuilder();
 
