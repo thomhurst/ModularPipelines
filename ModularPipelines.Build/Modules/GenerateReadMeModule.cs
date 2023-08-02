@@ -21,11 +21,14 @@ public class GenerateReadMeModule : Module
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync();
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();
 
-        var producedPackages = await GetModule<PackagePathsParserModule>();
+        var availableModules = (await GetModule<PackagePathsParserModule>())
+            .Value!
+            .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers"))
+            .OrderBy(x => x.NameWithoutExtension)
+            .ToList();
+        
         var nugetVersion = await GetModule<NugetVersionGeneratorModule>();
-
-        var availableModules = producedPackages.Value ?? new List<File>();
-
+        
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Version | URL |");
