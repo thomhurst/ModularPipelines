@@ -11,12 +11,12 @@ internal class AzureKeyVault : IAzureKeyVault
     {
         return new SecretClient(vaultUri, tokenCredential);
     }
-    
+
     public CertificateClient GetCertificateClient(Uri vaultUri, TokenCredential tokenCredential)
     {
         return new CertificateClient(vaultUri, tokenCredential);
     }
-    
+
     public KeyClient GetKeyClient(Uri vaultUri, TokenCredential tokenCredential)
     {
         return new KeyClient(vaultUri, tokenCredential);

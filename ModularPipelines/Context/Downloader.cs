@@ -20,7 +20,7 @@ internal class Downloader : IDownloader
         CancellationToken cancellationToken = default)
     {
         var response = await DownloadResponseAsync(options, cancellationToken);
-        
+
         return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
@@ -53,7 +53,7 @@ internal class Downloader : IDownloader
         options.RequestConfigurator?.Invoke(request);
 
         var response = await (options.HttpClient ?? _defaultHttpClient).GetAsync(options.DownloadUri, cancellationToken);
-        
+
         return response.EnsureSuccessStatusCode();
     }
 

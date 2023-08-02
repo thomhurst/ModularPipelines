@@ -10,7 +10,7 @@ public class AzureKubernetesProvisioner : BaseAzureProvisioner
     public AzureKubernetesProvisioner(ArmClient armClient) : base(armClient)
     {
     }
-    
+
     public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironment(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetKubeEnvironments()

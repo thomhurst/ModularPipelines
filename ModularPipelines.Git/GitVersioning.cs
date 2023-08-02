@@ -10,7 +10,7 @@ internal class GitVersioning : IGitVersioning
 {
     private readonly ICommand _command;
     private readonly IEnvironmentContext _environmentContext;
-    
+
     private readonly Folder _temporaryFolder;
 
     private GitVersionInformation? _prefetchedGitVersionInformation;
@@ -21,14 +21,14 @@ internal class GitVersioning : IGitVersioning
         _environmentContext = environmentContext;
         _temporaryFolder = fileSystemContext.CreateTemporaryFolder();
     }
-    
+
     public async Task<GitVersionInformation> GetGitVersioningInformation()
     {
         if (_prefetchedGitVersionInformation != null)
         {
             return _prefetchedGitVersionInformation;
         }
-        
+
         await _command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
         {
             Arguments = new[]
@@ -36,7 +36,7 @@ internal class GitVersioning : IGitVersioning
                 "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool"
             }
         });
-        
+
         var gitVersionOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
         {
             WorkingDirectory = _environmentContext.GitRootDirectory!.Path,

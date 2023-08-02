@@ -20,7 +20,7 @@ public class File
     {
         return System.IO.File.ReadAllTextAsync(Path);
     }
-    
+
     public Task WriteAsync(string contents)
     {
         return System.IO.File.WriteAllTextAsync(Path, contents);
@@ -28,12 +28,12 @@ public class File
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
     public bool Exists => _fileInfo.Exists;
-    
+
     public bool Hidden => (_fileInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     /// <inheritdoc cref="FileSystemInfo.Name"/>>
     public string Name => _fileInfo.Name;
-    
+
     /// <inheritdoc cref="System.IO.Path.GetFileNameWithoutExtension(System.ReadOnlySpan{char})"/>>
     public string NameWithoutExtension => System.IO.Path.GetFileNameWithoutExtension(this);
 
@@ -48,7 +48,7 @@ public class File
 
     /// <inheritdoc cref="FileInfo.IsReadOnly"/>>
     public bool IsReadOnly => _fileInfo.IsReadOnly;
-    
+
     /// <inheritdoc cref="FileSystemInfo.CreationTime"/>>
     public DateTime CreationTime => _fileInfo.CreationTime;
 

@@ -37,7 +37,7 @@ public class GitHelpers
     }
 
     public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
-    { 
+    {
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new[]
@@ -46,7 +46,7 @@ public class GitHelpers
                 $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
             }
         }, cancellationToken);
-        
+
         await context.Git().Commands.Fetch(new GitFetchOptions(), token: cancellationToken);
 
         await context.Git().Commands
@@ -60,7 +60,7 @@ public class GitHelpers
         {
             All = true
         }, token: cancellationToken);
-            
+
         await context.Git().Commands.Commit(new GitCommitOptions
         {
             Message = message

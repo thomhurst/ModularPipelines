@@ -20,19 +20,19 @@ public class GenerateReadMeModule : Module
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();
 
         var producedPackages = await GetModule<PackagePathsParserModule>();
-        
+
         var availableModules = producedPackages.Value ?? new List<File>();
 
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Version | URL |");
         generatedContentStringBuilder.AppendLine("| --- | --- | --- |");
-        
+
         foreach (var availableModule in availableModules)
         {
             var moduleName = availableModule.NameWithoutExtension;
             var url = $"https://nuget.org/packages/{moduleName}";
-            
+
             generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) | [{url}]({url} |");
         }
 
@@ -43,7 +43,7 @@ public class GenerateReadMeModule : Module
             // Nothing to do here = It's already matching what we expect :)
             return await NothingAsync();
         }
-        
+
         await gitRootDirectory.GetFile("README.md").WriteAsync(updatedContents);
 
         if (context.Git().Information.PreviousCommit?.Message?.Subject == AutomatedReadMeUpdateGitMessage)
@@ -51,9 +51,9 @@ public class GenerateReadMeModule : Module
             // Unexpected
             return await NothingAsync();
         }
-        
+
         await PushUpdatedCommit(context, cancellationToken);
-        
+
         throw new Exception();
     }
 

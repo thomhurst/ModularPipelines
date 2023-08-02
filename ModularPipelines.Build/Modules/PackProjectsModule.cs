@@ -68,7 +68,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
         {
             return false;
         }
-        
+
         // Not yet ready
         if (path.EndsWith("ModularPipelines.AWS.csproj"))
         {

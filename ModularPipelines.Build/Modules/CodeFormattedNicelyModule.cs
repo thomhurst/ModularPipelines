@@ -35,7 +35,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 throw;
             }
-            
+
             await context.DotNet().Format(new DotNetFormatOptions
             {
                 WorkingDirectory = context.Environment.GitRootDirectory!,

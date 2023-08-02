@@ -10,7 +10,7 @@ public class AzureContainerProvisioner : BaseAzureProvisioner
     public AzureContainerProvisioner(ArmClient armClient) : base(armClient)
     {
     }
-    
+
     public async Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetContainerRegistries()

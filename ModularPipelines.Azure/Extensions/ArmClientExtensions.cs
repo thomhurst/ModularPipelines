@@ -11,23 +11,23 @@ public static class ArmClientExtensions
         switch (azureScope)
         {
             case AzureResourceIdentifier azureResourceIdentifier:
-            {
-                await foreach (var page in armClient
-                                   .GetResourceGroupResource(azureResourceIdentifier.ToResourceGroupIdentifier())
-                                   .GetGenericResourcesAsync()
-                                   .AsPages())
                 {
-                    foreach (var genericResource in page.Values)
+                    await foreach (var page in armClient
+                                       .GetResourceGroupResource(azureResourceIdentifier.ToResourceGroupIdentifier())
+                                       .GetGenericResourcesAsync()
+                                       .AsPages())
                     {
-                        if (genericResource.Id.Name == azureResourceIdentifier.ResourceName)
+                        foreach (var genericResource in page.Values)
                         {
-                            return genericResource.Id;
-                        }   
+                            if (genericResource.Id.Name == azureResourceIdentifier.ResourceName)
+                            {
+                                return genericResource.Id;
+                            }
+                        }
                     }
-                }
 
-                throw new Exception($"Unknown Resource: {azureResourceIdentifier}");
-            }
+                    throw new Exception($"Unknown Resource: {azureResourceIdentifier}");
+                }
             case AzureResourceGroupIdentifier azureResourceGroupIdentifier:
                 return azureResourceGroupIdentifier.ToResourceGroupIdentifier();
             case AzureSubscriptionIdentifier azureSubscriptionIdentifier:
@@ -35,9 +35,9 @@ public static class ArmClientExtensions
             case AzureManagementGroupIdentifier azureManagementGroupIdentifier:
                 return azureManagementGroupIdentifier.ToManagementGroupIdentifier();
             default:
-            {
-                throw new Exception($"Unknown Resource: {azureScope}");
-            }
+                {
+                    throw new Exception($"Unknown Resource: {azureScope}");
+                }
         }
     }
 }

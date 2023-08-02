@@ -19,7 +19,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await account.Value.GetCosmosDBSqlDatabases().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlRoleAssignmentResource>> RoleAssignment(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBSqlRoleAssignmentCreateOrUpdateContent properties)
     {
@@ -27,7 +27,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await account.Value.GetCosmosDBSqlRoleAssignments().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlRoleDefinitionResource>> RoleDefinition(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBSqlRoleDefinitionCreateOrUpdateContent properties)
     {
@@ -35,7 +35,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await account.Value.GetCosmosDBSqlRoleDefinitions().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlContainerResource>> Container(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, CosmosDBSqlContainerCreateOrUpdateContent properties)
     {
@@ -43,7 +43,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await database.Value.GetCosmosDBSqlContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlTriggerResource>> Trigger(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, string triggerName, CosmosDBSqlTriggerCreateOrUpdateContent properties)
     {
@@ -51,7 +51,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await container.Value.GetCosmosDBSqlTriggers().CreateOrUpdateAsync(WaitUntil.Completed, triggerName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlStoredProcedureResource>> StoredProcedure(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, string storedProcedureName, CosmosDBSqlStoredProcedureCreateOrUpdateContent properties)
     {
@@ -67,15 +67,15 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await container.Value.GetCosmosDBSqlUserDefinedFunctions().CreateOrUpdateAsync(WaitUntil.Completed, functionName, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlDatabaseThroughputSettingResource>> DatabaseThroughputSetting(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, ThroughputSettingsUpdateData properties)
     {
         var database = await GetDatabase(azureResourceIdentifier, databaseName);
-        
+
         return await database.Value.GetCosmosDBSqlDatabaseThroughputSetting().CreateOrUpdateAsync(WaitUntil.Completed, properties);
     }
-    
+
     public async Task<ArmOperation<CosmosDBSqlContainerThroughputSettingResource>> ContainerThroughputSetting(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, ThroughputSettingsUpdateData properties)
     {
@@ -88,7 +88,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string encryptionKeyName, CosmosDBSqlClientEncryptionKeyCreateOrUpdateContent properties)
     {
         var database = await GetDatabase(azureResourceIdentifier, databaseName);
-        
+
         return await database.Value.GetCosmosDBSqlClientEncryptionKeys().CreateOrUpdateAsync(WaitUntil.Completed, encryptionKeyName, properties);
     }
 
@@ -99,18 +99,18 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
 
         return await account.Value.GetCosmosDBTables().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties);
     }
-    
+
     public async Task<Response<CosmosDBSqlContainerResource>> GetContainer(AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName)
     {
         var database = await GetDatabase(azureResourceIdentifier, databaseName);
 
         return await database.Value.GetCosmosDBSqlContainerAsync(containerName);
     }
-    
+
     public async Task<Response<CosmosDBSqlDatabaseResource>> GetDatabase(AzureResourceIdentifier azureResourceIdentifier, string databaseName)
     {
         var account = await GetAccount(azureResourceIdentifier);
-        
+
         return await account.Value.GetCosmosDBSqlDatabaseAsync(databaseName);
     }
 
