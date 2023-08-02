@@ -25,6 +25,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<PackageFilesRemovalModule>()
             .AddModule<PackagePathsParserModule>()
             .AddModule<CodeFormattedNicelyModule>()
+            .AddModule<GenerateReadMeModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         if (context.HostingEnvironment.IsDevelopment())
