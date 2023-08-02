@@ -11,19 +11,19 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
     public AzureTrafficAndLoadBalancerProvisioner(ArmClient armClient) : base(armClient)
     {
     }
-    
+
     public async Task<ArmOperation<TrafficManagerProfileResource>> TrafficManagerProfile(AzureResourceIdentifier azureResourceIdentifier, TrafficManagerProfileData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetTrafficManagerProfiles()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<LoadBalancerResource>> LoadBalancer(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetLoadBalancers()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGateway(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationGateways()

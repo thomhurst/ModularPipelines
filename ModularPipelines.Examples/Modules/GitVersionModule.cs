@@ -13,7 +13,7 @@ public class GitVersionModule : Module<CommandResult>
         var gitVersioning = await context.Git().Versioning.GetGitVersioningInformation();
 
         var gitVersion = gitVersioning.FullSemVer;
-        
+
         return await context.Git().Commands.Git(new GitBaseOptions
         {
             Version = true

@@ -36,17 +36,17 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public async Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties)
     {
         var subscriptionCollection = ArmClient.GetSubscriptionResource(azureSubscriptionIdentifier.ToSubscriptionIdentifier());
-        
+
         return await subscriptionCollection.GetResourceGroups()
             .CreateOrUpdateAsync(WaitUntil.Completed, resourceGroupName, properties);
     }
-    
+
     public async Task<ArmOperation<KeyVaultResource>> KeyVault(AzureResourceIdentifier azureResourceIdentifier, KeyVaultCreateOrUpdateContent properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetKeyVaults()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<RedisResource>> Redis(AzureResourceIdentifier azureResourceIdentifier, RedisCreateOrUpdateContent properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetAllRedis()
@@ -58,7 +58,7 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
         return await GetResourceGroup(azureResourceIdentifier).GetContainerRegistries()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<AppConfigurationStoreResource>> AppConfiguration(AzureResourceIdentifier azureResourceIdentifier, AppConfigurationStoreData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetAppConfigurationStores()
@@ -70,19 +70,19 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
         return await GetResourceGroup(azureResourceIdentifier).GetOperationalInsightsWorkspaces()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<OperationalInsightsClusterResource>> OperationalInsightsCluster(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsClusterData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetOperationalInsightsClusters()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<ApplicationInsightsComponentResource>> ApplicationInsights(AzureResourceIdentifier azureResourceIdentifier, ApplicationInsightsComponentData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationInsightsComponents()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public AzureComputeProvisioner Compute { get; }
     public AzureTrafficAndLoadBalancerProvisioner TrafficAndLoadBalancers { get; }
     public AzureKubernetesProvisioner Kubernetes { get; }

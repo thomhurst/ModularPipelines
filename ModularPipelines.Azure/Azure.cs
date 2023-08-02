@@ -9,7 +9,7 @@ public class Azure : IAzure
         Provisioner = azureProvisioner;
         KeyVault = keyVault;
     }
-    
+
     public IAzureProvisioner Provisioner { get; }
     public IAzureKeyVault KeyVault { get; }
 }

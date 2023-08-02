@@ -263,7 +263,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             _context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
     }
-    
+
     internal override void SetSkipped()
     {
         Status = Status.Skipped;

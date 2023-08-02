@@ -12,7 +12,7 @@ public interface IDownloader
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Used to download a string from the web
     /// </summary>
@@ -20,7 +20,7 @@ public interface IDownloader
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<string?> DownloadStringAsync(DownloadOptions options, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Used to get a response from the web
     /// </summary>

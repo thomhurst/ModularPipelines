@@ -10,13 +10,13 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
     public AzureServiceBusProvisioner(ArmClient armClient) : base(armClient)
     {
     }
-    
+
     public async Task<ArmOperation<ServiceBusNamespaceResource>> Namespace(AzureResourceIdentifier azureResourceIdentifier, ServiceBusNamespaceData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetServiceBusNamespaces()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<MigrationConfigurationResource>> MigrationConfiguration(AzureResourceIdentifier azureResourceIdentifier, string queueName, MigrationConfigurationData properties)
     {
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
@@ -24,7 +24,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         return await serviceBus.Value.GetMigrationConfigurations()
             .CreateOrUpdateAsync(WaitUntil.Completed, queueName, properties);
     }
-    
+
     public async Task<ArmOperation<ServiceBusQueueResource>> Queue(AzureResourceIdentifier azureResourceIdentifier, string queueName, ServiceBusQueueData properties)
     {
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
@@ -46,7 +46,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
 
         var topic = await serviceBus.Value.GetServiceBusTopicAsync(topicName);
-        
+
         return await topic.Value.GetServiceBusSubscriptions()
             .CreateOrUpdateAsync(WaitUntil.Completed, subscriptionName, properties);
     }
@@ -58,21 +58,21 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
 
         var topic = await serviceBus.Value.GetServiceBusTopicAsync(topicName);
-        
+
         return await topic.Value.GetServiceBusTopicAuthorizationRules()
             .CreateOrUpdateAsync(WaitUntil.Completed, authorizationRuleName, properties);
     }
-    
+
     public async Task<ArmOperation<ServiceBusNamespaceAuthorizationRuleResource>> NamespaceAuthorizationRule(
         AzureResourceIdentifier azureResourceIdentifier, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties)
     {
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
-        
+
         return await serviceBus.Value.GetServiceBusNamespaceAuthorizationRules()
             .CreateOrUpdateAsync(WaitUntil.Completed, authorizationRuleName, properties);
     }
-    
+
     public async Task<ArmOperation<ServiceBusQueueAuthorizationRuleResource>> QueueAuthorizationRule(
         AzureResourceIdentifier azureResourceIdentifier, string queueName, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties)
@@ -80,7 +80,7 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier);
 
         var queue = await serviceBus.Value.GetServiceBusQueueAsync(queueName);
-        
+
         return await queue.Value.GetServiceBusQueueAuthorizationRules()
             .CreateOrUpdateAsync(WaitUntil.Completed, authorizationRuleName, properties);
     }

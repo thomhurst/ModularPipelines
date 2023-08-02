@@ -20,23 +20,23 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
         return await GetResourceGroup(azureResourceIdentifier).GetUserAssignedIdentities()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<RoleAssignmentResource>> RoleAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleAssignmentCreateOrUpdateContent properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetRoleAssignments()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<RoleManagementPolicyAssignmentResource>> RoleManagementPolicyAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleManagementPolicyAssignmentData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetRoleManagementPolicyAssignments()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
-    
+
     public async Task<ArmOperation<AuthorizationRoleDefinitionResource>> AuthorizationRoleDefinition(AzureScope scope, ResourceIdentifier roleDefinitionIdentifier, AuthorizationRoleDefinitionData properties)
     {
         var scopeResourceIdentifier = await ArmClient.GetResourceIdentifierAsync(scope);
-        
+
         return await ArmClient.GetAuthorizationRoleDefinitions(scopeResourceIdentifier)
             .CreateOrUpdateAsync(WaitUntil.Completed, roleDefinitionIdentifier, properties);
     }
