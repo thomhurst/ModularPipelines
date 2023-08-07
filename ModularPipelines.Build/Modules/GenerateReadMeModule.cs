@@ -30,17 +30,15 @@ public class GenerateReadMeModule : Module
 
         var generatedContentStringBuilder = new StringBuilder();
 
-        generatedContentStringBuilder.AppendLine("| Package | Version | URL |");
-        generatedContentStringBuilder.AppendLine("| --- | --- | --- |");
+        generatedContentStringBuilder.AppendLine("| Package | Version |");
+        generatedContentStringBuilder.AppendLine("| --- | --- |");
 
         foreach (var availableModule in availableModules)
         {
             var moduleName = availableModule.NameWithoutExtension
                 .Replace($".{nugetVersion.Value!}", string.Empty);
-
-            var url = $"https://nuget.org/packages/{moduleName}";
-
-            generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) | [{url}]({url}) |");
+            
+            generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
         }
 
         var updatedContents = readmeTemplateContents.Replace("%%% AVAILABLE MODULES PLACEHOLDER %%%", generatedContentStringBuilder.ToString());
