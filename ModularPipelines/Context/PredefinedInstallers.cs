@@ -16,8 +16,15 @@ public class PredefinedInstallers : IPredefinedInstallers
     private readonly IMacInstaller _macInstaller;
     private readonly IWindowsInstaller _windowsInstaller;
     private readonly ILinuxInstaller _linuxInstaller;
+    private readonly IFileInstaller _fileInstaller;
 
-    public PredefinedInstallers(ICommand command, IEnvironmentContext environmentContext, IDownloader downloader, IMacInstaller macInstaller, IWindowsInstaller windowsInstaller, ILinuxInstaller linuxInstaller)
+    public PredefinedInstallers(ICommand command, 
+        IEnvironmentContext environmentContext, 
+        IDownloader downloader, 
+        IMacInstaller macInstaller, 
+        IWindowsInstaller windowsInstaller, 
+        ILinuxInstaller linuxInstaller,
+        IFileInstaller fileInstaller)
     {
         _command = command;
         _environmentContext = environmentContext;
@@ -25,6 +32,7 @@ public class PredefinedInstallers : IPredefinedInstallers
         _macInstaller = macInstaller;
         _windowsInstaller = windowsInstaller;
         _linuxInstaller = linuxInstaller;
+        _fileInstaller = fileInstaller;
     }
 
     public async Task<CommandResult> Chocolatey()
@@ -69,5 +77,21 @@ public class PredefinedInstallers : IPredefinedInstallers
         var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb")));
 
         return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile));
+    }
+
+    public async Task<CommandResult> Nvm(string? version = null)
+    {
+        version ??= "v0.39.4";
+        return await _fileInstaller.InstallFromWebAsync(new WebInstallerOptions(new Uri($"https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh")));
+    }
+
+    public async Task<CommandResult> Node(string version = "--lts")
+    {
+        await Nvm();
+        
+        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+        {
+            Arguments = new[] { "install", version }
+        });
     }
 }
