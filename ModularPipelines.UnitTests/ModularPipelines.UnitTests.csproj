@@ -35,7 +35,6 @@
       <ProjectReference Include="..\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
       <ProjectReference Include="..\ModularPipelines.Node\ModularPipelines.Node.csproj" />
       <ProjectReference Include="..\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Powershell\ModularPipelines.Powershell.csproj" />
       <ProjectReference Include="..\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>

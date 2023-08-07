@@ -1,7 +1,6 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Powershell.Extensions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -11,7 +10,7 @@ public class PowershellTests : TestBase
     {
         protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Powershell().Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
