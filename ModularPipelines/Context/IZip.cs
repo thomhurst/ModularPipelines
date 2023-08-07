@@ -1,12 +1,14 @@
 ﻿using System.IO.Compression;
 using ModularPipelines.FileSystem;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
 public interface IZip
 {
-    public void ZipFolder(Folder folder, string outputPath) => ZipFolder(folder, outputPath, CompressionLevel.Optimal);
-    public void ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel);
+    public File ZipFolder(Folder folder, string outputPath) => ZipFolder(folder, outputPath, CompressionLevel.Optimal);
+    
+    public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel);
 
-    public void UnZipToFolder(string zipPath, string outputFolderPath);
+    public Folder UnZipToFolder(string zipPath, string outputFolderPath);
 }
