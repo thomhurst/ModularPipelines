@@ -12,21 +12,21 @@ If you'd like to install, the packages are available on NuGet, just make sure to
 
 ## Available Modules
 
-| Package | Version | URL |
-| --- | --- | --- |
-| ModularPipelines | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/) | [https://nuget.org/packages/ModularPipelines](https://nuget.org/packages/ModularPipelines) |
-| ModularPipelines.Azure | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.svg)](https://www.nuget.org/packages/ModularPipelines.Azure/) | [https://nuget.org/packages/ModularPipelines.Azure](https://nuget.org/packages/ModularPipelines.Azure) |
-| ModularPipelines.Azure.Pipelines | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.Pipelines.svg)](https://www.nuget.org/packages/ModularPipelines.Azure.Pipelines/) | [https://nuget.org/packages/ModularPipelines.Azure.Pipelines](https://nuget.org/packages/ModularPipelines.Azure.Pipelines) |
-| ModularPipelines.Cmd | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Cmd.svg)](https://www.nuget.org/packages/ModularPipelines.Cmd/) | [https://nuget.org/packages/ModularPipelines.Cmd](https://nuget.org/packages/ModularPipelines.Cmd) |
-| ModularPipelines.Docker | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Docker.svg)](https://www.nuget.org/packages/ModularPipelines.Docker/) | [https://nuget.org/packages/ModularPipelines.Docker](https://nuget.org/packages/ModularPipelines.Docker) |
-| ModularPipelines.DotNet | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.DotNet.svg)](https://www.nuget.org/packages/ModularPipelines.DotNet/) | [https://nuget.org/packages/ModularPipelines.DotNet](https://nuget.org/packages/ModularPipelines.DotNet) |
-| ModularPipelines.Git | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) | [https://nuget.org/packages/ModularPipelines.Git](https://nuget.org/packages/ModularPipelines.Git) |
-| ModularPipelines.Helm | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Helm.svg)](https://www.nuget.org/packages/ModularPipelines.Helm/) | [https://nuget.org/packages/ModularPipelines.Helm](https://nuget.org/packages/ModularPipelines.Helm) |
-| ModularPipelines.Kubernetes | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kubernetes.svg)](https://www.nuget.org/packages/ModularPipelines.Kubernetes/) | [https://nuget.org/packages/ModularPipelines.Kubernetes](https://nuget.org/packages/ModularPipelines.Kubernetes) |
-| ModularPipelines.MicrosoftTeams | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.MicrosoftTeams.svg)](https://www.nuget.org/packages/ModularPipelines.MicrosoftTeams/) | [https://nuget.org/packages/ModularPipelines.MicrosoftTeams](https://nuget.org/packages/ModularPipelines.MicrosoftTeams) |
-| ModularPipelines.Node | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) | [https://nuget.org/packages/ModularPipelines.Node](https://nuget.org/packages/ModularPipelines.Node) |
-| ModularPipelines.NuGet | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.NuGet.svg)](https://www.nuget.org/packages/ModularPipelines.NuGet/) | [https://nuget.org/packages/ModularPipelines.NuGet](https://nuget.org/packages/ModularPipelines.NuGet) |
-| ModularPipelines.Terraform | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) | [https://nuget.org/packages/ModularPipelines.Terraform](https://nuget.org/packages/ModularPipelines.Terraform) |
+| Package | Version |
+| --- | --- |
+| ModularPipelines | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/) |
+| ModularPipelines.Azure | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.svg)](https://www.nuget.org/packages/ModularPipelines.Azure/) |
+| ModularPipelines.Azure.Pipelines | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.Pipelines.svg)](https://www.nuget.org/packages/ModularPipelines.Azure.Pipelines/) |
+| ModularPipelines.Cmd | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Cmd.svg)](https://www.nuget.org/packages/ModularPipelines.Cmd/) |
+| ModularPipelines.Docker | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Docker.svg)](https://www.nuget.org/packages/ModularPipelines.Docker/) |
+| ModularPipelines.DotNet | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.DotNet.svg)](https://www.nuget.org/packages/ModularPipelines.DotNet/) |
+| ModularPipelines.Git | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
+| ModularPipelines.Helm | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Helm.svg)](https://www.nuget.org/packages/ModularPipelines.Helm/) |
+| ModularPipelines.Kubernetes | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kubernetes.svg)](https://www.nuget.org/packages/ModularPipelines.Kubernetes/) |
+| ModularPipelines.MicrosoftTeams | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.MicrosoftTeams.svg)](https://www.nuget.org/packages/ModularPipelines.MicrosoftTeams/) |
+| ModularPipelines.Node | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) |
+| ModularPipelines.NuGet | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.NuGet.svg)](https://www.nuget.org/packages/ModularPipelines.NuGet/) |
+| ModularPipelines.Terraform | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 
 
 ## Why ModularPipelines
