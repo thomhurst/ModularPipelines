@@ -35,6 +35,7 @@ public interface IModuleContext
     public IJson Json { get; }
     public IXml Xml { get; }
     public IPowershell Powershell { get; }
+    public IBash Bash { get; }
 
     #endregion
 }
