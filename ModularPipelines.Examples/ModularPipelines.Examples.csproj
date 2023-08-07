@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
       <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
@@ -22,5 +23,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
+
 
 </Project>

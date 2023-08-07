@@ -4,7 +4,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 

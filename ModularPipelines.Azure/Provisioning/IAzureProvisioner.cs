@@ -33,6 +33,7 @@ public interface IAzureProvisioner
     AzureServiceBusProvisioner ServiceBus { get; }
     AzureCosmosProvisioner Cosmos { get; }
     AzureNetworkProvisioner Network { get; }
+    AzureStorageProvisioner Storage { get; }
     ArmClient ArmClient { get; }
     ResourceGroupResource GetResourceGroup(AzureResourceIdentifier resourceIdentifier);
 }

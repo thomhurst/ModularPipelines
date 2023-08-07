@@ -22,7 +22,7 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public AzureProvisioner(ArmClient armClient, AzureComputeProvisioner compute,
         AzureTrafficAndLoadBalancerProvisioner trafficAndLoadBalancers, AzureKubernetesProvisioner kubernetes,
         AzureSecurityProvisioner security, AzureServiceBusProvisioner serviceBus, AzureCosmosProvisioner cosmos,
-        AzureNetworkProvisioner network) : base(armClient)
+        AzureNetworkProvisioner network, AzureStorageProvisioner storage) : base(armClient)
     {
         Compute = compute;
         TrafficAndLoadBalancers = trafficAndLoadBalancers;
@@ -31,6 +31,7 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
         ServiceBus = serviceBus;
         Cosmos = cosmos;
         Network = network;
+        Storage = storage;
     }
 
     public async Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties)
@@ -90,4 +91,5 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public AzureServiceBusProvisioner ServiceBus { get; }
     public AzureCosmosProvisioner Cosmos { get; }
     public AzureNetworkProvisioner Network { get; }
+    public AzureStorageProvisioner Storage { get; }
 }
