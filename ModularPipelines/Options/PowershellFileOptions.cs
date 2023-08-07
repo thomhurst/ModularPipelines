@@ -1,5 +1,5 @@
 using ModularPipelines.Attributes;
 
-namespace ModularPipelines.Powershell.Models;
+namespace ModularPipelines.Options;
 
 public record PowershellFileOptions([property: CommandSwitch("-File")] string FilePath) : PowershellOptions;

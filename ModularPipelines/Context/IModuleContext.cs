@@ -22,7 +22,7 @@ public interface IModuleContext
     public T? Get<T>();
     public ILogger Logger { get; }
 
-    #region Helpers
+    #region OutOfTheBoxHelpers
 
     public IEnvironmentContext Environment { get; }
     public IFileSystemContext FileSystem { get; }
@@ -34,6 +34,8 @@ public interface IModuleContext
     public IHasher Hasher { get; }
     public IJson Json { get; }
     public IXml Xml { get; }
+    public IPowershell Powershell { get; }
+    public IBash Bash { get; }
 
     #endregion
 }

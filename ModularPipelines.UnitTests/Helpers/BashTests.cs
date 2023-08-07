@@ -4,20 +4,20 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-public class PowershellTests : TestBase
+public class BashTests : TestBase
 {
-    private class PowershellEchoModule : Module<CommandResult>
+    private class BashEchoModule : Module<CommandResult>
     {
         protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<PowershellEchoModule>();
+        var module = await RunModule<BashEchoModule>();
 
         var moduleResult = await module;
 
@@ -32,7 +32,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<PowershellEchoModule>();
+        var module = await RunModule<BashEchoModule>();
 
         var moduleResult = await module;
 

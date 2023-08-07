@@ -53,6 +53,8 @@ public class PipelineHostBuilder : IPipelineHostBuilder
                 .AddTransient<IZip, Zip>()
                 .AddTransient<IJson, Json>()
                 .AddTransient<IXml, Xml>()
+                .AddTransient<IPowershell, Powershell>()
+                .AddTransient<IBash, Bash>()
                 .AddTransient<ISecretObfuscator, SecretObfuscator>()
                 .AddTransient<IOptionsProvider, OptionsProvider>();
 

@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.NuGet", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Node", "ModularPipelines.Node\ModularPipelines.Node.csproj", "{1C075CAF-7409-4941-8622-E3D3DDD876AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Powershell", "ModularPipelines.Powershell\ModularPipelines.Powershell.csproj", "{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Cmd", "ModularPipelines.Cmd\ModularPipelines.Cmd.csproj", "{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularPipelines.Azure.Pipelines", "ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj", "{D927ABA0-0DEC-4370-99C7-2CC2B8B3992E}"
@@ -90,10 +88,6 @@ Global
 		{1C075CAF-7409-4941-8622-E3D3DDD876AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C075CAF-7409-4941-8622-E3D3DDD876AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C075CAF-7409-4941-8622-E3D3DDD876AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EF4CDCF-8B7A-4710-B1E7-8879870D4B4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC8D3D41-EFC5-45BF-9A1F-766B3989BA4E}.Release|Any CPU.ActiveCfg = Release|Any CPU

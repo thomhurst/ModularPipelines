@@ -1,7 +1,7 @@
 using ModularPipelines.Models;
-using ModularPipelines.Powershell.Models;
+using ModularPipelines.Options;
 
-namespace ModularPipelines.Powershell;
+namespace ModularPipelines.Context;
 
 public interface IPowershell
 {

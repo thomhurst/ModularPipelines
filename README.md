@@ -26,7 +26,6 @@ If you'd like to install, the packages are available on NuGet, just make sure to
 | ModularPipelines.MicrosoftTeams | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.MicrosoftTeams.svg)](https://www.nuget.org/packages/ModularPipelines.MicrosoftTeams/) | [https://nuget.org/packages/ModularPipelines.MicrosoftTeams](https://nuget.org/packages/ModularPipelines.MicrosoftTeams) |
 | ModularPipelines.Node | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) | [https://nuget.org/packages/ModularPipelines.Node](https://nuget.org/packages/ModularPipelines.Node) |
 | ModularPipelines.NuGet | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.NuGet.svg)](https://www.nuget.org/packages/ModularPipelines.NuGet/) | [https://nuget.org/packages/ModularPipelines.NuGet](https://nuget.org/packages/ModularPipelines.NuGet) |
-| ModularPipelines.Powershell | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Powershell.svg)](https://www.nuget.org/packages/ModularPipelines.Powershell/) | [https://nuget.org/packages/ModularPipelines.Powershell](https://nuget.org/packages/ModularPipelines.Powershell) |
 | ModularPipelines.Terraform | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) | [https://nuget.org/packages/ModularPipelines.Terraform](https://nuget.org/packages/ModularPipelines.Terraform) |
 
 
