@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AWS", "ModularPipelines.AWS\ModularPipelines.AWS.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Email", "ModularPipelines.Email\ModularPipelines.Email.csproj", "{D2F0D130-50A7-46BB-B495-1B673C2A23A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,10 @@ Global
 		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C0DB2EC-C858-4197-9775-742223DF8D16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2F0D130-50A7-46BB-B495-1B673C2A23A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2F0D130-50A7-46BB-B495-1B673C2A23A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2F0D130-50A7-46BB-B495-1B673C2A23A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2F0D130-50A7-46BB-B495-1B673C2A23A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

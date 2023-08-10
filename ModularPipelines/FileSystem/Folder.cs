@@ -35,6 +35,12 @@ public class Folder
 
     public string Extension => _directoryInfo.Extension;
 
+    public Folder Create()
+    {
+        Directory.CreateDirectory(Path);
+        return this;
+    }
+
     public void Delete() => _directoryInfo.Delete(true);
 
     public void Clean()

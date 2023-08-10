@@ -1,19 +1,16 @@
 ﻿using ModularPipelines.Context;
 
-namespace ModularPipelines.Azure.Pipelines;
+namespace ModularPipelines;
 
-internal class AzurePipeline : IAzurePipeline
+internal class BuildSystemDetector
 {
     private readonly IEnvironmentContext _environment;
 
-    public AzurePipeline(AzurePipelineVariables variables, IEnvironmentContext environment)
+    public BuildSystemDetector(IEnvironmentContext environment)
     {
         _environment = environment;
-        Variables = variables;
     }
     
     public bool IsRunningOnAzurePipelines
         => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("TF_BUILD"));
-
-    public AzurePipelineVariables Variables { get; }
 }

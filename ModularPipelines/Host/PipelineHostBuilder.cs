@@ -3,14 +3,10 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Context;
-using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
-using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Host;
 
@@ -23,68 +19,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
         _overrides = new PipelineEngineOverrides(_internalHost);
-        _internalHost.ConfigureServices(services =>
-        {
-            // Bundles
-            services
-                .Configure<PipelineOptions>(_ => { })
-                .AddLogging()
-                .AddHttpClient()
-                .AddInitializers()
-                .AddServiceCollection();
-
-            // Transient
-            services.AddTransient<IModuleContext, ModuleContext>()
-                .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
-                .AddTransient<IHttp, Http>()
-                .AddTransient<ICommand, Command>()
-                .AddTransient<ICertificates, Certificates>()
-                .AddTransient<IDownloader, Downloader>()
-                .AddTransient<IInstaller, Installer>()
-                .AddTransient<IFileInstaller, FileInstaller>()
-                .AddTransient<IPredefinedInstallers, PredefinedInstallers>()
-                .AddTransient<IWindowsInstaller, WindowsInstaller>()
-                .AddTransient<IMacInstaller, MacInstaller>()
-                .AddTransient<ILinuxInstaller, LinuxInstaller>()
-                .AddTransient<IAptGet, AptGet>()
-                .AddTransient<IHasher, Hasher>()
-                .AddTransient<IBase64, Base64>()
-                .AddTransient<IHex, Hex>()
-                .AddTransient<IZip, Zip>()
-                .AddTransient<IJson, Json>()
-                .AddTransient<IXml, Xml>()
-                .AddTransient<IPowershell, Powershell>()
-                .AddTransient<IBash, Bash>()
-                .AddTransient<ISecretObfuscator, SecretObfuscator>()
-                .AddTransient<IOptionsProvider, OptionsProvider>();
-
-            // Singletons
-            services
-                .AddSingleton<EngineCancellationToken>()
-                .AddSingleton<IPipelineInitializer, PipelineInitializer>()
-                .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
-                .AddSingleton<IModuleInitializer, ModuleInitializer>()
-                .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
-                .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
-                .AddSingleton<IPipelineExecutor, PipelineExecutor>()
-                .AddSingleton<IModuleExecutor, ModuleExecutor>()
-                .AddSingleton(typeof(ModuleLogger<>))
-                .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
-                .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
-                .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
-                .AddSingleton<IDependencyDetector, DependencyDetector>()
-                .AddSingleton<IUnusedModuleDetector, UnusedModuleDetector>()
-                .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
-                .AddSingleton<IDependencyPrinter, DependencyPrinter>()
-                .AddSingleton<IEnvironmentContext, EnvironmentContext>()
-                .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-                .AddSingleton<IFileSystemContext, FileSystemContext>()
-                .AddSingleton<IRequirementChecker, RequirementChecker>()
-                .AddSingleton<IModuleRetriever, ModuleRetriever>()
-                .AddSingleton<IModuleResultPrinter, ModuleResultPrinter>()
-                .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
-                .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>();
-        });
+        _internalHost.ConfigureServices(DependencyInjectionSetup.Initialize);
     }
 
     public static IPipelineHostBuilder Create() => new PipelineHostBuilder();
@@ -106,6 +41,26 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         _internalHost.ConfigureServices((context, collection) =>
         {
             collection.Configure<PipelineOptions>(options => configureDelegate(context, options));
+        });
+
+        return this;
+    }
+    
+    public IPipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
+    {
+        _internalHost.ConfigureServices((context, collection) =>
+        {
+            collection.AddModule<TModule>();
+        });
+
+        return this;
+    }
+    
+    public IPipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
+    {
+        _internalHost.ConfigureServices((context, collection) =>
+        {
+            collection.AddSingleton<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
         });
 
         return this;
@@ -184,6 +139,5 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         return baseDirectoryDlls
             .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
             .Distinct();
-
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -48,7 +49,7 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.Select(x => x.Path), new Uri("https://api.nuget.org/v3/index.json"))
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
                 ApiKey = _options.Value.ApiKey!,
                 NoSymbols = true

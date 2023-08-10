@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.NuGet.Extensions;
@@ -29,6 +30,6 @@ public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
         var packagePaths = await GetModule<PackagePathsParserModule>();
 
         return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.Select(x => x.Path)!, new Uri(localRepoLocation.Value!)));
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri(localRepoLocation.Value!)));
     }
 }

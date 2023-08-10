@@ -9,11 +9,11 @@ internal class ModuleExecutor : IModuleExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly IModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
+    private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
-        IModuleEstimatedTimeProvider moduleEstimatedTimeProvider)
+        ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;

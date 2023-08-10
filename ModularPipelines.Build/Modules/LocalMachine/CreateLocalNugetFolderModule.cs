@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -8,23 +9,19 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
-public class CreateLocalNugetFolderModule : Module<string>
+public class CreateLocalNugetFolderModule : Module<Folder>
 {
-    protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<Folder>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAppData = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData).Path;
-
-        var localNugetRepositoryFolderPath = Path.Combine(userAppData, "ModularPipelines", "LocalNuget");
-
-        if (!Directory.Exists(localNugetRepositoryFolderPath))
-        {
-            Directory.CreateDirectory(localNugetRepositoryFolderPath);
-        }
-
+        var localNugetRepositoryFolder = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData)
+            .GetFolder("ModularPipelines")
+            .GetFolder("LocalNuget")
+            .Create();
+        
         await Task.Yield();
 
-        context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolderPath);
+        context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolder.Path);
 
-        return localNugetRepositoryFolderPath;
+        return localNugetRepositoryFolder;
     }
 }

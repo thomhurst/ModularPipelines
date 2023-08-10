@@ -9,14 +9,14 @@ internal class ModuleRetriever : IModuleRetriever
 {
     private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
     private readonly IModuleInitializer _moduleInitializer;
-    private readonly IModuleEstimatedTimeProvider _estimatedTimeProvider;
+    private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<ModuleBase> _modules;
 
     public ModuleRetriever(
         IModuleIgnoreHandler moduleIgnoreHandler,
         IModuleInitializer moduleInitializer,
         IEnumerable<ModuleBase> modules,
-        IModuleEstimatedTimeProvider estimatedTimeProvider
+        ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
         _moduleIgnoreHandler = moduleIgnoreHandler;

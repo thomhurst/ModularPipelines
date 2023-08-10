@@ -2,13 +2,8 @@ namespace ModularPipelines.Engine;
 
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
 {
-    private readonly string _directory;
-
-    public FileSystemModuleEstimatedTimeProvider()
-    {
-        _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "ModularPipelines", "EstimatedTimes");
-    }
+    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "ModularPipelines", "EstimatedTimes");
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
     {
@@ -20,17 +15,11 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     {
         var path = Path.Combine(_directory, fileName);
 
-        try
+
+        if (File.Exists(path))
         {
-            if (File.Exists(path))
-            {
-                var contents = await File.ReadAllTextAsync(path);
-                return TimeSpan.Parse(contents);
-            }
-        }
-        catch
-        {
-            // Ignored
+            var contents = await File.ReadAllTextAsync(path);
+            return TimeSpan.Parse(contents);
         }
 
         // Some default fallback. We can't estimate for now so we'll estimate next time.
@@ -46,18 +35,11 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
     {
-        try
-        {
-            Directory.CreateDirectory(_directory);
+        Directory.CreateDirectory(_directory);
 
-            var path = Path.Combine(_directory, fileName);
+        var path = Path.Combine(_directory, fileName);
 
-            await File.WriteAllTextAsync(path, duration.ToString());
-        }
-        catch
-        {
-            // Ignored
-        }
+        await File.WriteAllTextAsync(path, duration.ToString());
     }
 
     public async Task<TimeSpan> GetSubModuleEstimatedTimeAsync(Type moduleType, string subModuleName)
