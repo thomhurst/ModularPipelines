@@ -9,3 +9,22 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      aws-dependencies:
+        patterns:
+          - AWSSDK*
+          - awssdk*
+      azure-dependencies:
+        patterns:
+          - Azure*
+      mstest-dependencies:
+        patterns:
+          - MSTest*
+      nunit-dependencies:
+        patterns:
+          - NUnit*
+    ignore:
+      - dependency-name: 'Microsoft.Extensions.*'
+        update-types: ["version-update:semver-major"]
+      - dependency-name: 'Microsoft.CodeAnalysis*'
+      
