@@ -4,7 +4,7 @@ updates:
     directory: "/"
     open-pull-requests-limit: 20
     schedule:
-      interval: "weekly"
+      interval: "daily"
     groups:
       aws-dependencies:
         patterns:
@@ -13,12 +13,10 @@ updates:
       azure-dependencies:
         patterns:
           - Azure*
-      mstest-dependencies:
-        patterns:
-          - MSTest*
-      nunit-dependencies:
+      test-dependencies:
         patterns:
           - NUnit*
+          - "*Test*"
     ignore:
       - dependency-name: "Microsoft.Extensions.*"
         update-types: ["version-update:semver-major"]
