@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Engine;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -14,4 +15,11 @@ public interface IPipelineHostBuilder
     IPipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate);
     Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync();
     internal IHost BuildHost();
+
+    IPipelineHostBuilder AddModule<TModule>()
+        where TModule : ModuleBase;
+
+
+    IPipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>()
+        where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider;
 }

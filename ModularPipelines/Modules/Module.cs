@@ -6,6 +6,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Modules;
 
@@ -238,7 +239,9 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            var tasks = DependentModules.Select(dependsOnAttribute =>
+            await DependentModules
+                .ToAsyncProcessorBuilder()
+                .ForEachAsync(dependsOnAttribute =>
             {
                 var module = _context.GetModule(dependsOnAttribute.Type);
 
@@ -254,9 +257,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                 }
 
                 return module.ResultTaskInternal;
-            });
-
-            await Task.WhenAll(tasks);
+            })
+                .ProcessInParallel();
         }
         catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
         {

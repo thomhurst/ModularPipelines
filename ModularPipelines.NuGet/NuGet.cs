@@ -19,13 +19,8 @@ internal class NuGet : INuGet
         var results = new List<CommandResult>();
         foreach (var packagePath in options.PackagePaths)
         {
-            var arguments = new List<string>
-            {
-                packagePath
-            };
-
             var commandResult = await _context.Command
-                .ExecuteCommandLineTool(options.WithArguments(arguments));
+                .ExecuteCommandLineTool(options.WithArguments(packagePath));
 
             results.Add(commandResult);
         }

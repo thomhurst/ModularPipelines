@@ -55,7 +55,7 @@ public abstract class ModuleBase
     protected virtual Task<bool> ShouldSkip(IModuleContext context) => Task.FromResult(false);
 
     /// <summary>
-    /// If this module is skipped, and this returns true, the last persisted result of this module will be reconstructed.
+    /// If this module is skipped, and this returns true, the result of this module will be reconstructed from the plugged in <see cref="IModuleResultRepository"/>.
     /// If no persisted result can be reconstructed, this module will fail.
     /// </summary>
     /// <param name="context"></param>
