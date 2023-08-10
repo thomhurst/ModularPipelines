@@ -23,12 +23,12 @@ public record CommandLineOptions
     /// <summary>
     /// Whether to Log the input command in the pipeline output
     /// </summary>
-    public bool LogInput { get; init; } = true;
+    public bool LogInput { get; init; } = GlobalConfig.LogCommandInput;
 
     /// <summary>
     /// Whether to Log the command output in the pipeline output
     /// </summary>
-    public bool LogOutput { get; init; } = true;
+    public bool LogOutput { get; init; } = GlobalConfig.LogCommandOutput;
 
     /// <summary>
     /// If logging input, you can use this to edit how the input is logged
