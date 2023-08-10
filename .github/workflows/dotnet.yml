@@ -8,6 +8,12 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      publish-packages:
+        description: Publish packages?    
+        type: boolean
+        required: true
 
 jobs:
   modularpipeline:
@@ -31,3 +37,4 @@ jobs:
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
           GITHUB_TOKEN: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
           PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PUBLISH_PACKAGES: ${{ github.event.inputs.publish-packages }}

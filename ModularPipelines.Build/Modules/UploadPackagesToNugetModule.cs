@@ -37,6 +37,26 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         await base.OnBeforeExecute(context);
     }
 
+    protected override async Task<bool> ShouldSkip(IModuleContext context)
+    {
+        var gitVersionInfo = await context.Git().Versioning.GetGitVersioningInformation();
+
+        if (gitVersionInfo.BranchName != "main")
+        {
+            return true;
+        }
+        
+        var publishPackages =
+            context.Environment.EnvironmentVariables.GetEnvironmentVariable("PUBLISH_PACKAGES")!;
+
+        if (!bool.TryParse(publishPackages, out var shouldPublishPackages) || !shouldPublishPackages)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
