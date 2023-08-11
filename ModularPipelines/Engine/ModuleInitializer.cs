@@ -4,13 +4,15 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleInitializer : IModuleInitializer
+internal class ModuleInitializer : IModuleInitializer, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScope _serviceScope;
 
-    public ModuleInitializer(IServiceProvider serviceProvider)
+    public ModuleInitializer(IServiceScopeFactory serviceScopeFactory)
     {
-        _serviceProvider = serviceProvider;
+        _serviceScope = serviceScopeFactory.CreateScope();
+        _serviceProvider = _serviceScope.ServiceProvider;
     }
 
     public ModuleBase Initialize(ModuleBase module)
@@ -18,5 +20,10 @@ internal class ModuleInitializer : IModuleInitializer
         // Each context needs to be transient
         var context = _serviceProvider.GetRequiredService<IModuleContext>();
         return module.Initialize(context);
+    }
+
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
     }
 }

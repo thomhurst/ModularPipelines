@@ -5,15 +5,17 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Helpers;
 
-internal class ModuleLoggerProvider : IModuleLoggerProvider
+internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
 
     private ILogger? _logger;
+    private readonly IServiceScope _serviceScope;
 
-    public ModuleLoggerProvider(IServiceProvider serviceProvider)
+    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory)
     {
-        _serviceProvider = serviceProvider;
+        _serviceScope = serviceScopeFactory.CreateScope();
+        _serviceProvider = _serviceScope.ServiceProvider;
     }
 
     public ILogger GetLogger(Type type) => _logger ??= MakeLogger(type);
@@ -71,5 +73,10 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
         }
 
         return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
+    }
+
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
     }
 }

@@ -44,14 +44,14 @@ internal class ModuleContext : IModuleContext
         _logger = _moduleLoggerProvider.GetLogger(getType);
     }
 
-    public T Get<T>()
+    public T? Get<T>()
     {
-        return (T) ServiceProvider.GetRequiredService(typeof(T));
+        return ServiceProvider.GetService<T>();
     }
 
     public IFileSystemContext FileSystem { get; }
 
-    public ModuleContext(IServiceProvider serviceProvider,
+    public ModuleContext(IServiceScopeFactory serviceScopeFactory,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IEnvironmentContext environment,
         IFileSystemContext fileSystem,
@@ -86,7 +86,7 @@ internal class ModuleContext : IModuleContext
         Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
-        ServiceProvider = serviceProvider;
+        ServiceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         Environment = environment;
         FileSystem = fileSystem;
