@@ -7,11 +7,11 @@ namespace ModularPipelines.MicrosoftTeams;
 
 internal class MicrosoftTeams : IMicrosoftTeams
 {
-    public IModuleContext Context { get; }
+    private readonly HttpClient _httpClient;
 
-    public MicrosoftTeams(IModuleContext context)
+    public MicrosoftTeams(HttpClient httpClient)
     {
-        Context = context;
+        _httpClient = httpClient;
     }
 
     public async Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default)
@@ -28,7 +28,7 @@ internal class MicrosoftTeams : IMicrosoftTeams
             RequestUri = options.WebHookUri
         };
 
-        var responseMessage = await Context.Get<HttpClient>()!.SendAsync(cardsRequest, cancellationToken);
+        var responseMessage = await _httpClient.SendAsync(cardsRequest, cancellationToken);
 
         return responseMessage.EnsureSuccessStatusCode();
     }
