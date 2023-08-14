@@ -31,7 +31,7 @@ jobs:
           dotnet-version: 6.0.x
       - name: Run Pipeline
         run: dotnet run -c Release
-        working-directory: "ModularPipelines.Build"
+        working-directory: "src/ModularPipelines.Build"
         env:
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
