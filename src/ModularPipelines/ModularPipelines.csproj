@@ -25,7 +25,7 @@
       <PackageReference Include="Spectre.Console" Version="0.47.0" />
       <PackageReference Include="TomLonghurst.EnumerableAsyncProcessor" Version="1.1.0" />
       <PackageReference Include="TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization" Version="1.2.1" />
-      <PackageReference Include="YamlDotNet" Version="13.1.1" />
+      <PackageReference Include="YamlDotNet" Version="13.2.0" />
     </ItemGroup>
 
     <ItemGroup>
