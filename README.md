@@ -56,10 +56,13 @@ If you'd like to install, the packages are available on NuGet, just make sure to
 
   - Want to move to a different build system? You don't have to re-learn or setup the whole thing from scratch. Your system simply needs access to your Pipeline project and have the .NET SDK installed.
 
-## Registering Modules in Startup
+## Getting Started
 
-ModularPipelines uses the familiar Host builder syntax, which you'll recognise if you've worked on .NET Web APIs.
+If you want to see how to get started, [read the Wiki page here](https://github.com/thomhurst/ModularPipelines/wiki)
 
+## Code Examples
+
+### Program.cs - Main method
 ```csharp
 await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
@@ -81,118 +84,37 @@ await PipelineHostBuilder.Create()
     .ExecutePipelineAsync();
 ```
 
-## Contexts
-There are a few packages for providing out-of-the-box functonality for things like DotNet commands, or publishing a card to Microsoft teams.
-If you install any of these projects, then in startup, make sure you register these contexts:
+### Custom Modules
+
 ```csharp
-collection.RegisterDotNetContext();
+public class FindNugetPackagesModule : Module<FileInfo>
+{
+    protected override async Task<ModuleResult<List<File>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        await Task.Yield();
+
+        return context.FileSystem.GetFiles(context.Environment.GitRootDirectory!.Path,
+            SearchOption.AllDirectories,
+            path => path.Extension is ".nupkg")
+            .ToList();
+    }
+}
 ```
 
-These can then be used within your modules, by accessing them on the `IModuleContext` object
 ```csharp
-await Context.DotNet().Build(new DotNetOptions
+[DependsOn<FindNugetPackagesModule>]
+public class UploadNugetPackagesModule : Module<FileInfo>
+{
+    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var nugetFiles = await GetModule<FindNugetPackagesModule>();
+
+        return await context.NuGet()
+            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
-                TargetPath = SomePath
-            }, cancellationToken)
-```
-
-## Defining Modules
-
-Modules are defined by creating a class that inherits from the `Module<T>` base class - And T is a return type, if you want your module to be able to return data, that you can retrieve from other modules. You can also just inherit from `Module` which will assume you're returning a dictionary of data. You can also return Nothing, which will be explained further down.
-
-```csharp
-public class FindAFileModule : Module<FileInfo>
-{
-    public FindAFileModule(IModuleContext context) : base(context)
-    {
-    }
-
-    protected override async Task<ModuleResult<FileInfo>?> ExecuteAsync(CancellationToken cancellationToken)
-    {
-        await Task.Yield();
-        return Context.FileSystem
-            .GetFiles("C:\\", SearchOption.AllDirectories, file => file.Name == "MyJsonFile.json")
-            .Single();
-
-        // or
-        return await NothingAsync();
+                ApiKey = "SomeApiKey",
+                NoSymbols = true
+            });
     }
 }
 ```
-
-You can also override things such as Timeouts, OnBefore and OnAfter methods, on a module by module basis.
-
-## Execution and Dependencies
-
-The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible. If you don't want a particular module to start until another one has finished, then you simply add a `[DependsOn<TModule>]` attribute to your module class
-
-```csharp
-[DependsOn<Module1>] // or [DependsOn(typeof(Module1))] for older language versions
-public class Module2 : Module
-{
-    ...
-}
-```
-
-## Sharing Data across modules
-
-One module is able to see the data that another module has returned. Simply call `await GetModule<TModule>()` from within your module, and you'll have access to the object that it returned in its `ExecuteAsync` method.
-
-```csharp
-var myModuleResultObject = await GetModule<MyModule>();
-
-await DoSomething(myModuleResultObject.Value);
-```
-
-## Hooks
-
-As mentioned, we can define OnBefore and OnAfter behaviour in specific modules by overriding those methods. But if we want to have repeat behaviour for every module, we can register some 'Hook' classes during startup.
-
-Pipeline Global Hooks will run once, before any modules have started, and/or after all modules have finished. Pipeline Module Hooks will run repeatedly, before every module, and/or after every module.
-
-This can be useful if you want some standard logging behaviour for example.
-
-```csharp
-collection.AddPipelineGlobalHooks<MyGlobalHooks>()
-            .AddPipelineModuleHooks<MyModuleHooks>()
-```
-
-```csharp
-public class MyModuleHooks : IPipelineModuleHooks
-{
-    public Task OnBeforeModuleStartAsync(IModuleContext moduleContext, IModule module)
-    {
-        moduleContext.Logger.LogInformation("{Module} is starting", module.GetType().Name);
-        return Task.CompletedTask;
-    }
-
-    public Task OnBeforeModuleEndAsync(IModuleContext moduleContext, IModule module)
-    {
-        moduleContext.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
-        return Task.CompletedTask;
-    }
-}
-```
-
-## Requirements
-
-If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected. Simply implement `IPipelineRequirement` and then call `IServiceCollection.AddRequirement<TRequirement>()`
-
-```csharp
-public class WindowsRequirement : IPipelineRequirement
-{
-    public async Task<bool> MustAsync()
-    {
-        await Task.Yield();
-        return Environment.OSVersion.Platform == PlatformID.Win32NT;
-    }
-}
-```
-
-## Inheriting
-
-Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different options, then you should create a new Module type that inherits from an abstract base module.
-
-## Example
-
-The pipeline to test, generate and upload the NuGet packages for this library.. is made from this library. See the ModularPipelines.Build project in this repository.
