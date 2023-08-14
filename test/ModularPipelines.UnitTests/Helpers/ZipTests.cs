@@ -13,7 +13,7 @@ public class ZipTests : TestBase
         {
             await Task.Yield();
 
-            var directory = context.Environment.GitRootDirectory!.GetFolder("ModularPipelines.UnitTests").GetFolder("Data");
+            var directory = context.Environment.GitRootDirectory!.GetFolder("test").GetFolder("ModularPipelines.UnitTests").GetFolder("Data");
 
             var fileToWrite = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
 
