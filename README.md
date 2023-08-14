@@ -1,5 +1,7 @@
 # ModularPipelines
 
+Define your pipeline in .NET!
+
 [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/)
 ![Nuget](https://img.shields.io/nuget/dt/ModularPipelines)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thomhurst/ModularPipelines/dotnet.yml)
@@ -7,8 +9,7 @@
 
 
 ## Work in Progress
-I'd really appreciate some feedback around what people think, and anything that could improved.
-If you'd like to install, the packages are available on NuGet, just make sure to show 'prerelease' packages!
+ModularPipelines isn't currently a work in progress. If you'd like to see a feature added, please raise an issue.
 
 ## Available Modules
 
@@ -31,34 +32,9 @@ If you'd like to install, the packages are available on NuGet, just make sure to
 | ModularPipelines.Terraform | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 
 
-## Why ModularPipelines
-
-- C# / .NET
-
-  - Familiar - If you're a .NET developer, you don't have to concern yourself as much with the different features, languages or syntaxes of different build systems
-  - It's flexible - .NET has lots of powerful features out of the box, and we can tap into the ecosystem of libraries if we want anything more
-  - Strong typing - We can structure our modules with objects that we can pass around, and we know what data we then have available to use
-  - Tap into the familiar .NET Host framework, providing a familiar Startup, full Dependency Injection, flexible Configuration builders and more
-
-- Source Control
-
-  - Some Pipelines, such as TeamCity, aren't source controlled. This means that making changes for a new feature that isn't released yet has to happen globally, which can cause build breakages between different branches. With it in Source Control, we can change the pipeline on a branch for a new feature without affecting other builds and branches
-  - A broken pipeline shouldn't ever get merged into the main branch if it never went green
-  - We are able to easily look back at a history of changes if they're all stored in git commits
-  - We are easily able to identify who made what changes
-
-- Running locally
-
-  - You can debug and run a pipeline locally (targeting test environments ideally), if you ever encounter a broken pipeline
-  - How many times have you started a new role or team, and been provided a huge developer setup guide that requires you to download and install numerous different things? You could define a pipeline for local machines. You can decide in startup, depending on something like the Environment name, and decide to either register modules for setting up a local developer machine, or if on a build agent, for deploying to the cloud.
-
-- Portability
-
-  - Want to move to a different build system? You don't have to re-learn or setup the whole thing from scratch. Your system simply needs access to your Pipeline project and have the .NET SDK installed.
-
 ## Getting Started
 
-If you want to see how to get started, [read the Wiki page here](https://github.com/thomhurst/ModularPipelines/wiki)
+If you want to see how to get started, or want to know more about ModularPipelines, [read the Wiki page here](https://github.com/thomhurst/ModularPipelines/wiki)
 
 ## Code Examples
 
