@@ -26,17 +26,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
-      <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
-      <ProjectReference Include="..\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Node\ModularPipelines.Node.csproj" />
-      <ProjectReference Include="..\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 
 </Project>
