@@ -1,6 +1,6 @@
 # ModularPipelines
 
-Define your pipeline in .NET!
+Define your pipeline in .NET! Strong types, intellisense, parallelisation, and the entire .NET ecosystem at your fingertips.
 
 [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/)
 ![Nuget](https://img.shields.io/nuget/dt/ModularPipelines)
@@ -9,7 +9,7 @@ Define your pipeline in .NET!
 
 
 ## Work in Progress
-ModularPipelines isn't currently a work in progress. If you'd like to see a feature added, please raise an issue.
+ModularPipelines is currently a work in progress. If you'd like to see a feature added, please raise an issue.
 
 ## Available Modules
 
@@ -35,10 +35,8 @@ await PipelineHostBuilder.Create()
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
 
-        collection.AddModule<Module1>()
-            .AddModule<Module2>()
-            .AddModule<Module3>()
-            .AddModule<Module4>();
+        collection.AddModule<FindNugetPackagesModule>()
+            .AddModule<UploadNugetPackagesModule>();
     })
     .ExecutePipelineAsync();
 ```
