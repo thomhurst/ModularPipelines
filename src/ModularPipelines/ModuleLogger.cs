@@ -151,6 +151,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     private string GetCollapsibleSectionName()
     {
-        return $"{GetType().Name} Output";
+        return $"{typeof(T).Name} Output";
     }
 }
