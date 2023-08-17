@@ -8,12 +8,12 @@ namespace ModularPipelines.Engine;
 
 internal class RequirementChecker : IRequirementChecker
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly IModuleContextProvider _moduleContextProvider;
     private readonly List<IPipelineRequirement> _requirements;
 
-    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IServiceScopeFactory serviceScopeFactory)
+    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IModuleContextProvider moduleContextProvider)
     {
-        _serviceScopeFactory = serviceScopeFactory;
+        _moduleContextProvider = moduleContextProvider;
         _requirements = requirements.ToList();
     }
 
@@ -24,12 +24,8 @@ internal class RequirementChecker : IRequirementChecker
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
-            var serviceScope = _serviceScopeFactory.CreateScope();
-
-            var mustAsync = await requirement.MustAsync(serviceScope.ServiceProvider.GetRequiredService<IModuleContext>());
+            var mustAsync = await requirement.MustAsync(_moduleContextProvider.GetModuleContext());
             
-            serviceScope.Dispose();
-
             if (!mustAsync)
             {
                 failedRequirementsNames.Add(requirement.GetType().Name);
