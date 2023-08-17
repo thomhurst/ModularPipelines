@@ -100,6 +100,12 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         PrintCollapsibleSectionStart();
 
         var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
+
+        if (!logEvents.Any())
+        {
+            _defaultLogger.LogInformation("No output for {Module}", typeof(T).Name);
+        }
+        
         foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
         {
             _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
@@ -151,6 +157,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     private string GetCollapsibleSectionName()
     {
-        return $"{typeof(T).Name} Output";
+        return $"{typeof(T).Name}";
     }
 }
