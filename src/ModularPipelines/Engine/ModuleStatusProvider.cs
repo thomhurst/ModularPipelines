@@ -14,6 +14,8 @@ internal class ModuleStatusProvider : IModuleStatusProvider
     
     public Status? GetStatusForModule<T>()
     {
-        return _modules.OfType<T>().OfType<ModuleBase>().FirstOrDefault()?.Status;
+        var module = _modules.OfType<T>().FirstOrDefault();
+        
+        return (module as ModuleBase)?.Status;
     }
 }
