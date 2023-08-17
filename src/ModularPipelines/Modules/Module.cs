@@ -170,6 +170,29 @@ public abstract partial class Module<T> : ModuleBase<T>
         finally
         {
             await OnAfterExecute(_context);
+            
+            switch (Status)
+            {
+                case Status.NotYetStarted:
+                    _context.Logger.LogWarning("Module never started");
+                    break;
+                case Status.Processing:
+                    _context.Logger.LogError("Module didn't finish executing");
+                    break;
+                case Status.Successful:
+                    _context.Logger.LogInformation("Module completed successfully");
+                    break;
+                case Status.Failed:
+                case Status.TimedOut:
+                    _context.Logger.LogError("Module failed");
+                    break;
+                case Status.Skipped:
+                    _context.Logger.LogWarning("Module skipped");
+                    break;
+                case Status.Unknown:
+                    _context.Logger.LogError("Unknown module status");
+                    break;
+            }
         }
     }
 

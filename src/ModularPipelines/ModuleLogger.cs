@@ -1,7 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines;
@@ -21,6 +24,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
+    private readonly IModuleStatusProvider _moduleStatusProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -31,12 +35,14 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         ILogger<T> defaultLogger, 
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
-        IBuildSystemDetector buildSystemDetector)
+        IBuildSystemDetector buildSystemDetector,
+        IModuleStatusProvider moduleStatusProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
+        _moduleStatusProvider = moduleStatusProvider;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -100,11 +106,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         PrintCollapsibleSectionStart();
 
         var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
-
-        if (!logEvents.Any())
-        {
-            _defaultLogger.LogInformation("No output for {Module}", typeof(T).Name);
-        }
         
         foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
         {
@@ -123,17 +124,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            Console.WriteLine($@"::group::{GetCollapsibleSectionName()}");
+            WriteWithColour($@"::group::{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            Console.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
+            WriteWithColour($@"##[group]{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            Console.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+            WriteWithColour($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
         }
     }
 
@@ -141,22 +142,41 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            Console.WriteLine(@"::endgroup::");
+            WriteWithColour(@"::endgroup::");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            Console.WriteLine(@"##[endgroup]");
+            WriteWithColour(@"##[endgroup]");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            Console.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
+            WriteWithColour($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
         }
     }
 
     private string GetCollapsibleSectionName()
     {
         return $"{typeof(T).Name}";
+    }
+
+    private void WriteWithColour(string value)
+    {
+        var originalColour = Console.ForegroundColor;
+
+        var moduleResult = _moduleStatusProvider.GetStatusForModule<T>();
+
+        Console.ForegroundColor = moduleResult switch
+        {
+            Status.Successful => ConsoleColor.Green,
+            Status.Failed or Status.TimedOut or Status.Unknown => ConsoleColor.Red,
+            Status.Skipped or Status.Processing or Status.NotYetStarted => ConsoleColor.Yellow,
+            _ => Console.ForegroundColor
+        };
+
+        Console.WriteLine(value);
+
+        Console.ForegroundColor = originalColour;
     }
 }
