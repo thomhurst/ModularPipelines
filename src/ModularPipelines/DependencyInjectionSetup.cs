@@ -48,6 +48,8 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
+            .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
@@ -69,7 +71,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<IModuleRetriever, ModuleRetriever>()
-            .AddSingleton<IModuleResultPrinter, ModuleResultPrinter>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();

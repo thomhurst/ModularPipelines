@@ -2,7 +2,7 @@
 
 namespace ModularPipelines;
 
-internal class BuildSystemDetector
+internal class BuildSystemDetector : IBuildSystemDetector
 {
     private readonly IEnvironmentContext _environment;
 
@@ -13,4 +13,10 @@ internal class BuildSystemDetector
     
     public bool IsRunningOnAzurePipelines
         => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("TF_BUILD"));
+    
+    public bool IsRunningOnTeamCity => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("TEAMCITY_VERSION"));
+    
+    public bool IsRunningOnGitHubActions => !string.IsNullOrEmpty(_environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_ACTIONS"));
+    
+    public bool IsRunningOnJenkins => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("JENKINS_URL"));
 }
