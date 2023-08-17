@@ -173,6 +173,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         };
         
         AnsiConsole.Console.Write($"{moduleResult} ", style);
-        AnsiConsole.Console.WriteLine(value, style);
+        Console.WriteLine(value);
     }
 }
