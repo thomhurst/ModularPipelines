@@ -60,29 +60,56 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A ModuleResult should be enumerated before being returned..
+        /// </summary>
+        internal static string IEnumerableModuleResultAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("IEnumerableModuleResultAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return an enumerated collection such as a List instead of an IEnumerable to avoid multiple Enumeration.
+        /// </summary>
+        internal static string IEnumerableModuleResultAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("IEnumerableModuleResultAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IEnumerable Module Result.
+        /// </summary>
+        internal static string IEnumerableModuleResultAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("IEnumerableModuleResultAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing DependsOn Attribute..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string MissingDependsOnAttributeAnalyzerDescription {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("MissingDependsOnAttributeAnalyzerDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to This Module should have a DependsOn attribute for {0}.
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string MissingDependsOnAttributeAnalyzerMessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("MissingDependsOnAttributeAnalyzerMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Missing DependsOn Attribute.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string MissingDependsOnAttributeAnalyzerTitle {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("MissingDependsOnAttributeAnalyzerTitle", resourceCulture);
             }
         }
     }
