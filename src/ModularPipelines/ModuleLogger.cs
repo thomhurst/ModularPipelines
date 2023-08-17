@@ -162,6 +162,10 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     private void WriteWithColour(string value)
     {
+        Console.WriteLine(value);
+        return;
+        
+        // TODO
         var moduleResult = _moduleStatusProvider.GetStatusForModule<T>();
 
         var style = moduleResult switch
