@@ -20,17 +20,23 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IBuildSystemDetector _buildSystemDetector;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(IOptions<PipelineOptions> options, ILogger<T> defaultLogger, IModuleLoggerContainer moduleLoggerContainer, ISecretObfuscator secretObfuscator)
+    public ModuleLogger(IOptions<PipelineOptions> options, 
+        ILogger<T> defaultLogger, 
+        IModuleLoggerContainer moduleLoggerContainer, 
+        ISecretObfuscator secretObfuscator,
+        IBuildSystemDetector buildSystemDetector)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
+        _buildSystemDetector = buildSystemDetector;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -91,15 +97,60 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
         _isDisposed = true;
 
+        PrintCollapsibleSectionStart();
+
         var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
         foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
         {
             _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
         }
+        
+        PrintCollapsibleSectionEnd();
 
         logEvents.Clear();
         _logEvents.Clear();
 
         GC.SuppressFinalize(this);
+    }
+
+    private void PrintCollapsibleSectionStart()
+    {
+        if (_buildSystemDetector.IsRunningOnGitHubActions)
+        {
+            Console.WriteLine($@"::group::{GetCollapsibleSectionName()}");
+        }
+        
+        if (_buildSystemDetector.IsRunningOnAzurePipelines)
+        {
+            Console.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
+        }
+        
+        if (_buildSystemDetector.IsRunningOnTeamCity)
+        {
+            Console.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+        }
+    }
+
+    private void PrintCollapsibleSectionEnd()
+    {
+        if (_buildSystemDetector.IsRunningOnGitHubActions)
+        {
+            Console.WriteLine(@"::endgroup::");
+        }
+        
+        if (_buildSystemDetector.IsRunningOnAzurePipelines)
+        {
+            Console.WriteLine(@"##[endgroup]");
+        }
+        
+        if (_buildSystemDetector.IsRunningOnTeamCity)
+        {
+            Console.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
+        }
+    }
+
+    private string GetCollapsibleSectionName()
+    {
+        return $"{GetType().Name} Output";
     }
 }
