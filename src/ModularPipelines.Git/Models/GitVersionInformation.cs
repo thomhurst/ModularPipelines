@@ -11,7 +11,7 @@ public record GitVersionInformation
     public string? PreReleaseLabelWithDash { get; init; }
     public int? PreReleaseNumber { get; init; }
     public int? WeightedPreReleaseNumber { get; init; }
-    public string? BuildMetaData { get; init; }
+    public int? BuildMetaData { get; init; }
     public string? BuildMetaDataPadded { get; init; }
     public string? FullBuildMetaData { get; init; }
     public string? MajorMinorPatch { get; init; }
