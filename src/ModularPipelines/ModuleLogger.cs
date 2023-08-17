@@ -142,17 +142,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            WriteWithColour(@"::endgroup::");
+            Console.WriteLine(@"::endgroup::");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            WriteWithColour(@"##[endgroup]");
+            Console.WriteLine(@"##[endgroup]");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            WriteWithColour($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
+            Console.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
         }
     }
 
@@ -172,13 +172,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             Status.Successful => ConsoleColor.Green,
             Status.Failed or Status.TimedOut or Status.Unknown => ConsoleColor.Red,
             Status.Skipped or Status.Processing or Status.NotYetStarted => ConsoleColor.Yellow,
-            _ => Console.ForegroundColor
+            _ => ConsoleColor.Green
         };
         
-        Console.WriteLine(@$"{moduleResult} ");
+        Console.WriteLine(value);
         
         Console.ForegroundColor = originalColour;
-
-        Console.WriteLine(value);
     }
 }
