@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Analyzers.Test.Verifiers;
 
@@ -27,6 +28,11 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
         var test = new Test
         {
             TestCode = source,
+            ReferenceAssemblies = Net.Net70,
+            TestState =
+            {
+                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
+            },
         };
 
         test.ExpectedDiagnostics.AddRange(expected);

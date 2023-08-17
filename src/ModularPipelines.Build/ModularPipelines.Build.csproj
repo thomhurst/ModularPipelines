@@ -2,12 +2,8 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-      <UserSecretsId>c8652339-706e-43c2-8afb-cf5f9dd1bb45</UserSecretsId>
-      <LangVersion>preview</LangVersion>
-  </PropertyGroup>
+        <UserSecretsId>c8652339-706e-43c2-8afb-cf5f9dd1bb45</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />

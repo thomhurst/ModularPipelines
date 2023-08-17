@@ -1,5 +1,6 @@
 <Project>
     <PropertyGroup>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>

@@ -67,7 +67,7 @@ public class Module1 : Module
     }
 }
 
-public class Module2 : Module, DependsOnModule1
+public class Module2 : Module, IDependsOnModule1
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -77,7 +77,7 @@ public class Module2 : Module, DependsOnModule1
 }
 
 [DependsOn<Module1>]
-public interface DependsOnModule1
+public interface IDependsOnModule1
 {
 }
 ";

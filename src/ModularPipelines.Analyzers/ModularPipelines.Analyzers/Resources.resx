@@ -117,16 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
+  <data name="MissingDependsOnAttributeAnalyzerDescription" xml:space="preserve">
     <value>Missing DependsOn Attribute.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
+  <data name="MissingDependsOnAttributeAnalyzerMessageFormat" xml:space="preserve">
     <value>This Module should have a DependsOn attribute for {0}</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
+  <data name="MissingDependsOnAttributeAnalyzerTitle" xml:space="preserve">
     <value>Missing DependsOn Attribute</value>
+    <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="IEnumerableModuleResultAnalyzerDescription" xml:space="preserve">
+    <value>A ModuleResult should be enumerated before being returned.</value>
+    <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+  <data name="IEnumerableModuleResultAnalyzerMessageFormat" xml:space="preserve">
+    <value>Return an enumerated collection such as a List instead of an IEnumerable to avoid multiple Enumeration</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+  <data name="IEnumerableModuleResultAnalyzerTitle" xml:space="preserve">
+    <value>IEnumerable Module Result</value>
     <comment>The title of the diagnostic.</comment>
   </data>
 </root>

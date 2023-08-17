@@ -5,3 +5,4 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
 MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer
+EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzerAnalyzer
