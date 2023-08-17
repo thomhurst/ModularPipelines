@@ -13,7 +13,6 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IModuleExecutor _moduleExecutor;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDependencyDetector _dependencyDetector;
-    private readonly IModuleResultPrinter _moduleResultPrinter;
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
 
     public PipelineExecutor(
@@ -24,7 +23,6 @@ internal class PipelineExecutor : IPipelineExecutor
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         IDependencyDetector dependencyDetector,
-        IModuleResultPrinter moduleResultPrinter,
         IModuleLoggerContainer moduleLoggerContainer)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
@@ -34,7 +32,6 @@ internal class PipelineExecutor : IPipelineExecutor
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _dependencyDetector = dependencyDetector;
-        _moduleResultPrinter = moduleResultPrinter;
         _moduleLoggerContainer = moduleLoggerContainer;
     }
 
@@ -74,8 +71,6 @@ internal class PipelineExecutor : IPipelineExecutor
             await Task.Delay(200);
 
             _moduleLoggerContainer.PrintAllLoggers();
-
-            _moduleResultPrinter.PrintModuleResults();
         }
 
         return organizedModules.AllModules;

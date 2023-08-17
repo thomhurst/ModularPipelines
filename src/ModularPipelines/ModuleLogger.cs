@@ -163,9 +163,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     private void WriteWithColour(string value)
     {
-        Console.WriteLine(value);
-        return;
-        
         var originalColour = Console.ForegroundColor;
 
         var moduleResult = _moduleStatusProvider.GetStatusForModule<T>();
@@ -177,9 +174,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             Status.Skipped or Status.Processing or Status.NotYetStarted => ConsoleColor.Yellow,
             _ => Console.ForegroundColor
         };
+        
+        Console.WriteLine(@$"{moduleResult} ");
+        
+        Console.ForegroundColor = originalColour;
 
         Console.WriteLine(value);
-
-        Console.ForegroundColor = originalColour;
     }
 }

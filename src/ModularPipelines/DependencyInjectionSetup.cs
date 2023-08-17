@@ -71,7 +71,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<IModuleRetriever, ModuleRetriever>()
-            .AddSingleton<IModuleResultPrinter, ModuleResultPrinter>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
