@@ -42,7 +42,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             {
                 nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
                     .OfType<Type>()
-                    .First(x => !x.IsAbstract);
+                    .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
 
                 return MakeLogger(nonAbstractType);
             }
@@ -58,7 +58,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
             nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
                 .OfType<Type>()
-                .First(x => !x.IsAbstract);
+                .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
 
             return MakeLogger(nonAbstractType);
         }
