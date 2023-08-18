@@ -1,5 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Engine;
 
@@ -7,34 +11,58 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
     private readonly IEnumerable<IPipelineModuleHooks> _moduleHooks;
-    private readonly IModuleContextProvider _moduleContextProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
         IEnumerable<IPipelineModuleHooks> moduleHooks,
-        IModuleContextProvider moduleContextProvider)
+        IServiceProvider serviceProvider)
     {
         _globalHooks = globalHooks;
         _moduleHooks = moduleHooks;
-        _moduleContextProvider = moduleContextProvider;
+        _serviceProvider = serviceProvider;
     }
 
-    public Task OnStartAsync()
+    public async Task OnStartAsync()
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnStartAsync(await _moduleContextProvider.GetModuleContext())));
+        await _globalHooks.ToAsyncProcessorBuilder()
+            .ForEachAsync(async x =>
+            {
+                await using var serviceScope = _serviceProvider.CreateAsyncScope();
+                await serviceScope.ServiceProvider.InitializeAsync();
+                await x.OnStartAsync(serviceScope.ServiceProvider.GetRequiredService<IModuleContext>());
+            })
+            .ProcessInParallel();
     }
 
-    public Task OnEndAsync(IReadOnlyList<ModuleBase> modules)
+    public async Task OnEndAsync(IReadOnlyList<ModuleBase> modules)
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnEndAsync(await _moduleContextProvider.GetModuleContext(), modules)));
+        await _globalHooks.ToAsyncProcessorBuilder()
+            .ForEachAsync(async x =>
+            {
+                await using var serviceScope = _serviceProvider.CreateAsyncScope();
+                await serviceScope.ServiceProvider.InitializeAsync();
+                await x.OnEndAsync(serviceScope.ServiceProvider.GetRequiredService<IModuleContext>(), modules);
+            })
+            .ProcessInParallel();
     }
 
-    public Task OnBeforeModuleStartAsync(ModuleBase module)
+    public async Task OnBeforeModuleStartAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleStartAsync(await _moduleContextProvider.GetModuleContext(), module)));
+        await _moduleHooks.ToAsyncProcessorBuilder()
+            .ForEachAsync(async x =>
+            {
+                await x.OnBeforeModuleStartAsync(module.Context, module);
+            })
+            .ProcessInParallel();
     }
 
-    public Task OnAfterModuleEndAsync(ModuleBase module)
+    public async Task OnAfterModuleEndAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleEndAsync(await _moduleContextProvider.GetModuleContext(), module)));
+        await _moduleHooks.ToAsyncProcessorBuilder()
+            .ForEachAsync(async x =>
+            {
+                await x.OnBeforeModuleEndAsync(module.Context, module);
+            })
+            .ProcessInParallel();
     }
 }

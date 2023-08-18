@@ -54,12 +54,10 @@ internal static class DependencyInjectionSetup
         // Singletons
         services
             .AddSingleton<IAsyncLocalModule, AsyncLocalModule>()
-            .AddSingleton<IModuleContextProvider, ModuleContextProvider>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
-            .AddSingleton<IModuleInitializer, ModuleInitializer>()
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
             .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()

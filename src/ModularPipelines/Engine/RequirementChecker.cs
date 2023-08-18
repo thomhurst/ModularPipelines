@@ -3,17 +3,18 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Requirements;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Engine;
 
 internal class RequirementChecker : IRequirementChecker
 {
-    private readonly IModuleContextProvider _moduleContextProvider;
+    private readonly IServiceProvider _serviceProvider;
     private readonly List<IPipelineRequirement> _requirements;
 
-    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IModuleContextProvider moduleContextProvider)
+    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IServiceProvider serviceProvider)
     {
-        _moduleContextProvider = moduleContextProvider;
+        _serviceProvider = serviceProvider;
         _requirements = requirements.ToList();
     }
 
@@ -24,7 +25,10 @@ internal class RequirementChecker : IRequirementChecker
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
-            var mustAsync = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
+            await using var serviceScope = _serviceProvider.CreateAsyncScope();
+            await serviceScope.ServiceProvider.InitializeAsync();
+            
+            var mustAsync = await requirement.MustAsync(_serviceProvider.GetRequiredService<IModuleContext>());
             
             if (!mustAsync)
             {

@@ -13,6 +13,8 @@ public abstract class ModuleBase
     internal abstract Task<object> ResultTaskInternal { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
+    
+    internal IModuleContext Context = null!; // Late Initialisation
 
     /// <summary>
     /// The start time of the module

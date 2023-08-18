@@ -8,19 +8,16 @@ namespace ModularPipelines.Engine;
 internal class ModuleRetriever : IModuleRetriever
 {
     private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
-    private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<ModuleBase> _modules;
 
     public ModuleRetriever(
         IModuleIgnoreHandler moduleIgnoreHandler,
-        IModuleInitializer moduleInitializer,
         IEnumerable<ModuleBase> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
         _moduleIgnoreHandler = moduleIgnoreHandler;
-        _moduleInitializer = moduleInitializer;
         _estimatedTimeProvider = estimatedTimeProvider;
         _modules = modules.ToList();
     }
@@ -31,12 +28,7 @@ internal class ModuleRetriever : IModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
-
-        await _modules
-            .ToAsyncProcessorBuilder()
-            .ForEachAsync(async m => await _moduleInitializer.Initialize(m))
-            .ProcessInParallel();
-
+        
         var modulesToIgnore = _modules
             .Where(m => _moduleIgnoreHandler.ShouldIgnore(m))
             .ToList();
