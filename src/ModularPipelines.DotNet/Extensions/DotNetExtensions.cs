@@ -18,8 +18,8 @@ public static class DotNetExtensions
 
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IDotNet, DotNet>();
-        services.TryAddTransient<ITrxParser, TrxParser>();
+        services.TryAddScoped<IDotNet, DotNet>();
+        services.TryAddScoped<ITrxParser, TrxParser>();
         return services;
     }
 

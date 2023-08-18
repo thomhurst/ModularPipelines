@@ -18,7 +18,7 @@ public static class TerraformExtensions
 
     public static IServiceCollection RegisterTerraformContext(this IServiceCollection services)
     {
-        services.TryAddTransient<ITerraform, Terraform>();
+        services.TryAddScoped<ITerraform, Terraform>();
 
         return services;
     }

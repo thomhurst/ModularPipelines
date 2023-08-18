@@ -21,7 +21,7 @@ public static class NuGetExtensions
     {
         services.RegisterDotNetContext();
 
-        services.TryAddTransient<INuGet, NuGet>();
+        services.TryAddScoped<INuGet, NuGet>();
 
         return services;
     }

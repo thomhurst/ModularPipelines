@@ -14,6 +14,6 @@ internal class ModuleContextProvider : IModuleContextProvider
     
     public IModuleContext GetModuleContext()
     {
-        return _serviceProvider.GetRequiredService<IModuleContext>();
+        return _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IModuleContext>();
     }
 }

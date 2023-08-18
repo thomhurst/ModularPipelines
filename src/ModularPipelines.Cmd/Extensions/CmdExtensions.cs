@@ -18,7 +18,7 @@ public static class CmdExtensions
 
     public static IServiceCollection RegisterCmdContext(this IServiceCollection services)
     {
-        services.TryAddTransient<ICmd, Cmd>();
+        services.TryAddScoped<ICmd, Cmd>();
 
         return services;
     }

@@ -18,7 +18,7 @@ public static class EmailExtensions
 
     public static IServiceCollection RegisterEmailContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IEmail, Email>();
+        services.TryAddScoped<IEmail, Email>();
         return services;
     }
 
