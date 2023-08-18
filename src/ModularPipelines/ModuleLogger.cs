@@ -1,10 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
-using Spectre.Console;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines;
 
@@ -24,6 +21,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
+
+    private static readonly object Lock = new();
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -91,49 +90,53 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         {
         }
     }
-
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    
     public override void Dispose()
     {
-        if (_isDisposed)
+        lock (Lock)
         {
-            return;
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+
+            PrintCollapsibleSectionStart();
+
+            var logEvents = Interlocked.Exchange(ref _logEvents!,
+                new List<(LogLevel logLevel, EventId eventId, object state, Exception exception,
+                    Func<object, Exception?, string> formatter)>());
+
+            foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+            {
+                _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+            }
+
+            PrintCollapsibleSectionEnd();
+
+            logEvents.Clear();
+            _logEvents.Clear();
+
+            GC.SuppressFinalize(this);
         }
-
-        _isDisposed = true;
-
-        PrintCollapsibleSectionStart();
-
-        var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
-        
-        foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
-        {
-            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
-        }
-        
-        PrintCollapsibleSectionEnd();
-
-        logEvents.Clear();
-        _logEvents.Clear();
-
-        GC.SuppressFinalize(this);
     }
 
     private void PrintCollapsibleSectionStart()
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            WriteWithColour($@"::group::{GetCollapsibleSectionName()}");
+            Console.WriteLine($@"::group::{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            WriteWithColour($@"##[group]{GetCollapsibleSectionName()}");
+            Console.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            WriteWithColour($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+            Console.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
         }
     }
 
@@ -158,25 +161,5 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private string GetCollapsibleSectionName()
     {
         return $"{typeof(T).Name}";
-    }
-
-    private void WriteWithColour(string value)
-    {
-        Console.WriteLine(value);
-        return;
-        
-        // TODO
-        var moduleResult = _moduleStatusProvider.GetStatusForModule<T>();
-
-        var style = moduleResult switch
-        {
-            Status.Successful => new Style(foreground: Color.Green, decoration: Decoration.Bold | Decoration.Underline),
-            Status.Failed or Status.TimedOut or Status.Unknown => new Style(foreground: Color.Red, decoration: Decoration.Bold | Decoration.Underline),
-            Status.Skipped or Status.Processing or Status.NotYetStarted => new Style(foreground: Color.Yellow, decoration: Decoration.Bold | Decoration.Underline),
-            _ => new Style(foreground: Color.Green, decoration: Decoration.Bold | Decoration.Underline)
-        };
-        
-        AnsiConsole.Console.Write($"{moduleResult} ", style);
-        Console.WriteLine(value);
     }
 }
