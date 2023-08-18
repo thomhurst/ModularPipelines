@@ -3,21 +3,20 @@ using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Git;
 
-internal class GitInformation : IGitInformation
+internal class GitInformation : IGitInformation, IInitializer
 {
-    private static StaticGitInformation _staticGitInformation = null!;
+    private static StaticGitInformation? _staticGitInformation;
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
-    public GitInformation(StaticGitInformation staticGitInformation,
-        GitCommandRunner gitCommandRunner,
+    public GitInformation(GitCommandRunner gitCommandRunner,
         IGitCommitMapper gitCommitMapper,
         IEnvironmentContext environmentContext)
     {
-        _staticGitInformation = staticGitInformation;
         _gitCommandRunner = gitCommandRunner;
         _gitCommitMapper = gitCommitMapper;
 
@@ -26,19 +25,19 @@ internal class GitInformation : IGitInformation
 
     public Folder Root { get; }
 
-    public string? BranchName => _staticGitInformation.BranchName;
-    public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
+    public string? BranchName => _staticGitInformation!.BranchName;
+    public string? DefaultBranchName => _staticGitInformation!.DefaultBranchName;
 
-    public string? Tag => _staticGitInformation.Tag;
+    public string? Tag => _staticGitInformation!.Tag;
 
-    public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
+    public GitCommit? PreviousCommit => _staticGitInformation!.PreviousCommit;
 
-    public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
-    public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
+    public int CommitsOnBranch => _staticGitInformation!.CommitsOnBranch;
+    public DateTimeOffset LastCommitDateTime => _staticGitInformation!.LastCommitDateTime;
 
-    public string? LastCommitSha => _staticGitInformation.LastCommitSha;
+    public string? LastCommitSha => _staticGitInformation!.LastCommitSha;
 
-    public string? LastCommitShortSha => _staticGitInformation.LastCommitShortSha;
+    public string? LastCommitShortSha => _staticGitInformation!.LastCommitShortSha;
 
     public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -60,6 +59,15 @@ internal class GitInformation : IGitInformation
             }
 
             yield return _gitCommitMapper.Map(output);
+        }
+    }
+
+    public async Task InitializeAsync()
+    {
+        if (_staticGitInformation == null)
+        {
+            _staticGitInformation = new StaticGitInformation(_gitCommandRunner, _gitCommitMapper);
+            await _staticGitInformation.InitializeAsync();
         }
     }
 }
