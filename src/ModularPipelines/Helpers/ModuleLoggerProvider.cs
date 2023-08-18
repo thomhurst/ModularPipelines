@@ -75,7 +75,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             return entryAssemblyFirstCallingClass;
         }
         
-        return stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+        return stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType)
             .OfType<Type>()
             .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });;
     }
