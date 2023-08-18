@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Engine;
 
@@ -29,6 +30,8 @@ internal class PipelineExecutor : IPipelineExecutor
         _dependencyDetector.Check();
 
         await using var serviceScope = _serviceProvider.CreateAsyncScope();
+
+        await serviceScope.ServiceProvider.InitializeAsync();
         
         await Get<IPipelineSetupExecutor>().OnStartAsync();
 
