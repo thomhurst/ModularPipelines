@@ -23,7 +23,7 @@ internal static class DependencyInjectionSetup
 
         // Transient
         services.AddScoped<IModuleContext, ModuleContext>()
-            .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
+            .AddSingleton<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddScoped<IHttp, Http>()
             .AddScoped<ICommand, Command>()
             .AddScoped<ICertificates, Certificates>()
@@ -45,12 +45,16 @@ internal static class DependencyInjectionSetup
             .AddScoped<IBash, Bash>()
             .AddScoped<ISecretObfuscator, SecretObfuscator>()
             .AddScoped<IOptionsProvider, OptionsProvider>()
-            .AddScoped<IModuleContextProvider, ModuleContextProvider>();
+            .AddScoped<IBuildSystemDetector, BuildSystemDetector>()
+            .AddScoped(typeof(ModuleLogger<>))
+            .AddScoped<IEnvironmentContext, EnvironmentContext>()
+            .AddScoped<IEnvironmentVariables, EnvironmentVariables>()
+            .AddScoped<IFileSystemContext, FileSystemContext>();
 
         // Singletons
         services
             .AddSingleton<IAsyncLocalModule, AsyncLocalModule>()
-            .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
+            .AddSingleton<IModuleContextProvider, ModuleContextProvider>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
@@ -60,7 +64,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
-            .AddSingleton(typeof(ModuleLogger<>))
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
@@ -68,9 +71,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IUnusedModuleDetector, UnusedModuleDetector>()
             .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
             .AddSingleton<IDependencyPrinter, DependencyPrinter>()
-            .AddSingleton<IEnvironmentContext, EnvironmentContext>()
-            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-            .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<IModuleRetriever, ModuleRetriever>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
