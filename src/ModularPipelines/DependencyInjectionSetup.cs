@@ -49,7 +49,8 @@ internal static class DependencyInjectionSetup
             .AddScoped(typeof(ModuleLogger<>))
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<IEnvironmentVariables, EnvironmentVariables>()
-            .AddScoped<IFileSystemContext, FileSystemContext>();
+            .AddScoped<IFileSystemContext, FileSystemContext>()
+            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
 
         // Singletons
         services
@@ -72,7 +73,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<IModuleRetriever, ModuleRetriever>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
-            .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
-            .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
+            .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>();
     }
 }
