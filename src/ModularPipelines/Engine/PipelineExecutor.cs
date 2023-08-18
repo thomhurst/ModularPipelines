@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -6,30 +7,18 @@ namespace ModularPipelines.Engine;
 
 internal class PipelineExecutor : IPipelineExecutor
 {
-    private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IPipelineConsolePrinter _pipelineConsolePrinter;
-    private readonly IRequirementChecker _requirementsChecker;
-    private readonly IModuleRetriever _moduleRetriever;
-    private readonly IModuleExecutor _moduleExecutor;
+    private readonly IServiceProvider _serviceProvider;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDependencyDetector _dependencyDetector;
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
 
     public PipelineExecutor(
-        IPipelineSetupExecutor pipelineSetupExecutor,
-        IPipelineConsolePrinter pipelineConsolePrinter,
-        IRequirementChecker requirementsChecker,
-        IModuleRetriever moduleRetriever,
-        IModuleExecutor moduleExecutor,
+        IServiceProvider serviceProvider,
         EngineCancellationToken engineCancellationToken,
         IDependencyDetector dependencyDetector,
         IModuleLoggerContainer moduleLoggerContainer)
     {
-        _pipelineSetupExecutor = pipelineSetupExecutor;
-        _pipelineConsolePrinter = pipelineConsolePrinter;
-        _requirementsChecker = requirementsChecker;
-        _moduleRetriever = moduleRetriever;
-        _moduleExecutor = moduleExecutor;
+        _serviceProvider = serviceProvider;
         _engineCancellationToken = engineCancellationToken;
         _dependencyDetector = dependencyDetector;
         _moduleLoggerContainer = moduleLoggerContainer;
@@ -39,19 +28,21 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         _dependencyDetector.Check();
 
-        await _pipelineSetupExecutor.OnStartAsync();
+        await using var serviceScope = _serviceProvider.CreateAsyncScope();
+        
+        await Get<IPipelineSetupExecutor>().OnStartAsync();
 
-        await _requirementsChecker.CheckRequirementsAsync();
+        await Get<IRequirementChecker>().CheckRequirementsAsync();
 
-        var organizedModules = await _moduleRetriever.GetOrganizedModules();
+        var organizedModules = await Get<IModuleRetriever>().GetOrganizedModules();
 
-        _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
+        Get<IPipelineConsolePrinter>().PrintProgress(organizedModules, _engineCancellationToken.Token);
 
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
         try
         {
-            await _moduleExecutor.ExecuteAsync(runnableModules);
+            await Get<IModuleExecutor>().ExecuteAsync(runnableModules);
         }
         catch
         {
@@ -66,7 +57,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
             await Dispose(runnableModules);
 
-            await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
+            await Get<IPipelineSetupExecutor>().OnEndAsync(organizedModules.AllModules);
 
             await Task.Delay(200);
 
@@ -74,6 +65,8 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return organizedModules.AllModules;
+
+        T Get<T>() where T : notnull => serviceScope.ServiceProvider.GetRequiredService<T>();
     }
 
     private async Task WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)

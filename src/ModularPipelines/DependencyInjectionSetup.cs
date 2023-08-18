@@ -50,7 +50,8 @@ internal static class DependencyInjectionSetup
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<IEnvironmentVariables, EnvironmentVariables>()
             .AddScoped<IFileSystemContext, FileSystemContext>()
-            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
+            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
+            .AddScoped<IModuleExecutor, ModuleExecutor>();
 
         // Singletons
         services
@@ -62,7 +63,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
             .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
-            .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
@@ -71,7 +71,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
             .AddSingleton<IDependencyPrinter, DependencyPrinter>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
-            .AddSingleton<IModuleRetriever, ModuleRetriever>()
+            .AddScoped<IModuleRetriever, ModuleRetriever>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>();
     }
