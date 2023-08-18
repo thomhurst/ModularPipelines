@@ -8,5 +8,7 @@ public class GlobalTestSetup
     {
         GlobalConfig.LogCommandInput = false;
         GlobalConfig.LogCommandOutput = false;
+        
+        Console.SetOut(new StringWriter());
     }
 }
