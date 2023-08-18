@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Modules;
@@ -31,11 +32,12 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         }
 
         var stackFrames = new StackTrace().GetFrames().ToList();
-        var module = stackFrames.Select(x => x.GetMethod()?.ReflectedType?.ReflectedType).FirstOrDefault(IsModule);
+        var module = stackFrames.Select(GetNonCompilerGeneratedType).FirstOrDefault(IsModule);
 
         if (module == null)
         {
-            var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger");
+            var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger")
+                ?? stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "GetLogger");
 
             Type? nonAbstractType;
             
@@ -65,8 +67,10 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     private static Type GetCallingClassType(List<StackFrame> stackFrames)
     {
-        var entryAssemblyFirstCallingClass = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType)
+        var entryAssemblyFirstCallingClass = stackFrames
+            .Select(GetNonCompilerGeneratedType)
             .OfType<Type>()
+            .Where(t => t != typeof(ModuleLoggerProvider))
             .Where(x => x.Assembly == Assembly.GetEntryAssembly())
             .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
 
@@ -75,9 +79,23 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             return entryAssemblyFirstCallingClass;
         }
         
-        return stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType)
+        return stackFrames
+            .Select(GetNonCompilerGeneratedType)
             .OfType<Type>()
+            .Where(t => t != typeof(ModuleLoggerProvider))
             .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });;
+    }
+
+    private static Type? GetNonCompilerGeneratedType(StackFrame stackFrame)
+    {
+        var type = stackFrame.GetMethod()?.ReflectedType;
+        
+        while (type?.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
+        {
+            type = type.DeclaringType;
+        }
+        
+        return type;
     }
 
     private ILogger MakeLogger(Type module)
