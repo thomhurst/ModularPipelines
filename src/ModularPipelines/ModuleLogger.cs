@@ -102,21 +102,24 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
             _isDisposed = true;
 
-            PrintCollapsibleSectionStart();
-
             var logEvents = Interlocked.Exchange(ref _logEvents!,
                 new List<(LogLevel logLevel, EventId eventId, object state, Exception exception,
                     Func<object, Exception?, string> formatter)>());
 
-            foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+            if (logEvents.Any())
             {
-                _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                PrintCollapsibleSectionStart();
+
+                foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+                {
+                    _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                }
+
+                PrintCollapsibleSectionEnd();
+
+                logEvents.Clear();
+                _logEvents.Clear();
             }
-
-            PrintCollapsibleSectionEnd();
-
-            logEvents.Clear();
-            _logEvents.Clear();
 
             GC.SuppressFinalize(this);
         }
