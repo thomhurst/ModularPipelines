@@ -10,6 +10,8 @@ using ModularPipelines.NuGet.Options;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<AddLocalNugetSourceModule>]
+[DependsOn<PackagePathsParserModule>]
+[DependsOn<CreateLocalNugetFolderModule>]
 public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
 {
     protected override async Task OnBeforeExecute(IModuleContext context)

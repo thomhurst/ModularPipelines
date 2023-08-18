@@ -3,8 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
-using Spectre.Console;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines;
 
@@ -123,17 +121,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            WriteWithColour($@"::group::{GetCollapsibleSectionName()}");
+            Console.WriteLine($@"::group::{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            WriteWithColour($@"##[group]{GetCollapsibleSectionName()}");
+            Console.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            WriteWithColour($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+            Console.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
         }
     }
 
@@ -158,25 +156,5 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private string GetCollapsibleSectionName()
     {
         return $"{typeof(T).Name}";
-    }
-
-    private void WriteWithColour(string value)
-    {
-        Console.WriteLine(value);
-        return;
-        
-        // TODO
-        var moduleResult = _moduleStatusProvider.GetStatusForModule<T>();
-
-        var style = moduleResult switch
-        {
-            Status.Successful => new Style(foreground: Color.Green, decoration: Decoration.Bold | Decoration.Underline),
-            Status.Failed or Status.TimedOut or Status.Unknown => new Style(foreground: Color.Red, decoration: Decoration.Bold | Decoration.Underline),
-            Status.Skipped or Status.Processing or Status.NotYetStarted => new Style(foreground: Color.Yellow, decoration: Decoration.Bold | Decoration.Underline),
-            _ => new Style(foreground: Color.Green, decoration: Decoration.Bold | Decoration.Underline)
-        };
-        
-        AnsiConsole.Console.Write($"{moduleResult} ", style);
-        Console.WriteLine(value);
     }
 }

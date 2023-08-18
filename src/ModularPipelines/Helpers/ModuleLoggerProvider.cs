@@ -7,13 +7,15 @@ namespace ModularPipelines.Helpers;
 
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
+    private readonly IModuleLoggerContainer _moduleLoggerContainer;
     private readonly IServiceProvider _serviceProvider;
 
     private ILogger? _logger;
     private readonly IServiceScope _serviceScope;
 
-    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory)
+    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory, IModuleLoggerContainer moduleLoggerContainer)
     {
+        _moduleLoggerContainer = moduleLoggerContainer;
         _serviceScope = serviceScopeFactory.CreateScope();
         _serviceProvider = _serviceScope.ServiceProvider;
     }
@@ -34,9 +36,15 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         {
             var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger");
 
+            Type? nonAbstractType;
+            
             if (getLoggerFrame == null)
             {
-                return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
+                nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+                    .OfType<Type>()
+                    .First(x => !x.IsAbstract);
+
+                return MakeLogger(nonAbstractType);
             }
 
             var getLoggerFrameIndex = stackFrames.IndexOf(getLoggerFrame);
@@ -48,7 +56,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
                 return MakeLogger(type);
             }
 
-            return _serviceProvider.GetRequiredService<ModuleLogger<ModuleBase>>();
+            nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+                .OfType<Type>()
+                .First(x => !x.IsAbstract);
+
+            return MakeLogger(nonAbstractType);
         }
 
         return MakeLogger(module);
@@ -58,11 +70,12 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (ILogger) _serviceProvider.GetRequiredService(loggerType);
+        if (_moduleLoggerContainer.TryGetModuleLogger(loggerType, out var moduleLogger))
+        {
+            return moduleLogger;
+        }
 
-        _logger = logger;
-
-        return logger;
+        return _logger = (ILogger) _serviceProvider.GetRequiredService(loggerType);
     }
 
     private bool IsModule(Type? type)

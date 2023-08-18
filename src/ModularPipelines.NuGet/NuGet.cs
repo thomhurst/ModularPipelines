@@ -17,6 +17,7 @@ internal class NuGet : INuGet
     public async Task<List<CommandResult>> UploadPackages(NuGetUploadOptions options)
     {
         var results = new List<CommandResult>();
+        
         foreach (var packagePath in options.PackagePaths)
         {
             var commandResult = await _context.Command

@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines;
 
 internal class ModuleLoggerContainer : IModuleLoggerContainer
@@ -15,5 +17,11 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
     public void AddLogger(ModuleLogger logger)
     {
         _loggers.Add(logger);
+    }
+    
+    public bool TryGetModuleLogger(Type type, [NotNullWhen(true)] out ModuleLogger? moduleLogger)
+    {
+        moduleLogger = _loggers.FirstOrDefault(ml => ml.GetType() == type);
+        return moduleLogger != null;
     }
 }
