@@ -118,6 +118,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
                 logEvents.Clear();
                 _logEvents.Clear();
+                
+                Console.Out.Flush();
             }
 
             GC.SuppressFinalize(this);
