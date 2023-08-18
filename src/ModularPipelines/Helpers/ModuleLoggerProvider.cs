@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Modules;
@@ -40,9 +41,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             
             if (getLoggerFrame == null)
             {
-                nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
-                    .OfType<Type>()
-                    .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
+                nonAbstractType = GetCallingClassType(stackFrames);
 
                 return MakeLogger(nonAbstractType);
             }
@@ -56,14 +55,29 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
                 return MakeLogger(type);
             }
 
-            nonAbstractType = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
-                .OfType<Type>()
-                .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
+            nonAbstractType = GetCallingClassType(stackFrames);
 
             return MakeLogger(nonAbstractType);
         }
 
         return MakeLogger(module);
+    }
+
+    private static Type GetCallingClassType(List<StackFrame> stackFrames)
+    {
+        var entryAssemblyFirstCallingClass = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+            .OfType<Type>()
+            .Where(x => x.Assembly == Assembly.GetEntryAssembly())
+            .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
+
+        if (entryAssemblyFirstCallingClass != null)
+        {
+            return entryAssemblyFirstCallingClass;
+        }
+        
+        return stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+            .OfType<Type>()
+            .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });;
     }
 
     private ILogger MakeLogger(Type module)
