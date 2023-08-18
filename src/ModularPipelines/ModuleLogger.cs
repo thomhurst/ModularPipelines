@@ -7,6 +7,7 @@ namespace ModularPipelines;
 
 internal abstract class ModuleLogger : ILogger, IDisposable
 {
+    protected static readonly object Lock = new();
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
     public abstract bool IsEnabled(LogLevel logLevel);
@@ -21,8 +22,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
-
-    private static readonly object Lock = new();
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
