@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
@@ -27,8 +28,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         await _globalHooks.ToAsyncProcessorBuilder()
             .ForEachAsync(async x =>
             {
-                await using var serviceScope = _serviceProvider.CreateAsyncScope();
-                await serviceScope.ServiceProvider.InitializeAsync();
+                await using var serviceScope = await _serviceProvider.CreateInitializedAsyncScope();
                 await x.OnStartAsync(serviceScope.ServiceProvider.GetRequiredService<IModuleContext>());
             })
             .ProcessInParallel();
@@ -39,8 +39,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         await _globalHooks.ToAsyncProcessorBuilder()
             .ForEachAsync(async x =>
             {
-                await using var serviceScope = _serviceProvider.CreateAsyncScope();
-                await serviceScope.ServiceProvider.InitializeAsync();
+                await using var serviceScope = await _serviceProvider.CreateInitializedAsyncScope();
                 await x.OnEndAsync(serviceScope.ServiceProvider.GetRequiredService<IModuleContext>(), modules);
             })
             .ProcessInParallel();

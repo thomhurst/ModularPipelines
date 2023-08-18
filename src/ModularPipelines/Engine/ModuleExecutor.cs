@@ -40,11 +40,9 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task<ModuleBase> ExecuteAsync(ModuleBase module)
     {
-        await using var serviceScope = _serviceProvider.CreateAsyncScope();
+        await using var serviceScope = await _serviceProvider.CreateInitializedAsyncScope();
         
         var scopedServiceProvider = serviceScope.ServiceProvider;
-
-        await scopedServiceProvider.InitializeAsync();
         
         module.Initialize(scopedServiceProvider.GetRequiredService<IModuleContext>());
         

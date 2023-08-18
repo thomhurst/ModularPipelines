@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Requirements;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
@@ -25,8 +26,7 @@ internal class RequirementChecker : IRequirementChecker
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
-            await using var serviceScope = _serviceProvider.CreateAsyncScope();
-            await serviceScope.ServiceProvider.InitializeAsync();
+            await using var serviceScope = await _serviceProvider.CreateInitializedAsyncScope();
             
             var mustAsync = await requirement.MustAsync(_serviceProvider.GetRequiredService<IModuleContext>());
             
