@@ -13,7 +13,7 @@ internal class GitVersioning : IGitVersioning
 
     private readonly Folder _temporaryFolder;
 
-    private GitVersionInformation? _prefetchedGitVersionInformation;
+    private static GitVersionInformation? _prefetchedGitVersionInformation;
 
     public GitVersioning(IFileSystemContext fileSystemContext, ICommand command, IEnvironmentContext environmentContext)
     {

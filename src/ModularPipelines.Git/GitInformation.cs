@@ -8,7 +8,7 @@ namespace ModularPipelines.Git;
 
 internal class GitInformation : IGitInformation
 {
-    private readonly StaticGitInformation _staticGitInformation;
+    private static StaticGitInformation _staticGitInformation = null!;
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
 
