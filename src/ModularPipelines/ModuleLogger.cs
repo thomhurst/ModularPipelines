@@ -23,6 +23,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
 
+    private static readonly object _lock = new object();
+
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
     private bool _isDisposed;
@@ -89,35 +91,39 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         {
         }
     }
-
-    [MethodImpl(MethodImplOptions.Synchronized)]
+    
     public override void Dispose()
     {
-        if (_isDisposed)
+        lock (_lock)
         {
-            return;
-        }
-
-        _isDisposed = true;
-        
-        var logEvents = Interlocked.Exchange(ref _logEvents!, new List<(LogLevel logLevel, EventId eventId, object state, Exception exception, Func<object, Exception?, string> formatter)>());
-
-        if (logEvents.Any())
-        {
-            PrintCollapsibleSectionStart();
-
-            foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+            if (_isDisposed)
             {
-                _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                return;
             }
 
-            PrintCollapsibleSectionEnd();
+            _isDisposed = true;
+
+            var logEvents = Interlocked.Exchange(ref _logEvents!,
+                new List<(LogLevel logLevel, EventId eventId, object state, Exception exception,
+                    Func<object, Exception?, string> formatter)>());
+
+            if (logEvents.Any())
+            {
+                PrintCollapsibleSectionStart();
+
+                foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+                {
+                    _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                }
+
+                PrintCollapsibleSectionEnd();
+            }
+
+            logEvents.Clear();
+            _logEvents.Clear();
+
+            GC.SuppressFinalize(this);
         }
-
-        logEvents.Clear();
-        _logEvents.Clear();
-
-        GC.SuppressFinalize(this);
     }
 
     private void PrintCollapsibleSectionStart()
