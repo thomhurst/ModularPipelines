@@ -51,7 +51,7 @@ internal class ModuleContext : IModuleContext
 
     public IFileSystemContext FileSystem { get; }
 
-    public ModuleContext(IServiceScopeFactory serviceScopeFactory,
+    public ModuleContext(IServiceProvider serviceProvider,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IEnvironmentContext environment,
         IFileSystemContext fileSystem,
@@ -86,7 +86,7 @@ internal class ModuleContext : IModuleContext
         Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
-        ServiceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
+        ServiceProvider = serviceProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         Environment = environment;
         FileSystem = fileSystem;

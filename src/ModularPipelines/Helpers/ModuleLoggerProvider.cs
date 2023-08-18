@@ -8,23 +8,21 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Helpers;
 
-internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
+internal class ModuleLoggerProvider : IModuleLoggerProvider
 {
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
     private readonly IAsyncLocalModule _asyncLocalModule;
     private readonly IServiceProvider _serviceProvider;
 
     private ILogger? _logger;
-    private readonly IServiceScope _serviceScope;
 
-    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory, 
+    public ModuleLoggerProvider(IServiceProvider serviceProvider, 
         IModuleLoggerContainer moduleLoggerContainer, 
         IAsyncLocalModule asyncLocalModule)
     {
         _moduleLoggerContainer = moduleLoggerContainer;
         _asyncLocalModule = asyncLocalModule;
-        _serviceScope = serviceScopeFactory.CreateScope();
-        _serviceProvider = _serviceScope.ServiceProvider;
+        _serviceProvider = serviceProvider;
     }
 
     public ILogger GetLogger(Type type) => _logger ??= MakeLogger(type);
@@ -130,10 +128,5 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         }
 
         return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
-    }
-
-    public void Dispose()
-    {
-        _serviceScope.Dispose();
     }
 }
