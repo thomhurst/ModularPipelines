@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Engine;
 
@@ -12,8 +13,12 @@ internal class ModuleContextProvider : IModuleContextProvider
         _serviceProvider = serviceProvider;
     }
     
-    public IModuleContext GetModuleContext()
+    public async Task<IModuleContext> GetModuleContext()
     {
-        return _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IModuleContext>();
+        var serviceProvider = _serviceProvider.CreateScope().ServiceProvider;
+        
+        await serviceProvider.InitializeAsync();
+        
+        return serviceProvider.GetRequiredService<IModuleContext>();
     }
 }

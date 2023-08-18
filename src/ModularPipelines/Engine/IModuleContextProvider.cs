@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleContextProvider
 {
-    public IModuleContext GetModuleContext();
+    public Task<IModuleContext> GetModuleContext();
 }
