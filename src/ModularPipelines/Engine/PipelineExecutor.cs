@@ -45,7 +45,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
         var organizedModules = await _moduleRetriever.GetOrganizedModules();
 
-        _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
+        var printProgressTask = _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
 
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
@@ -63,6 +63,8 @@ internal class PipelineExecutor : IPipelineExecutor
         finally
         {
             await WaitForAlwaysRunModules(runnableModules);
+
+            await printProgressTask;
 
             await Dispose(runnableModules);
 

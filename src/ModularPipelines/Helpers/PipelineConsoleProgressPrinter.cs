@@ -6,9 +6,9 @@ namespace ModularPipelines.Helpers;
 
 internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
 {
-    public void PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
+    public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        AnsiConsole.Progress()
+        return AnsiConsole.Progress()
             .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>
             {
