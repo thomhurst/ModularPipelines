@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -58,6 +59,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new ModuleNotInitializedException(GetType());
         }
+        
+        _context.Get<IAsyncLocalModule>()!.SetActiveModule(this);
 
         if (ModuleRunType != ModuleRunType.AlwaysRun)
         {

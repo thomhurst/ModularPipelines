@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Engine;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Helpers;
@@ -10,14 +11,18 @@ namespace ModularPipelines.Helpers;
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
+    private readonly IAsyncLocalModule _asyncLocalModule;
     private readonly IServiceProvider _serviceProvider;
 
     private ILogger? _logger;
     private readonly IServiceScope _serviceScope;
 
-    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory, IModuleLoggerContainer moduleLoggerContainer)
+    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory, 
+        IModuleLoggerContainer moduleLoggerContainer, 
+        IAsyncLocalModule asyncLocalModule)
     {
         _moduleLoggerContainer = moduleLoggerContainer;
+        _asyncLocalModule = asyncLocalModule;
         _serviceScope = serviceScopeFactory.CreateScope();
         _serviceProvider = _serviceScope.ServiceProvider;
     }
@@ -31,8 +36,15 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             return _logger;
         }
 
+        var currentModule = _asyncLocalModule.GetActiveModule();
+
+        if (currentModule != null)
+        {
+            return MakeLogger(currentModule.GetType());
+        }
+
         var stackFrames = new StackTrace().GetFrames().ToList();
-        var module = stackFrames.Select(GetNonCompilerGeneratedType).FirstOrDefault(IsModule);
+        var module = stackFrames.Select(GetNonCompilerGeneratedType).LastOrDefault(IsModule);
 
         if (module == null)
         {
