@@ -23,7 +23,7 @@ internal static class DependencyInjectionSetup
 
         // Transient
         services.AddScoped<IModuleContext, ModuleContext>()
-            .AddSingleton<IModuleLoggerProvider, ModuleLoggerProvider>()
+            .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddScoped<IHttp, Http>()
             .AddScoped<ICommand, Command>()
             .AddScoped<ICertificates, Certificates>()
