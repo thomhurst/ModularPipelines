@@ -1,9 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -13,6 +15,7 @@ public class TimedDependencyTests
     public async Task OneSecondModule_WillWaitForFiveSecondModule_ThenExecute()
     {
         var modules = await PipelineHostBuilder.Create()
+            .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
             .ConfigureServices((context, collection) =>
             {
                 collection.AddModule<FiveSecondModule>()

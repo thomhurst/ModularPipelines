@@ -1,13 +1,27 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
 
 internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
 {
+    private readonly IOptions<PipelineOptions> _options;
+
+    public PipelineConsoleProgressPrinter(IOptions<PipelineOptions> options)
+    {
+        _options = options;
+    }
+    
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
+        if (!_options.Value.ShowProgressInConsole)
+        {
+            return Task.CompletedTask;
+        }
+        
         return AnsiConsole.Progress()
             .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>

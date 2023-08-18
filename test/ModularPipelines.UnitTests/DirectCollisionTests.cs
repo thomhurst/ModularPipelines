@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -5,6 +6,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -14,6 +16,7 @@ public class DirectCollisionTests
     public void Modules_Dependent_On_Each_Other_Throws_Exception()
     {
         Assert.That(() => PipelineHostBuilder.Create()
+                .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
                 .ConfigureServices((context, collection) =>
                 {
                     collection.AddModule<DependencyConflictModule1>()

@@ -1,9 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -13,6 +15,7 @@ public class SafeEstimatedTimeProviderTests
     public async Task When_EstimatedTimeProvider_Succeeds_Then_No_Error()
     {
         var modules = await PipelineHostBuilder.Create()
+            .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
             .AddModule<DummyModule>()
             .RegisterEstimatedTimeProvider<SuccessfulTimeProvider>()
             .ExecutePipelineAsync();
@@ -26,6 +29,7 @@ public class SafeEstimatedTimeProviderTests
     public async Task When_EstimatedTimeProvider_Fails_Receiving_Time_Then_Still_No_Error()
     {
         var modules = await PipelineHostBuilder.Create()
+            .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
             .AddModule<DummyModule>()
             .RegisterEstimatedTimeProvider<FailingTimeProvider>()
             .ExecutePipelineAsync();

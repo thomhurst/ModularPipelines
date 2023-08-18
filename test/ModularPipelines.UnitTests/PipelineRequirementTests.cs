@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
@@ -6,6 +7,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 using NUnit.Framework.Constraints;
 
@@ -17,6 +19,7 @@ public class PipelineRequirementTests
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
         var modules = await PipelineHostBuilder.Create()
+            .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
             .ConfigureServices((context, collection) =>
             {
                 collection.AddModule<DummyModule>()
