@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using ModularPipelines.Cmd.Extensions;
+using ModularPipelines.Context;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.DotNet.Extensions;
@@ -47,11 +48,13 @@ public class DependencyInjectionTests
 
         RegisterOptionalContexts(services);
         
-        services.BuildServiceProvider(new ServiceProviderOptions
+        var provider = services.BuildServiceProvider(new ServiceProviderOptions
         {
             ValidateScopes = true,
             ValidateOnBuild = true
         });
+
+        provider.CreateScope().ServiceProvider.GetRequiredService<ModuleLogger<Command>>();
     }
 
     private static void RegisterOptionalContexts(IServiceCollection services)
