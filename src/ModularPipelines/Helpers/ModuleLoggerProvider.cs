@@ -65,7 +65,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     private static Type GetCallingClassType(List<StackFrame> stackFrames)
     {
-        var entryAssemblyFirstCallingClass = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType?.ReflectedType)
+        var entryAssemblyFirstCallingClass = stackFrames.Skip(2).Select(x => x.GetMethod()?.ReflectedType)
             .OfType<Type>()
             .Where(x => x.Assembly == Assembly.GetEntryAssembly())
             .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
