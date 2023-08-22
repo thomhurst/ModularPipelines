@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines;
