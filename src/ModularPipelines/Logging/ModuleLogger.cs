@@ -128,7 +128,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         var consoleLoggerProvider = _consoleLoggerProviderProvider.GetConsoleLoggerProvider();
         var consoleMessageQueue = consoleLoggerProvider.GetType().GetField("_messageQueue", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(consoleLoggerProvider);
-        consoleMessageQueue!.GetType().GetMethod("ProcessLogQueue")!.Invoke(consoleMessageQueue, Array.Empty<object?>());
+        consoleMessageQueue?.GetType().GetMethod("ProcessLogQueue")!.Invoke(consoleMessageQueue, Array.Empty<object?>());
     }
 
     private void PrintCollapsibleSectionStart()
