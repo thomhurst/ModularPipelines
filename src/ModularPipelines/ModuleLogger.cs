@@ -154,6 +154,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
             Console.WriteLine(@"##[endgroup]");
+            Console.WriteLine($"Endgroup name: {GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
