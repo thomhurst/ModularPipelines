@@ -24,7 +24,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
-    private readonly IConsoleLoggerProviderProvider _consoleLoggerProviderProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -36,15 +35,13 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
-        IModuleStatusProvider moduleStatusProvider,
-        IConsoleLoggerProviderProvider consoleLoggerProviderProvider)
+        IModuleStatusProvider moduleStatusProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
         _moduleStatusProvider = moduleStatusProvider;
-        _consoleLoggerProviderProvider = consoleLoggerProviderProvider;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -111,9 +108,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
                 {
                     _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
                 }
-
-                FlushConsoleLogger();
-
+                
                 PrintCollapsibleSectionEnd();
 
                 logEvents.Clear();
@@ -122,13 +117,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
             GC.SuppressFinalize(this);
         }
-    }
-
-    private void FlushConsoleLogger()
-    {
-        var consoleLoggerProvider = _consoleLoggerProviderProvider.GetConsoleLoggerProvider();
-        var consoleMessageQueue = consoleLoggerProvider.GetType().GetField("_messageQueue", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(consoleLoggerProvider);
-        consoleMessageQueue?.GetType().GetMethod("ProcessLogQueue")!.Invoke(consoleMessageQueue, Array.Empty<object?>());
     }
 
     private void PrintCollapsibleSectionStart()

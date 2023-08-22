@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
@@ -7,6 +8,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
+using Vertical.SpectreLogger;
 
 namespace ModularPipelines;
 
@@ -17,7 +19,14 @@ internal static class DependencyInjectionSetup
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
-            .AddLogging()
+            .AddLogging(builder =>
+            {
+                builder.ClearProviders();
+                builder.AddSpectreConsole(cfg =>
+                {
+                    cfg.WriteInForeground();
+                });
+            })
             .AddHttpClient()
             .AddInitializers()
             .AddServiceCollection();
@@ -50,7 +59,6 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
-            .AddSingleton<IConsoleLoggerProviderProvider, ConsoleLoggerProviderProvider>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()
