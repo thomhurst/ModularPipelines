@@ -141,4 +141,16 @@
     <value>IEnumerable Module Result</value>
     <comment>The title of the diagnostic.</comment>
   </data>
+  <data name="LoggerInConstructorAnalyzerDescription" xml:space="preserve">
+    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider.</value>
+    <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+  <data name="LoggerInConstructorAnalyzerMessageFormat" xml:space="preserve">
+    <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="LoggerInConstructorAnalyzerTitle" xml:space="preserve">
+    <value>Logger found in constructor</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
 </root>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using File = ModularPipelines.FileSystem.File;
 

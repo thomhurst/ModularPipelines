@@ -87,6 +87,33 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider..
+        /// </summary>
+        internal static string LoggerInConstructorAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("LoggerInConstructorAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider.
+        /// </summary>
+        internal static string LoggerInConstructorAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("LoggerInConstructorAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logger found in constructor.
+        /// </summary>
+        internal static string LoggerInConstructorAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("LoggerInConstructorAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing DependsOn Attribute..
         /// </summary>
         internal static string MissingDependsOnAttributeAnalyzerDescription {
