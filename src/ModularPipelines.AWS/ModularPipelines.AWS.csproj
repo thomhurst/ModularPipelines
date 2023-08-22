@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="AWSSDK.Lambda" Version="3.7.201.17" />
-      <PackageReference Include="AWSSDK.S3" Version="3.7.202.1" />
+      <PackageReference Include="AWSSDK.Lambda" Version="3.7.201.18" />
+      <PackageReference Include="AWSSDK.S3" Version="3.7.202.2" />
     </ItemGroup>
 
 </Project>
