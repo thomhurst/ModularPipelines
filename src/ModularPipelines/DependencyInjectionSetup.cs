@@ -4,6 +4,7 @@ using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 

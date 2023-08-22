@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
 
-namespace ModularPipelines;
+namespace ModularPipelines.Logging;
 
 internal abstract class ModuleLogger : ILogger, IDisposable
 {
@@ -22,6 +24,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
+    private readonly ConsoleLoggerProvider _consoleLoggerProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -33,13 +36,15 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
-        IModuleStatusProvider moduleStatusProvider)
+        IModuleStatusProvider moduleStatusProvider,
+        ConsoleLoggerProvider consoleLoggerProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
         _moduleStatusProvider = moduleStatusProvider;
+        _consoleLoggerProvider = consoleLoggerProvider;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -82,13 +87,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             return _secretObfuscator.Obfuscate(formattedString, null);
         };
     }
-
-    private class NoopDisposable : IDisposable
-    {
-        public void Dispose()
-        {
-        }
-    }
     
     public override void Dispose()
     {
@@ -114,16 +112,22 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
                     _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
                 }
 
+                FlushConsoleLogger();
+
                 PrintCollapsibleSectionEnd();
 
                 logEvents.Clear();
                 _logEvents.Clear();
-                
-                Console.Out.Flush();
             }
 
             GC.SuppressFinalize(this);
         }
+    }
+
+    private void FlushConsoleLogger()
+    {
+        var consoleMessageQueue = _consoleLoggerProvider.GetType().GetField("_messageQueue", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(_consoleLoggerProvider);
+        consoleMessageQueue!.GetType().GetMethod("ProcessLogQueue")!.Invoke(consoleMessageQueue, Array.Empty<object?>());
     }
 
     private void PrintCollapsibleSectionStart()
@@ -149,13 +153,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
             Console.WriteLine(@"::endgroup::");
-            Console.WriteLine($"Endgroup name: {GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
             Console.WriteLine(@"##[endgroup]");
-            Console.WriteLine($"Endgroup name: {GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
