@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
@@ -17,7 +19,16 @@ internal static class DependencyInjectionSetup
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
-            .AddLogging()
+            .AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSimpleConsole(options =>
+                {
+                    options.IncludeScopes = true;
+                    options.SingleLine = true;
+                    options.TimestampFormat = "HH:mm:ss ";
+                    options.ColorBehavior = LoggerColorBehavior.Default;
+                });
+            })
             .AddHttpClient()
             .AddInitializers()
             .AddServiceCollection();
@@ -50,6 +61,7 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton<IConsoleLoggerProviderProvider, ConsoleLoggerProviderProvider>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()

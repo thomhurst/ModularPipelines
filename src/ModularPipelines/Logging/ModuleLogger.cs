@@ -24,7 +24,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
-    private readonly ConsoleLoggerProvider _consoleLoggerProvider;
+    private readonly IConsoleLoggerProviderProvider _consoleLoggerProviderProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -37,14 +37,14 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
         IModuleStatusProvider moduleStatusProvider,
-        ConsoleLoggerProvider consoleLoggerProvider)
+        IConsoleLoggerProviderProvider consoleLoggerProviderProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
         _moduleStatusProvider = moduleStatusProvider;
-        _consoleLoggerProvider = consoleLoggerProvider;
+        _consoleLoggerProviderProvider = consoleLoggerProviderProvider;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -126,7 +126,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     private void FlushConsoleLogger()
     {
-        var consoleMessageQueue = _consoleLoggerProvider.GetType().GetField("_messageQueue", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(_consoleLoggerProvider);
+        var consoleLoggerProvider = _consoleLoggerProviderProvider.GetConsoleLoggerProvider();
+        var consoleMessageQueue = consoleLoggerProvider.GetType().GetField("_messageQueue", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(consoleLoggerProvider);
         consoleMessageQueue!.GetType().GetMethod("ProcessLogQueue")!.Invoke(consoleMessageQueue, Array.Empty<object?>());
     }
 
