@@ -1,6 +1,10 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
+using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 
@@ -14,6 +18,8 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDependencyDetector _dependencyDetector;
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
+    private readonly IModuleDisposer _moduleDisposer;
+    private readonly IOptions<PipelineOptions> _options;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -23,7 +29,9 @@ internal class PipelineExecutor : IPipelineExecutor
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         IDependencyDetector dependencyDetector,
-        IModuleLoggerContainer moduleLoggerContainer)
+        IModuleLoggerContainer moduleLoggerContainer,
+        IModuleDisposer moduleDisposer,
+        IOptions<PipelineOptions> options)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineConsolePrinter = pipelineConsolePrinter;
@@ -33,6 +41,8 @@ internal class PipelineExecutor : IPipelineExecutor
         _engineCancellationToken = engineCancellationToken;
         _dependencyDetector = dependencyDetector;
         _moduleLoggerContainer = moduleLoggerContainer;
+        _moduleDisposer = moduleDisposer;
+        _options = options;
     }
 
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
@@ -45,7 +55,10 @@ internal class PipelineExecutor : IPipelineExecutor
 
         var organizedModules = await _moduleRetriever.GetOrganizedModules();
 
-        _pipelineConsolePrinter.PrintProgress(organizedModules, _engineCancellationToken.Token);
+        var printProgressCancellationTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
+
+        var printProgressTask = _pipelineConsolePrinter.PrintProgress(organizedModules, printProgressCancellationTokenSource.Token);
 
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
@@ -64,11 +77,13 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             await WaitForAlwaysRunModules(runnableModules);
 
+            printProgressCancellationTokenSource.CancelAfter(1500);
+            
+            await printProgressTask;
+
             await Dispose(runnableModules);
 
             await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
-
-            await Task.Delay(200);
 
             _moduleLoggerContainer.PrintAllLoggers();
         }
@@ -90,22 +105,16 @@ internal class PipelineExecutor : IPipelineExecutor
 
     private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)
     {
+        if (!AnsiConsole.Profile.Capabilities.Interactive || !_options.Value.ShowProgressInConsole)
+        {
+            // If not an interactive console, we'll dispose each module as it finishes, to print its output
+            // Otherwise we'll do it here, so we don't miss up the Progress printer
+            return;
+        }
+        
         foreach (var module in modulesToProcess)
         {
-            await Dispose(module);
-        }
-    }
-
-    private static async Task Dispose(ModuleBase module)
-    {
-        if (module is IAsyncDisposable asyncDisposable)
-        {
-            await asyncDisposable.DisposeAsync();
-        }
-
-        if (module is IDisposable disposable)
-        {
-            disposable.Dispose();
+            await _moduleDisposer.DisposeAsync(module);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -12,15 +10,12 @@ public class OneWayDependenciesNonCollisionTests
     [Test]
     public void Modules_Not_Dependent_On_Each_Other_Succeed()
     {
-        Assert.That(() => PipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) =>
-            {
-                collection.AddModule<DependencyConflictModule1>()
-                    .AddModule<DependencyConflictModule2>()
-                    .AddModule<DependencyConflictModule3>()
-                    .AddModule<DependencyConflictModule4>()
-                    .AddModule<DependencyConflictModule5>();
-            })
+        Assert.That(() => TestPipelineHostBuilder.Create()
+            .AddModule<DependencyConflictModule1>()
+            .AddModule<DependencyConflictModule2>()
+            .AddModule<DependencyConflictModule3>()
+            .AddModule<DependencyConflictModule4>()
+            .AddModule<DependencyConflictModule5>()
             .ExecutePipelineAsync(), Throws.Nothing);
     }
 

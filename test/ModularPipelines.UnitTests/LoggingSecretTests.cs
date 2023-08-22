@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -41,7 +40,7 @@ public class LoggingSecretTests
     {
         var stringBuilder = new StringBuilder();
 
-        await PipelineHostBuilder.Create()
+        await TestPipelineHostBuilder.Create()
             .ConfigureServices((context, collection) =>
             {
                 collection

@@ -1,13 +1,9 @@
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
-using NUnit.Framework.Constraints;
 
 namespace ModularPipelines.UnitTests;
 
@@ -16,12 +12,9 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
-        var modules = await PipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) =>
-            {
-                collection.AddModule<DummyModule>()
-                    .AddRequirement<SuccessfulRequirement>();
-            })
+        var modules = await TestPipelineHostBuilder.Create()
+            .AddModule<DummyModule>()
+            .AddRequirement<SuccessfulRequirement>()
             .ExecutePipelineAsync();
 
         var dummyModule = modules.OfType<DummyModule>().First();
@@ -32,12 +25,9 @@ public class PipelineRequirementTests
     [Test]
     public void When_Requirement_Fails_Then_Error()
     {
-        var executePipelineDelegate = () => PipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) =>
-            {
-                collection.AddModule<DummyModule>()
-                    .AddRequirement<FailingRequirement>();
-            })
+        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
+            .AddModule<DummyModule>()
+            .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
         
         Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()

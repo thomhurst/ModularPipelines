@@ -1,6 +1,4 @@
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -11,11 +9,8 @@ public class DisposableModuleTests
     [Test]
     public async Task SuccessfullyDisposed()
     {
-        var modules = await PipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) =>
-            {
-                collection.AddModule<DisposableModule>();
-            })
+        var modules = await TestPipelineHostBuilder.Create()
+            .AddModule<DisposableModule>()
             .ExecutePipelineAsync();
 
         Assert.That(modules.OfType<DisposableModule>().Single().IsDisposed, Is.True);

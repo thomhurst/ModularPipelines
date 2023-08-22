@@ -25,7 +25,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
     private bool _initialized;
-    private IModuleContext _context = null!; // Late Initialisation
 
     protected Module()
     {
@@ -61,7 +60,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (ModuleRunType != ModuleRunType.AlwaysRun)
         {
-            _context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
+            Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
         }
 
         try
@@ -72,15 +71,15 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 await WaitForModuleDependencies();
             }
-            catch when (_context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+            catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
                 return;
             }
 
-            var shouldSkipModule = await ShouldSkip(_context);
+            var shouldSkipModule = await ShouldSkip(Context);
 
-            if (shouldSkipModule && await UseResultFromHistoryIfSkipped(_context))
+            if (shouldSkipModule && await UseResultFromHistoryIfSkipped(Context))
             {
                 await SetupModuleFromHistory();
                 return;
@@ -94,7 +93,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            await OnBeforeExecute(_context);
+            await OnBeforeExecute(Context);
 
             StartTask.Start(TaskScheduler.Default);
 
@@ -111,7 +110,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             _stopwatch.Start();
 
-            var executeAsyncTask = ExecuteAsync(_context, ModuleCancellationTokenSource.Token);
+            var executeAsyncTask = ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
 
             // Will throw a timeout exception if configured and timeout is reached
             await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
@@ -119,7 +118,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             var moduleResult = await executeAsyncTask ?? ModuleResult.Empty<T>();
             moduleResult.ModuleName = GetType().Name;
 
-            await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
+            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
@@ -127,7 +126,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             Status = Status.Successful;
             EndTime = DateTimeOffset.UtcNow;
 
-            _context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
 
             TaskCompletionSource.SetResult(moduleResult);
         }
@@ -137,12 +136,12 @@ public abstract partial class Module<T> : ModuleBase<T>
             Duration = _stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
 
-            _context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
+            Context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
-                && ModuleCancellationTokenSource.IsCancellationRequested && !_context.EngineCancellationToken.IsCancellationRequested)
+                && ModuleCancellationTokenSource.IsCancellationRequested && !Context.EngineCancellationToken.IsCancellationRequested)
             {
-                _context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
+                Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
 
                 Status = Status.TimedOut;
             }
@@ -151,12 +150,12 @@ public abstract partial class Module<T> : ModuleBase<T>
                 Status = Status.Failed;
             }
 
-            if (await ShouldIgnoreFailures(_context, exception))
+            if (await ShouldIgnoreFailures(Context, exception))
             {
                 var moduleResult = ModuleResult.FromException<T>(exception);
                 moduleResult.ModuleName = GetType().Name;
 
-                await _context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
+                await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
                 TaskCompletionSource.SetResult(moduleResult);
             }
@@ -169,28 +168,28 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
-            await OnAfterExecute(_context);
+            await OnAfterExecute(Context);
             
             switch (Status)
             {
                 case Status.NotYetStarted:
-                    _context.Logger.LogWarning("Module never started");
+                    Context.Logger.LogWarning("Module never started");
                     break;
                 case Status.Processing:
-                    _context.Logger.LogError("Module didn't finish executing");
+                    Context.Logger.LogError("Module didn't finish executing");
                     break;
                 case Status.Successful:
-                    _context.Logger.LogInformation("Module completed successfully");
+                    Context.Logger.LogInformation("Module completed successfully");
                     break;
                 case Status.Failed:
                 case Status.TimedOut:
-                    _context.Logger.LogError("Module failed");
+                    Context.Logger.LogError("Module failed");
                     break;
                 case Status.Skipped:
-                    _context.Logger.LogWarning("Module skipped");
+                    Context.Logger.LogWarning("Module skipped");
                     break;
                 case Status.Unknown:
-                    _context.Logger.LogError("Unknown module status");
+                    Context.Logger.LogError("Unknown module status");
                     break;
             }
         }
@@ -199,7 +198,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override ModuleBase Initialize(IModuleContext context)
     {
         context.FetchLogger(GetType());
-        _context = context;
+        Context = context;
         _initialized = true;
         return this;
     }
@@ -208,7 +207,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         Status = Status.Successful;
 
-        var result = await _context.ModuleResultRepository.GetResultAsync<T>(this);
+        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this);
 
         if (result == null)
         {
@@ -250,7 +249,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new ModuleReferencingSelfException("A module cannot get itself");
         }
 
-        return _context.GetModule<TModule>();
+        return Context.GetModule<TModule>();
     }
 
     private async Task WaitForModuleDependencies()
@@ -266,7 +265,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 .ToAsyncProcessorBuilder()
                 .ForEachAsync(dependsOnAttribute =>
             {
-                var module = _context.GetModule(dependsOnAttribute.Type);
+                var module = Context.GetModule(dependsOnAttribute.Type);
 
                 if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
                 {
@@ -285,7 +284,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
         {
-            _context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+            Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
     }
 
@@ -297,6 +296,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         TaskCompletionSource.SetResult(new SkippedModuleResult<T>());
 
-        _context.Logger.LogInformation("{Module} Ignored", GetType().Name);
+        Context.Logger.LogInformation("{Module} Ignored", GetType().Name);
     }
 }

@@ -1,14 +1,28 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
 
 internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
 {
-    public void PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
+    private readonly IOptions<PipelineOptions> _options;
+
+    public PipelineConsoleProgressPrinter(IOptions<PipelineOptions> options)
     {
-        AnsiConsole.Progress()
+        _options = options;
+    }
+    
+    public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
+    {
+        if (!_options.Value.ShowProgressInConsole || !AnsiConsole.Profile.Capabilities.Interactive)
+        {
+            return Task.CompletedTask;
+        }
+        
+        return AnsiConsole.Progress()
             .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>
             {
@@ -26,14 +40,17 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
+                        progressContext.Refresh();
                         return;
                     }
 
                     await Task.Delay(1000);
+                    progressContext.Refresh();
                 }
 
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    progressContext.Refresh();
                     return;
                 }
 

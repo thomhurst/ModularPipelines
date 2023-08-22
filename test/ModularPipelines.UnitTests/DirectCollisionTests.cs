@@ -1,8 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -13,12 +11,9 @@ public class DirectCollisionTests
     [Test]
     public void Modules_Dependent_On_Each_Other_Throws_Exception()
     {
-        Assert.That(() => PipelineHostBuilder.Create()
-                .ConfigureServices((context, collection) =>
-                {
-                    collection.AddModule<DependencyConflictModule1>()
-                        .AddModule<DependencyConflictModule2>();
-                })
+        Assert.That(() => TestPipelineHostBuilder.Create()
+                .AddModule<DependencyConflictModule1>()
+                .AddModule<DependencyConflictModule2>()
             .ExecutePipelineAsync(),
             Throws.Exception.TypeOf<DependencyCollisionException>()
                 .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**"));

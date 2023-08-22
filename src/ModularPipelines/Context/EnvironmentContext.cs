@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
@@ -11,16 +12,16 @@ namespace ModularPipelines.Context;
 
 internal class EnvironmentContext : IEnvironmentContext, IInitializer
 {
-    private readonly ILogger<EnvironmentContext> _logger;
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHostEnvironment _hostEnvironment;
     private readonly ICommand _command;
 
-    public EnvironmentContext(ILogger<EnvironmentContext> logger,
+    public EnvironmentContext(IModuleLoggerProvider moduleLoggerProvider,
         IHostEnvironment hostEnvironment,
         IEnvironmentVariables environmentVariables,
         ICommand command)
     {
-        _logger = logger;
+        _moduleLoggerProvider = moduleLoggerProvider;
         _hostEnvironment = hostEnvironment;
         _command = command;
         EnvironmentVariables = environmentVariables;
@@ -66,7 +67,7 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
         }
         catch (CommandException e)
         {
-            _logger.LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
+            _moduleLoggerProvider.GetLogger().LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
             return;
         }
 

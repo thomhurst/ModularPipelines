@@ -7,36 +7,37 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Requirements;
 
 namespace ModularPipelines.Host;
 
-public class PipelineHostBuilder : IPipelineHostBuilder
+public class PipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
-    private readonly PipelineEngineOverrides _overrides;
+    private readonly PipelineEnginePlugins _plugins;
 
-    internal PipelineHostBuilder()
+    public PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
-        _overrides = new PipelineEngineOverrides(_internalHost);
+        _plugins = new PipelineEnginePlugins(_internalHost);
         _internalHost.ConfigureServices(DependencyInjectionSetup.Initialize);
     }
 
-    public static IPipelineHostBuilder Create() => new PipelineHostBuilder();
+    public static PipelineHostBuilder Create() => new();
 
-    public IPipelineHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
+    public PipelineHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
     {
         _internalHost.ConfigureAppConfiguration(configureDelegate);
         return this;
     }
 
-    public IPipelineHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
+    public PipelineHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
     {
         _internalHost.ConfigureServices(configureDelegate);
         return this;
     }
 
-    public IPipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate)
+    public PipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate)
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
@@ -46,7 +47,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         return this;
     }
     
-    public IPipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
+    public PipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
@@ -55,8 +56,18 @@ public class PipelineHostBuilder : IPipelineHostBuilder
 
         return this;
     }
-    
-    public IPipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
+
+    public PipelineHostBuilder AddRequirement<TRequirement>() where TRequirement : class, IPipelineRequirement
+    {
+        _internalHost.ConfigureServices((context, collection) =>
+        {
+            collection.AddRequirement<TRequirement>();
+        });
+
+        return this;
+    }
+
+    public PipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
     {
         _internalHost.ConfigureServices((context, collection) =>
         {
@@ -66,9 +77,9 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         return this;
     }
 
-    public IPipelineHostBuilder ConfigureOverrides(Action<PipelineEngineOverrides> configureDelegate)
+    public PipelineHostBuilder ConfigurePlugins(Action<PipelineEnginePlugins> configureDelegate)
     {
-        configureDelegate(_overrides);
+        configureDelegate(_plugins);
         return this;
     }
 
@@ -88,7 +99,7 @@ public class PipelineHostBuilder : IPipelineHostBuilder
         }
     }
 
-    public IHost BuildHost()
+    internal IHost BuildHost()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
 

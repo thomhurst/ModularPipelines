@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines;
+﻿namespace ModularPipelines.Logging;
 
 internal interface IModuleLoggerContainer
 {
