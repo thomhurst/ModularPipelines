@@ -8,6 +8,8 @@ namespace ModularPipelines.Modules;
 
 public abstract class ModuleBase
 {
+    protected internal IModuleContext Context = null!; // Late Initialisation
+    
     internal readonly Task StartTask = new(() => { });
     internal readonly Task IgnoreTask = new(() => { });
     internal abstract Task<object> ResultTaskInternal { get; }

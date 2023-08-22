@@ -5,26 +5,26 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Host;
 
-public class PipelineEngineOverrides
+public class PipelineEnginePlugins
 {
     private readonly IHostBuilder _internalHost;
 
-    internal PipelineEngineOverrides(IHostBuilder internalHost)
+    internal PipelineEnginePlugins(IHostBuilder internalHost)
     {
         _internalHost = internalHost;
     }
 
-    public PipelineEngineOverrides OverrideModuleEstimatedTimeProvider<T>() where T : class, IModuleEstimatedTimeProvider
+    public PipelineEnginePlugins SetModuleEstimatedTimeProvider<T>() where T : class, IModuleEstimatedTimeProvider
     {
         return OverrideGeneric<IModuleEstimatedTimeProvider, T>();
     }
 
-    public PipelineEngineOverrides OverrideResultsRepository<T>() where T : class, IModuleResultRepository
+    public PipelineEnginePlugins SetResultsRepository<T>() where T : class, IModuleResultRepository
     {
         return OverrideGeneric<IModuleResultRepository, T>();
     }
 
-    private PipelineEngineOverrides OverrideGeneric<TBase, T>() where T : class, TBase where TBase : class
+    private PipelineEnginePlugins OverrideGeneric<TBase, T>() where T : class, TBase where TBase : class
     {
         _internalHost.ConfigureServices(s =>
         {

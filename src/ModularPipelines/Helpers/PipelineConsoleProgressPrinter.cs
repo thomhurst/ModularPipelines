@@ -17,7 +17,7 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
     
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        if (!_options.Value.ShowProgressInConsole)
+        if (!_options.Value.ShowProgressInConsole || !AnsiConsole.Profile.Capabilities.Interactive)
         {
             return Task.CompletedTask;
         }
@@ -40,14 +40,17 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
+                        progressContext.Refresh();
                         return;
                     }
 
                     await Task.Delay(1000);
+                    progressContext.Refresh();
                 }
 
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    progressContext.Refresh();
                     return;
                 }
 

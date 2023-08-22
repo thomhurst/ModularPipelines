@@ -59,6 +59,7 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()

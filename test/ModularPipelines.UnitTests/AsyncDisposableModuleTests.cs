@@ -1,10 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -13,12 +9,8 @@ public class AsyncDisposableModuleTests
     [Test]
     public async Task SuccessfullyDisposed()
     {
-        var modules = await PipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false))
-            .ConfigureServices((context, collection) =>
-            {
-                collection.AddModule<AsyncDisposableModule>();
-            })
+        var modules = await TestPipelineHostBuilder.Create()
+            .AddModule<AsyncDisposableModule>()
             .ExecutePipelineAsync();
 
         Assert.That(modules.OfType<AsyncDisposableModule>().Single().IsDisposed, Is.True);
