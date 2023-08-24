@@ -22,7 +22,6 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
 
     public UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings)
     {
-        ArgumentNullException.ThrowIfNull(nugetSettings.Value.ApiKey);
         _nugetSettings = nugetSettings;
         _publishSettings = publishSettings;
     }
@@ -59,6 +58,8 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         {
             return await NothingAsync();
         }
+        
+        ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
         var packagePaths = await GetModule<PackagePathsParserModule>();
 

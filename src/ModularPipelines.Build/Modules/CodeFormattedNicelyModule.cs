@@ -16,7 +16,6 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
     public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
     {
-        ArgumentNullException.ThrowIfNull(githubSettings.Value.StandardToken);
         _githubSettings = githubSettings;
     }
 
@@ -26,7 +25,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         {
             return await NothingAsync();
         }
-
+        
         try
         {
             // The code hasn't been formatted nicely!
@@ -43,6 +42,8 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 throw;
             }
+            
+            ArgumentNullException.ThrowIfNull(_githubSettings.Value.StandardToken);
 
             await context.DotNet().Format(new DotNetFormatOptions
             {
