@@ -42,7 +42,7 @@ public class GitHelpers
     {
         var options = context.Get<IOptions<GitHubSettings>>();
         
-        var token = options!.Value.TokenWithTriggerBuild;
+        var token = options!.Value.StandardToken;
         var author = options?.Value?.PullRequest?.Author ?? "thomhurst";
         
         await context.Git().Commands.Remote(new GitRemoteOptions

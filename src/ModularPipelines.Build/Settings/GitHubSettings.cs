@@ -5,10 +5,10 @@ namespace ModularPipelines.Build.Settings;
 public record GitHubSettings
 {
     [SecretValue]
-    public string? TokenWithTriggerBuild { get; init; }
+    public string? StandardToken { get; init; }
     
     [SecretValue]
-    public string? TokenWithoutTriggerBuild { get; init; }
+    public string? AdminToken { get; init; }
     public GitHubPullRequest? PullRequest { get; init; }
     public GitHubRepository? Repository { get; init; }
 }

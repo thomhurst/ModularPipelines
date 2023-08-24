@@ -78,7 +78,7 @@ public class GenerateReadMeModule : Module
 
         await GitHelpers.CheckoutBranch(context, branchTriggeringPullRequest, cancellationToken);
 
-        await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, AutomatedReadMeUpdateGitMessage, _githubSettings.Value.TokenWithTriggerBuild!,
+        await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, AutomatedReadMeUpdateGitMessage, _githubSettings.Value.StandardToken!,
             cancellationToken);
 
         // Fail this run - The git push will trigger a new run

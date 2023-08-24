@@ -37,7 +37,7 @@ var modules = await PipelineHostBuilder.Create()
         {
             var githubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>();
             return new GitHubClient(new ProductHeaderValue("ModularPipelinesBuild"),
-                new InMemoryCredentialStore(new Credentials(githubSettings.Value.TokenWithTriggerBuild)));
+                new InMemoryCredentialStore(new Credentials(githubSettings.Value.StandardToken)));
         });
 
         if (context.HostingEnvironment.IsDevelopment())
