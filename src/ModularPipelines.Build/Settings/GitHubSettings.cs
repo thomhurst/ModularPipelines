@@ -1,8 +1,13 @@
-﻿namespace ModularPipelines.Build.Settings;
+﻿using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Build.Settings;
 
 public record GitHubSettings
 {
+    [SecretValue]
     public string? TokenWithTriggerBuild { get; init; }
+    
+    [SecretValue]
     public string? TokenWithoutTriggerBuild { get; init; }
     public GitHubPullRequest? PullRequest { get; init; }
     public GitHubRepository? Repository { get; init; }
