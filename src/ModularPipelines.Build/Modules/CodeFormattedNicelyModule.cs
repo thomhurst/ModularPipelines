@@ -16,7 +16,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
     public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
     {
-        ArgumentNullException.ThrowIfNull(githubSettings.Value.TokenWithTriggerBuild);
+        ArgumentNullException.ThrowIfNull(githubSettings.Value.StandardToken);
         _githubSettings = githubSettings;
     }
 
@@ -50,13 +50,13 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = false
             }, cancellationToken);
 
-            var branchTriggeringPullRequest = _githubSettings.Value.TokenWithTriggerBuild!;
+            var branchTriggeringPullRequest = _githubSettings.Value.StandardToken!;
 
             await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 
             await GitHelpers.CheckoutBranch(context, branchTriggeringPullRequest, cancellationToken);
 
-            await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, DotnetFormatGitMessage, _githubSettings.Value.TokenWithTriggerBuild!,
+            await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, DotnetFormatGitMessage, _githubSettings.Value.StandardToken!,
                 cancellationToken);
 
             // Fail this run - The git push will trigger a new run
