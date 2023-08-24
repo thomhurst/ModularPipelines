@@ -1,4 +1,6 @@
-﻿namespace ModularPipelines.Engine;
+﻿using System.Reflection;
+
+namespace ModularPipelines.Engine;
 
 internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
 {
@@ -6,9 +8,21 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
     {
         return AppDomain.CurrentDomain
             .GetAssemblies()
-            .SelectMany(x => x.GetTypes())
+            .SelectMany(GetLoadableTypes)
             .Where(t => t.IsAssignableTo(type))
             .Where(t => !t.IsAbstract)
             .ToArray();
+    }
+
+    private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+    {
+        try
+        {
+            return assembly.GetTypes();
+        }
+        catch (ReflectionTypeLoadException e)
+        {
+            return e.Types.OfType<Type>();
+        }
     }
 }
