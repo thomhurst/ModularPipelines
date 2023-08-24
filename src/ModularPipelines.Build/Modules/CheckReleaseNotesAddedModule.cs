@@ -27,7 +27,7 @@ public class CheckReleaseNotesAddedModule : Module
             return Task.FromResult(true);
         }
         
-        return Task.FromResult(!string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
+        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
     }
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
