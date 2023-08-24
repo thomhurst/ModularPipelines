@@ -10,9 +10,7 @@ namespace ModularPipelines.Analyzers;
 public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "LoggerInConstructor";
-
-    // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-    // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Localizing%20Analyzers.md for more on localization
+    
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
     private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
     private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
@@ -24,7 +22,7 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze);
         context.EnableConcurrentExecution();
 
         context.RegisterSyntaxNodeAction(AnalyzeLoggersInConstructors, SyntaxKind.ConstructorDeclaration);

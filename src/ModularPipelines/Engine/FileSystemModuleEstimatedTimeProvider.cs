@@ -1,3 +1,5 @@
+using ModularPipelines.Models;
+
 namespace ModularPipelines.Engine;
 
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
@@ -31,6 +33,16 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         var fileName = $"{moduleType.FullName}.txt";
 
         await SaveModuleTimeAsync(duration, fileName);
+    }
+
+    public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)

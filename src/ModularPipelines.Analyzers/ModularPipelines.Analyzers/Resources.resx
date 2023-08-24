@@ -119,38 +119,38 @@
   </resheader>
   <data name="MissingDependsOnAttributeAnalyzerDescription" xml:space="preserve">
     <value>Missing DependsOn Attribute.</value>
-    <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="MissingDependsOnAttributeAnalyzerMessageFormat" xml:space="preserve">
     <value>This Module should have a DependsOn attribute for {0}</value>
-    <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="MissingDependsOnAttributeAnalyzerTitle" xml:space="preserve">
     <value>Missing DependsOn Attribute</value>
-    <comment>The title of the diagnostic.</comment>
   </data>
   <data name="IEnumerableModuleResultAnalyzerDescription" xml:space="preserve">
     <value>A ModuleResult should be enumerated before being returned.</value>
-    <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="IEnumerableModuleResultAnalyzerMessageFormat" xml:space="preserve">
     <value>Return an enumerated collection such as a List instead of an IEnumerable to avoid multiple Enumeration</value>
-    <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="IEnumerableModuleResultAnalyzerTitle" xml:space="preserve">
     <value>IEnumerable Module Result</value>
-    <comment>The title of the diagnostic.</comment>
   </data>
-  <data name="LoggerInConstructorAnalyzerDescription" xml:space="preserve">
+    <data name="LoggerInConstructorAnalyzerDescription" xml:space="preserve">
     <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider.</value>
-    <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="LoggerInConstructorAnalyzerMessageFormat" xml:space="preserve">
+    <data name="LoggerInConstructorAnalyzerMessageFormat" xml:space="preserve">
     <value>Remove logger from constructor and use context.Logger or inject in IModuleLoggerProvider</value>
-    <comment>The format-able message the diagnostic displays.</comment>
   </data>
     <data name="LoggerInConstructorAnalyzerTitle" xml:space="preserve">
     <value>Logger found in constructor</value>
-        <comment>The title of the diagnostic.</comment>
+  </data>
+    <data name="ConsoleUseAnalyzerDescription" xml:space="preserve">
+    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider.</value>
+  </data>
+    <data name="ConsoleUseAnalyzerMessageFormat" xml:space="preserve">
+    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider.</value>
+  </data>
+    <data name="ConsoleUseAnalyzerTitle" xml:space="preserve">
+    <value>Use of Console detected</value>
   </data>
 </root>

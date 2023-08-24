@@ -36,6 +36,7 @@ public interface IModuleContext
     public IXml Xml { get; }
     public IPowershell Powershell { get; }
     public IBash Bash { get; }
+    public IBuildSystemDetector BuildSystemDetector { get; }
 
     #endregion
 }

@@ -1,4 +1,6 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.Options;
+using ModularPipelines.Build.Settings;
+using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
@@ -9,7 +11,14 @@ namespace ModularPipelines.Build.Modules;
 
 public class CodeFormattedNicelyModule : Module<CommandResult>
 {
+    private readonly IOptions<GitHubSettings> _githubSettings;
     private static readonly string DotnetFormatGitMessage = "DotNet Format";
+
+    public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
+    {
+        ArgumentNullException.ThrowIfNull(githubSettings.Value.TokenWithTriggerBuild);
+        _githubSettings = githubSettings;
+    }
 
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -41,7 +50,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = false
             }, cancellationToken);
 
-            var branchTriggeringPullRequest = context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
+            var branchTriggeringPullRequest = _githubSettings.Value.TokenWithTriggerBuild!;
 
             await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 

@@ -1,4 +1,6 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.Options;
+using ModularPipelines.Build.Settings;
+using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 
@@ -23,6 +25,19 @@ public class GitHelpers
             }
         }, cancellationToken);
     }
+    
+    public static async Task SetTarget(IModuleContext context, string branch, string token, CancellationToken cancellationToken)
+    {
+        await context.Git().Commands.Remote(new GitRemoteOptions
+        {
+            Arguments = new List<string>
+            {
+                "set-url", branch, $"https://{token}@github.com/thomhurst/ModularPipelines"
+            }
+        }, cancellationToken);
+    }
+
+
 
     public static async Task SetEmail(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -38,12 +53,13 @@ public class GitHelpers
 
     public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
     {
+        var token = context.Get<IOptions<GitHubSettings>>()!.Value.TokenWithTriggerBuild;
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new[]
             {
                 "set-url", "origin",
-                $"https://x-access-token:{context.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN")}@github.com/thomhurst/ModularPipelines"
+                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines"
             }
         }, cancellationToken);
 

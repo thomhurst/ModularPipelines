@@ -1,5 +1,7 @@
 ﻿using System.Text;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -11,8 +13,14 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 public class GenerateReadMeModule : Module
 {
+    private readonly IOptions<GitHubSettings> _githubSettings;
     private static readonly string AutomatedReadMeUpdateGitMessage = "Automated README.md Update";
 
+    public GenerateReadMeModule(IOptions<GitHubSettings> githubSettings)
+    {
+        _githubSettings = githubSettings;
+    }
+    
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Environment.GitRootDirectory!;
@@ -64,8 +72,7 @@ public class GenerateReadMeModule : Module
 
     private async Task PushUpdatedCommit(IModuleContext context, CancellationToken cancellationToken)
     {
-        var branchTriggeringPullRequest =
-            context.Environment.EnvironmentVariables.GetEnvironmentVariable("PULL_REQUEST_BRANCH")!;
+        var branchTriggeringPullRequest = _githubSettings.Value.PullRequest!.Branch!;
 
         await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 
