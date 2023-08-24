@@ -75,7 +75,6 @@ public class UpdateReleaseNotesModule : Module
         await releaseNotesFile.WriteAsync(string.Empty);
         
         await GitHelpers.SetUserCommitInformation(context, cancellationToken);
-        await GitHelpers.SetToken(context, _githubSettings.Value.TokenWithoutTriggerBuild!, cancellationToken);
-        await GitHelpers.CommitAndPush(context, "main", "Create Release", cancellationToken);
+        await GitHelpers.CommitAndPush(context, "main", "Create Release", _githubSettings.Value.TokenWithoutTriggerBuild!, cancellationToken);
     }
 }

@@ -56,7 +56,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await GitHelpers.CheckoutBranch(context, branchTriggeringPullRequest, cancellationToken);
 
-            await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, DotnetFormatGitMessage,
+            await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, DotnetFormatGitMessage, _githubSettings.Value.TokenWithTriggerBuild!,
                 cancellationToken);
 
             // Fail this run - The git push will trigger a new run

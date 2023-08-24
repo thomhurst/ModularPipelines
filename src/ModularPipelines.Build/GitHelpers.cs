@@ -26,19 +26,6 @@ public class GitHelpers
         }, cancellationToken);
     }
     
-    public static async Task SetToken(IModuleContext context, string token, CancellationToken cancellationToken)
-    {
-        await context.Git().Commands.Remote(new GitRemoteOptions
-        {
-            Arguments = new List<string>
-            {
-                "set-url", "origin", $"https://{token}@github.com/thomhurst/ModularPipelines"
-            }
-        }, cancellationToken);
-    }
-
-
-
     public static async Task SetEmail(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Git().Commands.Config(new GitConfigOptions
@@ -69,7 +56,7 @@ public class GitHelpers
             .Checkout(new GitCheckoutOptions(branchName), cancellationToken);
     }
 
-    public static async Task CommitAndPush(IModuleContext context, string branchToPushTo, string message,
+    public static async Task CommitAndPush(IModuleContext context, string branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
         await context.Git().Commands.Add(new GitAddOptions
@@ -81,10 +68,10 @@ public class GitHelpers
         {
             Message = message
         }, token: cancellationToken);
-
         await context.Git().Commands.Push(new GitPushOptions
         {
-            Arguments = new[] { "-u", "origin", $"HEAD:{branchToPushTo}" }
+            Arguments = new[] { $"https://{token}@github.com/thomhurst/ModularPipelines.git", branchToPushTo }
         }, token: cancellationToken);
+
     }
 }

@@ -21,6 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Add mask
+        run: |
+          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}" 
+          echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
+          echo "::add-mask::${{ secrets.github.token }}"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

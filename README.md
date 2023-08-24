@@ -51,10 +51,9 @@ await PipelineHostBuilder.Create()
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
-
-        collection.AddModule<FindNugetPackagesModule>()
-            .AddModule<UploadNugetPackagesModule>();
     })
+    .AddModule<FindNugetPackagesModule>()
+    .AddModule<UploadNugetPackagesModule>()
     .ExecutePipelineAsync();
 ```
 
@@ -79,6 +78,13 @@ public class FindNugetPackagesModule : Module<FileInfo>
 [DependsOn<FindNugetPackagesModule>]
 public class UploadNugetPackagesModule : Module<FileInfo>
 {
+    private readonly IOptions<NuGetSettings> _nugetSettings;
+
+    public UploadNugetPackagesModule(IOptions<NuGetSettings> nugetSettings)
+    {
+        _nugetSettings = nugetSettings;
+    }
+
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
@@ -86,7 +92,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         return await context.NuGet()
             .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
-                ApiKey = "SomeApiKey",
+                ApiKey = _nugetSettings.Value.ApiKey,
                 NoSymbols = true
             });
     }
