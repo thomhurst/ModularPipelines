@@ -1,1 +1,1 @@
-- Fix setting token on Git push
+- Fix setting token on Git push.
