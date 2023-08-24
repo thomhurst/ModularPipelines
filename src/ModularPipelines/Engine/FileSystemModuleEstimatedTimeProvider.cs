@@ -38,7 +38,16 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
     {
-        var paths = new DirectoryInfo(_directory)
+        var directoryInfo = new DirectoryInfo(_directory);
+
+        if (!directoryInfo.Exists)
+        {
+            directoryInfo.Create();
+        }
+        
+        directoryInfo.Create();
+        
+        var paths = directoryInfo
             .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
             .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
             .ToList();

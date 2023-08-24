@@ -26,6 +26,11 @@ public class CheckReleaseNotesAddedModule : Module
         {
             return Task.FromResult(true);
         }
+
+        if (_githubSettings.Value.Actor == "dependabot[bot]")
+        {
+            return Task.FromResult(true);
+        }
         
         return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
     }
