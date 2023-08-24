@@ -40,13 +40,17 @@ public class GitHelpers
 
     public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
     {
-        var token = context.Get<IOptions<GitHubSettings>>()!.Value.TokenWithTriggerBuild;
+        var options = context.Get<IOptions<GitHubSettings>>();
+        
+        var token = options!.Value.TokenWithTriggerBuild;
+        var author = options?.Value?.PullRequest?.Author ?? "thomhurst";
+        
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new[]
             {
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines"
+                $"https://x-access-token:{token}@github.com/{author}/ModularPipelines"
             }
         }, cancellationToken);
 
@@ -69,7 +73,9 @@ public class GitHelpers
             Message = message
         }, token: cancellationToken);
 
-        var arguments = new List<string> { $"https://{token}@github.com/thomhurst/ModularPipelines.git" };
+        var author = context.Get<IOptions<GitHubSettings>>()?.Value?.PullRequest?.Author ?? "thomhurst";
+
+        var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };
 
         if (!string.IsNullOrEmpty(branchToPushTo))
         {
