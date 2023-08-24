@@ -68,10 +68,10 @@ public class GitHelpers
         {
             Message = message
         }, token: cancellationToken);
-
         await context.Git().Commands.Push(new GitPushOptions
         {
-            Arguments = new[] { $"https://{token}@github.com/thomhurst/ModularPipelines", "-u", "origin", $"HEAD:{branchToPushTo}" }
+            Arguments = new[] { $"https://{token}@github.com/thomhurst/ModularPipelines", branchToPushTo }
         }, token: cancellationToken);
+
     }
 }
