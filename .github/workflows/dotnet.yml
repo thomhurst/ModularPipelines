@@ -41,8 +41,8 @@ jobs:
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          GitHub__TokenWithTriggerBuild: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
-          GitHub__PushToMainToken: ${{ secrets.ADMIN_TOKEN }}
+          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
+          GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
           GitHub__PullRequest__Number: ${{ github.event.number }}
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
