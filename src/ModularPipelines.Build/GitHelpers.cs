@@ -75,7 +75,7 @@ public class GitHelpers
 
         var author = context.Get<IOptions<GitHubSettings>>()?.Value?.PullRequest?.Author ?? "thomhurst";
 
-        var arguments = new List<string> { $"https://{author}:{token}@github.com/{author}/ModularPipelines.git" };
+        var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };
 
         if (!string.IsNullOrEmpty(branchToPushTo))
         {
