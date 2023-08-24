@@ -51,10 +51,9 @@ await PipelineHostBuilder.Create()
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
-
-        collection.AddModule<FindNugetPackagesModule>()
-            .AddModule<UploadNugetPackagesModule>();
     })
+    .AddModule<FindNugetPackagesModule>()
+    .AddModule<UploadNugetPackagesModule>()
     .ExecutePipelineAsync();
 ```
 
