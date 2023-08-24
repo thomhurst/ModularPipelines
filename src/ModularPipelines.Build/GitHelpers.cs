@@ -26,13 +26,13 @@ public class GitHelpers
         }, cancellationToken);
     }
     
-    public static async Task SetTarget(IModuleContext context, string branch, string token, CancellationToken cancellationToken)
+    public static async Task SetToken(IModuleContext context, string token, CancellationToken cancellationToken)
     {
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new List<string>
             {
-                "set-url", branch, $"https://{token}@github.com/thomhurst/ModularPipelines"
+                "set-url", "origin", $"https://{token}@github.com/thomhurst/ModularPipelines"
             }
         }, cancellationToken);
     }
