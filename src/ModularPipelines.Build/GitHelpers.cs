@@ -56,7 +56,7 @@ public class GitHelpers
             .Checkout(new GitCheckoutOptions(branchName), cancellationToken);
     }
 
-    public static async Task CommitAndPush(IModuleContext context, string branchToPushTo, string message, string token,
+    public static async Task CommitAndPush(IModuleContext context, string? branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
         await context.Git().Commands.Add(new GitAddOptions
@@ -68,9 +68,17 @@ public class GitHelpers
         {
             Message = message
         }, token: cancellationToken);
+
+        var arguments = new List<string> { $"https://{token}@github.com/thomhurst/ModularPipelines.git" };
+
+        if (!string.IsNullOrEmpty(branchToPushTo))
+        {
+            arguments.Add(branchToPushTo);
+        }
+        
         await context.Git().Commands.Push(new GitPushOptions
         {
-            Arguments = new[] { $"https://{token}@github.com/thomhurst/ModularPipelines.git", branchToPushTo }
+            Arguments = arguments
         }, token: cancellationToken);
 
     }
