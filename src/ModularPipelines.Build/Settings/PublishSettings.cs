@@ -1,3 +1,6 @@
 ﻿namespace ModularPipelines.Build.Settings;
 
-public record PublishSettings(bool ShouldPublish);
+public record PublishSettings
+{
+    public bool ShouldPublish { get; init; }
+}
