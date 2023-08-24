@@ -1,0 +1,3 @@
+- Added Release Notes Generator
+- Added ConsoleUse Analyzer / Detector
+- Reworked Environment Variables in the Build pipeline
