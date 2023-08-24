@@ -48,12 +48,7 @@ public class CheckReleaseNotesAddedModule : Module
     {
         var pullRequestFiles = await _gitHubClient.PullRequest.Files(_githubSettings.Value.Repository!.Id!.Value,
             _githubSettings.Value.PullRequest!.Number!.Value);
-        
-        foreach (var pullRequestFile in pullRequestFiles)
-        {
-            Console.WriteLine(pullRequestFile.FileName);
-        }
 
-        return pullRequestFiles.Any(x => x.FileName.EndsWith("ReleaseNotes.md"));
+        return pullRequestFiles.Any(x => x.FileName == "src/ModularPipelines.Build/ReleaseNotes.md");
     }
 }
