@@ -60,6 +60,33 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider..
+        /// </summary>
+        internal static string ConsoleUseAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ConsoleUseAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider..
+        /// </summary>
+        internal static string ConsoleUseAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ConsoleUseAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use of Console detected.
+        /// </summary>
+        internal static string ConsoleUseAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ConsoleUseAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A ModuleResult should be enumerated before being returned..
         /// </summary>
         internal static string IEnumerableModuleResultAnalyzerDescription {

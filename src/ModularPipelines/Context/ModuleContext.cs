@@ -33,6 +33,7 @@ internal class ModuleContext : IModuleContext
     public IXml Xml { get; }
     public IPowershell Powershell { get; }
     public IBash Bash { get; }
+    public IBuildSystemDetector BuildSystemDetector { get; }
     public IModuleResultRepository ModuleResultRepository { get; }
     public ICommand Command { get; }
     public IInstaller Installer { get; }
@@ -70,7 +71,8 @@ internal class ModuleContext : IModuleContext
         EngineCancellationToken engineCancellationToken, 
         IInstaller installer,
         IPowershell powershell, 
-        IBash bash)
+        IBash bash,
+        IBuildSystemDetector buildSystemDetector)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Zip = zip;
@@ -83,6 +85,7 @@ internal class ModuleContext : IModuleContext
         Installer = installer;
         Powershell = powershell;
         Bash = bash;
+        BuildSystemDetector = buildSystemDetector;
         ModuleResultRepository = moduleResultRepository;
         Command = command;
         Configuration = configuration;

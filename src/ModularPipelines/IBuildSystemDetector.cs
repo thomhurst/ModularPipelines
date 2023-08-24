@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines;
 
-internal interface IBuildSystemDetector
+public interface IBuildSystemDetector
 {
     bool IsRunningOnAzurePipelines { get; }
     bool IsRunningOnTeamCity { get; }

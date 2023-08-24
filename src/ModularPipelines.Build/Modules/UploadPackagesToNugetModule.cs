@@ -17,12 +17,14 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackagePathsParserModule>]
 public class UploadPackagesToNugetModule : Module<List<CommandResult>>
 {
-    private readonly IOptions<NuGetSettings> _options;
+    private readonly IOptions<NuGetSettings> _nugetSettings;
+    private readonly IOptions<PublishSettings> _publishSettings;
 
-    public UploadPackagesToNugetModule(IOptions<NuGetSettings> options)
+    public UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings)
     {
-        ArgumentNullException.ThrowIfNull(options.Value.ApiKey);
-        _options = options;
+        ArgumentNullException.ThrowIfNull(nugetSettings.Value.ApiKey);
+        _nugetSettings = nugetSettings;
+        _publishSettings = publishSettings;
     }
 
     protected override async Task OnBeforeExecute(IModuleContext context)
@@ -45,16 +47,8 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         {
             return true;
         }
-        
-        var publishPackages =
-            context.Environment.EnvironmentVariables.GetEnvironmentVariable("PUBLISH_PACKAGES")!;
 
-        if (!bool.TryParse(publishPackages, out var shouldPublishPackages) || !shouldPublishPackages)
-        {
-            return true;
-        }
-
-        return false;
+        return !_publishSettings.Value.ShouldPublish;
     }
 
     protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -71,7 +65,7 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         return await context.NuGet()
             .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
-                ApiKey = _options.Value.ApiKey!,
+                ApiKey = _nugetSettings.Value.ApiKey!,
                 NoSymbols = true
             });
     }

@@ -108,7 +108,56 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                 progressTask.Description = $"[yellow][[Ignored]] {moduleName}[/]";
                 progressTask.StopTask();
             }, cancellationToken);
+
+            RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
         }
+    }
+
+    private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext, CancellationToken cancellationToken)
+    {
+        moduleToProcess.Module.OnSubModuleCreated += (sender, subModule) =>
+        {
+            var moduleName = moduleToProcess.Module.GetType().Name;
+
+            var progressTask = progressContext.AddTask($"   > {moduleName} - {subModule.Name}", new ProgressTaskSettings
+            {
+                AutoStart = true
+            });
+
+            Task.Run(async () =>
+            {
+                var subModuleEstimation =
+                    moduleToProcess.SubModuleEstimations.FirstOrDefault(x => x.SubModuleName == subModule.Name)
+                        ?.EstimatedDuration ?? TimeSpan.FromMinutes(2);
+                
+                var estimatedDuration = subModuleEstimation * 1.1; // Give 10% headroom
+
+                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
+
+                var ticksPerSecond = 100 / totalEstimatedSeconds;
+
+                progressTask.Description = subModule.Name;
+                
+                while (progressTask is { IsFinished: false, Value: < 95 })
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    progressTask.Increment(ticksPerSecond);
+                }
+            }, cancellationToken);
+            
+            // Callback for Module has finished
+            _ = subModule.Task.ContinueWith(t =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    progressTask.Increment(100);
+                }
+
+                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]   > {moduleName} - {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
+
+                progressTask.StopTask();
+            }, cancellationToken);
+        };
     }
 
     private static void CompleteTotalWhenFinished(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)

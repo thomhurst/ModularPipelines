@@ -5,4 +5,6 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
 MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer
-EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzerAnalyzer
+EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzer
+LoggerInConstructor | Usage | Error | LoggerInConstructorAnalyzer
+ConsoleUse | Usage | Error | ConsoleUseAnalyzer

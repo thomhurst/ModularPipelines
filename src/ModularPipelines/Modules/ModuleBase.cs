@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -72,17 +73,27 @@ public abstract class ModuleBase
 
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
+    internal EventHandler<SubModule>? OnSubModuleCreated;
+
     protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
         var submodule = new SubModule<T>(GetType(), name, action);
+        
+        OnSubModuleCreated?.Invoke(this, submodule);
+        
         SubModuleBases.Add(submodule);
+        
         return await submodule.Task;
     }
 
     protected async Task SubModule(string name, Func<Task> action)
     {
         var submodule = new SubModule(GetType(), name, action);
+        
+        OnSubModuleCreated?.Invoke(this, submodule);
+        
         SubModuleBases.Add(submodule);
+        
         await submodule.Task;
     }
 }

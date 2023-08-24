@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Exceptions;
+﻿using System.Collections.Immutable;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
@@ -46,7 +47,10 @@ internal class ModuleRetriever : IModuleRetriever
             .SelectAsync(async module =>
             {
                 var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
-                return new RunnableModule(module, estimatedTime);
+
+                var subModules = await _estimatedTimeProvider.GetSubModuleEstimatedTimesAsync(module.GetType());
+                
+                return new RunnableModule(module, estimatedTime, subModules.ToImmutableList());
             })
             .ProcessInParallel(100, TimeSpan.FromSeconds(1));
 

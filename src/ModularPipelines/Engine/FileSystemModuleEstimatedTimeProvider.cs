@@ -1,3 +1,6 @@
+using ModularPipelines.Models;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+
 namespace ModularPipelines.Engine;
 
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
@@ -33,6 +36,40 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         await SaveModuleTimeAsync(duration, fileName);
     }
 
+    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
+    {
+        var paths = new DirectoryInfo(_directory)
+            .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
+            .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
+            .ToList();
+
+        var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
+            .SelectAsync(async file =>
+            {
+                try
+                {
+                    var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
+                    var time = await GetEstimatedTimeAsync(file.FullName);
+                    return new SubModuleEstimation(name, time);
+                }
+                catch
+                {
+                    File.Delete(file.FullName);
+                    return null;
+                }
+            })
+            .ProcessInParallel();
+        
+        return subModuleEstimations.OfType<SubModuleEstimation>();
+    }
+
+    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
+    {
+        var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
+
+        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
+    }
+
     private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
     {
         Directory.CreateDirectory(_directory);
@@ -40,18 +77,5 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         var path = Path.Combine(_directory, fileName);
 
         await File.WriteAllTextAsync(path, duration.ToString());
-    }
-
-    public async Task<TimeSpan> GetSubModuleEstimatedTimeAsync(Type moduleType, string subModuleName)
-    {
-        var fileName = $"{moduleType.FullName}-{subModuleName}.txt";
-        return await GetEstimatedTimeAsync(fileName);
-    }
-
-    public async Task SaveSubModuleTimeAsync(Type moduleType, string subModuleName, TimeSpan duration)
-    {
-        var fileName = $"{moduleType.FullName}-{subModuleName}.txt";
-
-        await SaveModuleTimeAsync(duration, fileName);
     }
 }

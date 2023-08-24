@@ -68,12 +68,12 @@ public class SafeEstimatedTimeProviderTests
             return Task.CompletedTask;
         }
 
-        public Task<TimeSpan> GetSubModuleEstimatedTimeAsync(Type moduleType, string subModuleName)
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
         {
-            return Task.FromResult(TimeSpan.FromMinutes(1));
+            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>());
         }
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, string subModuleName, TimeSpan duration)
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
         {
             return Task.CompletedTask;
         }
@@ -91,12 +91,12 @@ public class SafeEstimatedTimeProviderTests
             throw new Exception();
         }
 
-        public Task<TimeSpan> GetSubModuleEstimatedTimeAsync(Type moduleType, string subModuleName)
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
         {
             throw new Exception();
         }
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, string subModuleName, TimeSpan duration)
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
         {
             throw new Exception();
         }
@@ -114,12 +114,12 @@ public class SafeEstimatedTimeProviderTests
             throw new Exception();
         }
 
-        public Task<TimeSpan> GetSubModuleEstimatedTimeAsync(Type moduleType, string subModuleName)
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
         {
-            throw new Exception();
+            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>());
         }
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, string subModuleName, TimeSpan duration)
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
         {
             throw new Exception();
         }

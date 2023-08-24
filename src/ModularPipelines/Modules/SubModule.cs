@@ -18,10 +18,10 @@ public class SubModule : SubModuleBase
     }
 }
 
-public class SubModule<T> : SubModuleBase
+public class SubModule<T> : SubModule
 {
-    internal Task<T> Task { get; }
-    internal SubModule(Type parentModule, string name, Func<Task<T>> action) : base(parentModule, name)
+    internal new Task<T> Task { get; }
+    internal SubModule(Type parentModule, string name, Func<Task<T>> action) : base(parentModule, name, action)
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
