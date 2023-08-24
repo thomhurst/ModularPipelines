@@ -32,7 +32,7 @@ public class CheckReleaseNotesAddedModule : Module
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var releaseNotesFile = context.Environment.GitRootDirectory!.GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
+        var releaseNotesFile = context.Environment.GitRootDirectory!.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
         
         if (!releaseNotesFile.Exists
             || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync())
