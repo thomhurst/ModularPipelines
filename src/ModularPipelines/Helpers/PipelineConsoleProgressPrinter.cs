@@ -119,7 +119,7 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
 
-            var progressTask = progressContext.AddTask($"   > {moduleName} - {subModule.Name}", new ProgressTaskSettings
+            var progressTask = progressContext.AddTask($"   > {subModule.Name}", new ProgressTaskSettings
             {
                 AutoStart = true
             });
@@ -153,7 +153,7 @@ internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
                     progressTask.Increment(100);
                 }
 
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]   > {moduleName} - {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
+                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]    > {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
 
                 progressTask.StopTask();
             }, cancellationToken);

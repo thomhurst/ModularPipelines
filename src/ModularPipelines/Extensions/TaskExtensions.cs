@@ -1,8 +1,10 @@
-﻿namespace ModularPipelines.Extensions;
+﻿using ModularPipelines.Models;
 
-internal static class TaskExtensions
+namespace ModularPipelines.Extensions;
+
+public static class TaskExtensions
 {
-    public static async Task<TResult[]> WhenAllFailFast<TResult>(this ICollection<Task<TResult>> tasks)
+    internal static async Task<TResult[]> WhenAllFailFast<TResult>(this ICollection<Task<TResult>> tasks)
     {
         var originalTasks = tasks.ToList();
 
@@ -19,5 +21,15 @@ internal static class TaskExtensions
         }
 
         return await Task.WhenAll(originalTasks);
+    }
+
+    public static Task<ModuleResult<T>?> AsTask<T>(this T t)
+    {
+        return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(t));
+    }
+    
+    public static Task<ModuleResult<TType>?> AsTask<TType, T>(this T t) where T : TType
+    {
+        return Task.FromResult<ModuleResult<TType>?>(new ModuleResult<TType>(t));
     }
 }

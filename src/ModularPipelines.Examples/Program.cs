@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using ModularPipelines.Examples;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
@@ -25,6 +26,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<DependentOn2>()
             .AddModule<DependentOn3>()
             .AddModule<DependentOn4>()
+            .AddModule<SubmodulesModule>()
             // .AddModule<SuccessModule2>()
             // .AddModule<SuccessModule3>()
             // .AddModule<IgnoredModule>()
