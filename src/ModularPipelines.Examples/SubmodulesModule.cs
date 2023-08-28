@@ -14,7 +14,7 @@ public class SubmodulesModule : Module
             {
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             });
-        };
+        }
 
         return new Dictionary<string, object>();
     }
