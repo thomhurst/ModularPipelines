@@ -1,7 +1,7 @@
 ﻿namespace ModularPipelines.UnitTests;
 
 [SetUpFixture]
-public class GlobalTestSetup
+public static class GlobalTestSetup
 {
     [OneTimeSetUp]
     public static void Setup()
