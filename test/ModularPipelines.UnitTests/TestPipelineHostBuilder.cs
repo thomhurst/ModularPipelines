@@ -5,12 +5,12 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
-public class TestPipelineHostBuilder
+public static class TestPipelineHostBuilder
 {
     public static PipelineHostBuilder Create()
     {
         return new PipelineHostBuilder()
-            .ConfigureServices((context, collection) =>
+            .ConfigureServices((_, collection) =>
             {
                 collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false);
                 collection.AddLogging(builder => builder.ClearProviders());

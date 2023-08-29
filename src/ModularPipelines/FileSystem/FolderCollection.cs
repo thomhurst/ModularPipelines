@@ -19,7 +19,7 @@ public class FolderCollection : IEnumerable<Folder>
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((IEnumerable) _enumerableImplementation).GetEnumerator();
+        return _enumerableImplementation.GetEnumerator();
     }
 
     public static implicit operator List<string>(FolderCollection folderCollection) => folderCollection.AsPaths().ToList();

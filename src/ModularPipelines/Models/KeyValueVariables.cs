@@ -40,7 +40,7 @@ public class KeyValueVariables : IDictionary<string, string>
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((IEnumerable) _innerDictionary).GetEnumerator();
+        return _innerDictionary.GetEnumerator();
     }
 
     public void Add(KeyValuePair<string, string> item)
@@ -98,7 +98,7 @@ public class KeyValueVariables : IDictionary<string, string>
         set => _innerDictionary[key] = value;
     }
 
-    public ICollection<string> Keys => ((IDictionary<string, string>) _innerDictionary).Keys;
+    public ICollection<string> Keys => _innerDictionary.Keys;
 
-    public ICollection<string> Values => ((IDictionary<string, string>) _innerDictionary).Values;
+    public ICollection<string> Values => _innerDictionary.Values;
 }

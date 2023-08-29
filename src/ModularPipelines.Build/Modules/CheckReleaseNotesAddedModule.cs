@@ -41,7 +41,7 @@ public class CheckReleaseNotesAddedModule : Module
         
         if (!releaseNotesFile.Exists
             || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync())
-            || !await ReleaseNotesChangedInPullRequest(context))
+            || !await ReleaseNotesChangedInPullRequest())
         {
             throw new Exception(MissingReleaseNotesMessage);
         }
@@ -49,7 +49,7 @@ public class CheckReleaseNotesAddedModule : Module
         return await NothingAsync();
     }
 
-    private async Task<bool> ReleaseNotesChangedInPullRequest(IModuleContext moduleContext)
+    private async Task<bool> ReleaseNotesChangedInPullRequest()
     {
         var pullRequestFiles = await _gitHubClient.PullRequest.Files(_githubSettings.Value.Repository!.Id!.Value,
             _githubSettings.Value.PullRequest!.Number!.Value);

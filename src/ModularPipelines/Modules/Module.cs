@@ -169,29 +169,34 @@ public abstract partial class Module<T> : ModuleBase<T>
         finally
         {
             await OnAfterExecute(Context);
-            
-            switch (Status)
-            {
-                case Status.NotYetStarted:
-                    Context.Logger.LogWarning("Module never started");
-                    break;
-                case Status.Processing:
-                    Context.Logger.LogError("Module didn't finish executing");
-                    break;
-                case Status.Successful:
-                    Context.Logger.LogInformation("Module completed successfully");
-                    break;
-                case Status.Failed:
-                case Status.TimedOut:
-                    Context.Logger.LogError("Module failed");
-                    break;
-                case Status.Skipped:
-                    Context.Logger.LogWarning("Module skipped");
-                    break;
-                case Status.Unknown:
-                    Context.Logger.LogError("Unknown module status");
-                    break;
-            }
+
+            LogModuleStatus();
+        }
+    }
+
+    private void LogModuleStatus()
+    {
+        switch (Status)
+        {
+            case Status.NotYetStarted:
+                Context.Logger.LogWarning("Module never started");
+                break;
+            case Status.Processing:
+                Context.Logger.LogError("Module didn't finish executing");
+                break;
+            case Status.Successful:
+                Context.Logger.LogInformation("Module completed successfully");
+                break;
+            case Status.Failed:
+            case Status.TimedOut:
+                Context.Logger.LogError("Module failed");
+                break;
+            case Status.Skipped:
+                Context.Logger.LogWarning("Module skipped");
+                break;
+            case Status.Unknown:
+                Context.Logger.LogError("Unknown module status");
+                break;
         }
     }
 

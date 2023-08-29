@@ -20,7 +20,7 @@ public class FileCollection : IEnumerable<File>
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((IEnumerable) _enumerableImplementation).GetEnumerator();
+        return _enumerableImplementation.GetEnumerator();
     }
 
     public static implicit operator List<string>(FileCollection fileCollection) => fileCollection.AsPaths().ToList();

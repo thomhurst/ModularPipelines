@@ -32,6 +32,7 @@ public class StringLogger<T> : ILogger<T>
     {
         public void Dispose()
         {
+            // Stub class
         }
     }
 }
