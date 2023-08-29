@@ -12,7 +12,7 @@ using Octokit;
 using Octokit.Internal;
 
 var modules = await PipelineHostBuilder.Create()
-    .ConfigureAppConfiguration((context, builder) =>
+    .ConfigureAppConfiguration((_, builder) =>
     {
         builder.AddJsonFile("appsettings.json")
             .AddUserSecrets<Program>()

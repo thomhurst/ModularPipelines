@@ -27,16 +27,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<DependentOn3>()
             .AddModule<DependentOn4>()
             .AddModule<SubmodulesModule>()
-            // .AddModule<SuccessModule2>()
-            // .AddModule<SuccessModule3>()
-            // .AddModule<IgnoredModule>()
-            // .AddModule<FailedModule>()
             .AddModule<GitVersionModule>()
             .AddModule<GitLastCommitModule>();
-        // .AddModule<DotnetTestModule>();
-        // .AddModule<DependentOnSuccessModule>()
-        // .AddModule<NugetVersionGeneratorModule>();
-        //.AddModule<NotepadPlusPlusInstallerModule>()
-        //.AddRequirement<WindowsAdminRequirement>();
     })
     .ExecutePipelineAsync();

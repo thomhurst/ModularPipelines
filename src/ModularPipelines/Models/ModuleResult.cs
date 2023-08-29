@@ -50,9 +50,10 @@ public class ModuleResult<T> : ModuleResult
 public class ModuleResult
 {
     public static ModuleResult<T> Empty<T>() => new(default(T));
+    
     public static ModuleResult<T> From<T>(T t)
     {
-        return t == null ? Empty<T>() : new ModuleResult<T>(t);
+        return EqualityComparer<T>.Default.Equals(t, default) ? Empty<T>() : new ModuleResult<T>(t);
     }
 
     public static ModuleResult<T> FromException<T>(Exception exception) => new(exception);

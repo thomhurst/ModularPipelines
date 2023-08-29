@@ -197,6 +197,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             case Status.Unknown:
                 Context.Logger.LogError("Unknown module status");
                 break;
+            default:
+                Context.Logger.LogError("Module status is: {Status}", Status);
+                break;
         }
     }
 
