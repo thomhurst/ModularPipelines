@@ -1,0 +1,1 @@
+- Update NuGet dependencies to latest versions

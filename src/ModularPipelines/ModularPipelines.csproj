@@ -17,9 +17,9 @@
       <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
       <PackageReference Include="Spectre.Console" Version="0.47.0" />
       <PackageReference Include="TomLonghurst.EnumerableAsyncProcessor" Version="1.1.0" />
-      <PackageReference Include="TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization" Version="1.2.1" />
+      <PackageReference Include="TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization" Version="1.2.2" />
       <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20230828.25" />
-      <PackageReference Include="YamlDotNet" Version="13.2.0" />
+      <PackageReference Include="YamlDotNet" Version="13.3.1" />
     </ItemGroup>
 
     <ItemGroup>
