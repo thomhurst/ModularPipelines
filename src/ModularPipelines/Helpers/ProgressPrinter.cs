@@ -60,9 +60,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
-        var table = new Table()
-        {
-        };
+        var table = new Table();
         
         table.AddColumn("Module");
         table.AddColumn("Duration");
