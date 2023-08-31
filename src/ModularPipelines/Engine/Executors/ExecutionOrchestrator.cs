@@ -1,4 +1,7 @@
-﻿using ModularPipelines.Modules;
+﻿using System.Diagnostics;
+using ModularPipelines.Helpers;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -9,18 +12,21 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintModuleOutputExecutor _printModuleOutputExecutor;
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
+    private readonly IConsolePrinter _consolePrinter;
 
     public ExecutionOrchestrator(IPipelineInitializer pipelineInitializer,
         IModuleDisposeExecutor moduleDisposeExecutor,
         IPrintModuleOutputExecutor printModuleOutputExecutor,
         IPrintProgressExecutor printProgressExecutor,
-        IPipelineExecutor pipelineExecutor)
+        IPipelineExecutor pipelineExecutor,
+        IConsolePrinter consolePrinter)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
         _printModuleOutputExecutor = printModuleOutputExecutor;
         _printProgressExecutor = printProgressExecutor;
         _pipelineExecutor = pipelineExecutor;
+        _consolePrinter = consolePrinter;
     }
 
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
@@ -29,15 +35,26 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
-        return await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
+        var stopWatch = Stopwatch.StartNew();
+        
+        try
         {
-            return await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
+            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
             {
-                return await _printProgressExecutor.ExecuteWithProgress(organizedModules, async () =>
+                await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
                 {
-                    return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                    await _printProgressExecutor.ExecuteWithProgress(organizedModules, async () =>
+                    {
+                        await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                    });
                 });
             });
-        });
+
+            return organizedModules.AllModules;
+        }
+        finally
+        {
+            _consolePrinter.PrintResults(new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed));
+        }
     }
 }

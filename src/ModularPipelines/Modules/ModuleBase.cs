@@ -36,6 +36,8 @@ public abstract class ModuleBase
     /// The status of the module.
     /// </summary>
     public Status Status { get; internal set; } = Status.NotYetStarted;
+    
+    internal Exception? Exception { get; set; }
 
     /// <summary>
     /// A Timeout for the module

@@ -6,11 +6,11 @@ using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
 
-internal class ProgressProgressPrinter : IProgressPrinter
+internal class ProgressPrinter : IProgressPrinter
 {
     private readonly IOptions<PipelineOptions> _options;
 
-    public ProgressProgressPrinter(IOptions<PipelineOptions> options)
+    public ProgressPrinter(IOptions<PipelineOptions> options)
     {
         _options = options;
     }
@@ -56,6 +56,39 @@ internal class ProgressProgressPrinter : IProgressPrinter
 
                 progressContext.Refresh();
             });
+    }
+
+    public void PrintResults(PipelineSummary pipelineSummary)
+    {
+        var table = new Table()
+        {
+        };
+        
+        table.AddColumn("Module");
+        table.AddColumn("Duration");
+        table.AddColumn("Status");
+        table.AddColumn("[red]Exception[/]");
+
+        foreach (var module in pipelineSummary.Modules)
+        {
+            table.AddRow(
+                $"[cyan]{module.GetType().Name}[/]", 
+                module.Duration.ToString(), 
+                module.Status.ToString(),
+                $"[red]{module.Exception?.GetType().Name}[/]");
+        }
+
+        table.AddEmptyRow();
+        
+        table.AddRow(
+            "Total", 
+            pipelineSummary.TotalDuration.ToString(), 
+            pipelineSummary.Status.ToString(),
+            string.Empty);
+        
+        AnsiConsole.WriteLine();
+        AnsiConsole.Write(table);
+        AnsiConsole.WriteLine();
     }
 
     private static void RegisterModules(IReadOnlyList<RunnableModule> modulesToProcess, ProgressContext progressContext,

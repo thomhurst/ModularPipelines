@@ -16,11 +16,11 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         _options = options;
     }
     
-    public async Task<IReadOnlyList<ModuleBase>> ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task<IReadOnlyList<ModuleBase>>> executeDelegate)
+    public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try
         {
-            return await executeDelegate();
+            await executeDelegate();
         }
         finally
         {

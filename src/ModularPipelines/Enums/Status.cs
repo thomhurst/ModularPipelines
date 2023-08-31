@@ -6,6 +6,7 @@ public enum Status
     Processing,
     Successful,
     Failed,
+    PipelineTerminated,
     TimedOut,
     Skipped,
     Unknown

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -15,16 +16,8 @@ internal class PipelineExecutor : IPipelineExecutor
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IConsolePrinter consolePrinter,
-        IRequirementChecker requirementsChecker,
-        IModuleRetriever moduleRetriever,
         IModuleExecutor moduleExecutor,
-        EngineCancellationToken engineCancellationToken,
-        IDependencyDetector dependencyDetector,
-        IModuleLoggerContainer moduleLoggerContainer,
-        IModuleDisposer moduleDisposer,
-        IOptions<PipelineOptions> options,
-        IPipelineInitializer pipelineInitializer)
+        EngineCancellationToken engineCancellationToken)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
@@ -51,7 +44,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
             await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
         }
- 
+
         return organizedModules.AllModules;
     }
 

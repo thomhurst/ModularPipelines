@@ -5,5 +5,5 @@ namespace ModularPipelines.Engine.Executors;
 
 internal interface IPrintProgressExecutor
 {
-    Task<IReadOnlyList<ModuleBase>> ExecuteWithProgress(OrganizedModules organizedModules, Func<Task<IReadOnlyList<ModuleBase>>> executeDelegate);
+    Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate);
 }

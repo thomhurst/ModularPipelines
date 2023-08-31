@@ -139,16 +139,28 @@ public abstract partial class Module<T> : ModuleBase<T>
             Context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
-                && ModuleCancellationTokenSource.IsCancellationRequested && !Context.EngineCancellationToken.IsCancellationRequested)
+                && ModuleCancellationTokenSource.IsCancellationRequested 
+                && !Context.EngineCancellationToken.IsCancellationRequested)
             {
                 Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
 
                 Status = Status.TimedOut;
             }
+            else if (exception is TaskCanceledException or OperationCanceledException
+                     && Context.EngineCancellationToken.IsCancellationRequested)
+            {
+                Status = Status.PipelineTerminated;
+                Context.Logger.LogInformation("Pipeline has been canceled");
+                return;
+            }
             else
             {
                 Status = Status.Failed;
             }
+            
+            Exception = exception;
+            
+            Context.EngineCancellationToken.Cancel();
 
             if (await ShouldIgnoreFailures(Context, exception))
             {
@@ -162,7 +174,10 @@ public abstract partial class Module<T> : ModuleBase<T>
             else
             {
                 // Give time for Engine to request cancellation
-                _ = Task.Delay(300).ContinueWith(_ => TaskCompletionSource.SetException(exception));
+                await Task.Delay(300);
+                
+                TaskCompletionSource.SetException(exception);
+                
                 throw;
             }
         }

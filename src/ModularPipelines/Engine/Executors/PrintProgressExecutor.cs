@@ -16,7 +16,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _consolePrinter = consolePrinter;
     }
     
-    public async Task<IReadOnlyList<ModuleBase>> ExecuteWithProgress(OrganizedModules organizedModules, Func<Task<IReadOnlyList<ModuleBase>>> executeDelegate)
+    public async Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate)
     {
         var printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -26,7 +26,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         
         try
         {
-            return await executeDelegate();
+            await executeDelegate();
         }
         finally
         {

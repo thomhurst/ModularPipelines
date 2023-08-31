@@ -71,7 +71,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleInitializer, ModuleInitializer>()
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
-            .AddSingleton<IProgressPrinter, ProgressProgressPrinter>()
+            .AddSingleton<IProgressPrinter, ProgressPrinter>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
             .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
             .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()

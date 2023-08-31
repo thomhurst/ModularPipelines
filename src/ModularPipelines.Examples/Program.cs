@@ -28,6 +28,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<DependentOn4>()
             .AddModule<SubmodulesModule>()
             .AddModule<GitVersionModule>()
-            .AddModule<GitLastCommitModule>();
+            .AddModule<GitLastCommitModule>()
+            .AddModule<FailedModule>();
     })
     .ExecutePipelineAsync();

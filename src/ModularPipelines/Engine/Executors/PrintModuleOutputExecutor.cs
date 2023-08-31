@@ -12,11 +12,11 @@ internal class PrintModuleOutputExecutor : IPrintModuleOutputExecutor
         _moduleLoggerContainer = moduleLoggerContainer;
     }
     
-    public async Task<IReadOnlyList<ModuleBase>> ExecuteAndPrintModuleOutput(Func<Task<IReadOnlyList<ModuleBase>>> executeDelegate)
+    public async Task ExecuteAndPrintModuleOutput(Func<Task> executeDelegate)
     {
         try
         {
-            return await executeDelegate();
+            await executeDelegate();
         }
         finally
         {

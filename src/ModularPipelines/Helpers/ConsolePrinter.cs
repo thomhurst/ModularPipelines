@@ -23,6 +23,11 @@ internal class ConsolePrinter : IConsolePrinter
         return _progressPrinter.PrintProgress(organizedModules, cancellationToken);
     }
 
+    public void PrintResults(PipelineSummary pipelineSummary)
+    {
+        _progressPrinter.PrintResults(pipelineSummary);
+    }
+
     public void PrintLogo()
     {
         _logoPrinter.PrintLogo();
