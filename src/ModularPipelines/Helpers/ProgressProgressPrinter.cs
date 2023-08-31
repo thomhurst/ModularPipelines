@@ -6,11 +6,11 @@ using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
 
-internal class PipelineConsoleProgressPrinter : IPipelineConsolePrinter
+internal class ProgressProgressPrinter : IProgressPrinter
 {
     private readonly IOptions<PipelineOptions> _options;
 
-    public PipelineConsoleProgressPrinter(IOptions<PipelineOptions> options)
+    public ProgressProgressPrinter(IOptions<PipelineOptions> options)
     {
         _options = options;
     }

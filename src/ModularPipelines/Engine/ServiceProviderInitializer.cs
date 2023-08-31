@@ -2,11 +2,11 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Engine;
 
-internal class PipelineInitializer : IPipelineInitializer
+internal class ServiceProviderInitializer : IServiceProviderInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public PipelineInitializer(IServiceProvider serviceProvider)
+    public ServiceProviderInitializer(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

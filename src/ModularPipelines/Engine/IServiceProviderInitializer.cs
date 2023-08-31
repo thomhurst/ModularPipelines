@@ -1,6 +1,6 @@
 namespace ModularPipelines.Engine;
 
-public interface IPipelineInitializer
+public interface IServiceProviderInitializer
 {
     Task InitializeAsync();
 }

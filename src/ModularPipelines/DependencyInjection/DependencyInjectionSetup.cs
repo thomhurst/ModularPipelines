@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -10,7 +11,7 @@ using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 using Vertical.SpectreLogger;
 
-namespace ModularPipelines;
+namespace ModularPipelines.DependencyInjection;
 
 internal static class DependencyInjectionSetup
 {
@@ -33,6 +34,7 @@ internal static class DependencyInjectionSetup
 
         // Transient
         services.AddTransient<IModuleContext, ModuleContext>()
+            .AddTransient<IConsolePrinter, ConsolePrinter>()
             .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddTransient<IHttp, Http>()
             .AddTransient<ICommand, Command>()
@@ -64,11 +66,16 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleStatusProvider, ModuleStatusProvider>()
             .AddSingleton<EngineCancellationToken>()
-            .AddSingleton<IPipelineInitializer, PipelineInitializer>()
+            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IModuleInitializer, ModuleInitializer>()
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
-            .AddSingleton<IPipelineConsolePrinter, PipelineConsoleProgressPrinter>()
+            .AddSingleton<IPipelineInitializer, PipelineInitializer>()
+            .AddSingleton<IProgressPrinter, ProgressProgressPrinter>()
+            .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
+            .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
+            .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
+            .AddSingleton<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton(typeof(ModuleLogger<>))

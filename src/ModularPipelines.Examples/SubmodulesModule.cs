@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -12,6 +13,7 @@ public class SubmodulesModule : Module
         {
             await SubModule(c.ToString(), async () =>
             {
+                context.Logger.LogInformation("{Submodule}", c.ToString());
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             });
         }

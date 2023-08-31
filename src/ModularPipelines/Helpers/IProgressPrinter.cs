@@ -2,7 +2,7 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Helpers;
 
-internal interface IPipelineConsolePrinter
+internal interface IProgressPrinter
 {
     Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken);
 }

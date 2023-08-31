@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
@@ -10,6 +11,7 @@ public class DependentOnSuccessModule : Module
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        context.Logger.LogInformation("Some message");
         await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
         return null;
     }
