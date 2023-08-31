@@ -27,9 +27,3 @@ internal static class PathHelpers
         return Path.GetDirectoryName(path) ?? new FileInfo(path).Directory?.FullName;
     }
 }
-
-internal enum PathType
-{
-    Directory,
-    File
-}

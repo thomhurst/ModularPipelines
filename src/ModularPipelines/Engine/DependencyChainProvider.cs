@@ -37,12 +37,17 @@ internal class DependencyChainProvider : IDependencyChainProvider
 
         foreach (var dependsOnAttribute in customAttributes)
         {
-            yield return GetModuleDependencyModel(dependsOnAttribute.Type, allModules);
+            var dependency = GetModuleDependencyModel(dependsOnAttribute.Type, allModules);
+            
+            if (dependency is not null)
+            {
+                yield return dependency;
+            }
         }
     }
 
-    private ModuleDependencyModel GetModuleDependencyModel(Type type, IEnumerable<ModuleDependencyModel> allModules)
+    private ModuleDependencyModel? GetModuleDependencyModel(Type type, IEnumerable<ModuleDependencyModel> allModules)
     {
-        return allModules.First(x => x.Module.GetType() == type);
+        return allModules.FirstOrDefault(x => x.Module.GetType() == type);
     }
 }

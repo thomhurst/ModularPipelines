@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
@@ -13,6 +14,8 @@ public class GitVersionModule : Module<CommandResult>
         var gitVersioning = await context.Git().Versioning.GetGitVersioningInformation();
 
         var gitVersion = gitVersioning.FullSemVer;
+        
+        context.Logger.LogInformation("Git Version {Version}", gitVersion);
 
         return await context.Git().Commands.Git(new GitBaseOptions
         {

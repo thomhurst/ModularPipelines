@@ -3,7 +3,9 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -87,11 +89,11 @@ public class PipelineHostBuilder
     {
         var host = BuildHost();
 
-        await host.Services.GetRequiredService<IPipelineInitializer>().InitializeAsync();
+        await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
 
         try
         {
-            return await host.Services.GetRequiredService<IPipelineExecutor>().ExecuteAsync();
+            return await host.Services.GetRequiredService<IExecutionOrchestrator>().ExecuteAsync();
         }
         finally
         {
