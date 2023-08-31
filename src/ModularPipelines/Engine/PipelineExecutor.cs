@@ -20,6 +20,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IOptions<PipelineOptions> _options;
+    private readonly ILogoPrinter _logoPrinter;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -31,7 +32,8 @@ internal class PipelineExecutor : IPipelineExecutor
         IDependencyDetector dependencyDetector,
         IModuleLoggerContainer moduleLoggerContainer,
         IModuleDisposer moduleDisposer,
-        IOptions<PipelineOptions> options)
+        IOptions<PipelineOptions> options,
+        ILogoPrinter logoPrinter)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineConsolePrinter = pipelineConsolePrinter;
@@ -43,10 +45,13 @@ internal class PipelineExecutor : IPipelineExecutor
         _moduleLoggerContainer = moduleLoggerContainer;
         _moduleDisposer = moduleDisposer;
         _options = options;
+        _logoPrinter = logoPrinter;
     }
 
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
     {
+        _logoPrinter.PrintLogo();
+        
         _dependencyDetector.Check();
 
         await _pipelineSetupExecutor.OnStartAsync();
