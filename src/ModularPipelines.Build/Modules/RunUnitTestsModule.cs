@@ -23,7 +23,7 @@ public class RunUnitTestsModule : Module<List<DotNetTestResult>>
             results.Add(await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
-                LogOutput = false
+                Collect = "XPlat Code Coverage"
             }, cancellationToken));
         }
 

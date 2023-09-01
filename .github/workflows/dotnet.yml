@@ -26,6 +26,7 @@ jobs:
           echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}" 
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
+          echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -48,3 +49,4 @@ jobs:
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
           Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
+          Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
