@@ -21,7 +21,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Bash.Command(
-            new BashCommandOptions("curl -Ls https://coverage.codacy.com/get.sh")
+            new BashCommandOptions("<(curl -Ls https://coverage.codacy.com/get.sh)")
             {
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
