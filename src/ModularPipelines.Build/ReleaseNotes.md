@@ -1,3 +1,0 @@
--   Add code coverage to build project which will link to the Codacy reports
--   Add Http helper to Module Context
--   Add Downloader helper to Module Context
