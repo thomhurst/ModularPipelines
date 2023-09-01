@@ -20,6 +20,8 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
     
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
+        var coverageOutputFile = context.Environment.GitRootDirectory!.GetFiles(x => x.Path.EndsWith("coverage.cobertura.xml")).First();
+        
         var scriptFile =
             await context.Downloader.DownloadFileAsync(
                 new DownloadFileOptions(new Uri("https://coverage.codacy.com/get.sh")), cancellationToken);
@@ -30,6 +32,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
 
         return await context.Bash.FromFile(new BashFileOptions(scriptFile)
         {
+            Arguments = new []{ "-r", coverageOutputFile.Path },
             EnvironmentVariables = new Dictionary<string, string?>
             {
                 ["CODACY_PROJECT_TOKEN"] = _options.Value.ApiKey
