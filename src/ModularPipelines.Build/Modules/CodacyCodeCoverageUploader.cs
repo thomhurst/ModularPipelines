@@ -13,10 +13,28 @@ namespace ModularPipelines.Build.Modules;
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;
+    private readonly IOptions<GitHubSettings> _githubSettings;
 
-    public CodacyCodeCoverageUploader(IOptions<CodacySettings> options)
+    public CodacyCodeCoverageUploader(IOptions<CodacySettings> options,
+    IOptions<GitHubSettings> githubSettings)
     {
         _options = options;
+        _githubSettings = githubSettings;
+    }
+
+    protected override Task<bool> ShouldSkip(IModuleContext context)
+    {
+        if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
+        {
+            return Task.FromResult(true);
+        }
+
+        if (_githubSettings.Value.Actor == "dependabot[bot]")
+        {
+            return Task.FromResult(true);
+        }
+        
+        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
     }
     
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
