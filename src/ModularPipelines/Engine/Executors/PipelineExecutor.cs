@@ -35,7 +35,6 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             // Give time for the console to update modules to Failed
             await Task.Delay(100);
-            _engineCancellationToken.Cancel();
             throw;
         }
         finally

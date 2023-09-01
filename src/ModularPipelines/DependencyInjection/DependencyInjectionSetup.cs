@@ -65,6 +65,7 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()

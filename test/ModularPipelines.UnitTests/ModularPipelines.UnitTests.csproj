@@ -37,4 +37,5 @@
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 
+
 </Project>
