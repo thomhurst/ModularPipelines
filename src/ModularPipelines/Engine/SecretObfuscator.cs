@@ -13,8 +13,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
     private readonly string[] _secrets;
 
     public SecretObfuscator(IOptionsProvider optionsProvider, 
-        IBuildSystemDetector buildSystemDetector,
-        ICommand command)
+        IBuildSystemDetector buildSystemDetector)
     {
         _buildSystemDetector = buildSystemDetector;
 
