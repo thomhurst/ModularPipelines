@@ -1,1 +1,1 @@
--   Add code coverage to build project which will link to Codacy reports
+-   Add code coverage to build project which will link to the Codacy reports
