@@ -1,1 +1,0 @@
--   Detect if the pipeline has been triggerred more than once.
