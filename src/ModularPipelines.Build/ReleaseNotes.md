@@ -1,0 +1,1 @@
+-   Ofuscate properties with the [Secret] attribute automatically for GitHub actions by utilising the ::add-mask:: command
