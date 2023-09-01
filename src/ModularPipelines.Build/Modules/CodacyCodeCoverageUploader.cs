@@ -32,7 +32,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
 
         return await context.Bash.FromFile(new BashFileOptions(scriptFile)
         {
-            Arguments = new []{ "-r", coverageOutputFile.Path },
+            WorkingDirectory = coverageOutputFile.Folder!,
             EnvironmentVariables = new Dictionary<string, string?>
             {
                 ["CODACY_PROJECT_TOKEN"] = _options.Value.ApiKey
