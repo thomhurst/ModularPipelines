@@ -7,7 +7,6 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
-
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
