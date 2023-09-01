@@ -19,6 +19,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         _buildSystemDetector = buildSystemDetector;
 
         _secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
+        InitializeAsync();
     }
 
     public string Obfuscate(string input, object? optionsObject)

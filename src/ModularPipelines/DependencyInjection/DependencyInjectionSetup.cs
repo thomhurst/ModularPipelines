@@ -59,12 +59,12 @@ internal static class DependencyInjectionSetup
             .AddTransient<IXml, Xml>()
             .AddTransient<IPowershell, Powershell>()
             .AddTransient<IBash, Bash>()
+            .AddTransient<ISecretObfuscator, SecretObfuscator>()
             .AddTransient<IOptionsProvider, OptionsProvider>()
             .AddTransient<IModuleContextProvider, ModuleContextProvider>();
 
         // Singletons
         services
-            .AddSingleton<ISecretObfuscator, SecretObfuscator>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
