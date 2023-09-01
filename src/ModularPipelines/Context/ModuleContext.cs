@@ -28,6 +28,8 @@ internal class ModuleContext : IModuleContext
 
     public IEnvironmentContext Environment { get; }
 
+    public IHttp Http { get; }
+    public IDownloader Downloader { get; }
     public IHasher Hasher { get; }
     public IJson Json { get; }
     public IXml Xml { get; }
@@ -61,6 +63,8 @@ internal class ModuleContext : IModuleContext
         IOptions<PipelineOptions> pipelineOptions,
         IModuleResultRepository moduleResultRepository,
         ICommand command,
+        IHttp http,
+        IDownloader downloader,
         IModuleLoggerProvider moduleLoggerProvider,
         IZip zip,
         IHex hex,
@@ -75,6 +79,8 @@ internal class ModuleContext : IModuleContext
         IBuildSystemDetector buildSystemDetector)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
+        Http = http;
+        Downloader = downloader;
         Zip = zip;
         Hex = hex;
         Base64 = base64;

@@ -37,6 +37,8 @@ public interface IModuleContext
     public IPowershell Powershell { get; }
     public IBash Bash { get; }
     public IBuildSystemDetector BuildSystemDetector { get; }
+    public IHttp Http { get; }
+    public IDownloader Downloader { get; }
 
     #endregion
 }
