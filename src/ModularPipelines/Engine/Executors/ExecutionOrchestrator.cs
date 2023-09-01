@@ -14,6 +14,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
 
+    private bool _hasRun;
+    private readonly object _lock = new();
+
     public ExecutionOrchestrator(IPipelineInitializer pipelineInitializer,
         IModuleDisposeExecutor moduleDisposeExecutor,
         IPrintModuleOutputExecutor printModuleOutputExecutor,
@@ -31,6 +34,16 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
     {
+        lock (_lock)
+        {
+            if (_hasRun)
+            {
+                throw new Exception("This pipeline has already been triggerred.");
+            }
+
+            _hasRun = true;
+        }
+        
         var organizedModules = await _pipelineInitializer.Initialize();
         
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();

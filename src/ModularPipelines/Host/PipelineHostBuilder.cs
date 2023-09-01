@@ -89,16 +89,7 @@ public class PipelineHostBuilder
     {
         var host = BuildHost();
 
-        await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
-
-        try
-        {
-            return await host.Services.GetRequiredService<IExecutionOrchestrator>().ExecuteAsync();
-        }
-        finally
-        {
-            await ((ServiceProvider) host.Services).DisposeAsync();
-        }
+        return await host.ExecuteAsync();
     }
 
     internal IHost BuildHost()
