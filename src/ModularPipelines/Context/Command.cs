@@ -32,14 +32,14 @@ internal class Command : ICommand
 
         var precedingArgs =
             optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
-                ?.PrecedingArguments ?? Array.Empty<string>();
+                ?.PrecedingArguments.ToList() ?? new List<string>();
 
+        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(precedingArgs, optionsObject);
+        
         var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
-
+        
         parsedArgs = precedingArgs.Concat(parsedArgs).ToList();
-
-        CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(parsedArgs, optionsObject);
 
         if (options.RunSettings != null)
         {
