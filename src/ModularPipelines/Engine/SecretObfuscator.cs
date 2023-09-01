@@ -1,20 +1,26 @@
 ﻿using System.Reflection;
 using System.Text;
 using ModularPipelines.Attributes;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Engine;
 
-internal class SecretObfuscator : ISecretObfuscator
+internal class SecretObfuscator : ISecretObfuscator, IInitializer
 {
-    private readonly IOptionsProvider _optionsProvider;
+    private readonly IBuildSystemDetector _buildSystemDetector;
 
     private readonly string[] _secrets;
 
-    public SecretObfuscator(IOptionsProvider optionsProvider)
+    private static readonly List<string> AlreadyMaskedSecrets = new();
+    private static readonly object Lock = new();
+
+    public SecretObfuscator(IOptionsProvider optionsProvider, 
+        IBuildSystemDetector buildSystemDetector)
     {
-        _optionsProvider = optionsProvider;
+        _buildSystemDetector = buildSystemDetector;
 
         _secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
+        InitializeAsync();
     }
 
     public string Obfuscate(string input, object? optionsObject)
@@ -27,7 +33,7 @@ internal class SecretObfuscator : ISecretObfuscator
         {
             if (input.Contains(secret))
             {
-                stringBuilder.Replace(secret, new string('*', secret.Length));
+                stringBuilder.Replace(secret, "**********");
             }
         }
 
@@ -65,5 +71,23 @@ internal class SecretObfuscator : ISecretObfuscator
                 yield return secret;
             }
         }
+    }
+
+    public Task InitializeAsync()
+    {
+        lock (Lock)
+        {
+            foreach (var secret in _secrets.Where(s => !AlreadyMaskedSecrets.Contains(s)))
+            {
+                AlreadyMaskedSecrets.Add(secret);
+
+                if (_buildSystemDetector.IsRunningOnGitHubActions)
+                {
+                    Console.WriteLine($@"::add-mask::{secret}");
+                }
+            }
+        }
+
+        return Task.CompletedTask;
     }
 }
