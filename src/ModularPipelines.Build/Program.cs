@@ -23,7 +23,8 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<GitHubSettings>(context.Configuration.GetSection("GitHub"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
-
+        collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
+        
         collection.AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<PackProjectsModule>()
@@ -31,6 +32,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<PackagePathsParserModule>()
             .AddModule<CodeFormattedNicelyModule>()
             .AddModule<GenerateReadMeModule>()
+            .AddModule<CodacyCodeCoverageUploader>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>
