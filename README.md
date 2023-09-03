@@ -64,7 +64,7 @@ public class FindNugetPackagesModule : Module<FileInfo>
     {
         await Task.Yield();
 
-        return context.FileSystem.GetFiles(context.Git().RootDirectory.Path,
+        return context.FileSystem.GetFiles(context.Environment.GitRootDirectory!.Path,
             SearchOption.AllDirectories,
             path => path.Extension is ".nupkg")
             .ToList();
