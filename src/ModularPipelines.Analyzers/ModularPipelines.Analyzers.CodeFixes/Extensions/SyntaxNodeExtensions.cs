@@ -1,9 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.Analyzers.Extensions;
 
+[ExcludeFromCodeCoverage]
 internal static class SyntaxNodeExtensions
 {
     public static SyntaxNode AddUsings(this SyntaxNode documentRoot)
