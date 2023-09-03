@@ -6,6 +6,10 @@
     <RootNamespace>ModularPipelines.Analyzers</RootNamespace>
   </PropertyGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.1.0" />
   </ItemGroup>
