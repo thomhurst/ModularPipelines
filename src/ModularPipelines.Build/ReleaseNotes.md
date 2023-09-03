@@ -1,3 +1,0 @@
--   README and License added to NuGet packages
--   Fix issue with the pipeline terminating even if IgnoreFailure was true on a module  
--   Added an IgnoredFailure status type for modules 
