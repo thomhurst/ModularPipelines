@@ -3,10 +3,12 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
+[ExcludeFromCodeCoverage]
 public class ConsoleUseAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "ConsoleUse";
