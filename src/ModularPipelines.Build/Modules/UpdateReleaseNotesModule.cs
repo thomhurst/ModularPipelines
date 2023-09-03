@@ -38,14 +38,9 @@ public class UpdateReleaseNotesModule : Module
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
+        var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 
         var releaseNotesContents = await releaseNotesFile.ReadAsync();
-
-        if (string.IsNullOrEmpty(releaseNotesContents))
-        {
-            return await NothingAsync();
-        }
         
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
 
