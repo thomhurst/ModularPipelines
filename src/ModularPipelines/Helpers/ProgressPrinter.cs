@@ -118,30 +118,46 @@ internal class ProgressPrinter : IProgressPrinter
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
-
-            // Callback for Module has finished
-            _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    progressTask.Increment(100);
-                }
-
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
-
-                progressTask.StopTask();
-                totalTask.Increment(100.0 / modulesToProcess.Count);
-            }, cancellationToken);
-
-            // Callback for Module has been ignored
-            _ = moduleToProcess.Module.IgnoreTask.ContinueWith(t =>
-            {
-                progressTask.Description = $"[yellow][[Ignored]] {moduleName}[/]";
-                progressTask.StopTask();
-            }, cancellationToken);
-
+            
+            SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
+            SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
+            
             RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
         }
+    }
+
+    private static void SetupSkippedCallback(CancellationToken cancellationToken, RunnableModule moduleToProcess,
+        ProgressTask progressTask, string moduleName)
+    {
+        // Callback for Module has been ignored
+        _ = moduleToProcess.Module.SkippedTask.ContinueWith(t =>
+        {
+            progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
+            progressTask.StopTask();
+        }, cancellationToken);
+    }
+
+    private static void SetupFinishedSuccessfullyCallback(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask,
+        CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
+    {
+        // Callback for Module has finished
+        _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
+        {
+            if (progressTask.IsFinished)
+            {
+            }
+
+            if (t.IsCompletedSuccessfully)
+            {
+                progressTask.Increment(100);
+            }
+
+            progressTask.Description =
+                t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
+
+            progressTask.StopTask();
+            totalTask.Increment(100.0 / modulesToProcess.Count);
+        }, cancellationToken);
     }
 
     private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext, CancellationToken cancellationToken)

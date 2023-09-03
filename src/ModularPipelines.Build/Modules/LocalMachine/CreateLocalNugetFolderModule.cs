@@ -7,8 +7,6 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
-[DependsOn<RunUnitTestsModule>]
-[DependsOn<PackagePathsParserModule>]
 public class CreateLocalNugetFolderModule : Module<Folder>
 {
     protected override async Task<ModuleResult<Folder>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
