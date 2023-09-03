@@ -1,22 +1,13 @@
-using System.Runtime.Serialization;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Exceptions;
 
 public class ModuleFailedException : PipelineException
 {
-    public ModuleFailedException()
-    {
-    }
+    public ModuleBase Module { get; }
 
-    protected ModuleFailedException(SerializationInfo info, StreamingContext context) : base(info, context)
+    public ModuleFailedException(ModuleBase module, Exception exception) : base($"The module {module.GetType().Name} has failed", exception)
     {
-    }
-
-    public ModuleFailedException(string? message) : base(message)
-    {
-    }
-
-    public ModuleFailedException(string? message, Exception? innerException) : base(message, innerException)
-    {
+        Module = module;
     }
 }

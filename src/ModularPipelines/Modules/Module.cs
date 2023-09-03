@@ -180,7 +180,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 
                 TaskCompletionSource.SetException(exception);
                 
-                throw;
+                throw new ModuleFailedException(this, exception);
             }
         }
         finally
