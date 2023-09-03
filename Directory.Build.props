@@ -8,7 +8,7 @@
 
     <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageReadmeFile>../../README.md</PackageReadmeFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Tom Longhurst</Authors>
     </PropertyGroup>
 
