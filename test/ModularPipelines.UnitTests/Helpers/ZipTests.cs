@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -13,7 +14,7 @@ public class ZipTests : TestBase
         {
             await Task.Yield();
 
-            var directory = context.Environment.GitRootDirectory!.GetFolder("test").GetFolder("ModularPipelines.UnitTests").GetFolder("Data");
+            var directory = context.Git().RootDirectory.GetFolder("test").GetFolder("ModularPipelines.UnitTests").GetFolder("Data");
 
             var fileToWrite = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
 

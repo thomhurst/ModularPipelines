@@ -1,4 +1,6 @@
-﻿using ModularPipelines.Modules;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Modules;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -11,5 +13,14 @@ public class TestBase
             .ExecutePipelineAsync();
 
         return results.OfType<T>().Single();
+    }
+
+    public async Task<T> GetService<T>() where T : notnull
+    {
+        var serviceProvider = TestPipelineHostBuilder.Create().BuildHost().Services;
+        
+        await serviceProvider.InitializeAsync();
+        
+        return serviceProvider.GetRequiredService<T>();
     }
 }

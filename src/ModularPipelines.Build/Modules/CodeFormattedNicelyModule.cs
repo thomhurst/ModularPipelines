@@ -31,7 +31,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             // The code hasn't been formatted nicely!
             return await context.DotNet().Format(new DotNetFormatOptions
             {
-                WorkingDirectory = context.Environment.GitRootDirectory!,
+                WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = true
             }, cancellationToken);
         }
@@ -47,7 +47,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.DotNet().Format(new DotNetFormatOptions
             {
-                WorkingDirectory = context.Environment.GitRootDirectory!,
+                WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = false
             }, cancellationToken);
 

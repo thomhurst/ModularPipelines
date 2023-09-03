@@ -1,4 +1,7 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
+using ModularPipelines.Extensions;
+using ModularPipelines.Git;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
@@ -45,6 +48,18 @@ public class GitTests : TestBase
         {
             Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
             Assert.That(moduleResult.Value.StandardOutput, Does.Match("git version \\d+.*"));
+        });
+    }
+
+    [Test]
+    public async Task GitRootDirectory()
+    {
+        var git = await GetService<IGit>();
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(git.RootDirectory.Name, Is.EqualTo("ModularPipelines"));
+            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name), Does.Contain("README.md"));
         });
     }
 }

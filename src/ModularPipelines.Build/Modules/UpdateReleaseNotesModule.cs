@@ -16,7 +16,6 @@ public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly GitHubClient _gitHubClient;
-    private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings, 
         GitHubClient gitHubClient,
@@ -24,29 +23,16 @@ public class UpdateReleaseNotesModule : Module
     {
         _githubSettings = githubSettings;
         _gitHubClient = gitHubClient;
-        _publishSettings = publishSettings;
     }
 
-    protected override async Task<bool> ShouldSkip(IModuleContext context)
+    protected override Task<bool> ShouldSkip(IModuleContext context)
     {
-        if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
-        {
-            return true;
-        }
-
-        if (!_publishSettings.Value.ShouldPublish)
-        {
-            return true;
-        }
-
-        var gitVersioningInfo = await context.Git().Versioning.GetGitVersioningInformation();
-        
-        return gitVersioningInfo.BranchName != "main";
+        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.AdminToken));
     }
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var releaseNotesFile = context.Environment.GitRootDirectory!.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
+        var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
 
         var releaseNotesContents = await releaseNotesFile.ReadAsync();
 

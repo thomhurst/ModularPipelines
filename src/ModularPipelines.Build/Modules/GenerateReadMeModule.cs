@@ -23,7 +23,7 @@ public class GenerateReadMeModule : Module
     
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitRootDirectory = context.Environment.GitRootDirectory!;
+        var gitRootDirectory = context.Git().RootDirectory;
 
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync();
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();

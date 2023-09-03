@@ -24,22 +24,12 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
 
     protected override Task<bool> ShouldSkip(IModuleContext context)
     {
-        if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
-        {
-            return Task.FromResult(true);
-        }
-
-        if (_githubSettings.Value.Actor == "dependabot[bot]")
-        {
-            return Task.FromResult(true);
-        }
-        
-        return Task.FromResult(false);
+        return Task.FromResult(string.IsNullOrEmpty(_options.Value.ApiKey));
     }
     
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var coverageOutputFile = context.Environment.GitRootDirectory!.GetFiles(x => x.Path.EndsWith("coverage.cobertura.xml")).First();
+        var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml"));
         
         var scriptFile =
             await context.Downloader.DownloadFileAsync(
