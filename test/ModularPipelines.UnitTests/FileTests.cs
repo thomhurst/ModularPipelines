@@ -23,7 +23,6 @@ public class FileTests : TestBase
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
         
-        
         Assert.Multiple(() =>
         {
             Assert.That(file.Exists, Is.True);
