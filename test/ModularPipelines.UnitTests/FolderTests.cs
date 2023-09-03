@@ -112,7 +112,6 @@ public class FolderTests : TestBase
         var folder = CreateRandomFolder();
 
         var folder2 = new Folder(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
-
         
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
