@@ -24,9 +24,16 @@ public class UpdateReleaseNotesModule : Module
         _gitHubClient = gitHubClient;
     }
 
-    protected override Task<bool> ShouldSkip(IModuleContext context)
+    protected override async Task<bool> ShouldSkip(IModuleContext context)
     {
-        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.AdminToken));
+        var releaseNotesFile = context.Git()
+                .RootDirectory
+                .FindFile(x => x.Name == "ReleaseNotes.md");
+        
+        return 
+            string.IsNullOrEmpty(_githubSettings.Value.AdminToken)
+            || releaseNotesFile?.Exists != true
+            || string.IsNullOrWhiteSpace(await releaseNotesFile.ReadAsync());
     }
 
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
