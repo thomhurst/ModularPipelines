@@ -4,7 +4,16 @@ namespace ModularPipelines.FileSystem;
 
 public class Folder
 {
-    private readonly DirectoryInfo _directoryInfo;
+    private DirectoryInfo _directoryInfo;
+
+    private DirectoryInfo DirectoryInfo
+    {
+        get
+        {
+            _directoryInfo.Refresh();
+            return _directoryInfo;
+        }
+    }
 
     public Folder(string path) : this(new DirectoryInfo(path))
     {
@@ -15,25 +24,25 @@ public class Folder
         _directoryInfo = directoryInfo;
     }
 
-    public bool Exists => _directoryInfo.Exists;
+    public bool Exists => DirectoryInfo.Exists;
 
-    public bool Hidden => (_directoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+    public bool Hidden => (DirectoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
-    public string Name => _directoryInfo.Name;
+    public string Name => DirectoryInfo.Name;
 
-    public Folder? Parent => _directoryInfo.Parent;
+    public Folder? Parent => DirectoryInfo.Parent;
 
-    public string Path => _directoryInfo.FullName;
+    public string Path => DirectoryInfo.FullName;
 
-    public FileAttributes Attributes => _directoryInfo.Attributes;
+    public FileAttributes Attributes => DirectoryInfo.Attributes;
 
-    public Folder Root => _directoryInfo.Root;
+    public Folder Root => DirectoryInfo.Root;
 
-    public DateTime CreationTime => _directoryInfo.CreationTime;
+    public DateTime CreationTime => DirectoryInfo.CreationTime;
 
-    public DateTime LastWriteTimeUtc => _directoryInfo.LastWriteTimeUtc;
+    public DateTime LastWriteTimeUtc => DirectoryInfo.LastWriteTimeUtc;
 
-    public string Extension => _directoryInfo.Extension;
+    public string Extension => DirectoryInfo.Extension;
 
     public Folder Create()
     {
@@ -41,35 +50,76 @@ public class Folder
         return this;
     }
 
-    public void Delete() => _directoryInfo.Delete(true);
+    public void Delete() => DirectoryInfo.Delete(true);
 
     public void Clean()
     {
-        foreach (var directory in _directoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
+        foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             directory.Delete(true);
         }
 
-        foreach (var file in _directoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
+        foreach (var file in DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
             file.Delete();
         }
     }
 
-    public void MoveTo(string path) => _directoryInfo.MoveTo(path);
+    public Folder CopyTo(string targetPath)
+    {
+        Directory.CreateDirectory(targetPath);
+        
+        foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        {
+            Directory.CreateDirectory(dirPath.Replace(this, targetPath));
+        }
+
+        foreach (var newPath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        {
+            System.IO.File.Copy(newPath, newPath.Replace(this, targetPath), true);
+        }
+
+        return new Folder(targetPath);
+    }
+
+    public Folder MoveTo(string path)
+    {
+        var thisOriginalPath = Path;
+        
+        DirectoryInfo.MoveTo(path);
+
+        _directoryInfo = new DirectoryInfo(thisOriginalPath);
+        
+        return new Folder(path);
+    }
 
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
 
     public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => _directoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))
         .Where(predicate);
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => _directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
         .Where(predicate);
 
+    public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
+    public Folder? FindFolder(Func<Folder, bool> predicate) => GetFolders(predicate).FirstOrDefault();
+
+    public IEnumerable<File> ListFiles()
+    {
+        return DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+            .Select(x => new File(x));
+    }
+    
+    public IEnumerable<Folder> ListFolders()
+    {
+        return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
+            .Select(x => new Folder(x));
+    }
+    
     public static implicit operator Folder?(string? path)
     {
         if (string.IsNullOrEmpty(path))

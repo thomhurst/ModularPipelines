@@ -1,5 +1,4 @@
 ﻿using ModularPipelines.Logging;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 

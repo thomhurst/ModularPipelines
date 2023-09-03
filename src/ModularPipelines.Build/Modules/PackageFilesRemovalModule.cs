@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -8,7 +9,7 @@ public class PackageFilesRemovalModule : Module
 {
     protected override Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var packageFiles = context.FileSystem.GetFiles(context.Environment.GitRootDirectory!.Path,
+        var packageFiles = context.FileSystem.GetFiles(context.Git().RootDirectory.Path,
             SearchOption.AllDirectories,
             path =>
                 path.Extension is ".nupkg");
