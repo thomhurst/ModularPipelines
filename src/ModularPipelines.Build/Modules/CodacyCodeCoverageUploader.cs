@@ -34,7 +34,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
             return Task.FromResult(true);
         }
         
-        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
+        return Task.FromResult(false);
     }
     
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
