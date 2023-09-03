@@ -133,8 +133,11 @@ internal class ProgressPrinter : IProgressPrinter
         // Callback for Module has been ignored
         _ = moduleToProcess.Module.SkippedTask.ContinueWith(t =>
         {
-            progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
-            progressTask.StopTask();
+            lock (moduleToProcess)
+            {
+                progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
+                progressTask.StopTask();
+            }
         }, cancellationToken);
     }
 
@@ -144,22 +147,25 @@ internal class ProgressPrinter : IProgressPrinter
         // Callback for Module has finished
         _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
         {
-            if (progressTask.IsFinished)
+            lock (moduleToProcess)
             {
-                return;
+                if (progressTask.IsFinished)
+                {
+                    return;
+                }
+
+                if (t.IsCompletedSuccessfully)
+                {
+                    progressTask.Increment(100);
+                }
+
+                progressTask.Description =
+                    t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
+
+                progressTask.StopTask();
+
+                totalTask.Increment(100.0 / modulesToProcess.Count);
             }
-
-            if (t.IsCompletedSuccessfully)
-            {
-                progressTask.Increment(100);
-            }
-
-            progressTask.Description =
-                t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
-
-            progressTask.StopTask();
-
-            totalTask.Increment(100.0 / modulesToProcess.Count);
         }, cancellationToken);
         
         string GetColour()
