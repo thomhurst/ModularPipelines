@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Context;
-using ModularPipelines.Extensions;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;

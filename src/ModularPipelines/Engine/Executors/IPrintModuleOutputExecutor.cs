@@ -1,6 +1,4 @@
-﻿using ModularPipelines.Modules;
-
-namespace ModularPipelines.Engine.Executors;
+﻿namespace ModularPipelines.Engine.Executors;
 
 internal interface IPrintModuleOutputExecutor
 {

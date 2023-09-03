@@ -5,7 +5,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
-using Octokit.Internal;
 
 namespace ModularPipelines.Build.Modules;
 
