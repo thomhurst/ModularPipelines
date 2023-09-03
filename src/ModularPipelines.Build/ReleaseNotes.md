@@ -1,1 +1,1 @@
- 
+-   README and License added to NuGet packages 

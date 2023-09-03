@@ -5,4 +5,8 @@
       <PackageReference Include="AWSSDK.S3" Version="3.7.203.7" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+    
 </Project>
