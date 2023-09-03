@@ -1,0 +1,1 @@
+-   Refresh File state whenever calling an action
