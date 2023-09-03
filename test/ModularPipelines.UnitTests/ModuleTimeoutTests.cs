@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -20,6 +21,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public void Throws_Timeout_Exception()
     {
-        Assert.ThrowsAsync<TaskCanceledException>(RunModule<Module>);
+        var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module>);
+        Assert.That(exception!.InnerException, Is.TypeOf<TaskCanceledException>());
     }
 }

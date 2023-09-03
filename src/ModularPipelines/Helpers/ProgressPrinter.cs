@@ -3,6 +3,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
@@ -118,29 +119,58 @@ internal class ProgressPrinter : IProgressPrinter
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
+            
+            SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
+            SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
+            
+            RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
+        }
+    }
 
-            // Callback for Module has finished
-            _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
+    private static void SetupSkippedCallback(CancellationToken cancellationToken, RunnableModule moduleToProcess,
+        ProgressTask progressTask, string moduleName)
+    {
+        // Callback for Module has been ignored
+        _ = moduleToProcess.Module.SkippedTask.ContinueWith(t =>
+        {
+            lock (moduleToProcess)
             {
+                progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
+                progressTask.StopTask();
+            }
+        }, cancellationToken);
+    }
+
+    private static void SetupFinishedSuccessfullyCallback(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask,
+        CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
+    {
+        // Callback for Module has finished
+        _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
+        {
+            lock (moduleToProcess)
+            {
+                if (progressTask.IsFinished)
+                {
+                    return;
+                }
+
                 if (t.IsCompletedSuccessfully)
                 {
                     progressTask.Increment(100);
                 }
 
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
+                progressTask.Description =
+                    t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
 
                 progressTask.StopTask();
+
                 totalTask.Increment(100.0 / modulesToProcess.Count);
-            }, cancellationToken);
-
-            // Callback for Module has been ignored
-            _ = moduleToProcess.Module.IgnoreTask.ContinueWith(t =>
-            {
-                progressTask.Description = $"[yellow][[Ignored]] {moduleName}[/]";
-                progressTask.StopTask();
-            }, cancellationToken);
-
-            RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
+            }
+        }, cancellationToken);
+        
+        string GetColour()
+        {
+            return moduleToProcess.Module.Status == Status.Successful ? "[green]" : "[orange3]";
         }
     }
 

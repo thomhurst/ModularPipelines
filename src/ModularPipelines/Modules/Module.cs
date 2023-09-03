@@ -160,12 +160,12 @@ public abstract partial class Module<T> : ModuleBase<T>
             
             Exception = exception;
             
-            Context.EngineCancellationToken.Cancel();
-
             if (await ShouldIgnoreFailures(Context, exception))
             {
                 var moduleResult = ModuleResult.FromException<T>(exception);
                 moduleResult.ModuleName = GetType().Name;
+
+                Status = Status.IgnoredFailure;
 
                 await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
@@ -173,12 +173,14 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
             else
             {
+                Context.EngineCancellationToken.Cancel();
+
                 // Give time for Engine to request cancellation
                 await Task.Delay(300);
                 
                 TaskCompletionSource.SetException(exception);
                 
-                throw;
+                throw new ModuleFailedException(this, exception);
             }
         }
         finally
@@ -315,7 +317,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         Status = Status.Skipped;
 
-        IgnoreTask.Start(TaskScheduler.Default);
+        SkippedTask.Start(TaskScheduler.Default);
 
         TaskCompletionSource.SetResult(new SkippedModuleResult<T>());
 
