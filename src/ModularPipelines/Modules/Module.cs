@@ -165,6 +165,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                 var moduleResult = ModuleResult.FromException<T>(exception);
                 moduleResult.ModuleName = GetType().Name;
 
+                Status = Status.IgnoredFailure;
+
                 await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
                 TaskCompletionSource.SetResult(moduleResult);

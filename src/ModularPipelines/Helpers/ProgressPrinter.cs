@@ -3,6 +3,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
@@ -145,6 +146,7 @@ internal class ProgressPrinter : IProgressPrinter
         {
             if (progressTask.IsFinished)
             {
+                return;
             }
 
             if (t.IsCompletedSuccessfully)
@@ -153,11 +155,17 @@ internal class ProgressPrinter : IProgressPrinter
             }
 
             progressTask.Description =
-                t.IsCompletedSuccessfully ? $"[green]{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
+                t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
 
             progressTask.StopTask();
+
             totalTask.Increment(100.0 / modulesToProcess.Count);
         }, cancellationToken);
+        
+        string GetColour()
+        {
+            return moduleToProcess.Module.Status == Status.Successful ? "[green]" : "[orange3]";
+        }
     }
 
     private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext, CancellationToken cancellationToken)
