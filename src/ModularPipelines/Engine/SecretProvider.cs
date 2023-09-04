@@ -5,11 +5,12 @@ namespace ModularPipelines.Engine;
 
 internal class SecretProvider : ISecretProvider
 {
-    public string[] Secrets { get; }
+    private readonly IOptionsProvider _optionsProvider;
+    public string[] Secrets => GetSecrets(_optionsProvider.GetOptions()).ToArray();
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
-        Secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
+        _optionsProvider = optionsProvider;
     }
 
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
