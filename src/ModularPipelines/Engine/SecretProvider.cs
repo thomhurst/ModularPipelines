@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 using ModularPipelines.Attributes;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Engine;
 
-internal class SecretProvider : ISecretProvider
+internal class SecretProvider : ISecretProvider, IInitializer
 {
     private readonly IOptionsProvider _optionsProvider;
-    public string[] Secrets => GetSecrets(_optionsProvider.GetOptions()).ToArray();
+    public string[] Secrets { get; private set; } = Array.Empty<string>();
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
@@ -45,4 +46,12 @@ internal class SecretProvider : ISecretProvider
             }
         }
     }
+
+    public Task InitializeAsync()
+    {
+        Secrets = GetSecrets(_optionsProvider.GetOptions()).ToArray();
+        return Task.CompletedTask;
+    }
+
+    public int Order { get; } = int.MaxValue;
 }
