@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.Git.Models;
 
+[ExcludeFromCodeCoverage]
 public record GitVersionInformation
 {
     public int Major { get; init; }

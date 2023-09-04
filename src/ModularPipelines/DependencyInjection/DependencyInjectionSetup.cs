@@ -61,7 +61,8 @@ internal static class DependencyInjectionSetup
             .AddTransient<IBash, Bash>()
             .AddTransient<ISecretObfuscator, SecretObfuscator>()
             .AddTransient<IOptionsProvider, OptionsProvider>()
-            .AddTransient<IModuleContextProvider, ModuleContextProvider>();
+            .AddTransient<IModuleContextProvider, ModuleContextProvider>()
+            .AddTransient<IChecksum, Checksum>();
 
         // Singletons
         services
