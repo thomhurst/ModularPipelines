@@ -67,7 +67,7 @@ public class JsonTests : TestBase
 
     private record JsonModel
     {
-        public string Foo { get; set; }
-        public string Hello { get; set; }
+        public string? Foo { get; set; }
+        public string? Hello { get; set; }
     }
 }
