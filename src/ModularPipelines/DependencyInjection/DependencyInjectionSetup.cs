@@ -10,6 +10,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 using Vertical.SpectreLogger;
+using Vertical.SpectreLogger.Core;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -30,6 +31,7 @@ internal static class DependencyInjectionSetup
                 builder.AddSpectreConsole(cfg =>
                 {
                     cfg.WriteInForeground();
+                    builder.Services.AddTransient<ILogEventFilter, SecretsLogFilter>();
                 });
             })
             .AddHttpClient()
@@ -59,6 +61,7 @@ internal static class DependencyInjectionSetup
             .AddTransient<IXml, Xml>()
             .AddTransient<IPowershell, Powershell>()
             .AddTransient<IBash, Bash>()
+            .AddTransient<ISecretProvider, SecretProvider>()
             .AddTransient<ISecretObfuscator, SecretObfuscator>()
             .AddTransient<IOptionsProvider, OptionsProvider>()
             .AddTransient<IModuleContextProvider, ModuleContextProvider>()
