@@ -1,0 +1,1 @@
+-   Secrets detector for ILogger
