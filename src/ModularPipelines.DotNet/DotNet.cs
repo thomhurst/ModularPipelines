@@ -51,7 +51,7 @@ internal class DotNet : IDotNet
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
 
-        options.DoNotErrorOnNonZeroExitCode = true;
+        options.ThrowOnNonZeroExitCode = false;
 
         var result = await _command.ExecuteCommandLineTool(options, cancellationToken);
 
