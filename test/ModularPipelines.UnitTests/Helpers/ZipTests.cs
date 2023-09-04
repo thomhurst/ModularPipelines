@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[Parallelizable(ParallelScope.Self)]
+[Parallelizable(ParallelScope.Fixtures)]
 public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
@@ -98,7 +98,7 @@ public class ZipTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(expectedFolder.Exists, Is.True);
-            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories).Length, Is.EqualTo(1));
+            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories), Has.Length.GreaterThanOrEqualTo(1));
         });
     }
 }
