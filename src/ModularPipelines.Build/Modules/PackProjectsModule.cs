@@ -28,7 +28,6 @@ public class PackProjectsModule : Module<List<CommandResult>>
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
-                IncludeSymbols = true,
                 IncludeSource = true,
                 Properties = new List<string>
                 {
