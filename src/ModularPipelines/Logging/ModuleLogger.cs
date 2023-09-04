@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
@@ -22,6 +23,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly IModuleStatusProvider _moduleStatusProvider;
+    private readonly ISecretProvider _secretProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -33,13 +35,15 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
-        IModuleStatusProvider moduleStatusProvider)
+        IModuleStatusProvider moduleStatusProvider,
+        ISecretProvider secretProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
         _moduleStatusProvider = moduleStatusProvider;
+        _secretProvider = secretProvider;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -60,6 +64,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             return;
         }
 
+        if (state?.GetType().FullName == "Microsoft.Extensions.Logging.Internal.FormattedLogValues")
+        {
+            TryObfuscateValues(state);
+        }
+
         var mappedFormatter = MapFormatter(formatter);
 
         var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
@@ -67,6 +76,31 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         _logEvents.Add(valueTuple!);
 
         LastLogWritten = DateTime.UtcNow;
+    }
+
+    private void TryObfuscateValues(object state)
+    {
+        var objArrayNullable = state.GetType()
+            .GetField("_values", BindingFlags.NonPublic | BindingFlags.Instance)
+            ?.GetValue(state) as object?[] ?? Array.Empty<object>();
+        
+        for (var index = 0; index < objArrayNullable.Length; index++)
+        {
+            var obj = objArrayNullable[index];
+            if (obj is null)
+            {
+                continue;
+            }
+
+            var objString = obj.ToString() ?? string.Empty;
+            foreach (var secret in _secretProvider.Secrets)
+            {
+                if (objString.Contains(secret))
+                {
+                    objArrayNullable[index] = objString.Replace(secret, "**********");
+                }
+            }
+        }
     }
 
     private Func<object, Exception?, string> MapFormatter<TState>(Func<TState, Exception?, string>? formatter)
