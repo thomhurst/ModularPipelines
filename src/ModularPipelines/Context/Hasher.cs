@@ -38,7 +38,7 @@ internal class Hasher : IHasher
     {
         return ComputeHash(MD5.Create(), input, hashType);
     }
-
+    
     private string ComputeHash(HashAlgorithm hashAlgorithm, string input, HashType hashType)
     {
         using (hashAlgorithm)
