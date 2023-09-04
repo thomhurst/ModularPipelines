@@ -28,7 +28,7 @@ public class PackProjectsModule : Module<List<CommandResult>>
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
-                IncludeSource = true,
+                IncludeSource = !projectFile.Path.Contains("Analyzer"),
                 Properties = new List<string>
                 {
                     $"PackageVersion={packageVersion.Value}",
