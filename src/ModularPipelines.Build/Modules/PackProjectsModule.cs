@@ -5,26 +5,25 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackageFilesRemovalModule>, DependsOn<CodeFormattedNicelyModule>]
-public class PackProjectsModule : Module<List<CommandResult>>
+public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var results = new List<CommandResult>();
-
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
 
         var projectFiles = context.Environment
             .GitRootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context));
 
-        foreach (var projectFile in projectFiles)
-        {
-            results.Add(await context.DotNet().Pack(new DotNetPackOptions
+        return await projectFiles.ToAsyncProcessorBuilder()
+            .SelectAsync(async projectFile => 
+                await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
@@ -32,11 +31,9 @@ public class PackProjectsModule : Module<List<CommandResult>>
                 Properties = new List<string>
                 {
                     $"PackageVersion={packageVersion.Value}",
-                    $"Version={packageVersion.Value}"}
-            }, cancellationToken));
-        }
-
-        return results;
+                    $"Version={packageVersion.Value}"
+                }
+            }, cancellationToken)).ProcessOneAtATime();
     }
 
     private bool GetProjectsPredicate(File file, IModuleContext context)
