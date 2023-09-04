@@ -1,1 +1,0 @@
- -   Added a Checksum helper class to the Context object
