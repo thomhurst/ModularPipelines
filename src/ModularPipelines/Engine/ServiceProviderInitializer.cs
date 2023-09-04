@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.DependencyInjection;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Engine;
@@ -11,8 +13,9 @@ internal class ServiceProviderInitializer : IServiceProviderInitializer
         _serviceProvider = serviceProvider;
     }
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        return _serviceProvider.InitializeAsync();
+        await _serviceProvider.InitializeAsync();
+        SecretsLogFilter.SecretProvider = _serviceProvider.GetRequiredService<ISecretProvider>();
     }
 }

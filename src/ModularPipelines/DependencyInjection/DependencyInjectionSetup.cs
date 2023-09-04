@@ -30,8 +30,7 @@ internal static class DependencyInjectionSetup
                     
                 builder.AddSpectreConsole(cfg =>
                 {
-                    cfg.WriteInForeground();
-                    builder.Services.AddTransient<ILogEventFilter, SecretsLogFilter>();
+                    cfg.SetLogEventFilter(new SecretsLogFilter());
                 });
             })
             .AddHttpClient()

@@ -5,15 +5,15 @@ namespace ModularPipelines.DependencyInjection;
 
 internal class SecretsLogFilter : ILogEventFilter
 {
-    private readonly ISecretProvider _secretProvider;
+    internal static ISecretProvider? SecretProvider { get; set; }
 
-    public SecretsLogFilter(ISecretProvider secretProvider)
-    {
-        _secretProvider = secretProvider;
-    }
-    
     public bool Filter(in LogEventContext eventContext)
     {
+        if (SecretProvider is null)
+        {
+            return true;
+        }
+        
         var stringValue = eventContext.State?.ToString();
         
         if (string.IsNullOrWhiteSpace(stringValue))
@@ -21,6 +21,6 @@ internal class SecretsLogFilter : ILogEventFilter
             return true;
         }
 
-        return !_secretProvider.Secrets.Any(secret => stringValue.Contains(secret));
+        return !SecretProvider.Secrets.Any(secret => stringValue.Contains(secret));
     }
 }
