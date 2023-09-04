@@ -15,6 +15,7 @@ public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly GitHubClient _gitHubClient;
+    private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings, 
         GitHubClient gitHubClient,
@@ -22,10 +23,16 @@ public class UpdateReleaseNotesModule : Module
     {
         _githubSettings = githubSettings;
         _gitHubClient = gitHubClient;
+        _publishSettings = publishSettings;
     }
 
     protected override async Task<bool> ShouldSkip(IModuleContext context)
     {
+        if (!_publishSettings.Value.ShouldPublish)
+        {
+            return true;
+        }
+        
         var releaseNotesFile = context.Git()
                 .RootDirectory
                 .FindFile(x => x.Name == "ReleaseNotes.md");
