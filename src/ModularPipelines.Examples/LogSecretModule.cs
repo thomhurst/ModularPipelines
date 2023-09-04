@@ -20,7 +20,7 @@ public class LogSecretModule : Module
     
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Value is {Value}", _options.Value.MySecret);
+        context.Logger.LogInformation("Value is {Value}", _options.Value.MySecret);
         await Task.Yield();
         return null;
     }
