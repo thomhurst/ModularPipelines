@@ -9,7 +9,7 @@ public class SubmodulesModule : Module
 {
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        foreach (var c in Guid.NewGuid().ToString())
+        foreach (var c in Guid.NewGuid().ToString().Take(3))
         {
             await SubModule(c.ToString(), async () =>
             {

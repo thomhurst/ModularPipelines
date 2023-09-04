@@ -10,6 +10,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 using Vertical.SpectreLogger;
+using Vertical.SpectreLogger.Core;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -17,6 +18,8 @@ internal static class DependencyInjectionSetup
 {
     public static void Initialize(IServiceCollection services)
     {
+        var secretsLogFilter = new SecretsLogFilter();
+        
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
@@ -29,7 +32,7 @@ internal static class DependencyInjectionSetup
                     
                 builder.AddSpectreConsole(cfg =>
                 {
-                    cfg.WriteInForeground();
+                    cfg.SetLogEventFilter(secretsLogFilter);
                 });
             })
             .AddHttpClient()
@@ -66,6 +69,8 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton(secretsLogFilter)
+            .AddSingleton<ISecretProvider, SecretProvider>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()

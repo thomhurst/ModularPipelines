@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Examples;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
@@ -21,7 +22,10 @@ var modules = await PipelineHostBuilder.Create()
     })
     .ConfigureServices((context, collection) =>
     {
+        collection.Configure<MyOptions>(context.Configuration);
+
         collection.AddModule<SuccessModule>()
+            .AddModule<LogSecretModule>()
             .AddModule<DependentOnSuccessModule>()
             .AddModule<DependentOn2>()
             .AddModule<DependentOn3>()

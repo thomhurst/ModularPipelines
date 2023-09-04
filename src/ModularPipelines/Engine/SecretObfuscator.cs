@@ -1,17 +1,17 @@
-﻿using System.Reflection;
-using System.Text;
-using ModularPipelines.Attributes;
+﻿using System.Text;
 
 namespace ModularPipelines.Engine;
 
 internal class SecretObfuscator : ISecretObfuscator
 {
+    private readonly ISecretProvider _secretProvider;
     private readonly string[] _secrets;
 
-    public SecretObfuscator(IOptionsProvider optionsProvider, 
-        IBuildSystemSecretMasker buildSystemSecretMasker)
+    public SecretObfuscator(IBuildSystemSecretMasker buildSystemSecretMasker,
+        ISecretProvider secretProvider)
     {
-        _secrets = GetSecrets(optionsProvider.GetOptions()).ToArray();
+        _secretProvider = secretProvider;
+        _secrets = secretProvider.Secrets;
         buildSystemSecretMasker.MaskSecrets(_secrets);
     }
 
@@ -19,7 +19,7 @@ internal class SecretObfuscator : ISecretObfuscator
     {
         var stringBuilder = new StringBuilder(input);
 
-        var secretsFromExtraObject = GetSecrets(optionsObject);
+        var secretsFromExtraObject = _secretProvider.GetSecrets(optionsObject);
 
         foreach (var secret in _secrets.Concat(secretsFromExtraObject))
         {
@@ -30,38 +30,5 @@ internal class SecretObfuscator : ISecretObfuscator
         }
 
         return stringBuilder.ToString();
-    }
-
-    private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
-    {
-        foreach (var option in options)
-        {
-            foreach (var secret in GetSecrets(option))
-            {
-                yield return secret;
-            }
-        }
-    }
-
-    public IEnumerable<string> GetSecrets(object? option)
-    {
-        if (option is null)
-        {
-            yield break;
-        }
-
-        foreach (var secretValueMember in option.GetType()
-                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                     .Concat(option.GetType()
-                         .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
-                     .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null))
-        {
-            var secret = secretValueMember.GetValue(option)?.ToString();
-
-            if (!string.IsNullOrWhiteSpace(secret))
-            {
-                yield return secret;
-            }
-        }
     }
 }
