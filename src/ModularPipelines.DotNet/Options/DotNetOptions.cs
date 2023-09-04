@@ -15,5 +15,5 @@ public record DotNetOptions() : CommandLineToolOptions("dotnet")
     public Verbosity? Verbosity { get; init; }
 
     [CommandEqualsSeparatorSwitch("--property", SwitchValueSeparator = ":")]
-    public string[]? Properties { get; init; }
+    public IEnumerable<string>? Properties { get; init; }
 }

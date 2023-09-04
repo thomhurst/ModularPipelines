@@ -24,17 +24,25 @@ public class PackProjectsModule : Module<List<CommandResult>>
 
         foreach (var projectFile in projectFiles)
         {
+            var properties = new List<string>
+            {
+                $"PackageVersion={packageVersion.Value}",
+                $"Version={packageVersion.Value}"
+            };
+
+            if (!projectFile.Path.Contains("Analyzer"))
+            {
+                properties.Add("IncludeSymbols=true");
+                properties.Add("SymbolPackageFormat=snupkg");
+            }
+            
             results.Add(await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 Configuration = Configuration.Release,
                 IncludeSymbols = true,
                 IncludeSource = true,
-                Properties = new[]
-                {
-                    $"PackageVersion={packageVersion.Value}",
-                    $"Version={packageVersion.Value}",
-                }
+                Properties = properties
             }, cancellationToken));
         }
 

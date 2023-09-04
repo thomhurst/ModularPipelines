@@ -72,6 +72,11 @@ public static class CommandOptionsObjectArgumentParser
 
     private static void AddValueSwitch(ICollection<string> parsedArgs, MemberInfo propertyInfo, string propertyValue)
     {
+        if (string.IsNullOrWhiteSpace(propertyValue))
+        {
+            return;
+        }
+        
         var commandSwitchAttribute = propertyInfo.GetCustomAttribute<CommandSwitchAttribute>(true);
 
         if (commandSwitchAttribute == null)
