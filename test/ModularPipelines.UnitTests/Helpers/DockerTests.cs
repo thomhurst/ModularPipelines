@@ -1,6 +1,7 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -12,8 +13,8 @@ public class DockerTests : TestBase
     {
         protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var pretendPath = context.Environment
-                .GitRootDirectory!
+            var pretendPath = context.Git()
+                .RootDirectory
                 .GetFolder("src")
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");

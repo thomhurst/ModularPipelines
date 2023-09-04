@@ -2,6 +2,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.NuGet.Options;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.NuGet;
 
@@ -14,18 +15,12 @@ internal class NuGet : INuGet
         _context = context;
     }
 
-    public async Task<List<CommandResult>> UploadPackages(NuGetUploadOptions options)
+    public async Task<CommandResult[]> UploadPackages(NuGetUploadOptions options)
     {
-        var results = new List<CommandResult>();
-        foreach (var packagePath in options.PackagePaths)
-        {
-            var commandResult = await _context.Command
-                .ExecuteCommandLineTool(options.WithArguments(packagePath));
-
-            results.Add(commandResult);
-        }
-
-        return results;
+        return await options.PackagePaths.ToAsyncProcessorBuilder()
+            .SelectAsync(async packagePath => 
+                await _context.Command.ExecuteCommandLineTool(options.WithArguments(packagePath)))
+            .ProcessOneAtATime();
     }
 
     public async Task<CommandResult> AddSource(NuGetSourceOptions options)
