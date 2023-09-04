@@ -18,6 +18,8 @@ internal static class DependencyInjectionSetup
 {
     public static void Initialize(IServiceCollection services)
     {
+        var secretsLogFilter = new SecretsLogFilter();
+        
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
@@ -30,7 +32,7 @@ internal static class DependencyInjectionSetup
                     
                 builder.AddSpectreConsole(cfg =>
                 {
-                    cfg.SetLogEventFilter(new SecretsLogFilter());
+                    cfg.SetLogEventFilter(secretsLogFilter);
                 });
             })
             .AddHttpClient()
@@ -68,6 +70,7 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton(secretsLogFilter)
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()

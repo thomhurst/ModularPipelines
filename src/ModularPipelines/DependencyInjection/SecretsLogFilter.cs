@@ -5,7 +5,7 @@ namespace ModularPipelines.DependencyInjection;
 
 internal class SecretsLogFilter : ILogEventFilter
 {
-    internal static ISecretProvider? SecretProvider { get; set; }
+    internal ISecretProvider? SecretProvider { get; set; }
 
     public bool Filter(in LogEventContext eventContext)
     {
