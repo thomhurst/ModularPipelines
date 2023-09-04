@@ -13,13 +13,10 @@ namespace ModularPipelines.Build.Modules;
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;
-    private readonly IOptions<GitHubSettings> _githubSettings;
 
-    public CodacyCodeCoverageUploader(IOptions<CodacySettings> options,
-    IOptions<GitHubSettings> githubSettings)
+    public CodacyCodeCoverageUploader(IOptions<CodacySettings> options)
     {
         _options = options;
-        _githubSettings = githubSettings;
     }
 
     protected override Task<bool> ShouldSkip(IModuleContext context)
@@ -29,7 +26,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
     
     protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml"));
+        var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml")) ?? throw new FileNotFoundException("coverage.cobertura.xml");
         
         var scriptFile =
             await context.Downloader.DownloadFileAsync(
