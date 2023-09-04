@@ -31,6 +31,4 @@ internal class SecretObfuscator : ISecretObfuscator
 
         return stringBuilder.ToString();
     }
-
-  
 }
