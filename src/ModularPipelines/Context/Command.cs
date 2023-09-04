@@ -74,7 +74,7 @@ internal class Command : ICommand
             return new CommandResult(command);
         }
 
-        var result = await Of(command, cancellationToken);
+        var result = await Of(command, options, cancellationToken);
 
         if (options.LogOutput)
         {
@@ -94,13 +94,14 @@ internal class Command : ICommand
         return options.OptionsObject ?? options;
     }
 
-    private static async Task<BufferedCommandResult> Of(CliWrap.Command command, CancellationToken cancellationToken = default)
+    private static async Task<BufferedCommandResult> Of(CliWrap.Command command,
+        CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         var result = await command
             .WithValidation(CommandResultValidation.None)
             .ExecuteBufferedAsync(cancellationToken);
 
-        if (result.ExitCode != 0)
+        if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
         {
             var input = command.ToString();
             throw new CommandException(input, result);

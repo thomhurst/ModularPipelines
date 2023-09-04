@@ -26,4 +26,5 @@
       <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj" Name="ModularPipelines.Analyzers" />
     </ItemGroup>
 
+
 </Project>

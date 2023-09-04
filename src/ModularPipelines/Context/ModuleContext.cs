@@ -30,6 +30,7 @@ internal class ModuleContext : IModuleContext
 
     public IHttp Http { get; }
     public IDownloader Downloader { get; }
+    public IChecksum Checksum { get; }
     public IHasher Hasher { get; }
     public IJson Json { get; }
     public IXml Xml { get; }
@@ -76,7 +77,8 @@ internal class ModuleContext : IModuleContext
         IInstaller installer,
         IPowershell powershell, 
         IBash bash,
-        IBuildSystemDetector buildSystemDetector)
+        IBuildSystemDetector buildSystemDetector, 
+        IChecksum checksum)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -92,6 +94,7 @@ internal class ModuleContext : IModuleContext
         Powershell = powershell;
         Bash = bash;
         BuildSystemDetector = buildSystemDetector;
+        Checksum = checksum;
         ModuleResultRepository = moduleResultRepository;
         Command = command;
         Configuration = configuration;

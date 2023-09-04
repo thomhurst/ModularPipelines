@@ -39,6 +39,11 @@ public interface IModuleContext
     public IBuildSystemDetector BuildSystemDetector { get; }
     public IHttp Http { get; }
     public IDownloader Downloader { get; }
+        
+    /// <summary>
+    /// Used for checking the Checksum of a file
+    /// </summary>
+    IChecksum Checksum { get; }
 
     #endregion
 }
