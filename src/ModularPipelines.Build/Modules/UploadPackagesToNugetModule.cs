@@ -15,7 +15,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
-public class UploadPackagesToNugetModule : Module<List<CommandResult>>
+public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -50,7 +50,7 @@ public class UploadPackagesToNugetModule : Module<List<CommandResult>>
         return !_publishSettings.Value.ShouldPublish;
     }
 
-    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 

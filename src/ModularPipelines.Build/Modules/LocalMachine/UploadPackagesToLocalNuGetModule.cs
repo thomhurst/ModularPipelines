@@ -10,7 +10,7 @@ using ModularPipelines.NuGet.Options;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<AddLocalNugetSourceModule>]
-public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
+public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
     protected override async Task OnBeforeExecute(IModuleContext context)
     {
@@ -24,7 +24,7 @@ public class UploadPackagesToLocalNuGetModule : Module<List<CommandResult>>
         await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<List<CommandResult>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
         var packagePaths = await GetModule<PackagePathsParserModule>();
