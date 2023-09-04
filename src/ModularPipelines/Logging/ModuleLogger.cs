@@ -64,7 +64,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
             return;
         }
 
-        if (state?.GetType().FullName == "Microsoft.Extensions.Logging.Internal.FormattedLogValues")
+        if (state?.GetType().FullName == "Microsoft.Extensions.Logging.FormattedLogValues")
         {
             TryObfuscateValues(state);
         }
