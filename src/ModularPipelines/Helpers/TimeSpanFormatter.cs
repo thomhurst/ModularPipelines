@@ -24,21 +24,21 @@ internal static class TimeSpanFormatter
 
     private static string Milliseconds(TimeSpan timeSpan)
     {
-        return timeSpan.TotalMilliseconds + "ms";
+        return timeSpan.TotalMilliseconds.ToString("0.0") + "ms";
     }
     
     private static string Seconds(TimeSpan timeSpan)
     {
-        return timeSpan.TotalSeconds + "s";
+        return timeSpan.TotalSeconds.ToString("0.0") + "s";
     }
     
     private static string Minutes(TimeSpan timeSpan)
     {
-        return timeSpan.TotalMinutes + "m";
+        return timeSpan.TotalMinutes.ToString("0.0") + "m";
     }
     
     private static string Hours(TimeSpan timeSpan)
     {
-        return timeSpan.TotalHours + "h";
+        return timeSpan.TotalHours.ToString("0.0") + "h";
     }
 }
