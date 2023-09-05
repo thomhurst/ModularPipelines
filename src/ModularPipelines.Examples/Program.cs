@@ -33,6 +33,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<SubmodulesModule>()
             .AddModule<GitVersionModule>()
             .AddModule<GitLastCommitModule>()
-            .AddModule<FailedModule>();
+            .AddModule<FailedModule>()
+            .AddModule<PostSlackModule>();
     })
     .ExecutePipelineAsync();

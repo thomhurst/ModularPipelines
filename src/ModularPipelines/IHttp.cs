@@ -4,5 +4,6 @@ namespace ModularPipelines;
 
 public interface IHttp
 {
-    public Task<HttpResponseMessage> Send(HttpOptions httpOptions);
+    Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions);
+    HttpClient HttpClient { get; }
 }
