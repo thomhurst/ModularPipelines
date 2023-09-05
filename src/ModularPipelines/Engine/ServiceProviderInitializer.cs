@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 

@@ -58,6 +58,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0085C0A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{AE2C777C-3082-4BA1-A6BD-B1C628A3C9A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{467FCE3D-2261-486A-ACD8-5D804C92DA01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +158,10 @@ Global
 		{A740BDF2-742C-44AA-8449-293F693E4136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A740BDF2-742C-44AA-8449-293F693E4136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A740BDF2-742C-44AA-8449-293F693E4136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{1C075CAF-7409-4941-8622-E3D3DDD876AB} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{8A6B4058-2863-4406-A651-5E334C81777F} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
+		{467FCE3D-2261-486A-ACD8-5D804C92DA01} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}

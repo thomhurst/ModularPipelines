@@ -11,7 +11,7 @@ public class FailedModule : Module
     protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromSeconds(9), cancellationToken);
-
+        return null;
         throw new Exception();
     }
 }

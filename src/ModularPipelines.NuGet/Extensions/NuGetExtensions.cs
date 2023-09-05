@@ -26,5 +26,5 @@ public static class NuGetExtensions
         return services;
     }
 
-    public static INuGet NuGet(this IModuleContext context) => (INuGet) context.ServiceProvider.GetRequiredService<INuGet>();
+    public static INuGet NuGet(this IModuleContext context) => context.ServiceProvider.GetRequiredService<INuGet>();
 }

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using Spectre.Console;
 
 namespace ModularPipelines.Examples;
 

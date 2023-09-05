@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ModularPipelines.Http;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;
 
@@ -6,11 +7,11 @@ namespace ModularPipelines.MicrosoftTeams;
 
 internal class MicrosoftTeams : IMicrosoftTeams
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttp _http;
 
-    public MicrosoftTeams(HttpClient httpClient)
+    public MicrosoftTeams(IHttp http)
     {
-        _httpClient = httpClient;
+        _http = http;
     }
 
     public async Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default)
@@ -27,8 +28,6 @@ internal class MicrosoftTeams : IMicrosoftTeams
             RequestUri = options.WebHookUri
         };
 
-        var responseMessage = await _httpClient.SendAsync(cardsRequest, cancellationToken);
-
-        return responseMessage.EnsureSuccessStatusCode();
+        return await _http.SendAsync(cardsRequest, cancellationToken);
     }
 }
