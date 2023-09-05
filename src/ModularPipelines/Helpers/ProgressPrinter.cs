@@ -72,8 +72,8 @@ internal class ProgressPrinter : IProgressPrinter
         {
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]", 
-                module.Duration.ToString(), 
-                module.Status.ToString(),
+                module.Duration.ToDisplayString(), 
+                module.Status.ToDisplayString(),
                 $"[red]{module.Exception?.GetType().Name}[/]");
         }
 
@@ -81,8 +81,8 @@ internal class ProgressPrinter : IProgressPrinter
         
         table.AddRow(
             "Total", 
-            pipelineSummary.TotalDuration.ToString(), 
-            pipelineSummary.Status.ToString(),
+            pipelineSummary.TotalDuration.ToDisplayString(), 
+            pipelineSummary.Status.ToDisplayString(),
             string.Empty);
         
         AnsiConsole.WriteLine();
