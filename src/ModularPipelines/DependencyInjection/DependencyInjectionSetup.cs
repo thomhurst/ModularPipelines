@@ -6,11 +6,11 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 using Vertical.SpectreLogger;
-using Vertical.SpectreLogger.Core;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -39,11 +39,16 @@ internal static class DependencyInjectionSetup
             .AddInitializers()
             .AddServiceCollection();
 
+        services
+            .AddTransient<LoggingHttpHandler>()
+            .AddHttpClient("LoggingHttpClient")
+            .AddHttpMessageHandler<LoggingHttpHandler>();
+        
         // Transient
         services.AddTransient<IModuleContext, ModuleContext>()
             .AddTransient<IConsolePrinter, ConsolePrinter>()
             .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
-            .AddTransient<IHttp, Http>()
+            .AddTransient<IHttp, Http.Http>()
             .AddTransient<ICommand, Command>()
             .AddTransient<ICertificates, Certificates>()
             .AddTransient<IDownloader, Downloader>()

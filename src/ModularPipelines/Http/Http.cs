@@ -4,21 +4,24 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
-namespace ModularPipelines;
+namespace ModularPipelines.Http;
 
 internal class Http : IHttp
 {
     public HttpClient HttpClient { get; }
+    public HttpClient LoggingHttpClient { get; }
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
     public Http(HttpClient defaultHttpClient,
-        IModuleLoggerProvider moduleLoggerProvider)
+        IModuleLoggerProvider moduleLoggerProvider,
+        IHttpClientFactory httpClientFactory)
     {
         HttpClient = defaultHttpClient;
         _moduleLoggerProvider = moduleLoggerProvider;
+        LoggingHttpClient = httpClientFactory.CreateClient("LoggingHttpClient");
     }
 
-    public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions)
+    public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
         if (httpOptions.LogRequest)
         {

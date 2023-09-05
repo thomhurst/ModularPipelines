@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
+﻿using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 

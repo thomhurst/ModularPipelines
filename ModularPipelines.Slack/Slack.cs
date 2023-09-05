@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Slack.Options;
+﻿using ModularPipelines.Http;
+using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
 
 namespace ModularPipelines.Slack;
@@ -14,7 +15,7 @@ internal class Slack : ISlack
 
     public async Task PostWebHookMessage(SlackWebHookOptions options)
     {
-        var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.HttpClient);
+        var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.LoggingHttpClient);
 
         await slackClient.PostAsync(options.SlackMessage);
     }
