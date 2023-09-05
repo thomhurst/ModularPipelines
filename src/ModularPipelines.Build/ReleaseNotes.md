@@ -1,2 +1,0 @@
--   Slack WebHook Helper
--   LoggingHttpClient from `Context.Http`
