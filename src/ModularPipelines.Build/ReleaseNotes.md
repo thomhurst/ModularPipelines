@@ -1,2 +1,0 @@
--   Move Slack project to src directory
--   Breaking: Rename context interface from `IPipelineContext` to `IPipelineContext`
