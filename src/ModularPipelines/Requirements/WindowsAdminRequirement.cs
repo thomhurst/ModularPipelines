@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using ModularPipelines.Context;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Requirements;
 
+[ExcludeFromCodeCoverage]
 public class WindowsAdminRequirement : IPipelineRequirement
 {
     public Task<bool> MustAsync(IModuleContext context)

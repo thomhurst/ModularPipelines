@@ -7,8 +7,7 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetPackOptions : DotNetOptions
 {
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; }
+    [CommandSwitch("-c")] public Configuration? Configuration { get; init; } = Options.Configuration.Release;
 
     [CommandSwitch("-o")]
     public string? Output { get; init; }

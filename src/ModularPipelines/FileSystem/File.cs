@@ -29,10 +29,20 @@ public class File
     {
         return System.IO.File.ReadAllTextAsync(Path);
     }
+    
+    public Task<string[]> ReadLinesAsync()
+    {
+        return System.IO.File.ReadAllLinesAsync(Path);
+    }
 
     public Task WriteAsync(string contents)
     {
         return System.IO.File.WriteAllTextAsync(Path, contents);
+    }
+    
+    public Task WriteLinesAsync(IEnumerable<string> contents)
+    {
+        return System.IO.File.WriteAllLinesAsync(Path, contents);
     }
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>

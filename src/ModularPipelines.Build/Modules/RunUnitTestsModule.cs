@@ -24,6 +24,6 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage"
             }, cancellationToken))
-            .ProcessOneAtATime();
+            .ProcessInParallel();
     }
 }
