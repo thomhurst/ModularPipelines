@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("registry", "login")]
+[ExcludeFromCodeCoverage]
 public record HelmRegistryLoginOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]

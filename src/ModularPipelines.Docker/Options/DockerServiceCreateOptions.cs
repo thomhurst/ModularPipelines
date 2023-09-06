@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service create")]
+[ExcludeFromCodeCoverage]
 public record DockerServiceCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

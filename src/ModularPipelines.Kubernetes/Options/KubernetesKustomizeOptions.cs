@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("kustomize")]
+[ExcludeFromCodeCoverage]
 public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
 {
     [BooleanCommandSwitch("--as-current-user")]

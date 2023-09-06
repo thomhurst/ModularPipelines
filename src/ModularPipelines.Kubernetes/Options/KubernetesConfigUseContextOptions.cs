@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "use-context")]
+[ExcludeFromCodeCoverage]
 public record KubernetesConfigUseContextOptions([property: PositionalArgument] string ContextName) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

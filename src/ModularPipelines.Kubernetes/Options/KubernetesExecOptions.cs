@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("exec")]
+[ExcludeFromCodeCoverage]
 public record KubernetesExecOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]

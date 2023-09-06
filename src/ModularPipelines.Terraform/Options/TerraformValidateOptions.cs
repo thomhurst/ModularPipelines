@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("validate")]
+[ExcludeFromCodeCoverage]
 public record TerraformValidateOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-json")] public bool? Json { get; set; }

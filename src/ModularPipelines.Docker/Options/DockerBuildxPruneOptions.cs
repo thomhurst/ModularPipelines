@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx prune")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildxPruneOptions : DockerOptions
 {
     [BooleanCommandSwitch("--all")]

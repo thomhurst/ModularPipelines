@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("fmt")]
+[ExcludeFromCodeCoverage]
 public record TerraformFmtOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-list")] public bool? List { get; set; }

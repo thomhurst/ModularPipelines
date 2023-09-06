@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("list")]
+[ExcludeFromCodeCoverage]
 public record HelmListOptions : HelmOptions
 {
     [BooleanCommandSwitch("--all")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("auth", "reconcile")]
+[ExcludeFromCodeCoverage]
 public record KubernetesAuthReconcileOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

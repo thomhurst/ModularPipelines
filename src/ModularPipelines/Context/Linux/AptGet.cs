@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Models;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Models;
 using ModularPipelines.Options.Linux.AptGet;
 
 namespace ModularPipelines.Context.Linux;
 
+[ExcludeFromCodeCoverage]
 public class AptGet : IAptGet
 {
     private readonly ICommand _command;

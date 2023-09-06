@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("version")]
+[ExcludeFromCodeCoverage]
 public record KubernetesVersionOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--client")]

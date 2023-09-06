@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("output")]
+[ExcludeFromCodeCoverage]
 public record TerraformOutputOptions : TerraformOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

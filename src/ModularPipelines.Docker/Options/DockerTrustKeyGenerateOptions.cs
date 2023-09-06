@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("trust key generate")]
+[ExcludeFromCodeCoverage]
 public record DockerTrustKeyGenerateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name) : DockerOptions
 {
     [CommandSwitch("--dir")]

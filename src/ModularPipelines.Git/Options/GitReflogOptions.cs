@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("reflog")]
+[ExcludeFromCodeCoverage]
 public record GitReflogOptions : GitOptions
 {
     [BooleanCommandSwitch("--all")]

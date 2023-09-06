@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("restore")]
+[ExcludeFromCodeCoverage]
 public record GitRestoreOptions : GitOptions
 {
     [CommandEqualsSeparatorSwitch("--source")]

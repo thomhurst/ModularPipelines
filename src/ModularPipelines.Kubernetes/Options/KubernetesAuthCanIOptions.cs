@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("auth", "can-i")]
+[ExcludeFromCodeCoverage]
 public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]

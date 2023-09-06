@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("rollout", "pause")]
+[ExcludeFromCodeCoverage]
 public record KubernetesRolloutPauseOptions([property: PositionalArgument] string Resource) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

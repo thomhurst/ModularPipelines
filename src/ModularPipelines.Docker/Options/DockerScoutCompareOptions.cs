@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout compare")]
+[ExcludeFromCodeCoverage]
 public record DockerScoutCompareOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
     [CommandSwitch("--exit-code")]

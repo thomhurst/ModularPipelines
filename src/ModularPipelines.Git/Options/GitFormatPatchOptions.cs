@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("format-patch")]
+[ExcludeFromCodeCoverage]
 public record GitFormatPatchOptions : GitOptions
 {
     [BooleanCommandSwitch("--no-stat")]

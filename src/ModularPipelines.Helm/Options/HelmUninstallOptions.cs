@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("uninstall")]
+[ExcludeFromCodeCoverage]
 public record HelmUninstallOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]

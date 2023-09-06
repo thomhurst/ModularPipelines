@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("describe")]
+[ExcludeFromCodeCoverage]
 public record KubernetesDescribeOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]

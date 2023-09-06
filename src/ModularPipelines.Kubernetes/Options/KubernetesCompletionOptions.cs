@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("completion")]
+[ExcludeFromCodeCoverage]
 public record KubernetesCompletionOptions([property: PositionalArgument] string Shell) : KubernetesOptions
 {
     [BooleanCommandSwitch("--no-headers")]

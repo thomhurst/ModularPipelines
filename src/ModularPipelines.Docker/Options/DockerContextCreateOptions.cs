@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("context create")]
+[ExcludeFromCodeCoverage]
 public record DockerContextCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Context) : DockerOptions
 {
     [CommandSwitch("--description")]

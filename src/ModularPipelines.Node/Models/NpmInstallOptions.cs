@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
 [CommandPrecedingArguments("install")]
+[ExcludeFromCodeCoverage]
 public record NpmInstallOptions : NpmOptions
 {
     [PositionalArgument]

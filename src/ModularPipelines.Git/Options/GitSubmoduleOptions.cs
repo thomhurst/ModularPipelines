@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("submodule")]
+[ExcludeFromCodeCoverage]
 public record GitSubmoduleOptions : GitOptions
 {
     [BooleanCommandSwitch("--quiet")]

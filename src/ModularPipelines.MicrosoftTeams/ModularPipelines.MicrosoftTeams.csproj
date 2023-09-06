@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <PackageReference Include="AdaptiveCards" Version="3.0.0" />
     </ItemGroup>
 

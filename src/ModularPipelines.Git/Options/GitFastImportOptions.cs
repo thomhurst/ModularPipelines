@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("fast-import")]
+[ExcludeFromCodeCoverage]
 public record GitFastImportOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]

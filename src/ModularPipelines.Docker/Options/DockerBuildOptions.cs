@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("build")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
 {
     [BooleanCommandSwitch("--compress")]

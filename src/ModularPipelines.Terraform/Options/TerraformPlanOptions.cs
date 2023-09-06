@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("plan")]
+[ExcludeFromCodeCoverage]
 public record TerraformPlanOptions : TerraformOptions
 {
     [CommandSwitch("-out")] public string? Out { get; set; }

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("config create")]
+[ExcludeFromCodeCoverage]
 public record DockerConfigCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ConfigName) : DockerOptions
 {
     [CommandSwitch("--template-driver")]

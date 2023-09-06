@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("secret create")]
+[ExcludeFromCodeCoverage]
 public record DockerSecretCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Secret) : DockerOptions
 {
     [CommandSwitch("--driver")]

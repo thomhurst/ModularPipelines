@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "unset")]
+[ExcludeFromCodeCoverage]
 public record KubernetesConfigUnsetOptions([property: PositionalArgument] string Property_name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("test")]
+[ExcludeFromCodeCoverage]
 public record HelmTestOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]

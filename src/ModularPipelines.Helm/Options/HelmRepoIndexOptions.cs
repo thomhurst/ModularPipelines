@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("repo", "index")]
+[ExcludeFromCodeCoverage]
 public record HelmRepoIndexOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--merge", SwitchValueSeparator = " ")]

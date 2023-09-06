@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("graph")]
+[ExcludeFromCodeCoverage]
 public record TerraformGraphOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-type")] public bool? Type { get; set; }

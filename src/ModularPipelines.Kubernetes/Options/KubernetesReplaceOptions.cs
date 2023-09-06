@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("replace")]
+[ExcludeFromCodeCoverage]
 public record KubernetesReplaceOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

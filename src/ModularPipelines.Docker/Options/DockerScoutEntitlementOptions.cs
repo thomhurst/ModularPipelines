@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout entitlement")]
+[ExcludeFromCodeCoverage]
 public record DockerScoutEntitlementOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Repository) : DockerOptions
 {
     [CommandSwitch("--disable")]

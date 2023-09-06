@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("set", "resources")]
+[ExcludeFromCodeCoverage]
 public record KubernetesSetResourcesOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]

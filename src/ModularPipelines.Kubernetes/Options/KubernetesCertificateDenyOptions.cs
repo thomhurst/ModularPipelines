@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("certificate", "deny")]
+[ExcludeFromCodeCoverage]
 public record KubernetesCertificateDenyOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

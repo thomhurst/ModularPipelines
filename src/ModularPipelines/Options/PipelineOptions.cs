@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.Options;
 
+[ExcludeFromCodeCoverage]
 public record PipelineOptions
 {
     public ExecutionMode ExecutionMode { get; set; } = ExecutionMode.StopOnFirstException;

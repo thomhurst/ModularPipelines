@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("search", "repo")]
+[ExcludeFromCodeCoverage]
 public record HelmSearchRepoOptions : HelmOptions
 {
     [BooleanCommandSwitch("--devel")]

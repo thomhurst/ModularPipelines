@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack services")]
+[ExcludeFromCodeCoverage]
 public record DockerStackServicesOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
 {
     [BooleanCommandSwitch("--quiet")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin rm")]
+[ExcludeFromCodeCoverage]
 public record DockerPluginRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Plugins) : DockerOptions
 {
     [BooleanCommandSwitch("--force")]

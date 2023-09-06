@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Models;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Git;
 
+[ExcludeFromCodeCoverage]
 public class GitCommands : IGitCommands
 {
     private readonly ICommand _command;

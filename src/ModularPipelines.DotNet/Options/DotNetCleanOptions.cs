@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
 [CommandPrecedingArguments("clean")]
+[ExcludeFromCodeCoverage]
 public record DotNetCleanOptions : DotNetOptions
 {
     [CommandSwitch("-c")]

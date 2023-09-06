@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Helm.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Helm;
 
+[ExcludeFromCodeCoverage]
 internal class Helm : IHelm
 {
     private readonly ICommand _command;

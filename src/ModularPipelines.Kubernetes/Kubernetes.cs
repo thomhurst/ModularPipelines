@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Kubernetes.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Kubernetes;
 
+[ExcludeFromCodeCoverage]
 internal class Kubernetes : IKubernetes
 {
     private readonly ICommand _command;
