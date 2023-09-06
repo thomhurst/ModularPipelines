@@ -22,5 +22,5 @@ public static class HelmExtensions
         return services;
     }
 
-    public static IHelm Helm(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IHelm>();
+    public static IHelm Helm(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IHelm>();
 }

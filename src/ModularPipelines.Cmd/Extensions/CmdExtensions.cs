@@ -23,5 +23,5 @@ public static class CmdExtensions
         return services;
     }
 
-    public static ICmd Cmd(this IModuleContext context) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
+    public static ICmd Cmd(this IPipelineContext context) => (ICmd) context.ServiceProvider.GetRequiredService<ICmd>();
 }

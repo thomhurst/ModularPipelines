@@ -21,7 +21,7 @@ public class GenerateReadMeModule : Module
         _githubSettings = githubSettings;
     }
     
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;
 
@@ -70,7 +70,7 @@ public class GenerateReadMeModule : Module
         throw new Exception();
     }
 
-    private async Task PushUpdatedCommit(IModuleContext context, CancellationToken cancellationToken)
+    private async Task PushUpdatedCommit(IPipelineContext context, CancellationToken cancellationToken)
     {
         var branchTriggeringPullRequest = _githubSettings.Value.PullRequest!.Branch!;
 

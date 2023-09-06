@@ -49,7 +49,7 @@ public class SafeEstimatedTimeProviderTests
 
     private class DummyModule : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new Dictionary<string, object>();

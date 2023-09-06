@@ -24,5 +24,5 @@ public static class AzurePipelineExtensions
         return services;
     }
 
-    public static IAzurePipeline AzurePipeline(this IModuleContext context) => (IAzurePipeline) context.ServiceProvider.GetRequiredService<IAzurePipeline>();
+    public static IAzurePipeline AzurePipeline(this IPipelineContext context) => (IAzurePipeline) context.ServiceProvider.GetRequiredService<IAzurePipeline>();
 }

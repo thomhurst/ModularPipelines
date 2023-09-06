@@ -8,13 +8,13 @@ namespace ModularPipelines.Build;
 
 public class GitHelpers
 {
-    public static async Task SetUserCommitInformation(IModuleContext context, CancellationToken cancellationToken)
+    public static async Task SetUserCommitInformation(IPipelineContext context, CancellationToken cancellationToken)
     {
         await SetName(context, cancellationToken);
         await SetEmail(context, cancellationToken);
     }
 
-    public static async Task SetName(IModuleContext context, CancellationToken cancellationToken)
+    public static async Task SetName(IPipelineContext context, CancellationToken cancellationToken)
     {
         await context.Git().Commands.Config(new GitConfigOptions
         {
@@ -26,7 +26,7 @@ public class GitHelpers
         }, cancellationToken);
     }
     
-    public static async Task SetEmail(IModuleContext context, CancellationToken cancellationToken)
+    public static async Task SetEmail(IPipelineContext context, CancellationToken cancellationToken)
     {
         await context.Git().Commands.Config(new GitConfigOptions
         {
@@ -38,7 +38,7 @@ public class GitHelpers
         }, cancellationToken);
     }
 
-    public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
+    public static async Task CheckoutBranch(IPipelineContext context, string branchName, CancellationToken cancellationToken)
     {
         var options = context.Get<IOptions<GitHubSettings>>();
         
@@ -60,7 +60,7 @@ public class GitHelpers
             .Checkout(new GitCheckoutOptions(branchName), cancellationToken);
     }
 
-    public static async Task CommitAndPush(IModuleContext context, string? branchToPushTo, string message, string token,
+    public static async Task CommitAndPush(IPipelineContext context, string? branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
         await context.Git().Commands.Add(new GitAddOptions

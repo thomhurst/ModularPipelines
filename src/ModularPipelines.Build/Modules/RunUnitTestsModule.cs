@@ -13,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
-    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)

@@ -23,5 +23,5 @@ public static class TerraformExtensions
         return services;
     }
 
-    public static ITerraform Terraform(this IModuleContext context) => context.ServiceProvider.GetRequiredService<ITerraform>();
+    public static ITerraform Terraform(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<ITerraform>();
 }

@@ -8,7 +8,7 @@ public class Base64Tests : TestBase
 {
     private class ToBase64Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Base64.ToBase64String("Foo bar!");
@@ -42,7 +42,7 @@ public class Base64Tests : TestBase
 
     private class FromBase64Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Base64.FromBase64String("Rm9vIGJhciE=");

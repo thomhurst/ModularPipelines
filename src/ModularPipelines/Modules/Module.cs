@@ -220,7 +220,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override ModuleBase Initialize(IModuleContext context)
+    internal override ModuleBase Initialize(IPipelineContext context)
     {
         context.FetchLogger(GetType());
         Context = context;

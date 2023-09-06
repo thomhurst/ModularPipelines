@@ -22,5 +22,5 @@ public static class EmailExtensions
         return services;
     }
 
-    public static IEmail Email(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IEmail>();
+    public static IEmail Email(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IEmail>();
 }

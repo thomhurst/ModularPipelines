@@ -5,6 +5,6 @@ namespace ModularPipelines.Interfaces;
 
 public interface IPipelineGlobalHooks
 {
-    Task OnStartAsync(IModuleContext moduleContext);
-    Task OnEndAsync(IModuleContext moduleContext, IReadOnlyList<ModuleBase> modules);
+    Task OnStartAsync(IPipelineContext pipelineContext);
+    Task OnEndAsync(IPipelineContext pipelineContext, IReadOnlyList<ModuleBase> modules);
 }

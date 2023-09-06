@@ -34,7 +34,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             CodeActionValidationMode = CodeActionValidationMode.SemanticStructure,
             TestState =
             {
-                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
+                AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },
             },
         };
 
@@ -60,7 +60,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             ReferenceAssemblies = Net.Net70,
             TestState =
             {
-                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
+                AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },
             }
         };
 

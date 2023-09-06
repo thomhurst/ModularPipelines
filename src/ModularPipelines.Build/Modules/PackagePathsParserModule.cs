@@ -9,7 +9,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackProjectsModule>]
 public class PackagePathsParserModule : Module<List<File>>
 {
-    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var packPackagesModuleResult = await GetModule<PackProjectsModule>();
 

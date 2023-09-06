@@ -9,7 +9,7 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Version(cancellationToken: cancellationToken);
         }

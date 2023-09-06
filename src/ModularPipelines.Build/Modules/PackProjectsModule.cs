@@ -14,7 +14,7 @@ namespace ModularPipelines.Build.Modules;
  DependsOn<FindProjectDependenciesModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
 
@@ -33,7 +33,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return dependencies.Concat(others).ToArray();
     }
 
-    private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
+    private static async Task<CommandResult> Pack(IPipelineContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
     {
         return await context.DotNet().Pack(new DotNetPackOptions
         {

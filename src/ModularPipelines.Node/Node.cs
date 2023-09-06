@@ -6,11 +6,11 @@ namespace ModularPipelines.Node;
 
 internal class Node : INode
 {
-    private readonly IModuleContext _context;
+    private readonly IPipelineContext _context;
     public INpm Npm { get; }
     public INvm Nvm { get; }
 
-    public Node(INpm npm, INvm nvm, IModuleContext context)
+    public Node(INpm npm, INvm nvm, IPipelineContext context)
     {
         _context = context;
         Npm = npm;

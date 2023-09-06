@@ -45,7 +45,6 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
     }
 
-
     public async Task<ArmOperation<AppServiceDomainResource>> AppServiceDomain(AzureResourceIdentifier azureResourceIdentifier, AppServiceDomainData properties)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetAppServiceDomains()

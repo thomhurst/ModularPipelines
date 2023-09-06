@@ -12,7 +12,6 @@ public class CommandResult
     public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
     public string WorkingDirectory { get; }
 
-
     // For Dry-Run Unit Tests
     //[SetsRequiredMembersAttribute] TODO Once we upgrade past .NET 7
 #pragma warning disable CS8618

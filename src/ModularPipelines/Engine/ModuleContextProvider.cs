@@ -12,8 +12,8 @@ internal class ModuleContextProvider : IModuleContextProvider
         _serviceProvider = serviceProvider;
     }
     
-    public IModuleContext GetModuleContext()
+    public IPipelineContext GetModuleContext()
     {
-        return _serviceProvider.GetRequiredService<IModuleContext>();
+        return _serviceProvider.GetRequiredService<IPipelineContext>();
     }
 }

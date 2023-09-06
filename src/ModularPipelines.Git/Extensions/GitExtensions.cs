@@ -28,5 +28,5 @@ public static class GitExtensions
         return services;
     }
 
-    public static IGit Git(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IGit>();
+    public static IGit Git(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IGit>();
 }

@@ -10,12 +10,12 @@ public class IgnoredFailureTests : TestBase
 {
     private class IgnoredFailureModule : Module<CommandResult>
     {
-        protected override Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception)
+        protected override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
         }
 
-        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

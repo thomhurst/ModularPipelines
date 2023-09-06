@@ -8,9 +8,9 @@ namespace ModularPipelines.NuGet;
 
 internal class NuGet : INuGet
 {
-    private readonly IModuleContext _context;
+    private readonly IPipelineContext _context;
 
-    public NuGet(IModuleContext context)
+    public NuGet(IPipelineContext context)
     {
         _context = context;
     }

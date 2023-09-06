@@ -37,12 +37,10 @@
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 
-
     <ItemGroup>
       <None Update="Data\Foo.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
-
 
 </Project>

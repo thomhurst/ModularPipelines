@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules;
 [DependsOn<DependentOnSuccessModule>]
 public class DependentOn2 : Module
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Some message");
         await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);

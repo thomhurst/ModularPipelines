@@ -8,7 +8,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
-    protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
         
@@ -18,7 +18,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             .ToList();
     }
     
-    private bool GetProjectsPredicate(File file, IModuleContext context)
+    private bool GetProjectsPredicate(File file, IPipelineContext context)
     {
         var path = file.Path;
 

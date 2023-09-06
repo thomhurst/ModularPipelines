@@ -36,7 +36,7 @@ public class PipelineRequirementTests
 
     private class DummyModule : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new Dictionary<string, object>();
@@ -45,7 +45,7 @@ public class PipelineRequirementTests
     
     private class SuccessfulRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IModuleContext context)
+        public async Task<bool> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return true;
@@ -54,7 +54,7 @@ public class PipelineRequirementTests
     
     private class FailingRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IModuleContext context)
+        public async Task<bool> MustAsync(IPipelineContext context)
         {
             await Task.Yield();
             return false;

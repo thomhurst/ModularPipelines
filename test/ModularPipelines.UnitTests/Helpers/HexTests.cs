@@ -8,7 +8,7 @@ public class HexTests : TestBase
 {
     private class ToHexModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.ToHex("Foo bar!");
@@ -42,7 +42,7 @@ public class HexTests : TestBase
 
     private class FromHexModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.FromHex("466f6f2062617221");

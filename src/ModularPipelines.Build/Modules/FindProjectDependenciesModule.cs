@@ -12,7 +12,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 {
     public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
 
-    protected override async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ProjectDependencies?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var projects = await GetModule<FindProjectsModule>();
 
@@ -42,7 +42,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
         return projectDependencies;
     }
 
-    private static void LogProjects(IModuleContext context, ProjectDependencies projectDependencies)
+    private static void LogProjects(IPipelineContext context, ProjectDependencies projectDependencies)
     {
         foreach (var project in projectDependencies.Dependencies)
         {

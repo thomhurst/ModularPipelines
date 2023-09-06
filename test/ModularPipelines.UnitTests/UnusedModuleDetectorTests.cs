@@ -64,7 +64,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 
     private class Module1 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -73,7 +73,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 
     private class Module2 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -82,7 +82,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 
     private class Module3 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -91,7 +91,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 
     private class Module4 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -100,7 +100,7 @@ ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 
     private class Module5 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

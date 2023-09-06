@@ -8,7 +8,7 @@ namespace ModularPipelines.Modules;
 
 public abstract class ModuleBase
 {
-    protected internal IModuleContext Context = null!; // Late Initialisation
+    protected internal IPipelineContext Context = null!; // Late Initialisation
     
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
@@ -49,14 +49,14 @@ public abstract class ModuleBase
     /// <param name="context"></param>
     /// <param name="exception"></param>
     /// <returns></returns>
-    protected virtual Task<bool> ShouldIgnoreFailures(IModuleContext context, Exception exception) => Task.FromResult(false);
+    protected virtual Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception) => Task.FromResult(false);
 
     /// <summary>
     /// If true, this module will not run.
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    protected virtual Task<bool> ShouldSkip(IModuleContext context) => Task.FromResult(false);
+    protected virtual Task<bool> ShouldSkip(IPipelineContext context) => Task.FromResult(false);
 
     /// <summary>
     /// If this module is skipped, and this returns true, the result of this module will be reconstructed from the plugged in <see cref="IModuleResultRepository"/>.
@@ -64,13 +64,13 @@ public abstract class ModuleBase
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    protected virtual Task<bool> UseResultFromHistoryIfSkipped(IModuleContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
+    protected virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
 
     internal abstract Task StartAsync();
     internal abstract void SetSkipped();
-    internal abstract ModuleBase Initialize(IModuleContext context);
+    internal abstract ModuleBase Initialize(IPipelineContext context);
 
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
@@ -130,5 +130,5 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    protected abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+    protected abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);
 }

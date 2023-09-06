@@ -9,7 +9,7 @@ public class ModuleReferencingSelfTests : TestBase
 {
     private class ModuleReferencingSelf : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await GetModule<ModuleReferencingSelf>();
             return null;

@@ -45,7 +45,7 @@ internal static class DependencyInjectionSetup
             .AddHttpMessageHandler<LoggingHttpHandler>();
         
         // Transient
-        services.AddTransient<IModuleContext, ModuleContext>()
+        services.AddTransient<IPipelineContext, PipelineContext>()
             .AddTransient<IConsolePrinter, ConsolePrinter>()
             .AddTransient<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddTransient<IHttp, Http.Http>()
