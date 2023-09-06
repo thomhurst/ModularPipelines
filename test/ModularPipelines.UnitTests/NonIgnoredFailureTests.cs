@@ -11,7 +11,7 @@ public class NonIgnoredFailureTests : TestBase
 {
     private class NonIgnoredFailureModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

@@ -24,7 +24,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
         return Task.FromResult(string.IsNullOrEmpty(_options.Value.ApiKey));
     }
     
-    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml")) ?? throw new FileNotFoundException("coverage.cobertura.xml");
         

@@ -22,7 +22,7 @@ public class OneWayDependenciesNonCollisionTests
     [DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -32,7 +32,7 @@ public class OneWayDependenciesNonCollisionTests
     [DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -42,7 +42,7 @@ public class OneWayDependenciesNonCollisionTests
     [DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -52,7 +52,7 @@ public class OneWayDependenciesNonCollisionTests
     [DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -61,7 +61,7 @@ public class OneWayDependenciesNonCollisionTests
 
     private class DependencyConflictModule5 : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

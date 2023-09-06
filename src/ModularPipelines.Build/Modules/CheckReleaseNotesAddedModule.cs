@@ -35,7 +35,7 @@ public class CheckReleaseNotesAddedModule : Module
         return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
     }
 
-    protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
         

@@ -29,20 +29,20 @@ public class TimedDependencyTests
 
     private class FiveSecondModule : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return ModuleResult.Empty<IDictionary<string, object>>();
+            return new Dictionary<string, object>();
         }
     }
 
     [DependsOn<FiveSecondModule>]
     private class OneSecondModuleDependentOnFiveSecondModule : Module
     {
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            return ModuleResult.Empty<IDictionary<string, object>>();
+            return new Dictionary<string, object>();
         }
     }
 }

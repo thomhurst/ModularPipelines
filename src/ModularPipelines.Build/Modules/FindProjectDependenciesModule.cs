@@ -12,7 +12,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 {
     public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
 
-    protected override async Task<ModuleResult<ProjectDependencies>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var projects = await GetModule<FindProjectsModule>();
 

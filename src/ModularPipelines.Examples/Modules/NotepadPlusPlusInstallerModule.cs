@@ -7,7 +7,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class NotepadPlusPlusInstallerModule : Module<CommandResult>
 {
-    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Installer.FileInstaller
             .InstallFromWebAsync(new WebInstallerOptions(new Uri(

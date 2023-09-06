@@ -1,22 +1,36 @@
+using ModularPipelines.Modules;
+
 namespace ModularPipelines.Models;
 
-public class ModuleResult<T> : ModuleResult
+public class ModuleResult<T>
 {
-    public ModuleResult(T? value)
+    private readonly T? _value;
+
+    public string ModuleName { get; private set; }
+    
+    public TimeSpan ModuleDuration { get; private set; }
+    public DateTimeOffset ModuleStart { get; private set; }
+    public DateTimeOffset ModuleEnd { get; private set; }
+    
+    private ModuleResult(ModuleBase module)
+    {
+        ModuleName = module.GetType().Name;
+        ModuleDuration = module.Duration;
+        ModuleStart = module.StartTime;
+        ModuleEnd = module.EndTime;
+    }
+    
+    internal ModuleResult(T? value, ModuleBase module) : this(module)
     {
         _value = value;
         ModuleResultType = ModuleResultType.SuccessfulResult;
     }
 
-    public ModuleResult(Exception exception)
+    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
     {
         Exception = exception;
         ModuleResultType = ModuleResultType.Failure;
     }
-
-    private readonly T? _value;
-
-    internal string? ModuleName { get; set; }
 
     public T? Value
     {
@@ -41,22 +55,7 @@ public class ModuleResult<T> : ModuleResult
         return ModuleName ?? "This module";
     }
 
-    public Exception? Exception { get; }
-
-    public static implicit operator ModuleResult<T>(T t) => From(t);
-    public static implicit operator ModuleResult<T>(Exception exception) => FromException<T>(exception);
-}
-
-public class ModuleResult
-{
-    public static ModuleResult<T> Empty<T>() => new(default(T));
+    public Exception? Exception { get; private set; }
     
-    public static ModuleResult<T> From<T>(T t)
-    {
-        return EqualityComparer<T>.Default.Equals(t, default) ? Empty<T>() : new ModuleResult<T>(t);
-    }
-
-    public static ModuleResult<T> FromException<T>(Exception exception) => new(exception);
-
     public ModuleResultType ModuleResultType { get; private protected set; }
 }

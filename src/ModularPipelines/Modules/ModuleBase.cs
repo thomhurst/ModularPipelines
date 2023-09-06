@@ -101,7 +101,8 @@ public abstract class ModuleBase
 
 public abstract class ModuleBase<T> : ModuleBase
 {
-    internal readonly TaskCompletionSource<ModuleResult<T>> TaskCompletionSource = new();
+    internal readonly TaskCompletionSource<T> RawResultTaskCompletionSource = new();
+    internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
     /// <summary>
     /// The awaiter used to return the result of the module when awaited
@@ -109,16 +110,19 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <returns></returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
-        return TaskCompletionSource.Task.GetAwaiter();
+        return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
 
-    internal override Task<object> ResultTaskInternal => TaskCompletionSource.Task.ContinueWith(t => (object) t.Result);
+    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object) t.Result);
 
     /// <summary>
     /// Used to return no result in a module
     /// </summary>
     /// <returns></returns>
-    protected Task<ModuleResult<T>?> NothingAsync() => Task.FromResult(ModuleResult.Empty<T>())!;
+    protected Task<T?> NothingAsync()
+    {
+        return Task.FromResult(default(T?));
+    }
 
     /// <summary>
     /// The core logic of the module goes here
@@ -126,5 +130,5 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    protected abstract Task<ModuleResult<T>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+    protected abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
 }

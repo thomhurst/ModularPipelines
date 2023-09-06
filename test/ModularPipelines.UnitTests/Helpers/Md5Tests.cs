@@ -8,7 +8,7 @@ public class Md5Tests : TestBase
 {
     private class ToMd5Module : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Md5("Foo bar!");

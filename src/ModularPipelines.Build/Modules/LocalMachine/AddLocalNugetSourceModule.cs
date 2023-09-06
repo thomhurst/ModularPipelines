@@ -17,7 +17,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
                                commandException.CommandResult.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
     }
 
-    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
 
