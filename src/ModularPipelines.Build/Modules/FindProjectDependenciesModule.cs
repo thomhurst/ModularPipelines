@@ -33,7 +33,6 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
                     dependencies.Add(project);
                 }
             }
-            
         }
 
         var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.Value!.Except(dependencies).Distinct().ToList());
