@@ -5,10 +5,10 @@ using ModularPipelines.Context;
 namespace ModularPipelines.Requirements;
 
 [ExcludeFromCodeCoverage]
-public class WindowsRequirement : IPipelineRequirement
+public class LinuxRequirement : IPipelineRequirement
 {
     public Task<bool> MustAsync(IModuleContext context)
     {
-        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.Windows);
+        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.OSX);
     }
 }
