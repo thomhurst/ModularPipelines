@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -58,49 +57,5 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         context.Logger.LogInformation("Found File: {File}", path);
 
         return true;
-    }
-}
-
-[DependsOn<FindProjectsModule>]
-public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
-{
-    public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
-
-    protected override async Task<ModuleResult<ProjectDependencies>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        var projects = await GetModule<FindProjectsModule>();
-
-        var dependencies = new List<File>();
-        var others = new List<File>();
-        
-        foreach (var file in projects.Value ?? ArraySegment<File>.Empty)
-        {
-            var contents = await file.ReadLinesAsync();
-            var isDependency = true;
-            foreach (var projectReferenceLine in contents.Where(x => x.Contains("<ProjectReference")))
-            {
-                isDependency = false;
-
-                var name = projectReferenceLine.Split('\\').Last().Split('"').First();
-
-                var project = projects.Value!.FirstOrDefault(x => x.Name == name);
-
-                if (project != null)
-                {
-                    dependencies.Add(project);
-                }
-            }
-
-            if (isDependency)
-            {
-                dependencies.Add(file);
-            }
-            else
-            {
-                others.Add(file);
-            }
-        }
-
-        return new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: others.Except(dependencies).Distinct().ToList());
     }
 }
