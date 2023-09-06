@@ -7,11 +7,11 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 {
     private readonly IEnumerable<IPipelineGlobalHooks> _globalHooks;
     private readonly IEnumerable<IPipelineModuleHooks> _moduleHooks;
-    private readonly IModuleContextProvider _moduleContextProvider;
+    private readonly IPipelineContextProvider _moduleContextProvider;
 
     public PipelineSetupExecutor(IEnumerable<IPipelineGlobalHooks> globalHooks,
         IEnumerable<IPipelineModuleHooks> moduleHooks,
-        IModuleContextProvider moduleContextProvider)
+        IPipelineContextProvider moduleContextProvider)
     {
         _globalHooks = globalHooks;
         _moduleHooks = moduleHooks;

@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Engine;
 
-internal interface IModuleContextProvider
+internal interface IPipelineContextProvider
 {
     public IPipelineContext GetModuleContext();
 }
