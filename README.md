@@ -30,6 +30,7 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 | ModularPipelines.Slack | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Slack.svg)](https://www.nuget.org/packages/ModularPipelines.Slack/) |
 | ModularPipelines.Terraform | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 
+
 ## Getting Started
 
 If you want to see how to get started, or want to know more about ModularPipelines, [read the Wiki page here](https://github.com/thomhurst/ModularPipelines/wiki)
@@ -60,7 +61,7 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    protected override async Task<ModuleResult<List<File>>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<List<File>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 
@@ -83,7 +84,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
