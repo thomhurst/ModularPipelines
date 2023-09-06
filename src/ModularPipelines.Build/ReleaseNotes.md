@@ -1,0 +1,1 @@
+-   Move Slack project to src directory
