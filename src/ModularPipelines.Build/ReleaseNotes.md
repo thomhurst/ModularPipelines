@@ -1,1 +1,3 @@
 -   Exclude Options Classes from Code Coverage
+-   File ReadAllLines Helper
+-   File WriteAllLines Helper
