@@ -17,16 +17,13 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
         var projects = await GetModule<FindProjectsModule>();
 
         var dependencies = new List<File>();
-        var others = new List<File>();
         
-        foreach (var file in projects.Value ?? ArraySegment<File>.Empty)
+        foreach (var file in projects.Value!)
         {
             var contents = await file.ReadLinesAsync();
-            var isDependency = true;
+           
             foreach (var projectReferenceLine in contents.Where(x => x.Contains("<ProjectReference")))
             {
-                isDependency = false;
-
                 var name = projectReferenceLine.Split('\\').Last().Split('"').First();
 
                 var project = projects.Value!.FirstOrDefault(x => x.Name == name);
@@ -36,29 +33,26 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
                     dependencies.Add(project);
                 }
             }
-
-            if (isDependency)
-            {
-                dependencies.Add(file);
-            }
-            else
-            {
-                others.Add(file);
-            }
+            
         }
 
-        var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: others.Except(dependencies).Distinct().ToList());
+        var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.Value!.Except(dependencies).Distinct().ToList());
         
+        LogProjects(context, projectDependencies);
+
+        return projectDependencies;
+    }
+
+    private static void LogProjects(IModuleContext context, ProjectDependencies projectDependencies)
+    {
         foreach (var project in projectDependencies.Dependencies)
         {
             context.Logger.LogInformation("Project {Project} is a Dependency of other projects", project);
         }
-        
+
         foreach (var project in projectDependencies.Others)
         {
             context.Logger.LogInformation("Project {Project} is a NOT Dependency of other projects", project);
         }
-        
-        return projectDependencies;
     }
 }
