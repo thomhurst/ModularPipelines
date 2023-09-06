@@ -52,8 +52,10 @@ public class ModuleResult<T>
 
     private string GetModuleName()
     {
-        return ModuleName ?? "This module";
+        return ModuleName;
     }
+
+    public bool HasValue => _value != null;
 
     public Exception? Exception { get; private set; }
     
