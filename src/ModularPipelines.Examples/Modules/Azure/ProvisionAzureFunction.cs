@@ -16,7 +16,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionBlobStorageContainerModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
-    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
 

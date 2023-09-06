@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleContextProvider : IModuleContextProvider
+internal class ModuleContextProvider : IPipelineContextProvider
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -12,8 +12,8 @@ internal class ModuleContextProvider : IModuleContextProvider
         _serviceProvider = serviceProvider;
     }
     
-    public IModuleContext GetModuleContext()
+    public IPipelineContext GetModuleContext()
     {
-        return _serviceProvider.GetRequiredService<IModuleContext>();
+        return _serviceProvider.GetRequiredService<IPipelineContext>();
     }
 }

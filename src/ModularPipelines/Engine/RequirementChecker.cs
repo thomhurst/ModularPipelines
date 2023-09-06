@@ -6,10 +6,10 @@ namespace ModularPipelines.Engine;
 
 internal class RequirementChecker : IRequirementChecker
 {
-    private readonly IModuleContextProvider _moduleContextProvider;
+    private readonly IPipelineContextProvider _moduleContextProvider;
     private readonly List<IPipelineRequirement> _requirements;
 
-    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IModuleContextProvider moduleContextProvider)
+    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IPipelineContextProvider moduleContextProvider)
     {
         _moduleContextProvider = moduleContextProvider;
         _requirements = requirements.ToList();

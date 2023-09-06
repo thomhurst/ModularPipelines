@@ -4,9 +4,9 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleInitializer : IModuleInitializer
 {
-    private readonly IModuleContextProvider _moduleContextProvider;
+    private readonly IPipelineContextProvider _moduleContextProvider;
 
-    public ModuleInitializer(IModuleContextProvider moduleContextProvider)
+    public ModuleInitializer(IPipelineContextProvider moduleContextProvider)
     {
         _moduleContextProvider = moduleContextProvider;
     }

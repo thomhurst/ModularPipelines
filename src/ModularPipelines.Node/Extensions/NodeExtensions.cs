@@ -24,5 +24,5 @@ public static class NodeExtensions
         return services;
     }
 
-    public static INode Node(this IModuleContext context) => context.ServiceProvider.GetRequiredService<INode>();
+    public static INode Node(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<INode>();
 }

@@ -51,5 +51,5 @@ public static class AzureExtensions
         return services.AddSingleton(new ArmClient(tokenCredential));
     }
 
-    public static IAzure Azure(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IAzure>();
+    public static IAzure Azure(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IAzure>();
 }

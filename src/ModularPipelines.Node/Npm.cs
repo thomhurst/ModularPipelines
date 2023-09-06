@@ -6,9 +6,9 @@ namespace ModularPipelines.Node;
 
 internal class Npm : INpm
 {
-    private readonly IModuleContext _context;
+    private readonly IPipelineContext _context;
 
-    public Npm(IModuleContext context)
+    public Npm(IPipelineContext context)
     {
         _context = context;
     }

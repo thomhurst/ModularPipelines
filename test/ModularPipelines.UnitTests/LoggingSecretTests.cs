@@ -25,7 +25,7 @@ public class LoggingSecretTests
             _options = options;
         }
 
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("My Secret Value is: {SecretValue}", _options.Value.Secret1);
             await Task.CompletedTask;

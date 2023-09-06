@@ -6,7 +6,7 @@ namespace ModularPipelines.Examples;
 
 public class WindowsRequirement : IPipelineRequirement
 {
-    public async Task<bool> MustAsync(IModuleContext context)
+    public async Task<bool> MustAsync(IPipelineContext context)
     {
         await Task.Yield();
         return context.Environment.OperatingSystem == OSPlatform.Windows;

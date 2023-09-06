@@ -8,7 +8,7 @@ public class Sha384Tests : TestBase
 {
     private class ToSha384Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha384("Foo bar!");

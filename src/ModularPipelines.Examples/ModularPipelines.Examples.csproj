@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+      <ProjectReference Include="..\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
       <ProjectReference Include="..\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
       <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
@@ -24,6 +24,5 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
-
 
 </Project>

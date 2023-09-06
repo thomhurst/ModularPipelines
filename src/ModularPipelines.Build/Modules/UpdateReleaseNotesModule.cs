@@ -26,7 +26,7 @@ public class UpdateReleaseNotesModule : Module
         _publishSettings = publishSettings;
     }
 
-    protected override async Task<bool> ShouldSkip(IModuleContext context)
+    protected override async Task<bool> ShouldSkip(IPipelineContext context)
     {
         if (!_publishSettings.Value.ShouldPublish)
         {
@@ -43,7 +43,7 @@ public class UpdateReleaseNotesModule : Module
             || string.IsNullOrWhiteSpace(await releaseNotesFile.ReadAsync());
     }
 
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 
@@ -63,7 +63,7 @@ public class UpdateReleaseNotesModule : Module
         return await NothingAsync();
     }
 
-    private async Task ResetReleaseNotesFile(File releaseNotesFile, IModuleContext context,
+    private async Task ResetReleaseNotesFile(File releaseNotesFile, IPipelineContext context,
         CancellationToken cancellationToken)
     {
         await releaseNotesFile.WriteAsync(string.Empty);

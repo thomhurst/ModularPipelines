@@ -19,12 +19,12 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
         _options = options;
     }
 
-    protected override Task<bool> ShouldSkip(IModuleContext context)
+    protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
         return Task.FromResult(string.IsNullOrEmpty(_options.Value.ApiKey));
     }
     
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml")) ?? throw new FileNotFoundException("coverage.cobertura.xml");
         

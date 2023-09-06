@@ -110,7 +110,6 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         return type;
     }
 
-
     public void Dispose()
     {
         _serviceScope.Dispose();

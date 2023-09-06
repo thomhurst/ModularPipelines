@@ -18,7 +18,6 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     {
         var path = Path.Combine(_directory, fileName);
 
-
         if (File.Exists(path))
         {
             var contents = await File.ReadAllTextAsync(path);

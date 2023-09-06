@@ -12,7 +12,6 @@ public class FileCollection : IEnumerable<File>
         _enumerableImplementation = enumerableImplementation;
     }
 
-
     public IEnumerator<File> GetEnumerator()
     {
         return _enumerableImplementation.GetEnumerator();

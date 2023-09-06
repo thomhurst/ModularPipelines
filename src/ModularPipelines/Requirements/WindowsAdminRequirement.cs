@@ -9,7 +9,7 @@ namespace ModularPipelines.Requirements;
 [ExcludeFromCodeCoverage]
 public class WindowsAdminRequirement : IPipelineRequirement
 {
-    public Task<bool> MustAsync(IModuleContext context)
+    public Task<bool> MustAsync(IPipelineContext context)
     {
         if (context.Environment.OperatingSystem == OSPlatform.Windows)
         {

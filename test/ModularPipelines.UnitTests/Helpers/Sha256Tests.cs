@@ -8,7 +8,7 @@ public class Sha256Tests : TestBase
 {
     private class ToSha256Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha256("Foo bar!");

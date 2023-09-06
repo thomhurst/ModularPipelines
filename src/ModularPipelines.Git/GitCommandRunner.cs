@@ -6,9 +6,9 @@ namespace ModularPipelines.Git;
 
 internal class GitCommandRunner
 {
-    private readonly IModuleContext _context;
+    private readonly IPipelineContext _context;
 
-    public GitCommandRunner(IModuleContext context)
+    public GitCommandRunner(IPipelineContext context)
     {
         _context = context;
     }

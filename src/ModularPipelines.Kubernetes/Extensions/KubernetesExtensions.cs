@@ -22,5 +22,5 @@ public static class KubernetesExtensions
         return services;
     }
 
-    public static IKubernetes Kubernetes(this IModuleContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
+    public static IKubernetes Kubernetes(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
 }

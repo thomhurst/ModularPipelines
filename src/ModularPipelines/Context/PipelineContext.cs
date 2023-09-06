@@ -12,7 +12,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class ModuleContext : IModuleContext
+internal class PipelineContext : IPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private ILogger? _logger;
@@ -57,7 +57,7 @@ internal class ModuleContext : IModuleContext
 
     public IFileSystemContext FileSystem { get; }
 
-    public ModuleContext(IServiceScopeFactory serviceScopeFactory,
+    public PipelineContext(IServiceScopeFactory serviceScopeFactory,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IEnvironmentContext environment,
         IFileSystemContext fileSystem,

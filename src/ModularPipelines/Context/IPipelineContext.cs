@@ -9,7 +9,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-public interface IModuleContext
+public interface IPipelineContext
 {
     internal EngineCancellationToken EngineCancellationToken { get; }
     internal TModule? GetModule<TModule>() where TModule : ModuleBase;

@@ -19,7 +19,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         _githubSettings = githubSettings;
     }
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (!context.Git().Information.BranchName!.Contains("pull"))
         {

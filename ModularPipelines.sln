@@ -58,7 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0085C0A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{AE2C777C-3082-4BA1-A6BD-B1C628A3C9A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{467FCE3D-2261-486A-ACD8-5D804C92DA01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "src\ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{467FCE3D-2261-486A-ACD8-5D804C92DA01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
