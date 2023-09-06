@@ -11,20 +11,26 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackageFilesRemovalModule>, 
  DependsOn<CodeFormattedNicelyModule>, 
- DependsOn<FindProjectsModule>,
- DependsOn<BuildProjectsModule>]
+ DependsOn<FindProjectDependenciesModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
     protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await GetModule<NugetVersionGeneratorModule>();
 
-        var projectFiles = await GetModule<FindProjectsModule>();
+        var projectFiles = await GetModule<FindProjectDependenciesModule>();
         
-        return await projectFiles.Value!
+        var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
+        
+        var others = await projectFiles.Value!.Others
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
+            .ProcessInParallel();
+        
+        return dependencies.Concat(others).ToArray();
     }
 
     private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
@@ -32,6 +38,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return await context.DotNet().Pack(new DotNetPackOptions
         {
             TargetPath = projectFile.Path,
+            Configuration = Configuration.Release,
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             Properties = new List<string>
             {

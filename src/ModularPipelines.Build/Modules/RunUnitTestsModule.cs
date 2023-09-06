@@ -10,8 +10,7 @@ using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<CodeFormattedNicelyModule>,
-DependsOn<BuildProjectsModule>]
+[DependsOn<CodeFormattedNicelyModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
     protected override async Task<ModuleResult<DotNetTestResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
