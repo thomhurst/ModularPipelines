@@ -22,14 +22,12 @@ public class PackProjectsModule : Module<CommandResult[]>
         
         var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => 
-                await Pack(context, cancellationToken, projectFile, packageVersion))
+            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
         
         var others = await projectFiles.Value!.Others
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => 
-                await Pack(context, cancellationToken, projectFile, packageVersion))
+            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessInParallel();
         
         return dependencies.Concat(others).ToArray();
