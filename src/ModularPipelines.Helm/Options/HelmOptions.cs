@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Helm.Options;
 
+[ExcludeFromCodeCoverage]
 public record HelmOptions() : CommandLineToolOptions("helm")
 {
     [CommandEqualsSeparatorSwitch("--burst-limit")]

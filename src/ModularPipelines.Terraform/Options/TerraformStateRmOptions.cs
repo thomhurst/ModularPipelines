@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state rm")]
+[ExcludeFromCodeCoverage]
 public record TerraformStateRmOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     IEnumerable<string> Address) : TerraformOptions
 {

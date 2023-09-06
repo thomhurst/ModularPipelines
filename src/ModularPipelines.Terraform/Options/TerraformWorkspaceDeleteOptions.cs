@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("workspace delete")]
+[ExcludeFromCodeCoverage]
 public record TerraformWorkspaceDeleteOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Name) : TerraformOptions
 {

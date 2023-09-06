@@ -1,7 +1,9 @@
-﻿using System.Net;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
 
 namespace ModularPipelines.Email.Options;
 
+[ExcludeFromCodeCoverage]
 public record EmailSendOptions(
     string From,
     IEnumerable<string> To,

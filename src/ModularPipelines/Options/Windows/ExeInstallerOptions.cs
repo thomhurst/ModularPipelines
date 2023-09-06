@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options.Windows;
 
+[ExcludeFromCodeCoverage]
 public record ExeInstallerOptions(string ExePath) : CommandLineToolOptions(ExePath)
 {
     [BooleanCommandSwitch("/exenoui")]

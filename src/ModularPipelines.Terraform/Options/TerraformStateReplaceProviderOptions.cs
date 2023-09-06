@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state replace-provider")]
+[ExcludeFromCodeCoverage]
 public record TerraformStateReplaceProviderOptions(
     [property: PositionalArgument(Position = Position.AfterArguments)]
     string Fromproviderfqn, [property: PositionalArgument(Position = Position.AfterArguments)]

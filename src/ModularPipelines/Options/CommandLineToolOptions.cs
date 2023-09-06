@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines.Options;
 
 /// <summary>
 /// Options for setting the context of a command, the command line tool, and any arguments it needs
 /// </summary>
-[ExcludeFromCodeCoverage]
 public record CommandLineToolOptions(string Tool) : CommandLineOptions
 {
     /// <summary>
