@@ -61,7 +61,7 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    protected override async Task<ModuleResult<List<File>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 
@@ -84,7 +84,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
