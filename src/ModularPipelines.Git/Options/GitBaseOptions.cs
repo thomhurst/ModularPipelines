@@ -1,7 +1,9 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
+[ExcludeFromCodeCoverage]
 public record GitBaseOptions : GitOptions
 {
     [BooleanCommandSwitch("--version")] public bool? Version { get; set; }

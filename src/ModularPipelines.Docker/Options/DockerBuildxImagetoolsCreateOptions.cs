@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx imagetools create")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

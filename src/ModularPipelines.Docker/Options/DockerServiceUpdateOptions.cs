@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service update")]
+[ExcludeFromCodeCoverage]
 public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
 {
     [CommandSwitch("--args")]

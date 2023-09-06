@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "serviceaccount")]
+[ExcludeFromCodeCoverage]
 public record KubernetesCreateServiceAccountOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

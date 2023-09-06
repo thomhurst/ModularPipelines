@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("get")]
+[ExcludeFromCodeCoverage]
 public record KubernetesGetOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]

@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
@@ -6,6 +7,7 @@ using ModularPipelines.Extensions;
 
 namespace ModularPipelines.DotNet;
 
+[ExcludeFromCodeCoverage]
 internal class DotNet : IDotNet
 {
     private readonly ICommand _command;

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("taint")]
+[ExcludeFromCodeCoverage]
 public record KubernetesTaintOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]

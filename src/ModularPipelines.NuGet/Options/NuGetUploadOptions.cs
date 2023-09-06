@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.NuGet.Options;
 
 [CommandPrecedingArguments("nuget", "push")]
+[ExcludeFromCodeCoverage]
 public record NuGetUploadOptions
 (
     IEnumerable<string> PackagePaths,

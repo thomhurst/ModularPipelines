@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("swarm join")]
+[ExcludeFromCodeCoverage]
 public record DockerSwarmJoinOptions([property: PositionalArgument(Position = Position.AfterArguments)] string HostPort) : DockerOptions
 {
     [CommandSwitch("--advertise-addr")]

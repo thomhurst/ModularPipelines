@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image history")]
+[ExcludeFromCodeCoverage]
 public record DockerImageHistoryOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
     [CommandSwitch("--format")]

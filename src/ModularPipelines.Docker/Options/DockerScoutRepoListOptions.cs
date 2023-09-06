@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout repo list")]
+[ExcludeFromCodeCoverage]
 public record DockerScoutRepoListOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Org) : DockerOptions
 {
     [CommandSwitch("--filter")]

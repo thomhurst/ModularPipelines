@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("show", "all")]
+[ExcludeFromCodeCoverage]
 public record HelmShowAllOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]

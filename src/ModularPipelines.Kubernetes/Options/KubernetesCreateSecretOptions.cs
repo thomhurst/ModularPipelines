@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "secret")]
+[ExcludeFromCodeCoverage]
 public record KubernetesCreateSecretOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

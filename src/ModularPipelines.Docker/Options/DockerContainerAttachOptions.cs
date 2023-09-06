@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container attach")]
+[ExcludeFromCodeCoverage]
 public record DockerContainerAttachOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
     [CommandSwitch("--detach-keys")]

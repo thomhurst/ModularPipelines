@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network inspect")]
+[ExcludeFromCodeCoverage]
 public record DockerNetworkInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Networks) : DockerOptions
 {
     [CommandSwitch("--format")]

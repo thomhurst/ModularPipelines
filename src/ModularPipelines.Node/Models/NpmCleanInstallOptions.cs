@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
 [CommandPrecedingArguments("ci")]
+[ExcludeFromCodeCoverage]
 public record NpmCleanInstallOptions([property: PositionalArgument] string Target) : NpmOptions
 {
     [CommandEqualsSeparatorSwitch("--install-strategy")]

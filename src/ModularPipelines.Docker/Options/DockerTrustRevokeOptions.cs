@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("trust revoke")]
+[ExcludeFromCodeCoverage]
 public record DockerTrustRevokeOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

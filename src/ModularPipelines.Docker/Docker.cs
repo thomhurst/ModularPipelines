@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker;
 
+[ExcludeFromCodeCoverage]
 internal class Docker : IDocker
 {
     private readonly ICommand _command;

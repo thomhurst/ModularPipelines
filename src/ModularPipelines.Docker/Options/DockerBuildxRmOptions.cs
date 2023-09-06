@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx rm")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildxRmOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

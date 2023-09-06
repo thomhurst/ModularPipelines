@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("context update")]
+[ExcludeFromCodeCoverage]
 public record DockerContextUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Context) : DockerOptions
 {
     [CommandSwitch("--description")]

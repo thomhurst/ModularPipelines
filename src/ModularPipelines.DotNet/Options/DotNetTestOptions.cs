@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
 [CommandPrecedingArguments("test")]
+[ExcludeFromCodeCoverage]
 public record DotNetTestOptions : DotNetOptions
 {
     [BooleanCommandSwitch("--blame")]

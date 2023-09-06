@@ -1,0 +1,1 @@
+-   Exclude Options Classes from Code Coverage

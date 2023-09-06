@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image load")]
+[ExcludeFromCodeCoverage]
 public record DockerImageLoadOptions : DockerOptions
 {
     [CommandSwitch("--input")]

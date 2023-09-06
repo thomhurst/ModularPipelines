@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx use")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildxUseOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name) : DockerOptions
 {
     [CommandSwitch("--default")]

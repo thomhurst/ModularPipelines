@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("version")]
+[ExcludeFromCodeCoverage]
 public record HelmVersionOptions : HelmOptions
 {
     [BooleanCommandSwitch("--short")]

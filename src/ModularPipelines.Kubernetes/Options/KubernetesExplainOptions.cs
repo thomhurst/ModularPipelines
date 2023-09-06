@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("explain")]
+[ExcludeFromCodeCoverage]
 public record KubernetesExplainOptions([property: PositionalArgument] string Resource) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--api-version", SwitchValueSeparator = " ")]

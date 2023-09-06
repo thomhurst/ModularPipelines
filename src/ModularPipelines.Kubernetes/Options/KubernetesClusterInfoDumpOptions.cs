@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("cluster-info", "dump")]
+[ExcludeFromCodeCoverage]
 public record KubernetesClusterInfoDumpOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]

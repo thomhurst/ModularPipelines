@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service inspect")]
+[ExcludeFromCodeCoverage]
 public record DockerServiceInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Service) : DockerOptions
 {
     [CommandSwitch("--format")]

@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image build")]
+[ExcludeFromCodeCoverage]
 public record DockerImageBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
 {
     [CommandSwitch("--add-host")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("apply", "set-last-applied")]
+[ExcludeFromCodeCoverage]
 public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]

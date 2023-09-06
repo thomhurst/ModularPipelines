@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx build")]
+[ExcludeFromCodeCoverage]
 public record DockerBuildxBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
 {
     [BooleanCommandSwitch("--detach")]

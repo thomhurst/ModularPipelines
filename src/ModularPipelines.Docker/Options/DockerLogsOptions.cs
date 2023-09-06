@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("logs")]
+[ExcludeFromCodeCoverage]
 public record DockerLogsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
     [BooleanCommandSwitch("--details")]

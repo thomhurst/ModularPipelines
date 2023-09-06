@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("attach")]
+[ExcludeFromCodeCoverage]
 public record DockerAttachOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
 {
     [CommandSwitch("--no-stdin")]

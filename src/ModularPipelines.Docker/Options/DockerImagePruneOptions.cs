@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image prune")]
+[ExcludeFromCodeCoverage]
 public record DockerImagePruneOptions : DockerOptions
 {
     [BooleanCommandSwitch("--all")]

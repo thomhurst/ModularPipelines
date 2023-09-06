@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("volume prune")]
+[ExcludeFromCodeCoverage]
 public record DockerVolumePruneOptions : DockerOptions
 {
     [BooleanCommandSwitch("--force")]

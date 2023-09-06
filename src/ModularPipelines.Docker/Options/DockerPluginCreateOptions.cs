@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin create")]
+[ExcludeFromCodeCoverage]
 public record DockerPluginCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin, [property: PositionalArgument(Position = Position.AfterArguments)] string PluginDataDirectory) : DockerOptions
 {
     [BooleanCommandSwitch("--compress")]

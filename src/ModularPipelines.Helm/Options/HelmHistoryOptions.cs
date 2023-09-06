@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
 [CommandPrecedingArguments("history")]
+[ExcludeFromCodeCoverage]
 public record HelmHistoryOptions : HelmOptions
 {
     [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]

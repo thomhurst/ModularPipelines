@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("swarm init")]
+[ExcludeFromCodeCoverage]
 public record DockerSwarmInitOptions : DockerOptions
 {
     [CommandSwitch("--advertise-addr")]

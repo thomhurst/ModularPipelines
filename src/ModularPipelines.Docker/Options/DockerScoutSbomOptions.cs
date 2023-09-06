@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout sbom")]
+[ExcludeFromCodeCoverage]
 public record DockerScoutSbomOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

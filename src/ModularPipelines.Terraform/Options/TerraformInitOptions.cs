@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("init")]
+[ExcludeFromCodeCoverage]
 public record TerraformInitOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-input")] public bool? Input { get; set; }

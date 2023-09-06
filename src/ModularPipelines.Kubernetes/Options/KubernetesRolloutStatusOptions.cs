@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("rollout", "status")]
+[ExcludeFromCodeCoverage]
 public record KubernetesRolloutStatusOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]

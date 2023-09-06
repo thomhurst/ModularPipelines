@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
 [CommandPrecedingArguments("restore")]
+[ExcludeFromCodeCoverage]
 public record DotNetRestoreOptions : DotNetOptions
 {
     [CommandSwitch("-c")]

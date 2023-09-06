@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("top")]
+[ExcludeFromCodeCoverage]
 public record KubernetesTopOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--no-headers")]

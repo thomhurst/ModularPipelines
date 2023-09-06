@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container prune")]
+[ExcludeFromCodeCoverage]
 public record DockerContainerPruneOptions : DockerOptions
 {
     [BooleanCommandSwitch("--force")]

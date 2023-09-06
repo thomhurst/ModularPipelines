@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack deploy")]
+[ExcludeFromCodeCoverage]
 public record DockerStackDeployOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
 {
     [CommandSwitch("--prune")]

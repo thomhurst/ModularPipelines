@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network ls")]
+[ExcludeFromCodeCoverage]
 public record DockerNetworkLsOptions : DockerOptions
 {
     [BooleanCommandSwitch("--no-trunc")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose exec")]
+[ExcludeFromCodeCoverage]
 public record DockerComposeExecOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service, [property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

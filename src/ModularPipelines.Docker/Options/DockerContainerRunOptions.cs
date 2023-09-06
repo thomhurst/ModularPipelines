@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container run")]
+[ExcludeFromCodeCoverage]
 public record DockerContainerRunOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

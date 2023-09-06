@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("drain")]
+[ExcludeFromCodeCoverage]
 public record KubernetesDrainOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]

@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("untaint")]
+[ExcludeFromCodeCoverage]
 public record TerraformUntaintOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-allow-missing")]

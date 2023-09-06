@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("checkout")]
+[ExcludeFromCodeCoverage]
 public record GitCheckoutOptions([property: PositionalArgument] string BranchName) : GitOptions
 {
     [BooleanCommandSwitch("--quiet")]

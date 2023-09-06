@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("create", "clusterrole")]
+[ExcludeFromCodeCoverage]
 public record KubernetesCreateClusterRoleOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--aggregation-rule", SwitchValueSeparator = " ")]

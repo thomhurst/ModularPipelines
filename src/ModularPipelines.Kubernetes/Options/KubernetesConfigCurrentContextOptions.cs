@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "current-context")]
+[ExcludeFromCodeCoverage]
 public record KubernetesConfigCurrentContextOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--no-headers")]

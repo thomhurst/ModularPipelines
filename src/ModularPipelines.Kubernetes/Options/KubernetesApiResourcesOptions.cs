@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("api-resources")]
+[ExcludeFromCodeCoverage]
 public record KubernetesApiResourcesOptions : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--api-group", SwitchValueSeparator = " ")]

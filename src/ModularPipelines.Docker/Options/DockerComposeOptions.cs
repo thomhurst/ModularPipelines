@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose")]
+[ExcludeFromCodeCoverage]
 public record DockerComposeOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
 {
     [CommandSwitch("--ansi")]

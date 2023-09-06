@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("secret ls")]
+[ExcludeFromCodeCoverage]
 public record DockerSecretLsOptions : DockerOptions
 {
     [BooleanCommandSwitch("--quiet")]

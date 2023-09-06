@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Context;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform;
 
+[ExcludeFromCodeCoverage]
 public class Terraform : ITerraform
 {
     private readonly ICommand _command;

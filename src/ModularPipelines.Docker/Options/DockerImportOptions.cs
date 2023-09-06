@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("import")]
+[ExcludeFromCodeCoverage]
 public record DockerImportOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]

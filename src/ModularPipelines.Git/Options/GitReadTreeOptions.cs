@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("read-tree")]
+[ExcludeFromCodeCoverage]
 public record GitReadTreeOptions : GitOptions
 {
     [BooleanCommandSwitch("--reset")]

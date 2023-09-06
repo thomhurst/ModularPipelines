@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 [CommandPrecedingArguments("config", "set-credentials")]
+[ExcludeFromCodeCoverage]
 public record KubernetesConfigSetCredentialsOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [CommandEqualsSeparatorSwitch("--auth-provider", SwitchValueSeparator = " ")]

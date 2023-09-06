@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("config inspect")]
+[ExcludeFromCodeCoverage]
 public record DockerConfigInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> ConfigNames) : DockerOptions
 {
     [CommandSwitch("--pretty")]

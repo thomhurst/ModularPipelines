@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose up")]
+[ExcludeFromCodeCoverage]
 public record DockerComposeUpOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterArguments)]
