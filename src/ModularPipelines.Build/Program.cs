@@ -25,7 +25,9 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
         
-        collection.AddModule<RunUnitTestsModule>()
+        collection
+            .AddModule<BuildProjectsModule>()
+            .AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<FindProjectsModule>()
             .AddModule<FindProjectDependenciesModule>()
