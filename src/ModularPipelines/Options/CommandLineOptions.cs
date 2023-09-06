@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using CliWrap;
 
 namespace ModularPipelines.Options;
@@ -6,7 +5,6 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Options for setting the context of a command
 /// </summary>
-[ExcludeFromCodeCoverage]
 public record CommandLineOptions
 {
     /// <summary>

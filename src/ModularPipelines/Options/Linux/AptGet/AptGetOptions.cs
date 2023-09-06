@@ -1,7 +1,9 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options.Linux.AptGet;
 
+[ExcludeFromCodeCoverage]
 public record AptGetOptions() : CommandLineToolOptions("apt-get")
 {
     [BooleanCommandSwitch("--download-only")]

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Cmd.Models;
 
+[ExcludeFromCodeCoverage]
 public record CmdScriptOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Script) : CommandLineToolOptions("cmd")
 {
     [BooleanCommandSwitch("/q")]

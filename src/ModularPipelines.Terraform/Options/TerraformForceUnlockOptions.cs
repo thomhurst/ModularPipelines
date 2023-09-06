@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("force-unlock")]
+[ExcludeFromCodeCoverage]
 public record TerraformForceUnlockOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Lockid) : TerraformOptions
 {

@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("import")]
+[ExcludeFromCodeCoverage]
 public record TerraformImportOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Address, [property: PositionalArgument(Position = Position.AfterArguments)]
     string Id) : TerraformOptions

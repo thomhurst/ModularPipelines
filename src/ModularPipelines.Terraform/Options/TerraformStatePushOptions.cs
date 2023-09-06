@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state push")]
+[ExcludeFromCodeCoverage]
 public record TerraformStatePushOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Path) : TerraformOptions
 {

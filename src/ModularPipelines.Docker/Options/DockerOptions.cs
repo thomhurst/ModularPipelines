@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Options;
 
+[ExcludeFromCodeCoverage]
 public record DockerOptions() : CommandLineToolOptions("docker")
 {
     [CommandSwitch("--config")]

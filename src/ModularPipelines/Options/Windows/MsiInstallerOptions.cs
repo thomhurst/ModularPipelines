@@ -1,7 +1,9 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options.Windows;
 
+[ExcludeFromCodeCoverage]
 public record MsiInstallerOptions([property: CommandSwitch("/package")] string MsiPath) : CommandLineToolOptions("msiexec.exe")
 {
     [BooleanCommandSwitch("/quiet")]

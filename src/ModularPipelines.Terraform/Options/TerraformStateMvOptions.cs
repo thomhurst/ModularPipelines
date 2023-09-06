@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state mv")]
+[ExcludeFromCodeCoverage]
 public record TerraformStateMvOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Source, [property: PositionalArgument(Position = Position.AfterArguments)]
     string Destination) : TerraformOptions

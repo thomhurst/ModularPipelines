@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Attributes;
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("workspace new")]
+[ExcludeFromCodeCoverage]
 public record TerraformWorkspaceNewOptions([property: PositionalArgument(Position = Position.AfterArguments)]
     string Name) : TerraformOptions
 {
