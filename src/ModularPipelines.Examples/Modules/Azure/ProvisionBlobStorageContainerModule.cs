@@ -10,7 +10,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionBlobStorageAccountModule>]
 public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
-    protected override async Task<ModuleResult<BlobContainerResource>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
 

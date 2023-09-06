@@ -10,7 +10,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 
 public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
-    protected override async Task<ModuleResult<UserAssignedIdentityResource>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),

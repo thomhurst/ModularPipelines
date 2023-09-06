@@ -20,7 +20,7 @@ public class DisposableModuleTests
     {
         public bool IsDisposed { get; private set; }
 
-        protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(100, cancellationToken);
             return null;

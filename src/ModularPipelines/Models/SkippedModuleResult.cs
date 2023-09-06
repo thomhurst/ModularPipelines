@@ -1,8 +1,10 @@
+using ModularPipelines.Modules;
+
 namespace ModularPipelines.Models;
 
 internal class SkippedModuleResult<T> : ModuleResult<T>
 {
-    public SkippedModuleResult() : base(default(T?))
+    internal SkippedModuleResult(ModuleBase module) : base(default(T?), module)
     {
         ModuleResultType = ModuleResultType.Skipped;
     }

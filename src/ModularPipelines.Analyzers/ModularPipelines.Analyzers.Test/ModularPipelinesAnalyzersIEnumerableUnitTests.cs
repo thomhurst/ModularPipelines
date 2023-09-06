@@ -22,7 +22,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : {|#0:Module<IEnumerable<string>>|}
 {
-    protected override async Task<ModuleResult<IEnumerable<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IEnumerable<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new ModuleResult<IEnumerable<string>>(Array.Empty<string>().Select(x => x));
@@ -46,7 +46,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();

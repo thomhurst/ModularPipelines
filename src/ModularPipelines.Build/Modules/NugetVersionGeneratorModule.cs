@@ -11,7 +11,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class NugetVersionGeneratorModule : Module<string>
 {
-    protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 

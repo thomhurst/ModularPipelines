@@ -24,7 +24,7 @@ public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
         await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
         var packagePaths = await GetModule<PackagePathsParserModule>();

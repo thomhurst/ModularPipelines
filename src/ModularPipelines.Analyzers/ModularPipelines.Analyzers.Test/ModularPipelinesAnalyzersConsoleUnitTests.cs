@@ -22,7 +22,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 
@@ -49,7 +49,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 
@@ -76,7 +76,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 
@@ -103,7 +103,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 
@@ -130,7 +130,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 
@@ -157,7 +157,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<List<string>>
 {
-    protected override async Task<ModuleResult<List<string>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
 

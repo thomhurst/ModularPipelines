@@ -115,8 +115,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             // Will throw a timeout exception if configured and timeout is reached
             await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
-            var moduleResult = await executeAsyncTask ?? ModuleResult.Empty<T>();
-            moduleResult.ModuleName = GetType().Name;
+            var executeResult = await executeAsyncTask;
+
+            var moduleResult = new ModuleResult<T>(executeResult, this);
 
             await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
@@ -128,7 +129,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
 
-            TaskCompletionSource.SetResult(moduleResult);
+            ModuleResultTaskCompletionSource.SetResult(moduleResult);
         }
         catch (Exception exception)
         {
@@ -162,14 +163,13 @@ public abstract partial class Module<T> : ModuleBase<T>
             
             if (await ShouldIgnoreFailures(Context, exception))
             {
-                var moduleResult = ModuleResult.FromException<T>(exception);
-                moduleResult.ModuleName = GetType().Name;
+                var moduleResult = new ModuleResult<T>(exception, this);
 
                 Status = Status.IgnoredFailure;
 
                 await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
 
-                TaskCompletionSource.SetResult(moduleResult);
+                ModuleResultTaskCompletionSource.SetResult(moduleResult);
             }
             else
             {
@@ -178,7 +178,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 // Give time for Engine to request cancellation
                 await Task.Delay(300);
                 
-                TaskCompletionSource.SetException(exception);
+                ModuleResultTaskCompletionSource.SetException(exception);
                 
                 throw new ModuleFailedException(this, exception);
             }
@@ -246,7 +246,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         EndTime = utcNow;
 
         StartTask.Start(TaskScheduler.Default);
-        TaskCompletionSource.SetResult(result);
+        ModuleResultTaskCompletionSource.SetResult(result);
     }
 
     protected TModule GetModule<TModule>() where TModule : ModuleBase
@@ -319,7 +319,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         SkippedTask.Start(TaskScheduler.Default);
 
-        TaskCompletionSource.SetResult(new SkippedModuleResult<T>());
+        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
 
         Context.Logger.LogInformation("{Module} Ignored", GetType().Name);
     }

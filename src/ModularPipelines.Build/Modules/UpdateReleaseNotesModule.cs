@@ -43,7 +43,7 @@ public class UpdateReleaseNotesModule : Module
             || string.IsNullOrWhiteSpace(await releaseNotesFile.ReadAsync());
     }
 
-    protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 

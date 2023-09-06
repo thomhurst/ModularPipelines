@@ -21,7 +21,7 @@ public class GenerateReadMeModule : Module
         _githubSettings = githubSettings;
     }
     
-    protected override async Task<ModuleResult<IDictionary<string, object>>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;
 

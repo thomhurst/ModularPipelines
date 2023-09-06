@@ -1,3 +1,4 @@
--   Exclude Options Classes from Code Coverage
+- BREAKING: Modules now just need to return `T` instead of `ModuleResult<T>` - This should simplify and neaten your modules  
+- Exclude Options Classes from Code Coverage
 -   File ReadAllLines Helper
 -   File WriteAllLines Helper

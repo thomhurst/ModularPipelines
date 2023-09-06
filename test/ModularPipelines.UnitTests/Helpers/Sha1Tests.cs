@@ -8,7 +8,7 @@ public class Sha1Tests : TestBase
 {
     private class ToSha1Module : Module<string>
     {
-        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha1("Foo bar!");

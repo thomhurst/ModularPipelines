@@ -9,7 +9,7 @@ public class NodeTests : TestBase
 {
     private class NodeVersionModule : Module<CommandResult>
     {
-        protected override async Task<ModuleResult<CommandResult>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var task = () =>
             {

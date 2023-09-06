@@ -11,7 +11,7 @@ public class ModuleTimeoutTests : TestBase
     {
         protected override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(3);
 
-        protected override async Task<ModuleResult<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return "Foo bar!";

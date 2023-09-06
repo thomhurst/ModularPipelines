@@ -50,7 +50,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         return !_publishSettings.Value.ShouldPublish;
     }
 
-    protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 
