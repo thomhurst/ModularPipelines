@@ -46,7 +46,7 @@ internal class Command : ICommand
             parsedArgs.Add("--");
             parsedArgs.AddRange(options.RunSettings);
         }
-
+        
         var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)
