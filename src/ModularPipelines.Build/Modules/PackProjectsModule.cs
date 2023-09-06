@@ -11,7 +11,8 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackageFilesRemovalModule>, 
  DependsOn<CodeFormattedNicelyModule>, 
- DependsOn<FindProjectDependenciesModule>]
+ DependsOn<FindProjectDependenciesModule>,
+ DependsOn<RunUnitTestsModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
     protected override async Task<ModuleResult<CommandResult[]>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
