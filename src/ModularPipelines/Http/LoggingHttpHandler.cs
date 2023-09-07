@@ -26,6 +26,4 @@ public class LoggingHttpHandler : DelegatingHandler
 
         return response.EnsureSuccessStatusCode();
     }
-
-   
 }

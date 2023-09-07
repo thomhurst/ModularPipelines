@@ -46,4 +46,23 @@ public class EnvironmentContextTests : TestBase
         
         Assert.That(result, Is.EqualTo("Foo bar!"));
     }
+    
+    [Test]
+    public async Task Can_Add_To_Path()
+    {
+        var context = await GetService<IEnvironmentContext>();
+
+        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N"));
+        
+        var path = context.EnvironmentVariables.GetPath();
+        
+        Assert.That(path, Is.Not.Empty);
+        Assert.That(path, Does.Not.Contain(directoryToAdd));
+        
+        context.EnvironmentVariables.AddToPath(directoryToAdd);
+            
+        path = context.EnvironmentVariables.GetPath();
+        
+        Assert.That(path, Does.Contain(directoryToAdd));
+    }
 }

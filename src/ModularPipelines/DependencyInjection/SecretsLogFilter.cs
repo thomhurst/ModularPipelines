@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Engine;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Engine;
 using Vertical.SpectreLogger.Core;
 
 namespace ModularPipelines.DependencyInjection;
 
+[ExcludeFromCodeCoverage]
 internal class SecretsLogFilter : ILogEventFilter
 {
     internal ISecretProvider? SecretProvider { get; set; }

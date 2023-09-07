@@ -2,11 +2,6 @@ namespace ModularPipelines.TestsForTests;
 
 public class Tests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test, Category("Pass")]
     public void Pass()
     {

@@ -2,11 +2,12 @@ namespace ModularPipelines.Context;
 
 public interface IEnvironmentVariables
 {
-    string? GetEnvironmentVariable(string name);
+    string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
-    IDictionary<string, string> GetEnvironmentVariables();
+    IDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
-    void SetEnvironmentVariable(string variableName, string value);
+    void SetEnvironmentVariable(string variableName, string value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
-    void AddToPath(string pathToAdd);
+    IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 }

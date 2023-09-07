@@ -12,7 +12,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
         
-        var result = await GetService<IHttp>((context, collection) =>
+        var result = await GetService<IHttp>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -42,7 +42,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
         
-        var result = await GetService<IHttp>((context, collection) =>
+        var result = await GetService<IHttp>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -72,7 +72,7 @@ public class HttpTests : TestBase
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
         
-        var result = await GetService<IHttp>((context, collection) =>
+        var result = await GetService<IHttp>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
