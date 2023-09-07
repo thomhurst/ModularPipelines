@@ -8,17 +8,17 @@ namespace ModularPipelines.Cmd.Models;
 public record CmdScriptOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Script) : CommandLineToolOptions("cmd")
 {
     [BooleanCommandSwitch("/q")]
-    public bool DisableEcho { get; init; } = false;
+    public bool DisableEcho { get; init; }
 
     [BooleanCommandSwitch("/c")]
     public bool StopAfter { get; init; } = true;
 
     [BooleanCommandSwitch("/u")]
-    public bool Unicode { get; init; } = false;
+    public bool Unicode { get; init; }
 
     [BooleanCommandSwitch("/a")]
-    public bool Ansi { get; init; } = false;
+    public bool Ansi { get; init; }
 
     [BooleanCommandSwitch("/d")]
-    public bool DisableAutoRunCommands { get; init; } = false;
+    public bool DisableAutoRunCommands { get; init; }
 }
