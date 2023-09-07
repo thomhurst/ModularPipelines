@@ -94,6 +94,7 @@ internal class ProgressPrinter : IProgressPrinter
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
+        Console.Out.Flush();
     }
 
     private static void RegisterModules(IReadOnlyList<RunnableModule> modulesToProcess, ProgressContext progressContext,
