@@ -57,6 +57,9 @@ internal class DotNet : IDotNet
 
         var result = await _command.ExecuteCommandLineTool(options, cancellationToken);
 
+        // Allow file to flush
+        await Task.Delay(500, cancellationToken);
+        
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
         var parsedTestResults = _trxParser.ParseTestResult(trxContents);
