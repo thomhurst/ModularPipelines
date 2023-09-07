@@ -1,1 +1,2 @@
 -   Increase test coverage
+-   Add code coverage badge
