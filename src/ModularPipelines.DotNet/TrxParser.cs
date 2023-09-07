@@ -20,6 +20,8 @@ internal class TrxParser : ITrxParser
 
     private UnitTestResult ParseElement(XElement element)
     {
+        var errorInfo = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "ErrorInfo");
+        
         return new UnitTestResult
         {
             ExecutionId = element.Attribute("executionId")!.Value,
@@ -35,7 +37,12 @@ internal class TrxParser : ITrxParser
             RelativeResultsDirectory = element.Attribute("relativeResultsDirectory")!.Value,
             Output = new TestOutput
             {
-                StdOut = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value
+                StdOut = element.Descendants().FirstOrDefault(x => x.Name.LocalName == "StdOut")?.Value,
+                ErrorInfo = errorInfo == null ? null : new ErrorInfo
+                {
+                    Message = errorInfo.Descendants().FirstOrDefault(x => x.Name.LocalName == "Message")?.Value,
+                    StackTrace = errorInfo.Descendants().FirstOrDefault(x => x.Name.LocalName == "StackTrace")?.Value
+                }
             }
         };
     }

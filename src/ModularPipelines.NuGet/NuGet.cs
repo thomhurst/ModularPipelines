@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.NuGet.Options;
@@ -6,6 +7,7 @@ using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.NuGet;
 
+[ExcludeFromCodeCoverage]
 internal class NuGet : INuGet
 {
     private readonly IPipelineContext _context;

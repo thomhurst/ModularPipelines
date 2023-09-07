@@ -3,7 +3,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
 using File = ModularPipelines.FileSystem.File;

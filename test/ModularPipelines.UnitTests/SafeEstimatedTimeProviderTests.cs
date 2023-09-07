@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -51,8 +52,7 @@ public class SafeEstimatedTimeProviderTests
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Yield();
-            return new Dictionary<string, object>();
+            return await new Dictionary<string, object>().AsTask();
         }
     }
     

@@ -1,7 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests;

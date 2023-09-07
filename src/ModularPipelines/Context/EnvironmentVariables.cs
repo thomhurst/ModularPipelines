@@ -1,34 +1,41 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace ModularPipelines.Context;
 
 internal class EnvironmentVariables : IEnvironmentVariables
 {
-    public string? GetEnvironmentVariable(string name)
+    private const string PathVariableName = "PATH";
+    private static char Delimiter => (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) ? ';' : ':';
+
+    public string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        return Environment.GetEnvironmentVariable(name);
+        return Environment.GetEnvironmentVariable(name, target);
     }
 
-    public IDictionary<string, string> GetEnvironmentVariables()
+    public IDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        return Environment.GetEnvironmentVariables()
+        return Environment.GetEnvironmentVariables(target)
             .Cast<DictionaryEntry>()
             .ToDictionary(variable => variable.Key.ToString()!, variable => variable.Value!.ToString()!);
     }
 
-    public void SetEnvironmentVariable(string variableName, string value)
+    public void SetEnvironmentVariable(string variableName, string value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        Environment.SetEnvironmentVariable(variableName, value);
+        Environment.SetEnvironmentVariable(variableName, value, target);
     }
 
-    public void AddToPath(string pathToAdd)
+    public IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        const string pathVariableName = "PATH";
+        return GetEnvironmentVariable(PathVariableName, target)?.Split(Delimiter) ?? Array.Empty<string>();
+    }
 
-        var oldValue = Environment.GetEnvironmentVariable(pathVariableName);
+    public void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
+    {
+        var oldValue = Environment.GetEnvironmentVariable(PathVariableName, target);
 
-        var newValue = $@"{oldValue};{pathToAdd}";
+        var newValue = $@"{oldValue}{Delimiter}{pathToAdd}";
 
-        Environment.SetEnvironmentVariable(pathVariableName, newValue);
+        Environment.SetEnvironmentVariable(PathVariableName, newValue, target);
     }
 }

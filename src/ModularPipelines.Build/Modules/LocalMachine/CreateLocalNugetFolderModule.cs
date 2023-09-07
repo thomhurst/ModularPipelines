@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;

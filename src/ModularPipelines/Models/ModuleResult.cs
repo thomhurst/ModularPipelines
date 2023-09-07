@@ -23,7 +23,7 @@ public class ModuleResult<T>
     internal ModuleResult(T? value, ModuleBase module) : this(module)
     {
         _value = value;
-        ModuleResultType = ModuleResultType.SuccessfulResult;
+        ModuleResultType = ModuleResultType.Success;
     }
 
     internal ModuleResult(Exception exception, ModuleBase module) : this(module)

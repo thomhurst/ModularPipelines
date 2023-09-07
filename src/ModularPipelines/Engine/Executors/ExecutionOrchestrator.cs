@@ -48,6 +48,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
+        var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
         
         try
@@ -67,7 +68,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         finally
         {
-            _consolePrinter.PrintResults(new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed));
+            var end = DateTimeOffset.UtcNow;
+            _consolePrinter.PrintResults(new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end));
         }
     }
 }

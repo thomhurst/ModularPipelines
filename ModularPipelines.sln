@@ -60,6 +60,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{AE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "src\ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{467FCE3D-2261-486A-ACD8-5D804C92DA01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TestsForTests", "test\ModularPipelines.TestsForTests\ModularPipelines.TestsForTests.csproj", "{B4A63CCF-229F-4EBE-AC85-778062C50930}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +164,10 @@ Global
 		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{467FCE3D-2261-486A-ACD8-5D804C92DA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,6 +197,7 @@ Global
 		{8A6B4058-2863-4406-A651-5E334C81777F} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{467FCE3D-2261-486A-ACD8-5D804C92DA01} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
+		{B4A63CCF-229F-4EBE-AC85-778062C50930} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}

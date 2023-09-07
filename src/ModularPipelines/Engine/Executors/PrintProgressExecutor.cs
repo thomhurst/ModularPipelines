@@ -29,7 +29,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         }
         finally
         {
-            printProgressCancellationTokenSource.CancelAfter(1500);
+            printProgressCancellationTokenSource.CancelAfter(5000);
 
             await printProgressTask;
         }

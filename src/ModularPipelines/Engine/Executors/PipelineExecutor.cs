@@ -29,7 +29,7 @@ internal class PipelineExecutor : IPipelineExecutor
         catch
         {
             // Give time for the console to update modules to Failed
-            await Task.Delay(100);
+            await Task.Delay(TimeSpan.FromSeconds(1));
             throw;
         }
         finally

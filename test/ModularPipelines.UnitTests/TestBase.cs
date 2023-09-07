@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ModularPipelines.Modules;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -17,10 +17,19 @@ public class TestBase
 
     public async Task<T> GetService<T>() where T : notnull
     {
-        var serviceProvider = TestPipelineHostBuilder.Create().BuildHost().Services;
+        var valueTuple = await GetService<T>(null);
+        return valueTuple.T;
+    }
+    
+    public async Task<(T T, IHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices) where T : notnull
+    {
+        var host = await TestPipelineHostBuilder
+            .Create()
+            .ConfigureServices((context, collection) => configureServices?.Invoke(context, collection))
+            .BuildHostAsync();
         
-        await serviceProvider.InitializeAsync();
+        var serviceProvider = host.Services;
         
-        return serviceProvider.GetRequiredService<T>();
+        return (serviceProvider.GetRequiredService<T>(), host);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples;

@@ -1,6 +1,4 @@
-﻿using ModularPipelines.Models;
-
-namespace ModularPipelines.Extensions;
+﻿namespace ModularPipelines.Extensions;
 
 public static class TaskExtensions
 {

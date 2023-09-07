@@ -3,7 +3,6 @@ using Azure.ResourceManager.Authorization.Models;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules.Azure;
