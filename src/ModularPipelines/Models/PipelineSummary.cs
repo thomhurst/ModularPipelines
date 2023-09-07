@@ -7,11 +7,18 @@ public record PipelineSummary
 {
     public IReadOnlyList<ModuleBase> Modules { get; }
     public TimeSpan TotalDuration { get; }
+    public DateTimeOffset Start { get; }
+    public DateTimeOffset End { get; }
 
-    internal PipelineSummary(IReadOnlyList<ModuleBase> modules, TimeSpan totalDuration)
+    internal PipelineSummary(IReadOnlyList<ModuleBase> modules, 
+        TimeSpan totalDuration, 
+        DateTimeOffset start,
+        DateTimeOffset end)
     {
         Modules = modules;
         TotalDuration = totalDuration;
+        Start = start;
+        End = end;
     }
 
     public Status Status => GetStatus();

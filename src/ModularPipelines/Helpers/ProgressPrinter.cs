@@ -67,6 +67,8 @@ internal class ProgressPrinter : IProgressPrinter
         table.AddColumn("Duration");
         table.AddColumn("Status");
         table.AddColumn("[red]Exception[/]");
+        table.AddColumn("Start");
+        table.AddColumn("End");
 
         foreach (var module in pipelineSummary.Modules)
         {
@@ -74,16 +76,20 @@ internal class ProgressPrinter : IProgressPrinter
                 $"[cyan]{module.GetType().Name}[/]", 
                 module.Duration.ToDisplayString(), 
                 module.Status.ToDisplayString(),
-                $"[red]{module.Exception?.GetType().Name}[/]");
+                $"[red]{module.Exception?.GetType().Name}[/]",
+                module.StartTime.ToString(),
+                module.EndTime.ToString());
         }
 
         table.AddEmptyRow();
-        
+
         table.AddRow(
-            "Total", 
-            pipelineSummary.TotalDuration.ToDisplayString(), 
+            "Total",
+            pipelineSummary.TotalDuration.ToDisplayString(),
             pipelineSummary.Status.ToDisplayString(),
-            string.Empty);
+            string.Empty,
+            pipelineSummary.Start.ToString(),
+            pipelineSummary.End.ToString());
         
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);

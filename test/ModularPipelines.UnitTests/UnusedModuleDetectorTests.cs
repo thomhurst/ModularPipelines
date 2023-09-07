@@ -4,7 +4,6 @@ using ModularPipelines.Context;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Moq;
 

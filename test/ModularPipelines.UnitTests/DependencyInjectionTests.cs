@@ -6,11 +6,11 @@ namespace ModularPipelines.UnitTests;
 public class DependencyInjectionTests
 {
     [Test]
-    public void AllDependenciesCanBeBuilt()
+    public async Task AllDependenciesCanBeBuilt()
     {
-        var services = TestPipelineHostBuilder.Create()
-            .BuildHost()
-            .Services;
+        var host = await TestPipelineHostBuilder.Create().BuildHostAsync();
+        
+        var services = host.Services;
 
         var collection = services.GetRequiredService<IPipelineServiceContainerWrapper>().ServiceCollection;
 

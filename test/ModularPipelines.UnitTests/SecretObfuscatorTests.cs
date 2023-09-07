@@ -10,8 +10,8 @@ namespace ModularPipelines.UnitTests;
 [Parallelizable(ParallelScope.None)]
 public class SecretObfuscatorTests
 {
-    private readonly IHost _pipeline;
-    private readonly Mock<IBuildSystemDetector> _buildSystemMock;
+    private IHost _pipeline = null!;
+    private Mock<IBuildSystemDetector> _buildSystemMock = null!;
    
     private static TextWriter? _console;
     [OneTimeSetUp]
@@ -26,18 +26,19 @@ public class SecretObfuscatorTests
         Console.SetOut(_console!);
     }
 
-    public SecretObfuscatorTests()
+    [SetUp]
+    public async Task Setup()
     {
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
-        _pipeline = TestPipelineHostBuilder.Create()
+        _pipeline = await TestPipelineHostBuilder.Create()
             .ConfigureServices((context, services) =>
             {
                 services.AddSingleton(_buildSystemMock.Object);
                 services.Configure<MyModel>(context.Configuration);
             })
             .AddModule<GlobalDummyModule>()
-            .BuildHost();
+            .BuildHostAsync();
     }
     
     [Test]

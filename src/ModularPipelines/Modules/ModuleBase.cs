@@ -2,14 +2,32 @@ using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
 public abstract class ModuleBase
 {
-    protected internal IPipelineContext Context = null!; // Late Initialisation
-    
+    private IPipelineContext? _context; // Late Initialisation
+
+    protected internal IPipelineContext Context
+    {
+        get
+        {
+            if (_context == null)
+            {
+                throw new ModuleNotInitializedException(GetType());
+            }
+
+            return _context;
+        }
+        protected set
+        {
+            _context = value;
+        }
+    }
+
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
     internal abstract Task<object> ResultTaskInternal { get; }

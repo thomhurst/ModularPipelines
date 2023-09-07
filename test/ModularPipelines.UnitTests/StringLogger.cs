@@ -27,7 +27,7 @@ public class StringLogger<T> : ILogger<T>
     {
         return new NoOpDisposable();
     }
-
+    
     private class NoOpDisposable : IDisposable
     {
         public void Dispose()

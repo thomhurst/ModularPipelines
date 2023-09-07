@@ -24,8 +24,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
-    private bool _initialized;
-
     protected Module()
     {
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
@@ -53,11 +51,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override async Task StartAsync()
     {
-        if (!_initialized)
-        {
-            throw new ModuleNotInitializedException(GetType());
-        }
-
         if (ModuleRunType != ModuleRunType.AlwaysRun)
         {
             Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
@@ -117,19 +110,19 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             var executeResult = await executeAsyncTask;
 
-            var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
-
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
 
             Status = Status.Successful;
             EndTime = DateTimeOffset.UtcNow;
 
-            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+            var moduleResult = new ModuleResult<T>(executeResult, this);
 
             ModuleResultTaskCompletionSource.SetResult(moduleResult);
+            
+            await SaveResult(moduleResult);
+            
+            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
         {
@@ -191,31 +184,53 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
+    private async Task SaveResult(ModuleResult<T> moduleResult)
+    {
+        try
+        {
+            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
+        }
+        catch (Exception e)
+        {
+            Context.Logger.LogError(e, "Error saving module result to repository");
+        }
+    }
+
     private void LogModuleStatus()
     {
+        var moduleName = GetType().Name; 
+        
         switch (Status)
         {
             case Status.NotYetStarted:
-                Context.Logger.LogWarning("Module never started");
+                Context.Logger.LogWarning("Module {Module} never started", moduleName);
                 break;
             case Status.Processing:
-                Context.Logger.LogError("Module didn't finish executing");
+                Context.Logger.LogError("Module {Module} didn't finish executing", moduleName);
                 break;
             case Status.Successful:
-                Context.Logger.LogInformation("Module completed successfully");
+                Context.Logger.LogInformation("Module {Module} completed successfully", moduleName);
                 break;
             case Status.Failed:
+                Context.Logger.LogError("Module {Module} failed", moduleName);
+                break;
             case Status.TimedOut:
-                Context.Logger.LogError("Module failed");
+                Context.Logger.LogError("Module {Module} timed out", moduleName);
                 break;
             case Status.Skipped:
-                Context.Logger.LogWarning("Module skipped");
+                Context.Logger.LogWarning("Module {Module} skipped", moduleName);
                 break;
             case Status.Unknown:
-                Context.Logger.LogError("Unknown module status");
+                Context.Logger.LogError("Unknown {Module} module status", moduleName);
+                break;
+            case Status.IgnoredFailure:
+                Context.Logger.LogError("Module {Module} failed but the failure was ignored, so this will not cause the pipeline to error", moduleName);
+                break;
+            case Status.PipelineTerminated:
+                Context.Logger.LogError("The pipeline has errored so Module {Module} will terminate", moduleName);
                 break;
             default:
-                Context.Logger.LogError("Module status is: {Status}", Status);
+                Context.Logger.LogError("Module {Module} status is: {Status}", moduleName, Status);
                 break;
         }
     }
@@ -224,7 +239,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         context.FetchLogger(GetType());
         Context = context;
-        _initialized = true;
         return this;
     }
 
@@ -264,11 +278,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     protected TModule? GetModuleIfRegistered<TModule>() where TModule : ModuleBase
     {
-        if (!_initialized)
-        {
-            throw new ModuleNotInitializedException(GetType());
-        }
-
         if (typeof(TModule) == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot get itself");

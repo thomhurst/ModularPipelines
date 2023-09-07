@@ -23,7 +23,7 @@ public class BashTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.SuccessfulResult));
+            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
             Assert.That(moduleResult.Exception, Is.Null);
             Assert.That(moduleResult.Value, Is.Not.Null);
         });

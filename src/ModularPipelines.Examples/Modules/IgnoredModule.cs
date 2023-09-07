@@ -1,6 +1,5 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;

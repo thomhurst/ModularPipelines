@@ -86,12 +86,12 @@ public class PipelineHostBuilder
 
     public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
     {
-        var host = BuildHost();
+        var host = await BuildHostAsync();
 
         return await host.ExecuteAsync();
     }
 
-    internal IHost BuildHost()
+    internal async Task<IHost> BuildHostAsync()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
 
@@ -104,6 +104,9 @@ public class PipelineHostBuilder
         });
 
         var host = _internalHost.Build();
+        
+        await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
+        
         return host;
     }
 

@@ -2,7 +2,7 @@ namespace ModularPipelines.Models;
 
 public enum ModuleResultType
 {
-    SuccessfulResult,
+    Success,
     Failure,
     Skipped
 }

@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace ModularPipelines.MicrosoftTeams.Models;
 
+[ExcludeFromCodeCoverage]
 internal class Attachment
 {
     [JsonPropertyName("contentType")]

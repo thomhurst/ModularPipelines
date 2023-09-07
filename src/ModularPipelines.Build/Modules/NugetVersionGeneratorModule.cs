@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable CS0162
