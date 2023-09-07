@@ -1,9 +1,11 @@
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Models;
 
 public class ModuleResult<T>
 {
+    private readonly ModuleBase _module;
     private readonly T? _value;
 
     public string ModuleName { get; private set; }
@@ -14,6 +16,7 @@ public class ModuleResult<T>
     
     private ModuleResult(ModuleBase module)
     {
+        _module = module;
         ModuleName = module.GetType().Name;
         ModuleDuration = module.Duration;
         ModuleStart = module.StartTime;
@@ -38,12 +41,12 @@ public class ModuleResult<T>
         {
             if (ModuleResultType == ModuleResultType.Failure)
             {
-                throw new Exception($"{GetModuleName()} has errored. No Value available");
+                throw new ModuleFailedException(_module, Exception!);
             }
 
             if (ModuleResultType == ModuleResultType.Skipped)
             {
-                throw new Exception($"{GetModuleName()} was skipped. No Value available");
+                throw new ModuleSkippedException(GetModuleName());
             }
 
             return _value;
