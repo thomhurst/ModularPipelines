@@ -5,6 +5,7 @@ namespace ModularPipelines.Context;
 
 internal class EnvironmentVariables : IEnvironmentVariables
 {
+    private const string PathVariableName = "PATH";
     private static char Delimiter => (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) ? ';' : ':';
 
     public string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
@@ -26,17 +27,15 @@ internal class EnvironmentVariables : IEnvironmentVariables
 
     public IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        return GetEnvironmentVariable("PATH", target)?.Split(Delimiter) ?? Array.Empty<string>();
+        return GetEnvironmentVariable(PathVariableName, target)?.Split(Delimiter) ?? Array.Empty<string>();
     }
 
     public void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        const string pathVariableName = "PATH";
-
-        var oldValue = Environment.GetEnvironmentVariable(pathVariableName, target);
+        var oldValue = Environment.GetEnvironmentVariable(PathVariableName, target);
 
         var newValue = $@"{oldValue}{Delimiter}{pathToAdd}";
 
-        Environment.SetEnvironmentVariable(pathVariableName, newValue, target);
+        Environment.SetEnvironmentVariable(PathVariableName, newValue, target);
     }
 }
