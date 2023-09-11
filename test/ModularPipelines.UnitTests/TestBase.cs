@@ -20,8 +20,6 @@ public class TestBase
         _host = host;
         
         var results = await host.ExecutePipelineAsync();
-
-        host.Dispose();
         
         return results.OfType<T>().Single();
     }
