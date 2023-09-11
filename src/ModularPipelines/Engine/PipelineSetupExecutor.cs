@@ -1,4 +1,5 @@
 using ModularPipelines.Interfaces;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -23,9 +24,9 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_globalHooks.Select(x => x.OnStartAsync(_moduleContextProvider.GetModuleContext())));
     }
 
-    public Task OnEndAsync(IReadOnlyList<ModuleBase> modules)
+    public Task OnEndAsync(PipelineSummary pipelineSummary)
     {
-        return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(_moduleContextProvider.GetModuleContext(), modules)));
+        return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(_moduleContextProvider.GetModuleContext(), pipelineSummary)));
     }
 
     public Task OnBeforeModuleStartAsync(ModuleBase module)

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -16,9 +17,13 @@ internal class PipelineExecutor : IPipelineExecutor
         _moduleExecutor = moduleExecutor;
     }
 
-    public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync(List<ModuleBase> runnableModules,
+    public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
         OrganizedModules organizedModules)
     {
+        var start = DateTimeOffset.UtcNow;
+        var stopWatch = Stopwatch.StartNew();
+        
+        PipelineSummary pipelineSummary;
         try
         {
             await _moduleExecutor.ExecuteAsync(runnableModules);
@@ -33,10 +38,14 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             await WaitForAlwaysRunModules(runnableModules);
 
-            await _pipelineSetupExecutor.OnEndAsync(organizedModules.AllModules);
+            var end = DateTimeOffset.UtcNow;
+            
+            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            
+            await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }
 
-        return organizedModules.AllModules;
+        return pipelineSummary;
     }
 
     private async Task WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
