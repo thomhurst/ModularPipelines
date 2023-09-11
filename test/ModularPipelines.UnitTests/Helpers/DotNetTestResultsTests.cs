@@ -11,6 +11,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+[Parallelizable(ParallelScope.None)]
 public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<DotNetTestResult>
