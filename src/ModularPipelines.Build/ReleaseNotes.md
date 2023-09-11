@@ -1,1 +1,0 @@
-- PipelineSummary in Global Hooks for Pipeline End
