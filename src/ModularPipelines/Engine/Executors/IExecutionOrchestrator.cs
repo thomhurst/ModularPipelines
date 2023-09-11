@@ -1,8 +1,9 @@
-﻿using ModularPipelines.Modules;
+﻿using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
 internal interface IExecutionOrchestrator
 {
-    Task<IReadOnlyList<ModuleBase>> ExecuteAsync();
+    Task<PipelineSummary> ExecuteAsync();
 }

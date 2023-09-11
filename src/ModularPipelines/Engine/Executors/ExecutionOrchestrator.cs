@@ -32,7 +32,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _consolePrinter = consolePrinter;
     }
 
-    public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync()
+    public async Task<PipelineSummary> ExecuteAsync()
     {
         lock (_lock)
         {
@@ -50,7 +50,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
-        
+
+        PipelineSummary pipelineSummary;
         try
         {
             await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
@@ -63,13 +64,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                     });
                 });
             });
-
-            return organizedModules.AllModules;
         }
         finally
         {
             var end = DateTimeOffset.UtcNow;
-            _consolePrinter.PrintResults(new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end));
+            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            _consolePrinter.PrintResults(pipelineSummary);
         }
+        
+        return pipelineSummary;
     }
 }
