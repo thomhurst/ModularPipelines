@@ -69,11 +69,12 @@ internal class DotNet : IDotNet
         
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
+        _moduleLoggerProvider.GetLogger().LogDebug("Trx file contents: {Contents}", trxContents);
+        
         var parsedTestResults = _trxParser.ParseTestResult(trxContents);
 
         if (!parsedTestResults.Successful || result.ExitCode != 0)
         {
-            _moduleLoggerProvider.GetLogger().LogInformation("Trx file contents: {Contents}", trxContents);
             throw new DotNetTestFailedException(result, parsedTestResults);
         }
 

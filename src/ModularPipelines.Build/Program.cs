@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
@@ -24,6 +25,8 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<GitHubSettings>(context.Configuration.GetSection("GitHub"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
+
+        collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
         
         collection
             .AddModule<RunUnitTestsModule>()
