@@ -68,19 +68,16 @@ internal class DotNet : IDotNet
         await FileHelper.WaitForFileAsync(trxFilePath);
 
         var logger = _moduleLoggerProvider.GetLogger();
-        
-        string trxContents;
-        if (File.Exists(trxFilePath))
-        {
-            trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
-            logger.LogDebug("Trx file contents: {Contents}", trxContents);
-        }
-        else
+        if (!File.Exists(trxFilePath))
         {
-            logger.LogDebug("No trx file was found");
+            logger.LogDebug("No trx file was found at {Path}", trxFilePath);
             throw new DotNetTestFailedException(result, null);
         }
+
+        var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
+
+        logger.LogDebug("Trx file contents: {Contents}", trxContents);
 
         var parsedTestResults = _trxParser.ParseTestResult(trxContents);
 
