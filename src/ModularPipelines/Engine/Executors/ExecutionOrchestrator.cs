@@ -50,7 +50,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
-        PipelineSummary pipelineSummary;
+        PipelineSummary? pipelineSummary = null;
         try
         {
             await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
@@ -59,7 +59,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 {
                     await _printProgressExecutor.ExecuteWithProgress(organizedModules, async () =>
                     {
-                        await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                        pipelineSummary = await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
                     });
                 });
             });
@@ -67,7 +67,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         finally
         {
             var end = DateTimeOffset.UtcNow;
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
             _consolePrinter.PrintResults(pipelineSummary);
         }
         
