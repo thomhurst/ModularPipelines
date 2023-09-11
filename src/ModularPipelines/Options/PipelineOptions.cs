@@ -9,5 +9,6 @@ public record PipelineOptions
     public string[]? RunOnlyCategories { get; set; }
     public string[]? IgnoreCategories { get; set; }
     public bool ShowProgressInConsole { get; set; } = true;
-    public ModuleLoggerOptions LoggerOptions { get; } = new();
+    public ModuleLoggerOptions LoggerOptions { get; set; } = new();
+    public int DefaultRetryCount { get; set; }
 }
