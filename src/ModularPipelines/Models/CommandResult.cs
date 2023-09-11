@@ -3,7 +3,7 @@ using CliWrap.Buffered;
 
 namespace ModularPipelines.Models;
 
-public class CommandResult
+public record CommandResult
 {
     /// <summary>
     /// The command that was executed.
