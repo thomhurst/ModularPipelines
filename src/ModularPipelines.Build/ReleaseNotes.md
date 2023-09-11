@@ -1,2 +1,0 @@
-- Return a pipeline summary model with more information from the Pipeline ExecutePipelineAsync call
-- Fixed race condition with trx file parsing before the file was saved for DotNet Test
