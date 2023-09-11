@@ -1,8 +1,9 @@
 mode: Mainline
+next-version: 2.1.0
 branches: {}
 ignore:
-  sha: [
-    'f7ef4687260996a62c4fed816462ab9592556115',
-    '606fab3291986219f315be3940c910405420b3c6'
-  ]
+  sha: 
+    - f7ef4687260996a62c4fed816462ab9592556115
+    - 606fab3291986219f315be3940c910405420b3c6
+  
 merge-message-formats: {}
