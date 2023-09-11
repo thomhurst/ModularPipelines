@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
+using ModularPipelines.Helpers;
 
 namespace ModularPipelines.DotNet;
 
@@ -57,8 +58,7 @@ internal class DotNet : IDotNet
 
         var result = await _command.ExecuteCommandLineTool(options, cancellationToken);
 
-        // Allow file to flush
-        await Task.Delay(500, cancellationToken);
+        await FileHelper.WaitForFileAsync(trxFilePath);
         
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
 
