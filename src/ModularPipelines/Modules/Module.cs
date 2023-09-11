@@ -103,12 +103,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             _stopwatch.Start();
 
-            var executeAsyncTask = ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
-
-            // Will throw a timeout exception if configured and timeout is reached
-            await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-
-            var executeResult = await executeAsyncTask;
+            var executeResult = await ExecuteInternal(timeoutExceptionTask);
 
             _stopwatch.Stop();
             Duration = _stopwatch.Elapsed;
@@ -182,6 +177,16 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             LogModuleStatus();
         }
+    }
+
+    private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
+    {
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
+
+        // Will throw a timeout exception if configured and timeout is reached
+        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+
+        return await executeAsyncTask;
     }
 
     private async Task SaveResult(ModuleResult<T> moduleResult)

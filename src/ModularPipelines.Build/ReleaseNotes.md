@@ -1,2 +1,3 @@
--   Increase test coverage
--   Add code coverage badge
+- Retry policies  
+- Increase test coverage
+- Add code coverage badge
