@@ -110,7 +110,7 @@ public class RetryTests : TestBase
     public void When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((context, options) =>
+            .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 3;
             })
