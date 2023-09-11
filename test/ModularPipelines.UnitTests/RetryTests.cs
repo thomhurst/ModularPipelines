@@ -50,7 +50,7 @@ public class RetryTests : TestBase
     public async Task When_Successful_Do_Not_Retry()
     {
         var modules = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((context, options) =>
+            .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 3;
             })
@@ -70,7 +70,7 @@ public class RetryTests : TestBase
     public async Task When_Error_Then_Retry()
     {
         var modules = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((context, options) =>
+            .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 3;
             })
@@ -90,7 +90,7 @@ public class RetryTests : TestBase
     public void When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
     {
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((context, options) =>
+            .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 0;
             })
