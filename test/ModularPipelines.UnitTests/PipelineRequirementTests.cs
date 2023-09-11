@@ -11,12 +11,12 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<SuccessfulRequirement>()
             .ExecutePipelineAsync();
 
-        var dummyModule = modules.OfType<DummyModule>().First();
+        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
         
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }

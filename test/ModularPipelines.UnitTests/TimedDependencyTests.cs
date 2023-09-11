@@ -9,13 +9,13 @@ public class TimedDependencyTests
     [Test]
     public async Task OneSecondModule_WillWaitForFiveSecondModule_ThenExecute()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<FiveSecondModule>()
             .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
             .ExecutePipelineAsync();
 
-        var fiveSecondModule = modules.OfType<FiveSecondModule>().Single();
-        var oneSecondModuleDependentOnFiveSecondModule = modules.OfType<OneSecondModuleDependentOnFiveSecondModule>().Single();
+        var fiveSecondModule = pipelineSummary.Modules.OfType<FiveSecondModule>().Single();
+        var oneSecondModuleDependentOnFiveSecondModule = pipelineSummary.Modules.OfType<OneSecondModuleDependentOnFiveSecondModule>().Single();
 
         var fiveSecondResult = await fiveSecondModule;
         var oneSecondModuleDependentOnFiveSecondResult = await oneSecondModuleDependentOnFiveSecondModule;
