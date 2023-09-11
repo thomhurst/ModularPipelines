@@ -8,11 +8,11 @@ public class DisposableModuleTests
     [Test]
     public async Task SuccessfullyDisposed()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DisposableModule>()
             .ExecutePipelineAsync();
 
-        Assert.That(modules.OfType<DisposableModule>().Single().IsDisposed, Is.True);
+        Assert.That(pipelineSummary.Modules.OfType<DisposableModule>().Single().IsDisposed, Is.True);
     }
 
     public class DisposableModule : Module, IDisposable

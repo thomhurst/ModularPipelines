@@ -12,12 +12,12 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Succeeds_Then_No_Error()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .RegisterEstimatedTimeProvider<SuccessfulTimeProvider>()
             .ExecutePipelineAsync();
 
-        var dummyModule = modules.OfType<DummyModule>().First();
+        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
         
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
@@ -25,12 +25,12 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Receiving_Time_Then_Still_No_Error()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .RegisterEstimatedTimeProvider<FailingTimeProvider>()
             .ExecutePipelineAsync();
 
-        var dummyModule = modules.OfType<DummyModule>().First();
+        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
         
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
@@ -38,12 +38,12 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Saving_Time_Then_Still_No_Error()
     {
-        var modules = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .RegisterEstimatedTimeProvider<FailingTimeProvider2>()
             .ExecutePipelineAsync();
 
-        var dummyModule = modules.OfType<DummyModule>().First();
+        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
         
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }

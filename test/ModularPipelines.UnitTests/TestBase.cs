@@ -21,7 +21,7 @@ public class TestBase
         
         var results = await host.ExecutePipelineAsync();
         
-        return results.OfType<T>().Single();
+        return results.Modules.OfType<T>().Single();
     }
 
     public async Task<T> GetService<T>() where T : notnull

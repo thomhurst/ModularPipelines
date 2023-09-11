@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
@@ -84,7 +85,7 @@ public class PipelineHostBuilder
         return this;
     }
 
-    public async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync()
+    public async Task<PipelineSummary> ExecutePipelineAsync()
     {
         var host = await BuildHostAsync();
 
