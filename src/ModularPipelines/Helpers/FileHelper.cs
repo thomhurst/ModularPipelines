@@ -28,6 +28,8 @@ public static class FileHelper
             {
                 continue;
             }
+            
+            break;
         }
     }
     
