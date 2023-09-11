@@ -4,6 +4,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests;
 
+[TestFixture, FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 public class TestBase
 {
     public async Task<T> RunModule<T>() where T : ModuleBase
