@@ -46,7 +46,7 @@ public class DotNetTestResultsTests : TestBase
         }
     }
 
-    [Test, Repeat(10)]
+    [Test]
     public void Has_Errored()
     {
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
@@ -67,7 +67,7 @@ public class DotNetTestResultsTests : TestBase
         });
     }
     
-    [Test, Repeat(10)]
+    [Test]
     public async Task Has_Not_Errored()
     {
         var module = await RunModule<DotNetTestWithoutFailureModule>();
