@@ -1,0 +1,1 @@
+- Fixed race condition with trx file parsing before the file was saved for DotNet Test

@@ -1,17 +1,26 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Extensions;
+using ModularPipelines.Host;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests;
 
+[TestFixture, FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 public class TestBase
 {
+    private IPipelineHost? _host;
+
     public async Task<T> RunModule<T>() where T : ModuleBase
     {
-        var results = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<T>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
+        _host = host;
+        
+        var results = await host.ExecutePipelineAsync();
+        
         return results.OfType<T>().Single();
     }
 
@@ -31,5 +40,11 @@ public class TestBase
         var serviceProvider = host.Services;
         
         return (serviceProvider.GetRequiredService<T>(), host);
+    }
+
+    [TearDown]
+    public void DisposeCreatedHost()
+    {
+        _host?.Dispose();
     }
 }

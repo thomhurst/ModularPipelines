@@ -20,7 +20,7 @@ public class DotNetTestFailedException : PipelineException
     {
         get
         {
-            if (DotNetTestResult?.UnitTestResults?.ToList() is not { } unitTestResults)
+            if (DotNetTestResult?.UnitTestResults.ToList() is not { } unitTestResults)
             {
                 return GetStandardError();
             }

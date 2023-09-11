@@ -9,4 +9,10 @@ public static class GlobalTestSetup
         GlobalConfig.LogCommandInput = false;
         GlobalConfig.LogCommandOutput = false;
     }
+    
+    [OneTimeTearDown]
+    public static void Teardown()
+    {
+        GC.Collect();
+    }
 }

@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Host;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Extensions;
 
 internal static class HostExtensions
 {
-    public static async Task<IReadOnlyList<ModuleBase>> ExecuteAsync(this IHost host)
+    public static async Task<IReadOnlyList<ModuleBase>> ExecutePipelineAsync(this IPipelineHost host)
     {
         try
         {

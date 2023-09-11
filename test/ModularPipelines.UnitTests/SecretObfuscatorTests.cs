@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using ModularPipelines.Extensions;
+using ModularPipelines.Host;
 using ModularPipelines.UnitTests.Models;
 using Moq;
 
@@ -10,7 +10,7 @@ namespace ModularPipelines.UnitTests;
 [Parallelizable(ParallelScope.None)]
 public class SecretObfuscatorTests
 {
-    private IHost _pipeline = null!;
+    private IPipelineHost _pipeline = null!;
     private Mock<IBuildSystemDetector> _buildSystemMock = null!;
    
     private static TextWriter? _console;
@@ -50,7 +50,7 @@ public class SecretObfuscatorTests
         
         Console.SetOut(stringWriter);
         
-        await _pipeline.ExecuteAsync();
+        await _pipeline.ExecutePipelineAsync();
             
         var consoleOutput = stringWriter.ToString();
         
@@ -67,7 +67,7 @@ public class SecretObfuscatorTests
         
         Console.SetOut(stringWriter);
         
-        await _pipeline.ExecuteAsync();
+        await _pipeline.ExecutePipelineAsync();
             
         var consoleOutput = stringWriter.ToString();
         

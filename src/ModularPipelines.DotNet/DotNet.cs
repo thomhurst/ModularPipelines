@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
+using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.DotNet;
 
@@ -12,13 +15,18 @@ internal class DotNet : IDotNet
 {
     private readonly ICommand _command;
     private readonly IFileSystemContext _fileSystemContext;
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly ITrxParser _trxParser;
 
-    public DotNet(ITrxParser trxParser, ICommand command, IFileSystemContext fileSystemContext)
+    public DotNet(ITrxParser trxParser, 
+        ICommand command, 
+        IFileSystemContext fileSystemContext,
+        IModuleLoggerProvider moduleLoggerProvider)
     {
         _trxParser = trxParser;
         _command = command;
         _fileSystemContext = fileSystemContext;
+        _moduleLoggerProvider = moduleLoggerProvider;
     }
 
     public async Task<CommandResult> Restore(DotNetRestoreOptions options, CancellationToken cancellationToken = default)
@@ -48,7 +56,7 @@ internal class DotNet : IDotNet
 
     public async Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default)
     {
-        var trxFilePath = Path.GetTempFileName();
+        var trxFilePath = FileHelper.GetTempFileName();
 
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");
@@ -57,10 +65,19 @@ internal class DotNet : IDotNet
 
         var result = await _command.ExecuteCommandLineTool(options, cancellationToken);
 
-        // Allow file to flush
-        await Task.Delay(500, cancellationToken);
-        
+        await FileHelper.WaitForFileAsync(trxFilePath);
+
+        var logger = _moduleLoggerProvider.GetLogger();
+
+        if (!File.Exists(trxFilePath))
+        {
+            logger.LogDebug("No trx file was found at {Path}", trxFilePath);
+            throw new DotNetTestFailedException(result, null);
+        }
+
         var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
+
+        logger.LogDebug("Trx file contents: {Contents}", trxContents);
 
         var parsedTestResults = _trxParser.ParseTestResult(trxContents);
 

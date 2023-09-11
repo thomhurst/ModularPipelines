@@ -46,7 +46,7 @@ public class DotNetTestResultsTests : TestBase
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public void Has_Errored()
     {
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
@@ -57,14 +57,17 @@ public class DotNetTestResultsTests : TestBase
         
         Assert.Multiple(() =>
         {
-            Assert.That(exception?.DotNetTestResult?.Successful, Is.False);
-            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Failed).ToList(), Has.Count.EqualTo(1));
-            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.NotExecuted).ToList(), Has.Count.EqualTo(1));
-            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Passed).ToList(), Has.Count.EqualTo(2));
+            Assert.That(exception, Is.Not.Null, () => $"Exception is null: {exception}");
+            Assert.That(unitTestResults, Is.Not.Null, () => $"Unit test results are null: {exception!.CommandResult}");
+            Assert.That(exception?.DotNetTestResult, Is.Not.Null, () => $"DotNetTestResult is null: {exception?.DotNetTestResult}");
+            Assert.That(exception!.DotNetTestResult!.Successful, Is.False);
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Failed).ToList(), Has.Count.EqualTo(1));
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.NotExecuted).ToList(), Has.Count.EqualTo(1));
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Passed).ToList(), Has.Count.EqualTo(2));
         });
     }
     
-    [Test, Retry(3)]
+    [Test]
     public async Task Has_Not_Errored()
     {
         var module = await RunModule<DotNetTestWithoutFailureModule>();

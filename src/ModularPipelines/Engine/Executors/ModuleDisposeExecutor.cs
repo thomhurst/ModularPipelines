@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
@@ -16,6 +17,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         _options = options;
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try
