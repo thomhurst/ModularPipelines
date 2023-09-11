@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests;
@@ -9,10 +10,14 @@ public class TestBase
 {
     public async Task<T> RunModule<T>() where T : ModuleBase
     {
-        var results = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<T>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
+        
+        var results = await host.ExecutePipelineAsync();
 
+        host.Dispose();
+        
         return results.OfType<T>().Single();
     }
 

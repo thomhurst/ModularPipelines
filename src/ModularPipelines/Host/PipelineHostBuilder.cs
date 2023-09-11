@@ -16,7 +16,7 @@ public class PipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
     private readonly PipelineEnginePlugins _plugins;
-
+    
     public PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
@@ -88,10 +88,10 @@ public class PipelineHostBuilder
     {
         var host = await BuildHostAsync();
 
-        return await host.ExecuteAsync();
+        return await host.ExecutePipelineAsync();
     }
 
-    internal async Task<IHost> BuildHostAsync()
+    internal async Task<IPipelineHost> BuildHostAsync()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
 
@@ -103,7 +103,7 @@ public class PipelineHostBuilder
             }
         });
 
-        var host = _internalHost.Build();
+        var host = new PipelineHost(_internalHost.Build());
         
         await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
         
