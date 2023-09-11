@@ -7,16 +7,13 @@ internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IModuleExecutor _moduleExecutor;
-    private readonly EngineCancellationToken _engineCancellationToken;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleExecutor moduleExecutor,
-        EngineCancellationToken engineCancellationToken)
+        IModuleExecutor moduleExecutor)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
-        _engineCancellationToken = engineCancellationToken;
     }
 
     public async Task<IReadOnlyList<ModuleBase>> ExecuteAsync(List<ModuleBase> runnableModules,

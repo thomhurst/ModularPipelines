@@ -24,7 +24,7 @@ public static class FileHelper
                 continue;
             }
 
-            if (IsFileLocked(fileInfo))
+            if (await IsFileLocked(fileInfo))
             {
                 continue;
             }
@@ -33,11 +33,11 @@ public static class FileHelper
         }
     }
     
-    public static bool IsFileLocked(FileInfo file)
+    public static async Task<bool> IsFileLocked(FileInfo file)
     {
         try
         {
-            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            await using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
             stream.Close();
         }
         catch (IOException)
