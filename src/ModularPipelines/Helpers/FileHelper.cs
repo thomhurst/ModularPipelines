@@ -47,4 +47,9 @@ public static class FileHelper
 
         return false;
     }
+
+    public static string GetTempFileName()
+    {
+        return Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.tmp");
+    }
 }
