@@ -22,9 +22,7 @@ public class DotNetTestResultsTests : TestBase
             
             return await context.DotNet().Test(new DotNetTestOptions
             {
-                TargetPath = testProject,
-                LogInput = true,
-                LogOutput = true
+                TargetPath = testProject
             }, cancellationToken: cancellationToken);
         }
     }
@@ -39,9 +37,7 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = testProject,
-                Filter = "TestCategory=Pass",
-                LogInput = true,
-                LogOutput = true
+                Filter = "TestCategory=Pass"
             }, cancellationToken: cancellationToken);
         }
     }
