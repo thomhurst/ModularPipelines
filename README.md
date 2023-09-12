@@ -2,13 +2,26 @@
 
 Define your pipeline in .NET! Strong types, intellisense, parallelisation, and the entire .NET ecosystem at your fingertips.
 
-[![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/)
-![Nuget](https://img.shields.io/nuget/dt/ModularPipelines)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thomhurst/ModularPipelines/dotnet.yml)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/thomhurst/ModularPipelines/main)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-![License](https://img.shields.io/github/license/thomhurst/ModularPipelines)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/) ![Nuget](https://img.shields.io/nuget/dt/ModularPipelines) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thomhurst/ModularPipelines/dotnet.yml) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/thomhurst/ModularPipelines/main) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) ![License](https://img.shields.io/github/license/thomhurst/ModularPipelines) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+
+## Features
+- Parallel execution with easy waiting on dependencies if necessary
+- Familiar C# code
+- Strong typing, where different modules/steps can pass data to one another
+- Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
+- Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
+- Easy to Skip or Ignore Failures for each individual module by passing in custom logic
+- Hooks that can run before and/or after modules
+- Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
+- Easy to use File and Folder classes, that can search, read, update, delete and more
+- Source controlled pipelines
+- Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
+- No need to learn new syntaxes such as YAML defined pipelines
+- Strongly typed wrappers around command command line tools
+- Utilise existing .NET libraries
+- Secret obfuscation
+- Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
+- Dynamic console progress reporting (if the console supports interactive mode)
 
 ## Available Modules
 
@@ -39,6 +52,7 @@ If you want to see how to get started, or want to know more about ModularPipelin
 ## Code Examples
 
 ### Program.cs - Main method
+
 ```csharp
 await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
@@ -51,6 +65,12 @@ await PipelineHostBuilder.Create()
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
+
+        // Modules can also be added to the collection if you want to use any if logic here
+        // e.g. if(context.Configuration.Get<MySettings>("MySettings").ShouldDoSomething)
+        //      {
+        //          collection.AddModule<DoSomethingModule>();
+        //      }
     })
     .AddModule<FindNugetPackagesModule>()
     .AddModule<UploadNugetPackagesModule>()
@@ -62,7 +82,7 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    protected override async Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 
@@ -85,7 +105,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
@@ -98,3 +118,17 @@ public class UploadNugetPackagesModule : Module<FileInfo>
     }
 }
 ```
+
+### Contributing
+
+- If you find a bug, or have a feature request, please raise an issue
+- If you raise a PR, please write tests to cover the code. Even if it's not a new feature, a test confirming a fix will prevent any regressions in the future
+- This README is auto-generated. If you want to update anything, update `README_TEMPLATE.md` instead of `README.md`
+
+### Thanks to
+We don't need to reinvent the wheel if great libraries are already out there.
+So I built ModularPipelines on top of some other great and well tested libraries.
+So thanks to all the open source libraries out there, and for the foundations of the ModularPipelines framework, a special shout out to:
+- Microsoft - For C#, .NET, Microsoft.Extensions.DependencyInjection, Microsoft.Extensions.Hosting and others
+- CliWrap - For easier and cross platform command line calls from .NET
+- Polly - For robust and highly configurable retry logic
