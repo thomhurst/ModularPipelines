@@ -7,8 +7,12 @@ internal class ModuleDisposer : IModuleDisposer
     public async Task DisposeAsync(ModuleBase module)
     {
         await Dispose(module);
-        await Dispose(module.Context.ServiceProvider);
         await Dispose(module.Context.Logger);
+
+        if (!TestDetector.IsRunningFromNUnit)
+        {
+            await Dispose(module.Context.ServiceProvider);
+        }
     }
 
     private static async Task Dispose(object obj)

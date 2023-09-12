@@ -15,14 +15,10 @@ internal static class HostExtensions
         }
         finally
         {
-            if (!IsRunningFromNUnit)
+            if (!TestDetector.IsRunningFromNUnit)
             {
                 host.Dispose();
             }
         }
     }
-
-    private static readonly bool IsRunningFromNUnit = 
-        AppDomain.CurrentDomain.GetAssemblies().Any(
-            a => a.FullName?.ToLowerInvariant().StartsWith("nunit.framework") == true);
 }
