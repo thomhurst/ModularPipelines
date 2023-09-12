@@ -2,7 +2,6 @@
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Extensions;
 

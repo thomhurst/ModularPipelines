@@ -4,7 +4,7 @@ namespace ModularPipelines.FileSystem;
 
 public class Folder
 {
-    private DirectoryInfo _directoryInfo;
+    private readonly DirectoryInfo _directoryInfo;
 
     private DirectoryInfo DirectoryInfo
     {
@@ -22,6 +22,7 @@ public class Folder
     internal Folder(DirectoryInfo directoryInfo)
     {
         _directoryInfo = directoryInfo;
+        OriginalPath = Path;
     }
 
     public bool Exists => DirectoryInfo.Exists;
@@ -33,8 +34,13 @@ public class Folder
     public Folder? Parent => DirectoryInfo.Parent;
 
     public string Path => DirectoryInfo.FullName;
+    public string OriginalPath { get; }
 
-    public FileAttributes Attributes => DirectoryInfo.Attributes;
+    public FileAttributes Attributes
+    {
+        get => DirectoryInfo.Attributes;
+        set => DirectoryInfo.Attributes = value;
+    }
 
     public Folder Root => DirectoryInfo.Root;
 
@@ -84,13 +90,8 @@ public class Folder
 
     public Folder MoveTo(string path)
     {
-        var thisOriginalPath = Path;
-        
         DirectoryInfo.MoveTo(path);
-
-        _directoryInfo = new DirectoryInfo(thisOriginalPath);
-        
-        return new Folder(path);
+        return this;
     }
 
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
@@ -118,6 +119,13 @@ public class Folder
     {
         return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
             .Select(x => new Folder(x));
+    }
+    
+    public static Folder CreateTemporaryFolder()
+    {
+        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDirectory);
+        return tempDirectory!;
     }
     
     public static implicit operator Folder?(string? path)

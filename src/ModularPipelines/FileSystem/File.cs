@@ -4,7 +4,7 @@ namespace ModularPipelines.FileSystem;
 
 public class File
 {
-    private FileInfo _fileInfo;
+    private readonly FileInfo _fileInfo;
 
     private FileInfo FileInfo
     {
@@ -22,6 +22,7 @@ public class File
     internal File(FileInfo fileInfo)
     {
         _fileInfo = fileInfo;
+        OriginalPath = Path;
     }
 
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
@@ -61,9 +62,14 @@ public class File
 
     /// <inheritdoc cref="FileSystemInfo.FullName"/>>
     public string Path => FileInfo.FullName;
+    public string OriginalPath { get; }
 
     /// <inheritdoc cref="FileSystemInfo.Attributes"/>>
-    public FileAttributes Attributes => FileInfo.Attributes;
+    public FileAttributes Attributes
+    {
+        get { return FileInfo.Attributes; }
+        set { FileInfo.Attributes = value; }
+    }
 
     /// <inheritdoc cref="FileInfo.IsReadOnly"/>>
     public bool IsReadOnly => FileInfo.IsReadOnly;
@@ -82,18 +88,19 @@ public class File
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(string path)
     {
-        var thisOriginalPath = Path;
-        
         FileInfo.MoveTo(path);
-
-        _fileInfo = new FileInfo(thisOriginalPath);
-        
-        return new File(path);
+        return this;
     }
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path) => FileInfo.CopyTo(path);
     
+    public static string GetNewTemporaryFilePath()
+    {
+        return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+    }
+    
+    [return: NotNullIfNotNull("path")]
     public static implicit operator File?(string? path)
     {
         if (string.IsNullOrEmpty(path))

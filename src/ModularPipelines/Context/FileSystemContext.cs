@@ -5,55 +5,38 @@ namespace ModularPipelines.Context;
 
 internal class FileSystemContext : IFileSystemContext
 {
-    public void DeleteFile(string filePath) => System.IO.File.Delete(filePath);
+    public void DeleteFile(File file) => file.Delete();
 
-    public void DeleteFolder(string folderPath) => Directory.Delete(folderPath, true);
+    public void DeleteFolder(Folder folder) => folder.Delete();
 
-    public void CopyFile(string filePath, string destinationFilePath) => System.IO.File.Copy(filePath, destinationFilePath);
+    public File CopyFile(File file, string destinationFilePath) => file.CopyTo(destinationFilePath);
 
-    public void CopyFolder(string folderPath, string destinationFolder)
+    public Folder CopyFolder(Folder folder, string destinationFolder) => folder.CopyTo(destinationFolder);
+
+    public void MoveFile(File file, string destinationFilePath) => file.MoveTo(destinationFilePath);
+
+    public void MoveFolder(Folder folder, string destinationFolderPath) => folder.MoveTo(destinationFolderPath);
+
+    public bool FileExists(File file) => file.Exists;
+
+    public bool FolderExists(Folder folder) => folder.Exists;
+
+    public FileAttributes GetFileAttributes(File file) => file.Attributes;
+    public void SetFileAttributes(File file, FileAttributes attributes) => file.Attributes = attributes;
+    public FileAttributes GetFolderAttributes(Folder folder) => folder.Attributes;
+
+    public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;
+
+    public File GetFile(string filePath) => filePath;
+
+    public IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate)
     {
-        foreach (var innerFolder in Directory.EnumerateDirectories(folderPath, "*", SearchOption.AllDirectories))
-        {
-            Directory.CreateDirectory(innerFolder.Replace(folderPath, destinationFolder));
-        }
-
-        foreach (var newPath in Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories))
-        {
-            System.IO.File.Copy(newPath, newPath.Replace(folderPath, destinationFolder), true);
-        }
+        return rootFolder.GetFiles(predicate);
     }
 
-    public void MoveFile(string filePath, string destinationFilePath) => System.IO.File.Move(filePath, destinationFilePath);
-
-    public void MoveFolder(string filePath, string destinationFilePath) => Directory.Move(filePath, destinationFilePath);
-
-    public bool FileExists(string filePath) => System.IO.File.Exists(filePath);
-
-    public bool FolderExists(string filePath) => Directory.Exists(filePath);
-
-    public FileAttributes GetFileAttributes(string filePath) => System.IO.File.GetAttributes(filePath);
-    public void SetFileAttributes(string filepath, FileAttributes attributes) => System.IO.File.SetAttributes(filepath, attributes);
-    public File GetFile(string filePath) => new FileInfo(filePath);
-
-    public IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption)
+    public IEnumerable<Folder> GetFolders(Folder rootFolder, Func<Folder, bool> predicate)
     {
-        return Directory.EnumerateFiles(folderPath, "*", searchOption).Select(filePath => new File(new FileInfo(filePath)));
-    }
-
-    public IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption, Func<File, bool> predicate)
-    {
-        return GetFiles(folderPath, searchOption).Where(predicate);
-    }
-
-    public IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption)
-    {
-        return Directory.EnumerateDirectories(folderPath, "*", searchOption).Select(path => new Folder(new DirectoryInfo(path)));
-    }
-
-    public IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption, Func<Folder, bool> predicate)
-    {
-        return GetFolders(folderPath, searchOption).Where(predicate);
+        return rootFolder.GetFolders(predicate);
     }
 
     public Folder GetFolder(string path) => new DirectoryInfo(path);
@@ -65,13 +48,11 @@ internal class FileSystemContext : IFileSystemContext
 
     public Folder CreateTemporaryFolder()
     {
-        var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-        Directory.CreateDirectory(tempDirectory);
-        return tempDirectory!;
+        return Folder.CreateTemporaryFolder();
     }
 
     public string GetNewTemporaryFilePath()
     {
-        return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        return File.GetNewTemporaryFilePath();
     }
 }

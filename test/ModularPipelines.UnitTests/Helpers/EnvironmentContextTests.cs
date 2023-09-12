@@ -65,4 +65,23 @@ public class EnvironmentContextTests : TestBase
         
         Assert.That(path, Does.Contain(directoryToAdd));
     }
+
+    [Test]
+    public async Task Assert_Values_Populated()
+    {
+        var context = await GetService<IEnvironmentContext>();
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(context.ContentDirectory, Is.Not.Null);
+            Assert.That(context.OperatingSystem.ToString(), Is.Not.Null);
+            Assert.That(context.OperatingSystemVersion.ToString(), Is.Not.Null);
+            Assert.That(context.Is64BitOperatingSystem, Is.True.Or.False);
+            Assert.That(context.WorkingDirectory, Is.Not.Null);
+            Assert.That(context.AppDomainDirectory, Is.Not.Null);
+            Assert.That(context.GitRootDirectory, Is.Not.Null);
+            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData), Is.Not.Null);
+            Assert.That(context.EnvironmentName, Is.Not.Null);
+        });
+    }
 }

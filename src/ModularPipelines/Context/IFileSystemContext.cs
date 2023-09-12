@@ -5,31 +5,31 @@ namespace ModularPipelines.Context;
 
 public interface IFileSystemContext
 {
-    void DeleteFile(string filePath);
-    void DeleteFolder(string folderPath);
+    void DeleteFile(File file);
+    void DeleteFolder(Folder folder);
 
-    void CopyFile(string filePath, string destinationFilePath);
+    File CopyFile(File file, string destinationFilePath);
 
-    void CopyFolder(string folderPath, string destinationFolder);
+    Folder CopyFolder(Folder folder, string destinationFolder);
 
-    void MoveFile(string filePath, string destinationFilePath);
+    void MoveFile(File file, string destinationFilePath);
 
-    void MoveFolder(string filePath, string destinationFilePath);
+    void MoveFolder(Folder folder, string destinationFolderPath);
 
-    bool FileExists(string filePath);
-    bool FolderExists(string filePath);
+    bool FileExists(File file);
+    bool FolderExists(Folder folder);
 
-    FileAttributes GetFileAttributes(string filePath);
-    void SetFileAttributes(string filepath, FileAttributes attributes);
+    FileAttributes GetFileAttributes(File file);
+    void SetFileAttributes(File file, FileAttributes attributes);
+    
+    FileAttributes GetFolderAttributes(Folder folder);
+    void SetFolderAttributes(Folder folder, FileAttributes attributes);
 
     File GetFile(string filePath);
-    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption);
 
-    IEnumerable<File> GetFiles(string folderPath, SearchOption searchOption, Func<File, bool> predicate);
-
-    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption);
-
-    IEnumerable<Folder> GetFolders(string folderPath, SearchOption searchOption, Func<Folder, bool> predicate);
+    IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate);
+    
+    IEnumerable<Folder> GetFolders(Folder rootFolder, Func<Folder, bool> predicate);
 
     Folder GetFolder(string path);
     Folder GetFolder(Environment.SpecialFolder specialFolder);

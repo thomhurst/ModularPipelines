@@ -56,7 +56,7 @@ internal class DotNet : IDotNet
 
     public async Task<DotNetTestResult> Test(DotNetTestOptions options, CancellationToken cancellationToken = default)
     {
-        var trxFilePath = FileHelper.GetTempFileName();
+        var trxFilePath = FileSystem.File.GetNewTemporaryFilePath();
 
         options.Logger ??= new List<string>();
         options.Logger.Add($"trx;logfilename={trxFilePath}");

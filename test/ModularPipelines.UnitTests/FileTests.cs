@@ -1,4 +1,5 @@
-﻿using File = ModularPipelines.FileSystem.File;
+﻿using System.Globalization;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
 
@@ -33,8 +34,32 @@ public class FileTests : TestBase
         
         Assert.Multiple(() =>
         {
-            Assert.That(file.Exists, Is.False);
+            Assert.That(new File(file.OriginalPath).Exists, Is.False);
+
+            Assert.That(file.Exists, Is.True);
             Assert.That(file2.Exists, Is.True);
+        });
+    }
+
+    [Test]
+    public async Task Data_Is_Populated()
+    {
+        var file = await CreateRandomFile();
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(file.Exists, Is.True);
+            Assert.That(file.Attributes.ToString(), Is.Not.Null.Or.Empty);
+            Assert.That(file.Path, Is.Not.Null.Or.Empty);
+            Assert.That(file.OriginalPath, Is.Not.Null.Or.Empty);
+            Assert.That(file.Extension, Is.Not.Null.Or.Empty);
+            Assert.That(file.Folder?.ToString(), Is.Not.Null.Or.Empty);
+            Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture), Is.Not.Null.Or.Empty);
+            Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture), Is.Not.Null.Or.Empty);
+            Assert.That(file.Hidden, Is.False);
+            Assert.That(file.Name, Is.Not.Null.Or.Empty);
+            Assert.That(file.NameWithoutExtension, Is.Not.Null.Or.Empty);
+            Assert.That(file.IsReadOnly, Is.False);
         });
     }
     
@@ -62,7 +87,7 @@ public class FileTests : TestBase
 
     private static async Task<File> CreateRandomFile()
     {
-        var path = Path.GetTempFileName();
+        var path = File.GetNewTemporaryFilePath();
 
         await System.IO.File.WriteAllTextAsync(path, "Foo bar!");
 

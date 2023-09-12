@@ -65,6 +65,7 @@ internal static class DependencyInjectionSetup
             .AddTransient<IZip, Zip>()
             .AddTransient<IJson, Json>()
             .AddTransient<IXml, Xml>()
+            .AddTransient<IYaml, Yaml>()
             .AddTransient<IPowershell, Powershell>()
             .AddTransient<IBash, Bash>()
             .AddTransient<ISecretObfuscator, SecretObfuscator>()

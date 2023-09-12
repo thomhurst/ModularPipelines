@@ -1,4 +1,5 @@
-﻿using ModularPipelines.FileSystem;
+﻿using System.Globalization;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
 using File = System.IO.File;
 
@@ -100,7 +101,8 @@ public class FolderTests : TestBase
         
         Assert.Multiple(() =>
         {
-            Assert.That(folder.Exists, Is.False);
+            Assert.That(new Folder(folder.OriginalPath).Exists, Is.False);
+            Assert.That(folder.Exists, Is.True);
             Assert.That(folder2.Exists, Is.True);
             Assert.That(folder2.ListFiles().ToList(), Has.Count.EqualTo(10));
         });
@@ -134,6 +136,27 @@ public class FolderTests : TestBase
             Assert.That(folder.ListFiles().ToList(), Has.Count.EqualTo(10));
             Assert.That(folder2.Exists, Is.True);
             Assert.That(folder2.ListFiles().ToList(), Has.Count.EqualTo(10));
+        });
+    }
+    
+    [Test]
+    public void Data_Is_Populated()
+    {
+        var folder = CreateRandomFolder();
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(folder.Exists, Is.True);
+            Assert.That(folder.Attributes.ToString(), Is.Not.Null.Or.Empty);
+            Assert.That(folder.Path, Is.Not.Null.Or.Empty);
+            Assert.That(folder.OriginalPath, Is.Not.Null.Or.Empty);
+            Assert.That(folder.Extension, Is.Not.Null.Or.Empty);
+            Assert.That(folder.Parent?.ToString(), Is.Not.Null.Or.Empty);
+            Assert.That(folder.Root.ToString(), Is.Not.Null.Or.Empty);
+            Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture), Is.Not.Null.Or.Empty);
+            Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture), Is.Not.Null.Or.Empty);
+            Assert.That(folder.Hidden, Is.False);
+            Assert.That(folder.Name, Is.Not.Null.Or.Empty);
         });
     }
 

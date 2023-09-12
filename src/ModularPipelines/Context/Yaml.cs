@@ -7,6 +7,7 @@ internal class Yaml : IYaml
     public string ToYaml<T>(T input, INamingConvention namingConvention)
     {
         return new SerializerBuilder()
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
             .WithNamingConvention(namingConvention)
             .Build()
             .Serialize(input);
