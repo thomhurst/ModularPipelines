@@ -118,7 +118,7 @@ public class PredefinedInstallers : IPredefinedInstallers
 
         var result = await _bash.FromFile(new BashFileOptions(bashScript));
 
-        await _bash.Command(new BashCommandOptions(". ~/.profile"));
+        await _bash.Command(new BashCommandOptions("source ~/.nvm/nvm.sh"));
 
         return new File("/home/runner/.nvm");
     }
