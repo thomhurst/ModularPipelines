@@ -1,11 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
-using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;

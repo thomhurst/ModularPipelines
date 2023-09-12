@@ -63,6 +63,11 @@ public class File
     /// <inheritdoc cref="FileSystemInfo.FullName"/>>
     public string Path => FileInfo.FullName;
     public string OriginalPath { get; }
+    
+    public FileStream Create()
+    {
+        return System.IO.File.Create(Path);
+    }
 
     /// <inheritdoc cref="FileSystemInfo.Attributes"/>>
     public FileAttributes Attributes

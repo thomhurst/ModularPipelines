@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -17,7 +17,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         _options = options;
     }
     
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try

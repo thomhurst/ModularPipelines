@@ -18,7 +18,7 @@ public static class DockerExtensions
 
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IDocker, Docker>();
+        services.TryAddScoped<IDocker, Docker>();
         return services;
     }
 

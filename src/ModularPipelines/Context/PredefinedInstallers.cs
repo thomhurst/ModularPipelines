@@ -1,9 +1,11 @@
 ﻿using System.Runtime.InteropServices;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Mac;
 using ModularPipelines.Options.Windows;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
@@ -16,7 +18,9 @@ public class PredefinedInstallers : IPredefinedInstallers
     private readonly IMacInstaller _macInstaller;
     private readonly IWindowsInstaller _windowsInstaller;
     private readonly ILinuxInstaller _linuxInstaller;
-    private readonly IFileInstaller _fileInstaller;
+    private readonly IBash _bash;
+    private readonly IZip _zip;
+    private readonly IEnvironmentVariables _environmentVariables;
 
     public PredefinedInstallers(ICommand command, 
         IEnvironmentContext environmentContext, 
@@ -24,7 +28,9 @@ public class PredefinedInstallers : IPredefinedInstallers
         IMacInstaller macInstaller, 
         IWindowsInstaller windowsInstaller, 
         ILinuxInstaller linuxInstaller,
-        IFileInstaller fileInstaller)
+        IBash bash,
+        IZip zip,
+        IEnvironmentVariables environmentVariables)
     {
         _command = command;
         _environmentContext = environmentContext;
@@ -32,7 +38,9 @@ public class PredefinedInstallers : IPredefinedInstallers
         _macInstaller = macInstaller;
         _windowsInstaller = windowsInstaller;
         _linuxInstaller = linuxInstaller;
-        _fileInstaller = fileInstaller;
+        _bash = bash;
+        _zip = zip;
+        _environmentVariables = environmentVariables;
     }
 
     public async Task<CommandResult> Chocolatey()
@@ -79,17 +87,40 @@ public class PredefinedInstallers : IPredefinedInstallers
         return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile));
     }
 
-    public async Task<CommandResult> Nvm(string? version = null)
+    public async Task<File?> Nvm(string? version = null)
     {
-        version ??= "v0.39.4";
-        await _fileInstaller.InstallFromWebAsync(new WebInstallerOptions(new Uri($"https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh")));
-        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("export")
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Arguments = new[]
-            {
-                "NVM_DIR=\"$HOME/.nvm\"\n  [ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"  # This loads nvm\n  [ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""
-            }
-        });
+            var zipFile = await _downloader.DownloadFileAsync(
+                new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip")));
+
+            var newFolder = _zip.UnZipToFolder(zipFile, Folder.CreateTemporaryFolder());
+
+            await newFolder.GetFile("settings.txt").WriteAsync($"""
+                                                               root: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "nvm")}
+                                                               path: C:\Program Files\nodejs
+                                                               arch: 64
+                                                               proxy: none
+                                                               """);
+            
+            var symLinkFolder = newFolder.CreateFolder("nvm_symlink").GetFolder(Guid.NewGuid().ToString("N"));
+
+            _environmentVariables.SetEnvironmentVariable("NVM_HOME", newFolder);
+            _environmentVariables.SetEnvironmentVariable("NVM_SYMLINK", symLinkFolder);
+            _environmentVariables.AddToPath(newFolder);
+            _environmentVariables.AddToPath(symLinkFolder);
+            
+            return newFolder.FindFile(x => x.Name == "nvm.exe");
+        }
+
+        var bashScript = await _downloader.DownloadFileAsync(
+            new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh")));
+
+        var result = await _bash.FromFile(new BashFileOptions(bashScript));
+
+        await _command.ExecuteCommandLineTool(new CommandLineToolOptions("reset"));
+
+        return new File("/home/runner/.nvm");
     }
 
     public async Task<CommandResult> Node(string version = "--lts")

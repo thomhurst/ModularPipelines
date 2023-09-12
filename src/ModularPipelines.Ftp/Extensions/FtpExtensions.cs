@@ -18,7 +18,7 @@ public static class FtpExtensions
 
     public static IServiceCollection RegisterFtpContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IFtp, Ftp>();
+        services.TryAddScoped<IFtp, Ftp>();
         return services;
     }
 

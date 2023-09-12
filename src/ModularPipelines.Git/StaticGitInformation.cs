@@ -10,6 +10,8 @@ internal class StaticGitInformation : IGitInformation, IInitializer
 {
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
+    
+    public static StaticGitInformation? Instance { get; private set; }
 
     public StaticGitInformation(GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
     {
@@ -19,6 +21,8 @@ internal class StaticGitInformation : IGitInformation, IInitializer
 
     public async Task InitializeAsync()
     {
+        Instance ??= this;
+        
         try
         {
             await _gitCommandRunner.RunCommands(null, "version");

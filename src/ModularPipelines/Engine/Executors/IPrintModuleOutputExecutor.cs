@@ -1,9 +1,9 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 
 namespace ModularPipelines.Engine.Executors;
 
 internal interface IPrintModuleOutputExecutor
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     Task ExecuteAndPrintModuleOutput(Func<Task> executeDelegate);
 }

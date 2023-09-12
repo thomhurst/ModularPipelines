@@ -21,6 +21,7 @@ internal class ServiceProviderInitializer : IServiceProviderInitializer
     public async Task InitializeAsync()
     {
         await _serviceProvider.InitializeAsync();
+        
         _secretsLogFilter.SecretProvider = _secretProvider;
     }
 }

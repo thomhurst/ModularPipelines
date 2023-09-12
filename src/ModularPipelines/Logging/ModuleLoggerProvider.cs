@@ -8,20 +8,18 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
 
-internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
+internal class ModuleLoggerProvider : IModuleLoggerProvider
 {
     private readonly IServiceProvider _serviceProvider;
 
     private ILogger? _logger;
-    private readonly IServiceScope _serviceScope;
 
-    public ModuleLoggerProvider(IServiceScopeFactory serviceScopeFactory)
+    public ModuleLoggerProvider(IServiceProvider serviceProvider)
     {
-        _serviceScope = serviceScopeFactory.CreateScope();
-        _serviceProvider = _serviceScope.ServiceProvider;
+        _serviceProvider = serviceProvider;
     }
 
-    public ILogger GetLogger(Type type) => _logger ??= MakeLogger(type);
+    public ILogger GetLogger(Type type) => MakeLogger(type);
 
     public ILogger GetLogger()
     {
@@ -119,10 +117,5 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         }
 
         return type;
-    }
-
-    public void Dispose()
-    {
-        _serviceScope.Dispose();
     }
 }

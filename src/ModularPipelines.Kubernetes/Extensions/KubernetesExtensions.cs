@@ -18,7 +18,7 @@ public static class KubernetesExtensions
 
     public static IServiceCollection RegisterKubernetesContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IKubernetes, Kubernetes>();
+        services.TryAddScoped<IKubernetes, Kubernetes>();
         return services;
     }
 

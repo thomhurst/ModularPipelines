@@ -73,7 +73,7 @@ public class PipelineHostBuilder
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddSingleton<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
+            collection.AddScoped<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
         });
 
         return this;
