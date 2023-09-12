@@ -46,13 +46,19 @@ internal class Command : ICommand
             parsedArgs.Add("--");
             parsedArgs.AddRange(options.RunSettings);
         }
-
+        
+        string tool;
         if (options.Sudo)
         {
-            parsedArgs.Insert(0, "sudo");
+            tool = "sudo";
+            parsedArgs.Insert(0, options.Tool);
+        }
+        else
+        {
+            tool = options.Tool;
         }
         
-        var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
+        var command = Cli.Wrap(tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)
         {
