@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 [TestFixture, FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 public class TestBase
 {
-    private IPipelineHost? _host;
+    private readonly List<IPipelineHost> _hosts = new();
 
     public async Task<T> RunModule<T>() where T : ModuleBase
     {
@@ -17,7 +17,7 @@ public class TestBase
             .AddModule<T>()
             .BuildHostAsync();
 
-        _host = host;
+        _hosts.Add(host);
         
         var results = await host.ExecutePipelineAsync();
         
@@ -37,6 +37,8 @@ public class TestBase
             .ConfigureServices((context, collection) => configureServices?.Invoke(context, collection))
             .BuildHostAsync();
         
+        _hosts.Add(host);
+        
         var serviceProvider = host.Services;
         
         return (serviceProvider.GetRequiredService<T>(), host);
@@ -45,6 +47,6 @@ public class TestBase
     [TearDown]
     public void DisposeCreatedHost()
     {
-        _host?.Dispose();
+        _hosts.ForEach(h => h.Dispose());
     }
 }
