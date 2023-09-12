@@ -4,8 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public record AptGetOptions() : CommandLineToolOptions("apt-get")
+public record AptGetOptions : CommandLineToolOptions
 {
+    public AptGetOptions() : base("apt-get")
+    {
+        Sudo = true;
+    }
+
     [BooleanCommandSwitch("--download-only")]
     public bool? DownloadOnly { get; set; }
 

@@ -47,7 +47,18 @@ internal class Command : ICommand
             parsedArgs.AddRange(options.RunSettings);
         }
         
-        var command = Cli.Wrap(options.Tool).WithArguments(parsedArgs);
+        string tool;
+        if (options.Sudo)
+        {
+            tool = "sudo";
+            parsedArgs.Insert(0, options.Tool);
+        }
+        else
+        {
+            tool = options.Tool;
+        }
+        
+        var command = Cli.Wrap(tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)
         {

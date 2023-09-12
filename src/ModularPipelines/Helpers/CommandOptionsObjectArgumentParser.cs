@@ -9,7 +9,7 @@ public static class CommandOptionsObjectArgumentParser
 {
     public static void AddArgumentsFromOptionsObject(List<string> parsedArgs, object optionsArgumentsObject)
     {
-        var properties = optionsArgumentsObject.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var properties = GetProperties(optionsArgumentsObject);
 
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
 
@@ -25,6 +25,19 @@ public static class CommandOptionsObjectArgumentParser
         AddSwitches(parsedArgs, optionsArgumentsObject, properties);
 
         AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsAfter);
+    }
+
+    private static PropertyInfo[] GetProperties(object optionsArgumentsObject)
+    {
+        var type = optionsArgumentsObject.GetType();
+        
+        var publicProperties = type
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        
+        var nonPublicProperties = type
+            .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        return publicProperties.Concat(nonPublicProperties).ToArray();
     }
 
     private static void AddSwitches(List<string> parsedArgs, object optionsArgumentsObject, PropertyInfo[] properties)
