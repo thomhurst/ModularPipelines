@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using CliWrap;
 
 namespace ModularPipelines.Options;
@@ -42,6 +43,9 @@ public record CommandLineOptions
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
+    public bool Sudo { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        && BuildSystemDetector.Instance.IsKnownBuildAgent;
+    
     internal bool InternalDryRun { get; set; }
     public bool ThrowOnNonZeroExitCode { get; set; } = true;
 }
