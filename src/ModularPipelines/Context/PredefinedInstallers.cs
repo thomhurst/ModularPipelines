@@ -129,11 +129,15 @@ public class PredefinedInstallers : IPredefinedInstallers
     public async Task<CommandResult> Node(string version = "--lts")
     {
         await Nvm();
-        
-        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+
+        if (OperatingSystem.IsWindows)
         {
-            Arguments = new[] { "install", version },
-            WorkingDirectory = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? _environmentVariables.GetEnvironmentVariable("NVM_DIR") : null
-        });
+            return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+            {
+                Arguments = new[] {"install", version}
+            });
+        }
+        
+        return await _bash.Command(new BashCommandOptions($"nvm install {version}"));
     }
 }
