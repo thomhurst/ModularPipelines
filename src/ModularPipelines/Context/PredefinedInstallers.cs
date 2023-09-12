@@ -118,7 +118,7 @@ public class PredefinedInstallers : IPredefinedInstallers
 
         var result = await _bash.FromFile(new BashFileOptions(bashScript));
 
-        await _bash.Command(new BashCommandOptions("reset"));
+        await _bash.Command(new BashCommandOptions(". ~/.profile"));
 
         return new File("/home/runner/.nvm");
     }
