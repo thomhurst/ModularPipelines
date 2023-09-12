@@ -6,7 +6,7 @@ using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Build;
 
-public class GitHelpers
+public static class GitHelpers
 {
     public static async Task SetUserCommitInformation(IPipelineContext context, CancellationToken cancellationToken)
     {

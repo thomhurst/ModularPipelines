@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.Testing;
 
 namespace ModularPipelines.Analyzers.Test;
 
-internal class Net
+internal static class Net
 {
     private static readonly Lazy<ReferenceAssemblies> LazyNet60 = new(() =>
         new ReferenceAssemblies(

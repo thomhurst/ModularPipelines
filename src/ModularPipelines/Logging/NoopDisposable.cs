@@ -7,5 +7,6 @@ internal class NoopDisposable : IDisposable
 {
     public void Dispose()
     {
+        // Stub class
     }
 }

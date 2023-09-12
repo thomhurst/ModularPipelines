@@ -183,7 +183,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext, CancellationToken cancellationToken)
     {
-        moduleToProcess.Module.OnSubModuleCreated += (sender, subModule) =>
+        moduleToProcess.Module.OnSubModuleCreated += (_, subModule) =>
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
 
@@ -214,7 +214,7 @@ internal class ProgressPrinter : IProgressPrinter
             }, cancellationToken);
             
             // Callback for Module has finished
-            _ = subModule.Task.ContinueWith(t =>
+            subModule.Task.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {

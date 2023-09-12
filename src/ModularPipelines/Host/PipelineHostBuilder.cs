@@ -51,7 +51,7 @@ public class PipelineHostBuilder
     
     public PipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddModule<TModule>();
         });
@@ -61,7 +61,7 @@ public class PipelineHostBuilder
 
     public PipelineHostBuilder AddRequirement<TRequirement>() where TRequirement : class, IPipelineRequirement
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddRequirement<TRequirement>();
         });
@@ -71,7 +71,7 @@ public class PipelineHostBuilder
 
     public PipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddSingleton<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
         });
