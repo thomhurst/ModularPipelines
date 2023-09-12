@@ -2,6 +2,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
@@ -48,7 +49,8 @@ public class FormatMarkdownModule : Module<CommandResult>
                 "--use", "remark-preset-lint-consistent",
                 "--use", "remark-preset-lint-recommended",
                 "--output"
-            }
+            },
+            WorkingDirectory = context.Git().RootDirectory
         }, cancellationToken);
 
         if (!await GitHelpers.HasUncommittedChanges(context))
