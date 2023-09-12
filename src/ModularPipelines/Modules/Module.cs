@@ -164,7 +164,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 Context.EngineCancellationToken.Cancel();
 
                 // Give time for Engine to request cancellation
-                await Task.Delay(300);
+                await Task.Delay(500);
                 
                 ModuleResultTaskCompletionSource.SetException(exception);
                 
