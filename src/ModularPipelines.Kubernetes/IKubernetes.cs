@@ -153,7 +153,7 @@ public interface IKubernetes
 
     Task<CommandResult> Logs(KubernetesLogsOptions options, CancellationToken token = default);
 
-    Task<CommandResult> Options(KubernetesOptionsOptions options, CancellationToken token = default);
+    Task<CommandResult> Options(KubernetesOptionsOptions kubernetesOptions, CancellationToken token = default);
 
     Task<CommandResult> Patch(KubernetesPatchOptions options, CancellationToken token = default);
 

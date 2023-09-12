@@ -430,9 +430,9 @@ internal class Kubernetes : IKubernetes
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Options(KubernetesOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Options(KubernetesOptionsOptions kubernetesOptions, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(kubernetesOptions, token);
     }
 
     public async Task<CommandResult> Patch(KubernetesPatchOptions options, CancellationToken token = default)
