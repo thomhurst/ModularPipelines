@@ -121,7 +121,8 @@ public class PredefinedInstallers : IPredefinedInstallers
         await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\""));
         await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\""));
         await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""));
-
+        await _bash.Command(new BashCommandOptions("source ~/.bashrc"));
+        
         return new File("/home/runner/.nvm");
     }
 
