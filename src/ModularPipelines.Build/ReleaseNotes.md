@@ -1,1 +1,2 @@
+ - Commands now have a `Sudo` property which can be set to true to run as sudo
  - Improved Silent installation of .exe files
