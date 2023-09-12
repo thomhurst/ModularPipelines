@@ -9,10 +9,12 @@ internal class Downloader : IDownloader
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly HttpClient _defaultHttpClient;
+    private readonly ILogger _logger;
 
     public Downloader(IModuleLoggerProvider moduleLoggerProvider, HttpClient defaultHttpClient)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
+        _logger = moduleLoggerProvider.GetLogger();
         _defaultHttpClient = defaultHttpClient;
     }
 

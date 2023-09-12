@@ -27,21 +27,22 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
 
         collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
-        
+
         collection
-            .AddModule<RunUnitTestsModule>()
-            .AddModule<NugetVersionGeneratorModule>()
-            .AddModule<FindProjectsModule>()
-            .AddModule<FindProjectDependenciesModule>()
-            .AddModule<PackProjectsModule>()
-            .AddModule<PackageFilesRemovalModule>()
-            .AddModule<PackagePathsParserModule>()
-            .AddModule<CodeFormattedNicelyModule>()
-            .AddModule<GenerateReadMeModule>()
-            .AddModule<CodacyCodeCoverageUploader>()
-            .AddModule<InstallNodeModule>()
-            .AddModule<FormatMarkdownModule>()
-            .AddPipelineModuleHooks<MyModuleHooks>();
+
+            // .AddModule<RunUnitTestsModule>()
+            // .AddModule<NugetVersionGeneratorModule>()
+            // .AddModule<FindProjectsModule>()
+            // .AddModule<FindProjectDependenciesModule>()
+            // .AddModule<PackProjectsModule>()
+            // .AddModule<PackageFilesRemovalModule>()
+            // .AddModule<PackagePathsParserModule>()
+            // .AddModule<CodeFormattedNicelyModule>()
+            // .AddModule<GenerateReadMeModule>()
+            // .AddModule<CodacyCodeCoverageUploader>()
+            .AddModule<InstallNodeModule>();
+            // .AddModule<FormatMarkdownModule>()
+            // .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>
         {
@@ -50,17 +51,17 @@ var modules = await PipelineHostBuilder.Create()
                 new InMemoryCredentialStore(new Credentials(githubSettings.Value.StandardToken ?? "token")));
         });
 
-        if (context.HostingEnvironment.IsDevelopment())
-        {
-            collection.AddModule<CreateLocalNugetFolderModule>()
-                .AddModule<AddLocalNugetSourceModule>()
-                .AddModule<UploadPackagesToLocalNuGetModule>()
-                .AddModule<CheckReleaseNotesAddedModule>();
-        }
-        else
-        {
-            collection.AddModule<UploadPackagesToNugetModule>()
-                .AddModule<UpdateReleaseNotesModule>();
-        }
+        // if (context.HostingEnvironment.IsDevelopment())
+        // {
+        //     collection.AddModule<CreateLocalNugetFolderModule>()
+        //         .AddModule<AddLocalNugetSourceModule>()
+        //         .AddModule<UploadPackagesToLocalNuGetModule>()
+        //         .AddModule<CheckReleaseNotesAddedModule>();
+        // }
+        // else
+        // {
+        //     collection.AddModule<UploadPackagesToNugetModule>()
+        //         .AddModule<UpdateReleaseNotesModule>();
+        // }
     })
     .ExecutePipelineAsync();

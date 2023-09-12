@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
@@ -28,9 +29,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         {
             return _logger;
         }
-
+        
         var stackFrames = new StackTrace().GetFrames().ToList();
-        var module = stackFrames.Select(GetNonCompilerGeneratedType).FirstOrDefault(IsModule);
+
+        var module = GetModuleFromMarkerAttributes(stackFrames)
+                     ?? stackFrames.Select(GetNonCompilerGeneratedType).FirstOrDefault(IsModule);
 
         if (module == null)
         {
@@ -54,6 +57,14 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         }
 
         return MakeLogger(module);
+    }
+
+    private Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
+    {
+        return stackFrames
+            .Select(x => x.GetMethod())
+            .FirstOrDefault(x => x?.GetCustomAttribute<ModuleMethodMarkerAttribute>() != null)
+            ?.DeclaringType;
     }
 
     private ILogger MakeLogger(Type module)

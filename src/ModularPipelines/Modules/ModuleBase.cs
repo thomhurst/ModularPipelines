@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -8,6 +9,11 @@ namespace ModularPipelines.Modules;
 
 public abstract partial class ModuleBase
 {
+    [ModuleMethodMarker]
+    protected ModuleBase()
+    {
+    }
+    
     private IPipelineContext? _context; // Late Initialisation
 
     protected internal IPipelineContext Context
@@ -117,5 +123,6 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [ModuleMethodMarker]
     protected abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);
 }
