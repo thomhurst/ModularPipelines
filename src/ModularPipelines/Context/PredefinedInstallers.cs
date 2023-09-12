@@ -82,7 +82,14 @@ public class PredefinedInstallers : IPredefinedInstallers
     public async Task<CommandResult> Nvm(string? version = null)
     {
         version ??= "v0.39.4";
-        return await _fileInstaller.InstallFromWebAsync(new WebInstallerOptions(new Uri($"https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh")));
+        await _fileInstaller.InstallFromWebAsync(new WebInstallerOptions(new Uri($"https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh")));
+        return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("export")
+        {
+            Arguments = new[]
+            {
+                "NVM_DIR=\"$HOME/.nvm\"\n  [ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"  # This loads nvm\n  [ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""
+            }
+        });
     }
 
     public async Task<CommandResult> Node(string version = "--lts")
