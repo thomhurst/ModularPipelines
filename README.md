@@ -20,7 +20,7 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 -   Source controlled pipelines
 -   Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
 -   No need to learn new syntaxes such as YAML defined pipelines
--   Strongly typed wrappers around command command line tools
+-   Strongly typed wrappers around command line tools
 -   Utilise existing .NET libraries
 -   Secret obfuscation
 -   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
