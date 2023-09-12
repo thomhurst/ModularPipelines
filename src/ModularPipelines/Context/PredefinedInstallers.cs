@@ -131,7 +131,8 @@ public class PredefinedInstallers : IPredefinedInstallers
         
         return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "install", version }
+            Arguments = new[] { "install", version },
+            WorkingDirectory = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "$NVM_DIR" : null
         });
     }
 }
