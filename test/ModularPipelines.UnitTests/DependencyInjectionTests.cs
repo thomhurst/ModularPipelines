@@ -33,7 +33,7 @@ public class DependencyInjectionTests
         
         DependencyInjectionSetup.Initialize(serviceCollection);
 
-        serviceCollection.BuildServiceProvider(new ServiceProviderOptions()
+        serviceCollection.BuildServiceProvider(new ServiceProviderOptions
         {
             ValidateScopes = true,
             ValidateOnBuild = true

@@ -116,15 +116,11 @@ public class PredefinedInstallers : IPredefinedInstallers
         var bashScript = await _downloader.DownloadFileAsync(
             new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh")));
 
-        var result = await _bash.FromFile(new BashFileOptions(bashScript));
-
-        await _command.ExecuteCommandLineTool(new CommandLineToolOptions("source")
-        {
-            Arguments = new []
-            {
-                "~/.nvm/nvm.sh"
-            }
-        });
+        await _bash.FromFile(new BashFileOptions(bashScript));
+        
+        await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\""));
+        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\""));
+        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""));
 
         return new File("/home/runner/.nvm");
     }
