@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
@@ -27,19 +28,19 @@ var modules = await PipelineHostBuilder.Create()
 
         collection
 
-            // .AddModule<RunUnitTestsModule>()
-            // .AddModule<NugetVersionGeneratorModule>()
-            // .AddModule<FindProjectsModule>()
-            // .AddModule<FindProjectDependenciesModule>()
-            // .AddModule<PackProjectsModule>()
-            // .AddModule<PackageFilesRemovalModule>()
-            // .AddModule<PackagePathsParserModule>()
-            // .AddModule<CodeFormattedNicelyModule>()
-            // .AddModule<GenerateReadMeModule>()
-            // .AddModule<CodacyCodeCoverageUploader>()
-            .AddModule<InstallNodeModule>();
-            // .AddModule<FormatMarkdownModule>()
-            // .AddPipelineModuleHooks<MyModuleHooks>();
+            .AddModule<RunUnitTestsModule>()
+            .AddModule<NugetVersionGeneratorModule>()
+            .AddModule<FindProjectsModule>()
+            .AddModule<FindProjectDependenciesModule>()
+            .AddModule<PackProjectsModule>()
+            .AddModule<PackageFilesRemovalModule>()
+            .AddModule<PackagePathsParserModule>()
+            .AddModule<CodeFormattedNicelyModule>()
+            .AddModule<GenerateReadMeModule>()
+            .AddModule<CodacyCodeCoverageUploader>()
+            .AddModule<InstallNodeModule>()
+            .AddModule<FormatMarkdownModule>()
+            .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>
         {
