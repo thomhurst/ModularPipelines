@@ -44,7 +44,7 @@ public class FormatMarkdownModule : Module<CommandResult>
             Arguments = new[]
             {
                 "remark",
-                context.Git().RootDirectory,
+                context.Git().RootDirectory.Path,
                 "--use", "remark-lint",
                 "--use", "remark-preset-lint-consistent",
                 "--use", "remark-preset-lint-recommended",
