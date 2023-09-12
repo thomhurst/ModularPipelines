@@ -24,7 +24,8 @@ public class HttpTests : TestBase
         {
             LogRequest = false
         });
-        
+
+        await Dispose(result.Host.Services);
         result.Host.Dispose();
 
         var logFile = await File.ReadAllTextAsync(file);
@@ -55,6 +56,7 @@ public class HttpTests : TestBase
             LogResponse = false
         });
         
+        await Dispose(result.Host.Services);
         result.Host.Dispose();
 
         var logFile = await File.ReadAllTextAsync(file);
@@ -84,6 +86,7 @@ public class HttpTests : TestBase
 
         await loggingClient.GetAsync("https://www.github.com");
         
+        await Dispose(result.Host.Services);
         result.Host.Dispose();
 
         var logFile = await File.ReadAllTextAsync(file);

@@ -44,13 +44,12 @@ public class FormatMarkdownModule : Module<CommandResult>
             Arguments = new[]
             {
                 "remark",
-                ".",
+                context.Git().RootDirectory,
                 "--use", "remark-lint",
                 "--use", "remark-preset-lint-consistent",
                 "--use", "remark-preset-lint-recommended",
                 "--output"
-            },
-            WorkingDirectory = context.Git().RootDirectory
+            }
         }, cancellationToken);
 
         if (!await GitHelpers.HasUncommittedChanges(context))

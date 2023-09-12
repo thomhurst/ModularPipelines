@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -44,9 +45,24 @@ public class TestBase
         return (serviceProvider.GetRequiredService<T>(), host);
     }
 
-    [TearDown]
-    public void DisposeCreatedHost()
+    protected async Task Dispose(object obj)
     {
-        _hosts.ForEach(h => h.Dispose());
+        if (obj is IAsyncDisposable asyncDisposable)
+        {
+            await asyncDisposable.DisposeAsync();
+        }
+
+        if (obj is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+
+    [TearDown]
+    public async Task DisposeCreatedHost()
+    {
+        await _hosts.ToAsyncProcessorBuilder()
+            .ForEachAsync(Dispose)
+            .ProcessInParallel();
     }
 }
