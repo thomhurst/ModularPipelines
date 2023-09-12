@@ -9,7 +9,6 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<InstallNodeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;

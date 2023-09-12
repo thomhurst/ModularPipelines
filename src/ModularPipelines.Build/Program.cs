@@ -38,7 +38,6 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<CodeFormattedNicelyModule>()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
-            .AddModule<InstallNodeModule>()
             .AddModule<FormatMarkdownModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
