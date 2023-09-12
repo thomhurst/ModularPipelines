@@ -43,8 +43,7 @@ public record CommandLineOptions
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
-    public bool Sudo { get; set; } = RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-        && BuildSystemDetector.Instance.IsKnownBuildAgent;
+    public bool Sudo { get; set; }
     
     internal bool InternalDryRun { get; set; }
     public bool ThrowOnNonZeroExitCode { get; set; } = true;
