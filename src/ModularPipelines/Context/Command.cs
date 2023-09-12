@@ -94,7 +94,8 @@ internal class Command : ICommand
         {
             var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
 
-            Logger.LogInformation("---Command Result---\r\n\t{Output}",
+            Logger.LogInformation("---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}",
+                result.ExitCode,
                 string.IsNullOrEmpty(result.StandardError)
                     ? outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, optionsObject))
                     : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject)));
