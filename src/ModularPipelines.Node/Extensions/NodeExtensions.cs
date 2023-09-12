@@ -21,6 +21,7 @@ public static class NodeExtensions
         services.TryAddTransient<INode, Node>();
         services.TryAddTransient<INvm, Nvm>();
         services.TryAddTransient<INpm, Npm>();
+        services.TryAddTransient<INpx, Npx>();
         return services;
     }
 
