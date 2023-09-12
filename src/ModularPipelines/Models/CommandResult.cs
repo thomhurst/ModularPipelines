@@ -34,6 +34,8 @@ public record CommandResult
         StartTime = commandResult.StartTime;
         EndTime = commandResult.ExitTime;
         Duration = commandResult.RunTime;
+
+        ExitCode = commandResult.ExitCode;
     }
 
     /// <summary>
