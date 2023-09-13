@@ -4,10 +4,11 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Engine;
 
-internal class SecretProvider : ISecretProvider, IInitializer
+internal class SecretProvider : ISecretProvider
 {
     private readonly IOptionsProvider _optionsProvider;
-    public string[] Secrets { get; private set; } = Array.Empty<string>();
+    private readonly HashSet<string> _cachedSecrets = new();
+    public IEnumerable<string> Secrets => _cachedSecrets.Concat(GetSecrets(_optionsProvider.GetOptions())).Distinct();
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
@@ -18,14 +19,15 @@ internal class SecretProvider : ISecretProvider, IInitializer
     {
         foreach (var option in options)
         {
-            foreach (var secret in GetSecrets(option))
+            foreach (var secret in GetSecretsInObject(option))
             {
+                _cachedSecrets.Add(secret);
                 yield return secret;
             }
         }
     }
 
-    public IEnumerable<string> GetSecrets(object? option)
+    public IEnumerable<string> GetSecretsInObject(object? option)
     {
         if (option is null)
         {
@@ -46,12 +48,4 @@ internal class SecretProvider : ISecretProvider, IInitializer
             }
         }
     }
-
-    public Task InitializeAsync()
-    {
-        Secrets = GetSecrets(_optionsProvider.GetOptions()).ToArray();
-        return Task.CompletedTask;
-    }
-
-    public int Order { get; } = int.MaxValue;
 }

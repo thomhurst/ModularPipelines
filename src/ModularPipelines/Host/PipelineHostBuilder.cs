@@ -10,6 +10,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Host;
 
@@ -105,8 +106,9 @@ public class PipelineHostBuilder
         });
 
         var host = new PipelineHost(_internalHost.Build());
-        
-        await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
+
+        await host.RootServices.InitializeAsync();
+        await host.RootServices.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
         
         return host;
     }

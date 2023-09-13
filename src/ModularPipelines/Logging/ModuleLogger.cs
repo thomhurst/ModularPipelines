@@ -23,6 +23,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly ISecretProvider _secretProvider;
+    private readonly IConsoleWriter _consoleWriter;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
 
@@ -34,13 +35,15 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
-        ISecretProvider secretProvider)
+        ISecretProvider secretProvider,
+        IConsoleWriter consoleWriter)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
         _secretProvider = secretProvider;
+        _consoleWriter = consoleWriter;
         moduleLoggerContainer.AddLogger(this);
     }
 
@@ -152,17 +155,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            Console.WriteLine($@"::group::{GetCollapsibleSectionName()}");
+            _consoleWriter.WriteLine($@"::group::{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            Console.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
+            _consoleWriter.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            Console.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+            _consoleWriter.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
         }
     }
 
@@ -170,17 +173,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            Console.WriteLine(@"::endgroup::");
+            _consoleWriter.WriteLine(@"::endgroup::");
         }
         
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            Console.WriteLine(@"##[endgroup]");
+            _consoleWriter.WriteLine(@"##[endgroup]");
         }
         
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            Console.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
+            _consoleWriter.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
         }
     }
 

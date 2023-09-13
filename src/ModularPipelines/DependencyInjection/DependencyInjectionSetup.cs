@@ -95,7 +95,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddScoped<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
-            .AddScoped<IServiceProviderInitializer, ServiceProviderInitializer>();
+            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>();
 
         // Singletons
         services
@@ -109,6 +109,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
-            .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>();
+            .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
+            .AddSingleton<IConsoleWriter, ConsoleWriter>();
     }
 }

@@ -3,13 +3,16 @@
 internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
 {
     private readonly IBuildSystemDetector _buildSystemDetector;
-    
+    private readonly IConsoleWriter _consoleWriter;
+
     private readonly List<string> _alreadyMaskedSecrets = new();
     private readonly object _lock = new();
 
-    public BuildSystemSecretMasker(IBuildSystemDetector buildSystemDetector)
+    public BuildSystemSecretMasker(IBuildSystemDetector buildSystemDetector,
+        IConsoleWriter consoleWriter)
     {
         _buildSystemDetector = buildSystemDetector;
+        _consoleWriter = consoleWriter;
     }
 
     public void MaskSecrets(IEnumerable<string> secrets)
@@ -22,7 +25,7 @@ internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
 
                 if (_buildSystemDetector.IsRunningOnGitHubActions)
                 {
-                    Console.WriteLine($@"::add-mask::{secret}");
+                    _consoleWriter.WriteLine($@"::add-mask::{secret}");
                 }
             }
         }

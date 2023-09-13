@@ -52,4 +52,6 @@ internal class PipelineHost : IPipelineHost
         await Disposer.DisposeAsync(_hostImplementation.Services);
         GC.SuppressFinalize(this);
     }
+
+    public IServiceProvider RootServices => _hostImplementation.Services;
 }
