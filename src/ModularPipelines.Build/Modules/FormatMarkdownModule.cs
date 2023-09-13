@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -9,6 +10,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
+[DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
@@ -67,6 +69,5 @@ public class FormatMarkdownModule : Module<CommandResult>
 
         // Fail this run - The git push will trigger a new run
         throw new Exception("Formatting Markdown. This run will abort. Another run will trigger with the formatted markdown.");
-
     }
 }
