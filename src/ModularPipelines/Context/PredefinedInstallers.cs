@@ -89,7 +89,7 @@ public class PredefinedInstallers : IPredefinedInstallers
 
     public async Task<File?> Nvm(string? version = null)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (OperatingSystem.IsWindows)
         {
             var zipFile = await _downloader.DownloadFileAsync(
                 new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip")));

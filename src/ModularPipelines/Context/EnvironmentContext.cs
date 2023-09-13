@@ -76,22 +76,22 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
 
     private OSPlatform GetOperatingSystem()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (ModularPipelines.OperatingSystem.IsLinux)
         {
             return OSPlatform.Linux;
         }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (ModularPipelines.OperatingSystem.IsWindows)
         {
             return OSPlatform.Windows;
         }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        if (ModularPipelines.OperatingSystem.IsOSX)
         {
             return OSPlatform.OSX;
         }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+        if (ModularPipelines.OperatingSystem.IsFreeBSD)
         {
             return OSPlatform.FreeBSD;
         }

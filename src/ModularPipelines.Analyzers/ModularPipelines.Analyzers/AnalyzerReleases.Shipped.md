@@ -3,7 +3,7 @@
 ### New Rules
 
 Rule ID | Category | Severity | Notes
-\--------|----------|----------|--------------------
+--------|----------|----------|--------------------
 MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer
 EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzer
 LoggerInConstructor | Usage | Error | LoggerInConstructorAnalyzer

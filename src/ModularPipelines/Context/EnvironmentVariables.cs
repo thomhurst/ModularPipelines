@@ -6,7 +6,7 @@ namespace ModularPipelines.Context;
 internal class EnvironmentVariables : IEnvironmentVariables
 {
     private const string PathVariableName = "PATH";
-    private static char Delimiter => (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) ? ';' : ':';
+    private static char Delimiter => (OperatingSystem.IsWindows) ? ';' : ':';
 
     public string? GetEnvironmentVariable(string name, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {

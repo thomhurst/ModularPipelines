@@ -28,7 +28,7 @@ internal class Bash : IBash
 
     private async Task<string> ToWslPath(string path)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (OperatingSystem.IsWindows)
         {
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
             {
