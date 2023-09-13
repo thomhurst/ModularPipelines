@@ -18,7 +18,7 @@
       <PackageReference Include="Polly" Version="7.2.4" />
       <PackageReference Include="Spectre.Console" Version="0.47.0" />
       <PackageReference Include="TomLonghurst.EnumerableAsyncProcessor" Version="1.1.0" />
-      <PackageReference Include="TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization" Version="1.2.3-alpha06" />
+      <PackageReference Include="TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization" Version="1.2.3-alpha07" />
       <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20230901.27" />
       <PackageReference Include="YamlDotNet" Version="13.3.1" />
     </ItemGroup>
