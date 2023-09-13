@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Extensions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
@@ -31,7 +32,7 @@ public class TestBase
         return valueTuple.T;
     }
     
-    public async Task<(T T, IHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices) where T : notnull
+    public async Task<(T T, IPipelineHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices) where T : notnull
     {
         var host = await TestPipelineHostBuilder
             .Create()
@@ -45,24 +46,11 @@ public class TestBase
         return (serviceProvider.GetRequiredService<T>(), host);
     }
 
-    protected async Task Dispose(object obj)
-    {
-        if (obj is IAsyncDisposable asyncDisposable)
-        {
-            await asyncDisposable.DisposeAsync();
-        }
-
-        if (obj is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-    }
-
     [TearDown]
     public async Task DisposeCreatedHost()
     {
         await _hosts.ToAsyncProcessorBuilder()
-            .ForEachAsync(Dispose)
+            .ForEachAsync(Disposer.DisposeAsync)
             .ProcessInParallel();
     }
 }

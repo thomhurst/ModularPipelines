@@ -8,7 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
 
-internal class ModuleLoggerProvider : IModuleLoggerProvider
+internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -117,5 +117,13 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider
         }
 
         return type;
+    }
+
+    public void Dispose()
+    {
+        if (_logger is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
     }
 }

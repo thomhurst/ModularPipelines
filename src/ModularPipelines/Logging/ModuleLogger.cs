@@ -22,7 +22,6 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
-    private readonly IModuleStatusProvider _moduleStatusProvider;
     private readonly ISecretProvider _secretProvider;
 
     private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
@@ -35,14 +34,12 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         IModuleLoggerContainer moduleLoggerContainer, 
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
-        IModuleStatusProvider moduleStatusProvider,
         ISecretProvider secretProvider)
     {
         _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
-        _moduleStatusProvider = moduleStatusProvider;
         _secretProvider = secretProvider;
         moduleLoggerContainer.AddLogger(this);
     }

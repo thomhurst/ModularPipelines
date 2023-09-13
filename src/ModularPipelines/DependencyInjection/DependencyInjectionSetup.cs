@@ -68,7 +68,6 @@ internal static class DependencyInjectionSetup
             .AddScoped<IYaml, Yaml>()
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
-            .AddScoped<ISecretObfuscator, SecretObfuscator>()
             .AddScoped<IPipelineContextProvider, ModuleContextProvider>()
             .AddScoped<IChecksum, Checksum>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
@@ -91,25 +90,25 @@ internal static class DependencyInjectionSetup
             .AddScoped<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddScoped<IPipelineExecutor, PipelineExecutor>()
             .AddScoped<IModuleExecutor, ModuleExecutor>()
-            .AddScoped<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddScoped<IModuleDisposer, ModuleDisposer>()
             .AddScoped<ILogoPrinter, LogoPrinter>()
-            .AddScoped<IBuildSystemDetector, BuildSystemDetector>()
-            .AddScoped<IModuleStatusProvider, ModuleStatusProvider>()
-            .AddScoped<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddScoped<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddScoped<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
-            .AddScoped<IModuleIgnoreHandler, ModuleIgnoreHandler>();
+            .AddScoped<IServiceProviderInitializer, ServiceProviderInitializer>();
 
         // Singletons
         services
             .AddSingleton(secretsLogFilter)
-            .AddScoped<EngineCancellationToken>()
-            .AddScoped(typeof(ModuleLogger<>))
-            .AddScoped<IModuleLoggerContainer, ModuleLoggerContainer>()
-            .AddScoped<IServiceProviderInitializer, ServiceProviderInitializer>()
-            .AddScoped<IOptionsProvider, OptionsProvider>()
-            .AddScoped<ISecretProvider, SecretProvider>();
+            .AddSingleton<EngineCancellationToken>()
+            .AddSingleton(typeof(ModuleLogger<>))
+            .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
+            .AddSingleton<IOptionsProvider, OptionsProvider>()
+            .AddSingleton<ISecretProvider, SecretProvider>()
+            .AddSingleton<ISecretObfuscator, SecretObfuscator>()
+            .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
+            .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
+            .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
+            .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>();
     }
 }

@@ -2,6 +2,6 @@
 
 namespace ModularPipelines.Host;
 
-public interface IPipelineHost : IHost
+public interface IPipelineHost : IHost, IAsyncDisposable
 {
 }
