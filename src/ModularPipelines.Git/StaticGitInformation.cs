@@ -7,7 +7,7 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Git;
 
-internal class StaticGitInformation : IGitInformation, IInitializer
+internal class StaticGitInformation : IInitializer
 {
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
@@ -74,14 +74,4 @@ internal class StaticGitInformation : IGitInformation, IInitializer
     public string? LastCommitSha { get; private set; } = null!;
 
     public string? LastCommitShortSha { get; private set; } = null!;
-
-    public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IAsyncEnumerable<GitCommit> Commits(string branch, GitOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
 }
