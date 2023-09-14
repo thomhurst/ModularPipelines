@@ -3,6 +3,7 @@ using System.Security.Authentication;
 using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
+using ModularPipelines.Helpers;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -23,10 +24,30 @@ public class FtpTests : TestBase
         var localPath = File.GetNewTemporaryFilePath();
         
         var response = await client.DownloadFile(localPath, "/6jack/README.markdown");
-
+        
         var fileContents = await localPath.ReadAsync();
         
-        Assert.That(response, Is.EqualTo(FtpStatus.Success));
-        Assert.That(fileContents, Does.StartWith("6jack"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(response, Is.EqualTo(FtpStatus.Success));
+            Assert.That(fileContents, Does.StartWith("6jack"));
+        });
+    }
+
+    [Test]
+    public async Task Client_Is_Disposed_Properly()
+    {
+        var ftp = await GetService<IFtp>();
+
+        var client = await ftp.GetFtpClientAsync(new FtpOptions("ftp.pureftpd.org", new NetworkCredential())
+        {
+            ClientConfigurator = client => { }
+        });
+        
+        Assert.That(client.IsDisposed, Is.False);
+
+        await Disposer.DisposeObjectAsync(client);
+        
+        Assert.That(client.IsDisposed, Is.True);
     }
 }
