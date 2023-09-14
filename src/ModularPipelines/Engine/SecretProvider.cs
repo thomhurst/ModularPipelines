@@ -4,11 +4,12 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Engine;
 
-internal class SecretProvider : ISecretProvider
+internal class SecretProvider : ISecretProvider, IInitializer
 {
     private readonly IOptionsProvider _optionsProvider;
-    private readonly HashSet<string> _cachedSecrets = new();
-    public IEnumerable<string> Secrets => _cachedSecrets.Concat(GetSecrets(_optionsProvider.GetOptions())).Distinct();
+    
+    private List<string> _secrets = new();
+    public IReadOnlyList<string> Secrets => _secrets;
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
@@ -21,7 +22,7 @@ internal class SecretProvider : ISecretProvider
         {
             foreach (var secret in GetSecretsInObject(option))
             {
-                _cachedSecrets.Add(secret);
+                _secrets.Add(secret);
                 yield return secret;
             }
         }
@@ -47,5 +48,11 @@ internal class SecretProvider : ISecretProvider
                 yield return secret;
             }
         }
+    }
+
+    public Task InitializeAsync()
+    {
+        _secrets = GetSecrets(_optionsProvider.GetOptions()).ToList();
+        return Task.CompletedTask;
     }
 }
