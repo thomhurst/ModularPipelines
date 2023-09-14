@@ -67,6 +67,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
+                ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
 
