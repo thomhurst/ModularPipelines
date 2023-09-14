@@ -18,8 +18,7 @@ internal static class Disposer
     }
 
     public static void DisposeObject(object? obj) => DisposeObjectAsync(obj).GetAwaiter().GetResult();
-
-
+    
     [ExcludeFromCodeCoverage]
     public static void RegisterOnShutdown(object? obj)
     {
