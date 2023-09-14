@@ -45,7 +45,7 @@ public class FtpTests : TestBase
         
         Assert.That(client.IsDisposed, Is.False);
 
-        await Disposer.DisposeObjectAsync(client);
+        await Disposer.DisposeObjectAsync(ftp);
         
         Assert.That(client.IsDisposed, Is.True);
     }
