@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Node;
 
+[ExcludeFromCodeCoverage]
 internal class Npx : INpx
 {
     private readonly ICommand _command;

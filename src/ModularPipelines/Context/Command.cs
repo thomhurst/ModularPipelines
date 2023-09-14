@@ -29,8 +29,6 @@ internal class Command : ICommand
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
-        Process.GetCurrentProcess().Refresh();
-        
         var optionsObject = GetOptionsObject(options);
 
         var precedingArgs =

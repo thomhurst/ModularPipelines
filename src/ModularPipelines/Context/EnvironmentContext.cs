@@ -22,7 +22,7 @@ internal class EnvironmentContext : IEnvironmentContext
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
 
-        OperatingSystem = GetOperatingSystem();
+        OperatingSystem = ModularPipelines.OperatingSystem.GetOperatingSystem();
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
@@ -46,29 +46,4 @@ internal class EnvironmentContext : IEnvironmentContext
     }
 
     public IEnvironmentVariables EnvironmentVariables { get; }
-
-    private OSPlatform GetOperatingSystem()
-    {
-        if (ModularPipelines.OperatingSystem.IsLinux)
-        {
-            return OSPlatform.Linux;
-        }
-
-        if (ModularPipelines.OperatingSystem.IsWindows)
-        {
-            return OSPlatform.Windows;
-        }
-
-        if (ModularPipelines.OperatingSystem.IsOSX)
-        {
-            return OSPlatform.OSX;
-        }
-
-        if (ModularPipelines.OperatingSystem.IsFreeBSD)
-        {
-            return OSPlatform.FreeBSD;
-        }
-
-        return OSPlatform.Create("Unknown");
-    }
 }
