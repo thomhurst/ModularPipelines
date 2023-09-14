@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
@@ -9,9 +8,9 @@ internal class GitCommandRunner
 {
     private readonly IPipelineContext _context;
 
-    public GitCommandRunner(IServiceProvider serviceProvider)
+    public GitCommandRunner(IPipelineContext context)
     {
-        _context = serviceProvider.CreateAsyncScope().ServiceProvider.GetRequiredService<IPipelineContext>();
+        _context = context;
     }
 
     public async Task<string> RunCommands(CommandLineOptions? commandEnvironmentOptions, params string?[] commands)

@@ -20,11 +20,9 @@ internal class GitInformation : IGitInformation
         _staticGitInformation = staticGitInformation;
         _gitCommandRunner = gitCommandRunner;
         _gitCommitMapper = gitCommitMapper;
-
-        Root = environmentContext.GitRootDirectory!;
     }
 
-    public Folder Root { get; }
+    public Folder Root => _staticGitInformation.Root;
 
     public string? BranchName => _staticGitInformation.BranchName;
     public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
