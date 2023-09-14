@@ -18,7 +18,7 @@ internal class StaticGitInformation : IGitInformation, IInitializer
     {
         var scope = serviceProvider.CreateAsyncScope();
         _gitCommandRunner = scope.ServiceProvider.GetRequiredService<GitCommandRunner>();
-        _gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();;
+        _gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();
     }
 
     public async Task InitializeAsync()
