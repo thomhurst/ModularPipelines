@@ -174,6 +174,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
+            ModuleResultTaskCompletionSource.TrySetCanceled();
+            
             await OnAfterExecute(Context);
 
             LogModuleStatus();
