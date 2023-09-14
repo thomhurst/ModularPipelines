@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Helpers;
 
-internal static class Disposer
+public static class Disposer
 {
     public static async Task DisposeObjectAsync(object? obj)
     {

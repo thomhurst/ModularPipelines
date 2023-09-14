@@ -100,7 +100,7 @@ public class File
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path) => FileInfo.CopyTo(path);
     
-    public static string GetNewTemporaryFilePath()
+    public static File GetNewTemporaryFilePath()
     {
         return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
     }
