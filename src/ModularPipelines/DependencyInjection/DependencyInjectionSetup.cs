@@ -15,7 +15,6 @@ using Vertical.SpectreLogger;
 
 namespace ModularPipelines.DependencyInjection;
 
-[ExcludeFromCodeCoverage]
 internal static class DependencyInjectionSetup
 {
     public static void Initialize(IServiceCollection services)
