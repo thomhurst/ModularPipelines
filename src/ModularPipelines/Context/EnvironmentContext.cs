@@ -10,7 +10,7 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Context;
 
-internal class EnvironmentContext : IEnvironmentContext, IInitializer
+internal class EnvironmentContext : IEnvironmentContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHostEnvironment _hostEnvironment;
@@ -43,7 +43,6 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
     public Folder ContentDirectory { get; set; }
 
     public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
-
     public Folder? GitRootDirectory { get; set; }
 
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
@@ -52,27 +51,6 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
     }
 
     public IEnvironmentVariables EnvironmentVariables { get; }
-
-    public async Task InitializeAsync()
-    {
-        CommandResult gitCommandOutput;
-        try
-        {
-            gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
-            {
-                Arguments = new[] { "rev-parse", "--show-toplevel" },
-                LogInput = false,
-                LogOutput = false
-            });
-        }
-        catch (CommandException e)
-        {
-            _moduleLoggerProvider.GetLogger().LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
-            return;
-        }
-
-        GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
-    }
 
     private OSPlatform GetOperatingSystem()
     {

@@ -22,9 +22,9 @@ public static class GitExtensions
         services.TryAddScoped<IGitCommands, GitCommands>();
         services.TryAddScoped<IGitInformation, GitInformation>();
         services.TryAddScoped<IGitVersioning, GitVersioning>();
-        services.TryAddScoped<StaticGitInformation>();
-        services.TryAddScoped<GitCommandRunner>();
-        services.TryAddScoped<IGitCommitMapper, GitCommitMapper>();
+        services.TryAddSingleton<StaticGitInformation>();
+        services.TryAddSingleton<GitCommandRunner>();
+        services.TryAddSingleton<IGitCommitMapper, GitCommitMapper>();
         return services;
     }
 
