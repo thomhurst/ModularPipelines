@@ -1,4 +1,3 @@
-using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Git;

@@ -1,11 +1,8 @@
-﻿using System.Collections.Immutable;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Helpers;
-using ModularPipelines.Logging;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Host;
 
