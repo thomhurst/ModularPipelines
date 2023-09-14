@@ -12,53 +12,56 @@ namespace ModularPipelines.UnitTests;
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 public class SecretObfuscatorTests
 {
-    private readonly Lazy<Task<IPipelineHost>> _pipeline;
     private readonly Mock<IBuildSystemDetector> _buildSystemMock;
-    
+    private readonly Mock<IConsoleWriter> _consoleWriterMock;
+
     private readonly StringBuilder _stringBuilder = new();
-    
+
     public SecretObfuscatorTests()
     {
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
-        var consoleWriterMock = new Mock<IConsoleWriter>();
-        consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
+        _consoleWriterMock = new Mock<IConsoleWriter>();
+        _consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
             .Callback<string>(value => _stringBuilder.AppendLine(value));
-        
-        _pipeline = new Lazy<Task<IPipelineHost>>(TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton(_buildSystemMock.Object);
-                services.Configure<MyModel>(context.Configuration);
-                services.AddSingleton(consoleWriterMock.Object);
-            })
-            .AddModule<GlobalDummyModule>()
-            .BuildHostAsync());
     }
-    
+
     [Test]
     public async Task GitHubActions_MasksSecrets()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(true);
         
-        await (await _pipeline.Value).ExecutePipelineAsync();
+        await (await GetPipelineHost()).ExecutePipelineAsync();
 
         var logOutput = _stringBuilder.ToString();
         
         Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
     }
-    
+
     [Test]
     public async Task DoesNotMaskSecrets_WhenNotGitHubActions()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(false);
         
-        await (await _pipeline.Value).ExecutePipelineAsync();
+        await (await GetPipelineHost()).ExecutePipelineAsync();
             
         var logOutput = _stringBuilder.ToString();
         
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+    }
+
+    private Task<IPipelineHost> GetPipelineHost()
+    {
+        return TestPipelineHostBuilder.Create()
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton(_buildSystemMock.Object);
+                services.Configure<MyModel>(context.Configuration);
+                services.AddSingleton(_consoleWriterMock.Object);
+            })
+            .AddModule<GlobalDummyModule>()
+            .BuildHostAsync();
     }
 }
