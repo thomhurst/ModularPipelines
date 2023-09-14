@@ -5,5 +5,5 @@ namespace ModularPipelines.Ftp;
 
 public interface IFtp
 {
-    Task<AsyncFtpClient> GetFtpClient(FtpOptions downloadOptions);
+    Task<AsyncFtpClient> GetFtpClientAsync(FtpOptions options);
 }

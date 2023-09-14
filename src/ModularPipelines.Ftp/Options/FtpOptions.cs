@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using FluentFTP;
 
 namespace ModularPipelines.Ftp.Options;
 
@@ -7,4 +8,7 @@ namespace ModularPipelines.Ftp.Options;
 public record FtpOptions(
     string Host,
     NetworkCredential Credentials
-);
+)
+{
+    public Action<IAsyncFtpClient>? ClientConfigurator { get; init; }
+}

@@ -12,7 +12,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        var newLocation = File.GetNewTemporaryFilePath();
+        var newLocation = File.GetNewTemporaryFilePath().Path;
         
         context.MoveFile(file, newLocation);
         
@@ -31,7 +31,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        var newLocation = File.GetNewTemporaryFilePath();
+        var newLocation = File.GetNewTemporaryFilePath().Path;
         
         var newFile = context.CopyFile(file, newLocation);
         
@@ -81,7 +81,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        var newLocation = File.GetNewTemporaryFilePath();
+        var newLocation = File.GetNewTemporaryFilePath().Path;
         
         context.MoveFolder(folder, newLocation);
         
@@ -100,7 +100,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        var newLocation = File.GetNewTemporaryFilePath();
+        var newLocation = File.GetNewTemporaryFilePath().Path;
         
         var newFile = context.CopyFolder(folder, newLocation);
         
