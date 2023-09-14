@@ -16,10 +16,7 @@ internal class PipelineHost : IPipelineHost
         _hostImplementation = hostImplementation;
         _serviceScope = hostImplementation.Services.CreateAsyncScope();
 
-        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
-        {
-            Dispose();
-        };
+        Disposer.RegisterOnShutdown(this);
     }
     
     ~PipelineHost()
@@ -59,10 +56,10 @@ internal class PipelineHost : IPipelineHost
         
         foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
         {
-            await Disposer.DisposeAsync(disposable);
+            await Disposer.DisposeObjectAsync(disposable);
         }
         
-        await Disposer.DisposeAsync(_hostImplementation);
+        await Disposer.DisposeObjectAsync(_hostImplementation);
         GC.SuppressFinalize(this);
     }
 

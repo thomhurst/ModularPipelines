@@ -32,7 +32,7 @@ public class DisposerTests
             Assert.That(myClass.DisposedAsync, Is.False);
         });
         
-        await Disposer.DisposeAsync(myClass);
+        await Disposer.DisposeObjectAsync(myClass);
         
         Assert.Multiple(() =>
         {

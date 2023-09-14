@@ -6,21 +6,17 @@ internal class EngineCancellationToken : CancellationTokenSource
 
     public EngineCancellationToken()
     {
-        Console.CancelKeyPress += (_, _) =>
-        {
-            if (!_disposed && Token.CanBeCanceled)
-            {
-                Cancel();
-            }
-        };
+        Console.CancelKeyPress += (_, _) => TryCancel();
 
-        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
+        AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
+    }
+
+    private void TryCancel()
+    {
+        if (!_disposed && Token.CanBeCanceled)
         {
-            if (!_disposed && Token.CanBeCanceled)
-            {
-                Cancel();
-            }
-        };
+            Cancel();
+        }
     }
 
     protected override void Dispose(bool disposing)
