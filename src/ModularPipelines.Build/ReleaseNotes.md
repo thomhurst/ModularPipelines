@@ -1,1 +1,1 @@
- - Allow configuring of FTP client via options
+*   Allow configuring of FTP client via options
