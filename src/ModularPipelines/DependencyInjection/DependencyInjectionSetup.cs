@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
@@ -14,6 +15,7 @@ using Vertical.SpectreLogger;
 
 namespace ModularPipelines.DependencyInjection;
 
+[ExcludeFromCodeCoverage]
 internal static class DependencyInjectionSetup
 {
     public static void Initialize(IServiceCollection services)
