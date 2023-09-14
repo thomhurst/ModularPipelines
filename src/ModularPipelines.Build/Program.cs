@@ -27,8 +27,9 @@ var modules = await PipelineHostBuilder.Create()
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
 
         collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
-        
+
         collection
+
             .AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<FindProjectsModule>()
@@ -39,6 +40,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<CodeFormattedNicelyModule>()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
+            .AddModule<FormatMarkdownModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>

@@ -10,6 +10,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
+using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 
 namespace ModularPipelines.Host;
 
@@ -51,7 +52,7 @@ public class PipelineHostBuilder
     
     public PipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddModule<TModule>();
         });
@@ -61,7 +62,7 @@ public class PipelineHostBuilder
 
     public PipelineHostBuilder AddRequirement<TRequirement>() where TRequirement : class, IPipelineRequirement
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddRequirement<TRequirement>();
         });
@@ -71,9 +72,9 @@ public class PipelineHostBuilder
 
     public PipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
     {
-        _internalHost.ConfigureServices((context, collection) =>
+        _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddSingleton<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
+            collection.AddScoped<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
         });
 
         return this;
@@ -105,8 +106,9 @@ public class PipelineHostBuilder
         });
 
         var host = new PipelineHost(_internalHost.Build());
-        
-        await host.Services.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
+
+        await host.RootServices.InitializeAsync();
+        await host.RootServices.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
         
         return host;
     }

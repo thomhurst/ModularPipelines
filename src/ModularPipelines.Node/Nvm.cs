@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
 
+[ExcludeFromCodeCoverage]
 internal class Nvm : INvm
 {
     private readonly IPipelineContext _context;

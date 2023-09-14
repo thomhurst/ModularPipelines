@@ -61,7 +61,7 @@ internal class Downloader : IDownloader
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
         {
-            return Path.GetTempFileName() + Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri);
+            return Path.Combine(Path.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
         }
 
         if (Path.HasExtension(options.SavePath))

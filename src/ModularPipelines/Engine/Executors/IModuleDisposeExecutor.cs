@@ -1,10 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
 internal interface IModuleDisposeExecutor
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate);
 }

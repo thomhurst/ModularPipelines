@@ -57,7 +57,7 @@ internal class PipelineContext : IPipelineContext
 
     public IFileSystemContext FileSystem { get; }
 
-    public PipelineContext(IServiceScopeFactory serviceScopeFactory,
+    public PipelineContext(IServiceProvider serviceProvider,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IEnvironmentContext environment,
         IFileSystemContext fileSystem,
@@ -100,7 +100,7 @@ internal class PipelineContext : IPipelineContext
         Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
-        ServiceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
+        ServiceProvider = serviceProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         Environment = environment;
         FileSystem = fileSystem;

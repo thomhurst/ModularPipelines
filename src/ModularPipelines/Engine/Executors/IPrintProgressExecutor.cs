@@ -1,10 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Executors;
 
 internal interface IPrintProgressExecutor
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate);
 }

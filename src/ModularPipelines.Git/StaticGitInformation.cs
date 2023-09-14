@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
@@ -6,19 +7,24 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Git;
 
-internal class StaticGitInformation : IGitInformation, IInitializer
+internal class StaticGitInformation : IInitializer
 {
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
+    
+    public static StaticGitInformation? Instance { get; private set; }
 
-    public StaticGitInformation(GitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
+    public StaticGitInformation(IServiceProvider serviceProvider)
     {
-        _gitCommandRunner = gitCommandRunner;
-        _gitCommitMapper = gitCommitMapper;
+        var scope = serviceProvider.CreateAsyncScope();
+        _gitCommandRunner = scope.ServiceProvider.GetRequiredService<GitCommandRunner>();
+        _gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();
     }
 
     public async Task InitializeAsync()
     {
+        Instance ??= this;
+        
         try
         {
             await _gitCommandRunner.RunCommands(null, "version");
@@ -28,6 +34,7 @@ internal class StaticGitInformation : IGitInformation, IInitializer
             throw new Exception("Error detecting Git repository", e);
         }
 
+        Root = (await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--show-toplevel"))!;
         BranchName = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "HEAD");
         DefaultBranchName = (await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "origin/HEAD"))?.Replace("origin/", string.Empty);
         LastCommitSha = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "HEAD");
@@ -55,7 +62,7 @@ internal class StaticGitInformation : IGitInformation, IInitializer
 
     public GitCommit? PreviousCommit { get; private set; }
 
-    public Folder Root { get; } = null!;
+    public Folder Root { get; private set; } = null!;
     public string? BranchName { get; private set; } = null!;
     public string? DefaultBranchName { get; private set; } = null!;
 
@@ -67,14 +74,4 @@ internal class StaticGitInformation : IGitInformation, IInitializer
     public string? LastCommitSha { get; private set; } = null!;
 
     public string? LastCommitShortSha { get; private set; } = null!;
-
-    public IAsyncEnumerable<GitCommit> Commits(GitOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IAsyncEnumerable<GitCommit> Commits(string branch, GitOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
 }

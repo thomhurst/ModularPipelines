@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.UnitTests.Models;
@@ -7,71 +8,65 @@ using Moq;
 namespace ModularPipelines.UnitTests;
 
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
-[Parallelizable(ParallelScope.None)]
 public class SecretObfuscatorTests
 {
-    private IPipelineHost _pipeline = null!;
-    private Mock<IBuildSystemDetector> _buildSystemMock = null!;
-   
-    private static TextWriter? _console;
-    [OneTimeSetUp]
-    public static void SetUp()
-    {
-        _console = Console.Out;
-    }
+    private readonly Mock<IBuildSystemDetector> _buildSystemMock;
+    private readonly Mock<IConsoleWriter> _consoleWriterMock;
 
-    [OneTimeTearDown]
-    public static void TearDown()
-    {
-        Console.SetOut(_console!);
-    }
+    private readonly StringBuilder _stringBuilder = new();
 
-    [SetUp]
-    public async Task Setup()
+    public SecretObfuscatorTests()
     {
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
-        _pipeline = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton(_buildSystemMock.Object);
-                services.Configure<MyModel>(context.Configuration);
-            })
-            .AddModule<GlobalDummyModule>()
-            .BuildHostAsync();
+        _consoleWriterMock = new Mock<IConsoleWriter>();
+        _consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
+            .Callback<string>(value => _stringBuilder.AppendLine(value));
     }
-    
+
     [Test]
     public async Task GitHubActions_MasksSecrets()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(true);
+        
+        await ExecutePipelineAsync();
 
-        await using var stringWriter = new StringWriter();
+        var logOutput = _stringBuilder.ToString();
         
-        Console.SetOut(stringWriter);
-        
-        await _pipeline.ExecutePipelineAsync();
-            
-        var consoleOutput = stringWriter.ToString();
-        
-        Assert.That(consoleOutput, Contains.Substring("::add-mask::This is a secret value!"));
-        Assert.That(consoleOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
+        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
     }
-    
+
     [Test]
     public async Task DoesNotMaskSecrets_WhenNotGitHubActions()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(false);
-
-        await using var stringWriter = new StringWriter();
         
-        Console.SetOut(stringWriter);
-        
-        await _pipeline.ExecutePipelineAsync();
+        await ExecutePipelineAsync();
             
-        var consoleOutput = stringWriter.ToString();
+        var logOutput = _stringBuilder.ToString();
         
-        Assert.That(consoleOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
-        Assert.That(consoleOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
+        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+    }
+
+    private Task<IPipelineHost> GetPipelineHost()
+    {
+        return TestPipelineHostBuilder.Create()
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton(_buildSystemMock.Object);
+                services.Configure<MyModel>(context.Configuration);
+                services.AddSingleton(_consoleWriterMock.Object);
+            })
+            .AddModule<GlobalDummyModule>()
+            .BuildHostAsync();
+    }
+
+    private async Task ExecutePipelineAsync()
+    {
+        var pipelineHost = await GetPipelineHost();
+        
+        await pipelineHost.ExecutePipelineAsync();
     }
 }

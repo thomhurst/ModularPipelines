@@ -11,8 +11,8 @@ internal class ModuleInitializer : IModuleInitializer
         _moduleContextProvider = moduleContextProvider;
     }
 
-    public ModuleBase Initialize(ModuleBase module)
+    public async Task<ModuleBase> Initialize(ModuleBase module)
     {
-        return module.Initialize(_moduleContextProvider.GetModuleContext());
+        return module.Initialize(await _moduleContextProvider.GetModuleContext());
     }
 }

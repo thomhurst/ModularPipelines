@@ -15,7 +15,7 @@ var modules = await PipelineHostBuilder.Create()
             .AddCommandLine(args)
             .AddEnvironmentVariables();
     })
-    .ConfigurePipelineOptions((context, options) =>
+    .ConfigurePipelineOptions((_, options) =>
     {
         options.ExecutionMode = ExecutionMode.StopOnFirstException;
         options.IgnoreCategories = new[] { "Ignore" };

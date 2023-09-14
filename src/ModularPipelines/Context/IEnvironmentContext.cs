@@ -35,11 +35,6 @@ public interface IEnvironmentContext
     /// <inheritdoc cref="Environment.CurrentDirectory"/>
     public Folder WorkingDirectory { get; set; }
 
-    /// <summary>
-    /// Gets the Root Folder of the current Git repository
-    /// </summary>
-    public Folder? GitRootDirectory { get; set; }
-
     /// <inheritdoc cref="Environment.GetFolderPath(System.Environment.SpecialFolder)"/>
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
     {

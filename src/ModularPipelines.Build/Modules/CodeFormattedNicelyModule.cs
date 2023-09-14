@@ -51,7 +51,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 VerifyNoChanges = false
             }, cancellationToken);
 
-            var branchTriggeringPullRequest = _githubSettings.Value.StandardToken!;
+            var branchTriggeringPullRequest = _githubSettings.Value.PullRequest?.Branch!;
 
             await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 

@@ -1,15 +1,25 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Host;
 
 internal class PipelineHost : IPipelineHost
 {
     private readonly IHost _hostImplementation;
+    private readonly AsyncServiceScope _serviceScope;
 
     public PipelineHost(IHost hostImplementation)
     {
         _hostImplementation = hostImplementation;
+        _serviceScope = hostImplementation.Services.CreateAsyncScope();
+
+        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
+        {
+            Dispose();
+        };
     }
     
     ~PipelineHost()
@@ -17,20 +27,13 @@ internal class PipelineHost : IPipelineHost
         Dispose();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-        _hostImplementation.Dispose();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     public Task StartAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         return _hostImplementation.StartAsync(cancellationToken);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
     public Task StopAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         return _hostImplementation.StopAsync(cancellationToken);
@@ -38,7 +41,30 @@ internal class PipelineHost : IPipelineHost
 
     public IServiceProvider Services
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _hostImplementation.Services;
+        [StackTraceHidden]
+        get => _serviceScope.ServiceProvider;
     }
+
+    public void Dispose()
+    {
+        DisposeAsync().AsTask().GetAwaiter().GetResult();
+        GC.SuppressFinalize(this);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        var disposables = Services.GetType()
+            .GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic)
+            ?.GetValue(Services) as List<object>;
+        
+        foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
+        {
+            await Disposer.DisposeAsync(disposable);
+        }
+        
+        await Disposer.DisposeAsync(_hostImplementation);
+        GC.SuppressFinalize(this);
+    }
+
+    public IServiceProvider RootServices => _hostImplementation.Services;
 }

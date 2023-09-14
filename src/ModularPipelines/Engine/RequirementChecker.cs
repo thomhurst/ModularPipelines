@@ -22,7 +22,7 @@ internal class RequirementChecker : IRequirementChecker
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
-            var mustAsync = await requirement.MustAsync(_moduleContextProvider.GetModuleContext());
+            var mustAsync = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
             
             if (!mustAsync)
             {

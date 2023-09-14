@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Context;
+﻿using ModularPipelines.Attributes;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
 
@@ -17,6 +18,7 @@ public partial class ModuleBase
     /// <param name="context"></param>
     /// <param name="exception"></param>
     /// <returns></returns>
+    [ModuleMethodMarker]
     protected virtual Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception) => Task.FromResult(false);
 
     /// <summary>
@@ -24,6 +26,7 @@ public partial class ModuleBase
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
+    [ModuleMethodMarker]
     protected virtual Task<bool> ShouldSkip(IPipelineContext context) => Task.FromResult(false);
 
     /// <summary>
@@ -32,15 +35,18 @@ public partial class ModuleBase
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
+    [ModuleMethodMarker]
     protected virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
     
+    [ModuleMethodMarker]
     protected virtual Task OnBeforeExecute(IPipelineContext context)
     {
         return Task.CompletedTask;
     }
 
+    [ModuleMethodMarker]
     protected virtual Task OnAfterExecute(IPipelineContext context)
     {
         return Task.CompletedTask;

@@ -18,7 +18,7 @@ public static class HelmExtensions
 
     public static IServiceCollection RegisterHelmContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IHelm, Helm>();
+        services.TryAddScoped<IHelm, Helm>();
         return services;
     }
 

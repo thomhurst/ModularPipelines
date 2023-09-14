@@ -24,8 +24,8 @@ public class HttpTests : TestBase
         {
             LogRequest = false
         });
-        
-        result.Host.Dispose();
+
+        await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         
@@ -55,8 +55,8 @@ public class HttpTests : TestBase
             LogResponse = false
         });
         
-        result.Host.Dispose();
-
+        await result.Host.DisposeAsync();
+        
         var logFile = await File.ReadAllTextAsync(file);
         
         Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.Http]"));
@@ -84,8 +84,8 @@ public class HttpTests : TestBase
 
         await loggingClient.GetAsync("https://www.github.com");
         
-        result.Host.Dispose();
-
+        await result.Host.DisposeAsync();
+        
         var logFile = await File.ReadAllTextAsync(file);
         
         Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.LoggingHttpHandler]"));

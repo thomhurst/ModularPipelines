@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using File = ModularPipelines.FileSystem.File;
 
@@ -11,8 +12,8 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
     {
         await Task.Yield();
         
-        return context.Environment
-            .GitRootDirectory!
+        return context.Git()
+            .RootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context))
             .ToList();
     }

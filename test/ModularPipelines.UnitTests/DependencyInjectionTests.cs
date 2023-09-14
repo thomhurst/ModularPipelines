@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
+using Moq;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace ModularPipelines.UnitTests;
 
@@ -18,5 +21,22 @@ public class DependencyInjectionTests
         {
             services.GetRequiredService(serviceDescriptor.ServiceType);
         }
+    }
+
+    [Test]
+    public void Validate()
+    {
+        var serviceCollection = new ServiceCollection()
+            .AddSingleton(Mock.Of<IHost>())
+            .AddSingleton(Mock.Of<IHostEnvironment>())
+            .AddSingleton(Mock.Of<IConfiguration>());
+        
+        DependencyInjectionSetup.Initialize(serviceCollection);
+
+        serviceCollection.BuildServiceProvider(new ServiceProviderOptions
+        {
+            ValidateScopes = true,
+            ValidateOnBuild = true
+        });
     }
 }

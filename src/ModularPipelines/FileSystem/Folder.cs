@@ -95,8 +95,10 @@ public class Folder
     }
 
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
+    public Folder CreateFolder(string name) => GetFolder(name).Create();
 
     public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
+    public FileStream CreateFile(string name) => GetFile(name).Create();
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))

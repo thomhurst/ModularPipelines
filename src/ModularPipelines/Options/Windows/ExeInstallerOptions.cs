@@ -22,11 +22,17 @@ public record ExeInstallerOptions(string ExePath) : CommandLineToolOptions(ExePa
     internal bool? DisableUserInterface5 => DisableUserInterface;
 
     [BooleanCommandSwitch("/suppressmsgboxes")]
-    internal bool DisableUserInterface6 { get; init; } = true;
+    internal bool? DisableUserInterface6 => DisableUserInterface;
 
     [BooleanCommandSwitch("/passive")]
-    internal bool DisableUserInterface7 { get; init; } = true;
+    internal bool? DisableUserInterface7 => DisableUserInterface;
+    
+    [BooleanCommandSwitch("/sp-")]
+    internal bool? DisableUserInterface8 => DisableUserInterface;
 
     [BooleanCommandSwitch("/norestart")]
     public bool NoRestart { get; init; } = true;
+    
+    [BooleanCommandSwitch("/restartapplications")]
+    public bool RestartApplications { get; init; } = true;
 }

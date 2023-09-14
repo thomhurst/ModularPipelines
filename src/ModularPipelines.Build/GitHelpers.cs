@@ -6,7 +6,7 @@ using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Build;
 
-public class GitHelpers
+public static class GitHelpers
 {
     public static async Task SetUserCommitInformation(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -87,5 +87,16 @@ public class GitHelpers
             Arguments = arguments
         }, token: cancellationToken);
 
+    }
+
+    public static async Task<bool> HasUncommittedChanges(IPipelineContext context)
+    {
+        var result = await context.Git().Commands.Diff(new GitDiffOptions
+        {
+            Quiet = true,
+            ThrowOnNonZeroExitCode = false
+        });
+
+        return result.ExitCode != 0;
     }
 }

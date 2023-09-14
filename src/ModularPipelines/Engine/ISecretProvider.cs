@@ -2,6 +2,6 @@
 
 internal interface ISecretProvider
 {
-    string[] Secrets { get; }
-    IEnumerable<string> GetSecrets(object? option);
+    IReadOnlyList<string> Secrets { get; }
+    IEnumerable<string> GetSecretsInObject(object? option);
 }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Extensions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -30,7 +32,7 @@ public class TestBase
         return valueTuple.T;
     }
     
-    public async Task<(T T, IHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices) where T : notnull
+    public async Task<(T T, IPipelineHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices) where T : notnull
     {
         var host = await TestPipelineHostBuilder
             .Create()
@@ -45,8 +47,10 @@ public class TestBase
     }
 
     [TearDown]
-    public void DisposeCreatedHost()
+    public async Task DisposeCreatedHost()
     {
-        _hosts.ForEach(h => h.Dispose());
+        await _hosts.ToAsyncProcessorBuilder()
+            .ForEachAsync(Disposer.DisposeAsync)
+            .ProcessInParallel();
     }
 }

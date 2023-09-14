@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Modules;
+﻿using ModularPipelines.Helpers;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
@@ -6,20 +7,13 @@ internal class ModuleDisposer : IModuleDisposer
 {
     public async Task DisposeAsync(ModuleBase module)
     {
-        await Dispose(module);
-        await Dispose(module.Context.Logger);
-    }
+        await Disposer.DisposeAsync(module);
+        
+        await Disposer.DisposeAsync(module.Context.Logger);
 
-    private static async Task Dispose(object obj)
-    {
-        if (obj is IAsyncDisposable asyncDisposable)
+        if (!TestDetector.IsRunningFromNUnit)
         {
-            await asyncDisposable.DisposeAsync();
-        }
-
-        if (obj is IDisposable disposable)
-        {
-            disposable.Dispose();
+            await Disposer.DisposeAsync(module.Context.ServiceProvider);
         }
     }
 }

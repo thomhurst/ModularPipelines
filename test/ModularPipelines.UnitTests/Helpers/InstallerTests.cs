@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
@@ -14,7 +13,7 @@ public class InstallerTests : TestBase
         var downloader = await GetService<IDownloader>();
         var installer = await GetService<IInstaller>();
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (OperatingSystem.IsWindows)
         {
             var uri = new Uri("https://github.com/peazip/PeaZip/releases/download/9.4.0/peazip-9.4.0.WIN64.exe");
             
@@ -24,7 +23,7 @@ public class InstallerTests : TestBase
             
             Assert.That(result.ExitCode, Is.Zero);
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        else if (OperatingSystem.IsLinux)
         {
             var uri = new Uri("https://github.com/peazip/PeaZip/releases/download/9.4.0/peazip_9.4.0.LINUX.Qt5-1_amd64.deb");
             

@@ -18,13 +18,13 @@ public static class GitExtensions
 
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
-        services.TryAddTransient<IGit, Git>();
-        services.TryAddTransient<IGitCommands, GitCommands>();
-        services.TryAddTransient<IGitInformation, GitInformation>();
-        services.TryAddSingleton<IGitVersioning, GitVersioning>();
+        services.TryAddScoped<IGit, Git>();
+        services.TryAddScoped<IGitCommands, GitCommands>();
+        services.TryAddScoped<IGitInformation, GitInformation>();
+        services.TryAddScoped<IGitVersioning, GitVersioning>();
+        services.TryAddScoped<GitCommandRunner>();
         services.TryAddSingleton<StaticGitInformation>();
-        services.TryAddTransient<GitCommandRunner>();
-        services.TryAddTransient<IGitCommitMapper, GitCommitMapper>();
+        services.TryAddSingleton<IGitCommitMapper, GitCommitMapper>();
         return services;
     }
 

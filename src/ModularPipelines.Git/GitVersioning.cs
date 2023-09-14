@@ -8,17 +8,17 @@ namespace ModularPipelines.Git;
 
 internal class GitVersioning : IGitVersioning
 {
+    private readonly IGitInformation _gitInformation;
     private readonly ICommand _command;
-    private readonly IEnvironmentContext _environmentContext;
 
     private readonly Folder _temporaryFolder;
 
     private GitVersionInformation? _prefetchedGitVersionInformation;
 
-    public GitVersioning(IFileSystemContext fileSystemContext, ICommand command, IEnvironmentContext environmentContext)
+    public GitVersioning(IFileSystemContext fileSystemContext, IGitInformation gitInformation, ICommand command)
     {
+        _gitInformation = gitInformation;
         _command = command;
-        _environmentContext = environmentContext;
         _temporaryFolder = fileSystemContext.CreateTemporaryFolder();
     }
 
@@ -39,7 +39,7 @@ internal class GitVersioning : IGitVersioning
 
         var gitVersionOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
         {
-            WorkingDirectory = _environmentContext.GitRootDirectory!.Path,
+            WorkingDirectory = _gitInformation.Root.Path,
             Arguments = new[]
             {
                 "/output", "json"

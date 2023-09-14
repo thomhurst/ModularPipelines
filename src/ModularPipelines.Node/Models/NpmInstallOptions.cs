@@ -18,4 +18,7 @@ public record NpmInstallOptions : NpmOptions
 
     [BooleanCommandSwitch("--force")]
     public bool Force { get; init; }
+
+    [BooleanCommandSwitch("--save-dev")]
+    public bool SaveDev { get; set; }
 }

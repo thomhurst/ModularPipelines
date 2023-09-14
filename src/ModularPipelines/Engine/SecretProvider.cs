@@ -7,7 +7,9 @@ namespace ModularPipelines.Engine;
 internal class SecretProvider : ISecretProvider, IInitializer
 {
     private readonly IOptionsProvider _optionsProvider;
-    public string[] Secrets { get; private set; } = Array.Empty<string>();
+    
+    private List<string> _secrets = new();
+    public IReadOnlyList<string> Secrets => _secrets;
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
@@ -18,14 +20,15 @@ internal class SecretProvider : ISecretProvider, IInitializer
     {
         foreach (var option in options)
         {
-            foreach (var secret in GetSecrets(option))
+            foreach (var secret in GetSecretsInObject(option))
             {
+                _secrets.Add(secret);
                 yield return secret;
             }
         }
     }
 
-    public IEnumerable<string> GetSecrets(object? option)
+    public IEnumerable<string> GetSecretsInObject(object? option)
     {
         if (option is null)
         {
@@ -49,9 +52,7 @@ internal class SecretProvider : ISecretProvider, IInitializer
 
     public Task InitializeAsync()
     {
-        Secrets = GetSecrets(_optionsProvider.GetOptions()).ToArray();
+        _secrets = GetSecrets(_optionsProvider.GetOptions()).ToList();
         return Task.CompletedTask;
     }
-
-    public int Order { get; } = int.MaxValue;
 }

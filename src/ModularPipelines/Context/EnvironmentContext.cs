@@ -1,16 +1,11 @@
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Context;
 
-internal class EnvironmentContext : IEnvironmentContext, IInitializer
+internal class EnvironmentContext : IEnvironmentContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHostEnvironment _hostEnvironment;
@@ -27,7 +22,7 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
         EnvironmentVariables = environmentVariables;
         ContentDirectory = _hostEnvironment.ContentRootPath!;
 
-        OperatingSystem = GetOperatingSystem();
+        OperatingSystem = ModularPipelines.OperatingSystem.GetOperatingSystem();
     }
 
     public string EnvironmentName => _hostEnvironment.EnvironmentName;
@@ -43,7 +38,6 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
     public Folder ContentDirectory { get; set; }
 
     public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
-
     public Folder? GitRootDirectory { get; set; }
 
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
@@ -52,50 +46,4 @@ internal class EnvironmentContext : IEnvironmentContext, IInitializer
     }
 
     public IEnvironmentVariables EnvironmentVariables { get; }
-
-    public async Task InitializeAsync()
-    {
-        CommandResult gitCommandOutput;
-        try
-        {
-            gitCommandOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
-            {
-                Arguments = new[] { "rev-parse", "--show-toplevel" },
-                LogInput = false,
-                LogOutput = false
-            });
-        }
-        catch (CommandException e)
-        {
-            _moduleLoggerProvider.GetLogger().LogDebug("Error retrieving Git root directory: {Error}", e.CommandResult.StandardError);
-            return;
-        }
-
-        GitRootDirectory = new Folder(new DirectoryInfo(gitCommandOutput.StandardOutput.Trim()));
-    }
-
-    private OSPlatform GetOperatingSystem()
-    {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            return OSPlatform.Linux;
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return OSPlatform.Windows;
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            return OSPlatform.OSX;
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-        {
-            return OSPlatform.FreeBSD;
-        }
-
-        return OSPlatform.Create("Unknown");
-    }
 }

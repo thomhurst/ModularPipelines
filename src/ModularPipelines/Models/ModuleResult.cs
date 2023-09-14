@@ -58,9 +58,9 @@ public class ModuleResult<T>
         return ModuleName;
     }
 
-    public bool HasValue => _value != null;
+    public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
 
     public Exception? Exception { get; private set; }
     
-    public ModuleResultType ModuleResultType { get; private protected set; }
+    public ModuleResultType ModuleResultType { get; private protected init; }
 }

@@ -18,7 +18,7 @@ public static class SlackExtensions
 
     public static IServiceCollection RegisterSlackContext(this IServiceCollection services)
     {
-        services.TryAddTransient<ISlack, Slack>();
+        services.TryAddScoped<ISlack, Slack>();
 
         return services;
     }

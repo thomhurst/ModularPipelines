@@ -18,9 +18,10 @@ public static class NodeExtensions
 
     public static IServiceCollection RegisterNodeContext(this IServiceCollection services)
     {
-        services.TryAddTransient<INode, Node>();
-        services.TryAddTransient<INvm, Nvm>();
-        services.TryAddTransient<INpm, Npm>();
+        services.TryAddScoped<INode, Node>();
+        services.TryAddScoped<INvm, Nvm>();
+        services.TryAddScoped<INpm, Npm>();
+        services.TryAddScoped<INpx, Npx>();
         return services;
     }
 

@@ -29,7 +29,7 @@ public class PipelineEnginePlugins
         _internalHost.ConfigureServices(s =>
         {
             s.RemoveAll<TBase>()
-                .AddSingleton<TBase, T>();
+                .AddScoped<TBase, T>();
         });
 
         return this;
