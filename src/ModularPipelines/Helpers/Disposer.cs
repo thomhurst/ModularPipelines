@@ -2,7 +2,7 @@
 
 internal static class Disposer
 {
-    public static async Task DisposeAsync(object obj)
+    public static async Task DisposeAsync(object? obj)
     {
         if (obj is IAsyncDisposable asyncDisposable)
         {

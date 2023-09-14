@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
+using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
@@ -121,9 +122,6 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public void Dispose()
     {
-        if (_logger is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
+        Disposer.DisposeAsync(_logger).GetAwaiter().GetResult();
     }
 }

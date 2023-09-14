@@ -1,7 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Host;
 
@@ -47,9 +51,16 @@ internal class PipelineHost : IPipelineHost
 
     public async ValueTask DisposeAsync()
     {
-        await Disposer.DisposeAsync(Services);
+        var disposables = Services.GetType()
+            .GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic)
+            ?.GetValue(Services) as List<object>;
+        
+        foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
+        {
+            await Disposer.DisposeAsync(disposable);
+        }
+        
         await Disposer.DisposeAsync(_hostImplementation);
-        await Disposer.DisposeAsync(_hostImplementation.Services);
         GC.SuppressFinalize(this);
     }
 
