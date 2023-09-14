@@ -15,6 +15,8 @@ public class FormatMarkdownModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
+    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
     protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
         return Task.FromResult(string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch)
@@ -40,18 +42,28 @@ public class FormatMarkdownModule : Module<CommandResult>
             SaveDev = true
         }, cancellationToken);
 
-        await context.Node().Npx.ExecuteAsync(new NpxOptions
+        var filesToFormat = new List<string>
         {
-            Arguments = new[]
+            context.Git().RootDirectory.FindFile(x => x.Name == "README.md")!.Path,
+            context.Git().RootDirectory.FindFile(x => x.Name == "README_Template.md")!.Path,
+            context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!.Path
+        };
+        
+        foreach (var fileToFormat in filesToFormat)
+        {
+            await context.Node().Npx.ExecuteAsync(new NpxOptions
             {
-                "remark",
-                context.Git().RootDirectory.Path,
-                "--use", "remark-lint",
-                "--use", "remark-preset-lint-consistent",
-                "--use", "remark-preset-lint-recommended",
-                "--output"
-            }
-        }, cancellationToken);
+                Arguments = new[]
+                {
+                    "remark",
+                    fileToFormat,
+                    "--use", "remark-lint",
+                    "--use", "remark-preset-lint-consistent",
+                    "--use", "remark-preset-lint-recommended",
+                    "--output"
+                }
+            }, cancellationToken);
+        }
 
         if (!await GitHelpers.HasUncommittedChanges(context))
         {
