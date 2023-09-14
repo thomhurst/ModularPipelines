@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Security.Authentication;
 using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;

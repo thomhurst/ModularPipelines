@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Azure.Core;
+﻿using Azure.Core;
 using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -9,7 +8,6 @@ using ModularPipelines.Azure.Provisioning.Cosmos;
 using ModularPipelines.Azure.Provisioning.Network;
 using ModularPipelines.Azure.Provisioning.Security;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Extensions;
 
