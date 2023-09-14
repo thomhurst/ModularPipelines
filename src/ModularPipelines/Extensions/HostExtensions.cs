@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Models;
 
@@ -17,7 +18,7 @@ internal static class HostExtensions
         {
             if (!TestDetector.IsRunningFromNUnit)
             {
-                host.Dispose();
+                await Disposer.DisposeObjectAsync(host);
             }
         }
     }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
+using ModularPipelines.Helpers;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
@@ -45,6 +46,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
         moduleLoggerContainer.AddLogger(this);
+        
+        Disposer.RegisterOnShutdown(this);
     }
 
     public override IDisposable BeginScope<TState>(TState state)

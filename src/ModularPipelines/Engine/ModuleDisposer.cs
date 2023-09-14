@@ -7,13 +7,13 @@ internal class ModuleDisposer : IModuleDisposer
 {
     public async Task DisposeAsync(ModuleBase module)
     {
-        await Disposer.DisposeAsync(module);
+        await Disposer.DisposeObjectAsync(module);
         
-        await Disposer.DisposeAsync(module.Context.Logger);
+        await Disposer.DisposeObjectAsync(module.Context.Logger);
 
         if (!TestDetector.IsRunningFromNUnit)
         {
-            await Disposer.DisposeAsync(module.Context.ServiceProvider);
+            await Disposer.DisposeObjectAsync(module.Context.ServiceProvider);
         }
     }
 }

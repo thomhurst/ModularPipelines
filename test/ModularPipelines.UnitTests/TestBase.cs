@@ -50,7 +50,7 @@ public class TestBase
     public async Task DisposeCreatedHost()
     {
         await _hosts.ToAsyncProcessorBuilder()
-            .ForEachAsync(Disposer.DisposeAsync)
+            .ForEachAsync(Disposer.DisposeObjectAsync)
             .ProcessInParallel();
     }
 }

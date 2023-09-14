@@ -122,6 +122,6 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public void Dispose()
     {
-        Disposer.DisposeAsync(_logger).GetAwaiter().GetResult();
+        Disposer.DisposeObject(_logger);
     }
 }
