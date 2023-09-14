@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -9,6 +10,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
+[ExcludeFromCodeCoverage]
 public class PredefinedInstallers : IPredefinedInstallers
 {
     private readonly ICommand _command;

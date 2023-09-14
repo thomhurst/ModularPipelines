@@ -15,6 +15,11 @@ internal class PipelineHost : IPipelineHost
     {
         _hostImplementation = hostImplementation;
         _serviceScope = hostImplementation.Services.CreateAsyncScope();
+
+        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
+        {
+            Dispose();
+        };
     }
     
     ~PipelineHost()
