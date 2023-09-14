@@ -22,8 +22,8 @@ public static class GitExtensions
         services.TryAddScoped<IGitCommands, GitCommands>();
         services.TryAddScoped<IGitInformation, GitInformation>();
         services.TryAddScoped<IGitVersioning, GitVersioning>();
+        services.TryAddScoped<GitCommandRunner>();
         services.TryAddSingleton<StaticGitInformation>();
-        services.TryAddSingleton<GitCommandRunner>();
         services.TryAddSingleton<IGitCommitMapper, GitCommitMapper>();
         return services;
     }
