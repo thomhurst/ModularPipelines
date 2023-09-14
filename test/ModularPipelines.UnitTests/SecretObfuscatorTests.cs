@@ -1,9 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
-using ModularPipelines.UnitTests.Extensions;
 using ModularPipelines.UnitTests.Models;
 using Moq;
 
@@ -31,7 +29,7 @@ public class SecretObfuscatorTests
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(true);
         
-        await (await GetPipelineHost()).ExecutePipelineAsync();
+        await ExecutePipelineAsync();
 
         var logOutput = _stringBuilder.ToString();
         
@@ -44,7 +42,7 @@ public class SecretObfuscatorTests
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(false);
         
-        await (await GetPipelineHost()).ExecutePipelineAsync();
+        await ExecutePipelineAsync();
             
         var logOutput = _stringBuilder.ToString();
         
@@ -63,5 +61,12 @@ public class SecretObfuscatorTests
             })
             .AddModule<GlobalDummyModule>()
             .BuildHostAsync();
+    }
+
+    private async Task ExecutePipelineAsync()
+    {
+        var pipelineHost = await GetPipelineHost();
+        
+        await pipelineHost.ExecutePipelineAsync();
     }
 }
