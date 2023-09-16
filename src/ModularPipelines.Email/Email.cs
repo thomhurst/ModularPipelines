@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 using ModularPipelines.Email.Options;
@@ -7,13 +8,13 @@ namespace ModularPipelines.Email;
 
 internal class Email : IEmail
 {
-    public async Task SendAsync(EmailSendOptions options, CancellationToken cancellationToken = default)
+    public async Task<string> SendAsync(EmailSendOptions options, CancellationToken cancellationToken = default)
     {
         var email = new MimeMessage
         {
             From = { MailboxAddress.Parse(options.From) },
             Subject = options.Subject,
-            Body = new TextPart(TextFormat.Html) { Text = options.Body }
+            Body = options.Body
         };
         
         email.To.AddRange(options.To.Select(MailboxAddress.Parse));
@@ -29,9 +30,20 @@ internal class Email : IEmail
         }
         
         using var smtp = new SmtpClient();
-        await smtp.ConnectAsync(options.SmtpServer, cancellationToken);
-        await smtp.AuthenticateAsync(options.Credentials, cancellationToken);
-        await smtp.SendAsync(email, cancellationToken);
+
+        options.ClientConfigurator?.Invoke(smtp);
+        
+        await smtp.ConnectAsync(options.SmtpServerHost, options.Port, options.SecureSocketOptions,
+            cancellationToken: cancellationToken);
+
+        if (options.Credentials != null)
+        {
+            await smtp.AuthenticateAsync(options.Credentials, cancellationToken);
+        }
+
+        var response = await smtp.SendAsync(email, cancellationToken);
         await smtp.DisconnectAsync(true, cancellationToken);
+        
+        return response;
     }
 }

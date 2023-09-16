@@ -4,5 +4,5 @@ namespace ModularPipelines.Email;
 
 public interface IEmail
 {
-    Task SendAsync(EmailSendOptions options, CancellationToken cancellationToken = default);
+    Task<string> SendAsync(EmailSendOptions options, CancellationToken cancellationToken = default);
 }

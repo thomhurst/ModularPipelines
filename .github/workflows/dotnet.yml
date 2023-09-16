@@ -50,3 +50,4 @@ jobs:
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
           Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
