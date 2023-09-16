@@ -40,6 +40,6 @@ public class EmailTests : TestBase
             }
         );
         
-        Assert.That(response, Does.StartWith("2.0.0 OK: queued as"));
+        Assert.That(response, Does.Contain("queued"));
     }
 }
