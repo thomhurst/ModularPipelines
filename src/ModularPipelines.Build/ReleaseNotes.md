@@ -1,1 +1,1 @@
-- Better Email configuration
+*   Better Email configuration
