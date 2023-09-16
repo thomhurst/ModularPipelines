@@ -8,26 +8,38 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class EmailTests : TestBase
 {
-    private readonly string _emailAddress = $"{Guid.NewGuid():N}@_____.com";
-    
-    [Test, Ignore("Need an SMTP server")]
+    private const string EmailAddress = "modularpipelinestest@gmail.com";
+
+    [Test]
     public async Task Can_Send_Email()
     {
         var email = await GetService<IEmail>();
 
+        var emailPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+
+        if (string.IsNullOrEmpty(emailPassword))
+        {
+            Assert.Ignore();
+        }
+        
         var response = await email.SendAsync(
             new EmailSendOptions(
-                From: _emailAddress,
-                To: new[] {_emailAddress},
+                From: EmailAddress,
+                To: new[] {EmailAddress},
                 Subject: "Email Test",
                 Body: new TextPart { Text = "This is an email test." },
-                SmtpServerHost: "_____.com"
+                SmtpServerHost: "smtp-relay.brevo.com"
             )
             {
-                SecureSocketOptions = SecureSocketOptions.Auto
+                Port = 587,
+                Credentials = new NetworkCredential(EmailAddress, emailPassword),
+                SecureSocketOptions = SecureSocketOptions.StartTls,
+                ClientConfigurator = client =>
+                {
+                }
             }
         );
         
-        Assert.That(response, Is.EqualTo(""));
+        Assert.That(response, Does.StartWith("2.0.0 OK: queued as"));
     }
 }
