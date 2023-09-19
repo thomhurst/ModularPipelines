@@ -157,9 +157,13 @@ internal class StaticGitInformation : IInitializer
                 Arguments = new[] { "show", "origin" }
             });
 
-            return output!.Split(Environment.NewLine)
+            var defaultBranchName = output!.Split(Environment.NewLine)
                 .First(x => x.Trim().StartsWith("HEAD branch:"))
                 .Split("HEAD branch:")[1].Trim();
+            
+            _logger.LogInformation("Default branch name is {Name}", defaultBranchName);
+            
+            return defaultBranchName;
         }
     }
 
