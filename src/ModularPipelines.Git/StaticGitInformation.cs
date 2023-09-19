@@ -143,17 +143,6 @@ internal class StaticGitInformation : IInitializer
     {
         try
         {
-            var output = await GetOutput(new GitRevParseOptions
-            {
-                Arguments = new[] { "origin/HEAD" },
-                AbbrevRef = true,
-                ThrowOnNonZeroExitCode = false
-            });
-
-            return output?.Replace("origin/", string.Empty);
-        }
-        catch
-        {
             var output = await GetOutput(new GitRemoteOptions
             {
                 Arguments = new[] { "show", "origin" }
@@ -162,6 +151,17 @@ internal class StaticGitInformation : IInitializer
             return output!.Split(Environment.NewLine)
                 .First(x => x.Trim().StartsWith("HEAD branch:"))
                 .Split("HEAD branch:")[1].Trim();
+        }
+        catch
+        {
+            var output = await GetOutput(new GitRevParseOptions
+            {
+                Arguments = new[] { "origin/HEAD" },
+                AbbrevRef = true,
+                ThrowOnNonZeroExitCode = false
+            });
+
+            return output?.Replace("origin/", string.Empty);
         }
     }
 
