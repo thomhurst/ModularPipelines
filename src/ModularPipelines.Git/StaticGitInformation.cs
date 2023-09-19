@@ -64,7 +64,7 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
             DefaultBranchName =
-                (await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "origin/HEAD"))?.Replace(
+                (await _gitCommandRunner.RunCommandsOrNull(null, "symbolic-ref", "refs/remotes/origin/HEAD", "--short"))?.Replace(
                     "origin/", string.Empty)
         );
 
