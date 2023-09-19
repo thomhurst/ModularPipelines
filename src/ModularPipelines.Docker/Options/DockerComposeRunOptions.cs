@@ -5,12 +5,12 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose run")]
 [ExcludeFromCodeCoverage]
-public record DockerComposeRunOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
+public record DockerComposeRunOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Args { get; set; }
     [BooleanCommandSwitch("--build")]
     public bool? Build { get; set; }

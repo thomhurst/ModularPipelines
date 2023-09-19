@@ -7,7 +7,7 @@ namespace ModularPipelines.Terraform.Options;
 [ExcludeFromCodeCoverage]
 public record TerraformOutputOptions : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("-json")] public bool? Json { get; set; }

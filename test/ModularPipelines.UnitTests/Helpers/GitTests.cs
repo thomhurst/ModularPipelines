@@ -60,4 +60,12 @@ public class GitTests : TestBase
             Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name), Does.Contain("README.md"));
         });
     }
+
+    [Test]
+    public async Task DefaultBranchName()
+    {
+        var git = await GetService<IGit>();
+        
+        Assert.That(git.Information.DefaultBranchName, Is.EqualTo("main"));
+    }
 }

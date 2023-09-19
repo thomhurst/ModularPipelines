@@ -7,6 +7,6 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerComposeTopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Services { get; set; }
 }

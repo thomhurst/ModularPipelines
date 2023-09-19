@@ -7,9 +7,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerTagOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Sourceimage { get; set; }
 
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Targetimage { get; set; }
 }

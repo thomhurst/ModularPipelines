@@ -7,7 +7,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerTrustInspectOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Images { get; set; }
 
     [CommandSwitch("--pretty")]

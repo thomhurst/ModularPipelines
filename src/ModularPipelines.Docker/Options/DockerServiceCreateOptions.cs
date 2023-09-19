@@ -5,12 +5,12 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service create")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
+public record DockerServiceCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? DockerArgs { get; set; }
 
     [CommandSwitch("--cap-add")]

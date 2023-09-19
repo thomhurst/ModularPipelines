@@ -5,4 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image save")]
 [ExcludeFromCodeCoverage]
-public record DockerImageSaveOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Images) : DockerOptions;
+public record DockerImageSaveOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Images) : DockerOptions;

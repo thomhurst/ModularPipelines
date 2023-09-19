@@ -37,7 +37,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 
         var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
 
-        return category != null && !runOnlyCategories.Contains(category.Category);
+        return category != null && runOnlyCategories.Contains(category.Category);
     }
 
     private bool IsIgnoreCategory(ModuleBase module)

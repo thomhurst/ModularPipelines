@@ -7,7 +7,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerVolumeUpdateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Volume { get; set; }
 
     [CommandSwitch("--availability")]

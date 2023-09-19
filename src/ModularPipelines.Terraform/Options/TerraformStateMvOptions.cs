@@ -5,8 +5,8 @@ namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state mv")]
 [ExcludeFromCodeCoverage]
-public record TerraformStateMvOptions([property: PositionalArgument(Position = Position.AfterArguments)]
-    string Source, [property: PositionalArgument(Position = Position.AfterArguments)]
+public record TerraformStateMvOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+    string Source, [property: PositionalArgument(Position = Position.AfterSwitches)]
     string Destination) : TerraformOptions
 {
     [BooleanCommandSwitch("-dry-run")] public bool? DryRun { get; set; }

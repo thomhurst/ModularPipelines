@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout repo enable")]
 [ExcludeFromCodeCoverage]
-public record DockerScoutRepoEnableOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Repository) : DockerOptions
+public record DockerScoutRepoEnableOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Repository) : DockerOptions
 {
 }

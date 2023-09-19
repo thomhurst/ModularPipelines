@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("secret rm")]
 [ExcludeFromCodeCoverage]
-public record DockerSecretRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Secret) : DockerOptions
+public record DockerSecretRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Secret) : DockerOptions
 {
 }

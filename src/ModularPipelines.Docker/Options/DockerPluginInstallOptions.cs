@@ -5,9 +5,9 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin install")]
 [ExcludeFromCodeCoverage]
-public record DockerPluginInstallOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Plugin) : DockerOptions
+public record DockerPluginInstallOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Plugin) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? KeyValues { get; set; }
 
     [CommandSwitch("--alias")]

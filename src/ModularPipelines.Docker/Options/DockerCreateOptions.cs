@@ -5,12 +5,12 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("create")]
 [ExcludeFromCodeCoverage]
-public record DockerCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
+public record DockerCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? DockerArgs { get; set; }
 
     [CommandSwitch("--add-host")]

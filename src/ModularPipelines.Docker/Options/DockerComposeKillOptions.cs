@@ -7,7 +7,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerComposeKillOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
     [BooleanCommandSwitch("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }

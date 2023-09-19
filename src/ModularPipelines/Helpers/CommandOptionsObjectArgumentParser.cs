@@ -14,11 +14,11 @@ public static class CommandOptionsObjectArgumentParser
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
 
         var positionalArgumentsBefore = positionalArgumentProperties.Where(p =>
-            p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeArguments);
+            p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeSwitches);
 
         var positionalArgumentsAfter = positionalArgumentProperties
             .Where(p =>
-                p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterArguments);
+                p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterSwitches);
 
         AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsBefore);
 

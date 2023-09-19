@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network connect")]
 [ExcludeFromCodeCoverage]
-public record DockerNetworkConnectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Network, [property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
+public record DockerNetworkConnectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Network, [property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions
 {
     [CommandSwitch("--driver-opt")]
     public string? DriverOpt { get; set; }

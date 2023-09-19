@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container stop")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerStopOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerStopOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
 {
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }

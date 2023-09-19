@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack deploy")]
 [ExcludeFromCodeCoverage]
-public record DockerStackDeployOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
+public record DockerStackDeployOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
 {
     [CommandSwitch("--prune")]
     public string? Prune { get; set; }

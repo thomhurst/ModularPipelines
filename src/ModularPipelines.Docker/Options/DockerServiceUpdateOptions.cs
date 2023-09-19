@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service update")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
+public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
 {
     [CommandSwitch("--args")]
     public string? Args { get; set; }

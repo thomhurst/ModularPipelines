@@ -13,7 +13,7 @@ public record DotNetOptions() : CommandLineToolOptions("dotnet")
     [CommandEqualsSeparatorSwitch("--runtime", SwitchValueSeparator = " ")]
     public string? Runtime { get; init; }
 
-    [CommandSwitch("-v")]
+    [CommandSwitch("--verbosity")]
     public Verbosity? Verbosity { get; init; }
 
     [CommandEqualsSeparatorSwitch("--property", SwitchValueSeparator = ":")]

@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Enums;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Models;
@@ -52,4 +53,6 @@ public record PipelineSummary
 
         return Status.Successful;
     }
+    
+    public T GetModule<T>() where T : ModuleBase => Modules.GetModule<T>();
 }

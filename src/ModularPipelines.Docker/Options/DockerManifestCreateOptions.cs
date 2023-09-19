@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest create")]
 [ExcludeFromCodeCoverage]
-public record DockerManifestCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string ManifestList, [property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Manifests) : DockerOptions
+public record DockerManifestCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string ManifestList, [property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Manifests) : DockerOptions
 {
     [CommandSwitch("--amend")]
     public string? Amend { get; set; }

@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("history")]
 [ExcludeFromCodeCoverage]
-public record DockerHistoryOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Image) : DockerOptions
+public record DockerHistoryOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
 {
     [BooleanCommandSwitch("--human")]
     public bool? Human { get; set; }

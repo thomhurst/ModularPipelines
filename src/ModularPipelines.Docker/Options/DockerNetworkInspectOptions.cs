@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerNetworkInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Networks) : DockerOptions
+public record DockerNetworkInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Networks) : DockerOptions
 {
     [CommandSwitch("--format")]
     public string? Format { get; set; }

@@ -6,8 +6,8 @@ namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("import")]
 [ExcludeFromCodeCoverage]
-public record TerraformImportOptions([property: PositionalArgument(Position = Position.AfterArguments)]
-    string Address, [property: PositionalArgument(Position = Position.AfterArguments)]
+public record TerraformImportOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+    string Address, [property: PositionalArgument(Position = Position.AfterSwitches)]
     string Id) : TerraformOptions
 {
     [CommandSwitch("-config")] public string? Config { get; set; }

@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("network create")]
 [ExcludeFromCodeCoverage]
-public record DockerNetworkCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Network) : DockerOptions
+public record DockerNetworkCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Network) : DockerOptions
 {
     [CommandSwitch("--attachable")]
     public string? Attachable { get; set; }

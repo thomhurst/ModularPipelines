@@ -21,7 +21,7 @@ public static class CommandExtensions
         return new CommandLineToolOptions(tool)
         {
             Arguments = arguments,
-            Credentials = options.Credentials,
+            CommandLineCredentials = options.CommandLineCredentials,
             EnvironmentVariables = options.EnvironmentVariables,
             LogInput = options.LogInput,
             LogOutput = options.LogOutput,
@@ -45,7 +45,7 @@ public static class CommandExtensions
         return options with
         {
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
-            Credentials = options.Credentials,
+            CommandLineCredentials = options.CommandLineCredentials,
             EnvironmentVariables = options.EnvironmentVariables,
             LogInput = options.LogInput,
             LogOutput = options.LogOutput,

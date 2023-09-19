@@ -86,6 +86,32 @@ public class PipelineHostBuilder
         return this;
     }
 
+    public PipelineHostBuilder RunCategories(params string[] categories)
+    {
+        return ConfigurePipelineOptions((context, options) =>
+        {
+            options.RunOnlyCategories ??= new List<string>();
+            
+            foreach (var category in categories)
+            {
+                options.RunOnlyCategories.Add(category);
+            }
+        });
+    }
+    
+    public PipelineHostBuilder IgnoreCategories(params string[] categories)
+    {
+        return ConfigurePipelineOptions((context, options) =>
+        {
+            options.IgnoreCategories ??= new List<string>();
+            
+            foreach (var category in categories)
+            {
+                options.IgnoreCategories.Add(category);
+            }
+        });
+    }
+
     public async Task<PipelineSummary> ExecutePipelineAsync()
     {
         var host = await BuildHostAsync();

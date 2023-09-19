@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("node update")]
 [ExcludeFromCodeCoverage]
-public record DockerNodeUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Node) : DockerOptions
+public record DockerNodeUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Node) : DockerOptions
 {
     [CommandSwitch("--availability")]
     public string? Availability { get; set; }

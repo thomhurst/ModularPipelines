@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service logs")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceLogsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
+public record DockerServiceLogsOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
 {
     [BooleanCommandSwitch("--details")]
     public bool? Details { get; set; }

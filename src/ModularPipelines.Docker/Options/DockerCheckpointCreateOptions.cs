@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("checkpoint create")]
 [ExcludeFromCodeCoverage]
-public record DockerCheckpointCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container, [property: PositionalArgument(Position = Position.AfterArguments)] string Checkpoint) : DockerOptions
+public record DockerCheckpointCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container, [property: PositionalArgument(Position = Position.AfterSwitches)] string Checkpoint) : DockerOptions
 {
     [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }

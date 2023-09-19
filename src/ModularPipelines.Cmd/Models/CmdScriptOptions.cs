@@ -5,7 +5,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Cmd.Models;
 
 [ExcludeFromCodeCoverage]
-public record CmdScriptOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Script) : CommandLineToolOptions("cmd")
+public record CmdScriptOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Script) : CommandLineToolOptions("cmd")
 {
     [BooleanCommandSwitch("/q")]
     public bool DisableEcho { get; init; }

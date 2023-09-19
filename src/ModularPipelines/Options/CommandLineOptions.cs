@@ -17,8 +17,8 @@ public record CommandLineOptions
     /// </summary>
     public string? WorkingDirectory { get; init; }
 
-    /// <inheritdoc cref="Credentials"/>>
-    public Credentials? Credentials { get; init; }
+    /// <inheritdoc cref="CommandLineCredentials"/>>
+    public Credentials? CommandLineCredentials { get; init; }
 
     /// <summary>
     /// Whether to Log the input command in the pipeline output
@@ -42,6 +42,9 @@ public record CommandLineOptions
     /// </summary>
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
+    /// <summary>
+    /// Prefix commands with Sudo to run with elevated priveliges for Unix systems
+    /// </summary>
     public bool Sudo { get; set; }
     
     internal bool InternalDryRun { get; set; }

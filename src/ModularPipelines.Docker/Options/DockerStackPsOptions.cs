@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack ps")]
 [ExcludeFromCodeCoverage]
-public record DockerStackPsOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
+public record DockerStackPsOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("context create")]
 [ExcludeFromCodeCoverage]
-public record DockerContextCreateOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Context) : DockerOptions
+public record DockerContextCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Context) : DockerOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }

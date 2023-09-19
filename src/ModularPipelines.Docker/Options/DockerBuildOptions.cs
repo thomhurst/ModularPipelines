@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("build")]
 [ExcludeFromCodeCoverage]
-public record DockerBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
+public record DockerBuildOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Path) : DockerOptions
 {
     [BooleanCommandSwitch("--compress")]
     public bool? Compress { get; set; }

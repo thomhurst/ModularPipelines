@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx build")]
 [ExcludeFromCodeCoverage]
-public record DockerBuildxBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
+public record DockerBuildxBuildOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Path) : DockerOptions
 {
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }

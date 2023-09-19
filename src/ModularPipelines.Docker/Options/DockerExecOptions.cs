@@ -5,9 +5,9 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("exec")]
 [ExcludeFromCodeCoverage]
-public record DockerExecOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container, [property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
+public record DockerExecOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container, [property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? DockerArgs { get; set; }
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }

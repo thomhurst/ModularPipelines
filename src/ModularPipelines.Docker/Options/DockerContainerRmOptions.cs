@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container rm")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerRmOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }

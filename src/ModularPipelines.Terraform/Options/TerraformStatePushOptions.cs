@@ -5,7 +5,7 @@ namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("state push")]
 [ExcludeFromCodeCoverage]
-public record TerraformStatePushOptions([property: PositionalArgument(Position = Position.AfterArguments)]
+public record TerraformStatePushOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Path) : TerraformOptions
 {
     [BooleanCommandSwitch("-force")] public bool? Force { get; set; }

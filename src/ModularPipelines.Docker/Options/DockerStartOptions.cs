@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("start")]
 [ExcludeFromCodeCoverage]
-public record DockerStartOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Containers) : DockerOptions
+public record DockerStartOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
 {
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
