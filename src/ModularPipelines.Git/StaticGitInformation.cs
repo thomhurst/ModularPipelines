@@ -133,7 +133,9 @@ internal class StaticGitInformation : IInitializer
 
         void Async(Func<Task> task)
         {
-            tasks.Add(task());
+            var item = task();
+            item.Wait();
+            tasks.Add(item);
         }
     }
 
@@ -157,13 +159,9 @@ internal class StaticGitInformation : IInitializer
                 Arguments = new[] { "show", "origin" }
             });
 
-            var defaultBranchName = output!.Split(Environment.NewLine)
+            return output!.Split(Environment.NewLine)
                 .First(x => x.Trim().StartsWith("HEAD branch:"))
                 .Split("HEAD branch:")[1].Trim();
-            
-            _logger.LogInformation("Default branch name is {Name}", defaultBranchName);
-            
-            return defaultBranchName;
         }
     }
 
