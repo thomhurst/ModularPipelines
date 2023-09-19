@@ -10,8 +10,6 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 
 *   Parallel execution with easy waiting on dependencies if necessary
 *   Familiar C# code
-*   Ability to debug pipelines
-*   Ability to run pipelines locally, even creating versions for setting up local development
 *   Strong typing, where different modules/steps can pass data to one another
 *   Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
 *   Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
@@ -116,3 +114,7 @@ public class UploadNugetPackagesModule : Module<FileInfo>
     }
 }
 ```
+
+### Breaking changes
+
+While I will try to limit breaking changes, there may be some changes within minor versions. These will be noted on release notes.
