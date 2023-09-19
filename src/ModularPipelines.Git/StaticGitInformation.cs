@@ -81,13 +81,7 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
         {
-            var output = await GetOutput(new GitRevParseOptions
-            {
-                Arguments = new[] { "origin/HEAD" },
-                AbbrevRef = true
-            });
-
-            DefaultBranchName = output?.Replace("origin/", string.Empty);
+            DefaultBranchName = await GetDefaultBranchName();
         });
 
         Async(async () =>
@@ -140,6 +134,32 @@ internal class StaticGitInformation : IInitializer
         void Async(Func<Task> task)
         {
             tasks.Add(task());
+        }
+    }
+
+    private async Task<string?> GetDefaultBranchName()
+    {
+        try
+        {
+            var output = await GetOutput(new GitRevParseOptions
+            {
+                Arguments = new[] { "origin/HEAD" },
+                AbbrevRef = true,
+                ThrowOnNonZeroExitCode = false
+            });
+
+            return output?.Replace("origin/", string.Empty);
+        }
+        catch
+        {
+            var output = await GetOutput(new GitRemoteOptions
+            {
+                Arguments = new[] { "show", "origin" }
+            });
+
+            return output!.Split(Environment.NewLine)
+                .First(x => x.Trim().StartsWith("HEAD branch:"))
+                .Split("HEAD branch:")[1].Trim();
         }
     }
 
