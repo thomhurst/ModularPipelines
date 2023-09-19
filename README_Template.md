@@ -97,3 +97,6 @@ public class UploadNugetPackagesModule : Module<FileInfo>
     }
 }
 ```
+
+### Breaking changes
+While I will try to limit breaking changes, there may be some changes within minor versions. These will be noted on release notes.
