@@ -185,7 +185,7 @@ internal class StaticGitInformation : IInitializer
         try
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions);
-            return result.StandardOutput;
+            return result.StandardOutput.Trim();
         }
         catch (Exception exception)
         {
