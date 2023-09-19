@@ -1,23 +1,31 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
+using ModularPipelines.Options;
 using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Git;
 
 internal class StaticGitInformation : IInitializer
 {
+    private readonly ILogger<StaticGitInformation> _logger;
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
     
     public static StaticGitInformation? Instance { get; private set; }
     public static readonly object _lock = new();
+    private readonly ICommand _command;
 
-    public StaticGitInformation(IServiceProvider serviceProvider)
+    public StaticGitInformation(IServiceProvider serviceProvider,
+        ILogger<StaticGitInformation> logger)
     {
+        _logger = logger;
         var scope = serviceProvider.CreateAsyncScope();
+        _command = scope.ServiceProvider.GetRequiredService<ICommand>();
         _gitCommandRunner = scope.ServiceProvider.GetRequiredService<GitCommandRunner>();
         _gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();
     }
@@ -45,7 +53,10 @@ internal class StaticGitInformation : IInitializer
 
         try
         {
-            await _gitCommandRunner.RunCommands(null, "version");
+            await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            {
+                Arguments = new[] { "version" }
+            });
         }
         catch (Exception e)
         {
@@ -53,41 +64,70 @@ internal class StaticGitInformation : IInitializer
         }
 
         var tasks = new List<Task>();
-        
-        Async(async () => 
-            Root = (await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--show-toplevel"))!
+
+        Async(async () =>
+            Root = (await GetOutput(new GitRevParseOptions
+            {
+                ShowToplevel = true
+            }))!);
+
+        Async(async () =>
+            BranchName = await GetOutput(new GitRevParseOptions
+            {
+                AbbrevRef = true,
+                Arguments = new []{ "HEAD" }
+            })
         );
 
         Async(async () =>
-            BranchName = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--abbrev-ref", "HEAD")
+        {
+            var output = await GetOutput(new GitSymbolicRefOptions
+            {
+                Arguments = new[] { "refs/remotes/origin/HEAD" },
+                Short = true
+            });
+
+            DefaultBranchName = output?.Replace("origin/", string.Empty);
+        });
+
+        Async(async () =>
+            LastCommitSha = await GetOutput(new GitRevParseOptions
+            {
+                Arguments = new[] { "HEAD" }
+            })
         );
 
         Async(async () =>
-            DefaultBranchName =
-                (await _gitCommandRunner.RunCommandsOrNull(null, "symbolic-ref", "refs/remotes/origin/HEAD", "--short"))?.Replace(
-                    "origin/", string.Empty)
+            LastCommitShortSha = await GetOutput(new GitRevParseOptions
+            {
+                Short = true,
+                Arguments = new []{ "HEAD" }
+            })
         );
 
         Async(async () =>
-            LastCommitSha = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "HEAD")
-        );
-
-        Async(async () =>
-            LastCommitShortSha = await _gitCommandRunner.RunCommandsOrNull(null, "rev-parse", "--short", "HEAD")
-        );
-
-        Async(async () =>
-            Tag = await _gitCommandRunner.RunCommandsOrNull(null, "describe", "--tags")
+            Tag = await GetOutput(new GitDescribeOptions
+            {
+                Tags = true
+            })
         );
 
         Async(async () =>
             CommitsOnBranch =
-                int.Parse(await _gitCommandRunner.RunCommandsOrNull(null, "rev-list", "HEAD", "--count") ?? "0")
+                int.Parse(await GetOutput(new GitRevListOptions
+                {
+                    Count = true,
+                    Arguments = new []{ "HEAD" }
+                }) ?? "0")
         );
 
         Async(async () =>
             LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(
-                long.Parse(await _gitCommandRunner.RunCommandsOrNull(null, "log", "-1", "--format=%at") ?? "0"))
+                long.Parse(await GetOutput(new GitLogOptions
+                {
+                    Format = "%at",
+                    Arguments = new []{ "-1" }
+                }) ?? "0"))
         );
 
         Async(async () =>
@@ -115,6 +155,20 @@ internal class StaticGitInformation : IInitializer
             }
 
             yield return _gitCommitMapper.Map(output);
+        }
+    }
+
+    private async Task<string?> GetOutput(GitOptions gitOptions)
+    {
+        try
+        {
+            var result = await _command.ExecuteCommandLineTool(gitOptions);
+            return result.StandardOutput;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Error running Git command");
+            return null;
         }
     }
 
