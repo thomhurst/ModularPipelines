@@ -133,9 +133,7 @@ internal class StaticGitInformation : IInitializer
 
         void Async(Func<Task> task)
         {
-            var item = task();
-            item.Wait();
-            tasks.Add(item);
+            tasks.Add(task());
         }
     }
 
@@ -184,7 +182,11 @@ internal class StaticGitInformation : IInitializer
     {
         try
         {
-            var result = await _command.ExecuteCommandLineTool(gitOptions);
+            var result = await _command.ExecuteCommandLineTool(gitOptions with
+            {
+                LogInput = false,
+                LogOutput = false
+            });
             return result.StandardOutput.Trim();
         }
         catch (Exception exception)
