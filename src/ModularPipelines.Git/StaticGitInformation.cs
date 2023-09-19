@@ -81,10 +81,10 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
         {
-            var output = await GetOutput(new GitSymbolicRefOptions
+            var output = await GetOutput(new GitRevParseOptions
             {
-                Arguments = new[] { "refs/remotes/origin/HEAD" },
-                Short = true
+                Arguments = new[] { "origin/HEAD" },
+                AbbrevRef = true
             });
 
             DefaultBranchName = output?.Replace("origin/", string.Empty);
