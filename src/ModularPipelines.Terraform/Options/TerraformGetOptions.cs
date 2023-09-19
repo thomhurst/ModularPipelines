@@ -5,7 +5,7 @@ namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("get")]
 [ExcludeFromCodeCoverage]
-public record TerraformGetOptions([property: PositionalArgument(Position = Position.AfterArguments)]
+public record TerraformGetOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Path) : TerraformOptions
 {
     [BooleanCommandSwitch("-update")] public bool? Update { get; set; }

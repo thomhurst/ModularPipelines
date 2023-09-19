@@ -1,7 +1,9 @@
-﻿using Spectre.Console;
+﻿using System.Diagnostics.CodeAnalysis;
+using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 
+[ExcludeFromCodeCoverage]
 internal class LogoPrinter : ILogoPrinter
 {
  private const string LargeAsciiLogo = """"""""

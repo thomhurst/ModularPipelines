@@ -6,7 +6,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("builder build")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderBuildOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Path) : DockerOptions
+public record DockerBuilderBuildOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Path) : DockerOptions
 {
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }

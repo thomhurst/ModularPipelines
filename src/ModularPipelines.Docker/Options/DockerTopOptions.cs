@@ -5,4 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("top")]
 [ExcludeFromCodeCoverage]
-public record DockerTopOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions;
+public record DockerTopOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions;

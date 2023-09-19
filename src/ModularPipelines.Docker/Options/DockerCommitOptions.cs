@@ -5,9 +5,9 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("commit")]
 [ExcludeFromCodeCoverage]
-public record DockerCommitOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
+public record DockerCommitOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Repository { get; set; }
 
     [CommandSwitch("--author")]

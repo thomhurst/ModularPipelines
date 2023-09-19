@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose port")]
 [ExcludeFromCodeCoverage]
-public record DockerComposePortOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service, [property: PositionalArgument(Position = Position.AfterArguments)] string Privateport) : DockerOptions
+public record DockerComposePortOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service, [property: PositionalArgument(Position = Position.AfterSwitches)] string Privateport) : DockerOptions
 {
     [CommandSwitch("--index")]
     public string? Index { get; set; }

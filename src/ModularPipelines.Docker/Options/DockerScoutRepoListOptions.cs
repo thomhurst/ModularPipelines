@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout repo list")]
 [ExcludeFromCodeCoverage]
-public record DockerScoutRepoListOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Org) : DockerOptions
+public record DockerScoutRepoListOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Org) : DockerOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

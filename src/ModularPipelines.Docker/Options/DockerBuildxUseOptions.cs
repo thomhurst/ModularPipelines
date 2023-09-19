@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx use")]
 [ExcludeFromCodeCoverage]
-public record DockerBuildxUseOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name) : DockerOptions
+public record DockerBuildxUseOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Name) : DockerOptions
 {
     [CommandSwitch("--default")]
     public string? Default { get; set; }

@@ -2,6 +2,6 @@
 
 public enum Position
 {
-    BeforeArguments,
-    AfterArguments
+    BeforeSwitches,
+    AfterSwitches
 }

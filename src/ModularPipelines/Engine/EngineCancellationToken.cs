@@ -1,5 +1,8 @@
-﻿namespace ModularPipelines.Engine;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace ModularPipelines.Engine;
+
+[ExcludeFromCodeCoverage]
 internal class EngineCancellationToken : CancellationTokenSource
 {
     private bool _disposed;

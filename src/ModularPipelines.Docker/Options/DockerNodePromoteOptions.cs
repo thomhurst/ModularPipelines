@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("node promote")]
 [ExcludeFromCodeCoverage]
-public record DockerNodePromoteOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Node) : DockerOptions
+public record DockerNodePromoteOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Node) : DockerOptions
 {
 }

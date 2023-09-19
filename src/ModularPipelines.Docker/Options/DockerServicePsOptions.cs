@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service ps")]
 [ExcludeFromCodeCoverage]
-public record DockerServicePsOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Service) : DockerOptions
+public record DockerServicePsOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Service) : DockerOptions
 {
     [BooleanCommandSwitch("--no-resolve")]
     public bool? NoResolve { get; set; }

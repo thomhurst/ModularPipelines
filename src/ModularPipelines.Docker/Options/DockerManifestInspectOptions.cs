@@ -5,9 +5,9 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("manifest inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerManifestInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Manifest) : DockerOptions
+public record DockerManifestInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Manifest) : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ManifestList { get; set; }
 
     [CommandSwitch("--insecure")]

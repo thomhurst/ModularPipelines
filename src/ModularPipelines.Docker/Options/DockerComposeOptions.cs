@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("compose")]
 [ExcludeFromCodeCoverage]
-public record DockerComposeOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
+public record DockerComposeOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
 {
     [CommandSwitch("--ansi")]
     public string? Ansi { get; set; }

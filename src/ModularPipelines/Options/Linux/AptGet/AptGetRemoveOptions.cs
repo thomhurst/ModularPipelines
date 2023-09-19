@@ -10,8 +10,8 @@ public record AptGetRemoveOptions : AptGetOptions
     {
         Package = package;
     }
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string CommandName { get; } = "remove";
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string Package { get; }
 }

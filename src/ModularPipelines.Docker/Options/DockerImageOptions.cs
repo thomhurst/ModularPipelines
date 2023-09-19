@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("image")]
 [ExcludeFromCodeCoverage]
-public record DockerImageOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
+public record DockerImageOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
 {
 }

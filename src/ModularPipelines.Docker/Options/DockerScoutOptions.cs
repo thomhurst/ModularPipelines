@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("scout")]
 [ExcludeFromCodeCoverage]
-public record DockerScoutOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
+public record DockerScoutOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
 {
 }

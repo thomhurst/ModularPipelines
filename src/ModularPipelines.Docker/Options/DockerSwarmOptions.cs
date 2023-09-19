@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("swarm")]
 [ExcludeFromCodeCoverage]
-public record DockerSwarmOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Command) : DockerOptions
+public record DockerSwarmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
 {
 }

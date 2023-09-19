@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("service rollback")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceRollbackOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Service) : DockerOptions
+public record DockerServiceRollbackOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
 {
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }

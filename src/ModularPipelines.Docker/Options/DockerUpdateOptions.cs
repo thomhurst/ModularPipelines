@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("update")]
 [ExcludeFromCodeCoverage]
-public record DockerUpdateOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Containers) : DockerOptions
+public record DockerUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
 {
     [CommandSwitch("--blkio-weight")]
     public string? BlkioWeight { get; set; }

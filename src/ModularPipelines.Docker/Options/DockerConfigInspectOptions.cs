@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("config inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerConfigInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> ConfigNames) : DockerOptions
+public record DockerConfigInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> ConfigNames) : DockerOptions
 {
     [CommandSwitch("--pretty")]
     public string? Pretty { get; set; }

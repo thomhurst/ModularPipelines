@@ -5,4 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container export")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerExportOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions;
+public record DockerContainerExportOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions;

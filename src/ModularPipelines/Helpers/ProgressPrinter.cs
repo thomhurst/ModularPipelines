@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -7,6 +8,7 @@ using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
+[ExcludeFromCodeCoverage]
 internal class ProgressPrinter : IProgressPrinter
 {
     private readonly IOptions<PipelineOptions> _options;

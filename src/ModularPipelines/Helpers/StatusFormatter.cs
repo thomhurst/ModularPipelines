@@ -1,8 +1,10 @@
-﻿using ModularPipelines.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Helpers;
 
-public static class StatusFormatter
+[ExcludeFromCodeCoverage]
+internal static class StatusFormatter
 {
     public static string ToDisplayString(this Status status)
     {

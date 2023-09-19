@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack services")]
 [ExcludeFromCodeCoverage]
-public record DockerStackServicesOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Stack) : DockerOptions
+public record DockerStackServicesOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
 {
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }

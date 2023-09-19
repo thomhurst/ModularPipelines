@@ -5,10 +5,10 @@ namespace ModularPipelines.Terraform.Options;
 
 [CommandPrecedingArguments("workspace delete")]
 [ExcludeFromCodeCoverage]
-public record TerraformWorkspaceDeleteOptions([property: PositionalArgument(Position = Position.AfterArguments)]
+public record TerraformWorkspaceDeleteOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Name) : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterArguments)]
+    [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Directory { get; set; }
 
     [BooleanCommandSwitch("-force")] public bool? Force { get; set; }

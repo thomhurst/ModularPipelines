@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container cp")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerCpOptions([property: PositionalArgument(Position = Position.AfterArguments)] string SrcPath, [property: PositionalArgument(Position = Position.AfterArguments)] string DestPath) : DockerOptions
+public record DockerContainerCpOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string SrcPath, [property: PositionalArgument(Position = Position.AfterSwitches)] string DestPath) : DockerOptions
 {
     [CommandSwitch("--archive")]
     public string? Archive { get; set; }

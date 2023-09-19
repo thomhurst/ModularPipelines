@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] IEnumerable<string> Name) : DockerOptions
+public record DockerInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Name) : DockerOptions
 {
     [CommandSwitch("--format")]
     public string? Format { get; set; }

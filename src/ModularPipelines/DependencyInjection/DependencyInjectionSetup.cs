@@ -76,7 +76,6 @@ internal static class DependencyInjectionSetup
             .AddScoped<IUnusedModuleDetector, UnusedModuleDetector>()
             .AddScoped<IDependencyCollisionDetector, DependencyCollisionDetector>()
             .AddScoped<IDependencyPrinter, DependencyPrinter>()
-            .AddScoped<IEnvironmentVariables, EnvironmentVariables>()
             .AddScoped<IFileSystemContext, FileSystemContext>()
             .AddScoped<IRequirementChecker, RequirementChecker>()
             .AddScoped<IModuleRetriever, ModuleRetriever>()
@@ -94,8 +93,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<ILogoPrinter, LogoPrinter>()
             .AddScoped<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddScoped<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
-            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
-            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>();
+            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
 
         // Singletons
         services
@@ -110,6 +108,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
-            .AddSingleton<IConsoleWriter, ConsoleWriter>();
+            .AddSingleton<IConsoleWriter, ConsoleWriter>()
+            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
+            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>();
     }
 }

@@ -5,7 +5,7 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("buildx imagetools inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerBuildxImagetoolsInspectOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Name) : DockerOptions
+public record DockerBuildxImagetoolsInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Name) : DockerOptions
 {
     [CommandSwitch("--format")]
     public string? Format { get; set; }

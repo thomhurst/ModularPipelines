@@ -5,6 +5,6 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("container diff")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerDiffOptions([property: PositionalArgument(Position = Position.AfterArguments)] string Container) : DockerOptions
+public record DockerContainerDiffOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions
 {
 }
