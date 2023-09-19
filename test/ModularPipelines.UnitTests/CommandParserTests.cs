@@ -47,7 +47,7 @@ public class CommandParserTests : TestBase
     [TestCase(false)]
     public async Task Boolean_Switch_Parse_As_Expected_When_Not_True(bool? force)
     {
-        var result = await GetResult(new MySuperSecretToolOptions()
+        var result = await GetResult(new MySuperSecretToolOptions
         {
             Force = force
         });

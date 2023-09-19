@@ -88,7 +88,7 @@ public class PipelineHostBuilder
 
     public PipelineHostBuilder RunCategories(params string[] categories)
     {
-        return ConfigurePipelineOptions((context, options) =>
+        return ConfigurePipelineOptions((_, options) =>
         {
             options.RunOnlyCategories ??= new List<string>();
             
@@ -101,7 +101,7 @@ public class PipelineHostBuilder
     
     public PipelineHostBuilder IgnoreCategories(params string[] categories)
     {
-        return ConfigurePipelineOptions((context, options) =>
+        return ConfigurePipelineOptions((_, options) =>
         {
             options.IgnoreCategories ??= new List<string>();
             

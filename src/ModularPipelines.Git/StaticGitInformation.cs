@@ -55,7 +55,9 @@ internal class StaticGitInformation : IInitializer
         {
             await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
-                Arguments = new[] { "version" }
+                Arguments = new[] { "version" },
+                LogInput = false,
+                LogOutput = false
             });
         }
         catch (Exception e)
