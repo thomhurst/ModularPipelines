@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -7,6 +8,7 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
+[RunOnLinux]
 public class CheckReleaseNotesAddedModule : Module
 {
     private const string MissingReleaseNotesMessage = "No release notes for this change. Please add some notes to the ReleaseNotes.md file.";

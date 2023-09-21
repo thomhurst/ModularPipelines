@@ -178,7 +178,12 @@ public class Folder : IEquatable<Folder>
 
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || obj is Folder other && Equals(other);
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        return obj is Folder other && Equals(other);
     }
 
     public override int GetHashCode()

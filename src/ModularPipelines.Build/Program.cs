@@ -41,6 +41,9 @@ await PipelineHostBuilder.Create()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
             .AddModule<FormatMarkdownModule>()
+            .AddModule<TriggerOtherOperatingSystemBuilds>()
+            .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
+            .AddModule<MergeCoverageModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>

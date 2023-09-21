@@ -50,7 +50,6 @@ public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 
     private async Task<WorkflowRun> WaitFor(WorkflowRun workflowRun, CancellationToken cancellationToken)
     {
-        
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();

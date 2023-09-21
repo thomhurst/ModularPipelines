@@ -155,7 +155,12 @@ public class File : IEquatable<File>
 
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || obj is File other && Equals(other);
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        return obj is File other && Equals(other);
     }
 
     public override int GetHashCode()
