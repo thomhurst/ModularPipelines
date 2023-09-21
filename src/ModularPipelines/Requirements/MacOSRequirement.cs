@@ -1,14 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Requirements;
 
 [ExcludeFromCodeCoverage]
-public class OSXRequirement : IPipelineRequirement
+public class MacOSRequirement : IPipelineRequirement
 {
     public Task<bool> MustAsync(IPipelineContext context)
     {
-        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.OSX);
+        return Task.FromResult(context.Environment.OperatingSystem == OperatingSystemIdentifier.MacOS);
     }
 }

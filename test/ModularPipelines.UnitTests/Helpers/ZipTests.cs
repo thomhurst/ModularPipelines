@@ -43,10 +43,8 @@ public class ZipTests : TestBase
     [Test, Order(2)]
     public async Task Zip_File_Exists()
     {
-        var module = await RunModule<ZipModule>();
-
-        var moduleResult = await module;
-
+        await RunModule<ZipModule>();
+        
         var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip"));
 
         Assert.Multiple(() =>
@@ -89,10 +87,8 @@ public class ZipTests : TestBase
     [Test, Order(4)]
     public async Task UnZipped_Folder_Exists()
     {
-        var module = await RunModule<UnZipModule>();
-
-        var moduleResult = await module;
-
+        await RunModule<UnZipModule>();
+        
         var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped"));
 
         Assert.Multiple(() =>

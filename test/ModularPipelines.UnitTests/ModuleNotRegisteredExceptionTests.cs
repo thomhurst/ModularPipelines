@@ -20,7 +20,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            var module1 = await GetModule<Module1>();
+            await GetModule<Module1>();
             return await NothingAsync();
         }
     }

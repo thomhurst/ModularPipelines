@@ -17,7 +17,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 
     public bool ShouldIgnore(ModuleBase module)
     {
-        if (IsIgnoreCategory(module) || !IsRunnableCategory(module))
+        if (IsIgnoreCategory(module) || !IsRunnableCategory(module) || !IsRunnableCondition(module))
         {
             module.SetSkipped();
             return true;
@@ -52,5 +52,17 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
 
         return category != null && ignoreCategories.Contains(category.Category);
+    }
+
+    private bool IsRunnableCondition(ModuleBase module)
+    {
+        var runOnOperatingSystemAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).ToList();
+
+        if (!runOnOperatingSystemAttributes.Any())
+        {
+            return true;
+        }
+
+        return runOnOperatingSystemAttributes.Any(attribute => attribute.Condition(module.Context));
     }
 }

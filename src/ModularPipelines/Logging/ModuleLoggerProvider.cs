@@ -105,7 +105,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             .Select(GetNonCompilerGeneratedType)
             .OfType<Type>()
             .Where(t => t != typeof(ModuleLoggerProvider))
-            .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });;
+            .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
     }
 
     private static Type? GetNonCompilerGeneratedType(StackFrame stackFrame)

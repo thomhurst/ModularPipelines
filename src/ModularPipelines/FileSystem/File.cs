@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines.FileSystem;
 
-public class File
+public class File : IEquatable<File>
 {
     private readonly FileInfo _fileInfo;
 
@@ -64,9 +64,11 @@ public class File
     public string Path => FileInfo.FullName;
     public string OriginalPath { get; }
     
-    public FileStream Create()
+    public File Create()
     {
-        return System.IO.File.Create(Path);
+        var fileStream = System.IO.File.Create(Path);
+        fileStream.Dispose();
+        return this;
     }
 
     /// <inheritdoc cref="FileSystemInfo.Attributes"/>>
@@ -105,7 +107,6 @@ public class File
         return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
     }
     
-    [return: NotNullIfNotNull("path")]
     public static implicit operator File?(string? path)
     {
         if (string.IsNullOrEmpty(path))
@@ -135,5 +136,40 @@ public class File
     public override string ToString()
     {
         return Path;
+    }
+    
+    public bool Equals(File? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Path == other.Path;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return ReferenceEquals(this, obj) || obj is File other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Path.GetHashCode();
+    }
+
+    public static bool operator ==(File? left, File? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(File? left, File? right)
+    {
+        return !Equals(left, right);
     }
 }

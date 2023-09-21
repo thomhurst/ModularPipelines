@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.FileSystem;
 
@@ -18,7 +17,7 @@ public interface IEnvironmentContext
     /// <summary>
     /// The current operating system
     /// </summary>
-    public OSPlatform OperatingSystem { get; }
+    public OperatingSystemIdentifier OperatingSystem { get; }
     public Version OperatingSystemVersion { get; }
 
     /// <summary>
@@ -36,10 +35,7 @@ public interface IEnvironmentContext
     public Folder WorkingDirectory { get; set; }
 
     /// <inheritdoc cref="Environment.GetFolderPath(System.Environment.SpecialFolder)"/>
-    public Folder? GetFolder(Environment.SpecialFolder specialFolder)
-    {
-        return Environment.GetFolderPath(specialFolder);
-    }
+    public Folder? GetFolder(Environment.SpecialFolder specialFolder);
 
     /// <summary>
     /// Gets the Environment Variables available to this Pipeline

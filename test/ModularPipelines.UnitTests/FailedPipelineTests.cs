@@ -39,7 +39,7 @@ public class FailedPipelineTests : TestBase
     public void Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((context, options) 
+                .ConfigurePipelineOptions((_, options) 
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module2>()

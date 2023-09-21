@@ -17,7 +17,7 @@ internal class StaticGitInformation : IInitializer
     private readonly IGitCommitMapper _gitCommitMapper;
     
     public static StaticGitInformation? Instance { get; private set; }
-    public static readonly object _lock = new();
+    public static readonly SemaphoreSlim Lock = new(1,1);
     private readonly ICommand _command;
 
     public StaticGitInformation(IServiceProvider serviceProvider,
@@ -32,7 +32,9 @@ internal class StaticGitInformation : IInitializer
 
     public async Task InitializeAsync()
     {
-        lock (_lock)
+        await Lock.WaitAsync();
+        
+        try
         {
             if (Instance != null)
             {
@@ -49,8 +51,89 @@ internal class StaticGitInformation : IInitializer
             }
 
             Instance = this;
-        }
 
+            await AssertGitInstalled();
+
+            var tasks = new List<Task>();
+
+            Async(async () =>
+                Root = (await GetOutput(new GitRevParseOptions
+                {
+                    ShowToplevel = true
+                }))!);
+
+            Async(async () =>
+                BranchName = await GetOutput(new GitRevParseOptions
+                {
+                    AbbrevRef = true,
+                    Arguments = new []{ "HEAD" }
+                })
+            );
+
+            Async(async () =>
+            {
+                DefaultBranchName = await GetDefaultBranchName();
+            });
+
+            Async(async () =>
+                LastCommitSha = await GetOutput(new GitRevParseOptions
+                {
+                    Arguments = new[] { "HEAD" }
+                })
+            );
+
+            Async(async () =>
+                LastCommitShortSha = await GetOutput(new GitRevParseOptions
+                {
+                    Short = true,
+                    Arguments = new []{ "HEAD" }
+                })
+            );
+
+            Async(async () =>
+                Tag = await GetOutput(new GitDescribeOptions
+                {
+                    Tags = true
+                })
+            );
+
+            Async(async () =>
+                CommitsOnBranch =
+                    int.Parse(await GetOutput(new GitRevListOptions
+                    {
+                        Count = true,
+                        Arguments = new []{ "HEAD" }
+                    }) ?? "0")
+            );
+
+            Async(async () =>
+                LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(
+                    long.Parse(await GetOutput(new GitLogOptions
+                    {
+                        Format = "%at",
+                        Arguments = new []{ "-1" }
+                    }) ?? "0"))
+            );
+
+            Async(async () =>
+                PreviousCommit = await LastCommits(1).FirstOrDefaultAsync()
+            );
+        
+            await Task.WhenAll(tasks);
+            
+            void Async(Func<Task> task)
+            {
+                tasks.Add(task());
+            }
+        }
+        finally
+        {
+            Lock.Release();
+        }
+    }
+
+    private async Task AssertGitInstalled()
+    {
         try
         {
             await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
@@ -63,79 +146,6 @@ internal class StaticGitInformation : IInitializer
         catch (Exception e)
         {
             throw new Exception("Error detecting Git repository", e);
-        }
-
-        var tasks = new List<Task>();
-
-        Async(async () =>
-            Root = (await GetOutput(new GitRevParseOptions
-            {
-                ShowToplevel = true
-            }))!);
-
-        Async(async () =>
-            BranchName = await GetOutput(new GitRevParseOptions
-            {
-                AbbrevRef = true,
-                Arguments = new []{ "HEAD" }
-            })
-        );
-
-        Async(async () =>
-        {
-            DefaultBranchName = await GetDefaultBranchName();
-        });
-
-        Async(async () =>
-            LastCommitSha = await GetOutput(new GitRevParseOptions
-            {
-                Arguments = new[] { "HEAD" }
-            })
-        );
-
-        Async(async () =>
-            LastCommitShortSha = await GetOutput(new GitRevParseOptions
-            {
-                Short = true,
-                Arguments = new []{ "HEAD" }
-            })
-        );
-
-        Async(async () =>
-            Tag = await GetOutput(new GitDescribeOptions
-            {
-                Tags = true
-            })
-        );
-
-        Async(async () =>
-            CommitsOnBranch =
-                int.Parse(await GetOutput(new GitRevListOptions
-                {
-                    Count = true,
-                    Arguments = new []{ "HEAD" }
-                }) ?? "0")
-        );
-
-        Async(async () =>
-            LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(
-                long.Parse(await GetOutput(new GitLogOptions
-                {
-                    Format = "%at",
-                    Arguments = new []{ "-1" }
-                }) ?? "0"))
-        );
-
-        Async(async () =>
-            PreviousCommit = await LastCommits(1).FirstOrDefaultAsync()
-        );
-        
-        await Task.WhenAll(tasks);
-        return;
-
-        void Async(Func<Task> task)
-        {
-            tasks.Add(task());
         }
     }
 

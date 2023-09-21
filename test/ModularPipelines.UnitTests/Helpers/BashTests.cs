@@ -1,23 +1,34 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
 public class BashTests : TestBase
 {
-    private class BashEchoModule : Module<CommandResult>
+    private class BashCommandModule : Module<CommandResult>
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
+    
+    private class BashScriptModule : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            var file = context.Git().RootDirectory.FindFile(x => x.Name == "BashTest.sh");
+            return await context.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
+        }
+    }
 
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<BashEchoModule>();
+        var module = await RunModule<BashCommandModule>();
 
         var moduleResult = await module;
 
@@ -32,7 +43,21 @@ public class BashTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<BashEchoModule>();
+        var module = await RunModule<BashCommandModule>();
+
+        var moduleResult = await module;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
+            Assert.That(moduleResult.Value.StandardOutput.Trim(), Is.EqualTo("Foo bar!"));
+        });
+    }
+    
+    [Test]
+    public async Task Standard_Output_From_Script_Equals_Foo_Bar()
+    {
+        var module = await RunModule<BashScriptModule>();
 
         var moduleResult = await module;
 

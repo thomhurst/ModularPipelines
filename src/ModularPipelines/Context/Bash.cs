@@ -24,10 +24,10 @@ internal class Bash : IBash
             FilePath = await ToWslPath(options.FilePath)
         }, cancellationToken);
     }
-
+    
     private async Task<string> ToWslPath(string path)
     {
-        if (OperatingSystem.IsWindows)
+        if (OperatingSystem.IsWindows())
         {
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
             {
