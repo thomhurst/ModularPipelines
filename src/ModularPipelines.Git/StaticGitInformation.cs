@@ -52,7 +52,7 @@ internal class StaticGitInformation : IInitializer
 
             Instance = this;
 
-            await AssertGitInstalled();
+            await GetGitVersion();
 
             var tasks = new List<Task>();
 
@@ -123,7 +123,6 @@ internal class StaticGitInformation : IInitializer
             void Async(Func<Task> task)
             {
                 var item = task();
-                item.Wait();
                 tasks.Add(item);
             }
         }
@@ -133,16 +132,18 @@ internal class StaticGitInformation : IInitializer
         }
     }
 
-    private async Task AssertGitInstalled()
+    private async Task<string> GetGitVersion()
     {
         try
         {
-            await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
                 Arguments = new[] { "version" },
-                LogInput = false,
-                LogOutput = false
+                LogInput = true,
+                LogOutput = true
             });
+
+            return result.StandardOutput;
         }
         catch (Exception e)
         {

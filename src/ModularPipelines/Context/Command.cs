@@ -72,33 +72,63 @@ internal class Command : ICommand
 
         var commandInput = _secretObfuscator.Obfuscate(command.ToString(), optionsObject);
 
+        string? inputToLog = null;
+        string? outputToLog = null;
+        int? resultExitCode = null;
+        
         if (options.LogInput)
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
 
-            Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputLoggingManipulator(commandInput));
+            inputToLog = inputLoggingManipulator(commandInput);
         }
 
-        if (options.InternalDryRun)
+        try
         {
-            Logger.LogInformation("---Dry-Run Command - No Output---");
-            return new CommandResult(command);
-        }
+            if (options.InternalDryRun)
+            {
+                return new CommandResult(command);
+            }
 
-        var result = await Of(command, options, cancellationToken);
+            var result = await Of(command, options, cancellationToken);
 
-        if (options.LogOutput)
-        {
-            var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
+            if (options.LogOutput)
+            {
+                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
 
-            Logger.LogInformation("---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}",
-                result.ExitCode,
-                string.IsNullOrEmpty(result.StandardError)
+                resultExitCode = result.ExitCode;
+                outputToLog = string.IsNullOrEmpty(result.StandardError)
                     ? outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, optionsObject))
-                    : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject)));
-        }
+                    : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject));
+            }
 
-        return new CommandResult(command, result);
+            return new CommandResult(command, result);
+        }
+        finally
+        {
+            if (options is { LogInput: true, InternalDryRun: true })
+            {
+                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
+                Logger.LogInformation("---Dry-Run Command - No Output---");
+            }
+            
+            if (options is { LogInput: true, LogOutput: true })
+            {
+                Logger.LogInformation("---Executing Command---\r\n\t{Input}\r\n\r\n---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}", inputToLog, resultExitCode, outputToLog);
+            }
+            
+            if (options is { LogInput: true, LogOutput: false })
+            {
+                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
+            }
+            
+            if (options is { LogInput: false, LogOutput: true })
+            {
+                Logger.LogInformation("---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}",
+                    resultExitCode, outputToLog
+                );
+            }
+        }
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)
