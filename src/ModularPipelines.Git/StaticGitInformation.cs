@@ -63,10 +63,9 @@ internal class StaticGitInformation : IInitializer
                 }))!);
 
             Async(async () =>
-                BranchName = await GetOutput(new GitRevParseOptions
+                BranchName = await GetOutput(new GitBranchOptions
                 {
-                    AbbrevRef = true,
-                    Arguments = new []{ "HEAD" }
+                    ShowCurrent = true
                 })
             );
 
@@ -123,7 +122,9 @@ internal class StaticGitInformation : IInitializer
             
             void Async(Func<Task> task)
             {
-                tasks.Add(task());
+                var item = task();
+                item.Wait();
+                tasks.Add(item);
             }
         }
         finally
@@ -196,8 +197,8 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                LogInput = false,
-                LogOutput = false
+                LogInput = true,
+                LogOutput = true
             });
             return result.StandardOutput.Trim();
         }

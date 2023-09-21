@@ -27,7 +27,7 @@ internal class FileSystemContext : IFileSystemContext
 
     public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;
 
-    public File GetFile(string filePath) => filePath;
+    public File GetFile(string filePath) => new(filePath);
 
     public IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate)
     {

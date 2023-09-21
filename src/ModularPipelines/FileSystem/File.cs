@@ -104,7 +104,7 @@ public class File : IEquatable<File>
     
     public static File GetNewTemporaryFilePath()
     {
-        return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName())!;
     }
     
     public static implicit operator File?(string? path)

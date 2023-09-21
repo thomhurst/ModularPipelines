@@ -18,7 +18,10 @@ public class MergeCoverageModule : Module<File>
             .GetFiles(x => x.Name.Contains("coverage") && x.Extension == ".xml");
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
-        var coverageFiles = coverageFilesFromOtherSystems.Value!.Concat(coverageFilesFromThisRun).ToList();
+        var coverageFiles = coverageFilesFromOtherSystems.Value!
+            .Concat(coverageFilesFromThisRun)
+            .Distinct()
+            .ToList();
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
         {
