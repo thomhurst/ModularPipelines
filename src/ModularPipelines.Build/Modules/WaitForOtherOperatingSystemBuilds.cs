@@ -9,7 +9,7 @@ using Octokit;
 namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
-public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
+public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
     private readonly GitHubClient _gitHubClient;
@@ -19,7 +19,7 @@ public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         return Task.FromResult(_gitHubSettings.Value.Ref is null);
     }
 
-    public TriggerOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
+    public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
     {
         _gitHubSettings = gitHubSettings;
         _gitHubClient = gitHubClient;
@@ -28,11 +28,6 @@ public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var commitSha = context.Git().Information.LastCommitSha;
-
-        var informationBranchName = _gitHubSettings.Value.Ref!;
-
-        await _gitHubClient.Actions.Workflows.CreateDispatch(BuildConstants.Owner, BuildConstants.RepositoryName,"dotnet-windows.yml", new CreateWorkflowDispatch(informationBranchName));
-        await _gitHubClient.Actions.Workflows.CreateDispatch(BuildConstants.Owner, BuildConstants.RepositoryName,"dotnet-mac.yml", new CreateWorkflowDispatch(informationBranchName));
         
         // It'll take at least 1.5 minutes to finish - So wait before trying to fetch to give it time to start
         await Task.Delay(TimeSpan.FromMinutes(1.5), cancellationToken);

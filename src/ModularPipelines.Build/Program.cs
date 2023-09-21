@@ -41,7 +41,7 @@ await PipelineHostBuilder.Create()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
             .AddModule<FormatMarkdownModule>()
-            .AddModule<TriggerOtherOperatingSystemBuilds>()
+            .AddModule<WaitForOtherOperatingSystemBuilds>()
             .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
             .AddModule<MergeCoverageModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();

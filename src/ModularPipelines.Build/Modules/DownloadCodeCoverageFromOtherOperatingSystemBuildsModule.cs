@@ -12,7 +12,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
-[DependsOn<TriggerOtherOperatingSystemBuilds>]
+[DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
     private readonly GitHubClient _gitHubClient;
@@ -28,7 +28,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     
     protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var runs = await GetModule<TriggerOtherOperatingSystemBuilds>();
+        var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
 
         var zipFiles = await runs.Value!.ToAsyncProcessorBuilder()
             .SelectAsync(run => context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri($"{run.ArtifactsUrl}/zip")), cancellationToken))
