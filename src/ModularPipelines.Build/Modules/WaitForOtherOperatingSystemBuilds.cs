@@ -1,12 +1,13 @@
-﻿using System.Text.Json;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
+using Newtonsoft.Json;
 using Octokit;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -38,8 +39,8 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml");
 
         context.Logger.LogInformation("Sha: {Sha}", commitSha);
-        context.Logger.LogInformation("Windows: {Runs}", JsonSerializer.Serialize(windowsRuns));
-        context.Logger.LogInformation("Mac: {Runs}", JsonSerializer.Serialize(macRuns));
+        context.Logger.LogInformation("Windows: {Runs}", JsonConvert.SerializeObject(windowsRuns));
+        context.Logger.LogInformation("Mac: {Runs}", JsonConvert.SerializeObject(macRuns));
 
         var windowsRun = windowsRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
         var macRun = macRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
