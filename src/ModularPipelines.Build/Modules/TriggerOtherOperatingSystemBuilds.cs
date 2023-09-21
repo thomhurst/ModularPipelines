@@ -16,7 +16,7 @@ public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 
     protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(_gitHubSettings.Value.Repository?.Id is null);
+        return Task.FromResult(_gitHubSettings.Value.Ref is null);
     }
 
     public TriggerOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
@@ -29,7 +29,7 @@ public class TriggerOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     {
         var commitSha = context.Git().Information.LastCommitSha;
 
-        var informationBranchName = context.Git().Information.BranchName;
+        var informationBranchName = _gitHubSettings.Value.Ref!;
 
         await _gitHubClient.Actions.Workflows.CreateDispatch(BuildConstants.Owner, BuildConstants.RepositoryName,"dotnet-windows.yml", new CreateWorkflowDispatch(informationBranchName));
         await _gitHubClient.Actions.Workflows.CreateDispatch(BuildConstants.Owner, BuildConstants.RepositoryName,"dotnet-mac.yml", new CreateWorkflowDispatch(informationBranchName));
