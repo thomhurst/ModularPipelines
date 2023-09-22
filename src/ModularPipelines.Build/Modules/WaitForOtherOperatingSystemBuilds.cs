@@ -35,16 +35,21 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml");
         var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml");
 
-        var windowsRun = windowsRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
-        var macRun = macRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
+        var windowsRun = windowsRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
+        var macRun = macRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
 
         var results = await Task.WhenAll(WaitFor(windowsRun, cancellationToken), WaitFor(macRun, cancellationToken));
 
-        return results.ToList();
+        return results.OfType<WorkflowRun>().ToList();
     }
 
-    private async Task<WorkflowRun> WaitFor(WorkflowRun workflowRun, CancellationToken cancellationToken)
+    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)
     {
+        if (workflowRun == null)
+        {
+            return null;
+        }
+        
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();

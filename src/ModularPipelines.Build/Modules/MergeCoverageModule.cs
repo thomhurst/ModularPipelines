@@ -17,8 +17,14 @@ public class MergeCoverageModule : Module<File>
     {
         var coverageFilesFromThisRun = context.Git().RootDirectory
             .GetFiles(x => x.Name.Contains("coverage") && x.Extension == ".xml");
+        
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
+        if (coverageFilesFromOtherSystems.Value?.Any() != true)
+        {
+            return null;
+        }
+        
         var coverageFiles = coverageFilesFromOtherSystems.Value!
             .Concat(coverageFilesFromThisRun)
             .Distinct()

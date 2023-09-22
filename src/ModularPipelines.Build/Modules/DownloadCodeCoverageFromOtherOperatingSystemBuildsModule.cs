@@ -28,6 +28,11 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     {
         var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
 
+        if (runs.Value?.Any() != true)
+        {
+            return new List<File>();
+        }
+
         var httpResponses = await runs.Value!.ToAsyncProcessorBuilder()
             .SelectAsync(run => context.Http.SendAsync(new HttpRequestMessage(HttpMethod.Get, new Uri($"{run.ArtifactsUrl}"))
             {

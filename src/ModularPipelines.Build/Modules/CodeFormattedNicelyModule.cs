@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -10,7 +11,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[SkipIfDependabot]
+[SkipIfDependabot, SkipOnMainBranch]
 public class CodeFormattedNicelyModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _githubSettings;

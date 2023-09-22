@@ -19,9 +19,16 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
         _options = options;
     }
 
-    protected override Task<bool> ShouldSkip(IPipelineContext context)
+    protected override async Task<bool> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(string.IsNullOrEmpty(_options.Value.ApiKey));
+        var mergeCoverageModuleResult = await GetModule<MergeCoverageModule>();
+        
+        if (mergeCoverageModuleResult.Value == null)
+        {
+            return true;
+        }
+        
+        return string.IsNullOrEmpty(_options.Value.ApiKey);
     }
     
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
