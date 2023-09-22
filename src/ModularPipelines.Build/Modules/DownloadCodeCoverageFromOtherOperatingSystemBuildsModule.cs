@@ -35,7 +35,8 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                 Headers =
                 {
                     Accept = { new MediaTypeWithQualityHeaderValue("application/vnd.github+json") },
-                    Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken)
+                    Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken),
+                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines") }
                 }
             }, cancellationToken))
             .ProcessInParallel();
@@ -53,6 +54,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                 {
                     message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken);
+                    message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ModularPipelines"));
                 }
             }, cancellationToken))
             .ProcessInParallel();
