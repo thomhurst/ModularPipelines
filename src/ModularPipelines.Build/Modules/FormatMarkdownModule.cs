@@ -10,6 +10,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
+[SkipIfDependabot]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
 {

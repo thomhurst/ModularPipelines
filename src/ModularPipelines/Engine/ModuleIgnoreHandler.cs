@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 
@@ -15,9 +16,9 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         _pipelineOptions = pipelineOptions;
     }
 
-    public bool ShouldIgnore(ModuleBase module)
+    public async Task<bool> ShouldIgnore(ModuleBase module)
     {
-        if (IsIgnoreCategory(module) || !IsRunnableCategory(module) || !IsRunnableCondition(module))
+        if (IsIgnoreCategory(module) || !IsRunnableCategory(module) || !await IsRunnableCondition(module))
         {
             module.SetSkipped();
             return true;
@@ -54,15 +55,29 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         return category != null && ignoreCategories.Contains(category.Category);
     }
 
-    private bool IsRunnableCondition(ModuleBase module)
+    private async Task<bool> IsRunnableCondition(ModuleBase module)
     {
-        var runOnOperatingSystemAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).ToList();
+        var mandatoryRunConditionAttributes = module.GetType().GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToList();
+        var runConditionAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
 
-        if (!runOnOperatingSystemAttributes.Any())
+        var mandatoryConditionResults = await mandatoryRunConditionAttributes.ToAsyncProcessorBuilder()
+            .SelectAsync(async runConditionAttribute => await runConditionAttribute.Condition(module.Context))
+            .ProcessInParallel();
+
+        if (mandatoryConditionResults.Any(result => !result))
+        {
+            return false;
+        }
+        
+        if (!runConditionAttributes.Any())
         {
             return true;
         }
+        
+        var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
+            .SelectAsync(async runConditionAttribute => await runConditionAttribute.Condition(module.Context))
+            .ProcessInParallel();
 
-        return runOnOperatingSystemAttributes.Any(attribute => attribute.Condition(module.Context));
+        return conditionResults.Any(result => result);
     }
 }
