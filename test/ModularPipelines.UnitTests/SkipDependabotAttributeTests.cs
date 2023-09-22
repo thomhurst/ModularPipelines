@@ -102,7 +102,6 @@ public class SkipDependabotAttributeTests : TestBase
         
         Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Successful));
     }
-    
         
     [Test]
     public async Task Will__Not_Run_When_Combination_Of_Mandatory_And_Non_Runnable_Run_Category()
@@ -117,7 +116,6 @@ public class SkipDependabotAttributeTests : TestBase
         Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Skipped));
     }
     
-        
     [Test]
     public async Task Will_Run_When_Combination_Of_Mandatory_And_Runnable_Run_Category2()
     {
