@@ -10,7 +10,6 @@ internal class Downloader : IDownloader
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttp _http;
-    private readonly HttpClient _defaultHttpClient;
 
     public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttp http)
     {

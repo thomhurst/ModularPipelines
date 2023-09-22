@@ -1,9 +1,11 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Http;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Octokit;
@@ -27,8 +29,25 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     {
         var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
 
-        var zipFiles = await runs.Value!.ToAsyncProcessorBuilder()
-            .SelectAsync(run => context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri($"{run.ArtifactsUrl}/zip"))
+        var httpResponses = await runs.Value!.ToAsyncProcessorBuilder()
+            .SelectAsync(run => context.Http.SendAsync(new HttpRequestMessage(HttpMethod.Get, new Uri($"{run.ArtifactsUrl}"))
+            {
+                Headers =
+                {
+                    Accept = { new MediaTypeWithQualityHeaderValue("application/vnd.github+json") },
+                    Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken)
+                }
+            }, cancellationToken))
+            .ProcessInParallel();
+
+        var models = await httpResponses.ToAsyncProcessorBuilder()
+            .SelectAsync(message => message.Content.ReadFromJsonAsync<GitHubArtifactsList>(cancellationToken: cancellationToken))
+            .ProcessInParallel();
+        
+        var zipFiles = await models.OfType<GitHubArtifactsList>()
+            .Select(list => list.Artifacts.First(x => x.Name == "code-coverage"))
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(artifact => context.Downloader.DownloadFileAsync(new DownloadFileOptions(artifact.DownloadUrl)
             {
                 RequestConfigurator = message =>
                 {

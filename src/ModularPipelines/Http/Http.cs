@@ -60,7 +60,7 @@ internal class Http : IHttp
             await HttpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger);
         }
 
-        var response = await httpOptions.HttpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
+        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
 
         if (httpOptions.LoggingType is HttpLoggingType.ResponseOnly or HttpLoggingType.RequestAndResponse)
         {
