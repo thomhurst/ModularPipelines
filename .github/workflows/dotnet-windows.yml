@@ -21,6 +21,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Setup WSL
+        uses: Vampire/setup-wsl@v2.0.1
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
