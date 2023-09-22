@@ -15,15 +15,8 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
-    private readonly GitHubClient _gitHubClient;
-    private readonly IOptions<GitHubSettings> _gitHubSettings;
-    private readonly HttpClient _httpClient;
-
     public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(GitHubClient gitHubClient, IOptions<GitHubSettings> gitHubSettings, HttpClient httpClient)
     {
-        _gitHubClient = gitHubClient;
-        _gitHubSettings = gitHubSettings;
-        _httpClient = httpClient;
     }
     
     protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
