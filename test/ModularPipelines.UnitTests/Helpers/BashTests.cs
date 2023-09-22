@@ -55,7 +55,7 @@ public class BashTests : TestBase
         });
     }
     
-    [Test, WindowsOnlyTest]
+    [Test, LinuxOnlyTest]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
         var module = await RunModule<BashScriptModule>();
