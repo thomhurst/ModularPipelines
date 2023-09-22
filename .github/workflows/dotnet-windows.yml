@@ -39,3 +39,8 @@ jobs:
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
           Publish__ShouldPublish: false
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      - name: Upload Code Coverage Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: '**/coverage*.xml'

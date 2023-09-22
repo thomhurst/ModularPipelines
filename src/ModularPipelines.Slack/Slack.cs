@@ -15,7 +15,7 @@ internal class Slack : ISlack
 
     public async Task PostWebHookMessage(SlackWebHookOptions options)
     {
-        var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.LoggingHttpClient);
+        var slackClient = new SlackClient(options.WebHookUri.AbsoluteUri, httpClient: _http.GetLoggingHttpClient(HttpLoggingType.RequestAndResponse));
 
         await slackClient.PostAsync(options.SlackMessage);
     }

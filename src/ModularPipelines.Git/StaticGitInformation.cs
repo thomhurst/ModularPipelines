@@ -198,8 +198,8 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                LogInput = true,
-                LogOutput = true
+                LogInput = false,
+                LogOutput = false
             });
             return result.StandardOutput.Trim();
         }

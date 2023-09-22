@@ -1,10 +1,11 @@
+using ModularPipelines.Http;
+
 namespace ModularPipelines.Options;
 
 public record HttpOptions(HttpRequestMessage HttpRequestMessage)
 {
     public HttpClient? HttpClient { get; init; }
-    public bool LogRequest { get; init; } = true;
-    public bool LogResponse { get; init; } = true;
+    public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.RequestAndResponse;
 
     public static implicit operator HttpOptions(HttpRequestMessage requestMessage) => new HttpOptions(requestMessage);
 }

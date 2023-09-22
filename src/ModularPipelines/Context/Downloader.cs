@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using File = ModularPipelines.FileSystem.File;
@@ -8,12 +9,13 @@ namespace ModularPipelines.Context;
 internal class Downloader : IDownloader
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IHttp _http;
     private readonly HttpClient _defaultHttpClient;
 
-    public Downloader(IModuleLoggerProvider moduleLoggerProvider, HttpClient defaultHttpClient)
+    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttp http)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
-        _defaultHttpClient = defaultHttpClient;
+        _http = http;
     }
 
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
@@ -52,7 +54,10 @@ internal class Downloader : IDownloader
 
         options.RequestConfigurator?.Invoke(request);
 
-        var response = await (options.HttpClient ?? _defaultHttpClient).GetAsync(options.DownloadUri, cancellationToken);
+        var response = await _http.SendAsync(new HttpOptions(request)
+        {
+            LoggingType = options.LoggingType
+        }, cancellationToken);
 
         return response.EnsureSuccessStatusCode();
     }
