@@ -1,12 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Http;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Octokit;

@@ -1,13 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-using Newtonsoft.Json;
 using Octokit;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ModularPipelines.Build.Modules;
 

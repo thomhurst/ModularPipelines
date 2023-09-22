@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using ModularPipelines.Logging;
+﻿using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
