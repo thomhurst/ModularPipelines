@@ -20,7 +20,7 @@
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.12.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="Octokit" Version="7.1.0" />
+      <PackageReference Include="Octokit" Version="7.2.0" />
     </ItemGroup>
 
     <ItemGroup>
