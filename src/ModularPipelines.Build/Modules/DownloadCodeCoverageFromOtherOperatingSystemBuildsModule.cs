@@ -45,9 +45,9 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             .ProcessInParallel();
         
         var zipFiles = await models.OfType<GitHubArtifactsList>()
-            .Select(list => list.Artifacts.First(x => x.Name == "code-coverage"))
+            .Select(list => list.Artifacts!.First(x => x.Name == "code-coverage"))
             .ToAsyncProcessorBuilder()
-            .SelectAsync(artifact => context.Downloader.DownloadFileAsync(new DownloadFileOptions(artifact.DownloadUrl)
+            .SelectAsync(artifact => context.Downloader.DownloadFileAsync(new DownloadFileOptions(artifact.DownloadUrl!)
             {
                 RequestConfigurator = message =>
                 {
