@@ -15,7 +15,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 
     protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(_gitHubSettings.Value?.PullRequest?.Sha is null);
+        return Task.FromResult(context.Git().Information.BranchName != "main" && _gitHubSettings.Value?.PullRequest?.Sha is null);
     }
 
     public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
@@ -26,7 +26,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var commitSha = _gitHubSettings.Value.PullRequest!.Sha;
+        var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
         
         // It'll take at least 1.5 minutes to finish - So wait before trying to fetch to give it time to start
         await Task.Delay(TimeSpan.FromMinutes(1.5), cancellationToken);
