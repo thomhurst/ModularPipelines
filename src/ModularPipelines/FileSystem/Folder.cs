@@ -125,7 +125,7 @@ public class Folder : IEquatable<Folder>
     
     public static Folder CreateTemporaryFolder()
     {
-        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
         return tempDirectory!;
     }
