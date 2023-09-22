@@ -12,9 +12,6 @@ public record GitHubSettings
     
     public string? Actor { get; init; }
     
-    public string? Ref { get; init; }
-    public string? Sha { get; init; }
-    
     public GitHubPullRequest? PullRequest { get; init; }
     
     public GitHubRepository? Repository { get; init; }

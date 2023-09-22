@@ -19,7 +19,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 
     protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(_gitHubSettings.Value.Ref is null);
+        return Task.FromResult(_gitHubSettings.Value?.PullRequest?.Sha is null);
     }
 
     public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
@@ -39,7 +39,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml");
 
         context.Logger.LogInformation("Sha: {Sha}", commitSha);
-        context.Logger.LogInformation("Sha from settings: {Sha}", _gitHubSettings.Value.Sha);
+        context.Logger.LogInformation("Sha from settings: {Sha}", _gitHubSettings.Value.PullRequest!.Sha);
         context.Logger.LogInformation("Windows: {Runs}", JsonConvert.SerializeObject(windowsRuns.WorkflowRuns.Select(x => x.HeadSha).ToList()));
         context.Logger.LogInformation("Mac: {Runs}", JsonConvert.SerializeObject(macRuns.WorkflowRuns.Select(x => x.HeadSha).ToList()));
 

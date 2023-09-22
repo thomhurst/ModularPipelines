@@ -47,9 +47,8 @@ jobs:
           GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
           GitHub__PullRequest__Number: ${{ github.event.number }}
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
+          GitHub__PullRequest__Sha: ${{ github.event.pull_request.head.sha }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
-          GitHub__Ref: ${{ github.event.pull_request.base.ref }}
-          GitHub__Sha: ${{ github.event.pull_request.base.sha }}
           Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
