@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Requirements;
@@ -9,6 +8,6 @@ public class WindowsRequirement : IPipelineRequirement
 {
     public Task<bool> MustAsync(IPipelineContext context)
     {
-        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.Windows);
+        return Task.FromResult(context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows);
     }
 }

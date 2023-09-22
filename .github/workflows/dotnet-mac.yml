@@ -1,32 +1,22 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: .NET (Mac)
+
+run-name: 
 
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-  workflow_dispatch:
-    inputs:
-      publish-packages:
-        description: Publish packages?    
-        type: boolean
-        required: true
 
 jobs:
-  pipeline:
+  pipeline-mac:
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
-      - name: Add mask
-        run: |
-          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}" 
-          echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
-          echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
-          echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -39,16 +29,16 @@ jobs:
         run: dotnet run -c Release
         working-directory: "src/ModularPipelines.Build"
         env:
-          DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
-          NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
+          DOTNET_ENVIRONMENT: 'Development'
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
-          GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
           GitHub__PullRequest__Number: ${{ github.event.number }}
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
-          GitHub__PullRequest__Sha: ${{ github.event.pull_request.head.sha }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
-          Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
-          Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
+          Publish__ShouldPublish: false
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      - name: Upload Code Coverage Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: '**/coverage*.xml'

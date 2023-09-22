@@ -19,7 +19,7 @@ public class FileInstaller : IFileInstaller
     public async Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        if(OperatingSystem.IsWindows)
+        if(OperatingSystem.IsWindows())
         {
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
             {

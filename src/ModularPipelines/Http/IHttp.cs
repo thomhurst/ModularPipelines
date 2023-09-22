@@ -6,5 +6,5 @@ public interface IHttp
 {
     Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default);
     HttpClient HttpClient { get; }
-    HttpClient LoggingHttpClient { get; }
+    HttpClient GetLoggingHttpClient(HttpLoggingType loggingType);
 }

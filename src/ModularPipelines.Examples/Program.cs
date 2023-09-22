@@ -6,7 +6,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Options;
 
-var modules = await PipelineHostBuilder.Create()
+await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((context, builder) =>
     {
         builder.AddJsonFile("appsettings.json", optional: false)

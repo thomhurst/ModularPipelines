@@ -22,14 +22,14 @@ public class HttpTests : TestBase
         
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
         {
-            LogRequest = false
+            LoggingType = HttpLoggingType.ResponseOnly
         });
 
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.Http]"));
+        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]"));
         
         Assert.That(logFile, Does.Not.Contain("---Request---"));
         Assert.That(logFile, Does.Not.Contain("GET https://www.github.com/ HTTP/1.1"));
@@ -52,14 +52,14 @@ public class HttpTests : TestBase
         
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
         {
-            LogResponse = false
+            LoggingType = HttpLoggingType.RequestOnly
         });
         
         await result.Host.DisposeAsync();
         
         var logFile = await File.ReadAllTextAsync(file);
         
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.Http]"));
+        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]"));
         
         Assert.That(logFile, Does.Contain("---Request---"));
         Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
@@ -80,7 +80,7 @@ public class HttpTests : TestBase
             });
         });
         
-        var loggingClient = result.T.LoggingHttpClient;
+        var loggingClient = result.T.GetLoggingHttpClient(HttpLoggingType.RequestAndResponse);
 
         await loggingClient.GetAsync("https://www.github.com");
         

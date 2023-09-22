@@ -2,14 +2,14 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<MergeCoverageModule>]
+[RunOnLinux]
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;
@@ -26,7 +26,9 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
     
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var coverageOutputFile = context.Git().RootDirectory.FindFile(x => x.Path.EndsWith("coverage.cobertura.xml")) ?? throw new FileNotFoundException("coverage.cobertura.xml");
+        var mergeCoverageModuleResult = await GetModule<MergeCoverageModule>();
+        
+        var coverageOutputFile = mergeCoverageModuleResult.Value ?? throw new FileNotFoundException("coverage.cobertura.xml");
         
         var scriptFile =
             await context.Downloader.DownloadFileAsync(

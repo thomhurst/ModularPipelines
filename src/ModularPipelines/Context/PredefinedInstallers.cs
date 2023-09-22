@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -70,7 +69,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
-        if (operatingSystem == OSPlatform.Windows)
+        if (operatingSystem == OperatingSystemIdentifier.Windows)
         {
             var url = _environmentContext.Is64BitOperatingSystem
                 ? "https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/PowerShell-7.3.5-win-x64.msi"
@@ -79,7 +78,7 @@ public class PredefinedInstallers : IPredefinedInstallers
             return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url));
         }
 
-        if (operatingSystem == OSPlatform.OSX)
+        if (operatingSystem == OperatingSystemIdentifier.MacOS)
         {
             return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell"));
         }
@@ -91,7 +90,7 @@ public class PredefinedInstallers : IPredefinedInstallers
 
     public async Task<File?> Nvm(string? version = null)
     {
-        if (OperatingSystem.IsWindows)
+        if (OperatingSystem.IsWindows())
         {
             var zipFile = await _downloader.DownloadFileAsync(
                 new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip")));
@@ -132,7 +131,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     {
         await Nvm();
 
-        if (OperatingSystem.IsWindows)
+        if (OperatingSystem.IsWindows())
         {
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
             {

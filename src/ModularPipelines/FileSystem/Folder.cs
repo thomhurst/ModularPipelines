@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.FileSystem;
 
-public class Folder
+public class Folder : IEquatable<Folder>
 {
     private readonly DirectoryInfo _directoryInfo;
 
@@ -98,7 +98,7 @@ public class Folder
     public Folder CreateFolder(string name) => GetFolder(name).Create();
 
     public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
-    public FileStream CreateFile(string name) => GetFile(name).Create();
+    public File CreateFile(string name) => GetFile(name).Create();
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))
@@ -125,7 +125,7 @@ public class Folder
     
     public static Folder CreateTemporaryFolder()
     {
-        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
         return tempDirectory!;
     }
@@ -159,5 +159,45 @@ public class Folder
     public override string ToString()
     {
         return Path;
+    }
+
+    public bool Equals(Folder? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Path == other.Path;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        return obj is Folder other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Path.GetHashCode();
+    }
+
+    public static bool operator ==(Folder? left, Folder? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(Folder? left, Folder? right)
+    {
+        return !Equals(left, right);
     }
 }

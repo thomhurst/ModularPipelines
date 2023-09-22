@@ -11,13 +11,6 @@ public class NodeTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            var task = () =>
-            {
-                context.Node().Npm.Install(null!, cancellationToken);
-                context.Node().Npm.Run(null!, cancellationToken);
-                context.Node().Nvm.Use(null!, cancellationToken);
-            };
-
             return await context.Node().Version(cancellationToken: cancellationToken);
         }
     }

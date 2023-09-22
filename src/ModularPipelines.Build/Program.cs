@@ -12,7 +12,7 @@ using ModularPipelines.Host;
 using Octokit;
 using Octokit.Internal;
 
-var modules = await PipelineHostBuilder.Create()
+await PipelineHostBuilder.Create()
     .ConfigureAppConfiguration((_, builder) =>
     {
         builder.AddJsonFile("appsettings.json")
@@ -41,6 +41,9 @@ var modules = await PipelineHostBuilder.Create()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
             .AddModule<FormatMarkdownModule>()
+            .AddModule<WaitForOtherOperatingSystemBuilds>()
+            .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
+            .AddModule<MergeCoverageModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>

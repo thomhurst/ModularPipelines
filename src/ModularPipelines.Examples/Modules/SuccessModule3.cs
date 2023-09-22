@@ -9,7 +9,7 @@ public class SuccessModule3 : Module
     {
         await Task.Delay(TimeSpan.FromSeconds(12), cancellationToken);
 
-        var gitModule = await GetModule<GitVersionModule>();
+        await GetModule<GitVersionModule>();
 
         return null;
     }

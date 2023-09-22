@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
+using ModularPipelines.UnitTests.Attributes;
 using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
@@ -157,6 +158,134 @@ public class FolderTests : TestBase
             Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture), Is.Not.Null.Or.Empty);
             Assert.That(folder.Hidden, Is.False);
             Assert.That(folder.Name, Is.Not.Null.Or.Empty);
+        });
+    }
+    
+    [Test]
+    public void CreateFolder()
+    {
+        var folder = new Folder(Path.GetRandomFileName());
+        
+        Assert.That(folder.Exists, Is.False);
+        
+        folder.Create();
+        
+        Assert.That(folder.Exists, Is.True);
+    }
+    
+    [Test]
+    public void CreateFile()
+    {
+        var folder = CreateRandomFolder();
+
+        var fileBeforeCreation = folder.GetFile("Foo.txt");
+        
+        Assert.That(fileBeforeCreation.Exists, Is.False);
+        
+        var file = folder.CreateFile("Foo.txt");
+        
+        Assert.That(file.Exists, Is.True);
+    }
+    
+    [Test]
+    public void CreateSubfolder()
+    {
+        var folder = CreateRandomFolder();
+
+        var folderBeforeCreation = folder.GetFolder("Foo");
+        
+        Assert.That(folderBeforeCreation.Exists, Is.False);
+        
+        var subfolder = folder.CreateFolder("Foo");
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(subfolder.Exists, Is.True);
+            Assert.That(subfolder.Path, Is.Not.EqualTo(folder.Path));
+            Assert.That(subfolder.Parent, Is.EqualTo(folder));
+        });
+    }
+
+    [Test]
+    public void Null_FileInfo_Implicit_Cast()
+    {
+        DirectoryInfo? directoryInfo = null;
+
+        Folder? file = directoryInfo;
+        
+        Assert.That(file, Is.Null);
+    }
+    
+    [Test]
+    public void Null_String_Implicit_Cast()
+    {
+        string? fileInfo = null;
+
+        Folder? file = fileInfo;
+        
+        Assert.That(file, Is.Null);
+    }
+    
+    [Test]
+    public void FileInfo_Implicit_Cast()
+    {
+        var directoryInfo = new DirectoryInfo(Path.GetTempFileName());
+
+        Folder file = directoryInfo;
+        
+        Assert.That(file, Is.Not.Null);
+    }
+        
+    [Test]
+    public void String_Implicit_Cast()
+    {
+        var path = Path.GetTempFileName();
+
+        Folder file = path!;
+        
+        Assert.That(file, Is.Not.Null);
+    }
+    
+    [Test, WindowsOnlyTest]
+    public void Attributes()
+    {
+        var folder = CreateRandomFolder();
+
+        Assert.That(folder.Attributes.HasFlag(FileAttributes.Hidden), Is.False);
+
+        folder.Attributes = FileAttributes.Hidden;
+        
+        Assert.That(folder.Attributes.HasFlag(FileAttributes.Hidden), Is.True);
+    }
+
+    [Test]
+    public void EqualityTrue()
+    {
+        var path = Path.GetRandomFileName();
+        var folder = new Folder(path);
+        var folder2 = new Folder(path);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(folder, Is.EqualTo(folder2));
+            Assert.That(folder.GetHashCode(), Is.EqualTo(folder2.GetHashCode()));
+            Assert.That(folder == folder2, Is.True);
+            Assert.That(folder != folder2, Is.False);
+        });
+    }
+
+    [Test]
+    public void EqualityFalse()
+    {
+        var folder = new Folder(Path.GetRandomFileName());
+        var folder2 = new Folder(Path.GetRandomFileName());
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(folder, Is.Not.EqualTo(folder2));
+            Assert.That(folder.GetHashCode(), Is.Not.EqualTo(folder2.GetHashCode()));
+            Assert.That(folder == folder2, Is.False);
+            Assert.That(folder != folder2, Is.True);
         });
     }
 

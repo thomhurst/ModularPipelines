@@ -43,6 +43,16 @@ internal static class DependencyInjectionSetup
             .AddScoped<LoggingHttpHandler>()
             .AddHttpClient("LoggingHttpClient")
             .AddHttpMessageHandler<LoggingHttpHandler>();
+
+        services
+            .AddScoped<RequestLoggingHttpHandler>()
+            .AddHttpClient("RequestLoggingHttpClient")
+            .AddHttpMessageHandler<RequestLoggingHttpHandler>();
+
+        services
+            .AddScoped<ResponseLoggingHttpHandler>()
+            .AddHttpClient("ResponseLoggingHttpClient")
+            .AddHttpMessageHandler<ResponseLoggingHttpHandler>();
         
         // Transient
         services.AddScoped<IPipelineContext, PipelineContext>()
