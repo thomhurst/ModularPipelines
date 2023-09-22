@@ -33,7 +33,7 @@ public class MergeCoverageModule : Module<File>
         
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet-coverage")
         {
-            Arguments = new[] { "merge", "--remove-input-files", "--output", outputPath }.Concat(coverageFiles.Select(x => x.Path))
+            Arguments = new[] { "merge", "--remove-input-files", "--output-format", "cobertura", "--output", outputPath }.Concat(coverageFiles.Select(x => x.Path))
         }, cancellationToken);
 
         return outputPath;

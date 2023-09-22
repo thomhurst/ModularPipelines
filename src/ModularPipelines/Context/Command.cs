@@ -112,12 +112,12 @@ internal class Command : ICommand
                 Logger.LogInformation("---Dry-Run Command - No Output---");
             }
             
-            if (options is { LogInput: true, LogOutput: true })
+            if (options is { LogInput: true, LogOutput: true } && (resultExitCode != null || outputToLog != null))
             {
                 Logger.LogInformation("---Executing Command---\r\n\t{Input}\r\n\r\n---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}", inputToLog, resultExitCode, outputToLog);
             }
             
-            if (options is { LogInput: true, LogOutput: false })
+            if (options is { LogInput: true, LogOutput: false } || (options is { LogInput: true, LogOutput: true } && resultExitCode == null && outputToLog == null))
             {
                 Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
             }
