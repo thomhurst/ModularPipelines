@@ -8,7 +8,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux]
+[RunOnLinux, SkipIfDependabot]
 [DependsOn<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>]
 [DependsOn<RunUnitTestsModule>]
 public class MergeCoverageModule : Module<File>
