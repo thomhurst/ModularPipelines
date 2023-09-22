@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
@@ -38,9 +39,9 @@ internal class ModuleRetriever : IModuleRetriever
             .ForEachAsync(m => _moduleInitializer.Initialize(m))
             .ProcessInParallel();
 
-        var modulesToIgnore = _modules
-            .Where(m => _moduleIgnoreHandler.ShouldIgnore(m))
-            .ToList();
+        var modulesToIgnore = await _modules
+            .WhereAsync(async m => await _moduleIgnoreHandler.ShouldIgnore(m))
+            .ToListAsync();
 
         var modulesToProcess = _modules
             .Except(modulesToIgnore)

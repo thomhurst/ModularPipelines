@@ -1,11 +1,13 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Attributes;
 
+[ExcludeFromCodeCoverage]
 public class RunOnWindowsAttribute : RunConditionAttribute
 {
-    public override bool Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return OperatingSystem.IsWindows();
+        return Task.FromResult(OperatingSystem.IsWindows());
     }
 }

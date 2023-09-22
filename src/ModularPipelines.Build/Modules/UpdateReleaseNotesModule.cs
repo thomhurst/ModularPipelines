@@ -9,6 +9,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
+[SkipIfDependabot]
 [DependsOn<NugetVersionGeneratorModule>]
 public class UpdateReleaseNotesModule : Module
 {

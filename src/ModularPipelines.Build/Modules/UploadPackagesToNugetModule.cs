@@ -14,6 +14,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
+[SkipIfDependabot]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;

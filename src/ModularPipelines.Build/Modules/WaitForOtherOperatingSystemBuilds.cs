@@ -8,7 +8,7 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux]
+[RunOnLinux, SkipIfDependabot]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;

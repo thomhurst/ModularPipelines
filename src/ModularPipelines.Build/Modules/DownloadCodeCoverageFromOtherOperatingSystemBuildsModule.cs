@@ -13,7 +13,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux]
+[RunOnLinux, SkipIfDependabot]
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {

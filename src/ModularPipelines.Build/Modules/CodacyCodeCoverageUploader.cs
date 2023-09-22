@@ -9,7 +9,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<MergeCoverageModule>]
-[RunOnLinux]
+[RunOnLinux, SkipIfDependabot]
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;

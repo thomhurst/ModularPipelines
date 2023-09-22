@@ -8,7 +8,7 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux]
+[RunOnLinux, SkipIfDependabot]
 public class CheckReleaseNotesAddedModule : Module
 {
     private const string MissingReleaseNotesMessage = "No release notes for this change. Please add some notes to the ReleaseNotes.md file.";
@@ -24,11 +24,6 @@ public class CheckReleaseNotesAddedModule : Module
     protected override Task<bool> ShouldSkip(IPipelineContext context)
     {
         if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
-        {
-            return Task.FromResult(true);
-        }
-
-        if (_githubSettings.Value.Actor == "dependabot[bot]")
         {
             return Task.FromResult(true);
         }

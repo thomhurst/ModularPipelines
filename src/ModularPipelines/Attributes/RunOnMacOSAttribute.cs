@@ -1,11 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Attributes;
 
+[ExcludeFromCodeCoverage]
 public class RunOnMacOSAttribute : RunConditionAttribute
 {
-    public override bool Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return OperatingSystem.IsMacOS();
+        return Task.FromResult(OperatingSystem.IsMacOS());
     }
 }

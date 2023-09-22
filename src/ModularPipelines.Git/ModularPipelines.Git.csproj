@@ -3,9 +3,5 @@
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-    </ItemGroup>
     
 </Project>

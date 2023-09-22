@@ -1,11 +1,13 @@
-﻿using ModularPipelines.Context;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Attributes;
 
+[ExcludeFromCodeCoverage]
 public class RunOnLinuxAttribute : RunConditionAttribute
 {
-    public override bool Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
-        return OperatingSystem.IsLinux();
+        return Task.FromResult(OperatingSystem.IsLinux());
     }
 }
