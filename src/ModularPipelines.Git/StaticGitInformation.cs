@@ -162,7 +162,7 @@ internal class StaticGitInformation : IInitializer
 
             return output!.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                 .First(x => x.StartsWith("HEAD branch:"))
-                .Split("HEAD branch:")[1];
+                .Split("HEAD branch: ")[1];
         }
         catch
         {

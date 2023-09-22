@@ -167,4 +167,14 @@ public class File : IEquatable<File>
     {
         return Path.GetHashCode();
     }
+
+    public static bool operator ==(File? left, File? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(File? left, File? right)
+    {
+        return !Equals(left, right);
+    }
 }
