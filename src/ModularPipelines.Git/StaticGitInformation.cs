@@ -139,8 +139,8 @@ internal class StaticGitInformation : IInitializer
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
                 Arguments = new[] { "version" },
-                LogInput = true,
-                LogOutput = true
+                LogInput = false,
+                LogOutput = false
             });
 
             return result.StandardOutput;
