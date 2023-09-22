@@ -190,14 +190,4 @@ public class Folder : IEquatable<Folder>
     {
         return Path.GetHashCode();
     }
-
-    public static bool operator ==(Folder? left, Folder? right)
-    {
-        return Equals(left, right);
-    }
-
-    public static bool operator !=(Folder? left, Folder? right)
-    {
-        return !Equals(left, right);
-    }
 }

@@ -160,9 +160,9 @@ internal class StaticGitInformation : IInitializer
                 Arguments = new[] { "show", "origin" }
             });
 
-            return output!.Split(Environment.NewLine)
-                .First(x => x.Trim().StartsWith("HEAD branch:"))
-                .Split("HEAD branch:")[1].Trim();
+            return output!.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .First(x => x.StartsWith("HEAD branch:"))
+                .Split("HEAD branch:")[1];
         }
         catch
         {
