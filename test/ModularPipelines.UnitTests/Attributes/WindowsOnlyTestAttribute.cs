@@ -10,7 +10,7 @@ public class WindowsOnlyTestAttribute : Attribute, IApplyToTest
     {
         if (!OperatingSystem.IsWindows())
         {
-            test.MakeInvalid("This test is only runnable on Windows");
+            Assert.Ignore("This test is only runnable on Windows");
         }
     }
 }
