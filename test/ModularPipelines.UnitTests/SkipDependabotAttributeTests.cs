@@ -67,7 +67,7 @@ public class SkipDependabotAttributeTests : TestBase
         var environmentVariables = new Mock<IEnvironmentVariables>();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.AddSingleton(environmentVariables.Object))
+            .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
             .ExecutePipelineAsync();
         
@@ -83,7 +83,7 @@ public class SkipDependabotAttributeTests : TestBase
             .Returns("dependabot[bot]");
         
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.AddSingleton(environmentVariables.Object))
+            .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
             .ExecutePipelineAsync();
         
@@ -96,7 +96,7 @@ public class SkipDependabotAttributeTests : TestBase
         var environmentVariables = new Mock<IEnvironmentVariables>();
         
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.AddSingleton(environmentVariables.Object))
+            .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module2>()
             .ExecutePipelineAsync();
         
@@ -109,7 +109,7 @@ public class SkipDependabotAttributeTests : TestBase
         var environmentVariables = new Mock<IEnvironmentVariables>();
         
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.AddSingleton(environmentVariables.Object))
+            .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module3>()
             .ExecutePipelineAsync();
         
@@ -122,7 +122,7 @@ public class SkipDependabotAttributeTests : TestBase
         var environmentVariables = new Mock<IEnvironmentVariables>();
         
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) => collection.AddSingleton(environmentVariables.Object))
+            .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module4>()
             .ExecutePipelineAsync();
         
