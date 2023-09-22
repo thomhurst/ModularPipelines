@@ -3,6 +3,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -54,7 +55,7 @@ public class BashTests : TestBase
         });
     }
     
-    [Test]
+    [Test, WindowsOnlyTest]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
         var module = await RunModule<BashScriptModule>();

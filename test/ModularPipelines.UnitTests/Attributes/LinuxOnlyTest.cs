@@ -1,0 +1,16 @@
+﻿using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
+
+namespace ModularPipelines.UnitTests.Attributes;
+
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+public class LinuxOnlyTestAttribute : Attribute, IApplyToTest 
+{
+    public void ApplyToTest(Test test)
+    {
+        if (!OperatingSystem.IsLinux())
+        {
+            test.MakeInvalid("This test is only runnable on Linux");
+        }
+    }
+}

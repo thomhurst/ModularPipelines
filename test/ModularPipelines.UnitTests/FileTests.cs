@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ModularPipelines.UnitTests.Attributes;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -200,7 +201,7 @@ public class FileTests : TestBase
         Assert.That(file, Is.Not.Null);
     }
     
-    [Test]
+    [Test, WindowsOnlyTest]
     public async Task Attributes()
     {
         var file = await CreateRandomFile();

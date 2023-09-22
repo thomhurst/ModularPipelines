@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
+using ModularPipelines.UnitTests.Attributes;
 using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
@@ -245,7 +246,7 @@ public class FolderTests : TestBase
         Assert.That(file, Is.Not.Null);
     }
     
-    [Test]
+    [Test, WindowsOnlyTest]
     public void Attributes()
     {
         var folder = CreateRandomFolder();
