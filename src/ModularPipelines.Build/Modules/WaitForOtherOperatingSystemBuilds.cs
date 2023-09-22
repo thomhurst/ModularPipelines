@@ -39,8 +39,8 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml");
 
         context.Logger.LogInformation("Sha: {Sha}", commitSha);
-        context.Logger.LogInformation("Windows: {Runs}", JsonConvert.SerializeObject(windowsRuns));
-        context.Logger.LogInformation("Mac: {Runs}", JsonConvert.SerializeObject(macRuns));
+        context.Logger.LogInformation("Windows: {Runs}", JsonConvert.SerializeObject(windowsRuns.WorkflowRuns.Select(x => x.HeadSha).ToList()));
+        context.Logger.LogInformation("Mac: {Runs}", JsonConvert.SerializeObject(macRuns.WorkflowRuns.Select(x => x.HeadSha).ToList()));
 
         var windowsRun = windowsRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
         var macRun = macRuns.WorkflowRuns.First(x => x.HeadSha == commitSha);
