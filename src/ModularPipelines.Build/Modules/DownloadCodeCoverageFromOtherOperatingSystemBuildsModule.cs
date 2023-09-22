@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
@@ -36,7 +37,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                 {
                     Accept = { new MediaTypeWithQualityHeaderValue("application/vnd.github+json") },
                     Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken),
-                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines") }
+                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines", "1.0.0") }
                 }
             }, cancellationToken))
             .ProcessInParallel();
@@ -54,7 +55,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                 {
                     message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken);
-                    message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ModularPipelines"));
+                    message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ModularPipelines", "1.0.0"));
                 }
             }, cancellationToken))
             .ProcessInParallel();
