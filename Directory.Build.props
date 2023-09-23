@@ -1,11 +1,14 @@
 <Project>
+    <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworks)' == ''">
+        <TargetFrameworks >net6.0;net7.0</TargetFrameworks>
+    </PropertyGroup>
+    
     <PropertyGroup>
-        <TargetFrameworks Condition="'$(TargetFramework)' != 'netstandard2.0'">net6.0;net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
-
+    
     <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
