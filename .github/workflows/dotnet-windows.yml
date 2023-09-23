@@ -3,8 +3,6 @@
 
 name: .NET (Windows)
 
-run-name: 
-
 on:
   push:
     branches: ["main"]
@@ -26,9 +24,9 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
       - name: Run Pipeline
-        run: dotnet run -c Release
+        run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
         env:
           DOTNET_ENVIRONMENT: 'Development'

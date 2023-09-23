@@ -120,8 +120,6 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
         
-        file.Create();
-        
         await file.WriteAsync($"Hello{Environment.NewLine}world");
 
         var plainText = await file.ReadAsync();
@@ -141,9 +139,7 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
         
-        file.Create();
-        
-        await file.WriteLinesAsync(new []
+        await file.WriteAsync(new []
         {
             "Hello", 
             "world"
@@ -159,6 +155,42 @@ public class FileTests : TestBase
             Assert.That(lines[0], Is.EqualTo("Hello"));
             Assert.That(lines[1], Is.EqualTo("world"));
         });
+    }
+    
+    [Test]
+    public async Task ReadWriteBytesFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        
+        await file.WriteAsync("Hello world!"u8.ToArray());
+
+        var plainText = await file.ReadAsync();
+        
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
+    }
+    
+    [Test]
+    public async Task ReadWriteReadOnlyMemoryBytesFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        
+        await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray()));
+
+        var plainText = await file.ReadAsync();
+        
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
+    }
+    
+    [Test]
+    public async Task ReadWriteStreamFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        
+        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
+
+        var plainText = await file.ReadAsync();
+        
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
     }
 
     [Test]
