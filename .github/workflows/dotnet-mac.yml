@@ -3,8 +3,6 @@
 
 name: .NET (Mac)
 
-run-name: 
-
 on:
   push:
     branches: ["main"]
@@ -24,7 +22,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
       - name: Run Pipeline
         run: dotnet run -c Release
         working-directory: "src/ModularPipelines.Build"
