@@ -50,6 +50,12 @@ public class File : IEquatable<File>
     {
         return System.IO.File.WriteAllLinesAsync(Path, contents);
     }
+
+    public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
+    {
+        await using var fileStream = System.IO.File.Create(Path);
+        await fileStream.WriteAsync(contents, cancellationToken); 
+    }
     
     public async Task WriteAsync(Stream contents)
     {
