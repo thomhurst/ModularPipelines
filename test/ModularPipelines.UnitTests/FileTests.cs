@@ -166,7 +166,19 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         
-        Assert.That(plainText, Is.EqualTo($"Hello world!"));
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
+    }
+    
+    [Test]
+    public async Task ReadWriteReadOnlyMemoryBytesFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        
+        await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray()));
+
+        var plainText = await file.ReadAsync();
+        
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
     }
     
     [Test]
@@ -178,7 +190,7 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         
-        Assert.That(plainText, Is.EqualTo($"Hello world!"));
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
     }
 
     [Test]
