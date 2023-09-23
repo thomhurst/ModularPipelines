@@ -26,7 +26,7 @@ jobs:
         with:
           dotnet-version: 7.0.x
       - name: Run Pipeline
-        run: dotnet run -c Release
+        run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
         env:
           DOTNET_ENVIRONMENT: 'Development'
