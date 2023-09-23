@@ -24,6 +24,7 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = testProject,
+                Framework = "net7.0",
                 LogInput = true,
                 LogOutput = true
             }, cancellationToken: cancellationToken);
@@ -41,6 +42,7 @@ public class DotNetTestResultsTests : TestBase
             {
                 TargetPath = testProject,
                 Filter = "TestCategory=Pass",
+                Framework = "net7.0",
                 LogInput = true,
                 LogOutput = true
             }, cancellationToken: cancellationToken);
