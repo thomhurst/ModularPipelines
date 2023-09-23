@@ -41,9 +41,26 @@ public class File : IEquatable<File>
         return System.IO.File.WriteAllTextAsync(Path, contents);
     }
     
-    public Task WriteLinesAsync(IEnumerable<string> contents)
+    public Task WriteAsync(byte[] contents)
+    {
+        return System.IO.File.WriteAllBytesAsync(Path, contents);
+    }
+    
+    public Task WriteAsync(IEnumerable<string> contents)
     {
         return System.IO.File.WriteAllLinesAsync(Path, contents);
+    }
+    
+    public async Task WriteAsync(Stream contents)
+    {
+        await using var fileStream = System.IO.File.Create(Path);
+        
+        if (contents.CanSeek)
+        {
+            contents.Position = 0;
+        }
+
+        await contents.CopyToAsync(fileStream);
     }
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
