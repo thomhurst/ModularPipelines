@@ -3,7 +3,9 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
 
@@ -22,14 +24,15 @@ public class CheckReleaseNotesAddedModule : Module
         _gitHubClient = gitHubClient;
     }
 
-    protected override Task<bool> ShouldSkip(IPipelineContext context)
+    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
         {
-            return Task.FromResult(true);
+            return Task.FromResult(SkipDecision.Skip("Not running on GitHub actions"));
         }
-        
-        return Task.FromResult(string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch));
+
+        var isPullRequest = !string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch);
+        return isPullRequest ? SkipDecision.DoNotSkip.AsTask() : SkipDecision.Skip("Not a pull request").AsTask();
     }
 
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

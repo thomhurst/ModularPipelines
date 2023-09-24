@@ -68,19 +68,19 @@ internal class ProgressPrinter : IProgressPrinter
         table.AddColumn("Module");
         table.AddColumn("Duration");
         table.AddColumn("Status");
-        table.AddColumn("[red]Exception[/]");
         table.AddColumn("Start");
         table.AddColumn("End");
+        table.AddColumn("");
 
         foreach (var module in pipelineSummary.Modules)
         {
             table.AddRow(
-                $"[cyan]{module.GetType().Name}[/]", 
-                module.Duration.ToDisplayString(), 
+                $"[cyan]{module.GetType().Name}[/]",
+                module.Duration.ToDisplayString(),
                 module.Status.ToDisplayString(),
-                $"[red]{module.Exception?.GetType().Name}[/]",
                 module.StartTime.ToString(),
-                module.EndTime.ToString());
+                module.EndTime.ToString(),
+                GetModuleExtraInformation(module));
         }
 
         table.AddEmptyRow();
@@ -97,6 +97,21 @@ internal class ProgressPrinter : IProgressPrinter
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
         Console.Out.Flush();
+    }
+
+    private static string GetModuleExtraInformation(ModuleBase module)
+    {
+        if (module.SkipDecision.ShouldSkip)
+        {
+            return $"[orange3]Skipped: {module.SkipDecision.Reason}[/]";
+        }
+        
+        if (module.Exception != null)
+        {
+            return $"[red]{module.Exception?.GetType().Name}[/]";
+        }
+
+        return string.Empty;
     }
 
     private static void RegisterModules(IReadOnlyList<RunnableModule> modulesToProcess, ProgressContext progressContext,

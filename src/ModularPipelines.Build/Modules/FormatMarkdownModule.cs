@@ -18,10 +18,12 @@ public class FormatMarkdownModule : Module<CommandResult>
 
     public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
 
-    protected override Task<bool> ShouldSkip(IPipelineContext context)
+    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch)
-                               || string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken));
+        var notAPullRequest = string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch)
+                            || string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken);
+        
+        return Task.FromResult(notAPullRequest ? SkipDecision.Skip("Not a pull request") : SkipDecision.DoNotSkip);
     }
 
     public FormatMarkdownModule(IOptions<GitHubSettings> gitHubSettings)

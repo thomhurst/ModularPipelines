@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
 using File = ModularPipelines.FileSystem.File;
@@ -26,7 +27,7 @@ public class UpdateReleaseNotesModule : Module
         _publishSettings = publishSettings;
     }
 
-    protected override async Task<bool> ShouldSkip(IPipelineContext context)
+    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (!_publishSettings.Value.ShouldPublish)
         {
