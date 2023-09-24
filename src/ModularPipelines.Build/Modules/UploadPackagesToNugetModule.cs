@@ -38,7 +38,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         await base.OnBeforeExecute(context);
     }
 
-    protected override async Task<bool> ShouldSkip(IPipelineContext context)
+    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         var gitVersionInfo = await context.Git().Versioning.GetGitVersioningInformation();
 

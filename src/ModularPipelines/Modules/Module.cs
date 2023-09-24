@@ -71,17 +71,17 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return;
             }
 
-            var shouldSkipModule = await ShouldSkip(Context);
+            SkipDecision = await ShouldSkip(Context);
 
-            if (shouldSkipModule && await UseResultFromHistoryIfSkipped(Context))
+            if (SkipDecision.ShouldSkip && await UseResultFromHistoryIfSkipped(Context))
             {
-                await SetupModuleFromHistory();
+                await SetupModuleFromHistory(SkipDecision.Reason);
                 return;
             }
 
-            if (shouldSkipModule)
+            if (SkipDecision.ShouldSkip)
             {
-                SetSkipped();
+                SetSkipped(SkipDecision);
                 return;
             }
 
@@ -181,7 +181,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             LogModuleStatus();
         }
     }
-
+    
     private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
         var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
@@ -250,7 +250,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         return this;
     }
 
-    private async Task SetupModuleFromHistory()
+    private async Task SetupModuleFromHistory(string? skipDecisionReason)
     {
         Status = Status.Successful;
 
@@ -258,7 +258,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (result == null)
         {
-            SetSkipped();
+            SetSkipped(skipDecisionReason ?? "No history for module was found");
             return;
         }
 
@@ -330,7 +330,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override void SetSkipped()
+    internal override void SetSkipped(SkipDecision skipDecision)
     {
         Status = Status.Skipped;
 
@@ -338,6 +338,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
 
-        Context.Logger.LogInformation("{Module} Ignored", GetType().Name);
+        Context.Logger.LogInformation("{Module} ignored because: {Reason}", GetType().Name, skipDecision.Reason);
     }
 }

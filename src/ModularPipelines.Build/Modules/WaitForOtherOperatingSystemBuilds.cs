@@ -2,7 +2,9 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
 
@@ -14,9 +16,11 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     private readonly IOptions<GitHubSettings> _gitHubSettings;
     private readonly GitHubClient _gitHubClient;
 
-    protected override Task<bool> ShouldSkip(IPipelineContext context)
+    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return Task.FromResult(context.Git().Information.BranchName != "main" && _gitHubSettings.Value?.PullRequest?.Sha is null);
+        return context.Git().Information.BranchName != "main" && _gitHubSettings.Value?.PullRequest?.Sha is null
+            ? SkipDecision.Skip("No github commit sha found").AsTask()
+            : SkipDecision.DoNotSkip.AsTask();
     }
 
     public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)

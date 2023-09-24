@@ -27,7 +27,7 @@ public partial class ModuleBase
     /// <param name="context"></param>
     /// <returns></returns>
     [ModuleMethodMarker]
-    protected virtual Task<bool> ShouldSkip(IPipelineContext context) => Task.FromResult(false);
+    protected virtual Task<SkipDecision> ShouldSkip(IPipelineContext context) => Task.FromResult(SkipDecision.DoNotSkip);
 
     /// <summary>
     /// If this module is skipped, and this returns true, the result of this module will be reconstructed from the plugged in <see cref="IModuleResultRepository"/>.

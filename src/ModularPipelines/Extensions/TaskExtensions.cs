@@ -21,13 +21,13 @@ public static class TaskExtensions
         return await Task.WhenAll(originalTasks);
     }
 
-    public static Task<T?> AsTask<T>(this T t)
+    public static Task<T> AsTask<T>(this T t)
     {
-        return Task.FromResult<T?>(t);
+        return Task.FromResult(t);
     }
     
-    public static Task<TType?> AsTask<TType, T>(this T t) where T : TType
+    public static Task<TType> AsTask<TType, T>(this T t) where T : TType
     {
-        return Task.FromResult<TType?>(t);
+        return Task.FromResult<TType>(t);
     }
 }

@@ -19,7 +19,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
         _options = options;
     }
 
-    protected override async Task<bool> ShouldSkip(IPipelineContext context)
+    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         var mergeCoverageModuleResult = await GetModule<MergeCoverageModule>();
         
