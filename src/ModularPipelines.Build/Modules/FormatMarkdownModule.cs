@@ -2,6 +2,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -20,10 +21,17 @@ public class FormatMarkdownModule : Module<CommandResult>
 
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        var notAPullRequest = string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch)
-                            || string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken);
+        if (string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch))
+        {
+            return SkipDecision.Skip("Not a pull request").AsTask();
+        }
         
-        return Task.FromResult(notAPullRequest ? SkipDecision.Skip("Not a pull request") : SkipDecision.DoNotSkip);
+        if (string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken))
+        {
+            return SkipDecision.Skip("No authentication token for git").AsTask();
+        }
+       
+        return SkipDecision.DoNotSkip.AsTask();
     }
 
     public FormatMarkdownModule(IOptions<GitHubSettings> gitHubSettings)
