@@ -1,1 +1,1 @@
- 
+ *  Remove LogFilter class
