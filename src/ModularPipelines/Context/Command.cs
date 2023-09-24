@@ -2,13 +2,11 @@
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
-using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
 
