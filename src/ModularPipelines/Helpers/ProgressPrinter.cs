@@ -89,9 +89,9 @@ internal class ProgressPrinter : IProgressPrinter
             "Total",
             pipelineSummary.TotalDuration.ToDisplayString(),
             pipelineSummary.Status.ToDisplayString(),
-            string.Empty,
             pipelineSummary.Start.ToString(),
-            pipelineSummary.End.ToString());
+            pipelineSummary.End.ToString(),
+            string.Empty);
         
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);
@@ -101,7 +101,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static string GetModuleExtraInformation(ModuleBase module)
     {
-        if (module.SkipDecision.ShouldSkip)
+        if (module.SkipDecision.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipDecision.Reason))
         {
             return $"[orange3]Reason: {module.SkipDecision.Reason}[/]";
         }
