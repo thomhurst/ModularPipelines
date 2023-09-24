@@ -6,7 +6,7 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
 
     public void PrintAllLoggers()
     {
-        foreach (var logger in _loggers.OrderBy(x => x.LastLogWritten))
+        foreach (var logger in _loggers.OrderBy(x => x.LastLogWritten).ToList())
         {
             logger.Dispose();
         }
