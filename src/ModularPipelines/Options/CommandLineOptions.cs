@@ -1,4 +1,5 @@
 using CliWrap;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Options;
 
@@ -19,16 +20,12 @@ public record CommandLineOptions
 
     /// <inheritdoc cref="CommandLineCredentials"/>>
     public Credentials? CommandLineCredentials { get; init; }
-
+    
     /// <summary>
-    /// Whether to Log the input command in the pipeline output
+    /// Controls command logging
+    /// e.g. Logging = CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
     /// </summary>
-    public bool LogInput { get; init; } = GlobalConfig.LogCommandInput;
-
-    /// <summary>
-    /// Whether to Log the command output in the pipeline output
-    /// </summary>
-    public bool LogOutput { get; init; } = GlobalConfig.LogCommandOutput;
+    public CommandLogging CommandLogging { get; init; } = GlobalConfig.DefaultCommandLogging;
 
     /// <summary>
     /// If logging input, you can use this to edit how the input is logged

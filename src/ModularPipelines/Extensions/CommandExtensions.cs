@@ -23,8 +23,7 @@ public static class CommandExtensions
             Arguments = arguments,
             CommandLineCredentials = options.CommandLineCredentials,
             EnvironmentVariables = options.EnvironmentVariables,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput,
+            CommandLogging = options.CommandLogging,
             WorkingDirectory = options.WorkingDirectory,
             OptionsObject = options
         };
@@ -47,8 +46,7 @@ public static class CommandExtensions
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
             CommandLineCredentials = options.CommandLineCredentials,
             EnvironmentVariables = options.EnvironmentVariables,
-            LogInput = options.LogInput,
-            LogOutput = options.LogOutput,
+            CommandLogging = options.CommandLogging,
             WorkingDirectory = options.WorkingDirectory,
             OptionsObject = options.OptionsObject ?? options,
         };

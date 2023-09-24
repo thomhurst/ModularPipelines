@@ -4,6 +4,7 @@ using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -25,8 +26,7 @@ public class DotNetTestResultsTests : TestBase
             {
                 TargetPath = testProject,
                 Framework = "net7.0",
-                LogInput = true,
-                LogOutput = true
+                CommandLogging = CommandLogging.Error
             }, cancellationToken: cancellationToken);
         }
     }
@@ -43,8 +43,7 @@ public class DotNetTestResultsTests : TestBase
                 TargetPath = testProject,
                 Filter = "TestCategory=Pass",
                 Framework = "net7.0",
-                LogInput = true,
-                LogOutput = true
+                CommandLogging = CommandLogging.Error
             }, cancellationToken: cancellationToken);
         }
     }

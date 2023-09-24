@@ -60,6 +60,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddScoped<IHttp, Http.Http>()
             .AddScoped<ICommand, Command>()
+            .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
             .AddScoped<IInstaller, Installer>()

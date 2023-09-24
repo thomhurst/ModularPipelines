@@ -2,9 +2,9 @@
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -13,18 +13,9 @@ using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
-internal class Command : ICommand
+internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger commandLogger) : ICommand
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private readonly ISecretObfuscator _secretObfuscator;
-    private ILogger Logger => _moduleLoggerProvider.GetLogger();
-
-    public Command(IModuleLoggerProvider moduleLoggerProvider,
-        ISecretObfuscator secretObfuscator)
-    {
-        _moduleLoggerProvider = moduleLoggerProvider;
-        _secretObfuscator = secretObfuscator;
-    }
+    private readonly ICommandLogger _commandLogger = commandLogger;
 
     public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
@@ -70,13 +61,14 @@ internal class Command : ICommand
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
 
-        var commandInput = _secretObfuscator.Obfuscate(command.ToString(), optionsObject);
+        var commandInput = secretObfuscator.Obfuscate(command.ToString(), optionsObject);
 
         string? inputToLog = null;
         string? outputToLog = null;
+        string? errorToLog = null;
         int? resultExitCode = null;
         
-        if (options.LogInput)
+        if (options.CommandLogging.HasFlag(CommandLogging.Input))
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
 
@@ -92,42 +84,25 @@ internal class Command : ICommand
 
             var result = await Of(command, options, cancellationToken);
 
-            if (options.LogOutput)
+            var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
+            
+            if (options.CommandLogging.HasFlag(CommandLogging.Output))
             {
-                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-
                 resultExitCode = result.ExitCode;
-                outputToLog = string.IsNullOrEmpty(result.StandardError)
-                    ? outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, optionsObject))
-                    : outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, optionsObject));
+                outputToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardOutput, optionsObject));
+            }
+
+            if (options.CommandLogging.HasFlag(CommandLogging.Error))
+            {
+                resultExitCode = result.ExitCode;
+                errorToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardError, optionsObject));
             }
 
             return new CommandResult(command, result);
         }
         finally
         {
-            if (options is { LogInput: true, InternalDryRun: true })
-            {
-                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
-                Logger.LogInformation("---Dry-Run Command - No Output---");
-            }
-            
-            if (options is { LogInput: true, LogOutput: true } && (resultExitCode != null || outputToLog != null))
-            {
-                Logger.LogInformation("---Executing Command---\r\n\t{Input}\r\n\r\n---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}", inputToLog, resultExitCode, outputToLog);
-            }
-            
-            if (options is { LogInput: true, LogOutput: false } || (options is { LogInput: true, LogOutput: true } && resultExitCode == null && outputToLog == null))
-            {
-                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
-            }
-            
-            if (options is { LogInput: false, LogOutput: true })
-            {
-                Logger.LogInformation("---Command Result---\r\n\tExit Code: {ExitCode}\r\n\t{Output}",
-                    resultExitCode, outputToLog
-                );
-            }
+            _commandLogger.Log(options, inputToLog, resultExitCode, outputToLog, errorToLog);
         }
     }
 
