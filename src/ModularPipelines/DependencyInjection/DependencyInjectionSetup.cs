@@ -18,8 +18,6 @@ internal static class DependencyInjectionSetup
 {
     public static void Initialize(IServiceCollection services)
     {
-        var secretsLogFilter = new SecretsLogFilter();
-        
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
@@ -30,10 +28,7 @@ internal static class DependencyInjectionSetup
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
                     
-                builder.AddSpectreConsole(cfg =>
-                {
-                    cfg.SetLogEventFilter(secretsLogFilter);
-                });
+                builder.AddSpectreConsole();
             })
             .AddHttpClient()
             .AddInitializers()
@@ -108,7 +103,6 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
-            .AddSingleton(secretsLogFilter)
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton(typeof(ModuleLogger<>))
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
