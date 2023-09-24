@@ -111,12 +111,9 @@ internal class ProgressPrinter : IProgressPrinter
             return String.Empty;
         }
         
-        if (isSameDay)
-        {
-            dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt");
-        }
-        
-        return dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt zz");
+        return isSameDay 
+            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt") 
+            : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 
     private static string GetModuleExtraInformation(ModuleBase module)
