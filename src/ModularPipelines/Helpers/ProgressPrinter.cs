@@ -103,7 +103,7 @@ internal class ProgressPrinter : IProgressPrinter
     {
         if (module.SkipDecision.ShouldSkip)
         {
-            return $"[orange3]Skipped: {module.SkipDecision.Reason}[/]";
+            return $"[orange3]Reason: {module.SkipDecision.Reason}[/]";
         }
         
         if (module.Exception != null)
