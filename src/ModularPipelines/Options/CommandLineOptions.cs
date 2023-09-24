@@ -25,7 +25,7 @@ public record CommandLineOptions
     /// Controls command logging
     /// e.g. Logging = CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
     /// </summary>
-    public CommandLogging CommandLogging { get; init; } = GlobalConfig.DefaultCommandLogging;
+    public CommandLogging? CommandLogging { get; init; }
 
     /// <summary>
     /// If logging input, you can use this to edit how the input is logged
