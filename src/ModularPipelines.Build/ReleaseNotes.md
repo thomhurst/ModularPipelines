@@ -1,1 +1,1 @@
-- Refactor command logging with bit flag enums
+*   Refactor command logging with bit flag enums
