@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -74,12 +75,14 @@ internal class ProgressPrinter : IProgressPrinter
 
         foreach (var module in pipelineSummary.Modules)
         {
+            var sameDay = module.StartTime.Date == module.EndTime.Date;
+            
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]",
                 module.Duration.ToDisplayString(),
                 module.Status.ToDisplayString(),
-                module.StartTime.ToString(),
-                module.EndTime.ToString(),
+                sameDay ? module.StartTime.ToTimeOnly().ToString() : module.StartTime.ToString(),
+                sameDay ? module.EndTime.ToTimeOnly().ToString() : module.EndTime.ToString(),
                 GetModuleExtraInformation(module));
         }
 
