@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
@@ -16,7 +17,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _consolePrinter = consolePrinter;
     }
     
-    [StackTraceHidden]
+    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate)
     {
         var printProgressCancellationTokenSource =
