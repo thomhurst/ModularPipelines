@@ -38,7 +38,7 @@ public class DependsOnTests : TestBase
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            GetModuleIfRegistered<Module1>();
+            _ = GetModuleIfRegistered<Module1>();
             return await NothingAsync();
         }
     }
@@ -48,7 +48,7 @@ public class DependsOnTests : TestBase
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            GetModule<Module1>();
+            _ = GetModule<Module1>();
             return await NothingAsync();
         }
     }

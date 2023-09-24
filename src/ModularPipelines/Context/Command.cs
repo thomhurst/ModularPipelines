@@ -2,6 +2,7 @@
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -13,7 +14,7 @@ using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
-internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger commandLogger) : ICommand
+internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger commandLogger, IOptions<PipelineOptions> pipelineOptions) : ICommand
 {
     private readonly ICommandLogger _commandLogger = commandLogger;
 
@@ -67,8 +68,10 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         string? outputToLog = null;
         string? errorToLog = null;
         int? resultExitCode = null;
+
+        var optionsCommandLogging = options.CommandLogging ?? pipelineOptions.Value.DefaultCommandLogging;
         
-        if (options.CommandLogging.HasFlag(CommandLogging.Input))
+        if (optionsCommandLogging.HasFlag(CommandLogging.Input))
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
 
@@ -86,13 +89,13 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
 
             var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
             
-            if (options.CommandLogging.HasFlag(CommandLogging.Output))
+            if (optionsCommandLogging.HasFlag(CommandLogging.Output))
             {
                 resultExitCode = result.ExitCode;
                 outputToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardOutput, optionsObject));
             }
 
-            if (options.CommandLogging.HasFlag(CommandLogging.Error))
+            if (optionsCommandLogging.HasFlag(CommandLogging.Error))
             {
                 resultExitCode = result.ExitCode;
                 errorToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardError, optionsObject));

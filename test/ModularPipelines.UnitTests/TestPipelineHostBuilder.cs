@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Enums;
 using ModularPipelines.Host;
 using ModularPipelines.Options;
 
@@ -12,7 +13,11 @@ public static class TestPipelineHostBuilder
         return new PipelineHostBuilder()
             .ConfigureServices((_, collection) =>
             {
-                collection.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false);
+                collection.Configure<PipelineOptions>(opt =>
+                {
+                    opt.DefaultCommandLogging = CommandLogging.Input | CommandLogging.Error;
+                    opt.ShowProgressInConsole = false;
+                });
                 collection.AddLogging(builder => builder.ClearProviders());
             });
     }

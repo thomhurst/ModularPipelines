@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Options;
 
@@ -11,4 +12,7 @@ public record PipelineOptions
     public bool ShowProgressInConsole { get; set; } = true;
     public ModuleLoggerOptions LoggerOptions { get; set; } = new();
     public int DefaultRetryCount { get; set; }
+    
+    public CommandLogging DefaultCommandLogging { get; set; } =
+        CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
 }

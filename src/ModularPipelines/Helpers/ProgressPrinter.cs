@@ -101,9 +101,9 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static string GetModuleExtraInformation(ModuleBase module)
     {
-        if (module.SkipDecision.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipDecision.Reason))
+        if (module.SkipResult.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipResult.Reason))
         {
-            return $"[orange3]Reason: {module.SkipDecision.Reason}[/]";
+            return $"[yellow]Reason: {module.SkipResult.Reason}[/]";
         }
         
         if (module.Exception != null)

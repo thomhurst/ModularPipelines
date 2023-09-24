@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
 
@@ -7,11 +8,13 @@ namespace ModularPipelines.Logging;
 internal class CommandLogger : ICommandLogger
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly object _lock = new();
 
-    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider)
+    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider, IOptions<PipelineOptions> pipelineOptions)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
+        _pipelineOptions = pipelineOptions;
     }
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
@@ -23,18 +26,20 @@ internal class CommandLogger : ICommandLogger
         {
             return;
         }
+        
+        var optionsCommandLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
 
         lock (_lock)
         {
 
-            if (options.InternalDryRun && ShouldLogInput(options))
+            if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
             {
                 Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
                 Logger.LogInformation("---Dry-Run Command - No Output---");
                 return;
             }
 
-            if (ShouldLogInput(options))
+            if (ShouldLogInput(optionsCommandLogging))
             {
                 Logger.LogInformation("""
                                       ---Executing Command---
@@ -50,7 +55,7 @@ internal class CommandLogger : ICommandLogger
                                       """);
             }
 
-            if (ShouldLogOutput(options))
+            if (ShouldLogOutput(optionsCommandLogging))
             {
                 Logger.LogInformation("""
                                       ---Command Result---
@@ -58,7 +63,7 @@ internal class CommandLogger : ICommandLogger
                                       """, outputToLog);
             }
 
-            if (ShouldLogError(options, resultExitCode))
+            if (ShouldLogError(optionsCommandLogging, resultExitCode))
             {
                 Logger.LogInformation("""
                                       ---Command Error (Result code - {ResultCode})---
@@ -68,18 +73,18 @@ internal class CommandLogger : ICommandLogger
         }
     }
 
-    private static bool ShouldLogInput(CommandLineOptions options)
+    private static bool ShouldLogInput(CommandLogging commandLogging)
     {
-        return options.CommandLogging.HasFlag(CommandLogging.Input);
+        return commandLogging.HasFlag(CommandLogging.Input);
     }
 
-    private static bool ShouldLogOutput(CommandLineOptions options)
+    private static bool ShouldLogOutput(CommandLogging commandLogging)
     {
-        return options.CommandLogging.HasFlag(CommandLogging.Output);
+        return commandLogging.HasFlag(CommandLogging.Output);
     }
 
-    private static bool ShouldLogError(CommandLineOptions options, int? resultCode)
+    private static bool ShouldLogError(CommandLogging commandLogging, int? resultCode)
     {
-        return resultCode != 0 && options.CommandLogging.HasFlag(CommandLogging.Error);
+        return resultCode != 0 && commandLogging.HasFlag(CommandLogging.Error);
     }
 }

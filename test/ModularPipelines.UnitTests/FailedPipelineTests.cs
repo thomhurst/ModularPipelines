@@ -29,7 +29,7 @@ public class FailedPipelineTests : TestBase
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            GetModuleIfRegistered<Module2>();
+            _ = GetModuleIfRegistered<Module2>();
             return await NothingAsync();
         }
     }

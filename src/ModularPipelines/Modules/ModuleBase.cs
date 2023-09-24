@@ -35,7 +35,7 @@ public abstract partial class ModuleBase
 
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
-    public SkipDecision SkipDecision { get; protected internal set; } = SkipDecision.DoNotSkip;
+    public SkipDecision SkipResult { get; protected internal set; } = SkipDecision.DoNotSkip;
     internal abstract Task<object> ResultTaskInternal { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
@@ -63,7 +63,7 @@ public abstract partial class ModuleBase
     internal Exception? Exception { get; set; }
 
     internal abstract Task StartAsync();
-    internal abstract void SetSkipped(SkipDecision skipDecision);
+    internal abstract Task SetSkipped(SkipDecision skipDecision);
     internal abstract ModuleBase Initialize(IPipelineContext context);
 
     internal readonly List<SubModuleBase> SubModuleBases = new();

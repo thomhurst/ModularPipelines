@@ -165,9 +165,9 @@ public class CommandParserTests : TestBase
         public string[]? Filename { get; set; }
         
         [PositionalArgument(Position = Position.BeforeSwitches)]
-        public string Positional1 { get; set; }
+        public string? Positional1 { get; set; }
         
         [PositionalArgument(Position = Position.AfterSwitches)]
-        public string Positional2 { get; set; }
+        public string? Positional2 { get; set; }
     }
 }

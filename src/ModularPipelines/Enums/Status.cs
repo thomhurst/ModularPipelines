@@ -5,6 +5,7 @@ public enum Status
     NotYetStarted,
     Processing,
     Successful,
+    UsedHistory,
     Failed,
     IgnoredFailure,
     PipelineTerminated,

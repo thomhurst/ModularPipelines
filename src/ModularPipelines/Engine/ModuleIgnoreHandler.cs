@@ -20,20 +20,20 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
     {
         if (IsIgnoreCategory(module))
         {
-            module.SetSkipped("A category of this module has been ignored");
+            await module.SetSkipped("A category of this module has been ignored");
             return true;
         }
         
         if (!IsRunnableCategory(module))
         {
-            module.SetSkipped("The module was not in a runnable category");
+            await module.SetSkipped("The module was not in a runnable category");
             return true;
         }
 
         var (isRunnableCondition, runConditionAttribute) = await IsRunnableCondition(module);
         if (!isRunnableCondition)
         {
-            module.SetSkipped($"A condition to run this module has not been met - {runConditionAttribute}");
+            await module.SetSkipped($"A condition to run this module has not been met - {runConditionAttribute}");
             return true;
         }
 
