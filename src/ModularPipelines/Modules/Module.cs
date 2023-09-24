@@ -250,7 +250,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         return this;
     }
 
-    private async Task SetupModuleFromHistory(string? skipDecisionReason)
+    internal override async Task SetupModuleFromHistory(string? skipDecisionReason)
     {
         Status = Status.Successful;
 
@@ -333,6 +333,8 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override void SetSkipped(SkipDecision skipDecision)
     {
         Status = Status.Skipped;
+
+        SkipDecision = skipDecision;
 
         SkippedTask.Start(TaskScheduler.Default);
 
