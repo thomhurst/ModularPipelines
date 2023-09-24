@@ -1,1 +1,1 @@
-*   Print time only in results if the date hasn't changed
+*   Print the time only in the pipeline results if the date hasn't changed
