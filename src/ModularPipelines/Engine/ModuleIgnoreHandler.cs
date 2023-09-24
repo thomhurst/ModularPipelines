@@ -30,12 +30,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             return true;
         }
 
-        var (isRunnableCondition, runConditionAttribute) = await IsRunnableCondition(module);
-        if (!isRunnableCondition)
-        {
-            await module.SetSkipped($"A condition to run this module has not been met - {runConditionAttribute}");
-            return true;
-        }
+        return !await IsRunnableCondition(module);
 
         return false;
     }
@@ -68,7 +63,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         return category != null && ignoreCategories.Contains(category.Category);
     }
 
-    private async Task<(bool, RunConditionAttribute?)> IsRunnableCondition(ModuleBase module)
+    private async Task<bool> IsRunnableCondition(ModuleBase module)
     {
         var mandatoryRunConditionAttributes = module.GetType().GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToList();
         var runConditionAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
@@ -81,12 +76,13 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         
         if (mandatoryCondition != null)
         {
-            return (false, mandatoryCondition.RunConditionAttribute);
+            await module.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
+            return false;
         }
         
         if (!runConditionAttributes.Any())
         {
-            return (true, null);
+            return true;
         }
         
         var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
@@ -94,8 +90,15 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             .ProcessInParallel();
 
         var runnableCondition = conditionResults.FirstOrDefault(result => result.ConditionMet);
+
+        if (runnableCondition != null)
+        {
+            return true;
+        }
         
-        return (runnableCondition != null, null);
+        await module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name))}");
+
+        return false;
     }
 
     private record RunnableConditionMet(bool ConditionMet, RunConditionAttribute RunConditionAttribute);
