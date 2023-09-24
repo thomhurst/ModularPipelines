@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -74,29 +75,45 @@ internal class ProgressPrinter : IProgressPrinter
 
         foreach (var module in pipelineSummary.Modules)
         {
+            var isSameDay = module.StartTime.Date == module.EndTime.Date;
+            
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]",
                 module.Duration.ToDisplayString(),
                 module.Status.ToDisplayString(),
-                module.StartTime.ToString(),
-                module.EndTime.ToString(),
+                GetTime(module.StartTime, isSameDay),
+                GetTime(module.EndTime, isSameDay),
                 GetModuleExtraInformation(module));
         }
 
         table.AddEmptyRow();
 
+        var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
+        
         table.AddRow(
             "Total",
             pipelineSummary.TotalDuration.ToDisplayString(),
             pipelineSummary.Status.ToDisplayString(),
-            pipelineSummary.Start.ToString(),
-            pipelineSummary.End.ToString(),
+            GetTime(pipelineSummary.Start, isSameDayTotal),
+            GetTime(pipelineSummary.End, isSameDayTotal),
             string.Empty);
         
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
         Console.Out.Flush();
+    }
+
+    private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
+    {
+        if (dateTimeOffset == DateTimeOffset.MinValue)
+        {
+            return String.Empty;
+        }
+        
+        return isSameDay 
+            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt") 
+            : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 
     private static string GetModuleExtraInformation(ModuleBase module)

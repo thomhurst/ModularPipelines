@@ -105,9 +105,9 @@ public class File : IEquatable<File>
     public bool IsReadOnly => FileInfo.IsReadOnly;
 
     /// <inheritdoc cref="FileSystemInfo.CreationTime"/>>
-    public DateTime CreationTime => FileInfo.CreationTime;
+    public DateTimeOffset CreationTime => FileInfo.CreationTime;
 
-    public DateTime LastWriteTimeUtc => FileInfo.LastWriteTimeUtc;
+    public DateTimeOffset LastWriteTimeUtc => FileInfo.LastWriteTimeUtc;
 
     /// <inheritdoc cref="FileSystemInfo.Extension"/>>
     public string Extension => FileInfo.Extension;

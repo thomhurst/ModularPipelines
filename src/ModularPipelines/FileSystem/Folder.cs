@@ -44,9 +44,9 @@ public class Folder : IEquatable<Folder>
 
     public Folder Root => DirectoryInfo.Root;
 
-    public DateTime CreationTime => DirectoryInfo.CreationTime;
+    public DateTimeOffset CreationTime => DirectoryInfo.CreationTime;
 
-    public DateTime LastWriteTimeUtc => DirectoryInfo.LastWriteTimeUtc;
+    public DateTimeOffset LastWriteTimeUtc => DirectoryInfo.LastWriteTimeUtc;
 
     public string Extension => DirectoryInfo.Extension;
 
