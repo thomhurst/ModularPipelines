@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -73,15 +74,9 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             SkipDecision = await ShouldSkip(Context);
 
-            if (SkipDecision.ShouldSkip && await UseResultFromHistoryIfSkipped(Context))
-            {
-                await SetupModuleFromHistory(SkipDecision.Reason);
-                return;
-            }
-
             if (SkipDecision.ShouldSkip)
             {
-                SetSkipped(SkipDecision);
+                await SetSkipped(SkipDecision);
                 return;
             }
 
@@ -250,16 +245,20 @@ public abstract partial class Module<T> : ModuleBase<T>
         return this;
     }
 
-    internal override async Task SetupModuleFromHistory(string? skipDecisionReason)
+    private async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
     {
         Status = Status.Successful;
 
+        if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
+        {
+            return false;
+        }
+        
         var result = await Context.ModuleResultRepository.GetResultAsync<T>(this);
 
         if (result == null)
         {
-            SetSkipped(skipDecisionReason ?? "No history for module was found");
-            return;
+            return false;
         }
 
         var utcNow = DateTimeOffset.UtcNow;
@@ -269,6 +268,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         StartTask.Start(TaskScheduler.Default);
         ModuleResultTaskCompletionSource.SetResult(result);
+
+        return true;
     }
 
     protected TModule GetModule<TModule>() where TModule : ModuleBase
@@ -330,16 +331,22 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override void SetSkipped(SkipDecision skipDecision)
+    internal override async Task SetSkipped(SkipDecision skipDecision)
     {
         Status = Status.Skipped;
 
         SkipDecision = skipDecision;
 
+        if (await UseResultFromHistoryIfSkipped(Context)
+            && await SetupModuleFromHistory(skipDecision.Reason))
+        {
+            return;
+        }
+
         SkippedTask.Start(TaskScheduler.Default);
 
         ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
 
-        Context.Logger.LogInformation("{Module} ignored because: {Reason}", GetType().Name, skipDecision.Reason);
+        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 }

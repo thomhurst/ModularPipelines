@@ -43,10 +43,6 @@ internal class ModuleRetriever : IModuleRetriever
             .WhereAsync(async m => await _moduleIgnoreHandler.ShouldIgnore(m))
             .ToListAsync();
 
-        await modulesToIgnore.ToAsyncProcessorBuilder()
-            .ForEachAsync(async m => await m.SetupModuleFromHistory(null))
-            .ProcessInParallel();
-
         var modulesToProcess = _modules
             .Except(modulesToIgnore)
             .ToList();

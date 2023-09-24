@@ -62,9 +62,8 @@ public abstract partial class ModuleBase
     
     internal Exception? Exception { get; set; }
 
-    internal abstract Task SetupModuleFromHistory(string? skipDecisionReason);
     internal abstract Task StartAsync();
-    internal abstract void SetSkipped(SkipDecision skipDecision);
+    internal abstract Task SetSkipped(SkipDecision skipDecision);
     internal abstract ModuleBase Initialize(IPipelineContext context);
 
     internal readonly List<SubModuleBase> SubModuleBases = new();
