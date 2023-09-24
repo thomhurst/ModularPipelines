@@ -1,7 +1,9 @@
-﻿namespace ModularPipelines;
+﻿using ModularPipelines.Enums;
+
+namespace ModularPipelines;
 
 public static class GlobalConfig
 {
-    public static bool LogCommandInput { get; set; } = true;
-    public static bool LogCommandOutput { get; set; } = true;
+    public static CommandLogging DefaultCommandLogging { get; set; } =
+        CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
 }

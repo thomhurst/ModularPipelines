@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
@@ -17,14 +18,12 @@ internal class GitCommandRunner
     {
         commandEnvironmentOptions ??= new CommandLineOptions
         {
-            LogInput = false,
-            LogOutput = false
+            CommandLogging = CommandLogging.None
         };
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray()) with
         {
-            LogInput = false,
-            LogOutput = false
+            CommandLogging = CommandLogging.None
         };
 
         var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions);
