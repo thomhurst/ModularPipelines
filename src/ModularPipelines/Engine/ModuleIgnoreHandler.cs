@@ -31,8 +31,6 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         }
 
         return !await IsRunnableCondition(module);
-
-        return false;
     }
 
     private bool IsRunnableCategory(ModuleBase module)
