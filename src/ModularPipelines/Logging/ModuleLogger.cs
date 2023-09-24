@@ -131,8 +131,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
             _isDisposed = true;
 
-            var logEvents = Interlocked.Exchange(ref _logEvents!,
-                new List<(LogLevel logLevel, EventId eventId, object state, Exception exception,
+            var logEvents = Interlocked.Exchange(ref _logEvents,
+                new List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
                     Func<object, Exception?, string> formatter)>());
 
             if (logEvents.Any())
