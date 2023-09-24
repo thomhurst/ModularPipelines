@@ -21,7 +21,11 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
-                Collect = "XPlat Code Coverage"
+                Collect = "XPlat Code Coverage",
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["GITHUB_ACTIONS"] = null
+                }
             }, cancellationToken))
             .ProcessInParallel();
     }
