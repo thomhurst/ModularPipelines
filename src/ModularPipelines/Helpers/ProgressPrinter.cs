@@ -106,6 +106,11 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
     {
+        if (dateTimeOffset == DateTimeOffset.MinValue)
+        {
+            return String.Empty;
+        }
+        
         if (isSameDay)
         {
             dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt");
