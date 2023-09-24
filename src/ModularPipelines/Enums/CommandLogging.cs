@@ -3,8 +3,8 @@
 [Flags]
 public enum CommandLogging
 {
-    None,
-    Input,
-    Output,
-    Error
+    None = 1,
+    Input = 2,
+    Output = 4,
+    Error = 8
 }

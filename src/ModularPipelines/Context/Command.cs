@@ -7,6 +7,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
 

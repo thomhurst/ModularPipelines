@@ -1,6 +1,6 @@
 ﻿using ModularPipelines.Options;
 
-namespace ModularPipelines.Context;
+namespace ModularPipelines.Logging;
 
 internal interface ICommandLogger
 {
