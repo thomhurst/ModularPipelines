@@ -19,6 +19,7 @@ internal static class StatusFormatter
             Status.TimedOut => "[red]Timed Out[/]",
             Status.Skipped => "[yellow]Skipped[/]",
             Status.Unknown => "[yellow]Unknown[/]",
+            Status.UsedHistory => "[green3]Used History[/]",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
         };
     }

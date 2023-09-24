@@ -35,7 +35,7 @@ public abstract partial class ModuleBase
 
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
-    public SkipDecision SkipDecision { get; protected internal set; } = SkipDecision.DoNotSkip;
+    public SkipDecision SkipResult { get; protected internal set; } = SkipDecision.DoNotSkip;
     internal abstract Task<object> ResultTaskInternal { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();

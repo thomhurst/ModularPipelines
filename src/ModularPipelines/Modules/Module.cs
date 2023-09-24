@@ -72,11 +72,11 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return;
             }
 
-            SkipDecision = await ShouldSkip(Context);
+            var skipResult = await ShouldSkip(Context);
 
-            if (SkipDecision.ShouldSkip)
+            if (skipResult.ShouldSkip)
             {
-                await SetSkipped(SkipDecision);
+                await SetSkipped(skipResult);
                 return;
             }
 
@@ -247,8 +247,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
     {
-        Status = Status.Successful;
-
         if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
         {
             return false;
@@ -260,6 +258,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return false;
         }
+        
+        Status = Status.UsedHistory;
 
         var utcNow = DateTimeOffset.UtcNow;
 
@@ -335,7 +335,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         Status = Status.Skipped;
 
-        SkipDecision = skipDecision;
+        SkipResult = skipDecision;
 
         if (await UseResultFromHistoryIfSkipped(Context)
             && await SetupModuleFromHistory(skipDecision.Reason))
