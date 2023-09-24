@@ -53,7 +53,7 @@ public class FailedPipelineTests : TestBase
     public void Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((context, options) 
+                .ConfigurePipelineOptions((_, options) 
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module2>()
@@ -66,7 +66,7 @@ public class FailedPipelineTests : TestBase
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((context, options) 
+                .ConfigurePipelineOptions((_, options) 
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module3>()
