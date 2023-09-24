@@ -120,7 +120,7 @@ internal class ProgressPrinter : IProgressPrinter
     {
         if (module.SkipResult.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipResult.Reason))
         {
-            return $"[yellow]Reason: {module.SkipResult.Reason}[/]";
+            return $"[yellow]{module.SkipResult.Reason}[/]";
         }
         
         if (module.Exception != null)
