@@ -3,25 +3,10 @@ using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitializatio
 
 namespace ModularPipelines.Engine;
 
-internal class ServiceProviderInitializer : IServiceProviderInitializer
+internal class ServiceProviderInitializer(IServiceProvider serviceProvider) : IServiceProviderInitializer
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly SecretsLogFilter _secretsLogFilter;
-    private readonly ISecretProvider _secretProvider;
-
-    public ServiceProviderInitializer(IServiceProvider serviceProvider,
-        SecretsLogFilter secretsLogFilter,
-        ISecretProvider secretProvider)
-    {
-        _serviceProvider = serviceProvider;
-        _secretsLogFilter = secretsLogFilter;
-        _secretProvider = secretProvider;
-    }
-
     public async Task InitializeAsync()
     {
-        await _serviceProvider.InitializeAsync();
-        
-        _secretsLogFilter.SecretProvider = _secretProvider;
+        await serviceProvider.InitializeAsync();
     }
 }
