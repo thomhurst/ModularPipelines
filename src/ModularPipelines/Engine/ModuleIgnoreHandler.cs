@@ -94,7 +94,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             return true;
         }
         
-        await module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name))}");
+        await module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
 
         return false;
     }
