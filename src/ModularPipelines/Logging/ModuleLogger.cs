@@ -30,6 +30,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
+    private readonly Vertical.SpectreLogger.Output.IConsoleWriter _spectreConsoleWriter;
 
     private List<(LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter)> _logEvents = new();
 
@@ -42,7 +43,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
         ISecretProvider secretProvider,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        Vertical.SpectreLogger.Output.IConsoleWriter spectreConsoleWriter)
     {
         _options = options;
         _defaultLogger = defaultLogger;
@@ -50,6 +52,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         _buildSystemDetector = buildSystemDetector;
         _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
+        _spectreConsoleWriter = spectreConsoleWriter;
         moduleLoggerContainer.AddLogger(this);
 
         Disposer.RegisterOnShutdown(this);
@@ -115,6 +118,13 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
                 logEvents.Clear();
                 _logEvents.Clear();
             }
+
+            var consoleWritingThread = _spectreConsoleWriter.GetType()
+                    .GetField("_outputThread")!
+                    .GetValue(_spectreConsoleWriter)
+                as Thread;
+
+            consoleWritingThread!.Join();
 
             GC.SuppressFinalize(this);
         }
