@@ -28,7 +28,7 @@ internal static class DependencyInjectionSetup
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
 
-                builder.AddSpectreConsole(cfg => cfg.WriteInBackground());
+                builder.AddSpectreConsole();
             })
             .AddHttpClient()
             .AddInitializers()
