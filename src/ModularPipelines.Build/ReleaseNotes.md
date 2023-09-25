@@ -1,1 +1,1 @@
-- StyleCop Analyzers to enforce code quality
+*   StyleCop Analyzers to enforce code quality
