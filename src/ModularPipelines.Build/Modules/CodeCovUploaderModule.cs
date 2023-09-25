@@ -7,6 +7,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Windows;
+using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -34,6 +35,8 @@ public class CodeCovUploaderModule : Module<CommandResult>
 
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
+        var coverageFileResult = await GetModule<MergeCoverageModule>();
+        
         if (OperatingSystem.IsWindows())
         {
             var exeFile = await context.Downloader.DownloadFileAsync(
@@ -51,7 +54,7 @@ public class CodeCovUploaderModule : Module<CommandResult>
                                                                curl -Os https://uploader.codecov.io/latest/linux/codecov
 
                                                                chmod +x codecov
-                                                               ./codecov -t ${_codeCovSettings.Value.Token}
+                                                               ./codecov -t {_codeCovSettings.Value.Token} -f {coverageFileResult.Value}
                                                                """), cancellationToken);
         }
         
