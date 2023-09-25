@@ -101,6 +101,7 @@ internal class ProgressPrinter : IProgressPrinter
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
+        
         Console.Out.Flush();
     }
 

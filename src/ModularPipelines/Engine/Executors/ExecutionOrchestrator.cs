@@ -69,7 +69,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             var end = DateTimeOffset.UtcNow;
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            
             _consolePrinter.PrintResults(pipelineSummary);
+
+            // Console might need time to flush
+            await Task.Delay(TimeSpan.FromSeconds(2));
         }
 
         return pipelineSummary;
