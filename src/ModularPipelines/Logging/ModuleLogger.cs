@@ -118,9 +118,9 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
                 logEvents.Clear();
                 _logEvents.Clear();
             }
-
+            
             var consoleWritingThread = _spectreConsoleWriter.GetType()
-                    .GetField("_outputThread")!
+                    .GetField("_outputThread", BindingFlags.Instance | BindingFlags.NonPublic)!
                     .GetValue(_spectreConsoleWriter)
                 as Thread;
 
