@@ -12,8 +12,11 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
         }
     }
 
-    public void AddLogger(ModuleLogger logger)
+    public void AddLogger(ModuleLogger? logger)
     {
-        _loggers.Add(logger);
+        if (logger is not null)
+        {
+            _loggers.Add(logger);
+        }
     }
 }
