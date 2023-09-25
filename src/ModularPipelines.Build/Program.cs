@@ -25,6 +25,7 @@ await PipelineHostBuilder.Create()
         collection.Configure<GitHubSettings>(context.Configuration.GetSection("GitHub"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
+        collection.Configure<CodeCovSettings>(context.Configuration.GetSection("CodeCov"));
 
         collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
 
@@ -40,6 +41,7 @@ await PipelineHostBuilder.Create()
             .AddModule<CodeFormattedNicelyModule>()
             .AddModule<GenerateReadMeModule>()
             .AddModule<CodacyCodeCoverageUploader>()
+            .AddModule<CodeCovUploaderModule>()
             .AddModule<FormatMarkdownModule>()
             .AddModule<WaitForOtherOperatingSystemBuilds>()
             .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
