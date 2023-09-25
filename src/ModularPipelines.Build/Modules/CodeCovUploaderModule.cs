@@ -51,7 +51,7 @@ public class CodeCovUploaderModule : Module<CommandResult>
                                                                curl -Os https://uploader.codecov.io/latest/linux/codecov
 
                                                                chmod +x codecov
-                                                               ./codecov -t ${_codeCovSettings.Value.Token}))
+                                                               ./codecov -t ${_codeCovSettings.Value.Token}
                                                                """), cancellationToken);
         }
         
