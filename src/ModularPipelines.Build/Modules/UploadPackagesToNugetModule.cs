@@ -26,6 +26,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         _publishSettings = publishSettings;
     }
 
+    /// <inheritdoc/>
     protected override async Task OnBeforeExecute(IPipelineContext context)
     {
         var packagePaths = await GetModule<PackagePathsParserModule>();
@@ -38,6 +39,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         await base.OnBeforeExecute(context);
     }
 
+    /// <inheritdoc/>
     protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         var gitVersionInfo = await context.Git().Versioning.GetGitVersioningInformation();
@@ -50,6 +52,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         return !_publishSettings.Value.ShouldPublish;
     }
 
+    /// <inheritdoc/>
     protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
@@ -58,7 +61,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         {
             return await NothingAsync();
         }
-        
+
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
         var packagePaths = await GetModule<PackagePathsParserModule>();

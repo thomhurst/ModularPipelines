@@ -17,9 +17,10 @@ internal class StaticGitInformation : IInitializer
     private readonly ILogger<StaticGitInformation> _logger;
     private readonly GitCommandRunner _gitCommandRunner;
     private readonly IGitCommitMapper _gitCommitMapper;
-    
+
     public static StaticGitInformation? Instance { get; private set; }
-    public static readonly SemaphoreSlim Lock = new(1,1);
+
+    public static readonly SemaphoreSlim Lock = new(1, 1);
     private readonly ICommand _command;
 
     public StaticGitInformation(IServiceProvider serviceProvider,
@@ -35,7 +36,7 @@ internal class StaticGitInformation : IInitializer
     public async Task InitializeAsync()
     {
         await Lock.WaitAsync();
-        
+
         try
         {
             if (Instance != null)
@@ -61,13 +62,13 @@ internal class StaticGitInformation : IInitializer
             Async(async () =>
                 Root = (await GetOutput(new GitRevParseOptions
                 {
-                    ShowToplevel = true
+                    ShowToplevel = true,
                 }))!);
 
             Async(async () =>
                 BranchName = await GetOutput(new GitBranchOptions
                 {
-                    ShowCurrent = true
+                    ShowCurrent = true,
                 })
             );
 
@@ -79,7 +80,7 @@ internal class StaticGitInformation : IInitializer
             Async(async () =>
                 LastCommitSha = await GetOutput(new GitRevParseOptions
                 {
-                    Arguments = new[] { "HEAD" }
+                    Arguments = new[] { "HEAD" },
                 })
             );
 
@@ -87,14 +88,14 @@ internal class StaticGitInformation : IInitializer
                 LastCommitShortSha = await GetOutput(new GitRevParseOptions
                 {
                     Short = true,
-                    Arguments = new []{ "HEAD" }
+                    Arguments = new[] { "HEAD" },
                 })
             );
 
             Async(async () =>
                 Tag = await GetOutput(new GitDescribeOptions
                 {
-                    Tags = true
+                    Tags = true,
                 })
             );
 
@@ -103,7 +104,7 @@ internal class StaticGitInformation : IInitializer
                     int.Parse(await GetOutput(new GitRevListOptions
                     {
                         Count = true,
-                        Arguments = new []{ "HEAD" }
+                        Arguments = new[] { "HEAD" },
                     }) ?? "0")
             );
 
@@ -112,16 +113,16 @@ internal class StaticGitInformation : IInitializer
                     long.Parse(await GetOutput(new GitLogOptions
                     {
                         Format = "%at",
-                        Arguments = new []{ "-1" }
+                        Arguments = new[] { "-1" },
                     }) ?? "0"))
             );
 
             Async(async () =>
                 PreviousCommit = await LastCommits(1).FirstOrDefaultAsync()
             );
-        
+
             await Task.WhenAll(tasks);
-            
+
             void Async(Func<Task> task)
             {
                 var item = task();
@@ -131,50 +132,6 @@ internal class StaticGitInformation : IInitializer
         finally
         {
             Lock.Release();
-        }
-    }
-
-    private async Task<string> GetGitVersion()
-    {
-        try
-        {
-            var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
-            {
-                Arguments = new[] { "version" },
-                CommandLogging = CommandLogging.None
-            });
-
-            return result.StandardOutput;
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Error detecting Git repository", e);
-        }
-    }
-
-    private async Task<string?> GetDefaultBranchName()
-    {
-        try
-        {
-            var output = await GetOutput(new GitRemoteOptions
-            {
-                Arguments = new[] { "show", "origin" }
-            });
-
-            return output!.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .First(x => x.StartsWith("HEAD branch:"))
-                .Split("HEAD branch: ")[1];
-        }
-        catch
-        {
-            var output = await GetOutput(new GitRevParseOptions
-            {
-                Arguments = new[] { "origin/HEAD" },
-                AbbrevRef = true,
-                ThrowOnNonZeroExitCode = false
-            });
-
-            return output?.Replace("origin/", string.Empty);
         }
     }
 
@@ -193,13 +150,57 @@ internal class StaticGitInformation : IInitializer
         }
     }
 
+    private async Task<string> GetGitVersion()
+    {
+        try
+        {
+            var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
+            {
+                Arguments = new[] { "version" },
+                CommandLogging = CommandLogging.None,
+            });
+
+            return result.StandardOutput;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Error detecting Git repository", e);
+        }
+    }
+
+    private async Task<string?> GetDefaultBranchName()
+    {
+        try
+        {
+            var output = await GetOutput(new GitRemoteOptions
+            {
+                Arguments = new[] { "show", "origin" },
+            });
+
+            return output!.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .First(x => x.StartsWith("HEAD branch:"))
+                .Split("HEAD branch: ")[1];
+        }
+        catch
+        {
+            var output = await GetOutput(new GitRevParseOptions
+            {
+                Arguments = new[] { "origin/HEAD" },
+                AbbrevRef = true,
+                ThrowOnNonZeroExitCode = false,
+            });
+
+            return output?.Replace("origin/", string.Empty);
+        }
+    }
+
     private async Task<string?> GetOutput(GitOptions gitOptions)
     {
         try
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                CommandLogging = CommandLogging.None
+                CommandLogging = CommandLogging.None,
             });
             return result.StandardOutput.Trim();
         }
@@ -213,7 +214,7 @@ internal class StaticGitInformation : IInitializer
     public GitCommit? PreviousCommit { get; private set; }
 
     public Folder Root { get; private set; } = null!;
-    
+
     public string? BranchName { get; private set; } = null!;
 
     public string? DefaultBranchName { get; private set; } = null!;

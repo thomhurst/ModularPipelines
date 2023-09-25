@@ -8,5 +8,6 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformForceUnlockOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Lockid) : TerraformOptions
 {
-    [BooleanCommandSwitch("-force")] public bool? Force { get; set; }
+    [BooleanCommandSwitch("-force")]
+    public bool? Force { get; set; }
 }

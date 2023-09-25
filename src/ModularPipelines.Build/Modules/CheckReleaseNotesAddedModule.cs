@@ -11,7 +11,9 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux, SkipIfDependabot, SkipOnMainBranch]
+[RunOnLinux]
+[SkipIfDependabot]
+[SkipOnMainBranch]
 public class CheckReleaseNotesAddedModule : Module
 {
     private const string MissingReleaseNotesMessage = "No release notes for this change. Please add some notes to the ReleaseNotes.md file.";
@@ -24,6 +26,7 @@ public class CheckReleaseNotesAddedModule : Module
         _gitHubClient = gitHubClient;
     }
 
+    /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
@@ -35,10 +38,11 @@ public class CheckReleaseNotesAddedModule : Module
         return isPullRequest ? SkipDecision.DoNotSkip.AsTask() : SkipDecision.Skip("Not a pull request").AsTask();
     }
 
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
-        
+
         if (!releaseNotesFile.Exists
             || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync())
             || !await ReleaseNotesChangedInPullRequest())

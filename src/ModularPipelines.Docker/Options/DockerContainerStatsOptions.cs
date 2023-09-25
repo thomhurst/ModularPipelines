@@ -9,6 +9,7 @@ public record DockerContainerStatsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Container { get; set; }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

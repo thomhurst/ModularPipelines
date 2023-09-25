@@ -16,14 +16,15 @@ public class FileInstaller : IFileInstaller
         _bash = bash;
     }
 
+    /// <inheritdoc/>
     public async Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        if(OperatingSystem.IsWindows())
+        if (OperatingSystem.IsWindows())
         {
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
             {
-                Arguments = options.Arguments ?? Array.Empty<string>()
+                Arguments = options.Arguments ?? Array.Empty<string>(),
             }, cancellationToken);
         }
 
@@ -32,6 +33,7 @@ public class FileInstaller : IFileInstaller
         return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken);
     }
 
+    /// <inheritdoc/>
     public async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
@@ -39,7 +41,7 @@ public class FileInstaller : IFileInstaller
 
         return await InstallFromFileAsync(new InstallerOptions(file.Path)
         {
-            Arguments = options.Arguments
+            Arguments = options.Arguments,
         }, cancellationToken);
     }
 }

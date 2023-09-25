@@ -9,8 +9,8 @@ internal class ConsolePrinter : IConsolePrinter
     private readonly ILogoPrinter _logoPrinter;
     private readonly IDependencyPrinter _dependencyPrinter;
 
-    public ConsolePrinter(IProgressPrinter progressPrinter, 
-        ILogoPrinter logoPrinter, 
+    public ConsolePrinter(IProgressPrinter progressPrinter,
+        ILogoPrinter logoPrinter,
         IDependencyPrinter dependencyPrinter)
     {
         _progressPrinter = progressPrinter;

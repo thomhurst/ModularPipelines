@@ -12,25 +12,25 @@ internal class Email : IEmail
         {
             From = { MailboxAddress.Parse(options.From) },
             Subject = options.Subject,
-            Body = options.Body
+            Body = options.Body,
         };
-        
+
         email.To.AddRange(options.To.Select(MailboxAddress.Parse));
 
         if (options.Cc?.Any() == true)
         {
             email.Cc.AddRange(options.Cc.Select(MailboxAddress.Parse));
         }
-        
+
         if (options.Bcc?.Any() == true)
         {
             email.Bcc.AddRange(options.Bcc.Select(MailboxAddress.Parse));
         }
-        
+
         using var smtp = new SmtpClient();
 
         options.ClientConfigurator?.Invoke(smtp);
-        
+
         await smtp.ConnectAsync(options.SmtpServerHost, options.Port, options.SecureSocketOptions,
             cancellationToken: cancellationToken);
 
@@ -41,7 +41,7 @@ internal class Email : IEmail
 
         var response = await smtp.SendAsync(email, cancellationToken);
         await smtp.DisconnectAsync(true, cancellationToken);
-        
+
         return response;
     }
 }

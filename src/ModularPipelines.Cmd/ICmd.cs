@@ -1,5 +1,5 @@
-using ModularPipelines.Models;
 using ModularPipelines.Cmd.Models;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Cmd;
 

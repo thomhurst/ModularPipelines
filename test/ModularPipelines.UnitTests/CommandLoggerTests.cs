@@ -8,10 +8,11 @@ namespace ModularPipelines.UnitTests;
 
 public class CommandLoggerTests : TestBase
 {
-    [Test, Combinatorial]
+    [Test]
+    [Combinatorial]
     public async Task Logs_As_Expected_With_Options(
-        [Values(true, false)] bool logInput, 
-        [Values(true, false)] bool logOutput, 
+        [Values(true, false)] bool logInput,
+        [Values(true, false)] bool logOutput,
         [Values(true, false)] bool logError)
     {
         var file = await RunPowershellCommand("""
@@ -26,7 +27,7 @@ public class CommandLoggerTests : TestBase
             Assert.That(logFile, Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
             return;
         }
-        
+
         Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
 
         Assert.That(logFile, logInput
@@ -62,25 +63,25 @@ public class CommandLoggerTests : TestBase
         {
             logging |= CommandLogging.Input;
         }
-        
+
         if (logOutput)
         {
             logging |= CommandLogging.Output;
         }
-        
+
         if (logError)
         {
             logging |= CommandLogging.Error;
         }
-        
+
         await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
         {
             CommandLogging = logging,
-            ThrowOnNonZeroExitCode = false
+            ThrowOnNonZeroExitCode = false,
         });
 
         await result.Host.DisposeAsync();
-        
+
         return file;
     }
 }

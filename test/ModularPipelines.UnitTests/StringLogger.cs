@@ -12,22 +12,25 @@ public class StringLogger<T> : ILogger<T>
         _stringBuilder = stringBuilder;
     }
 
+    /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var log = formatter.Invoke(state, exception);
         _stringBuilder.AppendLine(log);
     }
 
+    /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
         return true;
     }
 
+    /// <inheritdoc/>
     public IDisposable BeginScope<TState>(TState state)
     {
         return new NoOpDisposable();
     }
-    
+
     private class NoOpDisposable : IDisposable
     {
         public void Dispose()

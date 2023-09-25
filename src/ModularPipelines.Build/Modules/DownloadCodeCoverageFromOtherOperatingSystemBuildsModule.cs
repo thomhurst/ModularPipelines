@@ -13,7 +13,8 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux, SkipIfDependabot]
+[RunOnLinux]
+[SkipIfDependabot]
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
@@ -23,7 +24,8 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     {
         _gitHubSettings = gitHubSettings;
     }
-    
+
+    /// <inheritdoc/>
     protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
@@ -40,15 +42,15 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                 {
                     Accept = { new MediaTypeWithQualityHeaderValue("application/vnd.github+json") },
                     Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken),
-                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines", "1.0.0") }
-                }
+                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines", "1.0.0") },
+                },
             }, cancellationToken))
             .ProcessInParallel();
 
         var models = await httpResponses.ToAsyncProcessorBuilder()
             .SelectAsync(message => message.Content.ReadFromJsonAsync<GitHubArtifactsList>(cancellationToken: cancellationToken))
             .ProcessInParallel();
-        
+
         var zipFiles = await models.OfType<GitHubArtifactsList>()
             .Select(list => list.Artifacts!.First(x => x.Name == "code-coverage"))
             .ToAsyncProcessorBuilder()
@@ -59,7 +61,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
                     message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken);
                     message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ModularPipelines", "1.0.0"));
-                }
+                },
             }, cancellationToken))
             .ProcessInParallel();
 

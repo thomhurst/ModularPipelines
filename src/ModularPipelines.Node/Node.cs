@@ -1,5 +1,5 @@
-using ModularPipelines.Models;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
@@ -7,8 +7,11 @@ namespace ModularPipelines.Node;
 internal class Node : INode
 {
     private readonly IPipelineContext _context;
+
     public INpm Npm { get; }
+
     public INvm Nvm { get; }
+
     public INpx Npx { get; }
 
     public Node(INpm npm, INvm nvm, IPipelineContext context, INpx npx)
@@ -23,7 +26,7 @@ internal class Node : INode
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("node")
         {
-            Arguments = new[] { "-v" }
+            Arguments = new[] { "-v" },
         }, cancellationToken);
     }
 }

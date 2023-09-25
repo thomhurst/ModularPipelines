@@ -7,5 +7,6 @@ namespace ModularPipelines.Terraform.Options;
 [ExcludeFromCodeCoverage]
 public record TerraformTerraformProvidersSchemaOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-json")] public bool? Json { get; set; }
+    [BooleanCommandSwitch("-json")]
+    public bool? Json { get; set; }
 }

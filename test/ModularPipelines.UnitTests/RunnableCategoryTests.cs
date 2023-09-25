@@ -15,7 +15,7 @@ public class RunnableCategoryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [ModuleCategory("Run2")]
     private class RunnableModule2 : Module
     {
@@ -24,7 +24,7 @@ public class RunnableCategoryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [ModuleCategory("Run1")]
     private class RunnableModule3 : Module
     {
@@ -33,7 +33,7 @@ public class RunnableCategoryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [ModuleCategory("NoRun1")]
     private class NonRunnableModule1 : Module
     {
@@ -42,7 +42,7 @@ public class RunnableCategoryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [ModuleCategory("NoRun2")]
     private class NonRunnableModule2 : Module
     {
@@ -51,7 +51,7 @@ public class RunnableCategoryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class OtherModule3 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -72,7 +72,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<OtherModule3>()
             .RunCategories("Run1", "Run2")
             .ExecutePipelineAsync();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status, Is.EqualTo(Status.Successful));
@@ -83,7 +83,7 @@ public class RunnableCategoryTests : TestBase
             Assert.That(pipelineSummary.GetModule<OtherModule3>().Status, Is.EqualTo(Status.Skipped));
         });
     }
-    
+
     [Test]
     public async Task When_IgnoreCategories_Specified_Then_Expected_Modules_Run()
     {
@@ -96,7 +96,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<OtherModule3>()
             .IgnoreCategories("NoRun1", "NoRun2")
             .ExecutePipelineAsync();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status, Is.EqualTo(Status.Successful));

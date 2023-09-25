@@ -23,7 +23,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             await module.SetSkipped("A category of this module has been ignored");
             return true;
         }
-        
+
         if (!IsRunnableCategory(module))
         {
             await module.SetSkipped("The module was not in a runnable category");
@@ -71,18 +71,18 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             .ProcessInParallel();
 
         var mandatoryCondition = mandatoryConditionResults.FirstOrDefault(result => !result.ConditionMet);
-        
+
         if (mandatoryCondition != null)
         {
             await module.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
             return false;
         }
-        
+
         if (!runConditionAttributes.Any())
         {
             return true;
         }
-        
+
         var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
             .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context), runConditionAttribute))
             .ProcessInParallel();
@@ -93,7 +93,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         {
             return true;
         }
-        
+
         await module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
 
         return false;

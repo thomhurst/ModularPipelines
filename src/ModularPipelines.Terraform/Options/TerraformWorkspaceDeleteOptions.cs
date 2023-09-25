@@ -11,9 +11,12 @@ public record TerraformWorkspaceDeleteOptions([property: PositionalArgument(Posi
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Directory { get; set; }
 
-    [BooleanCommandSwitch("-force")] public bool? Force { get; set; }
+    [BooleanCommandSwitch("-force")]
+    public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("-lock")] public bool? Lock { get; set; }
+    [BooleanCommandSwitch("-lock")]
+    public bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")] public string? LockTimeout { get; set; }
+    [CommandSwitch("-lock-timeout")]
+    public string? LockTimeout { get; set; }
 }

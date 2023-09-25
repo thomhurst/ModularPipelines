@@ -14,20 +14,6 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         return await GetEstimatedTimeAsync(fileName);
     }
 
-    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
-    {
-        var path = Path.Combine(_directory, fileName);
-
-        if (File.Exists(path))
-        {
-            var contents = await File.ReadAllTextAsync(path);
-            return TimeSpan.Parse(contents);
-        }
-
-        // Some default fallback. We can't estimate for now so we'll estimate next time.
-        return TimeSpan.FromMinutes(2);
-    }
-
     public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
     {
         var fileName = $"{moduleType.FullName}.txt";
@@ -43,9 +29,9 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         {
             directoryInfo.Create();
         }
-        
+
         directoryInfo.Create();
-        
+
         var paths = directoryInfo
             .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
             .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
@@ -67,7 +53,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
                 }
             })
             .ProcessInParallel();
-        
+
         return subModuleEstimations.OfType<SubModuleEstimation>();
     }
 
@@ -76,6 +62,20 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
 
         await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
+    }
+
+    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
+    {
+        var path = Path.Combine(_directory, fileName);
+
+        if (File.Exists(path))
+        {
+            var contents = await File.ReadAllTextAsync(path);
+            return TimeSpan.Parse(contents);
+        }
+
+        // Some default fallback. We can't estimate for now so we'll estimate next time.
+        return TimeSpan.FromMinutes(2);
     }
 
     private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)

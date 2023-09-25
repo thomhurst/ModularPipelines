@@ -5,6 +5,7 @@ namespace ModularPipelines.Examples;
 
 public class WindowsRequirement : IPipelineRequirement
 {
+    /// <inheritdoc/>
     public async Task<bool> MustAsync(IPipelineContext context)
     {
         await Task.Yield();

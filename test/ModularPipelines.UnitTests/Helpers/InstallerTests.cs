@@ -16,22 +16,22 @@ public class InstallerTests : TestBase
         if (OperatingSystem.IsWindows())
         {
             var uri = new Uri("https://github.com/peazip/PeaZip/releases/download/9.4.0/peazip-9.4.0.WIN64.exe");
-            
+
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(file));
-            
+
             Assert.That(result.ExitCode, Is.Zero);
         }
         else if (OperatingSystem.IsLinux())
         {
             var uri = new Uri("https://github.com/peazip/PeaZip/releases/download/9.4.0/peazip_9.4.0.LINUX.Qt5-1_amd64.deb");
-            
+
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.LinuxInstaller.InstallFromDpkg(new DpkgInstallOptions(file));
 
-            Assert.That(result.ExitCode, Is.Zero);   
+            Assert.That(result.ExitCode, Is.Zero);
         }
     }
 }

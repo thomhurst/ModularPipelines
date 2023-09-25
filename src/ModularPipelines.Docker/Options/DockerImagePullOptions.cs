@@ -9,6 +9,7 @@ public record DockerImagePullOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
+
     [BooleanCommandSwitch("--all-tags")]
     public bool? AllTags { get; set; }
 

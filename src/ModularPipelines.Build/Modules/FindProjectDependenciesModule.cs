@@ -9,18 +9,17 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
-    public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
-
+    /// <inheritdoc/>
     protected override async Task<ProjectDependencies?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var projects = await GetModule<FindProjectsModule>();
 
         var dependencies = new List<File>();
-        
+
         foreach (var file in projects.Value!)
         {
             var contents = await file.ReadLinesAsync();
-           
+
             foreach (var projectReferenceLine in contents.Where(x => x.Contains("<ProjectReference")))
             {
                 var name = projectReferenceLine.Split('\\').Last().Split('"').First();
@@ -35,7 +34,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
         }
 
         var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.Value!.Except(dependencies).Distinct().ToList());
-        
+
         LogProjects(context, projectDependencies);
 
         return projectDependencies;
@@ -53,4 +52,6 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
             context.Logger.LogInformation("Project {Project} is a NOT Dependency of other projects", project);
         }
     }
+
+    public record ProjectDependencies(IReadOnlyList<File> Dependencies, IReadOnlyList<File> Others);
 }

@@ -9,6 +9,7 @@ public record DockerComposeLogsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
     [BooleanCommandSwitch("--follow")]
     public bool? Follow { get; set; }
 

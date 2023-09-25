@@ -3,5 +3,5 @@
 public enum ModuleRunType
 {
     AlwaysRun,
-    OnSuccessfulDependencies
+    OnSuccessfulDependencies,
 }

@@ -5,6 +5,7 @@ namespace ModularPipelines.UnitTests;
 
 public class GlobalDummyModule : Module
 {
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();

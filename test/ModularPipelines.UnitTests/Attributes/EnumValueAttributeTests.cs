@@ -12,19 +12,19 @@ public class EnumValueAttributeTests
     {
         var options = new NumberWrapper
         {
-            Number = number
+            Number = number,
         };
-        
+
         var list = new List<string>();
-        
+
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
-        
+
         Assert.That(list, Does.Contain("--number"));
         Assert.That(list, Does.Contain(expected));
-        
+
         Assert.That(list, Is.EquivalentTo(new List<string> { "--number", expected }));
     }
-    
+
     public enum Number
     {
         [EnumValue("1")]
@@ -32,7 +32,7 @@ public class EnumValueAttributeTests
         [EnumValue("2")]
         Two,
         [EnumValue("3")]
-        Three
+        Three,
     }
 
     private record NumberWrapper

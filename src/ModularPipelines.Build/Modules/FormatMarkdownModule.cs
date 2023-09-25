@@ -17,28 +17,31 @@ public class FormatMarkdownModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
+    public FormatMarkdownModule(IOptions<GitHubSettings> gitHubSettings)
+    {
+        _gitHubSettings = gitHubSettings;
+    }
+
+    /// <inheritdoc/>
     public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
 
+    /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch))
         {
             return SkipDecision.Skip("Not a pull request").AsTask();
         }
-        
+
         if (string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken))
         {
             return SkipDecision.Skip("No authentication token for git").AsTask();
         }
-       
+
         return SkipDecision.DoNotSkip.AsTask();
     }
 
-    public FormatMarkdownModule(IOptions<GitHubSettings> gitHubSettings)
-    {
-        _gitHubSettings = gitHubSettings;
-    }
-    
+    /// <inheritdoc/>
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await context.Node().Npm.Install(new NpmInstallOptions
@@ -47,19 +50,19 @@ public class FormatMarkdownModule : Module<CommandResult>
             {
                 "remark-cli",
                 "remark-preset-lint-consistent",
-                "remark-preset-lint-recommended", 
-                "remark-lint-list-item-indent"
+                "remark-preset-lint-recommended",
+                "remark-lint-list-item-indent",
             },
-            SaveDev = true
+            SaveDev = true,
         }, cancellationToken);
 
         var filesToFormat = new List<string>
         {
             context.Git().RootDirectory.FindFile(x => x.Name == "README.md")!.Path,
             context.Git().RootDirectory.FindFile(x => x.Name == "README_Template.md")!.Path,
-            context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!.Path
+            context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!.Path,
         };
-        
+
         foreach (var fileToFormat in filesToFormat)
         {
             await context.Node().Npx.ExecuteAsync(new NpxOptions
@@ -71,8 +74,8 @@ public class FormatMarkdownModule : Module<CommandResult>
                     "--use", "remark-lint",
                     "--use", "remark-preset-lint-consistent",
                     "--use", "remark-preset-lint-recommended",
-                    "--output"
-                }
+                    "--output",
+                },
             }, cancellationToken);
         }
 

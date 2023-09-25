@@ -8,16 +8,17 @@ namespace ModularPipelines.Build.Modules;
 
 public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
+    /// <inheritdoc/>
     protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
-        
+
         return context.Git()
             .RootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context))
             .ToList();
     }
-    
+
     private bool GetProjectsPredicate(File file, IPipelineContext context)
     {
         var path = file.Path;

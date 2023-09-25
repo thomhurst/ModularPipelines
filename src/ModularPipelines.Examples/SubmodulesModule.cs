@@ -6,6 +6,7 @@ namespace ModularPipelines.Examples;
 
 public class SubmodulesModule : Module
 {
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         foreach (var c in Guid.NewGuid().ToString().Take(3))

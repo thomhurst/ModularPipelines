@@ -4,8 +4,8 @@ namespace ModularPipelines.Git;
 
 internal class Git : IGit
 {
-    public Git(IGitCommands commands, 
-        IGitInformation information, 
+    public Git(IGitCommands commands,
+        IGitInformation information,
         IGitVersioning versioning)
     {
         Commands = commands;
@@ -14,7 +14,9 @@ internal class Git : IGit
     }
 
     public IGitCommands Commands { get; }
+
     public IGitInformation Information { get; }
+
     public IGitVersioning Versioning { get; }
 
     public Folder RootDirectory => Information.Root ?? throw new Exception("Git directory not detected");

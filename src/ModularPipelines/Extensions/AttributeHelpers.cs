@@ -4,7 +4,8 @@ namespace ModularPipelines.Extensions;
 
 internal static class AttributeHelpers
 {
-    public static IEnumerable<T> GetCustomAttributesIncludingBaseInterfaces<T>(this Type type) where T : Attribute
+    public static IEnumerable<T> GetCustomAttributesIncludingBaseInterfaces<T>(this Type type)
+        where T : Attribute
     {
         foreach (var result in type.GetInterfaces()
                      .SelectMany(i => i.GetCustomAttributes<T>(true)))

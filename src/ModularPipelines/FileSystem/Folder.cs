@@ -34,6 +34,7 @@ public class Folder : IEquatable<Folder>
     public Folder? Parent => DirectoryInfo.Parent;
 
     public string Path => DirectoryInfo.FullName;
+
     public string OriginalPath { get; }
 
     public FileAttributes Attributes
@@ -74,7 +75,7 @@ public class Folder : IEquatable<Folder>
     public Folder CopyTo(string targetPath)
     {
         Directory.CreateDirectory(targetPath);
-        
+
         foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
             Directory.CreateDirectory(dirPath.Replace(this, targetPath));
@@ -95,9 +96,11 @@ public class Folder : IEquatable<Folder>
     }
 
     public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
+
     public Folder CreateFolder(string name) => GetFolder(name).Create();
 
     public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
+
     public File CreateFile(string name) => GetFile(name).Create();
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
@@ -109,6 +112,7 @@ public class Folder : IEquatable<Folder>
         .Where(predicate);
 
     public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
+
     public Folder? FindFolder(Func<Folder, bool> predicate) => GetFolders(predicate).FirstOrDefault();
 
     public IEnumerable<File> ListFiles()
@@ -116,20 +120,20 @@ public class Folder : IEquatable<Folder>
         return DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
             .Select(x => new File(x));
     }
-    
+
     public IEnumerable<Folder> ListFolders()
     {
         return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
             .Select(x => new Folder(x));
     }
-    
+
     public static Folder CreateTemporaryFolder()
     {
         var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
         return tempDirectory!;
     }
-    
+
     public static implicit operator Folder?(string? path)
     {
         if (string.IsNullOrEmpty(path))
@@ -156,11 +160,13 @@ public class Folder : IEquatable<Folder>
         return folder.Path;
     }
 
+    /// <inheritdoc/>
     public override string ToString()
     {
         return Path;
     }
 
+    /// <inheritdoc/>
     public bool Equals(Folder? other)
     {
         if (ReferenceEquals(null, other))
@@ -176,6 +182,7 @@ public class Folder : IEquatable<Folder>
         return Path == other.Path;
     }
 
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(this, obj))
@@ -186,6 +193,7 @@ public class Folder : IEquatable<Folder>
         return obj is Folder other && Equals(other);
     }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return Path.GetHashCode();

@@ -9,6 +9,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionBlobStorageAccountModule>]
 public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
+    /// <inheritdoc/>
     protected override async Task<BlobContainerResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
@@ -18,7 +19,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
             "MyContainer",
             new BlobContainerData()
         );
-        
+
         return blobContainerProvisionResponse.Value;
     }
 }

@@ -17,10 +17,10 @@ public class PipelineRequirementTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        
+
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
-    
+
     [Test]
     public void When_Requirement_Fails_Then_Error()
     {
@@ -28,7 +28,7 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
-        
+
         Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
             .With.Message.EqualTo("Requirements failed: FailingRequirement"));
     }
@@ -41,7 +41,7 @@ public class PipelineRequirementTests
             return new Dictionary<string, object>();
         }
     }
-    
+
     private class SuccessfulRequirement : IPipelineRequirement
     {
         public async Task<bool> MustAsync(IPipelineContext context)
@@ -50,7 +50,7 @@ public class PipelineRequirementTests
             return true;
         }
     }
-    
+
     private class FailingRequirement : IPipelineRequirement
     {
         public async Task<bool> MustAsync(IPipelineContext context)

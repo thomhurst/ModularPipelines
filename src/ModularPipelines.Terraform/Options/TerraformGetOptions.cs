@@ -8,7 +8,9 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformGetOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Path) : TerraformOptions
 {
-    [BooleanCommandSwitch("-update")] public bool? Update { get; set; }
+    [BooleanCommandSwitch("-update")]
+    public bool? Update { get; set; }
 
-    [BooleanCommandSwitch("-no-color")] public bool? NoColor { get; set; }
+    [BooleanCommandSwitch("-no-color")]
+    public bool? NoColor { get; set; }
 }

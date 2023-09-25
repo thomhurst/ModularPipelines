@@ -5,8 +5,6 @@ namespace ModularPipelines.Attributes;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
 public class DependsOnAttribute : Attribute
 {
-    public Type Type { get; }
-
     public DependsOnAttribute(Type type)
     {
         if (!type.IsAssignableTo(typeof(ModuleBase)))
@@ -17,11 +15,14 @@ public class DependsOnAttribute : Attribute
         Type = type;
     }
 
+    public Type Type { get; }
+
     public bool IgnoreIfNotRegistered { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
-public class DependsOnAttribute<TModule> : DependsOnAttribute where TModule : ModuleBase
+public class DependsOnAttribute<TModule> : DependsOnAttribute
+    where TModule : ModuleBase
 {
     public DependsOnAttribute() : base(typeof(TModule))
     {

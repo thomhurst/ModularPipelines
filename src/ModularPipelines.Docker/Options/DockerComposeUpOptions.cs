@@ -9,6 +9,7 @@ public record DockerComposeUpOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
     [BooleanCommandSwitch("--abort-on-container-exit")]
     public bool? AbortOnContainerExit { get; set; }
 

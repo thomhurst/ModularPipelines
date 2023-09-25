@@ -4,5 +4,5 @@ public enum ModuleResultType
 {
     Success,
     Failure,
-    Skipped
+    Skipped,
 }

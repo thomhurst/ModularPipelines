@@ -15,7 +15,7 @@ public class GitTests : TestBase
         {
             return await context.Git().Commands.Git(new GitBaseOptions
             {
-                Version = true
+                Version = true,
             }, token: cancellationToken);
         }
     }
@@ -53,7 +53,7 @@ public class GitTests : TestBase
     public async Task GitRootDirectory()
     {
         var git = await GetService<IGit>();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(git.RootDirectory.Name, Is.EqualTo("ModularPipelines"));
@@ -65,7 +65,7 @@ public class GitTests : TestBase
     public async Task DefaultBranchName()
     {
         var git = await GetService<IGit>();
-        
+
         Assert.That(git.Information.DefaultBranchName, Is.EqualTo("main"));
     }
 }

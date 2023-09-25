@@ -6,5 +6,6 @@ namespace ModularPipelines.Context;
 public interface IWindowsInstaller
 {
     Task<CommandResult> InstallMsi(MsiInstallerOptions msiInstallerOptions);
+
     Task<CommandResult> InstallExe(ExeInstallerOptions exeInstallerOptions);
 }

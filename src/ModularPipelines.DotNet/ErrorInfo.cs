@@ -6,5 +6,6 @@ namespace ModularPipelines.DotNet;
 public record ErrorInfo
 {
     public string? Message { get; init; }
+
     public string? StackTrace { get; init; }
 }

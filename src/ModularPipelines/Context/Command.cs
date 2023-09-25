@@ -27,10 +27,10 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
                 ?.PrecedingArguments.ToList() ?? new List<string>();
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(precedingArgs, optionsObject);
-        
+
         var parsedArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
-        
+
         parsedArgs = precedingArgs.Concat(parsedArgs).ToList();
 
         if (options.RunSettings != null)
@@ -38,7 +38,7 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
             parsedArgs.Add("--");
             parsedArgs.AddRange(options.RunSettings);
         }
-        
+
         string tool;
         if (options.Sudo)
         {
@@ -49,7 +49,7 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         {
             tool = options.Tool;
         }
-        
+
         var command = Cli.Wrap(tool).WithArguments(parsedArgs);
 
         if (options.WorkingDirectory != null)
@@ -70,7 +70,7 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         int? resultExitCode = null;
 
         var optionsCommandLogging = options.CommandLogging ?? pipelineOptions.Value.DefaultCommandLogging;
-        
+
         if (optionsCommandLogging.HasFlag(CommandLogging.Input))
         {
             var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
@@ -88,7 +88,7 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
             var result = await Of(command, options, cancellationToken);
 
             var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-            
+
             if (optionsCommandLogging.HasFlag(CommandLogging.Output))
             {
                 resultExitCode = result.ExitCode;

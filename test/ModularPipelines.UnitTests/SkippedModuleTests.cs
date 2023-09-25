@@ -19,7 +19,7 @@ public class SkippedModuleTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [Test]
     public async Task Skipped_Result_Is_As_Expected()
     {

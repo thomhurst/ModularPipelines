@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine;
 [ExcludeFromCodeCoverage]
 internal class LogoPrinter : ILogoPrinter
 {
- private const string LargeAsciiLogo = """"""""
+    private const string LargeAsciiLogo = """"""""
                                                                                       
 88b           d88                        88               88                          
 888b         d888                        88               88                          
@@ -31,16 +31,16 @@ internal class LogoPrinter : ILogoPrinter
                  88                                                                                                                                                                                                       
 """""""";
 
- public void PrintLogo()
- {
-  if (AnsiConsole.Console.Profile.Capabilities.Interactive && AnsiConsole.Console.Profile.Width < 90)
-  {
-   AnsiConsole.Console.Profile.Width = 90;
-  }
+    public void PrintLogo()
+    {
+        if (AnsiConsole.Console.Profile.Capabilities.Interactive && AnsiConsole.Console.Profile.Width < 90)
+        {
+            AnsiConsole.Console.Profile.Width = 90;
+        }
 
-  if (AnsiConsole.Console.Profile.Width >= 90)
-  {
-   AnsiConsole.Console.WriteLine(LargeAsciiLogo, new Style(Color.Turquoise2, null, Decoration.Bold));
-  }
- }
+        if (AnsiConsole.Console.Profile.Width >= 90)
+        {
+            AnsiConsole.Console.WriteLine(LargeAsciiLogo, new Style(Color.Turquoise2, null, Decoration.Bold));
+        }
+    }
 }

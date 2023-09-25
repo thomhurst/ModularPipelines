@@ -9,20 +9,13 @@ public class ModuleResult<T>
     private readonly T? _value;
 
     public string ModuleName { get; private set; }
-    
+
     public TimeSpan ModuleDuration { get; private set; }
+
     public DateTimeOffset ModuleStart { get; private set; }
+
     public DateTimeOffset ModuleEnd { get; private set; }
-    
-    private ModuleResult(ModuleBase module)
-    {
-        _module = module;
-        ModuleName = module.GetType().Name;
-        ModuleDuration = module.Duration;
-        ModuleStart = module.StartTime;
-        ModuleEnd = module.EndTime;
-    }
-    
+
     internal ModuleResult(T? value, ModuleBase module) : this(module)
     {
         _value = value;
@@ -33,6 +26,15 @@ public class ModuleResult<T>
     {
         Exception = exception;
         ModuleResultType = ModuleResultType.Failure;
+    }
+
+    private ModuleResult(ModuleBase module)
+    {
+        _module = module;
+        ModuleName = module.GetType().Name;
+        ModuleDuration = module.Duration;
+        ModuleStart = module.StartTime;
+        ModuleEnd = module.EndTime;
     }
 
     public T? Value
@@ -61,6 +63,6 @@ public class ModuleResult<T>
     public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
 
     public Exception? Exception { get; private set; }
-    
+
     public ModuleResultType ModuleResultType { get; private protected init; }
 }

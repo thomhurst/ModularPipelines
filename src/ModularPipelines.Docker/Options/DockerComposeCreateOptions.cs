@@ -9,6 +9,7 @@ public record DockerComposeCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
     [BooleanCommandSwitch("--build")]
     public bool? Build { get; set; }
 

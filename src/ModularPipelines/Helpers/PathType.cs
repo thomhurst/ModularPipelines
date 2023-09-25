@@ -3,5 +3,5 @@
 internal enum PathType
 {
     Directory,
-    File
+    File,
 }

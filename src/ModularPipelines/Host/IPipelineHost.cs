@@ -4,5 +4,5 @@ namespace ModularPipelines.Host;
 
 public interface IPipelineHost : IHost, IAsyncDisposable
 {
-    internal IServiceProvider RootServices { get; } 
+    internal IServiceProvider RootServices { get; }
 }

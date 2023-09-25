@@ -13,9 +13,9 @@ public class FileSystemContextTests : TestBase
 
         var file = await CreateRandomFile();
         var newLocation = File.GetNewTemporaryFilePath().Path;
-        
+
         context.MoveFile(file, newLocation);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(file.Path, Is.EqualTo(newLocation));
@@ -24,7 +24,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(file.Exists, Is.True);
         });
     }
-    
+
     [Test]
     public async Task Copy_File()
     {
@@ -32,9 +32,9 @@ public class FileSystemContextTests : TestBase
 
         var file = await CreateRandomFile();
         var newLocation = File.GetNewTemporaryFilePath().Path;
-        
+
         var newFile = context.CopyFile(file, newLocation);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(file.Path, Is.Not.EqualTo(newLocation));
@@ -45,28 +45,28 @@ public class FileSystemContextTests : TestBase
             Assert.That(file.Exists, Is.True);
         });
     }
-    
+
     [Test]
     public async Task File_Delete()
     {
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        
+
         Assert.That(context.FileExists(file), Is.True);
-        
+
         file.Delete();
-        
+
         Assert.That(context.FileExists(file), Is.False);
     }
-    
+
     [Test]
     public async Task File_Data_Populated()
     {
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(context.GetFileAttributes(file).ToString(), Is.Not.Null);
@@ -74,7 +74,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(context.FileExists(file), Is.True);
         });
     }
-    
+
     [Test]
     public async Task Move_Folder()
     {
@@ -82,9 +82,9 @@ public class FileSystemContextTests : TestBase
 
         var folder = Folder.CreateTemporaryFolder();
         var newLocation = File.GetNewTemporaryFilePath().Path;
-        
+
         context.MoveFolder(folder, newLocation);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/'), Is.EqualTo(newLocation));
@@ -93,7 +93,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(folder.Exists, Is.True);
         });
     }
-    
+
     [Test]
     public async Task Copy_Folder()
     {
@@ -101,9 +101,9 @@ public class FileSystemContextTests : TestBase
 
         var folder = Folder.CreateTemporaryFolder();
         var newLocation = File.GetNewTemporaryFilePath().Path;
-        
+
         var newFile = context.CopyFolder(folder, newLocation);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/'), Is.Not.EqualTo(newLocation));
@@ -114,28 +114,28 @@ public class FileSystemContextTests : TestBase
             Assert.That(folder.Exists, Is.True);
         });
     }
-    
+
     [Test]
     public async Task Folder_Delete()
     {
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        
+
         Assert.That(context.FolderExists(folder), Is.True);
-        
+
         folder.Delete();
-        
+
         Assert.That(context.FolderExists(folder), Is.False);
     }
-    
+
     [Test]
     public async Task Folder_Data_Populated()
     {
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(context.GetFolderAttributes(folder).ToString(), Is.Not.Null);

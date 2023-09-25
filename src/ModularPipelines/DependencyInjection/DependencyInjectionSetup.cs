@@ -27,7 +27,7 @@ internal static class DependencyInjectionSetup
 
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
-                    
+
                 builder.AddSpectreConsole();
             })
             .AddHttpClient()
@@ -48,7 +48,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<ResponseLoggingHttpHandler>()
             .AddHttpClient("ResponseLoggingHttpClient")
             .AddHttpMessageHandler<ResponseLoggingHttpHandler>();
-        
+
         // Transient
         services.AddScoped<IPipelineContext, PipelineContext>()
             .AddScoped<IConsolePrinter, ConsolePrinter>()

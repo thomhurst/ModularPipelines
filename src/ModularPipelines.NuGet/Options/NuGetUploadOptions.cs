@@ -13,7 +13,7 @@ public record NuGetUploadOptions
     Uri FeedUri
 ) : NuGetOptions
 {
-    public NuGetUploadOptions(string packagePath, Uri feedUri) : this( new []{ packagePath }, feedUri)
+    public NuGetUploadOptions(string packagePath, Uri feedUri) : this(new[] { packagePath }, feedUri)
     {
     }
 

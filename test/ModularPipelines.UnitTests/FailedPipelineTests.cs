@@ -15,7 +15,7 @@ public class FailedPipelineTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class Module2 : Module
     {
         protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ public class FailedPipelineTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [DependsOn<Module2>(IgnoreIfNotRegistered = true)]
     private class Module3 : Module
     {
@@ -39,7 +39,7 @@ public class FailedPipelineTests : TestBase
     public void Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options) 
+                .ConfigurePipelineOptions((_, options)
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module2>()
@@ -47,31 +47,31 @@ public class FailedPipelineTests : TestBase
                 .ExecutePipelineAsync(),
             Throws.Exception);
     }
-    
+
     [TestCase(ExecutionMode.StopOnFirstException)]
     [TestCase(ExecutionMode.WaitForAllModules)]
     public void Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options) 
+                .ConfigurePipelineOptions((_, options)
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync(),
             Throws.Exception);
     }
-    
+
     [TestCase(ExecutionMode.StopOnFirstException)]
     [TestCase(ExecutionMode.WaitForAllModules)]
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
-                .ConfigurePipelineOptions((_, options) 
+                .ConfigurePipelineOptions((_, options)
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module3>()
                 .ExecutePipelineAsync();
-        
+
         Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
     }
 }

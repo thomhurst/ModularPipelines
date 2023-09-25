@@ -10,22 +10,23 @@ namespace ModularPipelines.UnitTests.Helpers;
 [Parallelizable(ParallelScope.Self)]
 public class FtpTests : TestBase
 {
-    [Test, Order(1)]
+    [Test]
+    [Order(1)]
     public async Task Can_Download()
     {
         var ftp = await GetService<IFtp>();
 
         var client = await ftp.GetFtpClientAsync(new FtpOptions("ftp.pureftpd.org", new NetworkCredential())
         {
-            ClientConfigurator = client => { }
+            ClientConfigurator = client => { },
         });
 
         var localPath = File.GetNewTemporaryFilePath();
-        
+
         var response = await client.DownloadFile(localPath, "/6jack/README.markdown");
-        
+
         var fileContents = await localPath.ReadAsync();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.EqualTo(FtpStatus.Success));
@@ -40,13 +41,13 @@ public class FtpTests : TestBase
 
         var client = await ftp.GetFtpClientAsync(new FtpOptions("ftp.pureftpd.org", new NetworkCredential())
         {
-            ClientConfigurator = client => { }
+            ClientConfigurator = client => { },
         });
-        
+
         Assert.That(client.IsDisposed, Is.False);
 
         await Disposer.DisposeObjectAsync(ftp);
-        
+
         Assert.That(client.IsDisposed, Is.True);
     }
 }

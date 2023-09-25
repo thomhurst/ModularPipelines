@@ -9,6 +9,7 @@ public record DockerComposePsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

@@ -1,9 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 
 namespace ModularPipelines.Analyzers;
 
@@ -12,16 +12,20 @@ namespace ModularPipelines.Analyzers;
 public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "MissingDependsOnAttribute";
+    
+    public static DiagnosticDescriptor Rule => PrivateRule;
 
+    private const string Category = "Usage";
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
     private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
     private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-    private const string Category = "Usage";
 
-    private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
 
+    /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
+    /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -76,7 +80,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             var properties = new Dictionary<string, string?>
             {
-                ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+                ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));

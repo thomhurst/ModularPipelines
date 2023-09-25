@@ -26,7 +26,8 @@ public class ZipTests : TestBase
         }
     }
 
-    [Test, Order(1)]
+    [Test]
+    [Order(1)]
     public async Task Has_Not_Errored()
     {
         var module = await RunModule<ZipModule>();
@@ -40,11 +41,12 @@ public class ZipTests : TestBase
         });
     }
 
-    [Test, Order(2)]
+    [Test]
+    [Order(2)]
     public async Task Zip_File_Exists()
     {
         await RunModule<ZipModule>();
-        
+
         var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip"));
 
         Assert.Multiple(() =>
@@ -70,7 +72,8 @@ public class ZipTests : TestBase
         }
     }
 
-    [Test, Order(3)]
+    [Test]
+    [Order(3)]
     public async Task UnZip_Has_Not_Errored()
     {
         var module = await RunModule<UnZipModule>();
@@ -84,11 +87,12 @@ public class ZipTests : TestBase
         });
     }
 
-    [Test, Order(4)]
+    [Test]
+    [Order(4)]
     public async Task UnZipped_Folder_Exists()
     {
         await RunModule<UnZipModule>();
-        
+
         var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped"));
 
         Assert.Multiple(() =>

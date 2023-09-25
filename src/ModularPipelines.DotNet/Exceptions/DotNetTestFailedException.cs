@@ -8,6 +8,7 @@ namespace ModularPipelines.DotNet.Exceptions;
 public class DotNetTestFailedException : PipelineException
 {
     public CommandResult CommandResult { get; }
+
     public DotNetTestResult? DotNetTestResult { get; }
 
     internal DotNetTestFailedException(CommandResult commandResult, DotNetTestResult? dotNetTestResult)
@@ -16,6 +17,7 @@ public class DotNetTestFailedException : PipelineException
         DotNetTestResult = dotNetTestResult;
     }
 
+    /// <inheritdoc/>
     public override string Message
     {
         get

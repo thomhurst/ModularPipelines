@@ -18,7 +18,7 @@ public class UpdateReleaseNotesModule : Module
     private readonly GitHubClient _gitHubClient;
     private readonly IOptions<PublishSettings> _publishSettings;
 
-    public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings, 
+    public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings,
         GitHubClient gitHubClient,
         IOptions<PublishSettings> publishSettings)
     {
@@ -27,38 +27,40 @@ public class UpdateReleaseNotesModule : Module
         _publishSettings = publishSettings;
     }
 
+    /// <inheritdoc/>
     protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (!_publishSettings.Value.ShouldPublish)
         {
             return true;
         }
-        
+
         var releaseNotesFile = context.Git()
                 .RootDirectory
                 .FindFile(x => x.Name == "ReleaseNotes.md");
-        
-        return 
+
+        return
             string.IsNullOrEmpty(_githubSettings.Value.AdminToken)
             || releaseNotesFile?.Exists != true
             || string.IsNullOrWhiteSpace(await releaseNotesFile.ReadAsync());
     }
 
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 
         var releaseNotesContents = await releaseNotesFile.ReadAsync();
-        
+
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
 
         await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
             new NewRelease(versionInfoResult.Value)
             {
                 Name = versionInfoResult.Value,
-                Body = releaseNotesContents
+                Body = releaseNotesContents,
             });
-        
+
         await ResetReleaseNotesFile(releaseNotesFile, context, cancellationToken);
 
         return await NothingAsync();
@@ -68,7 +70,7 @@ public class UpdateReleaseNotesModule : Module
         CancellationToken cancellationToken)
     {
         await releaseNotesFile.WriteAsync(string.Empty);
-        
+
         await GitHelpers.SetUserCommitInformation(context, cancellationToken);
         await GitHelpers.CommitAndPush(context, null, "Create Release", _githubSettings.Value.AdminToken!, cancellationToken);
     }

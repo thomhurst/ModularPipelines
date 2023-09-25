@@ -28,7 +28,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         {
             return _logger;
         }
-        
+
         var stackFrames = new StackTrace().GetFrames().ToList();
 
         var module = GetModuleFromMarkerAttributes(stackFrames)
@@ -58,6 +58,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         return MakeLogger(module);
     }
 
+    public void Dispose()
+    {
+        Disposer.DisposeObject(_logger);
+    }
+
     private Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
     {
         return stackFrames
@@ -70,7 +75,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (ILogger) _serviceProvider.GetRequiredService(loggerType);
+        var logger = (ILogger)_serviceProvider.GetRequiredService(loggerType);
 
         _logger = logger;
 
@@ -86,7 +91,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
         return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
     }
-    
+
     private static Type GetCallingClassType(List<StackFrame> stackFrames)
     {
         var entryAssemblyFirstCallingClass = stackFrames
@@ -118,10 +123,5 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         }
 
         return type;
-    }
-
-    public void Dispose()
-    {
-        Disposer.DisposeObject(_logger);
     }
 }

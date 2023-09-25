@@ -22,7 +22,7 @@ internal class LinuxInstaller : ILinuxInstaller
 
         await _aptGet.Install(new AptGetInstallOptions(null!)
         {
-            FixBroken = true
+            FixBroken = true,
         });
 
         return linuxInstallationResult;

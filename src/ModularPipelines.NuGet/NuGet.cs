@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.NuGet.Options;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
@@ -20,7 +20,7 @@ internal class NuGet : INuGet
     public async Task<CommandResult[]> UploadPackages(NuGetUploadOptions options)
     {
         return await options.PackagePaths.ToAsyncProcessorBuilder()
-            .SelectAsync(async packagePath => 
+            .SelectAsync(async packagePath =>
                 await _context.Command.ExecuteCommandLineTool(options.WithArguments(packagePath)))
             .ProcessOneAtATime();
     }

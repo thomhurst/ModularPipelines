@@ -26,12 +26,11 @@ internal class CommandLogger : ICommandLogger
         {
             return;
         }
-        
+
         var optionsCommandLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
 
         lock (_lock)
         {
-
             if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
             {
                 Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);

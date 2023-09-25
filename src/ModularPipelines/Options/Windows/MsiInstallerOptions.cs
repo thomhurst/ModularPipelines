@@ -9,12 +9,12 @@ public record MsiInstallerOptions([property: CommandSwitch("/package")] string M
     [BooleanCommandSwitch("/exenoui")]
     public bool? DisableUserInterface { get; set; } = true;
 
-    [BooleanCommandSwitch("/qn")] 
+    [BooleanCommandSwitch("/qn")]
     internal bool? DisableUserInterface2 => DisableUserInterface;
-    
+
     [BooleanCommandSwitch("/quiet")]
     internal bool? DisableUserInterface3 => DisableUserInterface;
-    
+
     [BooleanCommandSwitch("/silent")]
     internal bool? DisableUserInterface4 => DisableUserInterface;
 
@@ -26,13 +26,13 @@ public record MsiInstallerOptions([property: CommandSwitch("/package")] string M
 
     [BooleanCommandSwitch("/passive")]
     internal bool? DisableUserInterface7 => DisableUserInterface;
-    
+
     [BooleanCommandSwitch("/sp-")]
     internal bool? DisableUserInterface8 => DisableUserInterface;
 
     [BooleanCommandSwitch("/norestart")]
     public bool NoRestart { get; init; } = true;
-        
+
     [BooleanCommandSwitch("/restartapplications")]
     public bool RestartApplications { get; init; } = true;
 }

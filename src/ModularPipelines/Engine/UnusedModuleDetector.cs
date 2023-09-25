@@ -18,6 +18,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
         _serviceContainerWrapper = serviceContainerWrapper;
         _logger = logger;
     }
+
     public void Log()
     {
         var registeredServices = _serviceContainerWrapper.ServiceCollection

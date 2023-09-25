@@ -21,17 +21,17 @@ internal class Bash : IBash
     {
         return await _command.ExecuteCommandLineTool(options with
         {
-            FilePath = await ToWslPath(options.FilePath)
+            FilePath = await ToWslPath(options.FilePath),
         }, cancellationToken);
     }
-    
+
     private async Task<string> ToWslPath(string path)
     {
         if (OperatingSystem.IsWindows())
         {
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
             {
-                Arguments = new []{"wslpath", "-a", path.Replace("\\", "\\\\")}
+                Arguments = new[] { "wslpath", "-a", path.Replace("\\", "\\\\") },
             });
 
             return result.StandardOutput.Trim();

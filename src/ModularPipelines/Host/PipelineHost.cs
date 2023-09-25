@@ -18,20 +18,20 @@ internal class PipelineHost : IPipelineHost
 
         Disposer.RegisterOnShutdown(this);
     }
-    
+
     ~PipelineHost()
     {
         Dispose();
     }
 
     [StackTraceHidden]
-    public Task StartAsync(CancellationToken cancellationToken = new CancellationToken())
+    public Task StartAsync(CancellationToken cancellationToken = default)
     {
         return _hostImplementation.StartAsync(cancellationToken);
     }
 
     [StackTraceHidden]
-    public Task StopAsync(CancellationToken cancellationToken = new CancellationToken())
+    public Task StopAsync(CancellationToken cancellationToken = default)
     {
         return _hostImplementation.StopAsync(cancellationToken);
     }
@@ -53,12 +53,12 @@ internal class PipelineHost : IPipelineHost
         var disposables = Services.GetType()
             .GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic)
             ?.GetValue(Services) as List<object>;
-        
+
         foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
         {
             await Disposer.DisposeObjectAsync(disposable);
         }
-        
+
         await Disposer.DisposeObjectAsync(_hostImplementation);
         GC.SuppressFinalize(this);
     }

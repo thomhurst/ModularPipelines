@@ -12,6 +12,6 @@ public record DpkgInstallOptions : CommandLineToolOptions
         Sudo = true;
     }
 
-    [CommandSwitch("-i")] 
+    [CommandSwitch("-i")]
     public string Path { get; init; }
 }

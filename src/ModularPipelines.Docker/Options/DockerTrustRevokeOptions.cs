@@ -9,6 +9,7 @@ public record DockerTrustRevokeOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Image { get; set; }
+
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }

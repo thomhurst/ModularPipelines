@@ -17,5 +17,5 @@ public enum Verbosity
     Detailed,
 
     [EnumValue("diagnostic")]
-    Diagnostic
+    Diagnostic,
 }

@@ -15,7 +15,8 @@ public class LogSecretModule : Module
         _options = options;
         _logger = logger;
     }
-    
+
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Value is {Value}", _options.Value.MySecret);

@@ -6,7 +6,7 @@ namespace ModularPipelines.UnitTests;
 public class BuildSystemDetectorTests : TestBase
 {
     private readonly Mock<IEnvironmentVariables> _environmentVariables;
-    
+
     private readonly BuildSystemDetector _buildSystemDetector;
 
     public BuildSystemDetectorTests()
@@ -20,7 +20,7 @@ public class BuildSystemDetectorTests : TestBase
     {
         Assert.That(_buildSystemDetector.IsKnownBuildAgent, Is.False);
     }
-    
+
     [TestCase("TF_BUILD")]
     [TestCase("TEAMCITY_VERSION")]
     [TestCase("GITHUB_ACTIONS")]
@@ -34,7 +34,7 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-        
+
         Assert.That(_buildSystemDetector.IsKnownBuildAgent, Is.True);
     }
 

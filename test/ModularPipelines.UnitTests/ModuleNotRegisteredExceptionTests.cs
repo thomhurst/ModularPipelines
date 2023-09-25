@@ -14,7 +14,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module2 : Module
     {
@@ -33,10 +33,10 @@ public class ModuleNotRegisteredExceptionTests : TestBase
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()
         );
-        
+
         Assert.That(moduleFailedException!.InnerException, Is.TypeOf<ModuleNotRegisteredException>());
     }
-    
+
     [Test]
     public void Module_Getting_Registered_Module_Does_Not_Throw_Exception()
     {

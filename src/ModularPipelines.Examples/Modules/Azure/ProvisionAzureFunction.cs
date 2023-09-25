@@ -15,20 +15,21 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionBlobStorageContainerModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
+    /// <inheritdoc/>
     protected override async Task<WebSiteResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
 
         var storageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
         var blobContainer = await GetModule<ProvisionBlobStorageContainerModule>();
-        
+
         var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
             new WebSiteData(AzureLocation.UKSouth)
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
                 {
-                    UserAssignedIdentities = { { userAssignedIdentity.Value!.Id, new UserAssignedIdentity() } }
+                    UserAssignedIdentities = { { userAssignedIdentity.Value!.Id, new UserAssignedIdentity() } },
                 },
                 SiteConfig = new SiteConfigProperties
                 {
@@ -37,19 +38,20 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                         new()
                         {
                             Name = "BlobStorageConnectionString",
-                            Value = storageAccount.Value!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                            Value = storageAccount.Value!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri,
                         },
                         new()
                         {
                             Name = "BlobContainerName",
-                            Value = blobContainer.Value!.Data.Name
-                        }
-                    }
-                }
+                            Value = blobContainer.Value!.Data.Name,
+                        },
+                    },
+                },
+
                 // ... Other properties
             }
         );
-        
+
         return functionProvisionResponse.Value;
     }
 }

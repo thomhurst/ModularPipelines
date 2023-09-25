@@ -5,6 +5,7 @@ namespace ModularPipelines.Models;
 internal record ModuleDependencyModel(ModuleBase Module)
 {
     public List<ModuleDependencyModel> IsDependencyFor { get; } = new();
+
     public List<ModuleDependencyModel> IsDependentOn { get; } = new();
 
     public IEnumerable<ModuleDependencyModel> AllDescendantDependenciesAndSelf()

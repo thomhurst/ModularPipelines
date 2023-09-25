@@ -9,6 +9,7 @@ public record DockerComposeKillOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
     [BooleanCommandSwitch("--remove-orphans")]
     public bool? RemoveOrphans { get; set; }
 

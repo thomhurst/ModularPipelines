@@ -12,9 +12,10 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
+    
+    private readonly object _lock = new();
 
     private bool _hasRun;
-    private readonly object _lock = new();
 
     public ExecutionOrchestrator(IPipelineInitializer pipelineInitializer,
         IModuleDisposeExecutor moduleDisposeExecutor,
@@ -42,9 +43,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             _hasRun = true;
         }
-        
+
         var organizedModules = await _pipelineInitializer.Initialize();
-        
+
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
         var start = DateTimeOffset.UtcNow;
@@ -70,7 +71,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
             _consolePrinter.PrintResults(pipelineSummary);
         }
-        
+
         return pipelineSummary;
     }
 }

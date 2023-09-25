@@ -28,7 +28,8 @@ public record DotNetTestOptions : DotNetOptions
     [CommandEqualsSeparatorSwitch("--blame-hang-timeout")]
     public string? BlameHangTimeout { get; init; }
 
-    [CommandSwitch("-c")] public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    [CommandSwitch("-c")]
+    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
 
     [CommandSwitch("-f")]
     public string? Framework { get; init; }

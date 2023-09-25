@@ -29,7 +29,7 @@ public class Module1 : {|#0:Module<IEnumerable<string>>|}
     }
 }
 ";
-    
+
     private const string GoodModuleSource = @"
 #nullable enable
 using System;
@@ -61,7 +61,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_List()
     {

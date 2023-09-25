@@ -6,6 +6,7 @@ namespace ModularPipelines.Attributes;
 [ExcludeFromCodeCoverage]
 public class RunOnWindowsAttribute : RunConditionAttribute
 {
+    /// <inheritdoc/>
     public override Task<bool> Condition(IPipelineContext pipelineContext)
     {
         return Task.FromResult(OperatingSystem.IsWindows());

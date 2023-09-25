@@ -85,11 +85,18 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     }
 
     public AzureComputeProvisioner Compute { get; }
+
     public AzureTrafficAndLoadBalancerProvisioner TrafficAndLoadBalancers { get; }
+
     public AzureKubernetesProvisioner Kubernetes { get; }
+
     public AzureSecurityProvisioner Security { get; }
+
     public AzureServiceBusProvisioner ServiceBus { get; }
+
     public AzureCosmosProvisioner Cosmos { get; }
+
     public AzureNetworkProvisioner Network { get; }
+
     public AzureStorageProvisioner Storage { get; }
 }

@@ -16,9 +16,14 @@ public record EmailSendOptions(
 )
 {
     public IEnumerable<string>? Cc { get; init; }
+
     public IEnumerable<string>? Bcc { get; init; }
+
     public ICredentials? Credentials { get; init; }
+
     public int Port { get; init; } = 25;
+
     public Action<SmtpClient>? ClientConfigurator { get; init; }
+
     public SecureSocketOptions SecureSocketOptions { get; init; } = SecureSocketOptions.Auto;
 }

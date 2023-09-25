@@ -7,7 +7,7 @@ namespace ModularPipelines.Context;
 public interface IZip
 {
     public File ZipFolder(Folder folder, string outputPath) => ZipFolder(folder, outputPath, CompressionLevel.Optimal);
-    
+
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel);
 
     public Folder UnZipToFolder(string zipPath, string outputFolderPath);

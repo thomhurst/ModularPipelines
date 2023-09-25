@@ -7,25 +7,14 @@ namespace ModularPipelines.Engine;
 internal class SecretProvider : ISecretProvider, IInitializer
 {
     private readonly IOptionsProvider _optionsProvider;
-    
+
     private List<string> _secrets = new();
+
     public IReadOnlyList<string> Secrets => _secrets;
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
         _optionsProvider = optionsProvider;
-    }
-
-    private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
-    {
-        foreach (var option in options)
-        {
-            foreach (var secret in GetSecretsInObject(option))
-            {
-                _secrets.Add(secret);
-                yield return secret;
-            }
-        }
     }
 
     public IEnumerable<string> GetSecretsInObject(object? option)
@@ -54,5 +43,17 @@ internal class SecretProvider : ISecretProvider, IInitializer
     {
         _secrets = GetSecrets(_optionsProvider.GetOptions()).ToList();
         return Task.CompletedTask;
+    }
+
+    private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
+    {
+        foreach (var option in options)
+        {
+            foreach (var secret in GetSecretsInObject(option))
+            {
+                _secrets.Add(secret);
+                yield return secret;
+            }
+        }
     }
 }

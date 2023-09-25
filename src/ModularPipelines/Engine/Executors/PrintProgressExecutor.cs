@@ -16,8 +16,9 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _engineCancellationToken = engineCancellationToken;
         _consolePrinter = consolePrinter;
     }
-    
-    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate)
     {
         var printProgressCancellationTokenSource =
@@ -25,7 +26,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
         var printProgressTask =
             _consolePrinter.PrintProgress(organizedModules, printProgressCancellationTokenSource.Token);
-        
+
         try
         {
             await executeDelegate();

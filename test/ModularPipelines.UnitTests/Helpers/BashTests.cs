@@ -16,7 +16,7 @@ public class BashTests : TestBase
             return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
-    
+
     private class BashScriptModule : Module<CommandResult>
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -54,8 +54,9 @@ public class BashTests : TestBase
             Assert.That(moduleResult.Value.StandardOutput.Trim(), Is.EqualTo("Foo bar!"));
         });
     }
-    
-    [Test, LinuxOnlyTest]
+
+    [Test]
+    [LinuxOnlyTest]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
         var module = await RunModule<BashScriptModule>();

@@ -1,0 +1,20 @@
+<RuleSet Name="Rules for Modular Pipelines project" Description="These rules focus on styling Modular Pipelines" ToolsVersion="10.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" />
+    <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1124" Action="None" />
+    <Rule Id="SA1028" Action="None" />
+    <Rule Id="SA1309" Action="None" />
+    <Rule Id="SA1116" Action="None" />
+    <Rule Id="SA1633" Action="None" />
+    <Rule Id="SA1117" Action="None" />
+    <Rule Id="SA1204" Action="None" />
+    <Rule Id="SA1009" Action="None" />
+    <Rule Id="SA1111" Action="None" />
+    <Rule Id="SA1118" Action="None" />
+    <Rule Id="SA1128" Action="None" />
+    <Rule Id="SA1201" Action="None" />
+    <Rule Id="SA1401" Action="None" />
+    <Rule Id="SA1402" Action="None" />
+  </Rules>
+</RuleSet>

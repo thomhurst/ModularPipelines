@@ -10,6 +10,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 public class GenerateReadMeModule : Module
 {
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;
@@ -34,7 +35,7 @@ public class GenerateReadMeModule : Module
         {
             var moduleName = availableModule.NameWithoutExtension
                 .Replace($".{nugetVersion.Value!}", string.Empty);
-            
+
             generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
         }
 

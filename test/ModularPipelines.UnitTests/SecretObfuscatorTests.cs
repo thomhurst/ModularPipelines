@@ -28,11 +28,11 @@ public class SecretObfuscatorTests
     public async Task GitHubActions_MasksSecrets()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(true);
-        
+
         await ExecutePipelineAsync();
 
         var logOutput = _stringBuilder.ToString();
-        
+
         Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
     }
@@ -41,11 +41,11 @@ public class SecretObfuscatorTests
     public async Task DoesNotMaskSecrets_WhenNotGitHubActions()
     {
         _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(false);
-        
+
         await ExecutePipelineAsync();
-            
+
         var logOutput = _stringBuilder.ToString();
-        
+
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
         Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
     }
@@ -66,7 +66,7 @@ public class SecretObfuscatorTests
     private async Task ExecutePipelineAsync()
     {
         var pipelineHost = await GetPipelineHost();
-        
+
         await pipelineHost.ExecutePipelineAsync();
     }
 }

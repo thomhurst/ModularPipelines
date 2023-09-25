@@ -20,7 +20,7 @@ internal static class StatusFormatter
             Status.Skipped => "[yellow]Skipped[/]",
             Status.Unknown => "[yellow]Unknown[/]",
             Status.UsedHistory => "[green3]Used History[/]",
-            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
     }
 }

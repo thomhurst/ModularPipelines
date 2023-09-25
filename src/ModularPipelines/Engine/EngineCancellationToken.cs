@@ -14,17 +14,17 @@ internal class EngineCancellationToken : CancellationTokenSource
         AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
     }
 
+    protected override void Dispose(bool disposing)
+    {
+        _disposed = true;
+        base.Dispose(disposing);
+    }
+
     private void TryCancel()
     {
         if (!_disposed && Token.CanBeCanceled)
         {
             Cancel();
         }
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        _disposed = true;
-        base.Dispose(disposing);
     }
 }

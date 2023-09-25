@@ -15,6 +15,7 @@ public class LoggingSecretTests
     {
         [SecretValue] public string Secret1 { get; set; } = "";
     }
+
     private class SecretValueLoggingModule1 : Module
     {
         private readonly IOptions<MySecretSettings> _options;

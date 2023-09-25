@@ -12,6 +12,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
+    /// <inheritdoc/>
     protected override async Task<DotNetTestResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
@@ -24,8 +25,8 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
                 Collect = "XPlat Code Coverage",
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
-                    ["GITHUB_ACTIONS"] = null
-                }
+                    ["GITHUB_ACTIONS"] = null,
+                },
             }, cancellationToken))
             .ProcessInParallel();
     }
