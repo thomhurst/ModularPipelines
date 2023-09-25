@@ -10,15 +10,16 @@ public class ResponseLoggingHttpHandler : DelegatingHandler
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    
+
+    /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerProvider.GetLogger();
-        
+
         var response = await base.SendAsync(request, cancellationToken);
-        
+
         await HttpLogger.PrintResponse(response, logger);
-        
+
         return response.EnsureSuccessStatusCode();
     }
 }

@@ -1,4 +1,5 @@
-﻿using CliWrap;
+﻿using System.Diagnostics.CodeAnalysis;
+using CliWrap;
 using CliWrap.Buffered;
 
 namespace ModularPipelines.Models;
@@ -9,11 +10,14 @@ public record CommandResult
     /// The command that was executed.
     /// </summary>
     public string CommandInput { get; }
+
     public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
+
     public string WorkingDirectory { get; }
 
-    // For Dry-Run Unit Tests
-    //[SetsRequiredMembersAttribute] TODO Once we upgrade past .NET 7
+#if NET7_0_OR_GREATER
+    [SetsRequiredMembersAttribute]
+#endif
 #pragma warning disable CS8618
     internal CommandResult(Command command)
 #pragma warning restore CS8618

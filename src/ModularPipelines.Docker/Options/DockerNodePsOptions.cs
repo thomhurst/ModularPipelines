@@ -9,6 +9,7 @@ public record DockerNodePsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Node { get; set; }
+
     [BooleanCommandSwitch("--no-resolve")]
     public bool? NoResolve { get; set; }
 

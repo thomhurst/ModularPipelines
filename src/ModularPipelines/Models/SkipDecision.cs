@@ -3,6 +3,7 @@
 public sealed class SkipDecision
 {
     public bool ShouldSkip { get; }
+
     public string? Reason { get; private init; }
 
     private SkipDecision(bool shouldSkip)
@@ -14,10 +15,10 @@ public sealed class SkipDecision
 
     public static SkipDecision Skip(string? reason) => new SkipDecision(true)
     {
-        Reason = reason
+        Reason = reason,
     };
-    
+
     public static implicit operator SkipDecision(bool shouldSkip) => shouldSkip ? Skip(null) : DoNotSkip;
-    
+
     public static implicit operator SkipDecision(string reason) => Skip(reason);
 }

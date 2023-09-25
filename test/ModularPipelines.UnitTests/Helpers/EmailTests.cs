@@ -21,11 +21,11 @@ public class EmailTests : TestBase
         {
             Assert.Ignore();
         }
-        
+
         var response = await email.SendAsync(
             new EmailSendOptions(
                 From: EmailAddress,
-                To: new[] {EmailAddress},
+                To: new[] { EmailAddress },
                 Subject: "Email Test",
                 Body: new TextPart { Text = "This is an email test." },
                 SmtpServerHost: "smtp-relay.brevo.com"
@@ -36,10 +36,10 @@ public class EmailTests : TestBase
                 SecureSocketOptions = SecureSocketOptions.StartTls,
                 ClientConfigurator = client =>
                 {
-                }
+                },
             }
         );
-        
+
         Assert.That(response, Does.Contain("queued"));
     }
 }

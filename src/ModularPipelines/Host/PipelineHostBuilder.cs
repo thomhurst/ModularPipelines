@@ -18,7 +18,7 @@ public class PipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
     private readonly PipelineEnginePlugins _plugins;
-    
+
     public PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
@@ -49,8 +49,9 @@ public class PipelineHostBuilder
 
         return this;
     }
-    
-    public PipelineHostBuilder AddModule<TModule>() where TModule : ModuleBase
+
+    public PipelineHostBuilder AddModule<TModule>()
+        where TModule : ModuleBase
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
@@ -60,7 +61,8 @@ public class PipelineHostBuilder
         return this;
     }
 
-    public PipelineHostBuilder AddRequirement<TRequirement>() where TRequirement : class, IPipelineRequirement
+    public PipelineHostBuilder AddRequirement<TRequirement>()
+        where TRequirement : class, IPipelineRequirement
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
@@ -70,7 +72,8 @@ public class PipelineHostBuilder
         return this;
     }
 
-    public PipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>() where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
+    public PipelineHostBuilder RegisterEstimatedTimeProvider<TEstimatedTimeProvider>()
+        where TEstimatedTimeProvider : class, IModuleEstimatedTimeProvider
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
@@ -91,20 +94,20 @@ public class PipelineHostBuilder
         return ConfigurePipelineOptions((_, options) =>
         {
             options.RunOnlyCategories ??= new List<string>();
-            
+
             foreach (var category in categories)
             {
                 options.RunOnlyCategories.Add(category);
             }
         });
     }
-    
+
     public PipelineHostBuilder IgnoreCategories(params string[] categories)
     {
         return ConfigurePipelineOptions((_, options) =>
         {
             options.IgnoreCategories ??= new List<string>();
-            
+
             foreach (var category in categories)
             {
                 options.IgnoreCategories.Add(category);
@@ -135,7 +138,7 @@ public class PipelineHostBuilder
 
         await host.RootServices.InitializeAsync();
         await host.RootServices.GetRequiredService<IServiceProviderInitializer>().InitializeAsync();
-        
+
         return host;
     }
 

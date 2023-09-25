@@ -7,6 +7,7 @@ public class DisposerTests
     private class MyClass : IDisposable, IAsyncDisposable
     {
         public bool DisposedAsync { get; private set; }
+
         public bool Disposed { get; private set; }
 
         public void Dispose()
@@ -25,15 +26,15 @@ public class DisposerTests
     public async Task Disposer_Calls_Sync_And_Async()
     {
         var myClass = new MyClass();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(myClass.Disposed, Is.False);
             Assert.That(myClass.DisposedAsync, Is.False);
         });
-        
+
         await Disposer.DisposeObjectAsync(myClass);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(myClass.Disposed, Is.True);

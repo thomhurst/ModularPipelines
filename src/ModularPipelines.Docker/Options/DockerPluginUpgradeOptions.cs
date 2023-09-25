@@ -9,6 +9,7 @@ public record DockerPluginUpgradeOptions([property: PositionalArgument(Position 
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Remote { get; set; }
+
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 

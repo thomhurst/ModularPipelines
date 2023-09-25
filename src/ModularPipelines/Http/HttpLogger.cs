@@ -6,7 +6,7 @@ namespace ModularPipelines.Http;
 
 public static class HttpLogger
 {
-     public static async Task PrintRequest(HttpRequestMessage request, ILogger logger)
+    public static async Task PrintRequest(HttpRequestMessage request, ILogger logger)
     {
         var sb = new StringBuilder();
 
@@ -27,7 +27,7 @@ public static class HttpLogger
     {
         var sb = new StringBuilder();
 
-        var statusCode = (int) response.StatusCode;
+        var statusCode = (int)response.StatusCode;
 
         sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
 

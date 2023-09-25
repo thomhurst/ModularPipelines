@@ -3,13 +3,12 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-// ReSharper disable HeuristicUnreachableCode
-#pragma warning disable CS0162
 
 namespace ModularPipelines.Build.Modules;
 
 public class NugetVersionGeneratorModule : Module<string>
 {
+    /// <inheritdoc/>
     protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
@@ -19,15 +18,16 @@ public class NugetVersionGeneratorModule : Module<string>
         if (gitVersionInformation.BranchName == "main")
         {
             gitVersionInformation.SemVer.Should().NotBeNullOrWhiteSpace();
-            
+
             return gitVersionInformation.SemVer!;
         }
 
         gitVersionInformation.Major.Should().BePositive();
-        
+
         return $"{gitVersionInformation.Major}.{gitVersionInformation.Minor}.{gitVersionInformation.Patch}-{gitVersionInformation.PreReleaseLabel}-{gitVersionInformation.CommitsSinceVersionSource}";
     }
 
+    /// <inheritdoc/>
     protected override async Task OnAfterExecute(IPipelineContext context)
     {
         var moduleResult = await this;

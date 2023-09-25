@@ -3,5 +3,5 @@
 public enum Position
 {
     BeforeSwitches,
-    AfterSwitches
+    AfterSwitches,
 }

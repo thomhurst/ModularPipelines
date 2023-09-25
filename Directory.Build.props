@@ -1,13 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
-        <TargetFrameworks Condition="'$(TargetFramework)' == '' and '$(TargetFrameworks)' == ''">net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net6.0;net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        
     </PropertyGroup>
     
     <PropertyGroup>
@@ -23,11 +20,18 @@
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
     
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory).ruleset</CodeAnalysisRuleSet>
+        <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    </PropertyGroup>
+    
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
     </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false"/>
     </ItemGroup>
 </Project>

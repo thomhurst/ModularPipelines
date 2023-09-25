@@ -22,7 +22,7 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
-        
+
         PipelineSummary pipelineSummary;
         try
         {
@@ -39,9 +39,9 @@ internal class PipelineExecutor : IPipelineExecutor
             await WaitForAlwaysRunModules(runnableModules);
 
             var end = DateTimeOffset.UtcNow;
-            
+
             pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-            
+
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }
 

@@ -6,26 +6,26 @@ namespace ModularPipelines.Ftp;
 
 internal class Ftp : IAsyncDisposable, IFtp
 {
-	private readonly List<AsyncFtpClient> _clients = new();
-	
-	public async Task<AsyncFtpClient> GetFtpClientAsync(FtpOptions options)
-	{
-		var client = new AsyncFtpClient(options.Host, options.Credentials);
+    private readonly List<AsyncFtpClient> _clients = new();
 
-		options.ClientConfigurator?.Invoke(client);
-		
-		await client.AutoConnect();
-		
-		_clients.Add(client);
+    public async Task<AsyncFtpClient> GetFtpClientAsync(FtpOptions options)
+    {
+        var client = new AsyncFtpClient(options.Host, options.Credentials);
 
-		return client;
-	}
+        options.ClientConfigurator?.Invoke(client);
 
-	public async ValueTask DisposeAsync()
-	{
-		foreach (var asyncFtpClient in _clients)
-		{
-			await Disposer.DisposeObjectAsync(asyncFtpClient);
-		}
-	}
+        await client.AutoConnect();
+
+        _clients.Add(client);
+
+        return client;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        foreach (var asyncFtpClient in _clients)
+        {
+            await Disposer.DisposeObjectAsync(asyncFtpClient);
+        }
+    }
 }

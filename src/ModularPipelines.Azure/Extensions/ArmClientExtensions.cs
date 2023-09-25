@@ -28,6 +28,7 @@ public static class ArmClientExtensions
 
                     throw new Exception($"Unknown Resource: {azureResourceIdentifier}");
                 }
+
             case AzureResourceGroupIdentifier azureResourceGroupIdentifier:
                 return azureResourceGroupIdentifier.ToResourceGroupIdentifier();
             case AzureSubscriptionIdentifier azureSubscriptionIdentifier:

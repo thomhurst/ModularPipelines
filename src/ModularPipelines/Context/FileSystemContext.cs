@@ -22,7 +22,9 @@ internal class FileSystemContext : IFileSystemContext
     public bool FolderExists(Folder folder) => folder.Exists;
 
     public FileAttributes GetFileAttributes(File file) => file.Attributes;
+
     public void SetFileAttributes(File file, FileAttributes attributes) => file.Attributes = attributes;
+
     public FileAttributes GetFolderAttributes(Folder folder) => folder.Attributes;
 
     public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;

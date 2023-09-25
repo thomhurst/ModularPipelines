@@ -14,13 +14,13 @@ internal class GitCommitMapper : IGitCommitMapper
             {
                 Name = lines[0],
                 Email = lines[1],
-                Date = DateTime.Parse(lines[2])
+                Date = DateTime.Parse(lines[2]),
             },
             Committer = new GitAuthor
             {
                 Name = lines[3],
                 Email = lines[4],
-                Date = DateTime.Parse(lines[5])
+                Date = DateTime.Parse(lines[5]),
             },
             Hash = new GitHash
             {
@@ -30,8 +30,8 @@ internal class GitCommitMapper : IGitCommitMapper
             Message = new GitMessage
             {
                 Subject = lines[8],
-                Body = lines[9]
-            }
+                Body = lines[9],
+            },
         };
     }
 }

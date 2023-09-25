@@ -8,6 +8,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class GitLastCommitModule : Module<GitCommit?>
 {
+    /// <inheritdoc/>
     protected override async Task<GitCommit?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
@@ -15,7 +16,7 @@ public class GitLastCommitModule : Module<GitCommit?>
         context.Logger.LogInformation("Getting Last Git Commit");
 
         var lastCommit = context.Git().Information.PreviousCommit;
-        
+
         return lastCommit;
     }
 }

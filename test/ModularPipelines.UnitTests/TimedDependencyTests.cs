@@ -25,10 +25,10 @@ public class TimedDependencyTests
             // 5 + 1
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900)));
             Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900)));
-            
+
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime, Is.GreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900)));
             Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd, Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900)));
-            
+
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime, Is.GreaterThanOrEqualTo(fiveSecondModule.EndTime));
             Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart, Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleEnd));
         });

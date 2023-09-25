@@ -10,14 +10,14 @@ internal class Zip : IZip
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
         Directory.CreateDirectory(outputPath.GetDirectory()!);
-        
+
         if (outputPath.GetPathType() == PathType.Directory)
         {
             outputPath = Path.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
         }
-        
+
         ZipFile.CreateFromDirectory(folder.Path, outputPath, compressionLevel, false);
-        
+
         return new File(outputPath);
     }
 
@@ -26,7 +26,7 @@ internal class Zip : IZip
         Directory.CreateDirectory(outputFolderPath);
 
         ZipFile.ExtractToDirectory(zipPath, outputFolderPath, true);
-        
+
         return new Folder(outputFolderPath);
     }
 }

@@ -10,8 +10,10 @@ public record AptGetInstallOptions : AptGetOptions
     {
         Package = package;
     }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string CommandName { get; } = "install";
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string Package { get; }
 }

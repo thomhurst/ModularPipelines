@@ -25,6 +25,7 @@ internal class GitInformation : IGitInformation
     public Folder Root => _staticGitInformation.Root;
 
     public string? BranchName => _staticGitInformation.BranchName;
+
     public string? DefaultBranchName => _staticGitInformation.DefaultBranchName;
 
     public string? Tag => _staticGitInformation.Tag;
@@ -32,6 +33,7 @@ internal class GitInformation : IGitInformation
     public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
 
     public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
+
     public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
 
     public string? LastCommitSha => _staticGitInformation.LastCommitSha;

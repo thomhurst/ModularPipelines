@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Models;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.DotNet;
 
@@ -18,8 +18,8 @@ internal class DotNet : IDotNet
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly ITrxParser _trxParser;
 
-    public DotNet(ITrxParser trxParser, 
-        ICommand command, 
+    public DotNet(ITrxParser trxParser,
+        ICommand command,
         IFileSystemContext fileSystemContext,
         IModuleLoggerProvider moduleLoggerProvider)
     {

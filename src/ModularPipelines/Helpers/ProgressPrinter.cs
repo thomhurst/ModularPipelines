@@ -18,14 +18,14 @@ internal class ProgressPrinter : IProgressPrinter
     {
         _options = options;
     }
-    
+
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
         if (!_options.Value.ShowProgressInConsole || !AnsiConsole.Profile.Capabilities.Interactive)
         {
             return Task.CompletedTask;
         }
-        
+
         return AnsiConsole.Progress()
             .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>
@@ -65,18 +65,18 @@ internal class ProgressPrinter : IProgressPrinter
     public void PrintResults(PipelineSummary pipelineSummary)
     {
         var table = new Table();
-        
+
         table.AddColumn("Module");
         table.AddColumn("Duration");
         table.AddColumn("Status");
         table.AddColumn("Start");
         table.AddColumn("End");
-        table.AddColumn("");
+        table.AddColumn(string.Empty);
 
         foreach (var module in pipelineSummary.Modules)
         {
             var isSameDay = module.StartTime.Date == module.EndTime.Date;
-            
+
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]",
                 module.Duration.ToDisplayString(),
@@ -89,7 +89,7 @@ internal class ProgressPrinter : IProgressPrinter
         table.AddEmptyRow();
 
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
-        
+
         table.AddRow(
             "Total",
             pipelineSummary.TotalDuration.ToDisplayString(),
@@ -97,7 +97,7 @@ internal class ProgressPrinter : IProgressPrinter
             GetTime(pipelineSummary.Start, isSameDayTotal),
             GetTime(pipelineSummary.End, isSameDayTotal),
             string.Empty);
-        
+
         AnsiConsole.WriteLine();
         AnsiConsole.Write(table);
         AnsiConsole.WriteLine();
@@ -108,11 +108,11 @@ internal class ProgressPrinter : IProgressPrinter
     {
         if (dateTimeOffset == DateTimeOffset.MinValue)
         {
-            return String.Empty;
+            return string.Empty;
         }
-        
-        return isSameDay 
-            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt") 
+
+        return isSameDay
+            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 
@@ -122,7 +122,7 @@ internal class ProgressPrinter : IProgressPrinter
         {
             return $"[yellow]{module.SkipResult.Reason}[/]";
         }
-        
+
         if (module.Exception != null)
         {
             return $"[red]{module.Exception?.GetType().Name}[/]";
@@ -140,7 +140,7 @@ internal class ProgressPrinter : IProgressPrinter
 
             var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}", new ProgressTaskSettings
             {
-                AutoStart = false
+                AutoStart = false,
             });
 
             // Callback for Module has started
@@ -160,10 +160,10 @@ internal class ProgressPrinter : IProgressPrinter
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
-            
+
             SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
             SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
-            
+
             RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
         }
     }
@@ -208,7 +208,7 @@ internal class ProgressPrinter : IProgressPrinter
                 totalTask.Increment(100.0 / modulesToProcess.Count);
             }
         }, cancellationToken);
-        
+
         string GetColour()
         {
             return moduleToProcess.Module.Status == Status.Successful ? "[green]" : "[orange3]";
@@ -223,7 +223,7 @@ internal class ProgressPrinter : IProgressPrinter
 
             var progressTask = progressContext.AddTask($"   > {subModule.Name}", new ProgressTaskSettings
             {
-                AutoStart = true
+                AutoStart = true,
             });
 
             Task.Run(async () =>
@@ -231,7 +231,7 @@ internal class ProgressPrinter : IProgressPrinter
                 var subModuleEstimation =
                     moduleToProcess.SubModuleEstimations.FirstOrDefault(x => x.SubModuleName == subModule.Name)
                         ?.EstimatedDuration ?? TimeSpan.FromMinutes(2);
-                
+
                 var estimatedDuration = subModuleEstimation * 1.1; // Give 10% headroom
 
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
@@ -239,14 +239,14 @@ internal class ProgressPrinter : IProgressPrinter
                 var ticksPerSecond = 100 / totalEstimatedSeconds;
 
                 progressTask.Description = subModule.Name;
-                
+
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
-            
+
             // Callback for Module has finished
             subModule.Task.ContinueWith(t =>
             {

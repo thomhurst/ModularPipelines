@@ -18,10 +18,10 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        
+
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
-    
+
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Receiving_Time_Then_Still_No_Error()
     {
@@ -31,10 +31,10 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        
+
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
-    
+
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Saving_Time_Then_Still_No_Error()
     {
@@ -44,7 +44,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        
+
         Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
     }
 
@@ -55,7 +55,7 @@ public class SafeEstimatedTimeProviderTests
             return await new Dictionary<string, object>().AsTask();
         }
     }
-    
+
     private class SuccessfulTimeProvider : IModuleEstimatedTimeProvider
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
@@ -78,7 +78,7 @@ public class SafeEstimatedTimeProviderTests
             return Task.CompletedTask;
         }
     }
-    
+
     private class FailingTimeProvider : IModuleEstimatedTimeProvider
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
@@ -101,7 +101,7 @@ public class SafeEstimatedTimeProviderTests
             throw new Exception();
         }
     }
-    
+
     private class FailingTimeProvider2 : IModuleEstimatedTimeProvider
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)

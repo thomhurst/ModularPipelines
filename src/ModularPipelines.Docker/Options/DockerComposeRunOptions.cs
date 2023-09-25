@@ -12,6 +12,7 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
 
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Args { get; set; }
+
     [BooleanCommandSwitch("--build")]
     public bool? Build { get; set; }
 

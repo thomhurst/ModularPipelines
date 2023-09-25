@@ -25,7 +25,7 @@ internal class Hex : IHex
 
     public string FromHex(string hexInput, Encoding encoding)
     {
-        hexInput = hexInput.Replace("-", "");
+        hexInput = hexInput.Replace("-", string.Empty);
 
         var raw = new byte[hexInput.Length / 2];
 

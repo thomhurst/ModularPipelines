@@ -28,7 +28,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesModule>();
 
         var results = await module;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));

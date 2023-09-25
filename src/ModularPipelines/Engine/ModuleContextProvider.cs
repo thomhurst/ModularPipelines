@@ -12,13 +12,13 @@ internal class ModuleContextProvider : IPipelineContextProvider
     {
         _serviceProvider = serviceProvider;
     }
-    
+
     public async Task<IPipelineContext> GetModuleContext()
     {
         var serviceScope = _serviceProvider.CreateAsyncScope();
 
         await serviceScope.ServiceProvider.InitializeAsync();
-        
+
         return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
     }
 }

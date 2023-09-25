@@ -32,7 +32,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource2 = @"
 #nullable enable
 using System;
@@ -59,7 +59,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource3 = @"
 #nullable enable
 using System;
@@ -86,7 +86,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource4 = @"
 #nullable enable
 using System;
@@ -113,7 +113,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource5 = @"
 #nullable enable
 using System;
@@ -140,7 +140,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource6 = @"
 #nullable enable
 using System;
@@ -167,7 +167,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console()
     {
@@ -175,7 +175,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console2()
     {
@@ -183,7 +183,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource2, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console3()
     {
@@ -191,7 +191,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource3, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console4()
     {
@@ -199,7 +199,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource4, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console5()
     {
@@ -207,12 +207,12 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource5, expected);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console6()
     {
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
-        
+
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource6, expected);
     }
 }

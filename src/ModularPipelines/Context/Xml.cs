@@ -18,7 +18,8 @@ internal class Xml : IXml
         return document.ToString();
     }
 
-    public T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace) where T : class
+    public T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace)
+        where T : class
     {
         var document = XDocument.Parse(input, options);
 
@@ -30,7 +31,8 @@ internal class Xml : IXml
         return FromXml<T>(document.Root, options);
     }
 
-    public T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace) where T : class
+    public T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace)
+        where T : class
     {
         using var reader = element.CreateReader();
 

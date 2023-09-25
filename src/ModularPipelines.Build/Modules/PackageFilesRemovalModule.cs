@@ -6,6 +6,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class PackageFilesRemovalModule : Module
 {
+    /// <inheritdoc/>
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var packageFiles = context.Git()

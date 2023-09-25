@@ -23,11 +23,11 @@ public class PredefinedInstallers : IPredefinedInstallers
     private readonly IZip _zip;
     private readonly IEnvironmentVariables _environmentVariables;
 
-    public PredefinedInstallers(ICommand command, 
-        IEnvironmentContext environmentContext, 
-        IDownloader downloader, 
-        IMacInstaller macInstaller, 
-        IWindowsInstaller windowsInstaller, 
+    public PredefinedInstallers(ICommand command,
+        IEnvironmentContext environmentContext,
+        IDownloader downloader,
+        IMacInstaller macInstaller,
+        IWindowsInstaller windowsInstaller,
         ILinuxInstaller linuxInstaller,
         IBash bash,
         IZip zip,
@@ -44,6 +44,7 @@ public class PredefinedInstallers : IPredefinedInstallers
         _environmentVariables = environmentVariables;
     }
 
+    /// <inheritdoc/>
     public async Task<CommandResult> Chocolatey()
     {
         return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("cmd")
@@ -60,11 +61,12 @@ public class PredefinedInstallers : IPredefinedInstallers
                 "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))",
                 "&&",
                 "SET",
-                "PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin"
-            }
+                "PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin",
+            },
         });
     }
 
+    /// <inheritdoc/>
     public async Task<CommandResult> Powershell7()
     {
         var operatingSystem = _environmentContext.OperatingSystem;
@@ -88,6 +90,7 @@ public class PredefinedInstallers : IPredefinedInstallers
         return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile));
     }
 
+    /// <inheritdoc/>
     public async Task<File?> Nvm(string? version = null)
     {
         if (OperatingSystem.IsWindows())
@@ -103,14 +106,14 @@ public class PredefinedInstallers : IPredefinedInstallers
                                                                arch: 64
                                                                proxy: none
                                                                """);
-            
+
             var symLinkFolder = newFolder.CreateFolder("nvm_symlink").GetFolder(Guid.NewGuid().ToString("N"));
 
             _environmentVariables.SetEnvironmentVariable("NVM_HOME", newFolder);
             _environmentVariables.SetEnvironmentVariable("NVM_SYMLINK", symLinkFolder);
             _environmentVariables.AddToPath(newFolder);
             _environmentVariables.AddToPath(symLinkFolder);
-            
+
             return newFolder.FindFile(x => x.Name == "nvm.exe");
         }
 
@@ -118,15 +121,16 @@ public class PredefinedInstallers : IPredefinedInstallers
             new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh")));
 
         await _bash.FromFile(new BashFileOptions(bashScript));
-        
+
         await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\""));
         await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\""));
         await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""));
         await _bash.Command(new BashCommandOptions("source ~/.bashrc"));
-        
+
         return new File("/home/runner/.nvm");
     }
 
+    /// <inheritdoc/>
     public async Task<CommandResult> Node(string version = "--lts")
     {
         await Nvm();
@@ -135,10 +139,10 @@ public class PredefinedInstallers : IPredefinedInstallers
         {
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
             {
-                Arguments = new[] {"install", version}
+                Arguments = new[] { "install", version },
             });
         }
-        
+
         return await _bash.Command(new BashCommandOptions($"nvm install {version}"));
     }
 }

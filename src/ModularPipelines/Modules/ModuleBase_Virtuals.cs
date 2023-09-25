@@ -39,7 +39,7 @@ public partial class ModuleBase
     protected virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
-    
+
     [ModuleMethodMarker]
     protected virtual Task OnBeforeExecute(IPipelineContext context)
     {

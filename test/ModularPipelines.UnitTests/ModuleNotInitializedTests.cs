@@ -23,7 +23,7 @@ public class ModuleNotInitializedTests : TestBase
         {
             _module1 = GetModule<Module1>();
         }
-        
+
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();

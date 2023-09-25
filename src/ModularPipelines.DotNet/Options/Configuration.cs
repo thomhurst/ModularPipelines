@@ -8,5 +8,5 @@ public enum Configuration
     Debug,
 
     [EnumValue("Release")]
-    Release
+    Release,
 }

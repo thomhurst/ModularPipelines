@@ -31,10 +31,10 @@ internal class EnvironmentContext : IEnvironmentContext
 
     public Folder WorkingDirectory { get; set; } = Environment.CurrentDirectory!;
 
+    public IEnvironmentVariables EnvironmentVariables { get; }
+
     public Folder? GetFolder(Environment.SpecialFolder specialFolder)
     {
         return Environment.GetFolderPath(specialFolder);
     }
-
-    public IEnvironmentVariables EnvironmentVariables { get; }
 }

@@ -4,12 +4,12 @@ internal static class PathHelpers
 {
     public static PathType GetPathType(this string path)
     {
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             return PathType.File;
         }
 
-        if(Directory.Exists(path))
+        if (Directory.Exists(path))
         {
             return PathType.Directory;
         }

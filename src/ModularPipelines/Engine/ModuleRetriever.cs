@@ -33,7 +33,7 @@ internal class ModuleRetriever : IModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
-        
+
         await _modules
             .ToAsyncProcessorBuilder()
             .ForEachAsync(m => _moduleInitializer.Initialize(m))
@@ -53,7 +53,7 @@ internal class ModuleRetriever : IModuleRetriever
                 var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
 
                 var subModules = await _estimatedTimeProvider.GetSubModuleEstimatedTimesAsync(module.GetType());
-                
+
                 return new RunnableModule(module, estimatedTime, subModules.ToImmutableList());
             })
             .ProcessInParallel(100, TimeSpan.FromSeconds(1));

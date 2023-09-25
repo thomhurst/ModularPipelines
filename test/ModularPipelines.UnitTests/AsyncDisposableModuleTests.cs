@@ -19,12 +19,14 @@ public class AsyncDisposableModuleTests
     {
         public bool IsDisposed { get; private set; }
 
+        /// <inheritdoc/>
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(100, cancellationToken);
             return null;
         }
 
+        /// <inheritdoc/>
         public async ValueTask DisposeAsync()
         {
             await Task.Delay(100);

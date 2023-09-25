@@ -9,5 +9,6 @@ public interface IEnvironmentVariables
     void SetEnvironmentVariable(string variableName, string value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+
     void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 }

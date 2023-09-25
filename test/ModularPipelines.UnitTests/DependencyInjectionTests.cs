@@ -12,7 +12,7 @@ public class DependencyInjectionTests
     public async Task AllDependenciesCanBeBuilt()
     {
         var host = await TestPipelineHostBuilder.Create().BuildHostAsync();
-        
+
         var services = host.Services;
 
         var collection = services.GetRequiredService<IPipelineServiceContainerWrapper>().ServiceCollection;
@@ -30,13 +30,13 @@ public class DependencyInjectionTests
             .AddSingleton(Mock.Of<IHost>())
             .AddSingleton(Mock.Of<IHostEnvironment>())
             .AddSingleton(Mock.Of<IConfiguration>());
-        
+
         DependencyInjectionSetup.Initialize(serviceCollection);
 
         serviceCollection.BuildServiceProvider(new ServiceProviderOptions
         {
             ValidateScopes = true,
-            ValidateOnBuild = true
+            ValidateOnBuild = true,
         });
     }
 }

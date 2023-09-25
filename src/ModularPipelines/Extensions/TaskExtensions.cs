@@ -2,6 +2,17 @@
 
 public static class TaskExtensions
 {
+    public static Task<T> AsTask<T>(this T t)
+    {
+        return Task.FromResult(t);
+    }
+
+    public static Task<TType> AsTask<TType, T>(this T t)
+        where T : TType
+    {
+        return Task.FromResult<TType>(t);
+    }
+
     internal static async Task<TResult[]> WhenAllFailFast<TResult>(this ICollection<Task<TResult>> tasks)
     {
         var originalTasks = tasks.ToList();
@@ -19,15 +30,5 @@ public static class TaskExtensions
         }
 
         return await Task.WhenAll(originalTasks);
-    }
-
-    public static Task<T> AsTask<T>(this T t)
-    {
-        return Task.FromResult(t);
-    }
-    
-    public static Task<TType> AsTask<TType, T>(this T t) where T : TType
-    {
-        return Task.FromResult<TType>(t);
     }
 }

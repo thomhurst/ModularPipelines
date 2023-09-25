@@ -15,4 +15,4 @@ public record AzureResourceIdentifier
             resourceIdentifier.ResourceGroupName!,
             resourceIdentifier.Name
         );
-};
+}

@@ -1,0 +1,17 @@
+{
+  "settings": {
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "omit"
+    },
+    "documentationRules": {
+      "companyName": "Tom Longhurst",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nLicensed under the {licenseName} license. See {licenseFile} file in the project root for full license information.",
+      "variables": {
+        "licenseName": "MIT",
+        "licenseFile": "License.txt"
+      },
+      "documentInternalElements": false,
+      "documentationCulture": "en-GB"
+    }
+  }
+}

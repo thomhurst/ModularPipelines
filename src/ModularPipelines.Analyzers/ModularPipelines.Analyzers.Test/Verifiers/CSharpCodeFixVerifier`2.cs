@@ -61,7 +61,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
             TestState =
             {
                 AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },
-            }
+            },
         };
 
         test.ExpectedDiagnostics.AddRange(expected);

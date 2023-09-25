@@ -55,7 +55,7 @@ internal class Downloader : IDownloader
 
         var response = await _http.SendAsync(new HttpOptions(request)
         {
-            LoggingType = options.LoggingType
+            LoggingType = options.LoggingType,
         }, cancellationToken);
 
         return response.EnsureSuccessStatusCode();

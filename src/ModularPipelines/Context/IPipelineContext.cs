@@ -12,35 +12,60 @@ namespace ModularPipelines.Context;
 public interface IPipelineContext
 {
     internal EngineCancellationToken EngineCancellationToken { get; }
-    internal TModule? GetModule<TModule>() where TModule : ModuleBase;
+
+    internal TModule? GetModule<TModule>()
+        where TModule : ModuleBase;
+
     internal ModuleBase? GetModule(Type type);
+
     public IServiceProvider ServiceProvider { get; }
+
     public IConfiguration Configuration { get; }
+
     public IOptions<PipelineOptions> PipelineOptions { get; }
+
     internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
+
     internal IModuleResultRepository ModuleResultRepository { get; }
+
     internal void FetchLogger(Type getType);
+
     public T? Get<T>();
+
     public ILogger Logger { get; }
 
     #region OutOfTheBoxHelpers
 
     public IEnvironmentContext Environment { get; }
+
     public IFileSystemContext FileSystem { get; }
+
     public ICommand Command { get; }
+
     public IInstaller Installer { get; }
+
     public IZip Zip { get; }
+
     public IHex Hex { get; }
+
     public IBase64 Base64 { get; }
+
     public IHasher Hasher { get; }
+
     public IJson Json { get; }
+
     public IXml Xml { get; }
+
     public IPowershell Powershell { get; }
+
     public IBash Bash { get; }
+
     public IBuildSystemDetector BuildSystemDetector { get; }
+
     public IHttp Http { get; }
+
     public IDownloader Downloader { get; }
-        
+
     /// <summary>
     /// Used for checking the Checksum of a file
     /// </summary>

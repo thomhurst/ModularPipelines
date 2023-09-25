@@ -9,6 +9,7 @@ public record DockerPushOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
+
     [BooleanCommandSwitch("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 

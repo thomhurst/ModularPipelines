@@ -9,6 +9,7 @@ public record DockerComposeExecOptions([property: PositionalArgument(Position = 
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Args { get; set; }
+
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 

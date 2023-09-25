@@ -8,6 +8,7 @@ namespace ModularPipelines.Examples.Modules;
 [DependsOn<SuccessModule>]
 public class DependentOnSuccessModule : Module
 {
+    /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Some message");

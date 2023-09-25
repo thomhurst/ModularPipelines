@@ -11,5 +11,6 @@ public record TerraformWorkspaceSelectOptions([property: PositionalArgument(Posi
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Directory { get; set; }
 
-    [BooleanCommandSwitch("-or-create")] public bool? OrCreate { get; set; }
+    [BooleanCommandSwitch("-or-create")]
+    public bool? OrCreate { get; set; }
 }

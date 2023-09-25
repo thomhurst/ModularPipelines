@@ -20,7 +20,7 @@ public record CommandLineOptions
 
     /// <inheritdoc cref="CommandLineCredentials"/>>
     public Credentials? CommandLineCredentials { get; init; }
-    
+
     /// <summary>
     /// Controls command logging
     /// e.g. Logging = CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
@@ -43,7 +43,8 @@ public record CommandLineOptions
     /// Prefix commands with Sudo to run with elevated priveliges for Unix systems
     /// </summary>
     public bool Sudo { get; set; }
-    
+
     internal bool InternalDryRun { get; set; }
+
     public bool ThrowOnNonZeroExitCode { get; set; } = true;
 }

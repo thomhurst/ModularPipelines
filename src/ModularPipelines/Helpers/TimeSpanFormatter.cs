@@ -8,12 +8,12 @@ internal static class TimeSpanFormatter
         {
             return Milliseconds(timeSpan);
         }
-        
+
         if (timeSpan.TotalMinutes < 1)
         {
             return $"{Seconds(timeSpan)} & {Milliseconds(timeSpan)}";
         }
-        
+
         if (timeSpan.TotalHours < 1)
         {
             return $"{Minutes(timeSpan)} & {Seconds(timeSpan)}";
@@ -26,17 +26,17 @@ internal static class TimeSpanFormatter
     {
         return timeSpan.Milliseconds.ToString("0") + "ms";
     }
-    
+
     private static string Seconds(TimeSpan timeSpan)
     {
         return timeSpan.Seconds.ToString("0") + "s";
     }
-    
+
     private static string Minutes(TimeSpan timeSpan)
     {
         return timeSpan.Minutes.ToString("0") + "m";
     }
-    
+
     private static string Hours(TimeSpan timeSpan)
     {
         return timeSpan.Hours.ToString("0") + "h";

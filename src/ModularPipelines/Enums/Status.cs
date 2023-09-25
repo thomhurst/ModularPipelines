@@ -11,5 +11,5 @@ public enum Status
     PipelineTerminated,
     TimedOut,
     Skipped,
-    Unknown
+    Unknown,
 }

@@ -15,7 +15,7 @@ public class ModuleReferencingSelfTests : TestBase
             return null;
         }
     }
-    
+
     [Test]
     public void Throws_Exception()
     {

@@ -10,6 +10,9 @@ public class Azure : IAzure
         KeyVault = keyVault;
     }
 
+    /// <inheritdoc/>
     public IAzureProvisioner Provisioner { get; }
+
+    /// <inheritdoc/>
     public IAzureKeyVault KeyVault { get; }
 }

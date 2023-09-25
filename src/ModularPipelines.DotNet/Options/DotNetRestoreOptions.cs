@@ -7,7 +7,8 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetRestoreOptions : DotNetOptions
 {
-    [CommandSwitch("-c")] public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    [CommandSwitch("-c")]
+    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
 
     [CommandSwitch("-f")]
     public string? Framework { get; init; }

@@ -18,6 +18,7 @@ public interface IEnvironmentContext
     /// The current operating system
     /// </summary>
     public OperatingSystemIdentifier OperatingSystem { get; }
+
     public Version OperatingSystemVersion { get; }
 
     /// <summary>

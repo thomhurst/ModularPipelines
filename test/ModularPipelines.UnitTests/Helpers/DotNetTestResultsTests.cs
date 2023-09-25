@@ -21,29 +21,29 @@ public class DotNetTestResultsTests : TestBase
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
-            
+
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = testProject,
                 Framework = "net7.0",
-                CommandLogging = CommandLogging.Error
+                CommandLogging = CommandLogging.Error,
             }, cancellationToken: cancellationToken);
         }
     }
-    
+
     private class DotNetTestWithoutFailureModule : Module<DotNetTestResult>
     {
         protected override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
-            
+
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = testProject,
                 Filter = "TestCategory=Pass",
                 Framework = "net7.0",
-                CommandLogging = CommandLogging.Error
+                CommandLogging = CommandLogging.Error,
             }, cancellationToken: cancellationToken);
         }
     }
@@ -54,9 +54,9 @@ public class DotNetTestResultsTests : TestBase
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
 
         var exception = moduleFailedException.InnerException as DotNetTestFailedException;
-        
+
         var unitTestResults = exception?.DotNetTestResult?.UnitTestResults;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(exception, Is.Not.Null, () => $"Exception is null: {exception}");
@@ -68,7 +68,7 @@ public class DotNetTestResultsTests : TestBase
             Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Passed).ToList(), Has.Count.EqualTo(2));
         });
     }
-    
+
     [Test]
     public async Task Has_Not_Errored()
     {
@@ -77,7 +77,7 @@ public class DotNetTestResultsTests : TestBase
         var result = await module;
 
         var unitTestResults = result.Value!.UnitTestResults;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(result.ModuleResultType, Is.EqualTo(ModuleResultType.Success));

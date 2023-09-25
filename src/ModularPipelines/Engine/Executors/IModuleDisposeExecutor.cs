@@ -6,6 +6,7 @@ namespace ModularPipelines.Engine.Executors;
 
 internal interface IModuleDisposeExecutor
 {
-    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate);
 }

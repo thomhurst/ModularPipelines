@@ -22,9 +22,9 @@ internal class MicrosoftTeamsCardWrapper
                 new Attachment
                 {
                     ContentType = "application/vnd.microsoft.card.adaptive",
-                    Content = adaptiveCard
-                }
-            }
+                    Content = adaptiveCard,
+                },
+            },
         };
     }
 }

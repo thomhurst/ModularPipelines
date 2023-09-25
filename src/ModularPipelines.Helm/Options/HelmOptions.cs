@@ -51,4 +51,4 @@ public record HelmOptions() : CommandLineToolOptions("helm")
 
     [CommandEqualsSeparatorSwitch("--repository-config")]
     public string? RepositoryConfig { get; set; }
-};
+}

@@ -14,7 +14,7 @@ public class ReturnNothingTests : TestBase
             return null;
         }
     }
-    
+
     private class ReturnNothingModule2 : Module<CommandResult>
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ public class ReturnNothingTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class ReturnNothingModule3 : Module<CommandResult>
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -31,34 +31,34 @@ public class ReturnNothingTests : TestBase
             return default;
         }
     }
-    
+
     [Test]
     public async Task Module1_HasValue_False()
     {
         var module = await RunModule<ReturnNothingModule1>();
 
         var result = await module;
-        
+
         Assert(result);
     }
-    
+
     [Test]
     public async Task Module2_HasValue_False()
     {
         var module = await RunModule<ReturnNothingModule2>();
 
         var result = await module;
-        
+
         Assert(result);
     }
-    
+
     [Test]
     public async Task Module3_HasValue_False()
     {
         var module = await RunModule<ReturnNothingModule3>();
 
         var result = await module;
-        
+
         Assert(result);
     }
 

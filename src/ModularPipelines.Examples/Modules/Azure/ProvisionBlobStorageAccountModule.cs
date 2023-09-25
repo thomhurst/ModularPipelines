@@ -10,13 +10,14 @@ namespace ModularPipelines.Examples.Modules.Azure;
 
 public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
+    /// <inheritdoc/>
     protected override async Task<StorageAccountResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
             new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
         );
-        
+
         return blobStorageAccountProvisionResponse.Value;
     }
 }

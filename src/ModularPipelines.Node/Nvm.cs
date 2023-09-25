@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Models;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Node;
@@ -19,7 +19,7 @@ internal class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "use", version }
+            Arguments = new[] { "use", version },
         }, cancellationToken);
     }
 }

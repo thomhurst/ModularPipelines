@@ -26,11 +26,11 @@ public class DockerTests : TestBase
                 {
                     ["Arg1"] = "Value1",
                     ["Arg2"] = "Value2",
-                    ["Arg3"] = "Value3"
+                    ["Arg3"] = "Value3",
                 },
                 Tag = "mytaggedimage",
                 Output = "type=local,dest=out",
-                Target = "build-env"
+                Target = "build-env",
             }, token: cancellationToken);
         }
     }

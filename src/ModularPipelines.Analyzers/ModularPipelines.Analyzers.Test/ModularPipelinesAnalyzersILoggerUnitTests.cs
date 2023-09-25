@@ -34,7 +34,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSourceILoggerProvider = @"
 #nullable enable
 using System;
@@ -63,7 +63,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSourceILoggerFactory = @"
 #nullable enable
 using System;
@@ -92,7 +92,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSourceILoggerGeneric = @"
 #nullable enable
 using System;
@@ -121,7 +121,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string GoodModuleSource = @"
 #nullable enable
 using System;
@@ -146,7 +146,7 @@ public class Module1 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string GoodModuleSource2 = @"
 #nullable enable
 using System;
@@ -184,6 +184,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSourceILogger, expected);
     }
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_ILoggerGeneric_In_Constructor()
     {
@@ -191,6 +192,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSourceILoggerGeneric, expected);
     }
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_ILoggerFactory_In_Constructor()
     {
@@ -198,6 +200,7 @@ public class Module1 : Module<List<string>>
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSourceILoggerFactory, expected);
     }
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_ILoggerProvider_In_Constructor()
     {
@@ -211,7 +214,7 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_No_Logger_In_Constructor2()
     {

@@ -6,5 +6,5 @@ public enum OperatingSystemIdentifier
     Linux,
     MacOS,
     FreeBSD,
-    Unknown
+    Unknown,
 }

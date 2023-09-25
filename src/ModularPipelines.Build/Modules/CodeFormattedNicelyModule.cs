@@ -11,31 +11,34 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[SkipIfDependabot, SkipOnMainBranch]
+[SkipIfDependabot]
+[SkipOnMainBranch]
 public class CodeFormattedNicelyModule : Module<CommandResult>
 {
+    private const string DotnetFormatGitMessage = "DotNet Format";
+
     private readonly IOptions<GitHubSettings> _githubSettings;
-    private static readonly string DotnetFormatGitMessage = "DotNet Format";
 
     public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
     {
         _githubSettings = githubSettings;
     }
 
+    /// <inheritdoc/>
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (!context.Git().Information.BranchName!.Contains("pull"))
         {
             return await NothingAsync();
         }
-        
+
         try
         {
             // The code hasn't been formatted nicely!
             return await context.DotNet().Format(new DotNetFormatOptions
             {
                 WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = true
+                VerifyNoChanges = true,
             }, cancellationToken);
         }
         catch (Exception)
@@ -45,13 +48,13 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 throw;
             }
-            
+
             ArgumentNullException.ThrowIfNull(_githubSettings.Value.StandardToken);
 
             await context.DotNet().Format(new DotNetFormatOptions
             {
                 WorkingDirectory = context.Git().RootDirectory,
-                VerifyNoChanges = false
+                VerifyNoChanges = false,
             }, cancellationToken);
 
             var branchTriggeringPullRequest = _githubSettings.Value.PullRequest?.Branch!;

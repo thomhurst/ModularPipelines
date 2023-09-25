@@ -25,7 +25,7 @@ public static class CommandExtensions
             EnvironmentVariables = options.EnvironmentVariables,
             CommandLogging = options.CommandLogging,
             WorkingDirectory = options.WorkingDirectory,
-            OptionsObject = options
+            OptionsObject = options,
         };
     }
 

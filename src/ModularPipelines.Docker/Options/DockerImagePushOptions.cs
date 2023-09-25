@@ -9,6 +9,7 @@ public record DockerImagePushOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
+
     [BooleanCommandSwitch("--all-tags")]
     public bool? AllTags { get; set; }
 

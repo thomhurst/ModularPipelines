@@ -14,17 +14,21 @@ public class PipelineEnginePlugins
         _internalHost = internalHost;
     }
 
-    public PipelineEnginePlugins SetModuleEstimatedTimeProvider<T>() where T : class, IModuleEstimatedTimeProvider
+    public PipelineEnginePlugins SetModuleEstimatedTimeProvider<T>()
+        where T : class, IModuleEstimatedTimeProvider
     {
         return OverrideGeneric<IModuleEstimatedTimeProvider, T>();
     }
 
-    public PipelineEnginePlugins SetResultsRepository<T>() where T : class, IModuleResultRepository
+    public PipelineEnginePlugins SetResultsRepository<T>()
+        where T : class, IModuleResultRepository
     {
         return OverrideGeneric<IModuleResultRepository, T>();
     }
 
-    private PipelineEnginePlugins OverrideGeneric<TBase, T>() where T : class, TBase where TBase : class
+    private PipelineEnginePlugins OverrideGeneric<TBase, T>()
+        where T : class, TBase
+        where TBase : class
     {
         _internalHost.ConfigureServices(s =>
         {

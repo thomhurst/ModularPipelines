@@ -18,14 +18,14 @@ internal class MicrosoftTeams : IMicrosoftTeams
     {
         var serializedCard = JsonSerializer.Serialize(MicrosoftTeamsCardWrapper.Wrap(options.Card), new JsonSerializerOptions
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
 
         var cardsRequest = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             Content = new StringContent(serializedCard),
-            RequestUri = options.WebHookUri
+            RequestUri = options.WebHookUri,
         };
 
         return await _http.SendAsync(cardsRequest, cancellationToken);

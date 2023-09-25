@@ -33,8 +33,8 @@ internal class GitVersioning : IGitVersioning
         {
             Arguments = new[]
             {
-                "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool"
-            }
+                "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool",
+            },
         });
 
         var gitVersionOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
@@ -42,8 +42,8 @@ internal class GitVersioning : IGitVersioning
             WorkingDirectory = _gitInformation.Root.Path,
             Arguments = new[]
             {
-                "/output", "json"
-            }
+                "/output", "json",
+            },
         });
 
         return _prefetchedGitVersionInformation ??= JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;

@@ -4,11 +4,12 @@ namespace ModularPipelines.Options;
 
 public record DownloadFileOptions : DownloadOptions
 {
-    public DownloadFileOptions(Uri DownloadUri) : base(DownloadUri)
+    public DownloadFileOptions(Uri downloadUri) : base(downloadUri)
     {
         LoggingType = HttpLoggingType.RequestOnly;
     }
 
     public string? SavePath { get; init; }
+
     public bool Overwrite { get; init; } = true;
 }

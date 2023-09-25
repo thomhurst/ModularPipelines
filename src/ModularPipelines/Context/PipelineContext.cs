@@ -8,7 +8,6 @@ using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-// ReSharper disable SuggestBaseTypeForParameterInConstructor
 
 namespace ModularPipelines.Context;
 
@@ -30,19 +29,33 @@ internal class PipelineContext : IPipelineContext
     public IEnvironmentContext Environment { get; }
 
     public IHttp Http { get; }
+
     public IDownloader Downloader { get; }
+
     public IChecksum Checksum { get; }
+
     public IHasher Hasher { get; }
+
     public IJson Json { get; }
+
     public IXml Xml { get; }
+
     public IPowershell Powershell { get; }
+
     public IBash Bash { get; }
+
     public IBuildSystemDetector BuildSystemDetector { get; }
+
     public IModuleResultRepository ModuleResultRepository { get; }
+
     public ICommand Command { get; }
+
     public IInstaller Installer { get; }
+
     public IZip Zip { get; }
+
     public IHex Hex { get; }
+
     public IBase64 Base64 { get; }
 
     public void FetchLogger(Type getType)
@@ -71,14 +84,14 @@ internal class PipelineContext : IPipelineContext
         IZip zip,
         IHex hex,
         IBase64 base64,
-        IHasher hasher, 
-        IJson json, 
-        IXml xml, 
-        EngineCancellationToken engineCancellationToken, 
+        IHasher hasher,
+        IJson json,
+        IXml xml,
+        EngineCancellationToken engineCancellationToken,
         IInstaller installer,
-        IPowershell powershell, 
+        IPowershell powershell,
         IBash bash,
-        IBuildSystemDetector buildSystemDetector, 
+        IBuildSystemDetector buildSystemDetector,
         IChecksum checksum)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
@@ -108,7 +121,8 @@ internal class PipelineContext : IPipelineContext
 
     public EngineCancellationToken EngineCancellationToken { get; }
 
-    public TModule? GetModule<TModule>() where TModule : ModuleBase
+    public TModule? GetModule<TModule>()
+        where TModule : ModuleBase
     {
         return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().SingleOrDefault();
     }

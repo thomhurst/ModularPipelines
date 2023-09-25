@@ -30,13 +30,13 @@ public static class CommandOptionsObjectArgumentParser
     private static PropertyInfo[] GetProperties(object optionsArgumentsObject)
     {
         var type = optionsArgumentsObject.GetType();
-        
+
         var publicProperties = type
             .GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        
+
         var nonPublicProperties = type
             .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
-        
+
         return publicProperties.Concat(nonPublicProperties).ToArray();
     }
 
@@ -89,7 +89,7 @@ public static class CommandOptionsObjectArgumentParser
         {
             return;
         }
-        
+
         var commandSwitchAttribute = propertyInfo.GetCustomAttribute<CommandSwitchAttribute>(true);
 
         if (commandSwitchAttribute == null)

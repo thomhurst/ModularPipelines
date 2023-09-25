@@ -9,7 +9,7 @@ public static class OperatingSystemHelper
             return OperatingSystemIdentifier.Linux;
         }
 
-        if (OperatingSystem.IsWindows())       
+        if (OperatingSystem.IsWindows())
         {
             return OperatingSystemIdentifier.Windows;
         }

@@ -13,7 +13,7 @@ public class CommandTests : TestBase
         {
             return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("pwsh")
             {
-                Arguments = new[] { "-Command", "echo 'Foo bar!'" }
+                Arguments = new[] { "-Command", "echo 'Foo bar!'" },
             }, cancellationToken: cancellationToken);
         }
     }

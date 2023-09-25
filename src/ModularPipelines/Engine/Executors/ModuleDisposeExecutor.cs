@@ -17,8 +17,9 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         _moduleDisposer = moduleDisposer;
         _options = options;
     }
-    
-    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try
@@ -30,7 +31,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             await Dispose(modules);
         }
     }
-    
+
     private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)
     {
         if (!AnsiConsole.Profile.Capabilities.Interactive || !_options.Value.ShowProgressInConsole)
@@ -39,7 +40,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             // Otherwise we'll do it here, so we don't miss up the Progress printer
             return;
         }
-        
+
         foreach (var module in modulesToProcess)
         {
             await _moduleDisposer.DisposeAsync(module);

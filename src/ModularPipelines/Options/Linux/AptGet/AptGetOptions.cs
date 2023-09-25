@@ -82,5 +82,4 @@ public record AptGetOptions : CommandLineToolOptions
 
     [BooleanCommandSwitch("--option")]
     public bool? Option { get; set; }
-
 }

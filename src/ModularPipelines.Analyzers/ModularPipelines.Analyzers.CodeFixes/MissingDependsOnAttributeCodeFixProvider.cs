@@ -1,27 +1,31 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Composition;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Immutable;
-using System.Composition;
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MissingDependsOnAttributeCodeFixProvider)), Shared]
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MissingDependsOnAttributeCodeFixProvider))]
+[Shared]
 [ExcludeFromCodeCoverage]
 public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 {
+    /// <inheritdoc/>
     public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(MissingDependsOnAttributeAnalyzer.DiagnosticId);
 
+    /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
     {
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
         return WellKnownFixAllProviders.BatchFixer;
     }
 
+    /// <inheritdoc/>
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
@@ -76,9 +80,9 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 
     private static AttributeSyntax CreateDependsOnAttribute(string name, SyntaxTree syntaxTree)
     {
-        var cSharpParseOptions = (CSharpParseOptions) syntaxTree.Options;
+        var cSharpParseOptions = (CSharpParseOptions)syntaxTree.Options;
 
-        if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion) 1100)
+        if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion)1100)
         {
             return SyntaxFactory.Attribute(SyntaxFactory.ParseName($"DependsOn<{name}>"));
         }

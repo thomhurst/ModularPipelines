@@ -8,7 +8,7 @@ internal class Http : IHttp
     public HttpClient HttpClient { get; }
 
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    
+
     private readonly HttpClient _loggingHttpClient;
     private readonly HttpClient _requestLoggingHttpClient;
     private readonly HttpClient _responseLoggingHttpClient;
@@ -46,7 +46,7 @@ internal class Http : IHttp
             HttpLoggingType.RequestOnly => _requestLoggingHttpClient,
             HttpLoggingType.ResponseOnly => _responseLoggingHttpClient,
             HttpLoggingType.None => HttpClient,
-            _ => throw new ArgumentOutOfRangeException(nameof(loggingType), loggingType, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(loggingType), loggingType, null),
         };
     }
 

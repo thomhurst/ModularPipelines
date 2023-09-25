@@ -9,6 +9,7 @@ public record DockerImageLsOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Repository { get; set; }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

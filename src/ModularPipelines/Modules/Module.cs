@@ -33,23 +33,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    private void AddDependency(DependsOnAttribute dependsOnAttribute)
-    {
-        var type = dependsOnAttribute.Type;
-
-        if (type == GetType())
-        {
-            throw new ModuleReferencingSelfException("A module cannot depend on itself");
-        }
-
-        if (!type.IsAssignableTo(typeof(ModuleBase)))
-        {
-            throw new Exception($"{type.FullName} must be a module to add as a dependency");
-        }
-
-        DependentModules.Add(dependsOnAttribute);
-    }
-
     internal override async Task StartAsync()
     {
         if (ModuleRunType != ModuleRunType.AlwaysRun)
@@ -110,9 +93,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             var moduleResult = new ModuleResult<T>(executeResult, this);
 
             ModuleResultTaskCompletionSource.SetResult(moduleResult);
-            
+
             await SaveResult(moduleResult);
-            
+
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
@@ -124,7 +107,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             Context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
 
             if (exception is TaskCanceledException or OperationCanceledException
-                && ModuleCancellationTokenSource.IsCancellationRequested 
+                && ModuleCancellationTokenSource.IsCancellationRequested
                 && !Context.EngineCancellationToken.IsCancellationRequested)
             {
                 Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
@@ -142,9 +125,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 Status = Status.Failed;
             }
-            
+
             Exception = exception;
-            
+
             if (await ShouldIgnoreFailures(Context, exception))
             {
                 var moduleResult = new ModuleResult<T>(exception, this);
@@ -161,48 +144,157 @@ public abstract partial class Module<T> : ModuleBase<T>
 
                 // Give time for Engine to request cancellation
                 await Task.Delay(500);
-                
+
                 ModuleResultTaskCompletionSource.SetException(exception);
-                
+
                 throw new ModuleFailedException(this, exception);
             }
         }
         finally
         {
             ModuleResultTaskCompletionSource.TrySetCanceled();
-            
+
             await OnAfterExecute(Context);
 
             LogModuleStatus();
         }
     }
-    
-    private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
+
+    internal override ModuleBase Initialize(IPipelineContext context)
     {
-        var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
-
-        // Will throw a timeout exception if configured and timeout is reached
-        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-
-        return await executeAsyncTask;
+        context.FetchLogger(GetType());
+        Context = context;
+        return this;
     }
 
-    private async Task SaveResult(ModuleResult<T> moduleResult)
+    internal override async Task SetSkipped(SkipDecision skipDecision)
     {
+        Status = Status.Skipped;
+
+        SkipResult = skipDecision;
+
+        if (await UseResultFromHistoryIfSkipped(Context)
+            && await SetupModuleFromHistory(skipDecision.Reason))
+        {
+            return;
+        }
+
+        SkippedTask.Start(TaskScheduler.Default);
+
+        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
+
+        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
+    }
+
+    protected TModule GetModule<TModule>()
+        where TModule : ModuleBase
+    {
+        var module = GetModuleIfRegistered<TModule>();
+
+        if (module is null)
+        {
+            throw new ModuleNotRegisteredException(
+                $"The module {typeof(TModule)} has not been registered", null);
+        }
+
+        return module;
+    }
+
+    protected TModule? GetModuleIfRegistered<TModule>()
+        where TModule : ModuleBase
+    {
+        if (typeof(TModule) == GetType())
+        {
+            throw new ModuleReferencingSelfException("A module cannot get itself");
+        }
+
+        return Context.GetModule<TModule>();
+    }
+
+    private void AddDependency(DependsOnAttribute dependsOnAttribute)
+    {
+        var type = dependsOnAttribute.Type;
+
+        if (type == GetType())
+        {
+            throw new ModuleReferencingSelfException("A module cannot depend on itself");
+        }
+
+        if (!type.IsAssignableTo(typeof(ModuleBase)))
+        {
+            throw new Exception($"{type.FullName} must be a module to add as a dependency");
+        }
+
+        DependentModules.Add(dependsOnAttribute);
+    }
+
+    private async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
+    {
+        if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
+        {
+            return false;
+        }
+
+        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this);
+
+        if (result == null)
+        {
+            return false;
+        }
+
+        Status = Status.UsedHistory;
+
+        var utcNow = DateTimeOffset.UtcNow;
+
+        StartTime = utcNow;
+        EndTime = utcNow;
+
+        StartTask.Start(TaskScheduler.Default);
+        ModuleResultTaskCompletionSource.SetResult(result);
+
+        return true;
+    }
+
+    private async Task WaitForModuleDependencies()
+    {
+        if (!DependentModules.Any())
+        {
+            return;
+        }
+
         try
         {
-            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
+            await DependentModules
+                .ToAsyncProcessorBuilder()
+                .ForEachAsync(dependsOnAttribute =>
+                {
+                    var module = Context.GetModule(dependsOnAttribute.Type);
+
+                    if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    if (module is null)
+                    {
+                        throw new ModuleNotRegisteredException(
+                            $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
+                    }
+
+                    return module.ResultTaskInternal;
+                })
+                .ProcessInParallel();
         }
-        catch (Exception e)
+        catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
         {
-            Context.Logger.LogError(e, "Error saving module result to repository");
+            Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
     }
 
     private void LogModuleStatus()
     {
-        var moduleName = GetType().Name; 
-        
+        var moduleName = GetType().Name;
+
         switch (Status)
         {
             case Status.NotYetStarted:
@@ -238,115 +330,25 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override ModuleBase Initialize(IPipelineContext context)
+    private async Task SaveResult(ModuleResult<T> moduleResult)
     {
-        context.FetchLogger(GetType());
-        Context = context;
-        return this;
-    }
-
-    private async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
-    {
-        if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
-        {
-            return false;
-        }
-        
-        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this);
-
-        if (result == null)
-        {
-            return false;
-        }
-        
-        Status = Status.UsedHistory;
-
-        var utcNow = DateTimeOffset.UtcNow;
-
-        StartTime = utcNow;
-        EndTime = utcNow;
-
-        StartTask.Start(TaskScheduler.Default);
-        ModuleResultTaskCompletionSource.SetResult(result);
-
-        return true;
-    }
-
-    protected TModule GetModule<TModule>() where TModule : ModuleBase
-    {
-        var module = GetModuleIfRegistered<TModule>();
-
-        if (module is null)
-        {
-            throw new ModuleNotRegisteredException(
-                $"The module {typeof(TModule)} has not been registered", null);
-        }
-
-        return module;
-    }
-
-    protected TModule? GetModuleIfRegistered<TModule>() where TModule : ModuleBase
-    {
-        if (typeof(TModule) == GetType())
-        {
-            throw new ModuleReferencingSelfException("A module cannot get itself");
-        }
-
-        return Context.GetModule<TModule>();
-    }
-
-    private async Task WaitForModuleDependencies()
-    {
-        if (!DependentModules.Any())
-        {
-            return;
-        }
-
         try
         {
-            await DependentModules
-                .ToAsyncProcessorBuilder()
-                .ForEachAsync(dependsOnAttribute =>
-            {
-                var module = Context.GetModule(dependsOnAttribute.Type);
-
-                if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
-                {
-                    return Task.CompletedTask;
-                }
-
-                if (module is null)
-                {
-                    throw new ModuleNotRegisteredException(
-                        $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
-                }
-
-                return module.ResultTaskInternal;
-            })
-                .ProcessInParallel();
+            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
         }
-        catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
+        catch (Exception e)
         {
-            Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+            Context.Logger.LogError(e, "Error saving module result to repository");
         }
     }
 
-    internal override async Task SetSkipped(SkipDecision skipDecision)
+    private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
-        Status = Status.Skipped;
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
 
-        SkipResult = skipDecision;
+        // Will throw a timeout exception if configured and timeout is reached
+        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
-        if (await UseResultFromHistoryIfSkipped(Context)
-            && await SetupModuleFromHistory(skipDecision.Reason))
-        {
-            return;
-        }
-
-        SkippedTask.Start(TaskScheduler.Default);
-
-        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
-
-        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
+        return await executeAsyncTask;
     }
 }

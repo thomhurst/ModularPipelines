@@ -30,7 +30,7 @@ public class File : IEquatable<File>
     {
         return System.IO.File.ReadAllTextAsync(Path);
     }
-    
+
     public Task<string[]> ReadLinesAsync()
     {
         return System.IO.File.ReadAllLinesAsync(Path);
@@ -40,12 +40,12 @@ public class File : IEquatable<File>
     {
         return System.IO.File.WriteAllTextAsync(Path, contents);
     }
-    
+
     public Task WriteAsync(byte[] contents)
     {
         return System.IO.File.WriteAllBytesAsync(Path, contents);
     }
-    
+
     public Task WriteAsync(IEnumerable<string> contents)
     {
         return System.IO.File.WriteAllLinesAsync(Path, contents);
@@ -54,13 +54,13 @@ public class File : IEquatable<File>
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
     {
         await using var fileStream = System.IO.File.Create(Path);
-        await fileStream.WriteAsync(contents, cancellationToken); 
+        await fileStream.WriteAsync(contents, cancellationToken);
     }
-    
+
     public async Task WriteAsync(Stream contents)
     {
         await using var fileStream = System.IO.File.Create(Path);
-        
+
         if (contents.CanSeek)
         {
             contents.Position = 0;
@@ -85,8 +85,9 @@ public class File : IEquatable<File>
 
     /// <inheritdoc cref="FileSystemInfo.FullName"/>>
     public string Path => FileInfo.FullName;
+
     public string OriginalPath { get; }
-    
+
     public File Create()
     {
         var fileStream = System.IO.File.Create(Path);
@@ -124,12 +125,12 @@ public class File : IEquatable<File>
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path) => FileInfo.CopyTo(path);
-    
+
     public static File GetNewTemporaryFilePath()
     {
         return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName())!;
     }
-    
+
     public static implicit operator File?(string? path)
     {
         if (string.IsNullOrEmpty(path))
@@ -156,11 +157,13 @@ public class File : IEquatable<File>
         return file.Path;
     }
 
+    /// <inheritdoc/>
     public override string ToString()
     {
         return Path;
     }
-    
+
+    /// <inheritdoc/>
     public bool Equals(File? other)
     {
         if (ReferenceEquals(null, other))
@@ -176,6 +179,7 @@ public class File : IEquatable<File>
         return Path == other.Path;
     }
 
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(this, obj))
@@ -186,6 +190,7 @@ public class File : IEquatable<File>
         return obj is File other && Equals(other);
     }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return Path.GetHashCode();

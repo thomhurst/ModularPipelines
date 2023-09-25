@@ -8,5 +8,6 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformStateShowOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
     string Address) : TerraformOptions
 {
-    [CommandSwitch("-state")] public string? State { get; set; }
+    [CommandSwitch("-state")]
+    public string? State { get; set; }
 }

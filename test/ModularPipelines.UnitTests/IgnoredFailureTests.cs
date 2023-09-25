@@ -21,7 +21,7 @@ public class IgnoredFailureTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [Test]
     public async Task Has_Not_Thrown_Or_Cancelled_Pipeline()
     {

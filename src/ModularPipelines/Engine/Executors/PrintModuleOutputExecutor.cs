@@ -12,8 +12,9 @@ internal class PrintModuleOutputExecutor : IPrintModuleOutputExecutor
     {
         _moduleLoggerContainer = moduleLoggerContainer;
     }
-    
-    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndPrintModuleOutput(Func<Task> executeDelegate)
     {
         try

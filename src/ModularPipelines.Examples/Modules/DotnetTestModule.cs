@@ -9,11 +9,12 @@ namespace ModularPipelines.Examples.Modules;
 
 public class DotnetTestModule : Module<DotNetTestResult>
 {
+    /// <inheritdoc/>
     protected override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.DotNet().Test(new DotNetTestOptions
         {
-            WorkingDirectory = context.Git().RootDirectory.GetFolder("ModularPipelines.UnitTests").Path
+            WorkingDirectory = context.Git().RootDirectory.GetFolder("ModularPipelines.UnitTests").Path,
         }, cancellationToken);
     }
 }

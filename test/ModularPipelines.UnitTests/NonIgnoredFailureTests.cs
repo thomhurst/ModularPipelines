@@ -17,7 +17,7 @@ public class NonIgnoredFailureTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [Test]
     public void Has_Thrown_And_Cancelled_Pipeline()
     {
@@ -25,7 +25,7 @@ public class NonIgnoredFailureTests : TestBase
 
         var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
-        
+
         Assert.That(engineCancellationToken.IsCancellationRequested, Is.True);
     }
 }

@@ -18,12 +18,12 @@ internal class GitCommandRunner
     {
         commandEnvironmentOptions ??= new CommandLineOptions
         {
-            CommandLogging = CommandLogging.None
+            CommandLogging = CommandLogging.None,
         };
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray()) with
         {
-            CommandLogging = CommandLogging.None
+            CommandLogging = CommandLogging.None,
         };
 
         var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions);

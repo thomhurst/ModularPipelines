@@ -5,5 +5,5 @@ public enum HttpLoggingType
     RequestAndResponse,
     RequestOnly,
     ResponseOnly,
-    None
+    None,
 }

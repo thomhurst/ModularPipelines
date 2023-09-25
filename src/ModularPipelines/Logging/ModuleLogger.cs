@@ -10,10 +10,15 @@ namespace ModularPipelines.Logging;
 internal abstract class ModuleLogger : ILogger, IDisposable
 {
     protected static readonly object Lock = new();
+
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
+
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
+
     public abstract bool IsEnabled(LogLevel logLevel);
+
     public abstract IDisposable BeginScope<TState>(TState state);
+
     public abstract void Dispose();
 }
 
@@ -26,14 +31,14 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
 
-    private List<(LogLevel logLevel, EventId eventId, object state, Exception? exception, Func<object, Exception?, string> formatter)> _logEvents = new();
+    private List<(LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter)> _logEvents = new();
 
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(IOptions<PipelineOptions> options, 
-        ILogger<T> defaultLogger, 
-        IModuleLoggerContainer moduleLoggerContainer, 
+    public ModuleLogger(IOptions<PipelineOptions> options,
+        ILogger<T> defaultLogger,
+        IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
         ISecretProvider secretProvider,
@@ -46,7 +51,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
         moduleLoggerContainer.AddLogger(this);
-        
+
         Disposer.RegisterOnShutdown(this);
     }
 
@@ -81,12 +86,46 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         LastLogWritten = DateTime.UtcNow;
     }
 
+    public override void Dispose()
+    {
+        lock (Lock)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+
+            var logEvents = Interlocked.Exchange(ref _logEvents,
+                new List<(LogLevel LogLevel, EventId EventId, object State, Exception? Exception,
+                    Func<object, Exception?, string> Formatter)>());
+
+            if (logEvents.Any())
+            {
+                PrintCollapsibleSectionStart();
+
+                foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+                {
+                    _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                }
+
+                PrintCollapsibleSectionEnd();
+
+                logEvents.Clear();
+                _logEvents.Clear();
+            }
+
+            GC.SuppressFinalize(this);
+        }
+    }
+
     private void TryObfuscateValues(object state)
     {
         var objArrayNullable = state.GetType()
             .GetField("_values", BindingFlags.NonPublic | BindingFlags.Instance)
             ?.GetValue(state) as object?[] ?? Array.Empty<object>();
-        
+
         for (var index = 0; index < objArrayNullable.Length; index++)
         {
             var obj = objArrayNullable[index];
@@ -115,43 +154,9 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
         return (o, exception) =>
         {
-            var formattedString = formatter.Invoke((TState) o, exception);
+            var formattedString = formatter.Invoke((TState)o, exception);
             return _secretObfuscator.Obfuscate(formattedString, null);
         };
-    }
-    
-    public override void Dispose()
-    {
-        lock (Lock)
-        {
-            if (_isDisposed)
-            {
-                return;
-            }
-
-            _isDisposed = true;
-
-            var logEvents = Interlocked.Exchange(ref _logEvents,
-                new List<(LogLevel logLevel, EventId eventId, object state, Exception? exception,
-                    Func<object, Exception?, string> formatter)>());
-
-            if (logEvents.Any())
-            {
-                PrintCollapsibleSectionStart();
-
-                foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
-                {
-                    _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
-                }
-                
-                PrintCollapsibleSectionEnd();
-
-                logEvents.Clear();
-                _logEvents.Clear();
-            }
-
-            GC.SuppressFinalize(this);
-        }
     }
 
     private void PrintCollapsibleSectionStart()
@@ -160,12 +165,12 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         {
             _consoleWriter.WriteLine($@"::group::{GetCollapsibleSectionName()}");
         }
-        
+
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
             _consoleWriter.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
         }
-        
+
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
             _consoleWriter.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
@@ -178,12 +183,12 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         {
             _consoleWriter.WriteLine(@"::endgroup::");
         }
-        
+
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
             _consoleWriter.WriteLine(@"##[endgroup]");
         }
-        
+
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
             _consoleWriter.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");

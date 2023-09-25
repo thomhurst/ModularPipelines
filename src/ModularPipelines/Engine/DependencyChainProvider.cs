@@ -38,7 +38,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
         foreach (var dependsOnAttribute in customAttributes)
         {
             var dependency = GetModuleDependencyModel(dependsOnAttribute.Type, allModules);
-            
+
             if (dependency is not null)
             {
                 yield return dependency;

@@ -18,12 +18,12 @@ internal class RequirementChecker : IRequirementChecker
     public async Task CheckRequirementsAsync()
     {
         var failedRequirementsNames = new List<string>();
-        
+
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
             var mustAsync = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
-            
+
             if (!mustAsync)
             {
                 failedRequirementsNames.Add(requirement.GetType().Name);

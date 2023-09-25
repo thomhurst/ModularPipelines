@@ -11,10 +11,10 @@ internal class PipelineInitializer : IPipelineInitializer
     private readonly IConsolePrinter _consolePrinter;
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
 
-    public PipelineInitializer(IConsolePrinter consolePrinter, 
-        IModuleRetriever moduleRetriever, 
-        IRequirementChecker requirementsChecker, 
-        IDependencyDetector dependencyDetector, 
+    public PipelineInitializer(IConsolePrinter consolePrinter,
+        IModuleRetriever moduleRetriever,
+        IRequirementChecker requirementsChecker,
+        IDependencyDetector dependencyDetector,
         IPipelineSetupExecutor pipelineSetupExecutor)
     {
         _consolePrinter = consolePrinter;
@@ -23,6 +23,7 @@ internal class PipelineInitializer : IPipelineInitializer
         _dependencyDetector = dependencyDetector;
         _pipelineSetupExecutor = pipelineSetupExecutor;
     }
+
     public async Task<OrganizedModules> Initialize()
     {
         _consolePrinter.PrintLogo();

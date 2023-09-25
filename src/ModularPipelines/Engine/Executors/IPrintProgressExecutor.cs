@@ -6,6 +6,7 @@ namespace ModularPipelines.Engine.Executors;
 
 internal interface IPrintProgressExecutor
 {
-    [StackTraceHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate);
 }
