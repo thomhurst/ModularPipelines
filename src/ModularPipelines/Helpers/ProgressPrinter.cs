@@ -73,7 +73,7 @@ internal class ProgressPrinter : IProgressPrinter
         table.AddColumn("End");
         table.AddColumn(string.Empty);
 
-        foreach (var module in pipelineSummary.Modules)
+        foreach (var module in pipelineSummary.Modules.OrderBy(x => x.EndTime))
         {
             var isSameDay = module.StartTime.Date == module.EndTime.Date;
 
@@ -84,10 +84,10 @@ internal class ProgressPrinter : IProgressPrinter
                 GetTime(module.StartTime, isSameDay),
                 GetTime(module.EndTime, isSameDay),
                 GetModuleExtraInformation(module));
+            
+            table.AddEmptyRow();
         }
-
-        table.AddEmptyRow();
-
+        
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
 
         table.AddRow(
