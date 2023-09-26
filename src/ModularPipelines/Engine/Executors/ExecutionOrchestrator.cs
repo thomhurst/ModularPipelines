@@ -71,13 +71,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
             
             _consolePrinter.PrintResults(pipelineSummary);
-
-            Console.WriteLine();
-            Console.WriteLine($"Pipeline finishing at {DateTimeOffset.UtcNow}");
-
-            // Console might need time to flush
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            await Console.Out.FlushAsync();
         }
 
         return pipelineSummary;

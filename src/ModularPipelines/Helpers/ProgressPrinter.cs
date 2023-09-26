@@ -64,7 +64,15 @@ internal class ProgressPrinter : IProgressPrinter
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
-        var table = new Table();
+        if (!_options.Value.PrintResults)
+        {
+            return;
+        }
+        
+        var table = new Table
+        {
+            Expand = true,
+        };
 
         table.AddColumn("Module");
         table.AddColumn("Duration");
@@ -101,6 +109,8 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
         AnsiConsole.Write(table);
         Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine(@$"Pipeline finishing at {DateTimeOffset.UtcNow}");
     }
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
