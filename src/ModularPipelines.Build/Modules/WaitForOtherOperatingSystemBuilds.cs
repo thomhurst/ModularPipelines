@@ -36,18 +36,25 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     {
         var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
 
-        // It'll take at least 1.5 minutes to finish - So wait before trying to fetch to give it time to start
-        await Task.Delay(TimeSpan.FromMinutes(1.5), cancellationToken);
+        // It'll take at least 5 minutes to finish - So wait before trying to fetch to give it time to start
+        await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
 
-        var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml");
-        var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml");
+        var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
+        {
+            HeadSha = commitSha,
+        });
+        var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
+        {
+            HeadSha = commitSha,
+        });
 
         var windowsRun = windowsRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
         var macRun = macRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
 
-        var results = await Task.WhenAll(WaitFor(windowsRun, cancellationToken), WaitFor(macRun, cancellationToken));
+        var waitForWindows = await WaitFor(windowsRun, cancellationToken);
+        var waitForMac = await WaitFor(macRun, cancellationToken);
 
-        return results.OfType<WorkflowRun>().ToList();
+        return new List<WorkflowRun>{ waitForWindows, waitForMac };
     }
 
     private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)
@@ -68,7 +75,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
                 return run;
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
         }
     }
 }
