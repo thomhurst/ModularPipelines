@@ -111,6 +111,16 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine(@$"Pipeline finishing at {DateTimeOffset.UtcNow}");
+
+        Console.WriteLine(@$"Console buffer height: {Console.BufferHeight}");
+        Console.WriteLine(@$"Console window height: {Console.WindowHeight}");
+        Console.WriteLine(@$"Console largest height: {Console.LargestWindowHeight}");
+        
+        Console.WriteLine(@$"Console buffer width: {Console.BufferWidth}");
+        Console.WriteLine(@$"Console window width: {Console.WindowWidth}");
+        Console.WriteLine(@$"Console largest width: {Console.LargestWindowWidth}");
+
+        Console.WriteLine(@$"Table width: {table.Width}");
     }
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
