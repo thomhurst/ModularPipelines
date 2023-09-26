@@ -1,3 +1,3 @@
-*   StyleCop Analyzers to enforce code quality
-*   Upload Code Coverage results to CodeCov
-*   Print Results in their finishing order once the pipeline has finished
+*   StyleCop analyzers to enforce code quality
+*   Upload code coverage results to CodeCov
+*   Print results in their finishing order once the pipeline has finished
