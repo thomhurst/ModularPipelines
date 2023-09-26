@@ -13,7 +13,8 @@ internal class GitVersioning : IGitVersioning
 
     private readonly Folder _temporaryFolder;
 
-    private GitVersionInformation? _prefetchedGitVersionInformation;
+    private static readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+    private static GitVersionInformation? _prefetchedGitVersionInformation;
 
     public GitVersioning(IFileSystemContext fileSystemContext, IGitInformation gitInformation, ICommand command)
     {
@@ -24,28 +25,39 @@ internal class GitVersioning : IGitVersioning
 
     public async Task<GitVersionInformation> GetGitVersioningInformation()
     {
-        if (_prefetchedGitVersionInformation != null)
+        await _semaphoreSlim.WaitAsync();
+        
+        try
         {
-            return _prefetchedGitVersionInformation;
+            if (_prefetchedGitVersionInformation != null)
+            {
+                return _prefetchedGitVersionInformation;
+            }
+
+            await _command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+            {
+                Arguments = new[]
+                {
+                    "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool",
+                },
+            });
+
+            var gitVersionOutput = await _command.ExecuteCommandLineTool(
+                new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
+                {
+                    WorkingDirectory = _gitInformation.Root.Path,
+                    Arguments = new[]
+                    {
+                        "/output", "json",
+                    },
+                });
+
+            return _prefetchedGitVersionInformation ??=
+                JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
         }
-
-        await _command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+        finally
         {
-            Arguments = new[]
-            {
-                "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool",
-            },
-        });
-
-        var gitVersionOutput = await _command.ExecuteCommandLineTool(new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
-        {
-            WorkingDirectory = _gitInformation.Root.Path,
-            Arguments = new[]
-            {
-                "/output", "json",
-            },
-        });
-
-        return _prefetchedGitVersionInformation ??= JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
+            _semaphoreSlim.Release();
+        }
     }
 }

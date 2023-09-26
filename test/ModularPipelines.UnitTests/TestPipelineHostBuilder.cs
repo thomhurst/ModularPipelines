@@ -17,6 +17,7 @@ public static class TestPipelineHostBuilder
                 {
                     opt.DefaultCommandLogging = CommandLogging.Input | CommandLogging.Error;
                     opt.ShowProgressInConsole = false;
+                    opt.PrintResults = false;
                 });
                 collection.AddLogging(builder => builder.ClearProviders());
             });

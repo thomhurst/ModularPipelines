@@ -14,6 +14,8 @@ public record PipelineOptions
 
     public bool ShowProgressInConsole { get; set; } = true;
 
+    public bool PrintResults { get; set; } = true;
+
     public ModuleLoggerOptions LoggerOptions { get; set; } = new();
 
     public int DefaultRetryCount { get; set; }

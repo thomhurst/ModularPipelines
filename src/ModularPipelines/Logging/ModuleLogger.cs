@@ -55,6 +55,11 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         Disposer.RegisterOnShutdown(this);
     }
 
+    ~ModuleLogger()
+    {
+        Dispose();
+    }
+
     public override IDisposable BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
