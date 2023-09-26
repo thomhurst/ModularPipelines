@@ -72,6 +72,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             
             _consolePrinter.PrintResults(pipelineSummary);
 
+            for (var i = 0; i < 200; i++)
+            {
+                Console.WriteLine("test");
+            }
+
             // Console might need time to flush
             await Task.Delay(TimeSpan.FromSeconds(2));
             await Console.Out.FlushAsync();
