@@ -101,8 +101,6 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
         AnsiConsole.Write(table);
         Console.WriteLine();
-        
-        Console.Out.Flush();
     }
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
