@@ -74,6 +74,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             // Console might need time to flush
             await Task.Delay(TimeSpan.FromSeconds(2));
+            await Console.Out.FlushAsync();
         }
 
         return pipelineSummary;
