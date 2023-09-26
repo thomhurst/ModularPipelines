@@ -1,3 +1,4 @@
+﻿using System;
 ﻿using System.Diagnostics;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
@@ -74,6 +75,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             // Console might need time to flush
             await Task.Delay(TimeSpan.FromSeconds(2));
+
+            for (var i = 0; i < 200; i++)
+            {
+                Console.WriteLine("test");
+            }
         }
 
         return pipelineSummary;
