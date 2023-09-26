@@ -109,8 +109,6 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
         AnsiConsole.Write(table);
         Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine(@$"Pipeline finishing at {DateTimeOffset.UtcNow}");
     }
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
