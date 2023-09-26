@@ -104,7 +104,7 @@ internal class ProgressPrinter : IProgressPrinter
             pipelineSummary.Status.ToDisplayString(),
             GetTime(pipelineSummary.Start, isSameDayTotal),
             GetTime(pipelineSummary.End, isSameDayTotal),
-            string.Empty);
+            "...");
 
         Console.WriteLine();
         AnsiConsole.Write(table);
