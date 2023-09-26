@@ -98,9 +98,9 @@ internal class ProgressPrinter : IProgressPrinter
             GetTime(pipelineSummary.End, isSameDayTotal),
             string.Empty);
 
-        AnsiConsole.WriteLine();
+        Console.WriteLine();
         AnsiConsole.Write(table);
-        AnsiConsole.WriteLine();
+        Console.WriteLine();
         
         Console.Out.Flush();
     }
