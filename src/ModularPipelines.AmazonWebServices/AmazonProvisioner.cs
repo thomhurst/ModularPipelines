@@ -1,4 +1,4 @@
-namespace ModularPipelines.AWS;
+namespace ModularPipelines.AmazonWebServices;
 
 internal class AmazonProvisioner : IAmazonProvisioner
 {

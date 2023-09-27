@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Terraform"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "src\ModularPipelines.Azure\ModularPipelines.Azure.csproj", "{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AWS", "src\ModularPipelines.AWS\ModularPipelines.AWS.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AmazonWebServices", "src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Email", "src\ModularPipelines.Email\ModularPipelines.Email.csproj", "{D2F0D130-50A7-46BB-B495-1B673C2A23A9}"
 EndProject

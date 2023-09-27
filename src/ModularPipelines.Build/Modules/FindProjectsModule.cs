@@ -50,7 +50,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         }
 
         // Not yet ready
-        if (path.EndsWith("ModularPipelines.AWS.csproj"))
+        if (path.EndsWith("ModularPipelines.AmazonWebServices.csproj"))
         {
             return false;
         }

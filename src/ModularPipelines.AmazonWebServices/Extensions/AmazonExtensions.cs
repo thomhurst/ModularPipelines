@@ -2,7 +2,7 @@
 using Amazon.S3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.AWS;
+using ModularPipelines.AmazonWebServices;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Amazon.Extensions;
@@ -12,7 +12,7 @@ public static class AmazonExtensions
 {
     public static IServiceCollection RegisterAmazonContext(this IServiceCollection services)
     {
-        services.TryAddScoped<IAmazon, AWS.Amazon>();
+        services.TryAddScoped<IAmazon, AmazonWebServices.Amazon>();
         services.TryAddScoped<IAmazonProvisioner, AmazonProvisioner>();
         services.TryAddScoped<S3>();
         return services;

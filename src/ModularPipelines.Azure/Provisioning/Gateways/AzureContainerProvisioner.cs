@@ -1,6 +1,5 @@
 ﻿using Azure;
 using Azure.ResourceManager;
-using Azure.ResourceManager.ContainerRegistry;
 using Azure.ResourceManager.Network;
 using ModularPipelines.Azure.Scopes;
 

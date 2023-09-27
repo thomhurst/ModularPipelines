@@ -8,7 +8,6 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Windows;
-using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
