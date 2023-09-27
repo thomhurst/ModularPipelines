@@ -283,7 +283,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         ModuleResultTaskCompletionSource.SetResult(result);
     }
 
-    private ModuleResult<T> _result;
+    private ModuleResult<T> _result = null!;
 
     [JsonInclude]
     private ModuleResult<T> Result
