@@ -4,37 +4,37 @@ public interface IGitHubEnvironmentVariables
 {
     bool CI { get; }
 
-    string Workflow { get; }
+    string? Workflow { get; }
 
-    string RunId { get; }
+    string? RunId { get; }
 
     int RunNumber { get; }
 
-    string Action { get; }
+    string? Action { get; }
 
-    string Actions { get; }
+    string? Actions { get; }
 
-    string Actor { get; }
+    string? Actor { get; }
 
-    string Repository { get; }
+    string? Repository { get; }
 
-    string EventName { get; }
+    string? EventName { get; }
 
-    string EventPath { get; }
+    string? EventPath { get; }
 
-    string Workspace { get; }
+    string? Workspace { get; }
 
-    string Sha { get; }
+    string? Sha { get; }
 
-    string Ref { get; }
+    string? Ref { get; }
 
-    string HeadRef { get; }
+    string? HeadRef { get; }
 
-    string BaseRef { get; }
+    string? BaseRef { get; }
 
-    string ServerUrl { get; }
+    string? ServerUrl { get; }
 
-    string ApiUrl { get; }
+    string? ApiUrl { get; }
 
-    string GraphQlUrl { get; }
+    string? GraphQlUrl { get; }
 }
