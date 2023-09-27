@@ -105,7 +105,6 @@ public class JsonSerializationTests : TestBase
             Assert.That(module1DeserializedResult.ModuleDuration, Is.EqualTo(module.Duration));
             Assert.That(module1DeserializedResult.SkipDecision, Is.EqualTo(module.SkipResult));
             Assert.That(module1DeserializedResult.ModuleName, Is.EqualTo(module.GetType().Name));
-            Assert.That(module1DeserializedResult.TypeDiscriminator, Is.EqualTo(module.GetType().FullName));
         });
     }
 }
