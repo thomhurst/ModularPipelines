@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
@@ -68,31 +67,17 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                             });
                     });
                 });
-            
-            return await CreateAndPrintPipelineSummary(organizedModules, stopWatch, start);
         }
-        catch
+        finally
         {
-            await CreateAndPrintPipelineSummary(organizedModules, stopWatch, start);
-            throw;
+            var end = DateTimeOffset.UtcNow;
+            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            
+            _consolePrinter.PrintResults(pipelineSummary);
+            
+            await Console.Out.FlushAsync();
         }
-    }
-
-    private async Task<PipelineSummary> CreateAndPrintPipelineSummary(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start)
-    {
-        var end = DateTimeOffset.UtcNow;
-        
-        var pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-        await WriteResults(pipelineSummary);
 
         return pipelineSummary;
-    }
-
-    private async Task WriteResults(PipelineSummary pipelineSummary)
-    {
-        _consolePrinter.PrintResults(pipelineSummary);
-
-        await Console.Out.FlushAsync();
     }
 }

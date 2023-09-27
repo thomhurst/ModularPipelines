@@ -8,11 +8,6 @@ namespace ModularPipelines.Models;
 public class ModuleResult<T> : ModuleResult
 {
     private T? _value;
-
-    [JsonConstructor]
-    private ModuleResult() : base()
-    {
-    }
     
     internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
     {
@@ -21,6 +16,11 @@ public class ModuleResult<T> : ModuleResult
     internal ModuleResult(T? value, ModuleBase module) : base(module)
     {
         _value = value;
+    }
+    
+    [JsonConstructor]
+    private ModuleResult()
+    {
     }
     
     /// <summary>
