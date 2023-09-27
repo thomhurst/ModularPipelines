@@ -278,8 +278,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         SkipResult = result.SkipDecision;
 
         Exception = result.Exception;
+
+        if (!StartTask.IsCompleted)
+        {
+            StartTask.Start(TaskScheduler.Default);
+        }
         
-        StartTask.Start(TaskScheduler.Default);
         ModuleResultTaskCompletionSource.SetResult(result);
     }
 
