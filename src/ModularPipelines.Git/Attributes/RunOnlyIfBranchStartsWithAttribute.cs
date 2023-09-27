@@ -4,11 +4,11 @@ using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Git.Attributes;
 
-public class RunIfBranchStartsWithAttribute : RunConditionAttribute
+public class RunOnlyIfBranchStartsWithAttribute : MandatoryRunConditionAttribute
 {
     public string BranchNamePrefix { get; }
 
-    public RunIfBranchStartsWithAttribute(string branchNamePrefix)
+    public RunOnlyIfBranchStartsWithAttribute(string branchNamePrefix)
     {
         BranchNamePrefix = branchNamePrefix;
     }
