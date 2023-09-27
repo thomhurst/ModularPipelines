@@ -14,9 +14,9 @@ namespace ModularPipelines.Context;
 internal class PipelineContext : IPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private ILogger? _logger;
+    private IModuleLogger? _logger;
 
-    public ILogger Logger => _logger ?? _moduleLoggerProvider.GetLogger();
+    public IModuleLogger Logger => _logger ??= _moduleLoggerProvider.GetLogger();
 
     public IServiceProvider ServiceProvider { get; }
 
