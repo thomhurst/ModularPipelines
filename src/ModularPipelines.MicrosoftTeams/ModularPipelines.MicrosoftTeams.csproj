@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="AdaptiveCards" Version="3.0.0" />
+      <PackageReference Include="AdaptiveCards" Version="3.1.0" />
     </ItemGroup>
 
     <ItemGroup>
