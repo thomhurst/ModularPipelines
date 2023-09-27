@@ -114,7 +114,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
                 {
                     if (stringOrLogEvent.IsString)
                     {
-                        Console.WriteLine(stringOrLogEvent.StringValue);
+                        _consoleWriter.LogToConsole(stringOrLogEvent.StringValue);
                     }
                     else if (stringOrLogEvent.LogEvent != null)
                     {
