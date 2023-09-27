@@ -76,6 +76,13 @@ public class ModuleResult : IJsonTypeDiscriminator
     [JsonConstructor]
     protected ModuleResult()
     {
+        // Late initialisation via deserialisation
+        ModuleName = null!;
+        ModuleDuration = TimeSpan.Zero!;
+        ModuleStart = DateTimeOffset.MinValue!;
+        ModuleEnd = DateTimeOffset.MinValue;
+        SkipDecision = null!;
+        TypeDiscriminator = GetType().FullName!;
     }
     
     protected ModuleResult(ModuleBase module)
@@ -86,7 +93,7 @@ public class ModuleResult : IJsonTypeDiscriminator
         ModuleStart = module.StartTime;
         ModuleEnd = module.EndTime;
         SkipDecision = module.SkipResult;
-        TypeDiscriminator = module.GetType().FullName!;
+        TypeDiscriminator = GetType().FullName!;
     }
 
     protected string GetModuleName()
