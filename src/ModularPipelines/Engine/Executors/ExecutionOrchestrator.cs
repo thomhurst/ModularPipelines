@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
@@ -54,27 +55,44 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         PipelineSummary? pipelineSummary = null;
         try
         {
-            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
-            {
-                await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
+            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules,
+                async () =>
                 {
-                    await _printProgressExecutor.ExecuteWithProgress(organizedModules, async () =>
+                    await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
                     {
-                        pipelineSummary = await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                        await _printProgressExecutor.ExecuteWithProgress(organizedModules,
+                            async () =>
+                            {
+                                pipelineSummary =
+                                    await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                            });
                     });
                 });
-            });
+            
+            return await CreateAndPrintPipelineSummary(organizedModules, stopWatch, start);
         }
-        finally
+        catch
         {
-            var end = DateTimeOffset.UtcNow;
-            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-            
-            _consolePrinter.PrintResults(pipelineSummary);
-            
-            await Console.Out.FlushAsync();
+            await CreateAndPrintPipelineSummary(organizedModules, stopWatch, start);
+            throw;
         }
+    }
+
+    private async Task<PipelineSummary> CreateAndPrintPipelineSummary(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start)
+    {
+        var end = DateTimeOffset.UtcNow;
+        
+        var pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+
+        await WriteResults(pipelineSummary);
 
         return pipelineSummary;
+    }
+
+    private async Task WriteResults(PipelineSummary pipelineSummary)
+    {
+        _consolePrinter.PrintResults(pipelineSummary);
+
+        await Console.Out.FlushAsync();
     }
 }
