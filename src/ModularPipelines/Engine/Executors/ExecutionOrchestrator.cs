@@ -12,7 +12,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
-    
+    private readonly IPipelineDisposer _pipelineDisposer;
+
     private readonly object _lock = new();
 
     private bool _hasRun;
@@ -22,7 +23,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IPrintModuleOutputExecutor printModuleOutputExecutor,
         IPrintProgressExecutor printProgressExecutor,
         IPipelineExecutor pipelineExecutor,
-        IConsolePrinter consolePrinter)
+        IConsolePrinter consolePrinter,
+        IPipelineDisposer pipelineDisposer)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -30,6 +32,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _printProgressExecutor = printProgressExecutor;
         _pipelineExecutor = pipelineExecutor;
         _consolePrinter = consolePrinter;
+        _pipelineDisposer = pipelineDisposer;
     }
 
     public async Task<PipelineSummary> ExecuteAsync()
@@ -76,6 +79,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             _consolePrinter.PrintResults(pipelineSummary);
             
             await Console.Out.FlushAsync();
+
+            await _pipelineDisposer.DisposeAsync();
         }
 
         return pipelineSummary;

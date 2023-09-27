@@ -115,6 +115,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>();
+            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>()
+            .AddSingleton<IPipelineDisposer, PipelineDisposer>();
     }
 }
