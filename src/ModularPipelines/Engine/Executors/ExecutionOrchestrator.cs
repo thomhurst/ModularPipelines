@@ -71,6 +71,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
             
             _consolePrinter.PrintResults(pipelineSummary);
+            
+            await Console.Out.FlushAsync();
         }
 
         return pipelineSummary;
