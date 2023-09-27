@@ -2,6 +2,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using File = ModularPipelines.FileSystem.File;

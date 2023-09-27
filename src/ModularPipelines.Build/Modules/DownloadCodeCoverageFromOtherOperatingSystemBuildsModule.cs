@@ -5,6 +5,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Octokit;
