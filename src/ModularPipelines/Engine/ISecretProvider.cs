@@ -2,7 +2,15 @@
 
 internal interface ISecretProvider
 {
-    IReadOnlyList<string> Secrets { get; }
+    /// <summary>
+    /// A list of the detected secrets from IOptions objects
+    /// </summary>
+    IEnumerable<string> Secrets { get; }
 
-    IEnumerable<string> GetSecretsInObject(object? option);
+    /// <summary>
+    /// Returns any values in the object marked with the [SecretValue] attribute
+    /// </summary>
+    /// <param name="value">Object to check for secret values within its properties.</param>
+    /// <returns>Array of secrets.</returns>
+    IEnumerable<string> GetSecretsInObject(object? value);
 }

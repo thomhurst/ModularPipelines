@@ -1,11 +1,20 @@
-﻿namespace ModularPipelines.Models;
+﻿using System.Text.Json.Serialization;
 
-public sealed class SkipDecision
+namespace ModularPipelines.Models;
+
+public sealed record SkipDecision
 {
-    public bool ShouldSkip { get; }
+    [JsonInclude]
+    public bool ShouldSkip { get; private set; }
 
+    [JsonInclude]
     public string? Reason { get; private init; }
 
+    [JsonConstructor]
+    private SkipDecision()
+    {
+    }
+    
     private SkipDecision(bool shouldSkip)
     {
         ShouldSkip = shouldSkip;

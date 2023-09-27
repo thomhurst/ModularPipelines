@@ -13,16 +13,16 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
 
-    private ILogger? _logger;
+    private IModuleLogger? _logger;
 
     public ModuleLoggerProvider(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    public ILogger GetLogger(Type type) => MakeLogger(type);
+    public IModuleLogger GetLogger(Type type) => MakeLogger(type);
 
-    public ILogger GetLogger()
+    public IModuleLogger GetLogger()
     {
         if (_logger != null)
         {
@@ -71,11 +71,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             ?.DeclaringType;
     }
 
-    private ILogger MakeLogger(Type module)
+    private IModuleLogger MakeLogger(Type module)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (ILogger)_serviceProvider.GetRequiredService(loggerType);
+        var logger = (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
 
         _logger = logger;
 

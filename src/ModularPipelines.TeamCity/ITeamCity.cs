@@ -1,6 +1,8 @@
-﻿namespace ModularPipelines.TeamCity;
+﻿using ModularPipelines.Interfaces;
 
-public interface ITeamCity
+namespace ModularPipelines.TeamCity;
+
+public interface ITeamCity : ICollapsableLogging
 {
     ITeamCityEnvironmentVariables EnvironmentVariables { get; }
 }

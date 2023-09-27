@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -16,15 +17,19 @@ public abstract class Module : Module<IDictionary<string, object>>
 }
 
 /// <summary>
-/// The base class from which all custom modules should inherit.
+/// An independent module used to perform an action, and optionally return some data, which can be used within other modules. This is the base class from which all custom modules should inherit.
 /// </summary>
-/// <typeparam name="T">The type of result object this module will return from its ExecuteAsync method.</typeparam>
+/// <typeparam name="T">The data to return which can be used within other modules, which is returned from its ExecuteAsync method..</typeparam>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
 
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
+    /// <summary>
+    /// Initialises a new instance of the <see cref="Module{T}"/> class.
+    /// </summary>
+    [JsonConstructor]
     protected Module()
     {
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
@@ -33,6 +38,10 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
+    /// <summary>
+    /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
+    /// </summary>
+    /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override async Task StartAsync()
     {
         if (ModuleRunType != ModuleRunType.AlwaysRun)
@@ -91,11 +100,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             EndTime = DateTimeOffset.UtcNow;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            ModuleResultTaskCompletionSource.SetResult(moduleResult);
-
+            
             await SaveResult(moduleResult);
-
+            
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
@@ -134,9 +141,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
                 Status = Status.IgnoredFailure;
 
-                await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
-
-                ModuleResultTaskCompletionSource.SetResult(moduleResult);
+                await SaveResult(moduleResult);
             }
             else
             {
@@ -181,11 +186,18 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         SkippedTask.Start(TaskScheduler.Default);
 
-        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
+        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this, skipDecision));
 
         Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleNotRegisteredException">Thrown if the module has not been registered.</exception>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
     protected TModule GetModule<TModule>()
         where TModule : ModuleBase
     {
@@ -200,6 +212,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         return module;
     }
 
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>, or null if it is not registered.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
     protected TModule? GetModuleIfRegistered<TModule>()
         where TModule : ModuleBase
     {
@@ -244,15 +262,42 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         Status = Status.UsedHistory;
 
-        var utcNow = DateTimeOffset.UtcNow;
-
-        StartTime = utcNow;
-        EndTime = utcNow;
-
-        StartTask.Start(TaskScheduler.Default);
-        ModuleResultTaskCompletionSource.SetResult(result);
+        Result = result;
 
         return true;
+    }
+    
+    private void SetResult(ModuleResult<T> result)
+    {
+        result.Module ??= this;
+
+        Duration = result.ModuleDuration;
+        StartTime = result.ModuleStart;
+        EndTime = result.ModuleEnd;
+        
+        SkipResult = result.SkipDecision;
+
+        Exception = result.Exception;
+        
+        StartTask.Start(TaskScheduler.Default);
+        ModuleResultTaskCompletionSource.SetResult(result);
+    }
+
+    private ModuleResult<T> _result;
+
+    [JsonInclude]
+    private ModuleResult<T> Result
+    {
+        get
+        {
+            return _result;
+        }
+
+        set
+        {
+            _result = value;
+            SetResult(value);
+        }
     }
 
     private async Task WaitForModuleDependencies()
@@ -324,6 +369,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             case Status.PipelineTerminated:
                 Context.Logger.LogError("The pipeline has errored so Module {Module} will terminate", moduleName);
                 break;
+            case Status.UsedHistory:
+                Context.Logger.LogError("Module {Module} has been constructed from historical data", moduleName);
+                break;
             default:
                 Context.Logger.LogError("Module {Module} status is: {Status}", moduleName, Status);
                 break;
@@ -334,6 +382,8 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         try
         {
+            Result = moduleResult;
+            ModuleResultTaskCompletionSource.SetResult(moduleResult);
             await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
         }
         catch (Exception e)

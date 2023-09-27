@@ -1,49 +1,36 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Models;
 
-public class ModuleResult<T>
+public class ModuleResult<T> : ModuleResult
 {
-    private readonly ModuleBase _module;
-    private readonly T? _value;
+    private T? _value;
 
-    public string ModuleName { get; private set; }
-
-    public TimeSpan ModuleDuration { get; private set; }
-
-    public DateTimeOffset ModuleStart { get; private set; }
-
-    public DateTimeOffset ModuleEnd { get; private set; }
-
-    internal ModuleResult(T? value, ModuleBase module) : this(module)
+    [JsonConstructor]
+    private ModuleResult() : base()
+    {
+    }
+    
+    internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
+    {
+    }
+    
+    internal ModuleResult(T? value, ModuleBase module) : base(module)
     {
         _value = value;
-        ModuleResultType = ModuleResultType.Success;
     }
-
-    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
-    {
-        Exception = exception;
-        ModuleResultType = ModuleResultType.Failure;
-    }
-
-    private ModuleResult(ModuleBase module)
-    {
-        _module = module;
-        ModuleName = module.GetType().Name;
-        ModuleDuration = module.Duration;
-        ModuleStart = module.StartTime;
-        ModuleEnd = module.EndTime;
-    }
-
+    
+    [JsonInclude]
     public T? Value
     {
         get
         {
             if (ModuleResultType == ModuleResultType.Failure)
             {
-                throw new ModuleFailedException(_module, Exception!);
+                throw new ModuleFailedException(Module!, Exception!);
             }
 
             if (ModuleResultType == ModuleResultType.Skipped)
@@ -53,16 +40,84 @@ public class ModuleResult<T>
 
             return _value;
         }
+
+        private set
+        {
+            _value = value;
+        }
+    }
+    
+    public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
+}
+
+[JsonConverter(typeof(TypeDiscriminatorConverter<ModuleResult>))]
+public class ModuleResult : IJsonTypeDiscriminator
+{
+    [JsonIgnore]
+    internal ModuleBase? Module { get; set; }
+
+    [JsonInclude]
+    public string ModuleName { get; private set; }
+
+    [JsonInclude]
+    public TimeSpan ModuleDuration { get; private set; }
+
+    [JsonInclude]
+    public DateTimeOffset ModuleStart { get; private set; }
+
+    [JsonInclude]
+    public DateTimeOffset ModuleEnd { get; private set; }
+
+    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
+    {
+        Exception = exception;
+    }
+    
+    [JsonConstructor]
+    protected ModuleResult()
+    {
+    }
+    
+    protected ModuleResult(ModuleBase module)
+    {
+        Module = module;
+        ModuleName = module.GetType().Name;
+        ModuleDuration = module.Duration;
+        ModuleStart = module.StartTime;
+        ModuleEnd = module.EndTime;
+        SkipDecision = module.SkipResult;
+        TypeDiscriminator = module.GetType().FullName!;
     }
 
-    private string GetModuleName()
+    protected string GetModuleName()
     {
         return ModuleName;
     }
-
-    public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
-
+    
+    [JsonInclude]
     public Exception? Exception { get; private set; }
+    
+    [JsonInclude]
+    public SkipDecision SkipDecision { get; private protected set; }
 
-    public ModuleResultType ModuleResultType { get; private protected init; }
+    public ModuleResultType ModuleResultType
+    {
+        get
+        {
+            if (Exception != null)
+            {
+                return ModuleResultType.Failure;
+            }
+
+            if (SkipDecision?.ShouldSkip == true)
+            {
+                return ModuleResultType.Skipped;
+            }
+
+            return ModuleResultType.Success;
+        }
+    }
+
+    [JsonInclude]
+    public string TypeDiscriminator { get; private set; }
 }

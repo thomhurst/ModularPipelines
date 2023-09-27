@@ -1,6 +1,8 @@
-﻿namespace ModularPipelines.GitHub;
+﻿using ModularPipelines.Interfaces;
 
-public interface IGitHub
+namespace ModularPipelines.GitHub;
+
+public interface IGitHub : ICollapsableLogging
 {
     IGitHubEnvironmentVariables EnvironmentVariables { get; }
 }

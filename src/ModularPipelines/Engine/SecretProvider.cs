@@ -8,29 +8,29 @@ internal class SecretProvider : ISecretProvider, IInitializer
 {
     private readonly IOptionsProvider _optionsProvider;
 
-    private List<string> _secrets = new();
+    private HashSet<string> _secrets = new();
 
-    public IReadOnlyList<string> Secrets => _secrets;
+    public IEnumerable<string> Secrets => _secrets;
 
     public SecretProvider(IOptionsProvider optionsProvider)
     {
         _optionsProvider = optionsProvider;
     }
 
-    public IEnumerable<string> GetSecretsInObject(object? option)
+    public IEnumerable<string> GetSecretsInObject(object? value)
     {
-        if (option is null)
+        if (value is null)
         {
             yield break;
         }
 
-        foreach (var secretValueMember in option.GetType()
+        foreach (var secretValueMember in value.GetType()
                      .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                     .Concat(option.GetType()
+                     .Concat(value.GetType()
                          .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
                      .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null))
         {
-            var secret = secretValueMember.GetValue(option)?.ToString();
+            var secret = secretValueMember.GetValue(value)?.ToString();
 
             if (!string.IsNullOrWhiteSpace(secret))
             {
@@ -41,7 +41,7 @@ internal class SecretProvider : ISecretProvider, IInitializer
 
     public Task InitializeAsync()
     {
-        _secrets = GetSecrets(_optionsProvider.GetOptions()).ToList();
+        _secrets = GetSecrets(_optionsProvider.GetOptions()).ToHashSet();
         return Task.CompletedTask;
     }
 

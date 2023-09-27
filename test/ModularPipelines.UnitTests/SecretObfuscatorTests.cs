@@ -20,7 +20,7 @@ public class SecretObfuscatorTests
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
         _consoleWriterMock = new Mock<IConsoleWriter>();
-        _consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
+        _consoleWriterMock.Setup(x => x.LogToConsole(It.IsAny<string>()))
             .Callback<string>(value => _stringBuilder.AppendLine(value));
     }
 
