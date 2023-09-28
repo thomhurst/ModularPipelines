@@ -60,6 +60,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
+                
+                Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
+                
                 ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
@@ -137,6 +140,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             if (await ShouldIgnoreFailures(Context, exception))
             {
+                Context.Logger.LogDebug("Ignoring failures in this module and continuing...");
+                
                 var moduleResult = new ModuleResult<T>(exception, this);
 
                 Status = Status.IgnoredFailure;
@@ -145,9 +150,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
             else
             {
+                Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
+                
                 Context.EngineCancellationToken.Cancel();
-
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
 
                 ModuleResultTaskCompletionSource.SetException(exception);
 
@@ -241,6 +246,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
+        
+        Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
 
         DependentModules.Add(dependsOnAttribute);
     }
@@ -249,6 +256,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
         {
+            Context.Logger.LogDebug("No results repository configured to pull historical results from");
             return false;
         }
 
@@ -258,6 +266,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return false;
         }
+        
+        Context.Logger.LogDebug("Setting up module from history");
 
         Status = Status.UsedHistory;
 
@@ -302,6 +312,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         if (!DependentModules.Any())
         {
+            Context.Logger.LogDebug("No dependent modules - Nothing to wait for");
             return;
         }
 
@@ -315,6 +326,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
                     if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
                     {
+                        Context.Logger.LogDebug("{Module} was not registered so not waiting", dependsOnAttribute.Type.Name);
                         return Task.CompletedTask;
                     }
 
@@ -324,6 +336,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                             $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
                     }
 
+                    Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
+                    
                     return module.ResultTaskInternal;
                 })
                 .ProcessInParallel();
@@ -380,6 +394,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         try
         {
+            Context.Logger.LogDebug("Saving module result");
             Result = moduleResult;
             ModuleResultTaskCompletionSource.SetResult(moduleResult);
             await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
