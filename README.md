@@ -86,7 +86,7 @@ await PipelineHostBuilder.Create()
 public class FindNugetPackagesModule : Module<FileInfo>
 {
     private readonly ISomeService1 _someService1;
-    
+
     public FindNugetPackagesModule(ISomeService1 someService1) 
     {
         _someService1 = someService1;
@@ -94,7 +94,7 @@ public class FindNugetPackagesModule : Module<FileInfo>
 
     protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        await Task.Yield();
+        await _someService1.DoSomething();
 
         return context.Git()
             .RootDirectory
