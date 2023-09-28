@@ -1,3 +1,5 @@
+using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -21,21 +23,27 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     public Task OnStartAsync()
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnStartAsync(await _moduleContextProvider.GetModuleContext())));
+        return Task.WhenAll(_globalHooks.Select(async x => x.OnStartAsync(await GetModuleContext())));
     }
 
     public Task OnEndAsync(PipelineSummary pipelineSummary)
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnEndAsync(await _moduleContextProvider.GetModuleContext(), pipelineSummary)));
+        return Task.WhenAll(_globalHooks.Select(async x => x.OnEndAsync(await GetModuleContext(), pipelineSummary)));
     }
 
     public Task OnBeforeModuleStartAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleStartAsync(await _moduleContextProvider.GetModuleContext(), module)));
+        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleStartAsync(await GetModuleContext(), module)));
     }
 
     public Task OnAfterModuleEndAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleEndAsync(await _moduleContextProvider.GetModuleContext(), module)));
+        return Task.WhenAll(_moduleHooks.Select(async x => x.OnAfterModuleEndAsync(await GetModuleContext(), module)));
+    }
+
+    private async Task<IPipelineContext> GetModuleContext()
+    {
+        var pipelineContext = await _moduleContextProvider.GetModuleContext();
+        return pipelineContext.ToNoModulePipelineContext();
     }
 }

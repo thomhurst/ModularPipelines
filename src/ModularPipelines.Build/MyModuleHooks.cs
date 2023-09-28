@@ -15,7 +15,7 @@ public class MyModuleHooks : IPipelineModuleHooks
     }
 
     /// <inheritdoc/>
-    public Task OnBeforeModuleEndAsync(IPipelineContext pipelineContext, ModuleBase module)
+    public Task OnAfterModuleEndAsync(IPipelineContext pipelineContext, ModuleBase module)
     {
         pipelineContext.Logger.LogInformation("{Module} finished at {DateTime} after {Elapsed}", module.GetType().Name, DateTimeOffset.UtcNow, module.Duration);
         return Task.CompletedTask;

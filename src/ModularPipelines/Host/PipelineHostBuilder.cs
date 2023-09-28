@@ -2,10 +2,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -17,12 +19,10 @@ namespace ModularPipelines.Host;
 public class PipelineHostBuilder
 {
     private readonly IHostBuilder _internalHost;
-    private readonly PipelineEnginePlugins _plugins;
 
     public PipelineHostBuilder()
     {
         _internalHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder();
-        _plugins = new PipelineEnginePlugins(_internalHost);
         _internalHost.ConfigureServices(DependencyInjectionSetup.Initialize);
     }
 
@@ -60,6 +60,28 @@ public class PipelineHostBuilder
 
         return this;
     }
+    
+    public PipelineHostBuilder AddGlobalHooks<TGlobalHooks>()
+        where TGlobalHooks : class, IPipelineGlobalHooks
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddScoped<IPipelineGlobalHooks, TGlobalHooks>();
+        });
+
+        return this;
+    }
+    
+    public PipelineHostBuilder AddModuleHooks<TModuleHooks>()
+        where TModuleHooks : class, IPipelineModuleHooks
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddScoped<IPipelineModuleHooks, TModuleHooks>();
+        });
+
+        return this;
+    }
 
     public PipelineHostBuilder AddRequirement<TRequirement>()
         where TRequirement : class, IPipelineRequirement
@@ -80,12 +102,6 @@ public class PipelineHostBuilder
             collection.AddScoped<IModuleEstimatedTimeProvider, TEstimatedTimeProvider>();
         });
 
-        return this;
-    }
-
-    public PipelineHostBuilder ConfigurePlugins(Action<PipelineEnginePlugins> configureDelegate)
-    {
-        configureDelegate(_plugins);
         return this;
     }
 
@@ -122,6 +138,18 @@ public class PipelineHostBuilder
         return await host.ExecutePipelineAsync();
     }
 
+    public PipelineHostBuilder AddModuleEstimatedTimeProvider<T>()
+        where T : class, IModuleEstimatedTimeProvider
+    {
+        return OverrideGeneric<IModuleEstimatedTimeProvider, T>();
+    }
+
+    public PipelineHostBuilder AddResultsRepository<T>()
+        where T : class, IModuleResultRepository
+    {
+        return OverrideGeneric<IModuleResultRepository, T>();
+    }
+    
     internal async Task<IPipelineHost> BuildHostAsync()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
@@ -177,5 +205,18 @@ public class PipelineHostBuilder
         return baseDirectoryDlls
             .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
             .Distinct();
+    }
+    
+    private PipelineHostBuilder OverrideGeneric<TBase, T>()
+        where T : class, TBase
+        where TBase : class
+    {
+        _internalHost.ConfigureServices(s =>
+        {
+            s.RemoveAll<TBase>()
+                .AddScoped<TBase, T>();
+        });
+
+        return this;
     }
 }

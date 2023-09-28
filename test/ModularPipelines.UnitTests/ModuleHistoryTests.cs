@@ -137,7 +137,7 @@ public class ModuleHistoryTests
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<NotFoundModuleRepository>())
+            .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
@@ -149,7 +149,7 @@ public class ModuleHistoryTests
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .RunCategories("2")
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<NotFoundModuleRepository>())
+            .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
@@ -160,7 +160,7 @@ public class ModuleHistoryTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromRunCondition>()
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<NotFoundModuleRepository>())
+            .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
@@ -171,7 +171,7 @@ public class ModuleHistoryTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromMethod>()
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<NotFoundModuleRepository>())
+            .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
@@ -183,7 +183,7 @@ public class ModuleHistoryTests
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<GoodModuleRepository>())
+            .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
@@ -195,7 +195,7 @@ public class ModuleHistoryTests
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .RunCategories("2")
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<GoodModuleRepository>())
+            .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
@@ -206,7 +206,7 @@ public class ModuleHistoryTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromRunCondition>()
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<GoodModuleRepository>())
+            .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
@@ -217,7 +217,7 @@ public class ModuleHistoryTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromMethod>()
-            .ConfigurePlugins(plugins => plugins.SetResultsRepository<GoodModuleRepository>())
+            .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
         Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
