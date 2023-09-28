@@ -177,6 +177,18 @@ public class FileTests : TestBase
 
         Assert.That(plainText, Is.EqualTo("Hello world!"));
     }
+    
+    [Test]
+    public async Task WriteStreamFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+
+        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
+
+        var plainText = await file.ReadAsync();
+
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
+    }
 
     [Test]
     public async Task ReadWriteReadOnlyMemoryBytesFile()
