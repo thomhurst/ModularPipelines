@@ -44,7 +44,6 @@ public class HookTests : TestBase
         }
     }
     
-    
     [Test, Timeout(10_000)]
     public void Waiting_On_Module_From_GlobalHook_Does_Not_Hang_And_Throws_Exception()
     {
