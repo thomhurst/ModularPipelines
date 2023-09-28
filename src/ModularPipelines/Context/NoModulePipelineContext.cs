@@ -23,12 +23,13 @@ internal class NoModulePipelineContext : IPipelineContext
 
     public EngineCancellationToken EngineCancellationToken => _pipelineContextImplementation.EngineCancellationToken;
 
-    public TModule? GetModule<TModule>() where TModule : ModuleBase
+    public TModule GetModule<TModule>()
+        where TModule : ModuleBase
     {
         throw new PipelineException("Getting a module is not supported outside of another module.");
     }
     
-    public ModuleBase? GetModule(Type type)
+    public ModuleBase GetModule(Type type)
     {
         throw new PipelineException("Getting a module is not supported outside of another module.");
     }
