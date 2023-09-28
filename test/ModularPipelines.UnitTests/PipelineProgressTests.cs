@@ -4,11 +4,28 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using Spectre.Console;
 
 namespace ModularPipelines.UnitTests;
 
+[Parallelizable(ParallelScope.None)]
 public class PipelineProgressTests
 {
+    private static bool _originalInteractive;
+
+    [OneTimeSetUp]
+    public static void Setup()
+    {
+        _originalInteractive = AnsiConsole.Profile.Capabilities.Interactive;
+        AnsiConsole.Profile.Capabilities.Interactive = true;
+    }
+    
+    [TearDown]
+    public static void TearDown()
+    {
+        AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
+    }
+    
     private class Module1 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
