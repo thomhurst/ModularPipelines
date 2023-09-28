@@ -43,7 +43,7 @@ public class EngineCancellationTokenTests : TestBase
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((context, options) =>
+            .ConfigurePipelineOptions((_, options) =>
             {
                 options.LoggerOptions.LogLevel = LogLevel.Debug;
             })
