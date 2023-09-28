@@ -53,19 +53,17 @@ public class UpdateReleaseNotesModule : Module
 
         var releaseNotesContents = await releaseNotesFile.ReadAsync();
 
-        if (releaseNotesContents.Trim().Equals("null", StringComparison.OrdinalIgnoreCase))
-        {
-            return await NothingAsync();
-        }
-
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
 
-        await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
-            new NewRelease(versionInfoResult.Value)
-            {
-                Name = versionInfoResult.Value,
-                Body = releaseNotesContents,
-            });
+        if (!releaseNotesContents.Trim().Equals("null", StringComparison.OrdinalIgnoreCase))
+        {
+            await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
+                new NewRelease(versionInfoResult.Value)
+                {
+                    Name = versionInfoResult.Value,
+                    Body = releaseNotesContents,
+                });
+        }
 
         await ResetReleaseNotesFile(releaseNotesFile, context, cancellationToken);
 
