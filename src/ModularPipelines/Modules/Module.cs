@@ -44,15 +44,8 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override async Task StartAsync()
     {
-        if (ModuleRunType != ModuleRunType.AlwaysRun)
-        {
-            Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
-        }
-
         try
         {
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
             try
             {
                 await WaitForModuleDependencies();
@@ -60,12 +53,18 @@ public abstract partial class Module<T> : ModuleBase<T>
             catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
-                
                 Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
                 
                 ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
+            
+            if (ModuleRunType != ModuleRunType.AlwaysRun)
+            {
+                Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
+            }
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             var skipResult = await ShouldSkip(Context);
 

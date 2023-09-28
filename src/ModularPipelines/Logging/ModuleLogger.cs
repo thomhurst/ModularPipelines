@@ -26,7 +26,6 @@ internal abstract class ModuleLogger : IModuleLogger
 
 internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 {
-    private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
@@ -38,15 +37,13 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(IOptions<PipelineOptions> options,
-        ILogger<T> defaultLogger,
+    public ModuleLogger(ILogger<T> defaultLogger,
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
         ISecretProvider secretProvider,
         IConsoleWriter consoleWriter)
     {
-        _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
@@ -114,7 +111,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
                 {
                     if (stringOrLogEvent.IsString)
                     {
-                        _consoleWriter.LogToConsole(stringOrLogEvent.StringValue);
+                        _consoleWriter.LogToConsole(stringOrLogEvent.StringValue ?? string.Empty);
                     }
                     else if (stringOrLogEvent.LogEvent != null)
                     {
