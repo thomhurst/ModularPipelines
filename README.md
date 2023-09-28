@@ -72,6 +72,8 @@ await PipelineHostBuilder.Create()
     {
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
+        collection.AddSingleton<ISomeService1, SomeService1>();
+        collection.AddTransient<ISomeService2, SomeService2>();
     })
     .AddModule<FindNugetPackagesModule>()
     .AddModule<UploadNugetPackagesModule>()
@@ -83,6 +85,13 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
+    private readonly ISomeService1 _someService1;
+    
+    public FindNugetPackagesModule(ISomeService1 someService1) 
+    {
+        _someService1 = someService1;
+    }
+
     protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
