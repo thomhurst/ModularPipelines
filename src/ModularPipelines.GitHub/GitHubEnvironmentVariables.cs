@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.GitHub;
 
+[ExcludeFromCodeCoverage]
 internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
 {
     public bool CI { get; } = bool.TryParse(Environment.GetEnvironmentVariable("CI"), out var ci) && ci;

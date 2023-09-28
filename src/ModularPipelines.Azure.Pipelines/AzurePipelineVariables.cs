@@ -1,5 +1,8 @@
-﻿namespace ModularPipelines.Azure.Pipelines;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace ModularPipelines.Azure.Pipelines;
+
+[ExcludeFromCodeCoverage]
 public record AzurePipelineVariables
 {
     public AzurePipelineAgentVariables Agent { get; }

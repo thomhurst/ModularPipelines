@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.TeamCity;
 
+[ExcludeFromCodeCoverage]
 internal class TeamCityEnvironmentVariables : ITeamCityEnvironmentVariables
 {
     public string? TeamCityVersion => Get("TEAMCITY_VERSION");
