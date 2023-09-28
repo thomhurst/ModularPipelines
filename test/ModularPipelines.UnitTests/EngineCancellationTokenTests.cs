@@ -38,7 +38,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [Test]
+    [Test, Repeat(10)]
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()
@@ -57,7 +57,7 @@ public class EngineCancellationTokenTests : TestBase
         Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted));
     }
 
-    [Test]
+    [Test, Repeat(10)]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()

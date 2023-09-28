@@ -147,6 +147,8 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 Context.EngineCancellationToken.Cancel();
 
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
+
                 ModuleResultTaskCompletionSource.SetException(exception);
 
                 throw new ModuleFailedException(this, exception);
