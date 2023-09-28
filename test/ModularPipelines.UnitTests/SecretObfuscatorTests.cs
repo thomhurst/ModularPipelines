@@ -35,7 +35,7 @@ public class SecretObfuscatorTests
         var logOutput = _stringBuilder.ToString();
 
         Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
     }
 
     [Test]
@@ -47,8 +47,8 @@ public class SecretObfuscatorTests
 
         var logOutput = _stringBuilder.ToString();
 
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
     }
 
     private Task<IPipelineHost> GetPipelineHost()
@@ -56,7 +56,6 @@ public class SecretObfuscatorTests
         return TestPipelineHostBuilder.Create()
             .ConfigureServices((context, services) =>
             {
-                services.AddLogging(cfg => cfg.SetMinimumLevel(LogLevel.Information));
                 services.AddSingleton(_buildSystemMock.Object);
                 services.Configure<MyModel>(context.Configuration);
                 services.AddSingleton(_consoleWriterMock.Object);
