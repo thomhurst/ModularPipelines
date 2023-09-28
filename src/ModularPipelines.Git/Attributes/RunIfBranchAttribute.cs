@@ -1,9 +1,11 @@
-﻿using ModularPipelines.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Git.Attributes;
 
+[ExcludeFromCodeCoverage]
 public class RunIfBranchAttribute : RunConditionAttribute
 {
     public string BranchName { get; }
