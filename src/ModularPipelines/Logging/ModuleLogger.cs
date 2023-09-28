@@ -69,7 +69,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
     public override bool IsEnabled(LogLevel logLevel)
     {
-        return logLevel >= _options.Value.LoggerOptions.LogLevel;
+        return _defaultLogger.IsEnabled(logLevel);
     }
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
