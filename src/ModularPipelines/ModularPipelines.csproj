@@ -15,7 +15,7 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-      <PackageReference Include="Polly" Version="7.2.4" />
+      <PackageReference Include="Polly" Version="8.0.0" />
       <PackageReference Include="Spectre.Console" Version="0.47.0" />
       <PackageReference Include="System.Text.Json" Version="8.0.0-rc.1.23419.4" />
       <PackageReference Include="TomLonghurst.EnumerableAsyncProcessor" Version="1.1.0" />
