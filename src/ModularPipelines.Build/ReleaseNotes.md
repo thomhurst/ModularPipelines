@@ -1,1 +1,1 @@
- *  Submodule progress reported within the console progress dialog
+*   Submodule progress reported within the console progress dialog
