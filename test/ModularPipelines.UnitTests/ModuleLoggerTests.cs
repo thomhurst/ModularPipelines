@@ -28,7 +28,7 @@ public class ModuleLoggerTests
         var file = File.GetNewTemporaryFilePath();
         
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, collection) =>
+            .ConfigureServices((_, collection) =>
             {
                 collection.AddLogging(builder => { builder.AddFile(file); });
                 collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder));

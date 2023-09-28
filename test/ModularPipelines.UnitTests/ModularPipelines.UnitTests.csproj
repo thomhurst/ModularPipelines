@@ -41,6 +41,7 @@
       <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
