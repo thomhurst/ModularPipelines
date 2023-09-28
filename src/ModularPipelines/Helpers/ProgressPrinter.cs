@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -171,7 +172,7 @@ internal class ProgressPrinter : IProgressPrinter
             SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
             SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
 
-            RegisterSubModules(moduleToProcess, progressContext, cancellationToken);
+            RegisterSubModules(moduleToProcess, progressContext, cancellationToken, progressTask);
         }
     }
 
@@ -222,8 +223,10 @@ internal class ProgressPrinter : IProgressPrinter
         }
     }
 
-    private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext, CancellationToken cancellationToken)
+    private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext,
+        CancellationToken cancellationToken, ProgressTask parentModuleTask)
     {
+        var subModuleIndex = 0;
         moduleToProcess.Module.OnSubModuleCreated += (_, subModule) =>
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
@@ -233,6 +236,13 @@ internal class ProgressPrinter : IProgressPrinter
                 AutoStart = true,
             });
 
+            var list = (List<ProgressTask>)progressContext.GetType()
+                .GetField("_tasks", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .GetValue(progressContext)!;
+
+            list.Remove(progressTask);
+            list.Insert(list.IndexOf(parentModuleTask) + ++subModuleIndex, progressTask);
+            
             Task.Run(async () =>
             {
                 var subModuleEstimation =

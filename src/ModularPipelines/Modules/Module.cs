@@ -156,7 +156,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 // Time for cancellation to register
                 await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-                ModuleResultTaskCompletionSource.SetException(exception);
+                ModuleResultTaskCompletionSource.TrySetException(exception);
 
                 throw new ModuleFailedException(this, exception);
             }
@@ -192,7 +192,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         SkippedTask.Start(TaskScheduler.Default);
 
-        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this, skipDecision));
+        ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(this, skipDecision));
 
         Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
@@ -293,7 +293,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         Exception = result.Exception;
         
-        ModuleResultTaskCompletionSource.SetResult(result);
+        ModuleResultTaskCompletionSource.TrySetResult(result);
     }
 
     private ModuleResult<T> _result = null!;
@@ -401,7 +401,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             Context.Logger.LogDebug("Saving module result");
             Result = moduleResult;
-            ModuleResultTaskCompletionSource.SetResult(moduleResult);
+            ModuleResultTaskCompletionSource.TrySetResult(moduleResult);
             await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
         }
         catch (Exception e)
