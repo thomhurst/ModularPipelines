@@ -22,5 +22,5 @@ public interface IPipelineModuleHooks
     /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
     /// <param name="module">The module that has finished.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnBeforeModuleEndAsync(IPipelineContext pipelineContext, ModuleBase module);
+    Task OnAfterModuleEndAsync(IPipelineContext pipelineContext, ModuleBase module);
 }

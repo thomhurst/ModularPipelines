@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
 

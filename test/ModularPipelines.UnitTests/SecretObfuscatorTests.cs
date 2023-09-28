@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.UnitTests.Models;
