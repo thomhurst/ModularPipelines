@@ -22,6 +22,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
+                Framework = "net7.0",
                 Collect = "XPlat Code Coverage",
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
