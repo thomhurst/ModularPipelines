@@ -33,14 +33,14 @@ public class DotNetTestFailedException : PipelineException
             {
                 sb.AppendLine($"Failed Test: {unitTestResult.TestName}");
                 
-                if(!string.IsNullOrEmpty(unitTestResult.Output?.StdOut))
+                if (!string.IsNullOrEmpty(unitTestResult.Output?.StdOut))
                 {
                     sb.AppendLine("Output:");
                     sb.AppendLine(unitTestResult.Output.StdOut);
                     sb.AppendLine();
                 }
 
-                if(!string.IsNullOrEmpty(unitTestResult.Output?.ErrorInfo?.Message))
+                if (!string.IsNullOrEmpty(unitTestResult.Output?.ErrorInfo?.Message))
                 {
                     sb.AppendLine("Error:");
                     sb.AppendLine(unitTestResult.Output.ErrorInfo.Message);

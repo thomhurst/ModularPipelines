@@ -46,12 +46,10 @@ public abstract partial class ModuleBase : IJsonTypeDiscriminator
         protected set
         {
             _context = value;
-            _onInitialised?.Invoke(this, EventArgs.Empty);
+            OnInitialised?.Invoke(this, EventArgs.Empty);
         }
     }
-
-    protected EventHandler? _onInitialised;
-
+    
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
 
@@ -135,6 +133,8 @@ public abstract partial class ModuleBase : IJsonTypeDiscriminator
 
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
+    
+    protected EventHandler? OnInitialised { get; set; }
 }
 
 /// <summary>

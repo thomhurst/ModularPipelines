@@ -62,7 +62,19 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var waitForWindows = await WaitFor(windowsRun, cancellationToken);
         var waitForMac = await WaitFor(macRun, cancellationToken);
 
-        return new List<WorkflowRun>{ waitForWindows, waitForMac };
+        var list = new List<WorkflowRun>();
+
+        if (waitForWindows != null)
+        {
+            list.Add(waitForWindows);
+        }
+        
+        if (waitForMac != null)
+        {
+            list.Add(waitForMac);
+        }
+        
+        return list;
     }
 
     private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)
