@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.UnitTests.Models;
@@ -55,6 +56,7 @@ public class SecretObfuscatorTests
         return TestPipelineHostBuilder.Create()
             .ConfigureServices((context, services) =>
             {
+                services.AddLogging(cfg => cfg.SetMinimumLevel(LogLevel.Information));
                 services.AddSingleton(_buildSystemMock.Object);
                 services.Configure<MyModel>(context.Configuration);
                 services.AddSingleton(_consoleWriterMock.Object);

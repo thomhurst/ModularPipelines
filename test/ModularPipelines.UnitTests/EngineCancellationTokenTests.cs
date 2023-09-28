@@ -43,10 +43,6 @@ public class EngineCancellationTokenTests : TestBase
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
-            {
-                collection.AddLogging(cfg => cfg.SetMinimumLevel(LogLevel.Debug));
-            })
             .AddModule<BadModule>()
             .AddModule<Module1>()
             .BuildHostAsync();
@@ -54,12 +50,12 @@ public class EngineCancellationTokenTests : TestBase
         var modules = host.RootServices.GetServices<ModuleBase>();
 
         var module1 = modules.GetModule<Module1>();
-        
-        var pipelineTask = host.ExecutePipelineAsync();
-        
-        Assert.That(async () => await pipelineTask, Throws.Exception);
-        
-        Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted));
+       
+        Assert.Multiple(() =>
+        {
+            Assert.That(async () => await host.ExecutePipelineAsync(), Throws.Exception);
+            Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted));
+        });
     }
 
     [Test, Repeat(10)]
