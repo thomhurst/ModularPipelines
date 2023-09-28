@@ -30,7 +30,7 @@ public class RunConditionTests : TestBase
     {
         public override async Task<bool> Condition(IPipelineContext pipelineContext)
         {
-            var module = await pipelineContext.GetModule<Module1>()!;
+            await pipelineContext.GetModule<Module1>()!;
             return true;
         }
     }
