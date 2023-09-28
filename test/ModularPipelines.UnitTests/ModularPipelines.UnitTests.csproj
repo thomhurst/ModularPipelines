@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ModularPipelines.AWS\ModularPipelines.AWS.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
@@ -33,6 +33,7 @@
       <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Email\ModularPipelines.Email.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Ftp\ModularPipelines.Ftp.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
@@ -40,6 +41,7 @@
       <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.NuGet\ModularPipelines.NuGet.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
+      <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>

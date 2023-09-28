@@ -4,7 +4,8 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Attributes;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.NuGet.Extensions;
@@ -15,6 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
 [SkipIfDependabot]
+[RunOnlyOnBranch("main")]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
@@ -40,28 +42,14 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
     }
 
     /// <inheritdoc/>
-    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        var gitVersionInfo = await context.Git().Versioning.GetGitVersioningInformation();
-
-        if (gitVersionInfo.BranchName != "main")
-        {
-            return true;
-        }
-
-        return !_publishSettings.Value.ShouldPublish;
+        return Task.FromResult<SkipDecision>(!_publishSettings.Value.ShouldPublish);
     }
 
     /// <inheritdoc/>
     protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
-
-        if (gitVersionInformation.BranchName != "main")
-        {
-            return await NothingAsync();
-        }
-
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
         var packagePaths = await GetModule<PackagePathsParserModule>();

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ModularPipelines.Extensions;
 using ModularPipelines.UnitTests.Attributes;
 using File = ModularPipelines.FileSystem.File;
 
@@ -107,11 +108,15 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
+        var bytes = await file.ReadBytesAsync();
+        var stream = await file.GetStream().ToMemoryStreamAsync();
 
         Assert.Multiple(() =>
         {
             Assert.That(plainText, Is.Empty);
             Assert.That(lines, Is.Empty);
+            Assert.That(bytes, Is.Empty);
+            Assert.That(stream.Length, Is.Zero);
         });
     }
 
@@ -124,6 +129,8 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
+        var bytes = await file.ReadBytesAsync();
+        var stream = await file.GetStream().ToMemoryStreamAsync();
 
         Assert.Multiple(() =>
         {
@@ -131,6 +138,8 @@ public class FileTests : TestBase
             Assert.That(lines, Has.Length.EqualTo(2));
             Assert.That(lines[0], Is.EqualTo("Hello"));
             Assert.That(lines[1], Is.EqualTo("world"));
+            Assert.That(bytes, Is.Not.Empty);
+            Assert.That(stream.Length, Is.Not.Zero);
         });
     }
 
@@ -163,6 +172,18 @@ public class FileTests : TestBase
         var file = File.GetNewTemporaryFilePath();
 
         await file.WriteAsync("Hello world!"u8.ToArray());
+
+        var plainText = await file.ReadAsync();
+
+        Assert.That(plainText, Is.EqualTo("Hello world!"));
+    }
+    
+    [Test]
+    public async Task WriteStreamFile()
+    {
+        var file = File.GetNewTemporaryFilePath();
+
+        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
 

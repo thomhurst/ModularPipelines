@@ -49,12 +49,6 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             return false;
         }
 
-        // Not yet ready
-        if (path.EndsWith("ModularPipelines.AWS.csproj"))
-        {
-            return false;
-        }
-
         context.Logger.LogInformation("Found File: {File}", path);
 
         return true;

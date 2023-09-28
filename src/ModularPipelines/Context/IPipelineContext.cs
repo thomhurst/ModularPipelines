@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -32,7 +33,7 @@ public interface IPipelineContext
 
     public T? Get<T>();
 
-    public ILogger Logger { get; }
+    public IModuleLogger Logger { get; }
 
     #region OutOfTheBoxHelpers
 

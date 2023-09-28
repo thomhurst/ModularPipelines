@@ -60,6 +60,7 @@ public class DotNetTestResultsTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(exception, Is.Not.Null, () => $"Exception is null: {exception}");
+            Assert.That(exception?.Message, Is.Not.Null.And.Not.Empty, () => $"Exception message is null: {exception?.Message}");
             Assert.That(unitTestResults, Is.Not.Null, () => $"Unit test results are null: {exception!.CommandResult}");
             Assert.That(exception?.DotNetTestResult, Is.Not.Null, () => $"DotNetTestResult is null: {exception?.DotNetTestResult}");
             Assert.That(exception!.DotNetTestResult!.Successful, Is.False);

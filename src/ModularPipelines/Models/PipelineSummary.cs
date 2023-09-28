@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Enums;
+﻿using System.Text.Json.Serialization;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
@@ -6,14 +7,31 @@ namespace ModularPipelines.Models;
 
 public record PipelineSummary
 {
-    public IReadOnlyList<ModuleBase> Modules { get; }
+    /// <summary>
+    /// Gets the modules that are part of the pipeline
+    /// </summary>
+    [JsonInclude]
+    public IReadOnlyList<ModuleBase> Modules { get; private set; }
 
-    public TimeSpan TotalDuration { get; }
+    /// <summary>
+    /// Gets how long the pipeline took to run
+    /// </summary>
+    [JsonInclude]
+    public TimeSpan TotalDuration { get; private set; }
 
-    public DateTimeOffset Start { get; }
+    /// <summary>
+    /// Gets when the pipeline started
+    /// </summary>
+    [JsonInclude]
+    public DateTimeOffset Start { get; private set; }
 
-    public DateTimeOffset End { get; }
-
+    /// <summary>
+    /// Gets when the pipeline finished
+    /// </summary>
+    [JsonInclude]
+    public DateTimeOffset End { get; private set; }
+    
+    [JsonConstructor]
     internal PipelineSummary(IReadOnlyList<ModuleBase> modules,
         TimeSpan totalDuration,
         DateTimeOffset start,
@@ -25,6 +43,9 @@ public record PipelineSummary
         End = end;
     }
 
+    /// <summary>
+    /// Gets the status of the pipeline
+    /// </summary>
     public Status Status => GetStatus();
 
     private Status GetStatus()
@@ -57,6 +78,11 @@ public record PipelineSummary
         return Status.Successful;
     }
 
+    /// <summary>
+    /// Get the Module of type {T}
+    /// </summary>
+    /// <typeparam name="T">The module type to get.</typeparam>
+    /// <returns>{T}.</returns>
     public T GetModule<T>()
         where T : ModuleBase
         => Modules.GetModule<T>();

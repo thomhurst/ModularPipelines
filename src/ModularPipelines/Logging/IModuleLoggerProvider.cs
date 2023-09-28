@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace ModularPipelines.Logging;
+﻿namespace ModularPipelines.Logging;
 
 public interface IModuleLoggerProvider
 {
-    internal ILogger GetLogger(Type type);
+    internal IModuleLogger GetLogger(Type type);
 
-    ILogger GetLogger();
+    IModuleLogger GetLogger();
 }

@@ -35,6 +35,16 @@ public class File : IEquatable<File>
     {
         return System.IO.File.ReadAllLinesAsync(Path);
     }
+    
+    public Task<byte[]> ReadBytesAsync()
+    {
+        return System.IO.File.ReadAllBytesAsync(Path);
+    }
+    
+    public FileStream GetStream()
+    {
+        return System.IO.File.OpenRead(Path);
+    }
 
     public Task WriteAsync(string contents)
     {

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.UnitTests.Models;
@@ -20,7 +21,7 @@ public class SecretObfuscatorTests
         _buildSystemMock = new Mock<IBuildSystemDetector>();
 
         _consoleWriterMock = new Mock<IConsoleWriter>();
-        _consoleWriterMock.Setup(x => x.WriteLine(It.IsAny<string>()))
+        _consoleWriterMock.Setup(x => x.LogToConsole(It.IsAny<string>()))
             .Callback<string>(value => _stringBuilder.AppendLine(value));
     }
 
@@ -34,7 +35,7 @@ public class SecretObfuscatorTests
         var logOutput = _stringBuilder.ToString();
 
         Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
     }
 
     [Test]
@@ -46,8 +47,8 @@ public class SecretObfuscatorTests
 
         var logOutput = _stringBuilder.ToString();
 
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contains("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is a secret value!"));
+        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
     }
 
     private Task<IPipelineHost> GetPipelineHost()

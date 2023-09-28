@@ -12,7 +12,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
-    
+
     private readonly object _lock = new();
 
     private bool _hasRun;
@@ -54,16 +54,19 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         PipelineSummary? pipelineSummary = null;
         try
         {
-            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules, async () =>
-            {
-                await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
+            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules,
+                async () =>
                 {
-                    await _printProgressExecutor.ExecuteWithProgress(organizedModules, async () =>
+                    await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
                     {
-                        pipelineSummary = await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                        await _printProgressExecutor.ExecuteWithProgress(organizedModules,
+                            async () =>
+                            {
+                                pipelineSummary =
+                                    await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+                            });
                     });
                 });
-            });
         }
         finally
         {
@@ -71,6 +74,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
             
             _consolePrinter.PrintResults(pipelineSummary);
+            
+            await Console.Out.FlushAsync();
         }
 
         return pipelineSummary;

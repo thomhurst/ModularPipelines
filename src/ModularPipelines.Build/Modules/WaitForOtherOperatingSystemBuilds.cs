@@ -4,6 +4,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
@@ -15,11 +16,15 @@ namespace ModularPipelines.Build.Modules;
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
+    private readonly IOptions<PublishSettings> _publishSettings;
     private readonly GitHubClient _gitHubClient;
 
-    public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings, GitHubClient gitHubClient)
+    public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings,
+        IOptions<PublishSettings> publishSettings,
+        GitHubClient gitHubClient)
     {
         _gitHubSettings = gitHubSettings;
+        _publishSettings = publishSettings;
         _gitHubClient = gitHubClient;
     }
 
@@ -36,8 +41,11 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     {
         var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
 
-        // It'll take at least 5 minutes to finish - So wait before trying to fetch to give it time to start
-        await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
+        if (!_publishSettings.Value.ShouldPublish)
+        {
+            // It'll take at least 5 minutes to finish - So wait before trying to fetch to give it time to start
+            await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
+        }
 
         var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
         {
@@ -54,7 +62,19 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var waitForWindows = await WaitFor(windowsRun, cancellationToken);
         var waitForMac = await WaitFor(macRun, cancellationToken);
 
-        return new List<WorkflowRun>{ waitForWindows, waitForMac };
+        var list = new List<WorkflowRun>();
+
+        if (waitForWindows != null)
+        {
+            list.Add(waitForWindows);
+        }
+        
+        if (waitForMac != null)
+        {
+            list.Add(waitForMac);
+        }
+        
+        return list;
     }
 
     private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)

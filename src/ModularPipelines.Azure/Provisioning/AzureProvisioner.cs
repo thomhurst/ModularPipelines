@@ -11,6 +11,7 @@ using Azure.ResourceManager.Redis.Models;
 using Azure.ResourceManager.Resources;
 using ModularPipelines.Azure.Provisioning.Compute;
 using ModularPipelines.Azure.Provisioning.Cosmos;
+using ModularPipelines.Azure.Provisioning.Gateways;
 using ModularPipelines.Azure.Provisioning.Network;
 using ModularPipelines.Azure.Provisioning.Security;
 using ModularPipelines.Azure.Scopes;
@@ -22,7 +23,7 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public AzureProvisioner(ArmClient armClient, AzureComputeProvisioner compute,
         AzureTrafficAndLoadBalancerProvisioner trafficAndLoadBalancers, AzureKubernetesProvisioner kubernetes,
         AzureSecurityProvisioner security, AzureServiceBusProvisioner serviceBus, AzureCosmosProvisioner cosmos,
-        AzureNetworkProvisioner network, AzureStorageProvisioner storage) : base(armClient)
+        AzureNetworkProvisioner network, AzureStorageProvisioner storage, AzureGatewayProvisioner gateways) : base(armClient)
     {
         Compute = compute;
         TrafficAndLoadBalancers = trafficAndLoadBalancers;
@@ -32,6 +33,7 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
         Cosmos = cosmos;
         Network = network;
         Storage = storage;
+        Gateways = gateways;
     }
 
     public async Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties)
@@ -99,4 +101,6 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public AzureNetworkProvisioner Network { get; }
 
     public AzureStorageProvisioner Storage { get; }
+    
+    public AzureGatewayProvisioner Gateways { get; }
 }

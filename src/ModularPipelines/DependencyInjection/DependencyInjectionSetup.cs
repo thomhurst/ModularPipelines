@@ -69,7 +69,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IBase64, Base64>()
             .AddScoped<IHex, Hex>()
             .AddScoped<IZip, Zip>()
-            .AddScoped<IJson, Json>()
+            .AddScoped<IJson, Context.Json>()
             .AddScoped<IXml, Xml>()
             .AddScoped<IYaml, Yaml>()
             .AddScoped<IPowershell, Powershell>()

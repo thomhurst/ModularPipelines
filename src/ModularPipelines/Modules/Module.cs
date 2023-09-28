@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -16,15 +17,19 @@ public abstract class Module : Module<IDictionary<string, object>>
 }
 
 /// <summary>
-/// The base class from which all custom modules should inherit.
+/// An independent module used to perform an action, and optionally return some data, which can be used within other modules. This is the base class from which all custom modules should inherit.
 /// </summary>
-/// <typeparam name="T">The type of result object this module will return from its ExecuteAsync method.</typeparam>
+/// <typeparam name="T">The data to return which can be used within other modules, which is returned from its ExecuteAsync method..</typeparam>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
 
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
+    /// <summary>
+    /// Initialises a new instance of the <see cref="Module{T}"/> class.
+    /// </summary>
+    [JsonConstructor]
     protected Module()
     {
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
@@ -33,17 +38,14 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
+    /// <summary>
+    /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
+    /// </summary>
+    /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override async Task StartAsync()
     {
-        if (ModuleRunType != ModuleRunType.AlwaysRun)
-        {
-            Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
-        }
-
         try
         {
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
             try
             {
                 await WaitForModuleDependencies();
@@ -51,9 +53,18 @@ public abstract partial class Module<T> : ModuleBase<T>
             catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
                 // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
+                Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
+                
                 ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
+            
+            if (ModuleRunType != ModuleRunType.AlwaysRun)
+            {
+                Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
+            }
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             var skipResult = await ShouldSkip(Context);
 
@@ -91,11 +102,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             EndTime = DateTimeOffset.UtcNow;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            ModuleResultTaskCompletionSource.SetResult(moduleResult);
-
+            
             await SaveResult(moduleResult);
-
+            
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
@@ -130,20 +139,22 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             if (await ShouldIgnoreFailures(Context, exception))
             {
+                Context.Logger.LogDebug("Ignoring failures in this module and continuing...");
+                
                 var moduleResult = new ModuleResult<T>(exception, this);
 
                 Status = Status.IgnoredFailure;
 
-                await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
-
-                ModuleResultTaskCompletionSource.SetResult(moduleResult);
+                await SaveResult(moduleResult);
             }
             else
             {
+                Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
+                
                 Context.EngineCancellationToken.Cancel();
 
-                // Give time for Engine to request cancellation
-                await Task.Delay(500);
+                // Time for cancellation to register
+                await Task.Delay(TimeSpan.FromMilliseconds(200));
 
                 ModuleResultTaskCompletionSource.SetException(exception);
 
@@ -181,11 +192,18 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         SkippedTask.Start(TaskScheduler.Default);
 
-        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this));
+        ModuleResultTaskCompletionSource.SetResult(new SkippedModuleResult<T>(this, skipDecision));
 
         Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleNotRegisteredException">Thrown if the module has not been registered.</exception>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
     protected TModule GetModule<TModule>()
         where TModule : ModuleBase
     {
@@ -200,6 +218,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         return module;
     }
 
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>, or null if it is not registered.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
     protected TModule? GetModuleIfRegistered<TModule>()
         where TModule : ModuleBase
     {
@@ -225,6 +249,11 @@ public abstract partial class Module<T> : ModuleBase<T>
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
 
+        OnInitialised += (_, _) =>
+        {
+            Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
+        };
+
         DependentModules.Add(dependsOnAttribute);
     }
 
@@ -232,6 +261,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
         {
+            Context.Logger.LogDebug("No results repository configured to pull historical results from");
             return false;
         }
 
@@ -241,24 +271,53 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return false;
         }
+        
+        Context.Logger.LogDebug("Setting up module from history");
 
         Status = Status.UsedHistory;
 
-        var utcNow = DateTimeOffset.UtcNow;
-
-        StartTime = utcNow;
-        EndTime = utcNow;
-
-        StartTask.Start(TaskScheduler.Default);
-        ModuleResultTaskCompletionSource.SetResult(result);
+        Result = result;
 
         return true;
+    }
+    
+    private void SetResult(ModuleResult<T> result)
+    {
+        result.Module ??= this;
+
+        Duration = result.ModuleDuration;
+        StartTime = result.ModuleStart;
+        EndTime = result.ModuleEnd;
+        
+        SkipResult = result.SkipDecision;
+
+        Exception = result.Exception;
+        
+        ModuleResultTaskCompletionSource.SetResult(result);
+    }
+
+    private ModuleResult<T> _result = null!;
+
+    [JsonInclude]
+    private ModuleResult<T> Result
+    {
+        get
+        {
+            return _result;
+        }
+
+        set
+        {
+            _result = value;
+            SetResult(value);
+        }
     }
 
     private async Task WaitForModuleDependencies()
     {
         if (!DependentModules.Any())
         {
+            Context.Logger.LogDebug("No dependent modules - Nothing to wait for");
             return;
         }
 
@@ -272,6 +331,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
                     if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
                     {
+                        Context.Logger.LogDebug("{Module} was not registered so not waiting", dependsOnAttribute.Type.Name);
                         return Task.CompletedTask;
                     }
 
@@ -281,6 +341,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                             $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
                     }
 
+                    Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
+                    
                     return module.ResultTaskInternal;
                 })
                 .ProcessInParallel();
@@ -324,6 +386,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             case Status.PipelineTerminated:
                 Context.Logger.LogError("The pipeline has errored so Module {Module} will terminate", moduleName);
                 break;
+            case Status.UsedHistory:
+                Context.Logger.LogError("Module {Module} has been constructed from historical data", moduleName);
+                break;
             default:
                 Context.Logger.LogError("Module {Module} status is: {Status}", moduleName, Status);
                 break;
@@ -334,6 +399,9 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         try
         {
+            Context.Logger.LogDebug("Saving module result");
+            Result = moduleResult;
+            ModuleResultTaskCompletionSource.SetResult(moduleResult);
             await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
         }
         catch (Exception e)

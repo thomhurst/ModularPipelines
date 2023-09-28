@@ -1,21 +1,36 @@
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Modules;
 
-public abstract partial class ModuleBase
+/// <summary>
+/// A base class for all modules
+/// </summary>
+[JsonConverter(typeof(TypeDiscriminatorConverter<ModuleBase>))]
+public abstract partial class ModuleBase : IJsonTypeDiscriminator
 {
+    /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleBase"/> class.
+    /// </summary>
     [ModuleMethodMarker]
     protected ModuleBase()
     {
+        TypeDiscriminator = GetType().FullName!;
     }
 
     private IPipelineContext? _context; // Late Initialisation
 
+    /// <summary>
+    /// Gets or sets the pipeline context
+    /// </summary>
+    /// <exception cref="ModuleNotInitializedException">Thrown if this object is used before Initialise is called.</exception>
+    [JsonIgnore]
     protected internal IPipelineContext Context
     {
         get
@@ -31,38 +46,44 @@ public abstract partial class ModuleBase
         protected set
         {
             _context = value;
+            OnInitialised?.Invoke(this, EventArgs.Empty);
         }
     }
-
+    
     internal readonly Task StartTask = new(() => { });
     internal readonly Task SkippedTask = new(() => { });
 
-    public SkipDecision SkipResult { get; protected internal set; } = SkipDecision.DoNotSkip;
+    [JsonInclude]
+    internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
     internal abstract Task<object> ResultTaskInternal { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
     /// <summary>
-    /// The start time of the module
+    /// Gets the start time of the module
     /// </summary>
+    [JsonInclude]
     public DateTimeOffset StartTime { get; internal set; }
 
     /// <summary>
-    /// The end time of the module.
+    /// Gets the end time of the module.
     /// </summary>
+    [JsonInclude]
     public DateTimeOffset EndTime { get; internal set; }
 
     /// <summary>
-    /// The duration of the module. This will be set after the module has finished.
+    /// Gets the duration of the module. This will be set after the module has finished.
     /// </summary>
+    [JsonInclude]
     public TimeSpan Duration { get; internal set; }
 
     /// <summary>
-    /// The status of the module.
+    /// Gets the status of the module.
     /// </summary>
+    [JsonInclude]
     public Status Status { get; internal set; } = Status.NotYetStarted;
-
+    
     internal Exception? Exception { get; set; }
 
     internal abstract Task StartAsync();
@@ -75,6 +96,13 @@ public abstract partial class ModuleBase
 
     internal EventHandler<SubModule>? OnSubModuleCreated;
 
+    /// <summary>
+    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// </summary>
+    /// <typeparam name="T">Any data to return from the submodule.</typeparam>
+    /// <param name="name">The name of the submodule.</param>
+    /// <param name="action">The delegate that the submodule should execute.</param>
+    /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
         var submodule = new SubModule<T>(GetType(), name, action);
@@ -86,6 +114,12 @@ public abstract partial class ModuleBase
         return await submodule.Task;
     }
 
+    /// <summary>
+    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// </summary>
+    /// <param name="name">The name of the submodule.</param>
+    /// <param name="action">The delegate that the submodule should execute.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     protected async Task SubModule(string name, Func<Task> action)
     {
         var submodule = new SubModule(GetType(), name, action);
@@ -96,17 +130,25 @@ public abstract partial class ModuleBase
 
         await submodule.Task;
     }
+
+    [JsonInclude]
+    public string TypeDiscriminator { get; private set; }
+    
+    protected EventHandler? OnInitialised { get; set; }
 }
 
+/// <summary>
+/// A base class for all modules
+/// </summary>
+/// <typeparam name="T">Any data to return from the module.</typeparam>
 public abstract class ModuleBase<T> : ModuleBase
 {
-    internal readonly TaskCompletionSource<T> RawResultTaskCompletionSource = new();
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
     /// <summary>
     /// The awaiter used to return the result of the module when awaited
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The result of the ExecuteAsync method.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
@@ -117,7 +159,7 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <summary>
     /// Used to return no result in a module
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Nothing.</returns>
     protected Task<T?> NothingAsync()
     {
         return Task.FromResult(default(T?));
@@ -126,9 +168,9 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <summary>
     /// The core logic of the module goes here
     /// </summary>
-    /// <param name="context"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="context">A pipeline context object provided by the pipeline.</param>
+    /// <param name="cancellationToken">A token that will be cancelled if the pipeline has failed, or the module timeout has exceeded.</param>
+    /// <returns>{T}.</returns>
     [ModuleMethodMarker]
     protected abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);
 }

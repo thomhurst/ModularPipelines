@@ -7,7 +7,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
 
-internal abstract class ModuleLogger : ILogger, IDisposable
+internal abstract class ModuleLogger : IModuleLogger
 {
     protected static readonly object Lock = new();
 
@@ -20,31 +20,30 @@ internal abstract class ModuleLogger : ILogger, IDisposable
     public abstract IDisposable BeginScope<TState>(TState state);
 
     public abstract void Dispose();
+
+    public abstract void LogToConsole(string value);
 }
 
-internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
+internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 {
-    private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
 
-    private List<(LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter)> _logEvents = new();
+    private List<StringOrLogEvent> _stringOrLogEvents = new();
 
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(IOptions<PipelineOptions> options,
-        ILogger<T> defaultLogger,
+    public ModuleLogger(ILogger<T> defaultLogger,
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
         IBuildSystemDetector buildSystemDetector,
         ISecretProvider secretProvider,
         IConsoleWriter consoleWriter)
     {
-        _options = options;
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _buildSystemDetector = buildSystemDetector;
@@ -67,7 +66,7 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
     public override bool IsEnabled(LogLevel logLevel)
     {
-        return logLevel >= _options.Value.LoggerOptions.LogLevel;
+        return _defaultLogger.IsEnabled(logLevel);
     }
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
@@ -85,8 +84,8 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
         var mappedFormatter = MapFormatter(formatter);
 
         var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
-
-        _logEvents.Add(valueTuple!);
+        
+        _stringOrLogEvents.Add(valueTuple!);
 
         LastLogWritten = DateTime.UtcNow;
     }
@@ -102,27 +101,46 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
 
             _isDisposed = true;
 
-            var logEvents = Interlocked.Exchange(ref _logEvents,
-                new List<(LogLevel LogLevel, EventId EventId, object State, Exception? Exception,
-                    Func<object, Exception?, string> Formatter)>());
+            var logEvents = Interlocked.Exchange(ref _stringOrLogEvents, new List<StringOrLogEvent>());
 
             if (logEvents.Any())
             {
                 PrintCollapsibleSectionStart();
 
-                foreach (var (logLevel, eventId, state, exception, formatter) in logEvents)
+                foreach (var stringOrLogEvent in logEvents)
                 {
-                    _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                    if (stringOrLogEvent.IsString)
+                    {
+                        _consoleWriter.LogToConsole(stringOrLogEvent.StringValue ?? string.Empty);
+                    }
+                    else if (stringOrLogEvent.LogEvent != null)
+                    {
+                        var (logLevel, eventId, state, exception, formatter) = stringOrLogEvent.LogEvent.Value;
+                        _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                    }
                 }
 
                 PrintCollapsibleSectionEnd();
 
                 logEvents.Clear();
-                _logEvents.Clear();
+                _stringOrLogEvents.Clear();
             }
 
             GC.SuppressFinalize(this);
         }
+    }
+
+    public override void LogToConsole(string value)
+    {
+        foreach (var secret in _secretProvider.Secrets)
+        {
+            if (value.Contains(secret))
+            {
+                value = value.Replace(secret, "**********");
+            }
+        }
+
+        _stringOrLogEvents.Add(value);
     }
 
     private void TryObfuscateValues(object state)
@@ -168,17 +186,17 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            _consoleWriter.WriteLine($@"::group::{GetCollapsibleSectionName()}");
+            _consoleWriter.LogToConsole(BuildSystemValues.GitHub.StartBlock(GetCollapsibleSectionName()));
         }
 
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            _consoleWriter.WriteLine($@"##[group]{GetCollapsibleSectionName()}");
+            _consoleWriter.LogToConsole(BuildSystemValues.AzurePipelines.StartBlock(GetCollapsibleSectionName()));
         }
 
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            _consoleWriter.WriteLine($@"##teamcity[blockOpened name='{GetCollapsibleSectionName()}']");
+            _consoleWriter.LogToConsole(BuildSystemValues.TeamCity.StartBlock(GetCollapsibleSectionName()));
         }
     }
 
@@ -186,22 +204,45 @@ internal class ModuleLogger<T> : ModuleLogger, ILogger<T>, IDisposable
     {
         if (_buildSystemDetector.IsRunningOnGitHubActions)
         {
-            _consoleWriter.WriteLine(@"::endgroup::");
+            _consoleWriter.LogToConsole(BuildSystemValues.GitHub.EndBlock);
         }
 
         if (_buildSystemDetector.IsRunningOnAzurePipelines)
         {
-            _consoleWriter.WriteLine(@"##[endgroup]");
+            _consoleWriter.LogToConsole(BuildSystemValues.AzurePipelines.EndBlock);
         }
 
         if (_buildSystemDetector.IsRunningOnTeamCity)
         {
-            _consoleWriter.WriteLine($@"##teamcity[blockClosed name='{GetCollapsibleSectionName()}']");
+            _consoleWriter.LogToConsole(BuildSystemValues.TeamCity.EndBlock(GetCollapsibleSectionName()));
         }
     }
 
     private string GetCollapsibleSectionName()
     {
         return $"{typeof(T).Name}";
+    }
+
+    private class StringOrLogEvent
+    {
+        public (LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter)? LogEvent
+        {
+            get;
+            private init;
+        }
+        
+        public string? StringValue { get; private init; }
+
+        public bool IsString => StringValue != null;
+
+        public static implicit operator StringOrLogEvent(string value) => new()
+        {
+            StringValue = value,
+        };
+        
+        public static implicit operator StringOrLogEvent((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) value) => new()
+        {
+            LogEvent = value,
+        };
     }
 }

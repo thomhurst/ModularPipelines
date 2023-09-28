@@ -1,68 +1,164 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Models;
 
-public class ModuleResult<T>
+public class ModuleResult<T> : ModuleResult
 {
-    private readonly ModuleBase _module;
-    private readonly T? _value;
-
-    public string ModuleName { get; private set; }
-
-    public TimeSpan ModuleDuration { get; private set; }
-
-    public DateTimeOffset ModuleStart { get; private set; }
-
-    public DateTimeOffset ModuleEnd { get; private set; }
-
-    internal ModuleResult(T? value, ModuleBase module) : this(module)
+    private T? _value;
+    
+    internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
+    {
+    }
+    
+    internal ModuleResult(T? value, ModuleBase module) : base(module)
     {
         _value = value;
-        ModuleResultType = ModuleResultType.Success;
     }
-
-    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
+    
+    [JsonConstructor]
+    private ModuleResult()
     {
-        Exception = exception;
-        ModuleResultType = ModuleResultType.Failure;
     }
-
-    private ModuleResult(ModuleBase module)
-    {
-        _module = module;
-        ModuleName = module.GetType().Name;
-        ModuleDuration = module.Duration;
-        ModuleStart = module.StartTime;
-        ModuleEnd = module.EndTime;
-    }
-
+    
+    /// <summary>
+    /// The value held in the result
+    /// </summary>
+    /// <exception cref="ModuleFailedException">Thrown if the module failed.</exception>
+    /// <exception cref="ModuleSkippedException">Thrown if the module was skipped.</exception>
+    [JsonInclude]
     public T? Value
     {
         get
         {
             if (ModuleResultType == ModuleResultType.Failure)
             {
-                throw new ModuleFailedException(_module, Exception!);
+                throw new ModuleFailedException(Module!, Exception!);
             }
 
             if (ModuleResultType == ModuleResultType.Skipped)
             {
-                throw new ModuleSkippedException(GetModuleName());
+                throw new ModuleSkippedException(ModuleName);
             }
 
             return _value;
         }
-    }
 
-    private string GetModuleName()
-    {
-        return ModuleName;
+        private set
+        {
+            _value = value;
+        }
     }
-
+    
+    /// <summary>
+    /// Gets whether the result holds a value.
+    /// </summary>
     public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
+}
 
+[JsonConverter(typeof(TypeDiscriminatorConverter<ModuleResult>))]
+public class ModuleResult : IJsonTypeDiscriminator
+{
+    /// <summary>
+    /// Gets the name of the module
+    /// </summary>
+    [JsonInclude]
+    public string ModuleName { get; private set; }
+
+    /// <summary>
+    /// Gets how long the module ran for
+    /// </summary>
+    [JsonInclude]
+    public TimeSpan ModuleDuration { get; private set; }
+
+    /// <summary>
+    /// Gets when the module started
+    /// </summary>
+    [JsonInclude]
+    public DateTimeOffset ModuleStart { get; private set; }
+
+    /// <summary>
+    /// Gets when the module ended
+    /// </summary>
+    [JsonInclude]
+    public DateTimeOffset ModuleEnd { get; private set; }
+
+    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
+    {
+        Exception = exception;
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
+    /// </summary>
+    [JsonConstructor]
+    protected ModuleResult()
+    {
+        // Late initialisation via deserialisation
+        ModuleName = null!;
+        ModuleDuration = TimeSpan.Zero!;
+        ModuleStart = DateTimeOffset.MinValue!;
+        ModuleEnd = DateTimeOffset.MinValue;
+        SkipDecision = null!;
+        TypeDiscriminator = GetType().FullName!;
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
+    /// </summary>
+    /// <param name="module">The module from which the result was produced</param>
+    protected ModuleResult(ModuleBase module)
+    {
+        Module = module;
+        ModuleName = module.GetType().Name;
+        ModuleDuration = module.Duration;
+        ModuleStart = module.StartTime;
+        ModuleEnd = module.EndTime;
+        SkipDecision = module.SkipResult;
+        TypeDiscriminator = GetType().FullName!;
+    }
+    
+    /// <summary>
+    /// Gets the exception that occurred in the module, if one was thrown
+    /// </summary>
+    [JsonInclude]
     public Exception? Exception { get; private set; }
+    
+    /// <summary>
+    /// Gets the Skip Decision of the module
+    /// </summary>
+    [JsonInclude]
+    public SkipDecision SkipDecision { get; private protected set; }
 
-    public ModuleResultType ModuleResultType { get; private protected init; }
+    /// <summary>
+    /// Gets the type of result that is held
+    /// </summary>
+    public ModuleResultType ModuleResultType
+    {
+        get
+        {
+            if (Exception != null)
+            {
+                return ModuleResultType.Failure;
+            }
+
+            if (SkipDecision?.ShouldSkip == true)
+            {
+                return ModuleResultType.Skipped;
+            }
+
+            return ModuleResultType.Success;
+        }
+    }
+
+    /// <summary>
+    /// Gets the type information used to aid in serialization
+    /// </summary>
+    [JsonInclude]
+    public string TypeDiscriminator { get; private set; }
+    
+    [JsonIgnore]
+    internal ModuleBase? Module { get; set; }
 }

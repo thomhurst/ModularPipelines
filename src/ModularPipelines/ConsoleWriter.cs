@@ -5,5 +5,5 @@ namespace ModularPipelines;
 [ExcludeFromCodeCoverage]
 internal class ConsoleWriter : IConsoleWriter
 {
-    public void WriteLine(string value) => Console.WriteLine(value);
+    public void LogToConsole(string value) => Console.WriteLine(value);
 }

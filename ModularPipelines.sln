@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Terraform"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "src\ModularPipelines.Azure\ModularPipelines.Azure.csproj", "{5C927335-8DEF-4BD5-A306-74B20D0EEDA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AWS", "src\ModularPipelines.AWS\ModularPipelines.AWS.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.AmazonWebServices", "src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj", "{9C0DB2EC-C858-4197-9775-742223DF8D16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Email", "src\ModularPipelines.Email\ModularPipelines.Email.csproj", "{D2F0D130-50A7-46BB-B495-1B673C2A23A9}"
 EndProject
@@ -61,6 +61,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "src\ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{467FCE3D-2261-486A-ACD8-5D804C92DA01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TestsForTests", "test\ModularPipelines.TestsForTests\ModularPipelines.TestsForTests.csproj", "{B4A63CCF-229F-4EBE-AC85-778062C50930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.GitHub", "src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj", "{23A841CA-D773-4195-81A4-367544763909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TeamCity", "src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj", "{8AAA3556-797E-495E-9213-E78238C06947}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +172,14 @@ Global
 		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4A63CCF-229F-4EBE-AC85-778062C50930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23A841CA-D773-4195-81A4-367544763909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23A841CA-D773-4195-81A4-367544763909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23A841CA-D773-4195-81A4-367544763909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23A841CA-D773-4195-81A4-367544763909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AAA3556-797E-495E-9213-E78238C06947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AAA3556-797E-495E-9213-E78238C06947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AAA3556-797E-495E-9213-E78238C06947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AAA3556-797E-495E-9213-E78238C06947}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,6 +210,8 @@ Global
 		{4FF0B74A-CC18-4B90-B50C-E8564F5136B2} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{467FCE3D-2261-486A-ACD8-5D804C92DA01} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{B4A63CCF-229F-4EBE-AC85-778062C50930} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
+		{23A841CA-D773-4195-81A4-367544763909} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
+		{8AAA3556-797E-495E-9213-E78238C06947} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}

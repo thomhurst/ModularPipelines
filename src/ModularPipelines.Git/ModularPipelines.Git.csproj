@@ -4,4 +4,5 @@
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
     
+    
 </Project>

@@ -52,7 +52,7 @@ public class LoggingSecretTests
 
         var actualLogResult = stringBuilder.ToString().Trim();
 
-        Assert.That(actualLogResult, Does.StartWith($"My Secret Value is: **********"));
+        Assert.That(actualLogResult, Does.Contain($"My Secret Value is: **********"));
         Assert.That(actualLogResult, Does.Not.Contain(secretValue));
     }
 }

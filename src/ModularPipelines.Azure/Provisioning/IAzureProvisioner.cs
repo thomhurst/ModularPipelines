@@ -10,6 +10,7 @@ using Azure.ResourceManager.Redis.Models;
 using Azure.ResourceManager.Resources;
 using ModularPipelines.Azure.Provisioning.Compute;
 using ModularPipelines.Azure.Provisioning.Cosmos;
+using ModularPipelines.Azure.Provisioning.Gateways;
 using ModularPipelines.Azure.Provisioning.Network;
 using ModularPipelines.Azure.Provisioning.Security;
 using ModularPipelines.Azure.Scopes;
@@ -49,6 +50,8 @@ public interface IAzureProvisioner
     AzureNetworkProvisioner Network { get; }
 
     AzureStorageProvisioner Storage { get; }
+    
+    AzureGatewayProvisioner Gateways { get; }
 
     ArmClient ArmClient { get; }
 

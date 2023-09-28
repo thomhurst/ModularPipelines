@@ -2,6 +2,8 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
+using ModularPipelines.GitHub;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using Moq;
 
@@ -68,7 +70,7 @@ public class SkipDependabotAttributeTests : TestBase
     [Test]
     public async Task Will_Not_Skip_If_Not_Dependabot()
     {
-        var environmentVariables = new Mock<IEnvironmentVariables>();
+        var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
@@ -81,9 +83,9 @@ public class SkipDependabotAttributeTests : TestBase
     [Test]
     public async Task Will_Skip_If_Dependabot()
     {
-        var environmentVariables = new Mock<IEnvironmentVariables>();
+        var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        environmentVariables.Setup(x => x.GetEnvironmentVariable("GITHUB_ACTOR", It.IsAny<EnvironmentVariableTarget>()))
+        environmentVariables.Setup(x => x.Actor)
             .Returns("dependabot[bot]");
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
@@ -97,7 +99,7 @@ public class SkipDependabotAttributeTests : TestBase
     [Test]
     public async Task Will_Run_When_Combination_Of_Mandatory_And_Runnable_Run_Category()
     {
-        var environmentVariables = new Mock<IEnvironmentVariables>();
+        var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
@@ -110,7 +112,7 @@ public class SkipDependabotAttributeTests : TestBase
     [Test]
     public async Task Will__Not_Run_When_Combination_Of_Mandatory_And_Non_Runnable_Run_Category()
     {
-        var environmentVariables = new Mock<IEnvironmentVariables>();
+        var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
@@ -123,7 +125,7 @@ public class SkipDependabotAttributeTests : TestBase
     [Test]
     public async Task Will_Run_When_Combination_Of_Mandatory_And_Runnable_Run_Category2()
     {
-        var environmentVariables = new Mock<IEnvironmentVariables>();
+        var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
