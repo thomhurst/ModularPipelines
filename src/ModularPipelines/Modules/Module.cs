@@ -246,8 +246,11 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             throw new Exception($"{type.FullName} must be a module to add as a dependency");
         }
-        
-        Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
+
+        _onInitialised += (sender, args) =>
+        {
+            Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
+        };
 
         DependentModules.Add(dependsOnAttribute);
     }
