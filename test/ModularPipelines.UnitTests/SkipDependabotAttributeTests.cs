@@ -13,7 +13,7 @@ public class SkipDependabotAttributeTests : TestBase
 {
     private class CanRunAttribute : RunConditionAttribute
     {
-        public override Task<bool> Condition(IPipelineContext pipelineContext)
+        public override Task<bool> Condition(IPipelineHookContext pipelineContext)
         {
             return Task.FromResult(true);
         }
@@ -21,7 +21,7 @@ public class SkipDependabotAttributeTests : TestBase
 
     private class CannotRunAttribute : RunConditionAttribute
     {
-        public override Task<bool> Condition(IPipelineContext pipelineContext)
+        public override Task<bool> Condition(IPipelineHookContext pipelineContext)
         {
             return Task.FromResult(false);
         }

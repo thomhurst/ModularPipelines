@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Kubernetes.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class KubernetesExtensions
 {
 #pragma warning disable CA2255
@@ -22,5 +24,5 @@ public static class KubernetesExtensions
         return services;
     }
 
-    public static IKubernetes Kubernetes(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
+    public static IKubernetes Kubernetes(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IKubernetes>();
 }

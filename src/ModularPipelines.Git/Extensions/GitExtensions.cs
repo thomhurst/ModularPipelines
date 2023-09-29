@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Git.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class GitExtensions
 {
 #pragma warning disable CA2255
@@ -28,5 +30,5 @@ public static class GitExtensions
         return services;
     }
 
-    public static IGit Git(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IGit>();
+    public static IGit Git(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IGit>();
 }

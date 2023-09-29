@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.TeamCity.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class TeamCityExtensions
 {
 #pragma warning disable CA2255
@@ -23,5 +25,5 @@ public static class TeamCityExtensions
         return services;
     }
 
-    public static ITeamCity TeamCity(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<ITeamCity>();
+    public static ITeamCity TeamCity(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ITeamCity>();
 }

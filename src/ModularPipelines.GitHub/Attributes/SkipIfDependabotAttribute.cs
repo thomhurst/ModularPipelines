@@ -6,7 +6,7 @@ namespace ModularPipelines.GitHub.Attributes;
 public class SkipIfDependabotAttribute : MandatoryRunConditionAttribute
 {
     /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
         var isDependabot = pipelineContext.Get<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
 

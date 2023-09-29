@@ -15,7 +15,7 @@ public class SkipIfBranchAttribute : MandatoryRunConditionAttribute
         BranchName = branchName;
     }
     
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
         return Task.FromResult(pipelineContext.Git().Information.BranchName != BranchName);
     }

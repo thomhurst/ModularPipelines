@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Cmd.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class CmdExtensions
 {
 #pragma warning disable CA2255
@@ -23,5 +25,5 @@ public static class CmdExtensions
         return services;
     }
 
-    public static ICmd Cmd(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<ICmd>();
+    public static ICmd Cmd(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ICmd>();
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Email.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class EmailExtensions
 {
 #pragma warning disable CA2255
@@ -22,5 +24,5 @@ public static class EmailExtensions
         return services;
     }
 
-    public static IEmail Email(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IEmail>();
+    public static IEmail Email(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IEmail>();
 }

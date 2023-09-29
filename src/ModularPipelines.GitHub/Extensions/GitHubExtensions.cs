@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.GitHub.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class GitHubExtensions
 {
 #pragma warning disable CA2255
@@ -23,5 +25,5 @@ public static class GitHubExtensions
         return services;
     }
 
-    public static IGitHub GitHub(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IGitHub>();
+    public static IGitHub GitHub(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IGitHub>();
 }

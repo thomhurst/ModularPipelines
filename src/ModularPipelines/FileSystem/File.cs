@@ -41,9 +41,9 @@ public class File : IEquatable<File>
         return System.IO.File.ReadAllBytesAsync(Path);
     }
     
-    public FileStream GetStream()
+    public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
-        return System.IO.File.OpenRead(Path);
+        return System.IO.File.Open(Path, FileMode.OpenOrCreate, fileAccess);
     }
 
     public Task WriteAsync(string contents)

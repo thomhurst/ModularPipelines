@@ -13,7 +13,7 @@ public interface IPipelineGlobalHooks
     /// </summary>
     /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnStartAsync(IPipelineContext pipelineContext);
+    Task OnStartAsync(IPipelineHookContext pipelineContext);
 
     /// <summary>
     /// A hook to run after all modules have finished
@@ -21,5 +21,5 @@ public interface IPipelineGlobalHooks
     /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
     /// <param name="pipelineSummary">A summary of the pipeline results, containing all of the registered modules.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnEndAsync(IPipelineContext pipelineContext, PipelineSummary pipelineSummary);
+    Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary);
 }

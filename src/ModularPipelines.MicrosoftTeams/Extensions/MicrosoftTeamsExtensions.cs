@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.MicrosoftTeams.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class MicrosoftTeamsExtensions
 {
 #pragma warning disable CA2255
@@ -22,5 +24,5 @@ public static class MicrosoftTeamsExtensions
         return services;
     }
 
-    public static IMicrosoftTeams MicrosoftTeams(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IMicrosoftTeams>();
+    public static IMicrosoftTeams MicrosoftTeams(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IMicrosoftTeams>();
 }

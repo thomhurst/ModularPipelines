@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -7,6 +8,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.NuGet.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class NuGetExtensions
 {
 #pragma warning disable CA2255
@@ -26,5 +28,5 @@ public static class NuGetExtensions
         return services;
     }
 
-    public static INuGet NuGet(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<INuGet>();
+    public static INuGet NuGet(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<INuGet>();
 }

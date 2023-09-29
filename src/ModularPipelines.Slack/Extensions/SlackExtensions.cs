@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Slack.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class SlackExtensions
 {
 #pragma warning disable CA2255
@@ -23,5 +25,5 @@ public static class SlackExtensions
         return services;
     }
 
-    public static ISlack Slack(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<ISlack>();
+    public static ISlack Slack(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ISlack>();
 }
