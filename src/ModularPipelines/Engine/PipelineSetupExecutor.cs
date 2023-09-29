@@ -43,7 +43,6 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     private async Task<IPipelineHookContext> GetModuleContext()
     {
-        var pipelineContext = await _moduleContextProvider.GetModuleContext();
-        return pipelineContext.ToPipelineHookContext();
+        return await _moduleContextProvider.GetModuleContext();
     }
 }

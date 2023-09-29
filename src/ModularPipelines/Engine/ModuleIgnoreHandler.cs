@@ -68,7 +68,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         var runConditionAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
 
         var mandatoryConditionResults = await mandatoryRunConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context.ToPipelineHookContext()), runConditionAttribute))
+            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context), runConditionAttribute))
             .ProcessInParallel();
 
         var mandatoryCondition = mandatoryConditionResults.FirstOrDefault(result => !result.ConditionMet);
@@ -85,7 +85,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
         }
 
         var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context.ToPipelineHookContext()), runConditionAttribute))
+            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context), runConditionAttribute))
             .ProcessInParallel();
 
         var runnableCondition = conditionResults.FirstOrDefault(result => result.ConditionMet);
