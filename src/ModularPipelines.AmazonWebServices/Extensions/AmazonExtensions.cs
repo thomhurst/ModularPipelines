@@ -24,5 +24,5 @@ public static class AmazonExtensions
         return services.AddSingleton(armClient);
     }
 
-    public static IAmazon Amazon(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IAmazon>();
+    public static IAmazon Amazon(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IAmazon>();
 }

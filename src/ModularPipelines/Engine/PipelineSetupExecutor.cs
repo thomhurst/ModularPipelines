@@ -41,9 +41,9 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_moduleHooks.Select(async x => x.OnAfterModuleEndAsync(await GetModuleContext(), module)));
     }
 
-    private async Task<IPipelineContext> GetModuleContext()
+    private async Task<IPipelineHookContext> GetModuleContext()
     {
         var pipelineContext = await _moduleContextProvider.GetModuleContext();
-        return pipelineContext.ToNoModulePipelineContext();
+        return pipelineContext.ToPipelineHookContext();
     }
 }

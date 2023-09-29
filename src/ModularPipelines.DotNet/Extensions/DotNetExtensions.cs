@@ -23,5 +23,5 @@ public static class DotNetExtensions
         return services;
     }
 
-    public static IDotNet DotNet(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
+    public static IDotNet DotNet(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
 }

@@ -26,5 +26,5 @@ public static class NuGetExtensions
         return services;
     }
 
-    public static INuGet NuGet(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<INuGet>();
+    public static INuGet NuGet(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<INuGet>();
 }

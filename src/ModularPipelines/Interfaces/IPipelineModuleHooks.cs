@@ -14,7 +14,7 @@ public interface IPipelineModuleHooks
     /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
     /// <param name="module">The module that is due to start.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnBeforeModuleStartAsync(IPipelineContext pipelineContext, ModuleBase module);
+    Task OnBeforeModuleStartAsync(IPipelineHookContext pipelineContext, ModuleBase module);
 
     /// <summary>
     /// A hook to run after a module has finished
@@ -22,5 +22,5 @@ public interface IPipelineModuleHooks
     /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
     /// <param name="module">The module that has finished.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnAfterModuleEndAsync(IPipelineContext pipelineContext, ModuleBase module);
+    Task OnAfterModuleEndAsync(IPipelineHookContext pipelineContext, ModuleBase module);
 }

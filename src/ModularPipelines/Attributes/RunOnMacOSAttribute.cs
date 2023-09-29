@@ -7,7 +7,7 @@ namespace ModularPipelines.Attributes;
 public class RunOnMacOSAttribute : RunConditionAttribute
 {
     /// <inheritdoc/>
-    public override Task<bool> Condition(IPipelineContext pipelineContext)
+    public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
         return Task.FromResult(OperatingSystem.IsMacOS());
     }

@@ -4,5 +4,5 @@ namespace ModularPipelines.Extensions;
 
 internal static class PipelineContextExtensions
 {
-    public static NoModulePipelineContext ToNoModulePipelineContext(this IPipelineContext pipelineContext) => new(pipelineContext);
+    public static IPipelineHookContext ToPipelineHookContext(this IPipelineContext pipelineContext) => pipelineContext;
 }

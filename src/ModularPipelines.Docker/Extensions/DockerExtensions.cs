@@ -22,5 +22,5 @@ public static class DockerExtensions
         return services;
     }
 
-    public static IDocker Docker(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IDocker>();
+    public static IDocker Docker(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IDocker>();
 }

@@ -23,5 +23,5 @@ public static class GitHubExtensions
         return services;
     }
 
-    public static IGitHub GitHub(this IPipelineContext context) => context.ServiceProvider.GetRequiredService<IGitHub>();
+    public static IGitHub GitHub(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IGitHub>();
 }
