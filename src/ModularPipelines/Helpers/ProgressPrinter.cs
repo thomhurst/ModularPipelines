@@ -231,7 +231,7 @@ internal class ProgressPrinter : IProgressPrinter
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
 
-            var progressTask = progressContext.AddTask($"   > {subModule.Name}", new ProgressTaskSettings
+            var progressTask = progressContext.AddTask($"- {subModule.Name}", new ProgressTaskSettings
             {
                 AutoStart = true,
             });
@@ -254,9 +254,7 @@ internal class ProgressPrinter : IProgressPrinter
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
 
                 var ticksPerSecond = 100 / totalEstimatedSeconds;
-
-                progressTask.Description = subModule.Name;
-
+                
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -272,7 +270,7 @@ internal class ProgressPrinter : IProgressPrinter
                     progressTask.Increment(100);
                 }
 
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]    > {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
+                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]- {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
 
                 progressTask.StopTask();
             }, cancellationToken);
