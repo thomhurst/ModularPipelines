@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
@@ -6,6 +7,7 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Pipelines.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class AzurePipelineExtensions
 {
 #pragma warning disable CA2255
