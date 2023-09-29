@@ -265,7 +265,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             return false;
         }
 
-        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this);
+        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this, Context);
 
         if (result == null)
         {
@@ -402,7 +402,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             Context.Logger.LogDebug("Saving module result");
             Result = moduleResult;
             ModuleResultTaskCompletionSource.TrySetResult(moduleResult);
-            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult);
+            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult, Context);
         }
         catch (Exception e)
         {

@@ -1,1 +1,1 @@
-null
+*   Breaking: Added `IPipelineContext` parameter into `IModuleResultRepository`
