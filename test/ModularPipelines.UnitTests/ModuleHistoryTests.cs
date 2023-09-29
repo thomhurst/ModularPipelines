@@ -65,12 +65,12 @@ public class ModuleHistoryTests
 
     private class NotFoundModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult)
+        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(null);
         }
@@ -78,12 +78,12 @@ public class ModuleHistoryTests
 
     private class GoodModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult)
+        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module));
         }

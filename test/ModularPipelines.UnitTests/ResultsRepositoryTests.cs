@@ -16,14 +16,14 @@ public class ResultsRepositoryTests : TestBase
 
     private class JsonResultRepository : IModuleResultRepository
     {
-        public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult)
+        public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
             await JsonSerializer.SerializeAsync(fileStream, moduleResult);
         }
 
-        public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
         {
             var file = Folder.GetFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
