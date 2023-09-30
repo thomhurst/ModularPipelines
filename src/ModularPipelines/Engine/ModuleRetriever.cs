@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 

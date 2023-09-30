@@ -1,3 +1,4 @@
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet;
@@ -5,7 +6,6 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Build.Modules;
 

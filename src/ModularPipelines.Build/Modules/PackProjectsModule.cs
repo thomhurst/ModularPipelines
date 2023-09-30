@@ -1,10 +1,10 @@
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using EnumerableAsyncProcessor.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
