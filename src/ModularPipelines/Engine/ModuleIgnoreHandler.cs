@@ -1,10 +1,10 @@
 using System.Reflection;
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 

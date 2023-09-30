@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.NuGet.Options;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.NuGet;
 

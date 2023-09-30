@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Options;
+﻿using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using Octokit;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
