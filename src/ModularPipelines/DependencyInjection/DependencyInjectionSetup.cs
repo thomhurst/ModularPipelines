@@ -9,7 +9,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
+using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
 using Vertical.SpectreLogger;
 
 namespace ModularPipelines.DependencyInjection;

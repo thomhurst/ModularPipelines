@@ -1,1 +1,2 @@
 *   Switch from package TomLonghurst.EnumerableAsyncProcessor to EnumerableAsyncProcessor
+*   Switch from package Initialization.Microsoft.Extensions.DependencyInjection to Initialization.Microsoft.Extensions.DependencyInjection

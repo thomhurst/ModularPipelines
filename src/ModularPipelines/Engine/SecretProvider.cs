@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using ModularPipelines.Attributes;
-using TomLonghurst.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
+using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
 
 namespace ModularPipelines.Engine;
 
