@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
@@ -8,7 +9,6 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
-using Initialization.Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Git;
 

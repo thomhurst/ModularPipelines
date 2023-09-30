@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
@@ -9,7 +10,6 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
-using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Vertical.SpectreLogger;
 
 namespace ModularPipelines.DependencyInjection;
