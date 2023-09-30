@@ -12,7 +12,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
-using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
+using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ModularPipelines.Host;
 

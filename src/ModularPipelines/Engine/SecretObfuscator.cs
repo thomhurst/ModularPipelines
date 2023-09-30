@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
+using Initialization.Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Engine;
 

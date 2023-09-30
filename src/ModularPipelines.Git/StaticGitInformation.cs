@@ -8,7 +8,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
-using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization;
+using Initialization.Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Git;
 

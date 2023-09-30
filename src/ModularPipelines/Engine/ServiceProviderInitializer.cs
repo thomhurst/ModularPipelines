@@ -1,4 +1,4 @@
-using Initialization.Microsoft.Extensions.DependencyInjection.ServiceInitialization.Extensions;
+using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ModularPipelines.Engine;
 
