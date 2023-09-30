@@ -26,19 +26,19 @@ public class File : IEquatable<File>
     }
 
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
-    public Task<string> ReadAsync()
+    public Task<string> ReadAsync(CancellationToken cancellationToken = default)
     {
-        return System.IO.File.ReadAllTextAsync(Path);
+        return System.IO.File.ReadAllTextAsync(Path, cancellationToken);
     }
 
-    public Task<string[]> ReadLinesAsync()
+    public Task<string[]> ReadLinesAsync(CancellationToken cancellationToken = default)
     {
-        return System.IO.File.ReadAllLinesAsync(Path);
+        return System.IO.File.ReadAllLinesAsync(Path, cancellationToken);
     }
     
-    public Task<byte[]> ReadBytesAsync()
+    public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
     {
-        return System.IO.File.ReadAllBytesAsync(Path);
+        return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
     }
     
     public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
@@ -46,19 +46,19 @@ public class File : IEquatable<File>
         return System.IO.File.Open(Path, FileMode.OpenOrCreate, fileAccess);
     }
 
-    public Task WriteAsync(string contents)
+    public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
-        return System.IO.File.WriteAllTextAsync(Path, contents);
+        return System.IO.File.WriteAllTextAsync(Path, contents, cancellationToken);
     }
 
-    public Task WriteAsync(byte[] contents)
+    public Task WriteAsync(byte[] contents, CancellationToken cancellationToken = default)
     {
-        return System.IO.File.WriteAllBytesAsync(Path, contents);
+        return System.IO.File.WriteAllBytesAsync(Path, contents, cancellationToken);
     }
 
-    public Task WriteAsync(IEnumerable<string> contents)
+    public Task WriteAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
-        return System.IO.File.WriteAllLinesAsync(Path, contents);
+        return System.IO.File.WriteAllLinesAsync(Path, contents, cancellationToken);
     }
 
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
@@ -67,7 +67,7 @@ public class File : IEquatable<File>
         await fileStream.WriteAsync(contents, cancellationToken);
     }
 
-    public async Task WriteAsync(Stream contents)
+    public async Task WriteAsync(Stream contents, CancellationToken cancellationToken = default)
     {
         await using var fileStream = System.IO.File.Create(Path);
 
@@ -76,7 +76,7 @@ public class File : IEquatable<File>
             contents.Position = 0;
         }
 
-        await contents.CopyToAsync(fileStream);
+        await contents.CopyToAsync(fileStream, cancellationToken);
     }
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>

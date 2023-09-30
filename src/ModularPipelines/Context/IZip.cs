@@ -10,5 +10,7 @@ public interface IZip
 
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel);
 
-    public Folder UnZipToFolder(string zipPath, string outputFolderPath);
+    public Folder UnZipToFolder(string zipPath, string outputFolderPath) => UnZipToFolder(zipPath, outputFolderPath, true);
+
+    public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles);
 }

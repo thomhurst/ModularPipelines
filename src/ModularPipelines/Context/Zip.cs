@@ -21,11 +21,11 @@ internal class Zip : IZip
         return new File(outputPath);
     }
 
-    public Folder UnZipToFolder(string zipPath, string outputFolderPath)
+    public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles)
     {
         Directory.CreateDirectory(outputFolderPath);
 
-        ZipFile.ExtractToDirectory(zipPath, outputFolderPath, true);
+        ZipFile.ExtractToDirectory(zipPath, outputFolderPath, overwriteFiles);
 
         return new Folder(outputFolderPath);
     }

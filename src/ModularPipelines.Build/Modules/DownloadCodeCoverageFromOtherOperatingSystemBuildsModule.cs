@@ -1,13 +1,10 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 using Octokit;
 using TomLonghurst.EnumerableAsyncProcessor.Extensions;
 using File = ModularPipelines.FileSystem.File;
@@ -19,11 +16,11 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
-    private readonly IOptions<GitHubSettings> _gitHubSettings;
+    private readonly GitHubClient _gitHubClient;
 
-    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(GitHubClient gitHubClient, IOptions<GitHubSettings> gitHubSettings, HttpClient httpClient)
+    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(GitHubClient gitHubClient)
     {
-        _gitHubSettings = gitHubSettings;
+        _gitHubClient = gitHubClient;
     }
 
     /// <inheritdoc/>
@@ -36,39 +33,37 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             return new List<File>();
         }
 
-        var httpResponses = await runs.Value!.ToAsyncProcessorBuilder()
-            .SelectAsync(run => context.Http.SendAsync(new HttpRequestMessage(HttpMethod.Get, new Uri($"{run.ArtifactsUrl}"))
+        var artifacts = await runs.Value!.ToAsyncProcessorBuilder()
+            .SelectAsync(async run =>
             {
-                Headers =
-                {
-                    Accept = { new MediaTypeWithQualityHeaderValue("application/vnd.github+json") },
-                    Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken),
-                    UserAgent = { new ProductInfoHeaderValue("ModularPipelines", "1.0.0") },
-                },
-            }, cancellationToken))
+                var listWorkflowArtifacts = await _gitHubClient.Actions.Artifacts.ListWorkflowArtifacts(BuildConstants.Owner,
+                    BuildConstants.RepositoryName, run.Id);
+                
+                return listWorkflowArtifacts.Artifacts.FirstOrDefault(x => x.Name == "code-coverage") ?? throw new ArgumentException("No code-coverage artifact found");
+            })
             .ProcessInParallel();
 
-        var models = await httpResponses.ToAsyncProcessorBuilder()
-            .SelectAsync(message => message.Content.ReadFromJsonAsync<GitHubArtifactsList>(cancellationToken: cancellationToken))
-            .ProcessInParallel();
-
-        var zipFiles = await models.OfType<GitHubArtifactsList>()
-            .Select(list => list.Artifacts!.First(x => x.Name == "code-coverage"))
+        var zipFiles = await artifacts
             .ToAsyncProcessorBuilder()
-            .SelectAsync(artifact => context.Downloader.DownloadFileAsync(new DownloadFileOptions(artifact.DownloadUrl!)
-            {
-                RequestConfigurator = message =>
-                {
-                    message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
-                    message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _gitHubSettings.Value.StandardToken);
-                    message.Headers.UserAgent.Add(new ProductInfoHeaderValue("ModularPipelines", "1.0.0"));
-                },
-            }, cancellationToken))
+            .SelectAsync(DownloadZip)
             .ProcessInParallel();
 
         return zipFiles.Select(x => context.Zip.UnZipToFolder(x, Folder.CreateTemporaryFolder()))
             .Select(x => x.FindFile(f => f.Name.Contains("coverage") && f.Extension == ".xml"))
             .OfType<File>()
             .ToList();
+    }
+
+    private async Task<File> DownloadZip(Artifact artifact)
+    {
+        var zipStream = await _gitHubClient.Actions.Artifacts.DownloadArtifact(BuildConstants.Owner,
+            BuildConstants.RepositoryName,
+            artifact.Id, "zip");
+
+        var file = File.GetNewTemporaryFilePath();
+
+        await file.WriteAsync(zipStream);
+        
+        return file;
     }
 }
