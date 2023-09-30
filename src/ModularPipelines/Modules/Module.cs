@@ -8,7 +8,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Modules;
 

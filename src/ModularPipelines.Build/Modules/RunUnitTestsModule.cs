@@ -5,7 +5,7 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Build.Modules;
 

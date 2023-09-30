@@ -3,7 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.NuGet.Options;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.NuGet;
 

@@ -6,7 +6,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using Octokit;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;

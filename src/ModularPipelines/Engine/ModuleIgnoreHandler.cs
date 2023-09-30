@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 

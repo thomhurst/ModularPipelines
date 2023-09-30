@@ -1,6 +1,6 @@
 using ModularPipelines.Exceptions;
 using ModularPipelines.Requirements;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 

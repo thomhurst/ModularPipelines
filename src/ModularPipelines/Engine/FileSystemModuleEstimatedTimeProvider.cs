@@ -1,5 +1,5 @@
 using ModularPipelines.Models;
-using TomLonghurst.EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 
 namespace ModularPipelines.Engine;
 
