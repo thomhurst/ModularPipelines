@@ -1,6 +1,6 @@
+using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ModularPipelines.Engine;
 
