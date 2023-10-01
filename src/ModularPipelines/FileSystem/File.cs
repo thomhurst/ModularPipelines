@@ -186,7 +186,7 @@ public class File : IEquatable<File>
             return true;
         }
 
-        return Path == other.Path;
+        return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <inheritdoc/>
