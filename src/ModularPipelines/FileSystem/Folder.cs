@@ -107,10 +107,12 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))
+        .Distinct()
         .Where(predicate);
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate) => DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
+        .Distinct()
         .Where(predicate);
     
     public IEnumerable<File> GetFiles(string globPattern)
@@ -119,7 +121,8 @@ public class Folder : IEquatable<Folder>
             .AddInclude(globPattern)
             .Execute(new DirectoryInfoWrapper(DirectoryInfo))
             .Files
-            .Select(x => new File(x.Path));
+            .Select(x => new File(x.Path))
+            .Distinct();
     }
 
     public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
@@ -129,13 +132,15 @@ public class Folder : IEquatable<Folder>
     public IEnumerable<File> ListFiles()
     {
         return DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new File(x));
+            .Select(x => new File(x))
+            .Distinct();
     }
 
     public IEnumerable<Folder> ListFolders()
     {
         return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new Folder(x));
+            .Select(x => new Folder(x))
+            .Distinct();
     }
 
     public static Folder CreateTemporaryFolder()
