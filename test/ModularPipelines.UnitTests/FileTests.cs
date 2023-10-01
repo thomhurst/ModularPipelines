@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using ModularPipelines.Extensions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.UnitTests.Attributes;
 using File = ModularPipelines.FileSystem.File;
 
@@ -296,6 +297,31 @@ public class FileTests : TestBase
             Assert.That(file == file2, Is.False);
             Assert.That(file != file2, Is.True);
         });
+    }
+
+    [TestCase("**/Nest2/**/*.txt")]
+    [TestCase("**/blah.txt")]
+    [TestCase("**/Blah.txt")]
+    [TestCase("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
+    public void GlobTests(string globPattern)
+    {
+        var workingDirectory = new Folder(Environment.CurrentDirectory);
+        var files = workingDirectory.GetFiles(globPattern).ToList();
+        
+        Assert.That(files, Has.Count.EqualTo(1));
+        Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
+    }
+    
+    [Test]
+    public void GlobTest2()
+    {
+        var folder = new Folder(Environment.CurrentDirectory)
+            .FindFolder(x => x.Name == "Nest5")!;
+        
+        var files = folder.GetFiles("Blah.txt").ToList();
+        
+        Assert.That(files, Has.Count.EqualTo(1));
+        Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
     }
 
     private static async Task<File> CreateRandomFile()

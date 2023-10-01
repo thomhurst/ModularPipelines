@@ -53,7 +53,12 @@
       <None Update="Data\BashTest.sh">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Data\Nest1\Nest2\Nest3\Nest4\Nest5\Blah.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+
     </ItemGroup>
+
 
 
 

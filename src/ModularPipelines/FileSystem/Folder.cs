@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 
 namespace ModularPipelines.FileSystem;
 
@@ -110,6 +112,15 @@ public class Folder : IEquatable<Folder>
     public IEnumerable<File> GetFiles(Func<File, bool> predicate) => DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
         .Where(predicate);
+    
+    public IEnumerable<File> GetFiles(string globPattern)
+    {
+        return new Matcher(StringComparison.OrdinalIgnoreCase)
+            .AddInclude(globPattern)
+            .Execute(new DirectoryInfoWrapper(DirectoryInfo))
+            .Files
+            .Select(x => new File(x.Path));
+    }
 
     public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
 
