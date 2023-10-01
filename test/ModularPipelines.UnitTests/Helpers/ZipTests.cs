@@ -14,7 +14,10 @@ public class ZipTests : TestBase
         {
             await Task.Yield();
 
-            var directory = context.Git().RootDirectory.GetFolder("test").GetFolder("ModularPipelines.UnitTests").GetFolder("Data");
+            var directory = context.Git().RootDirectory.GetFolder("test")
+                .GetFolder("ModularPipelines.UnitTests")
+                .GetFolder("Data")
+                .GetFolder("Zip");
 
             var fileToWrite = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
 
@@ -98,7 +101,7 @@ public class ZipTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(expectedFolder.Exists, Is.True);
-            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories), Has.Length.GreaterThanOrEqualTo(1));
+            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories), Has.Length.EqualTo(1));
         });
     }
 }

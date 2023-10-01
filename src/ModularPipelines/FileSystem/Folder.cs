@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 
 namespace ModularPipelines.FileSystem;
 
@@ -105,11 +107,23 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
         .Select(x => new Folder(x))
+        .Distinct()
         .Where(predicate);
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate) => DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
         .Select(x => new File(x))
+        .Distinct()
         .Where(predicate);
+    
+    public IEnumerable<File> GetFiles(string globPattern)
+    {
+        return new Matcher(StringComparison.OrdinalIgnoreCase)
+            .AddInclude(globPattern)
+            .Execute(new DirectoryInfoWrapper(DirectoryInfo))
+            .Files
+            .Select(x => new File(x.Path))
+            .Distinct();
+    }
 
     public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
 
@@ -118,13 +132,15 @@ public class Folder : IEquatable<Folder>
     public IEnumerable<File> ListFiles()
     {
         return DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new File(x));
+            .Select(x => new File(x))
+            .Distinct();
     }
 
     public IEnumerable<Folder> ListFolders()
     {
         return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new Folder(x));
+            .Select(x => new Folder(x))
+            .Distinct();
     }
 
     public static Folder CreateTemporaryFolder()
@@ -177,6 +193,11 @@ public class Folder : IEquatable<Folder>
         if (ReferenceEquals(this, other))
         {
             return true;
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
         }
 
         return Path == other.Path;
