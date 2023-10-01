@@ -308,11 +308,6 @@ public class FileTests : TestBase
         var workingDirectory = new Folder(Environment.CurrentDirectory);
         var files = workingDirectory.GetFiles(globPattern).ToList();
         
-        foreach (var file in files)
-        {
-            Console.WriteLine(file);
-        }
-        
         Assert.That(files, Has.Count.EqualTo(1));
         Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
     }
@@ -324,11 +319,6 @@ public class FileTests : TestBase
             .FindFolder(x => x.Name == "Nest5")!;
         
         var files = folder.GetFiles("Blah.txt").ToList();
-        
-        foreach (var file in files)
-        {
-            Console.WriteLine(file);
-        }
         
         Assert.That(files, Has.Count.EqualTo(1));
         Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
