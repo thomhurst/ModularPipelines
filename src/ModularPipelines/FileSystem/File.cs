@@ -186,7 +186,6 @@ public class File : IEquatable<File>
             return true;
         }
 
-
         if (OperatingSystem.IsWindows())
         {
             return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
