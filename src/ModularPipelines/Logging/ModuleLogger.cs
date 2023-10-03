@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Logging;
 
@@ -26,9 +27,9 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 {
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
-    private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
+    private readonly ICollapsableLogging _collapsableLogging;
 
     private List<StringOrLogEvent> _stringOrLogEvents = new();
 
@@ -38,15 +39,15 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     public ModuleLogger(ILogger<T> defaultLogger,
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
-        IBuildSystemDetector buildSystemDetector,
         ISecretProvider secretProvider,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        ICollapsableLogging collapsableLogging)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
-        _buildSystemDetector = buildSystemDetector;
         _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
+        _collapsableLogging = collapsableLogging;
         moduleLoggerContainer.AddLogger(this);
 
         Disposer.RegisterOnShutdown(this);
@@ -103,7 +104,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
             if (logEvents.Any())
             {
-                PrintCollapsibleSectionStart();
+                _collapsableLogging.StartConsoleLogGroup(GetCollapsibleSectionName());
 
                 foreach (var stringOrLogEvent in logEvents)
                 {
@@ -118,7 +119,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
                     }
                 }
 
-                PrintCollapsibleSectionEnd();
+                _collapsableLogging.EndConsoleLogGroup(GetCollapsibleSectionName());
 
                 logEvents.Clear();
                 _stringOrLogEvents.Clear();
@@ -178,42 +179,6 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
             var formattedString = formatter.Invoke((TState)o, exception);
             return _secretObfuscator.Obfuscate(formattedString, null);
         };
-    }
-
-    private void PrintCollapsibleSectionStart()
-    {
-        if (_buildSystemDetector.IsRunningOnGitHubActions)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.GitHub.StartBlock(GetCollapsibleSectionName()));
-        }
-
-        if (_buildSystemDetector.IsRunningOnAzurePipelines)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.AzurePipelines.StartBlock(GetCollapsibleSectionName()));
-        }
-
-        if (_buildSystemDetector.IsRunningOnTeamCity)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.TeamCity.StartBlock(GetCollapsibleSectionName()));
-        }
-    }
-
-    private void PrintCollapsibleSectionEnd()
-    {
-        if (_buildSystemDetector.IsRunningOnGitHubActions)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.GitHub.EndBlock);
-        }
-
-        if (_buildSystemDetector.IsRunningOnAzurePipelines)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.AzurePipelines.EndBlock);
-        }
-
-        if (_buildSystemDetector.IsRunningOnTeamCity)
-        {
-            _consoleWriter.LogToConsole(BuildSystemValues.TeamCity.EndBlock(GetCollapsibleSectionName()));
-        }
     }
 
     private string GetCollapsibleSectionName()

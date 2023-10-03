@@ -9,11 +9,11 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
-    private readonly ICollapsableLogging _collapsableLogging;
+    private readonly IInternalCollapsableLogging _collapsableLogging;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, 
         ILogger<DependencyPrinter> logger,
-        ICollapsableLogging collapsableLogging)
+        IInternalCollapsableLogging collapsableLogging)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
@@ -39,9 +39,9 @@ internal class DependencyPrinter : IDependencyPrinter
 
         alreadyPrinted.Clear();
 
-        _collapsableLogging.StartConsoleLogGroup("Dependency Chains");
+        _collapsableLogging.StartConsoleLogGroupInternal("Dependency Chains");
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
-        _collapsableLogging.EndConsoleLogGroup("Dependency Chains");
+        _collapsableLogging.EndConsoleLogGroupInternal("Dependency Chains");
     }
 
     private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
