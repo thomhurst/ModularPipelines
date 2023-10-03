@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
@@ -7,17 +9,24 @@ namespace ModularPipelines.Build.Modules;
 
 public class NugetVersionGeneratorModule : Module<string>
 {
+    private readonly IOptions<PublishSettings> _publishSettings;
+
+    public NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings)
+    {
+        _publishSettings = publishSettings;
+    }
+    
     /// <inheritdoc/>
     protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
         
-        if (gitVersionInformation.BranchName == "main")
+        if (_publishSettings.Value.IsAlpha)
         {
-            return gitVersionInformation.SemVer!;
+            return $"{gitVersionInformation.FullSemVer}alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}";
         }
-        
-        return $"{gitVersionInformation.Major}.{gitVersionInformation.Minor}.{gitVersionInformation.Patch}-{gitVersionInformation.PreReleaseLabel}-{gitVersionInformation.CommitsSinceVersionSource}";
+
+        return gitVersionInformation.FullSemVer;
     }
 
     /// <inheritdoc/>
