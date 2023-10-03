@@ -34,6 +34,8 @@ internal class PipelineInitializer : IPipelineInitializer
     public async Task<OrganizedModules> Initialize()
     {
         _consolePrinter.PrintLogo();
+        
+        _logger.LogTrace("Environment variables: {EnvironmentVariables}", Environment.GetEnvironmentVariables());
 
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
