@@ -30,7 +30,6 @@ await PipelineHostBuilder.Create()
         collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Trace));
 
         collection
-
             .AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<FindProjectsModule>()
