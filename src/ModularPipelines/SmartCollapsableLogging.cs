@@ -1,5 +1,4 @@
-﻿using ModularPipelines.Enums;
-using ModularPipelines.Interfaces;
+﻿using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines;
@@ -7,14 +6,15 @@ namespace ModularPipelines;
 internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private readonly IBuildSystemDetector _buildSystemDetector;
+    private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
 
     private IModuleLogger ModuleLogger => _moduleLoggerProvider.GetLogger();
     
-    public SmartCollapsableLogging(IModuleLoggerProvider moduleLoggerProvider, IBuildSystemDetector buildSystemDetector)
+    public SmartCollapsableLogging(IModuleLoggerProvider moduleLoggerProvider,
+        ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
-        _buildSystemDetector = buildSystemDetector;
+        _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
     }
     
     public void LogToConsole(string value)
@@ -24,7 +24,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     public void StartConsoleLogGroup(string name)
     {
-        var startConsoleLogGroup = GetStartConsoleLogGroup(name);
+        var startConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
         
         if (startConsoleLogGroup != null)
         {
@@ -32,26 +32,9 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public string? GetStartConsoleLogGroup(string name)
-    {
-        return _buildSystemDetector.GetCurrentBuildSystem() switch
-        {
-            BuildSystem.GitHubActions => BuildSystemValues.GitHub.StartBlock(name),
-            BuildSystem.TeamCity => BuildSystemValues.TeamCity.StartBlock(name),
-            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.StartBlock(name),
-            BuildSystem.Jenkins => null,
-            BuildSystem.GitLab => null,
-            BuildSystem.Bitbucket => null,
-            BuildSystem.TravisCI => null,
-            BuildSystem.AppVeyor => null,
-            BuildSystem.Unknown => null,
-            _ => null,
-        };
-    }
-
     public void EndConsoleLogGroup(string name)
     {
-        var endConsoleLogGroup = GetEndConsoleLogGroup(name);
+        var endConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
         
         if (endConsoleLogGroup != null)
         {
@@ -59,26 +42,9 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public string? GetEndConsoleLogGroup(string name)
-    {
-        return _buildSystemDetector.GetCurrentBuildSystem() switch
-        {
-            BuildSystem.GitHubActions => BuildSystemValues.GitHub.EndBlock,
-            BuildSystem.TeamCity => BuildSystemValues.TeamCity.EndBlock(name),
-            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.EndBlock,
-            BuildSystem.Jenkins => null,
-            BuildSystem.GitLab => null,
-            BuildSystem.Bitbucket => null,
-            BuildSystem.TravisCI => null,
-            BuildSystem.AppVeyor => null,
-            BuildSystem.Unknown => null,
-            _ => null,
-        };
-    }
-
     public void StartConsoleLogGroupInternal(string name)
     {
-        var startConsoleLogGroup = GetStartConsoleLogGroup(name);
+        var startConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
         
         if (startConsoleLogGroup != null)
         {
@@ -88,7 +54,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     public void EndConsoleLogGroupInternal(string name)
     {
-        var endConsoleLogGroup = GetEndConsoleLogGroup(name);
+        var endConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
         
         if (endConsoleLogGroup != null)
         {

@@ -29,7 +29,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
-    private readonly ICollapsableLogging _collapsableLogging;
+    private readonly ISmartCollapsableLoggingStringBlockProvider _collapsableLoggingStringBlockProvider;
 
     private List<StringOrLogEvent> _stringOrLogEvents = new();
 
@@ -41,13 +41,13 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         ISecretObfuscator secretObfuscator,
         ISecretProvider secretProvider,
         IConsoleWriter consoleWriter,
-        ICollapsableLogging collapsableLogging)
+        ISmartCollapsableLoggingStringBlockProvider collapsableLoggingStringBlockProvider)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
-        _collapsableLogging = collapsableLogging;
+        _collapsableLoggingStringBlockProvider = collapsableLoggingStringBlockProvider;
         moduleLoggerContainer.AddLogger(this);
 
         Disposer.RegisterOnShutdown(this);
@@ -104,7 +104,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
             if (logEvents.Any())
             {
-                _collapsableLogging.StartConsoleLogGroup(GetCollapsibleSectionName());
+                PrintStartBlock();
 
                 foreach (var stringOrLogEvent in logEvents)
                 {
@@ -119,13 +119,34 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
                     }
                 }
 
-                _collapsableLogging.EndConsoleLogGroup(GetCollapsibleSectionName());
+                PrintEndBlock();
 
                 logEvents.Clear();
                 _stringOrLogEvents.Clear();
             }
 
             GC.SuppressFinalize(this);
+        }
+    }
+
+    private void PrintStartBlock()
+    {
+        var startConsoleLogGroup =
+            _collapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(GetCollapsibleSectionName());
+        
+        if (startConsoleLogGroup != null)
+        {
+            _consoleWriter.LogToConsole(startConsoleLogGroup);
+        }
+    }
+
+    private void PrintEndBlock()
+    {
+        var endConsoleLogGroup = _collapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(GetCollapsibleSectionName());
+        
+        if (endConsoleLogGroup != null)
+        {
+            _consoleWriter.LogToConsole(endConsoleLogGroup);
         }
     }
 
