@@ -157,9 +157,9 @@
     <value>Conflicting DependsOn Attributes</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerMessageFormat" xml:space="preserve">
-    <value>{0} Depends on {1} and {1} Depends on {0}</value>
+    <value>{0} Depends on {1} and {1} Depends on {0}.</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerDescription" xml:space="preserve">
-    <value>{0} Depends on {1} and {1} Depends on {0}</value>
+    <value>{0} Depends on {1} and {1} Depends on {0}.</value>
   </data>
 </root>

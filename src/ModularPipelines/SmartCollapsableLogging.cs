@@ -4,7 +4,7 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines;
 
-internal class SmartCollapsableLogging : ICollapsableLogging
+internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IBuildSystemDetector _buildSystemDetector;
@@ -24,49 +24,80 @@ internal class SmartCollapsableLogging : ICollapsableLogging
 
     public void StartConsoleLogGroup(string name)
     {
-        switch (_buildSystemDetector.GetCurrentBuildSystem())
+        var startConsoleLogGroup = GetStartConsoleLogGroup(name);
+        
+        if (startConsoleLogGroup != null)
         {
-            case BuildSystem.GitHubActions: 
-                ModuleLogger.LogToConsole(BuildSystemValues.GitHub.StartBlock(name));
-                break;
-            case BuildSystem.TeamCity: 
-                ModuleLogger.LogToConsole(BuildSystemValues.TeamCity.StartBlock(name));
-                break;
-            case BuildSystem.AzurePipelines: 
-                ModuleLogger.LogToConsole(BuildSystemValues.AzurePipelines.StartBlock(name));
-                break;
-            case BuildSystem.Jenkins:
-            case BuildSystem.GitLab:
-            case BuildSystem.Bitbucket:
-            case BuildSystem.TravisCI:
-            case BuildSystem.AppVeyor:
-            case BuildSystem.Unknown:
-            default:
-                break;
+            ModuleLogger.LogToConsole(startConsoleLogGroup);
         }
+    }
+
+    public string? GetStartConsoleLogGroup(string name)
+    {
+        return _buildSystemDetector.GetCurrentBuildSystem() switch
+        {
+            BuildSystem.GitHubActions => BuildSystemValues.GitHub.StartBlock(name),
+            BuildSystem.TeamCity => BuildSystemValues.TeamCity.StartBlock(name),
+            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.StartBlock(name),
+            BuildSystem.Jenkins => null,
+            BuildSystem.GitLab => null,
+            BuildSystem.Bitbucket => null,
+            BuildSystem.TravisCI => null,
+            BuildSystem.AppVeyor => null,
+            BuildSystem.Unknown => null,
+            _ => null,
+        };
     }
 
     public void EndConsoleLogGroup(string name)
     {
-        switch (_buildSystemDetector.GetCurrentBuildSystem())
+        var endConsoleLogGroup = GetEndConsoleLogGroup(name);
+        
+        if (endConsoleLogGroup != null)
         {
-            case BuildSystem.GitHubActions: 
-                ModuleLogger.LogToConsole(BuildSystemValues.GitHub.EndBlock);
-                break;
-            case BuildSystem.TeamCity: 
-                ModuleLogger.LogToConsole(BuildSystemValues.TeamCity.EndBlock(name));
-                break;
-            case BuildSystem.AzurePipelines: 
-                ModuleLogger.LogToConsole(BuildSystemValues.AzurePipelines.EndBlock);
-                break;
-            case BuildSystem.Jenkins:
-            case BuildSystem.GitLab:
-            case BuildSystem.Bitbucket:
-            case BuildSystem.TravisCI:
-            case BuildSystem.AppVeyor:
-            case BuildSystem.Unknown:
-            default:
-                break;
+            ModuleLogger.LogToConsole(endConsoleLogGroup);
         }
+    }
+
+    public string? GetEndConsoleLogGroup(string name)
+    {
+        return _buildSystemDetector.GetCurrentBuildSystem() switch
+        {
+            BuildSystem.GitHubActions => BuildSystemValues.GitHub.EndBlock,
+            BuildSystem.TeamCity => BuildSystemValues.TeamCity.EndBlock(name),
+            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.EndBlock,
+            BuildSystem.Jenkins => null,
+            BuildSystem.GitLab => null,
+            BuildSystem.Bitbucket => null,
+            BuildSystem.TravisCI => null,
+            BuildSystem.AppVeyor => null,
+            BuildSystem.Unknown => null,
+            _ => null,
+        };
+    }
+
+    public void StartConsoleLogGroupInternal(string name)
+    {
+        var startConsoleLogGroup = GetStartConsoleLogGroup(name);
+        
+        if (startConsoleLogGroup != null)
+        {
+            Console.WriteLine(startConsoleLogGroup);
+        }
+    }
+
+    public void EndConsoleLogGroupInternal(string name)
+    {
+        var endConsoleLogGroup = GetEndConsoleLogGroup(name);
+        
+        if (endConsoleLogGroup != null)
+        {
+            Console.WriteLine(endConsoleLogGroup);
+        }
+    }
+
+    public void LogToConsoleInternal(string value)
+    {
+        Console.WriteLine(value);
     }
 }
