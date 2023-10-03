@@ -10,6 +10,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>]
+[DependsOn<PackProjectsModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
     /// <inheritdoc/>

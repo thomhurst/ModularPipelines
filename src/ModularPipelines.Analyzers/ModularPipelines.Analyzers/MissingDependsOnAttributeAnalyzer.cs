@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -74,9 +75,9 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var attributes = GetAttributes(classSymbol);
+        var attributes = classSymbol.GetAllAttributesIncludingBaseAndInterfaces();
 
-        if (!attributes.Any(x => IsDependsOnAttributeFor(x, namedTypeSymbol)))
+        if (!attributes.Any(x => x.IsDependsOnAttributeFor(namedTypeSymbol)))
         {
             var properties = new Dictionary<string, string?>
             {
@@ -84,31 +85,6 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
-        }
-    }
-
-    private IEnumerable<AttributeData> GetAttributes(INamedTypeSymbol classSymbol)
-    {
-        foreach (var attributeData in classSymbol.AllInterfaces.SelectMany(x => x.GetAttributes()))
-        {
-            yield return attributeData;
-        }
-
-        while (true)
-        {
-            foreach (var attributeData in classSymbol.GetAttributes())
-            {
-                yield return attributeData;
-            }
-
-            var baseType = classSymbol.BaseType;
-
-            if (baseType == null)
-            {
-                yield break;
-            }
-
-            classSymbol = baseType;
         }
     }
 
@@ -127,37 +103,5 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         }
 
         return null;
-    }
-
-    private bool IsDependsOnAttributeFor(AttributeData attributeData, INamedTypeSymbol namedTypeSymbol)
-    {
-        var attributeClassName = attributeData.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-        if (string.IsNullOrEmpty(attributeClassName))
-        {
-            return false;
-        }
-
-        if (!attributeClassName!.StartsWith("global::ModularPipelines.Attributes.DependsOnAttribute"))
-        {
-            return false;
-        }
-
-        if (attributeData.AttributeClass!.IsGenericType)
-        {
-            return SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass.TypeArguments.First(), namedTypeSymbol);
-        }
-
-        return attributeData.ConstructorArguments.Any(x =>
-        {
-            var argumentValue = x.Value;
-
-            if (argumentValue is INamedTypeSymbol argumentNamedTypeSymbol)
-            {
-                return SymbolEqualityComparer.Default.Equals(argumentNamedTypeSymbol, namedTypeSymbol);
-            }
-
-            return false;
-        });
     }
 }

@@ -8,6 +8,7 @@ using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Vertical.SpectreLogger;
@@ -99,7 +100,8 @@ internal static class DependencyInjectionSetup
             .AddScoped<ILogoPrinter, LogoPrinter>()
             .AddScoped<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddScoped<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
-            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>();
+            .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
+            .AddScoped<ICollapsableLogging, SmartCollapsableLogging>();
 
         // Singletons
         services
@@ -114,7 +116,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
-            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-            .AddSingleton<IServiceProviderInitializer, ServiceProviderInitializer>();
+            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>();
     }
 }

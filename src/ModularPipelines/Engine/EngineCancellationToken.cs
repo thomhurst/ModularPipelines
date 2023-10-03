@@ -5,6 +5,8 @@ namespace ModularPipelines.Engine;
 [ExcludeFromCodeCoverage]
 internal class EngineCancellationToken : CancellationTokenSource
 {
+    public string? Reason { get; set; }
+    
     private bool _disposed;
 
     public EngineCancellationToken()
@@ -12,6 +14,12 @@ internal class EngineCancellationToken : CancellationTokenSource
         Console.CancelKeyPress += (_, _) => TryCancel();
 
         AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
+    }
+
+    public void CancelWithReason(string? reason)
+    {
+        Reason = reason;
+        Cancel();
     }
 
     protected override void Dispose(bool disposing)

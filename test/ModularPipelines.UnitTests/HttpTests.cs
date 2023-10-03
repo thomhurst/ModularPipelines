@@ -80,7 +80,7 @@ public class HttpTests : TestBase
             });
         });
 
-        var loggingClient = result.T.GetLoggingHttpClient(HttpLoggingType.RequestAndResponse);
+        var loggingClient = result.T.GetLoggingHttpClient();
 
         await loggingClient.GetAsync("https://www.github.com");
 

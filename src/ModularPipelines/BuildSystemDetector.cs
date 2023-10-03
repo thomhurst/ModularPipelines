@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines;
 
@@ -12,29 +12,53 @@ internal class BuildSystemDetector : IBuildSystemDetector
     {
         _environmentVariables = environmentVariables;
     }
+    
+    public BuildSystem GetCurrentBuildSystem()
+    {
+        if (!IsEmptyEnvironmentVariable("TF_BUILD"))
+        {
+            return BuildSystem.AzurePipelines;
+        }
 
-    public bool IsKnownBuildAgent => typeof(BuildSystemDetector)
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(propertyInfo => propertyInfo.Name.StartsWith("IsRunningOn"))
-            .Select(propertyInfo => propertyInfo.GetValue(this))
-            .OfType<bool>()
-            .Any(x => x);
+        if (!IsEmptyEnvironmentVariable("TEAMCITY_VERSION"))
+        {
+            return BuildSystem.TeamCity;
+        }
 
-    public bool IsRunningOnAzurePipelines => !IsEmptyEnvironmentVariable("TF_BUILD");
+        if (!IsEmptyEnvironmentVariable("GITHUB_ACTIONS"))
+        {
+            return BuildSystem.GitHubActions;
+        }
 
-    public bool IsRunningOnTeamCity => !IsEmptyEnvironmentVariable("TEAMCITY_VERSION");
+        if (!IsEmptyEnvironmentVariable("JENKINS_URL"))
+        {
+            return BuildSystem.Jenkins;
+        }
 
-    public bool IsRunningOnGitHubActions => !IsEmptyEnvironmentVariable("GITHUB_ACTIONS");
+        if (!IsEmptyEnvironmentVariable("GITLAB_CI") 
+            || !IsEmptyEnvironmentVariable("GITLAB_FEATURES") 
+            || !IsEmptyEnvironmentVariable("GITLAB_USER_NAME"))
+        {
+            return BuildSystem.GitLab;
+        }
 
-    public bool IsRunningOnJenkins => !IsEmptyEnvironmentVariable("JENKINS_URL");
+        if (!IsEmptyEnvironmentVariable("BITBUCKET_BUILD_NUMBER"))
+        {
+            return BuildSystem.Bitbucket;
+        }
 
-    public bool IsRunningOnGitLab => !IsEmptyEnvironmentVariable("GITLAB_CI") || !IsEmptyEnvironmentVariable("GITLAB_FEATURES") || !IsEmptyEnvironmentVariable("GITLAB_USER_NAME");
+        if (!IsEmptyEnvironmentVariable("TRAVIS"))
+        {
+            return BuildSystem.TravisCI;
+        }
 
-    public bool IsRunningOnBitbucket => !IsEmptyEnvironmentVariable("BITBUCKET_BUILD_NUMBER");
+        if (!IsEmptyEnvironmentVariable("APPVEYOR"))
+        {
+            return BuildSystem.AppVeyor;
+        }
 
-    public bool IsRunningOnTravisCI => !IsEmptyEnvironmentVariable("TRAVIS");
-
-    public bool IsRunningOnAppVeyor => !IsEmptyEnvironmentVariable("APPVEYOR");
+        return BuildSystem.Unknown;
+    }
 
     private bool IsEmptyEnvironmentVariable(string environmentVariable) =>
         string.IsNullOrEmpty(_environmentVariables.GetEnvironmentVariable(environmentVariable));

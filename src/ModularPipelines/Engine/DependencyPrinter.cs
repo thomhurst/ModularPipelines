@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -8,11 +9,15 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
+    private readonly ICollapsableLogging _collapsableLogging;
 
-    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, ILogger<DependencyPrinter> logger)
+    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, 
+        ILogger<DependencyPrinter> logger,
+        ICollapsableLogging collapsableLogging)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
+        _collapsableLogging = collapsableLogging;
     }
 
     public void Print()
@@ -34,7 +39,9 @@ internal class DependencyPrinter : IDependencyPrinter
 
         alreadyPrinted.Clear();
 
+        _collapsableLogging.StartConsoleLogGroup("Dependency Chains");
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
+        _collapsableLogging.EndConsoleLogGroup("Dependency Chains");
     }
 
     private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)

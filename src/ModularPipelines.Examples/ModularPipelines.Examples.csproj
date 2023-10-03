@@ -17,6 +17,11 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj"
+                          ReferenceOutputAssembly="false"
+                          OutputItemType="Analyzer"
+                          SetTargetFramework="TargetFramework=netstandard2.0" />
+        
       <None Update="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

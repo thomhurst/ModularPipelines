@@ -14,7 +14,7 @@ public class SafeEstimatedTimeProviderTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
-            .RegisterEstimatedTimeProvider<SuccessfulTimeProvider>()
+            .AddModuleEstimatedTimeProvider<SuccessfulTimeProvider>()
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
@@ -27,7 +27,7 @@ public class SafeEstimatedTimeProviderTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
-            .RegisterEstimatedTimeProvider<FailingTimeProvider>()
+            .AddModuleEstimatedTimeProvider<FailingTimeProvider>()
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
@@ -40,7 +40,7 @@ public class SafeEstimatedTimeProviderTests
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
-            .RegisterEstimatedTimeProvider<FailingTimeProvider2>()
+            .AddModuleEstimatedTimeProvider<FailingTimeProvider2>()
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();

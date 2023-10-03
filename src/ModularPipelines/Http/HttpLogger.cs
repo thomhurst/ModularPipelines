@@ -1,12 +1,19 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
 
 public static class HttpLogger
 {
-    public static async Task PrintRequest(HttpRequestMessage request, ILogger logger)
+    /// <summary>
+    /// Prints the HTTP request
+    /// </summary>
+    /// <param name="request">The HTTP request to print.</param>
+    /// <param name="logger">The current module logger.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
     {
         var sb = new StringBuilder();
 
@@ -23,7 +30,13 @@ public static class HttpLogger
         logger.LogInformation("---Request---\r\n{Request}", sb.ToString());
     }
 
-    public static async Task PrintResponse(HttpResponseMessage response, ILogger logger)
+    /// <summary>
+    /// Prints the HTTP response
+    /// </summary>
+    /// <param name="response">The HTTP response to print.</param>
+    /// <param name="logger">The current module logger.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
     {
         var sb = new StringBuilder();
 

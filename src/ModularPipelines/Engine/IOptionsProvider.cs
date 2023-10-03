@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Engine;
 
-public interface IOptionsProvider
+internal interface IOptionsProvider
 {
     IEnumerable<object?> GetOptions();
 }

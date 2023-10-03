@@ -13,7 +13,7 @@ namespace ModularPipelines.Modules;
 /// A base class for all modules
 /// </summary>
 [JsonConverter(typeof(TypeDiscriminatorConverter<ModuleBase>))]
-public abstract partial class ModuleBase : IJsonTypeDiscriminator
+public abstract partial class ModuleBase : ITypeDiscriminator
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="ModuleBase"/> class.

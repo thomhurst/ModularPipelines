@@ -173,7 +173,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override ModuleBase Initialize(IPipelineContext context)
     {
-        context.FetchLogger(GetType());
+        context.InitializeLogger(GetType());
         Context = context;
         return this;
     }

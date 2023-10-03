@@ -1,8 +1,10 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
+[DependsOn<GitVersionModule>]
 public class SuccessModule3 : Module
 {
     /// <inheritdoc/>

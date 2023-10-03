@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.Serialization;
 
-public interface IJsonTypeDiscriminator
+public interface ITypeDiscriminator
 {
     string TypeDiscriminator { get; }
 }

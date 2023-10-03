@@ -7,7 +7,7 @@ public class BuildSystemDetectorTests : TestBase
 {
     private readonly Mock<IEnvironmentVariables> _environmentVariables;
 
-    private readonly BuildSystemDetector _buildSystemDetector;
+    private readonly IBuildSystemDetector _buildSystemDetector;
 
     public BuildSystemDetectorTests()
     {
@@ -41,13 +41,16 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public void Each_Property_Returns_Result()
     {
-        Assert.That(_buildSystemDetector.IsRunningOnBitbucket, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnJenkins, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnTeamCity, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnGitHubActions, Is.True.Or.False);
-        Assert.That(_buildSystemDetector.IsRunningOnAppVeyor, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnGitLab, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnTravisCI, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_buildSystemDetector.IsRunningOnBitbucket, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnJenkins, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnTeamCity, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnGitHubActions, Is.True.Or.False);
+            Assert.That(_buildSystemDetector.IsRunningOnAppVeyor, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnGitLab, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnTravisCI, Is.False);
+        });
     }
 }

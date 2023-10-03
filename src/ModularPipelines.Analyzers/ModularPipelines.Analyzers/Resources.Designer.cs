@@ -60,6 +60,33 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conflicting DependsOn Attributes.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not use the Console directly. Use context.Logger or inject in IModuleLoggerProvider..
         /// </summary>
         internal static string ConsoleUseAnalyzerDescription {
