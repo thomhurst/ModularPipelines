@@ -2,5 +2,5 @@
 
 internal interface IDependencyPrinter
 {
-    void Print();
+    void PrintDependencyChains();
 }

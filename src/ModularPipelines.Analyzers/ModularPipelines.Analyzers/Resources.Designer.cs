@@ -60,7 +60,7 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}.
+        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}..
         /// </summary>
         internal static string ConflictingDependsOnAttributeAnalyzerDescription {
             get {

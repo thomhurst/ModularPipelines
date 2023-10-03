@@ -129,6 +129,19 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         }
     }
 
+    public override void LogToConsole(string value)
+    {
+        foreach (var secret in _secretProvider.Secrets)
+        {
+            if (value.Contains(secret))
+            {
+                value = value.Replace(secret, "**********");
+            }
+        }
+
+        _stringOrLogEvents.Add(value);
+    }
+    
     private void PrintStartBlock()
     {
         var startConsoleLogGroup =
@@ -148,19 +161,6 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         {
             _consoleWriter.LogToConsole(endConsoleLogGroup);
         }
-    }
-
-    public override void LogToConsole(string value)
-    {
-        foreach (var secret in _secretProvider.Secrets)
-        {
-            if (value.Contains(secret))
-            {
-                value = value.Replace(secret, "**********");
-            }
-        }
-
-        _stringOrLogEvents.Add(value);
     }
 
     private void TryObfuscateValues(object state)

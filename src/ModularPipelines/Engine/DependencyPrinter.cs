@@ -20,7 +20,7 @@ internal class DependencyPrinter : IDependencyPrinter
         _collapsableLogging = collapsableLogging;
     }
 
-    public void Print()
+    public void PrintDependencyChains()
     {
         var alreadyPrinted = new HashSet<ModuleDependencyModel>();
 
@@ -39,9 +39,16 @@ internal class DependencyPrinter : IDependencyPrinter
 
         alreadyPrinted.Clear();
 
+        Print(stringBuilder.ToString());
+    }
+
+    private void Print(string value)
+    {
+        Console.WriteLine();
         _collapsableLogging.StartConsoleLogGroupInternal("Dependency Chains");
-        _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
+        _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", value);
         _collapsableLogging.EndConsoleLogGroupInternal("Dependency Chains");
+        Console.WriteLine();
     }
 
     private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)

@@ -21,6 +21,6 @@ internal class DependencyDetector : IDependencyDetector
     {
         _unusedModuleDetector.Log();
         _dependencyCollisionDetector.CheckCollisions();
-        _dependencyPrinter.Print();
+        _dependencyPrinter.PrintDependencyChains();
     }
 }
