@@ -27,7 +27,7 @@ await PipelineHostBuilder.Create()
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
         collection.Configure<CodeCovSettings>(context.Configuration.GetSection("CodeCov"));
 
-        collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
+        collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Trace));
 
         collection
 
