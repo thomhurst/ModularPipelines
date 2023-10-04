@@ -8,6 +8,18 @@ internal class BuildSystemDetector : IBuildSystemDetector
     public static readonly BuildSystemDetector Instance = new(new EnvironmentVariables());
     private readonly IEnvironmentVariables _environmentVariables;
 
+    private Dictionary<string, BuildSystem> _variablesToBuildSystem = new()
+    {
+        ["TF_BUILD"] = BuildSystem.AzurePipelines,
+        ["TEAMCITY_VERSION"] = BuildSystem.TeamCity,
+        ["GITHUB_ACTIONS"] = BuildSystem.GitHubActions,
+        ["JENKINS_URL"] = BuildSystem.Jenkins,
+        ["GITLAB_CI"] = BuildSystem.GitLab,
+        ["BITBUCKET_BUILD_NUMBER"] = BuildSystem.Bitbucket,
+        ["TRAVIS"] = BuildSystem.TravisCI,
+        ["APPVEYOR"] = BuildSystem.AppVeyor,
+    };
+
     public BuildSystemDetector(IEnvironmentVariables environmentVariables)
     {
         _environmentVariables = environmentVariables;
@@ -15,49 +27,12 @@ internal class BuildSystemDetector : IBuildSystemDetector
     
     public BuildSystem GetCurrentBuildSystem()
     {
-        if (!IsEmptyEnvironmentVariable("TF_BUILD"))
-        {
-            return BuildSystem.AzurePipelines;
-        }
-
-        if (!IsEmptyEnvironmentVariable("TEAMCITY_VERSION"))
-        {
-            return BuildSystem.TeamCity;
-        }
-
-        if (!IsEmptyEnvironmentVariable("GITHUB_ACTIONS"))
-        {
-            return BuildSystem.GitHubActions;
-        }
-
-        if (!IsEmptyEnvironmentVariable("JENKINS_URL"))
-        {
-            return BuildSystem.Jenkins;
-        }
-
-        if (!IsEmptyEnvironmentVariable("GITLAB_CI") 
-            || !IsEmptyEnvironmentVariable("GITLAB_FEATURES") 
-            || !IsEmptyEnvironmentVariable("GITLAB_USER_NAME"))
-        {
-            return BuildSystem.GitLab;
-        }
-
-        if (!IsEmptyEnvironmentVariable("BITBUCKET_BUILD_NUMBER"))
-        {
-            return BuildSystem.Bitbucket;
-        }
-
-        if (!IsEmptyEnvironmentVariable("TRAVIS"))
-        {
-            return BuildSystem.TravisCI;
-        }
-
-        if (!IsEmptyEnvironmentVariable("APPVEYOR"))
-        {
-            return BuildSystem.AppVeyor;
-        }
-
-        return BuildSystem.Unknown;
+        return _variablesToBuildSystem.Keys
+                   .Where(environmentVariable => !IsEmptyEnvironmentVariable(environmentVariable))
+                   .Select(x => _variablesToBuildSystem[x])
+                   .OfType<BuildSystem?>()
+                   .FirstOrDefault()
+               ?? BuildSystem.Unknown;
     }
 
     private bool IsEmptyEnvironmentVariable(string environmentVariable) =>

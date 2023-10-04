@@ -37,36 +37,12 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private void AnalyzeConflictingDependsOnAttributes(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not AttributeSyntax attributeSyntax)
-        {
-            return;
-        }
-        
-        if (attributeSyntax.Name is not GenericNameSyntax genericNameSyntax)
+        if (!IsDependsOn(context, out var namedTypeSymbol))
         {
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "DependsOn")
-        {
-            return;
-        }
-        
-        var attributeSymbol = context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol;
-
-        if (attributeSymbol is not IMethodSymbol methodSymbol)
-        {
-            return;
-        }
-
-        var namedTypeSymbol = methodSymbol.ContainingType;
-        
-        if (!namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith("global::ModularPipelines.Attributes.DependsOnAttribute"))
-        {
-            return;
-        }
-
-        if (!namedTypeSymbol.IsGenericType ||
+        if (!namedTypeSymbol!.IsGenericType ||
             namedTypeSymbol.TypeArguments.FirstOrDefault() is not INamedTypeSymbol namedArgumentTypeSymbol)
         {
             return;
@@ -81,9 +57,56 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         
         var allAttributesOnDependentType = namedArgumentTypeSymbol.GetAllAttributesIncludingBaseAndInterfaces();
 
-        foreach (var conflictingDependencyAttribute in allAttributesOnDependentType.Where(x => x.IsDependsOnAttributeFor(typeContainingAttribute)))
+        ReportDiagnostics(context, allAttributesOnDependentType, typeContainingAttribute, namedArgumentTypeSymbol);
+    }
+
+    private static bool IsDependsOn(SyntaxNodeAnalysisContext context, out INamedTypeSymbol? namedTypeSymbol)
+    {
+        namedTypeSymbol = null;
+        
+        if (context.Node is not AttributeSyntax attributeSyntax)
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), namedArgumentTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat), conflictingDependencyAttribute.AttributeClass?.TypeArguments.First().ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            return false;
+        }
+
+        if (attributeSyntax.Name is not GenericNameSyntax genericNameSyntax)
+        {
+            return false;
+        }
+
+        if (genericNameSyntax.Identifier.ValueText is not "DependsOn")
+        {
+            return false;
+        }
+
+        var attributeSymbol = context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol;
+
+        if (attributeSymbol is not IMethodSymbol methodSymbol)
+        {
+            return false;
+        }
+
+        namedTypeSymbol = methodSymbol.ContainingType;
+
+        if (!namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+                .StartsWith("global::ModularPipelines.Attributes.DependsOnAttribute"))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static void ReportDiagnostics(SyntaxNodeAnalysisContext context, IEnumerable<AttributeData> allAttributesOnDependentType,
+        INamedTypeSymbol typeContainingAttribute, INamedTypeSymbol namedArgumentTypeSymbol)
+    {
+        foreach (var conflictingDependencyAttribute in allAttributesOnDependentType.Where(x =>
+                     x.IsDependsOnAttributeFor(typeContainingAttribute)))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
+                namedArgumentTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                conflictingDependencyAttribute.AttributeClass?.TypeArguments.First()
+                    .ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
 }

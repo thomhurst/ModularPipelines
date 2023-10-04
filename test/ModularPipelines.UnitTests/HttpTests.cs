@@ -8,6 +8,14 @@ namespace ModularPipelines.UnitTests;
 public class HttpTests : TestBase
 {
     [Test]
+    public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
+    {
+        var http = await GetService<IHttp>();
+
+        await http.SendAsync("https://www.github.com");
+    }
+    
+    [Test]
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");

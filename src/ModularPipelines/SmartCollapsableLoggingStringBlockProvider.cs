@@ -6,6 +6,19 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
 {
     private readonly IBuildSystemDetector _buildSystemDetector;
 
+    private Dictionary<BuildSystem, LogBlockMarkers?> _markers = new()
+    {
+        [BuildSystem.GitHubActions] = new(BuildSystemValues.GitHub.StartBlock, str => BuildSystemValues.GitHub.EndBlock),
+        [BuildSystem.TeamCity] = new(BuildSystemValues.TeamCity.StartBlock, BuildSystemValues.TeamCity.EndBlock),
+        [BuildSystem.AzurePipelines] = new(BuildSystemValues.AzurePipelines.StartBlock, str => BuildSystemValues.AzurePipelines.EndBlock),
+        [BuildSystem.Jenkins] = null,
+        [BuildSystem.GitLab] = null,
+        [BuildSystem.Bitbucket] = null,
+        [BuildSystem.TravisCI] = null,
+        [BuildSystem.AppVeyor] = null,
+        [BuildSystem.Unknown] = null,
+    };
+
     public SmartCollapsableLoggingStringBlockProvider(IBuildSystemDetector buildSystemDetector)
     {
         _buildSystemDetector = buildSystemDetector;
@@ -13,35 +26,13 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
     
     public string? GetStartConsoleLogGroup(string name)
     {
-        return _buildSystemDetector.GetCurrentBuildSystem() switch
-        {
-            BuildSystem.GitHubActions => BuildSystemValues.GitHub.StartBlock(name),
-            BuildSystem.TeamCity => BuildSystemValues.TeamCity.StartBlock(name),
-            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.StartBlock(name),
-            BuildSystem.Jenkins => null,
-            BuildSystem.GitLab => null,
-            BuildSystem.Bitbucket => null,
-            BuildSystem.TravisCI => null,
-            BuildSystem.AppVeyor => null,
-            BuildSystem.Unknown => null,
-            _ => null,
-        };
+        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name);
     }
 
     public string? GetEndConsoleLogGroup(string name)
     {
-        return _buildSystemDetector.GetCurrentBuildSystem() switch
-        {
-            BuildSystem.GitHubActions => BuildSystemValues.GitHub.EndBlock,
-            BuildSystem.TeamCity => BuildSystemValues.TeamCity.EndBlock(name),
-            BuildSystem.AzurePipelines => BuildSystemValues.AzurePipelines.EndBlock,
-            BuildSystem.Jenkins => null,
-            BuildSystem.GitLab => null,
-            BuildSystem.Bitbucket => null,
-            BuildSystem.TravisCI => null,
-            BuildSystem.AppVeyor => null,
-            BuildSystem.Unknown => null,
-            _ => null,
-        };
+        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.End(name);
     }
+
+    private record LogBlockMarkers(Func<string, string> Start, Func<string, string> End);
 }
