@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Collections;
+using System.Text;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
@@ -34,8 +36,16 @@ internal class PipelineInitializer : IPipelineInitializer
     public async Task<OrganizedModules> Initialize()
     {
         _consolePrinter.PrintLogo();
+
+        var environmentVariables = new StringBuilder();
         
-        _logger.LogTrace("Environment variables: {EnvironmentVariables}", Environment.GetEnvironmentVariables());
+        foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+        {
+            environmentVariables.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+            environmentVariables.AppendLine();
+        }
+        
+        _logger.LogTrace("Environment variables: {EnvironmentVariables}", environmentVariables);
 
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
