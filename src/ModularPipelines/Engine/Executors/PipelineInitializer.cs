@@ -37,15 +37,7 @@ internal class PipelineInitializer : IPipelineInitializer
     {
         _consolePrinter.PrintLogo();
 
-        var environmentVariables = new StringBuilder();
-        
-        foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
-        {
-            environmentVariables.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
-            environmentVariables.AppendLine();
-        }
-        
-        _logger.LogTrace("Environment variables: {EnvironmentVariables}", environmentVariables);
+        PrintEnvironmentVariables();
 
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
@@ -58,5 +50,18 @@ internal class PipelineInitializer : IPipelineInitializer
         await _requirementsChecker.CheckRequirementsAsync();
 
         return await _moduleRetriever.GetOrganizedModules();
+    }
+
+    private void PrintEnvironmentVariables()
+    {
+        var environmentVariables = new StringBuilder();
+
+        foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+        {
+            environmentVariables.AppendLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+            environmentVariables.AppendLine();
+        }
+
+        _logger.LogTrace("Environment variables:\r\n{EnvironmentVariables}", environmentVariables);
     }
 }
