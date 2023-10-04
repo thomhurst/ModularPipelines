@@ -1,12 +1,28 @@
 ﻿namespace ModularPipelines.Extensions;
 
+/// <summary>
+/// Extensions for Tasks
+/// </summary>
 public static class TaskExtensions
 {
+    /// <summary>
+    /// Turns a non-task into a task.
+    /// </summary>
+    /// <param name="t">Any object.</param>
+    /// <typeparam name="T">The type of the object passed in.</typeparam>
+    /// <returns>The object wrapped in a task.</returns>
     public static Task<T> AsTask<T>(this T t)
     {
         return Task.FromResult(t);
     }
 
+    /// <summary>
+    /// Turns a non-task into a task.
+    /// </summary>
+    /// <param name="t">Any object.</param>
+    /// <typeparam name="TType">The type to cast the object to.</typeparam>
+    /// <typeparam name="T">The type of the object passed in.</typeparam>
+    /// <returns>The object wrapped in a task.</returns>
     public static Task<TType> AsTask<TType, T>(this T t)
         where T : TType
     {

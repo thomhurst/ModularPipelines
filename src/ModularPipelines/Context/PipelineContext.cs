@@ -57,7 +57,7 @@ internal class PipelineContext : IPipelineContext
 
     public IBase64 Base64 { get; }
 
-    public void FetchLogger(Type getType)
+    public void InitializeLogger(Type getType)
     {
         _logger = _moduleLoggerProvider.GetLogger(getType);
     }

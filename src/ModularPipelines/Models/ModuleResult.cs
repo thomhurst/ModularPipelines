@@ -59,7 +59,7 @@ public class ModuleResult<T> : ModuleResult
 }
 
 [JsonConverter(typeof(TypeDiscriminatorConverter<ModuleResult>))]
-public class ModuleResult : IJsonTypeDiscriminator
+public class ModuleResult : ITypeDiscriminator
 {
     /// <summary>
     /// Gets the name of the module

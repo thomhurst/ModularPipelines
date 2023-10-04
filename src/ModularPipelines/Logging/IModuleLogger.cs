@@ -2,7 +2,4 @@
 
 namespace ModularPipelines.Logging;
 
-public interface IModuleLogger : ILogger, IDisposable
-{
-    void LogToConsole(string value);
-}
+public interface IModuleLogger : ILogger, IDisposable, IConsoleWriter;

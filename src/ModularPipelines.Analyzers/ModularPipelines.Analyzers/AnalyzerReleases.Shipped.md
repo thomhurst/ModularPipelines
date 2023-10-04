@@ -8,4 +8,5 @@ MissingDependsOnAttribute | Usage | Error | MissingDependsOnAttributeAnalyzer
 EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzer
 LoggerInConstructor | Usage | Error | LoggerInConstructorAnalyzer
 ConsoleUse | Usage | Error | ConsoleUseAnalyzer
+ConflictingDependsOnAttribute | Usage | Error | ConflictingDependsOnAttributeAnalyzer
 

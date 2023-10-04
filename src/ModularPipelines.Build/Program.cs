@@ -13,6 +13,7 @@ using Octokit;
 using Octokit.Internal;
 
 await PipelineHostBuilder.Create()
+    .SetLogLevel(LogLevel.Debug)
     .ConfigureAppConfiguration((_, builder) =>
     {
         builder.AddJsonFile("appsettings.json")
@@ -27,10 +28,7 @@ await PipelineHostBuilder.Create()
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
         collection.Configure<CodeCovSettings>(context.Configuration.GetSection("CodeCov"));
 
-        collection.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Debug));
-
         collection
-
             .AddModule<RunUnitTestsModule>()
             .AddModule<NugetVersionGeneratorModule>()
             .AddModule<FindProjectsModule>()

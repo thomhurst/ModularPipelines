@@ -10,7 +10,7 @@ namespace ModularPipelines.UnitTests;
 
 [TestFixture]
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
-public class TestBase
+public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = new();
 

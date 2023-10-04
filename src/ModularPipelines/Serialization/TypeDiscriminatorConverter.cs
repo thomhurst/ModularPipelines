@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace ModularPipelines.Serialization;
 
 internal class TypeDiscriminatorConverter<T> : JsonConverter<T> 
-    where T : IJsonTypeDiscriminator
+    where T : ITypeDiscriminator
 {
     private readonly IEnumerable<Type> _types;
 
@@ -27,7 +27,7 @@ internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
 
         using var jsonDocument = JsonDocument.ParseValue(ref reader);
         
-        if (!jsonDocument.RootElement.TryGetProperty(nameof(IJsonTypeDiscriminator.TypeDiscriminator), out var typeProperty))
+        if (!jsonDocument.RootElement.TryGetProperty(nameof(ITypeDiscriminator.TypeDiscriminator), out var typeProperty))
         {
             throw new JsonException();
         }

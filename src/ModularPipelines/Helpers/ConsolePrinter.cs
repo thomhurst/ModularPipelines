@@ -32,9 +32,4 @@ internal class ConsolePrinter : IConsolePrinter
     {
         _logoPrinter.PrintLogo();
     }
-
-    public void Print()
-    {
-        _dependencyPrinter.Print();
-    }
 }

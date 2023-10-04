@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -8,14 +9,18 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
+    private readonly IInternalCollapsableLogging _collapsableLogging;
 
-    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, ILogger<DependencyPrinter> logger)
+    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, 
+        ILogger<DependencyPrinter> logger,
+        IInternalCollapsableLogging collapsableLogging)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
+        _collapsableLogging = collapsableLogging;
     }
 
-    public void Print()
+    public void PrintDependencyChains()
     {
         var alreadyPrinted = new HashSet<ModuleDependencyModel>();
 
@@ -29,15 +34,24 @@ internal class DependencyPrinter : IDependencyPrinter
             }
 
             stringBuilder.AppendLine();
-            Print(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
+            Append(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
         }
 
         alreadyPrinted.Clear();
 
-        _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", stringBuilder.ToString());
+        Print(stringBuilder.ToString());
     }
 
-    private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
+    private void Print(string value)
+    {
+        Console.WriteLine();
+        _collapsableLogging.StartConsoleLogGroupDirectToConsole("Dependency Chains");
+        _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", value);
+        _collapsableLogging.EndConsoleLogGroupDirectToConsole("Dependency Chains");
+        Console.WriteLine();
+    }
+
+    private void Append(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
     {
         alreadyPrinted.Add(moduleDependencyModel);
 
@@ -48,7 +62,7 @@ internal class DependencyPrinter : IDependencyPrinter
 
         foreach (var dependencyModel in moduleDependencyModel.IsDependencyFor)
         {
-            Print(stringBuilder, dependencyModel, dashCount + 2, alreadyPrinted);
+            Append(stringBuilder, dependencyModel, dashCount + 2, alreadyPrinted);
         }
     }
 }

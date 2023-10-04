@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
@@ -12,6 +13,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
+    private readonly EngineCancellationToken _engineCancellationToken;
+    private readonly ILogger<ExecutionOrchestrator> _logger;
 
     private readonly object _lock = new();
 
@@ -22,7 +25,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IPrintModuleOutputExecutor printModuleOutputExecutor,
         IPrintProgressExecutor printProgressExecutor,
         IPipelineExecutor pipelineExecutor,
-        IConsolePrinter consolePrinter)
+        IConsolePrinter consolePrinter,
+        EngineCancellationToken engineCancellationToken,
+        ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -30,9 +35,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _printProgressExecutor = printProgressExecutor;
         _pipelineExecutor = pipelineExecutor;
         _consolePrinter = consolePrinter;
+        _engineCancellationToken = engineCancellationToken;
+        _logger = logger;
     }
 
-    public async Task<PipelineSummary> ExecuteAsync()
+    public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
     {
         lock (_lock)
         {
@@ -43,6 +50,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
             _hasRun = true;
         }
+
+        cancellationToken.Register(() => _engineCancellationToken.CancelWithReason("The user's cancellation token passed into the pipeline was cancelled."));
 
         var organizedModules = await _pipelineInitializer.Initialize();
 
@@ -76,6 +85,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             _consolePrinter.PrintResults(pipelineSummary);
             
             await Console.Out.FlushAsync();
+
+            if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+            {
+                _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
+            }
         }
 
         return pipelineSummary;

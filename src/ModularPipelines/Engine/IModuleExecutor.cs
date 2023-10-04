@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Engine;
 
-public interface IModuleExecutor
+internal interface IModuleExecutor
 {
     Task<IEnumerable<ModuleBase>> ExecuteAsync(IEnumerable<ModuleBase> modules);
 }

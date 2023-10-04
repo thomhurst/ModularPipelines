@@ -151,7 +151,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
                 
-                Context.EngineCancellationToken.Cancel();
+                Context.EngineCancellationToken.CancelWithReason($"{GetType().Name} failed with a {exception.GetType().Name}");
 
                 // Time for cancellation to register
                 await Task.Delay(TimeSpan.FromMilliseconds(200));
@@ -173,7 +173,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override ModuleBase Initialize(IPipelineContext context)
     {
-        context.FetchLogger(GetType());
+        context.InitializeLogger(GetType());
         Context = context;
         return this;
     }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
+using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -54,6 +55,8 @@ public class CommandLoggerTests : TestBase
 
         var result = await GetService<ICommand>((_, collection) =>
         {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
 

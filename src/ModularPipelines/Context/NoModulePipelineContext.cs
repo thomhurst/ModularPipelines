@@ -44,9 +44,9 @@ internal class NoModulePipelineContext : IPipelineContext
 
     public IModuleResultRepository ModuleResultRepository => _pipelineContextImplementation.ModuleResultRepository;
 
-    public void FetchLogger(Type getType)
+    public void InitializeLogger(Type getType)
     {
-        _pipelineContextImplementation.FetchLogger(getType);
+        _pipelineContextImplementation.InitializeLogger(getType);
     }
 
     public T? Get<T>()

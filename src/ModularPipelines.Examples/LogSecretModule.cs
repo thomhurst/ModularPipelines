@@ -8,12 +8,10 @@ namespace ModularPipelines.Examples;
 public class LogSecretModule : Module
 {
     private readonly IOptions<MyOptions> _options;
-    private readonly ILogger<LogSecretModule> _logger;
 
-    public LogSecretModule(IOptions<MyOptions> options, ILogger<LogSecretModule> logger)
+    public LogSecretModule(IOptions<MyOptions> options)
     {
         _options = options;
-        _logger = logger;
     }
 
     /// <inheritdoc/>

@@ -11,6 +11,7 @@ public static class TestPipelineHostBuilder
     public static PipelineHostBuilder Create()
     {
         return new PipelineHostBuilder()
+            .SetLogLevel(LogLevel.Warning)
             .ConfigureServices((_, collection) =>
             {
                 collection.Configure<PipelineOptions>(opt =>

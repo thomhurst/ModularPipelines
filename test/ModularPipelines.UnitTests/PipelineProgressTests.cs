@@ -1,10 +1,13 @@
-﻿using ModularPipelines.Attributes;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Spectre.Console;
+using Vertical.SpectreLogger;
 
 namespace ModularPipelines.UnitTests;
 

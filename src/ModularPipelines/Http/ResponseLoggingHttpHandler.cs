@@ -2,7 +2,7 @@
 
 namespace ModularPipelines.Http;
 
-public class ResponseLoggingHttpHandler : DelegatingHandler
+internal class ResponseLoggingHttpHandler : DelegatingHandler
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 

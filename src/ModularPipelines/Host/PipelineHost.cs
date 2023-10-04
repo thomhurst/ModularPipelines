@@ -1,22 +1,36 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Host;
 
+/// <summary>
+/// The host for executing ModularPipelines.
+/// </summary>
 internal class PipelineHost : IPipelineHost
 {
     private readonly IHost _hostImplementation;
     private readonly AsyncServiceScope _serviceScope;
 
-    public PipelineHost(IHost hostImplementation)
+    private PipelineHost(IHost hostImplementation)
     {
         _hostImplementation = hostImplementation;
         _serviceScope = hostImplementation.Services.CreateAsyncScope();
 
         Disposer.RegisterOnShutdown(this);
+    }
+
+    public static async Task<PipelineHost> Create(IHostBuilder hostBuilder)
+    {
+        var host = new PipelineHost(hostBuilder.Build());
+
+        await host.RootServices.InitializeAsync();
+
+        return host;
     }
 
     ~PipelineHost()
@@ -27,7 +41,7 @@ internal class PipelineHost : IPipelineHost
     [StackTraceHidden]
     public Task StartAsync(CancellationToken cancellationToken = default)
     {
-        return _hostImplementation.StartAsync(cancellationToken);
+        return this.ExecutePipelineAsync();
     }
 
     [StackTraceHidden]

@@ -14,6 +14,12 @@ on:
         description: Publish packages?    
         type: boolean
         required: true
+        default: false
+      is-alpha:
+        description: Alpha version?    
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   pipeline:
@@ -50,6 +56,7 @@ jobs:
           GitHub__PullRequest__Sha: ${{ github.event.pull_request.head.sha }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
           Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
+          Publish__IsAlpha: ${{ github.event.inputs.is-alpha }}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}

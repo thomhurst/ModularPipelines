@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using Moq;
 
 namespace ModularPipelines.UnitTests;
@@ -7,7 +8,7 @@ public class BuildSystemDetectorTests : TestBase
 {
     private readonly Mock<IEnvironmentVariables> _environmentVariables;
 
-    private readonly BuildSystemDetector _buildSystemDetector;
+    private readonly IBuildSystemDetector _buildSystemDetector;
 
     public BuildSystemDetectorTests()
     {
@@ -41,13 +42,34 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public void Each_Property_Returns_Result()
     {
-        Assert.That(_buildSystemDetector.IsRunningOnBitbucket, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnJenkins, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnTeamCity, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnGitHubActions, Is.True.Or.False);
-        Assert.That(_buildSystemDetector.IsRunningOnAppVeyor, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnGitLab, Is.False);
-        Assert.That(_buildSystemDetector.IsRunningOnTravisCI, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_buildSystemDetector.IsRunningOnBitbucket, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnJenkins, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnTeamCity, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnGitHubActions, Is.True.Or.False);
+            Assert.That(_buildSystemDetector.IsRunningOnAppVeyor, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnGitLab, Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnTravisCI, Is.False);
+        });
+    }
+    
+    [TestCase("TF_BUILD", BuildSystem.AzurePipelines)]
+    [TestCase("TEAMCITY_VERSION", BuildSystem.TeamCity)]
+    [TestCase("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
+    [TestCase("JENKINS_URL", BuildSystem.Jenkins)]
+    [TestCase("GITLAB_CI", BuildSystem.GitLab)]
+    [TestCase("BITBUCKET_BUILD_NUMBER", BuildSystem.Bitbucket)]
+    [TestCase("TRAVIS", BuildSystem.TravisCI)]
+    [TestCase("APPVEYOR", BuildSystem.AppVeyor)]
+    [TestCase("blah", BuildSystem.Unknown)]
+    public void Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
+    {
+        _environmentVariables
+            .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
+            .Returns("dummy value");
+        
+        Assert.That(_buildSystemDetector.GetCurrentBuildSystem(), Is.EqualTo(expectedBuildSystem));
     }
 }

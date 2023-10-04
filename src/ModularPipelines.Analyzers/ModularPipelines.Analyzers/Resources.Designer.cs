@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.Analyzers {
     using System;
     
@@ -21,6 +23,7 @@ namespace ModularPipelines.Analyzers {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [ExcludeFromCodeCoverage]
     internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
@@ -56,6 +59,33 @@ namespace ModularPipelines.Analyzers {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}..
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Depends on {1} and {1} Depends on {0}.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conflicting DependsOn Attributes.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeAnalyzerTitle", resourceCulture);
             }
         }
         

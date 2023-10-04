@@ -31,6 +31,8 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .Except(registeredServices)
             .ToList();
 
+        Console.WriteLine();
         _logger.LogWarning("Unregistered Modules: {Modules}", string.Join(Environment.NewLine, unregisteredModules));
+        Console.WriteLine();
     }
 }

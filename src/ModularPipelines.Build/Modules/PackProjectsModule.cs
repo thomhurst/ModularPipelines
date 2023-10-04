@@ -9,10 +9,10 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
+[DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
 [DependsOn<CodeFormattedNicelyModule>]
 [DependsOn<FindProjectDependenciesModule>]
-[DependsOn<RunUnitTestsModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
     /// <inheritdoc/>
