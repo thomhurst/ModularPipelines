@@ -35,7 +35,7 @@ internal class PipelineInitializer : IPipelineInitializer
     {
         _consolePrinter.PrintLogo();
         
-        _logger.LogTrace("Environment variables: {EnvironmentVariables}", Environment.GetEnvironmentVariables());
+        _logger.LogInformation("Environment variables: {EnvironmentVariables}", Environment.GetEnvironmentVariables());
 
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
