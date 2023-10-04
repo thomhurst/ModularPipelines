@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
+using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
 
@@ -24,6 +25,8 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
+                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+                collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });
         });
@@ -54,6 +57,8 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
+                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+                collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });
         });
@@ -84,6 +89,8 @@ public class HttpTests : TestBase
         {
             collection.AddLogging(builder =>
             {
+                collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+                collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
                 builder.AddFile(file);
             });
         });
