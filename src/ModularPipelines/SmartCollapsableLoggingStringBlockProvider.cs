@@ -6,7 +6,7 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
 {
     private readonly IBuildSystemDetector _buildSystemDetector;
 
-    private Dictionary<BuildSystem, LogBlockMarkers?> _markers = new()
+    private readonly Dictionary<BuildSystem, LogBlockMarkers?> _markers = new()
     {
         [BuildSystem.GitHubActions] = new(BuildSystemValues.GitHub.StartBlock, str => BuildSystemValues.GitHub.EndBlock),
         [BuildSystem.TeamCity] = new(BuildSystemValues.TeamCity.StartBlock, BuildSystemValues.TeamCity.EndBlock),

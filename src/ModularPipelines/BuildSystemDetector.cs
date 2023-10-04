@@ -8,7 +8,7 @@ internal class BuildSystemDetector : IBuildSystemDetector
     public static readonly BuildSystemDetector Instance = new(new EnvironmentVariables());
     private readonly IEnvironmentVariables _environmentVariables;
 
-    private Dictionary<string, BuildSystem> _variablesToBuildSystem = new()
+    private readonly Dictionary<string, BuildSystem> _variablesToBuildSystem = new()
     {
         ["TF_BUILD"] = BuildSystem.AzurePipelines,
         ["TEAMCITY_VERSION"] = BuildSystem.TeamCity,
