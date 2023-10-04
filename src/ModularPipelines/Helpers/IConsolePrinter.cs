@@ -2,6 +2,6 @@
 
 namespace ModularPipelines.Helpers;
 
-internal interface IConsolePrinter : IProgressPrinter, ILogoPrinter, IDependencyPrinter
+internal interface IConsolePrinter : IProgressPrinter, ILogoPrinter
 {
 }
