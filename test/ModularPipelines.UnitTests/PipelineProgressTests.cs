@@ -1,10 +1,13 @@
-﻿using ModularPipelines.Attributes;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Spectre.Console;
+using Vertical.SpectreLogger;
 
 namespace ModularPipelines.UnitTests;
 
@@ -117,6 +120,14 @@ public class PipelineProgressTests
     {
         Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()
+                    .ConfigureServices((context, collection) =>
+                    {
+                        collection.AddLogging(builder =>
+                        {
+                            builder.SetMinimumLevel(LogLevel.Trace);
+                            builder.AddSpectreConsole(cfg => cfg.SetMinimumLevel(LogLevel.Trace));
+                        });
+                    })
                     .ConfigurePipelineOptions((_, options) =>
                     {
                         options.PrintResults = true;
