@@ -13,7 +13,7 @@ using Octokit;
 using Octokit.Internal;
 
 await PipelineHostBuilder.Create()
-    .SetLogLevel(LogLevel.Trace)
+    .SetLogLevel(LogLevel.Debug)
     .ConfigureAppConfiguration((_, builder) =>
     {
         builder.AddJsonFile("appsettings.json")
