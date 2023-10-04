@@ -34,7 +34,7 @@ internal class DependencyPrinter : IDependencyPrinter
             }
 
             stringBuilder.AppendLine();
-            Print(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
+            Append(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
         }
 
         alreadyPrinted.Clear();
@@ -51,7 +51,7 @@ internal class DependencyPrinter : IDependencyPrinter
         Console.WriteLine();
     }
 
-    private void Print(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
+    private void Append(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
     {
         alreadyPrinted.Add(moduleDependencyModel);
 
@@ -62,7 +62,7 @@ internal class DependencyPrinter : IDependencyPrinter
 
         foreach (var dependencyModel in moduleDependencyModel.IsDependencyFor)
         {
-            Print(stringBuilder, dependencyModel, dashCount + 2, alreadyPrinted);
+            Append(stringBuilder, dependencyModel, dashCount + 2, alreadyPrinted);
         }
     }
 }

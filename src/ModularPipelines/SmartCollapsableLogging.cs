@@ -7,14 +7,17 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
+    private readonly IConsoleWriter _consoleWriter;
 
     private IModuleLogger ModuleLogger => _moduleLoggerProvider.GetLogger();
     
     public SmartCollapsableLogging(IModuleLoggerProvider moduleLoggerProvider,
-        ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider)
+        ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
+        IConsoleWriter consoleWriter)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
+        _consoleWriter = consoleWriter;
     }
     
     public void LogToConsole(string value)
@@ -48,7 +51,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         
         if (startConsoleLogGroup != null)
         {
-            Console.WriteLine(startConsoleLogGroup);
+            _consoleWriter.LogToConsole(startConsoleLogGroup);
         }
     }
 
@@ -58,12 +61,12 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         
         if (endConsoleLogGroup != null)
         {
-            Console.WriteLine(endConsoleLogGroup);
+            _consoleWriter.LogToConsole(endConsoleLogGroup);
         }
     }
 
     public void LogToConsoleInternal(string value)
     {
-        Console.WriteLine(value);
+        _consoleWriter.LogToConsole(value);
     }
 }
