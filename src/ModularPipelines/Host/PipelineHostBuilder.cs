@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
+using Microsoft.Extensions.Logging.Console;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -13,6 +16,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
+using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.Host;
 
@@ -206,6 +210,22 @@ public class PipelineHostBuilder
         where T : class, IModuleResultRepository
     {
         return OverrideGeneric<IModuleResultRepository, T>();
+    }
+    
+    /// <summary>
+    /// Configures the log level for the pipeline
+    /// </summary>
+    /// <param name="logLevel">The log level to set.</param>
+    /// <returns>The same pipeline host builder.</returns>
+    public PipelineHostBuilder SetLogLevel(LogLevel logLevel)
+    {
+        _internalHost.ConfigureServices(collection =>
+        {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = logLevel);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = logLevel);
+        });
+        
+        return this;
     }
     
     internal async Task<IPipelineHost> BuildHostAsync()

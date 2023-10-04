@@ -25,15 +25,11 @@ internal static class DependencyInjectionSetup
             .AddLogging(builder =>
             {
                 builder.ClearProviders();
-                builder.SetMinimumLevel(LogLevel.Trace);
 
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
 
-                builder.AddSpectreConsole(loggingBuilder =>
-                {
-                    loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-                });
+                builder.AddSpectreConsole();
             })
             .AddHttpClient()
             .AddInitializers()
