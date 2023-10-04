@@ -19,54 +19,59 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
         _consoleWriter = consoleWriter;
     }
-    
-    public void LogToConsole(string value)
-    {
-        ModuleLogger.LogToConsole(value);
-    }
 
     public void StartConsoleLogGroup(string name)
     {
-        var startConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
-        
-        if (startConsoleLogGroup != null)
-        {
-            ModuleLogger.LogToConsole(startConsoleLogGroup);
-        }
+        StartGroup(name, ModuleLogger);
+    }
+
+    public void StartConsoleLogGroupDirectToConsole(string name)
+    {
+        StartGroup(name, _consoleWriter);
     }
 
     public void EndConsoleLogGroup(string name)
     {
-        var endConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
-        
-        if (endConsoleLogGroup != null)
-        {
-            ModuleLogger.LogToConsole(endConsoleLogGroup);
-        }
+        EndGroup(name, ModuleLogger);
     }
 
-    public void StartConsoleLogGroupInternal(string name)
+    public void EndConsoleLogGroupDirectToConsole(string name)
+    {
+        EndGroup(name, _consoleWriter);
+    }
+
+    public void LogToConsole(string value)
+    {
+        LogToConsole(value, ModuleLogger);
+    }
+
+    public void LogToConsoleDirect(string value)
+    {
+        LogToConsole(value, _consoleWriter);
+    }
+
+    private void StartGroup(string name, IConsoleWriter writer)
     {
         var startConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
-        
+
         if (startConsoleLogGroup != null)
         {
-            _consoleWriter.LogToConsole(startConsoleLogGroup);
+            writer.LogToConsole(startConsoleLogGroup);
         }
     }
 
-    public void EndConsoleLogGroupInternal(string name)
+    private void EndGroup(string name, IConsoleWriter writer)
     {
         var endConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
-        
+
         if (endConsoleLogGroup != null)
         {
-            _consoleWriter.LogToConsole(endConsoleLogGroup);
+            writer.LogToConsole(endConsoleLogGroup);
         }
     }
 
-    public void LogToConsoleInternal(string value)
+    private void LogToConsole(string value, IConsoleWriter writer)
     {
-        _consoleWriter.LogToConsole(value);
+        writer.LogToConsole(value);
     }
 }

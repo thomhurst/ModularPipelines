@@ -120,14 +120,6 @@ public class PipelineProgressTests
     {
         Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()
-                    .ConfigureServices((context, collection) =>
-                    {
-                        collection.AddLogging(builder =>
-                        {
-                            builder.SetMinimumLevel(LogLevel.Trace);
-                            builder.AddSpectreConsole(cfg => cfg.SetMinimumLevel(LogLevel.Trace));
-                        });
-                    })
                     .ConfigurePipelineOptions((_, options) =>
                     {
                         options.PrintResults = true;

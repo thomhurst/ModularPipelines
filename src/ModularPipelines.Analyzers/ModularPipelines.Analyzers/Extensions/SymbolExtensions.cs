@@ -1,9 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ModularPipelines.Analyzers.Extensions;
 
+[ExcludeFromCodeCoverage]
 internal static class SymbolExtensions
 {
     internal static IEnumerable<AttributeData> GetAllAttributesIncludingBaseAndInterfaces(this INamedTypeSymbol classSymbol)

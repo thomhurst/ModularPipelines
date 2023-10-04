@@ -45,9 +45,9 @@ internal class DependencyPrinter : IDependencyPrinter
     private void Print(string value)
     {
         Console.WriteLine();
-        _collapsableLogging.StartConsoleLogGroupInternal("Dependency Chains");
+        _collapsableLogging.StartConsoleLogGroupDirectToConsole("Dependency Chains");
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", value);
-        _collapsableLogging.EndConsoleLogGroupInternal("Dependency Chains");
+        _collapsableLogging.EndConsoleLogGroupDirectToConsole("Dependency Chains");
         Console.WriteLine();
     }
 
