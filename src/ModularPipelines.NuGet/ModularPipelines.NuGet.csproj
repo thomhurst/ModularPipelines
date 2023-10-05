@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Modular Pipeline helpers for interacting with dotnet nuget CLI.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
     </ItemGroup>

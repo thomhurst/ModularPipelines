@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Modular Pipeline helpers for sending Microsoft Teams cards.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="AdaptiveCards" Version="3.1.0" />
     </ItemGroup>

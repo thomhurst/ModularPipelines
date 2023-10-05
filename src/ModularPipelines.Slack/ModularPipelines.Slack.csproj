@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Modular Pipeline helpers for sending Slack cards.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>

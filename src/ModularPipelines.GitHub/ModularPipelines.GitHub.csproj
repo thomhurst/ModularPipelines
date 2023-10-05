@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Modular Pipeline helpers for interacting with GitHub Actions build agents.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>

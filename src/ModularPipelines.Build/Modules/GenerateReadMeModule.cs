@@ -1,8 +1,10 @@
 ﻿using System.Text;
+using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -28,15 +30,17 @@ public class GenerateReadMeModule : Module
 
         var generatedContentStringBuilder = new StringBuilder();
 
-        generatedContentStringBuilder.AppendLine("| Package | Version |");
-        generatedContentStringBuilder.AppendLine("| --- | --- |");
+        generatedContentStringBuilder.AppendLine("| Package | Description | Version |");
+        generatedContentStringBuilder.AppendLine("| --- | --- | --- |");
 
         foreach (var availableModule in availableModules)
         {
             var moduleName = availableModule.NameWithoutExtension
                 .Replace($".{nugetVersion.Value!}", string.Empty);
 
-            generatedContentStringBuilder.AppendLine($"| {moduleName} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
+            var moduleDescription = GetModuleReadMeDescription(availableModule);
+
+            generatedContentStringBuilder.AppendLine($"| {moduleName} | {moduleDescription} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
         }
 
         var updatedContents = readmeTemplateContents.Replace("%%% AVAILABLE MODULES PLACEHOLDER %%%", generatedContentStringBuilder.ToString());
@@ -50,5 +54,16 @@ public class GenerateReadMeModule : Module
         await gitRootDirectory.GetFile("README.md").WriteAsync(updatedContents);
 
         return await NothingAsync();
+    }
+
+    private string GetModuleReadMeDescription(File file)
+    {
+        var projectRootElement = ProjectRootElement.Open(file)!;
+        
+        var descriptionProperty =
+            projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
+            ?? throw new ArgumentNullException($"No ModularPipelineReadMeDescription property found in {file.Name}");
+
+        return descriptionProperty.Value;
     }
 }
