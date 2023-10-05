@@ -35,12 +35,16 @@ public class GenerateReadMeModule : Module
 
         foreach (var availableModule in availableModules)
         {
-            var moduleName = availableModule.NameWithoutExtension
-                .Replace($".{nugetVersion.Value!}", string.Empty);
+            await SubModule(availableModule.NameWithoutExtension, () =>
+            {
+                var moduleName = availableModule.NameWithoutExtension
+                    .Replace($".{nugetVersion.Value!}", string.Empty);
 
-            var moduleDescription = GetModuleReadMeDescription(availableModule);
+                var moduleDescription = GetModuleReadMeDescription(availableModule);
 
-            generatedContentStringBuilder.AppendLine($"| {moduleName} | {moduleDescription} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
+                generatedContentStringBuilder.AppendLine(
+                    $"| {moduleName} | {moduleDescription} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
+            });
         }
 
         var updatedContents = readmeTemplateContents.Replace("%%% AVAILABLE MODULES PLACEHOLDER %%%", generatedContentStringBuilder.ToString());

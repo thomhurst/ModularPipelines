@@ -111,7 +111,40 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
         SubModuleBases.Add(submodule);
 
-        return await submodule.Task;
+        try
+        {
+            return await submodule.Task;
+        }
+        catch (Exception e)
+        {
+            throw new SubModuleFailedException(submodule, e);
+        }
+    }
+    
+    /// <summary>
+    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// </summary>
+    /// <param name="name">The name of the submodule.</param>
+    /// <param name="action">The delegate that the submodule should execute.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    protected Task SubModule(string name, Action action)
+    {
+        return SubModule(name, () =>
+        {
+            action();
+            return Task.CompletedTask;
+        });
+    }
+    
+    /// <summary>
+    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// </summary>
+    /// <param name="name">The name of the submodule.</param>
+    /// <param name="action">The delegate that the submodule should execute.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    protected Task SubModule<T>(string name, Func<T> action)
+    {
+        return SubModule(name, () => Task.FromResult(action()));
     }
 
     /// <summary>
@@ -128,7 +161,14 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
         SubModuleBases.Add(submodule);
 
-        await submodule.Task;
+        try
+        {
+            await submodule.Task;
+        }
+        catch (Exception e)
+        {
+            throw new SubModuleFailedException(submodule, e);
+        }
     }
 
     [JsonInclude]
