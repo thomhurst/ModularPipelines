@@ -127,9 +127,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    protected Task SubModule(string name, Action action)
+    protected async Task SubModule(string name, Action action)
     {
-        return SubModule(name, () =>
+        await SubModule(name, () =>
         {
             action();
             return Task.CompletedTask;
@@ -142,9 +142,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    protected Task SubModule<T>(string name, Func<T> action)
+    protected async Task SubModule<T>(string name, Func<T> action)
     {
-        return SubModule(name, () => Task.FromResult(action()));
+        await SubModule(name, () => Task.FromResult(action()));
     }
 
     /// <summary>
