@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Modular Pipeline helpers for interacting with Azure.</ModularPipelineReadMeDescription>
+    <ModularPipelineReadMeDescription>Helpers for interacting with Azure.</ModularPipelineReadMeDescription>
   </PropertyGroup>
 
     <ItemGroup>

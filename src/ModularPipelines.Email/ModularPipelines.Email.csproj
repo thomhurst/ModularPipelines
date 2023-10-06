@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Modular Pipeline helpers for sending emails.</ModularPipelineReadMeDescription>
+    <ModularPipelineReadMeDescription>Helpers for sending emails.</ModularPipelineReadMeDescription>
   </PropertyGroup>
 
     <ItemGroup>

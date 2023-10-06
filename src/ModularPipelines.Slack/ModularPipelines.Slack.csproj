@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Modular Pipeline helpers for sending Slack cards.</ModularPipelineReadMeDescription>
+    <ModularPipelineReadMeDescription>Helpers for sending Slack cards.</ModularPipelineReadMeDescription>
   </PropertyGroup>
 
     <ItemGroup>
