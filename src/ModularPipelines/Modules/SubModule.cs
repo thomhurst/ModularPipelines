@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Modules;
 
@@ -10,7 +11,19 @@ public class SubModule : SubModuleBase
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
-        Task = action();
+        
+        Task = Task.Run(async () =>
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception e)
+            {
+                throw new SubModuleFailedException(this, e);
+            }
+        });
+        
         Task.ContinueWith(t =>
         {
             Duration = stopwatch.Elapsed;
@@ -27,7 +40,19 @@ public class SubModule<T> : SubModule
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
-        Task = action();
+        
+        Task = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                return await action();
+            }
+            catch (Exception e)
+            {
+                throw new SubModuleFailedException(this, e);
+            }
+        });
+        
         Task.ContinueWith(t =>
         {
             Duration = stopwatch.Elapsed;

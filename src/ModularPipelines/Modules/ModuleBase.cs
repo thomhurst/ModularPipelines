@@ -111,14 +111,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
         SubModuleBases.Add(submodule);
 
-        try
-        {
-            return await submodule.Task;
-        }
-        catch (Exception e)
-        {
-            throw new SubModuleFailedException(submodule, e);
-        }
+        return await submodule.Task;
     }
     
     /// <summary>
@@ -160,15 +153,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         OnSubModuleCreated?.Invoke(this, submodule);
 
         SubModuleBases.Add(submodule);
-
-        try
-        {
-            await submodule.Task;
-        }
-        catch (Exception e)
-        {
-            throw new SubModuleFailedException(submodule, e);
-        }
+        
+        await submodule.Task;
     }
 
     [JsonInclude]
