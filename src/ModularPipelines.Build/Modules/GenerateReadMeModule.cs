@@ -8,8 +8,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<PackagePathsParserModule>]
-[DependsOn<NugetVersionGeneratorModule>]
+[DependsOn<FindProjectsModule>]
 public class GenerateReadMeModule : Module
 {
     /// <inheritdoc/>
@@ -17,30 +16,24 @@ public class GenerateReadMeModule : Module
     {
         var gitRootDirectory = context.Git().RootDirectory;
 
-        var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync();
-        var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync();
-
-        var availableModules = (await GetModule<PackagePathsParserModule>())
-            .Value!
-            .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers"))
-            .OrderBy(x => x.NameWithoutExtension)
-            .ToList();
-
-        var nugetVersion = await GetModule<NugetVersionGeneratorModule>();
-
+        var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync(cancellationToken);
+        var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync(cancellationToken);
+        
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Description | Version |");
         generatedContentStringBuilder.AppendLine("| --- | --- | --- |");
 
-        foreach (var availableModule in availableModules)
-        {
-            await SubModule(availableModule.NameWithoutExtension, () =>
-            {
-                var moduleName = availableModule.NameWithoutExtension
-                    .Replace($".{nugetVersion.Value!}", string.Empty);
+        var projects = await GetModule<FindProjectsModule>();
 
-                var moduleDescription = GetModuleReadMeDescription(availableModule);
+        foreach (var project in projects.Value!
+                     .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers")))
+        {
+            await SubModule(project.NameWithoutExtension, () =>
+            {
+                var moduleName = project.NameWithoutExtension;
+
+                var moduleDescription = GetModuleReadMeDescription(project);
 
                 generatedContentStringBuilder.AppendLine(
                     $"| {moduleName} | {moduleDescription} | [![nuget](https://img.shields.io/nuget/v/{moduleName}.svg)](https://www.nuget.org/packages/{moduleName}/) |");
@@ -55,7 +48,7 @@ public class GenerateReadMeModule : Module
             return await NothingAsync();
         }
 
-        await gitRootDirectory.GetFile("README.md").WriteAsync(updatedContents);
+        await gitRootDirectory.GetFile("README.md").WriteAsync(updatedContents, cancellationToken);
 
         return await NothingAsync();
     }
