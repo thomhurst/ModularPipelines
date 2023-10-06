@@ -135,9 +135,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    protected async Task SubModule<T>(string name, Func<T> action)
+    protected async Task<T> SubModule<T>(string name, Func<T> action)
     {
-        await SubModule(name, () => Task.FromResult(action()));
+        return await SubModule(name, () => Task.FromResult(action()));
     }
 
     /// <summary>
