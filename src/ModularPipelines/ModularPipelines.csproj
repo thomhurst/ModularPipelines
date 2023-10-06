@@ -25,7 +25,7 @@
       <PackageReference Include="EnumerableAsyncProcessor" Version="1.1.1" />
       <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.2" />
       <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20230901.27" />
-      <PackageReference Include="YamlDotNet" Version="13.5.1" />
+      <PackageReference Include="YamlDotNet" Version="13.5.2" />
     </ItemGroup>
 
     <ItemGroup>
