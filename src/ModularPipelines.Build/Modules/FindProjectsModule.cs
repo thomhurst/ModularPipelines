@@ -16,6 +16,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         return context.Git()
             .RootDirectory!
             .GetFiles(f => GetProjectsPredicate(f, context))
+            .OrderBy(x => x.NameWithoutExtension)
             .ToList();
     }
 

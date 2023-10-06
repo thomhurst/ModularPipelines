@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Helpers for interacting with Helm CLI.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>

@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <ModularPipelineReadMeDescription>Helpers for downloading and uploading via FTP.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="FluentFTP" Version="48.0.0" />
     </ItemGroup>
