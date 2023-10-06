@@ -32,25 +32,25 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 
 | Package | Description | Version |
 | --- | --- | --- |
-| ModularPipelines.Ftp | Modular Pipeline helpers for downloading and uploading via FTP. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Ftp.svg)](https://www.nuget.org/packages/ModularPipelines.Ftp/) |
-| ModularPipelines.Slack | Modular Pipeline helpers for sending Slack cards. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Slack.svg)](https://www.nuget.org/packages/ModularPipelines.Slack/) |
+| ModularPipelines | The base package for Modular Pipelines. This contains the framework for building, executing, controlling and reporting your modules. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/) |
 | ModularPipelines.AmazonWebServices | Modular Pipeline helpers for interacting with Amazon Web Services. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.AmazonWebServices.svg)](https://www.nuget.org/packages/ModularPipelines.AmazonWebServices/) |
-| ModularPipelines.Git | Modular Pipeline helpers for interacting with git. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
 | ModularPipelines.Azure | Modular Pipeline helpers for interacting with Azure. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.svg)](https://www.nuget.org/packages/ModularPipelines.Azure/) |
-| ModularPipelines.TeamCity | Modular Pipeline helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
+| ModularPipelines.Azure.Pipelines | Modular Pipeline helpers for interacting with Azure Pipeline agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.Pipelines.svg)](https://www.nuget.org/packages/ModularPipelines.Azure.Pipelines/) |
 | ModularPipelines.Cmd | Modular Pipeline helpers for interacting with the Windows cmd process. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Cmd.svg)](https://www.nuget.org/packages/ModularPipelines.Cmd/) |
-| ModularPipelines.Email | Modular Pipeline helpers for sending emails. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Email.svg)](https://www.nuget.org/packages/ModularPipelines.Email/) |
+| ModularPipelines.Docker | Modular Pipeline helpers for interacting with the Docker CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Docker.svg)](https://www.nuget.org/packages/ModularPipelines.Docker/) |
 | ModularPipelines.DotNet | Modular Pipeline helpers for interacting with dotnet CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.DotNet.svg)](https://www.nuget.org/packages/ModularPipelines.DotNet/) |
+| ModularPipelines.Email | Modular Pipeline helpers for sending emails. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Email.svg)](https://www.nuget.org/packages/ModularPipelines.Email/) |
+| ModularPipelines.Ftp | Modular Pipeline helpers for downloading and uploading via FTP. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Ftp.svg)](https://www.nuget.org/packages/ModularPipelines.Ftp/) |
+| ModularPipelines.Git | Modular Pipeline helpers for interacting with git. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
 | ModularPipelines.GitHub | Modular Pipeline helpers for interacting with GitHub Actions build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.GitHub.svg)](https://www.nuget.org/packages/ModularPipelines.GitHub/) |
+| ModularPipelines.Helm | Modular Pipeline helpers for interacting with Helm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Helm.svg)](https://www.nuget.org/packages/ModularPipelines.Helm/) |
+| ModularPipelines.Kubernetes | Modular Pipeline helpers for interacting with kubectl CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kubernetes.svg)](https://www.nuget.org/packages/ModularPipelines.Kubernetes/) |
 | ModularPipelines.MicrosoftTeams | Modular Pipeline helpers for sending Microsoft Teams cards. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.MicrosoftTeams.svg)](https://www.nuget.org/packages/ModularPipelines.MicrosoftTeams/) |
 | ModularPipelines.Node | Modular Pipeline helpers for interacting with node / npm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) |
-| ModularPipelines | The base package for Modular Pipelines. This contains the framework for building, executing, controlling and reporting your modules. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/) |
-| ModularPipelines.Kubernetes | Modular Pipeline helpers for interacting with kubectl CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kubernetes.svg)](https://www.nuget.org/packages/ModularPipelines.Kubernetes/) |
 | ModularPipelines.NuGet | Modular Pipeline helpers for interacting with dotnet nuget CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.NuGet.svg)](https://www.nuget.org/packages/ModularPipelines.NuGet/) |
-| ModularPipelines.Helm | Modular Pipeline helpers for interacting with Helm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Helm.svg)](https://www.nuget.org/packages/ModularPipelines.Helm/) |
-| ModularPipelines.Azure.Pipelines | Modular Pipeline helpers for interacting with Azure Pipeline agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.Pipelines.svg)](https://www.nuget.org/packages/ModularPipelines.Azure.Pipelines/) |
+| ModularPipelines.Slack | Modular Pipeline helpers for sending Slack cards. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Slack.svg)](https://www.nuget.org/packages/ModularPipelines.Slack/) |
+| ModularPipelines.TeamCity | Modular Pipeline helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
 | ModularPipelines.Terraform | Modular Pipeline helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
-| ModularPipelines.Docker | Modular Pipeline helpers for interacting with the Docker CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Docker.svg)](https://www.nuget.org/packages/ModularPipelines.Docker/) |
 
 ## Getting Started
 
