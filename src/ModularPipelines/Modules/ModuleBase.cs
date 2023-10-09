@@ -25,12 +25,17 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         TypeDiscriminator = GetType().FullName!;
     }
     
-    internal IWaitHandler WaitHandler { get; set; }
-    internal ICancellationHandler CancellationHandler { get; set; }
-    internal ISkipHandler SkipHandler { get; set; }
-    internal IHookHandler HookHandler { get; set; }
-    internal IStatusHandler StatusHandler { get; set; }
-    internal IErrorHandler ErrorHandler { get; set; }
+    internal abstract IWaitHandler WaitHandler { get; }
+
+    internal abstract ICancellationHandler CancellationHandler { get; }
+
+    internal abstract ISkipHandler SkipHandler { get; }
+
+    internal abstract IHookHandler HookHandler { get; }
+
+    internal abstract IStatusHandler StatusHandler { get; }
+
+    internal abstract IErrorHandler ErrorHandler { get; }
 
     private IPipelineContext? _context; // Late Initialisation
 
@@ -176,7 +181,7 @@ public abstract class ModuleBase<T> : ModuleBase
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
-    internal IHistoryHandler<T> HistoryHandler { get; set; }
+    internal abstract IHistoryHandler<T> HistoryHandler { get; }
     
     /// <summary>
     /// The awaiter used to return the result of the module when awaited

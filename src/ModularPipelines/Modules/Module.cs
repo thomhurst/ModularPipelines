@@ -16,6 +16,7 @@ public abstract class Module : Module<IDictionary<string, object>>
 {
 }
 
+
 /// <summary>
 /// An independent module used to perform an action, and optionally return some data, which can be used within other modules. This is the base class from which all custom modules should inherit.
 /// </summary>
@@ -25,6 +26,19 @@ public abstract partial class Module<T> : ModuleBase<T>
     private readonly Stopwatch _stopwatch = new();
 
     internal List<DependsOnAttribute> DependentModules { get; } = new();
+
+    internal override IHistoryHandler<T> HistoryHandler { get; }
+
+    internal override IWaitHandler WaitHandler { get; }
+
+    internal override ICancellationHandler CancellationHandler { get; }
+
+    internal override ISkipHandler SkipHandler { get; }
+
+    internal override IHookHandler HookHandler { get; }
+
+    internal override IStatusHandler StatusHandler { get; }
+    internal override IErrorHandler ErrorHandler { get; }
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
