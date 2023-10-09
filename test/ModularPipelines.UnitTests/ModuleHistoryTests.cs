@@ -39,7 +39,7 @@ public class ModuleHistoryTests
     [SkipRunCondition]
     private class UseHistoryTrueModule : Module
     {
-        protected override Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
+        protected internal override Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
         {
             return true.AsTask();
         }
@@ -52,7 +52,7 @@ public class ModuleHistoryTests
 
     private class SkipFromMethod : Module
     {
-        protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }

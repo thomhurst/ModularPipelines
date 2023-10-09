@@ -8,7 +8,7 @@ public class ModuleTimeoutTests : TestBase
 {
     private class Module : Module<string>
     {
-        protected override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(3);
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(3);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

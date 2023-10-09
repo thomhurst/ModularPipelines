@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;

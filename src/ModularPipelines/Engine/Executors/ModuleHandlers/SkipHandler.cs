@@ -1,19 +1,41 @@
-﻿using ModularPipelines.Enums;
+﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal class SkipHandler : BaseHandler
+internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 {
-    internal readonly Task SkippedTask = new(() => { });
-
-    public SkipHandler(ModuleBase module) : base(module)
+    public Task CallbackTask { get; } = new(() => { });
+    
+    public SkipHandler(Module<T> module) : base(module)
     {
     }
-
-    public async Task<bool> IsSkipped(SkipDecision skipDecision)
+    
+    public async Task SetSkipped(SkipDecision skipDecision)
     {
+        Module.Status = Status.Skipped;
+
+        Module.SkipResult = skipDecision;
+
+        if (await Module.UseResultFromHistoryIfSkipped(Context)
+            && await Module.HistoryHandler.SetupModuleFromHistory(skipDecision.Reason))
+        {
+            return;
+        }
+
+        CallbackTask.Start(TaskScheduler.Default);
+
+        ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
+
+        Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
+    }
+
+    public async Task<bool> HandleSkipped()
+    {
+        var skipDecision = await Module.ShouldSkip(Context);
+
         if (skipDecision.ShouldSkip)
         {
             await SetSkipped(skipDecision);
@@ -21,24 +43,5 @@ internal class SkipHandler : BaseHandler
         }
 
         return false;
-    }
-    
-    internal async Task SetSkipped(SkipDecision skipDecision)
-    {
-        Module.Status = Status.Skipped;
-
-        Module.SkipResult = skipDecision;
-
-        if (await Module.HistoryHandler.UseResultFromHistoryIfSkipped(Context)
-            && await Module.HistoryHandler.SetupModuleFromHistory(skipDecision.Reason))
-        {
-            return;
-        }
-
-        SkippedTask.Start(TaskScheduler.Default);
-
-        ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(this, skipDecision));
-
-        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 }

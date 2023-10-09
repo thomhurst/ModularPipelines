@@ -36,7 +36,7 @@ public class RetryTests : TestBase
 
     private class FailedModuleWithTimeout : Module
     {
-        protected override TimeSpan Timeout { get; } = TimeSpan.FromMilliseconds(300);
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromMilliseconds(300);
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

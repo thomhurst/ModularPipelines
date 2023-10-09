@@ -11,9 +11,9 @@ namespace ModularPipelines.Modules;
 public partial class ModuleBase
 {
     /// <summary>
-    /// A Timeout for the module
+    /// Gets a Timeout for the module
     /// </summary>
-    protected virtual TimeSpan Timeout => TimeSpan.FromMinutes(30);
+    protected internal virtual TimeSpan Timeout => TimeSpan.FromMinutes(30);
 
     /// <summary>
     /// If true, the pipeline will not fail is this module fails.
@@ -22,7 +22,7 @@ public partial class ModuleBase
     /// <param name="exception">The exception that caused the module to fail.</param>
     /// <returns>A boolean that if true, will stop this Module from failing the pipeline if it fails.</returns>
     [ModuleMethodMarker]
-    protected virtual Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception) => Task.FromResult(false);
+    protected internal virtual Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception) => Task.FromResult(false);
 
     /// <summary>
     /// Controls whether to skip this module.
@@ -30,7 +30,7 @@ public partial class ModuleBase
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A Skip Decision that controls whether to skip a module, along with a reason.</returns>
     [ModuleMethodMarker]
-    protected virtual Task<SkipDecision> ShouldSkip(IPipelineContext context) => Task.FromResult(SkipDecision.DoNotSkip);
+    protected internal virtual Task<SkipDecision> ShouldSkip(IPipelineContext context) => Task.FromResult(SkipDecision.DoNotSkip);
 
     /// <summary>
     /// If this module is skipped, and this returns true, the result of this module will be reconstructed from the plugged in <see cref="IModuleResultRepository"/>.
@@ -39,12 +39,7 @@ public partial class ModuleBase
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A boolean controlling whether to use historical data if available</returns>
     [ModuleMethodMarker]
-    protected virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
-
-    /// <summary>
-    /// Controls whether the Module should run even if the pipeline has failed
-    /// </summary>
-    public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
+    protected internal virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     /// <summary>
     /// A hook that runs before the module is started
@@ -52,7 +47,7 @@ public partial class ModuleBase
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     [ModuleMethodMarker]
-    protected virtual Task OnBeforeExecute(IPipelineContext context)
+    protected internal virtual Task OnBeforeExecute(IPipelineContext context)
     {
         return Task.CompletedTask;
     }
@@ -63,8 +58,13 @@ public partial class ModuleBase
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     [ModuleMethodMarker]
-    protected virtual Task OnAfterExecute(IPipelineContext context)
+    protected internal virtual Task OnAfterExecute(IPipelineContext context)
     {
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Gets whether the Module should run even if the pipeline has failed
+    /// </summary>
+    public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
 }

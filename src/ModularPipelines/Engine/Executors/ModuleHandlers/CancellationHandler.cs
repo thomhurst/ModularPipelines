@@ -3,9 +3,9 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal class CancellationHandler : BaseHandler
+internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
 {
-    public CancellationHandler(ModuleBase module) : base(module)
+    public CancellationHandler(Module<T> module) : base(module)
     {
     }
 
@@ -17,5 +17,17 @@ internal class CancellationHandler : BaseHandler
         }
         
         ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+    }
+
+    public Task ConfigureModuleTimeout()
+    {
+        if (Module.Timeout == TimeSpan.Zero)
+        {
+            return Task.CompletedTask;
+        }
+
+        ModuleCancellationTokenSource.CancelAfter(Module.Timeout);
+        
+        return Task.Delay(Module.Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
     }
 }

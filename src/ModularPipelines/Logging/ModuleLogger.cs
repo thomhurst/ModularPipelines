@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
-using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Logging;
 

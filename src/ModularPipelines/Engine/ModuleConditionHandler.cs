@@ -7,11 +7,11 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleIgnoreHandler : IModuleIgnoreHandler
+internal class ModuleConditionHandler : IModuleConditionHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    public ModuleIgnoreHandler(IOptions<PipelineOptions> pipelineOptions)
+    public ModuleConditionHandler(IOptions<PipelineOptions> pipelineOptions)
     {
         _pipelineOptions = pipelineOptions;
     }
@@ -20,13 +20,13 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
     {
         if (IsIgnoreCategory(module))
         {
-            await module.SetSkipped("A category of this module has been ignored");
+            await module.SkipHandler.SetSkipped("A category of this module has been ignored");
             return true;
         }
 
         if (!IsRunnableCategory(module))
         {
-            await module.SetSkipped("The module was not in a runnable category");
+            await module.SkipHandler.SetSkipped("The module was not in a runnable category");
             return true;
         }
 
@@ -74,7 +74,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
 
         if (mandatoryCondition != null)
         {
-            await module.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
+            await module.SkipHandler.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
             return false;
         }
 
@@ -94,7 +94,7 @@ internal class ModuleIgnoreHandler : IModuleIgnoreHandler
             return true;
         }
 
-        await module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
+        await module.SkipHandler.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
 
         return false;
     }
