@@ -38,6 +38,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override IHookHandler HookHandler { get; }
 
     internal override IStatusHandler StatusHandler { get; }
+
     internal override IErrorHandler ErrorHandler { get; }
 
     /// <summary>
@@ -120,13 +121,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             StatusHandler.LogModuleStatus();
         }
-    }
-
-    private void SetEndTime()
-    {
-        _stopwatch.Stop();
-        EndTime = DateTimeOffset.UtcNow;
-        Duration = _stopwatch.Elapsed;
     }
 
     internal override ModuleBase Initialize(IPipelineContext context)
@@ -240,5 +234,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
         return await executeAsyncTask;
+    }
+    
+    private void SetEndTime()
+    {
+        _stopwatch.Stop();
+        EndTime = DateTimeOffset.UtcNow;
+        Duration = _stopwatch.Elapsed;
     }
 }
