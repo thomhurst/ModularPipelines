@@ -21,13 +21,13 @@ internal class BaseHandler
 {
     public ModuleBase Module { get; }
 
-    public IPipelineContext Context { get; }
+    public IPipelineContext Context => Module.Context;
     
-    public ILogger Logger => Module.Context.Logger;
+    public ILogger Logger => Context.Logger;
 
-    public EngineCancellationToken EngineCancellationToken => Module.Context.EngineCancellationToken;
+    public EngineCancellationToken EngineCancellationToken => Context.EngineCancellationToken;
 
-    public CancellationTokenSource ModuleCancellationTokenSource => Module.Context.EngineCancellationToken;
+    public CancellationTokenSource ModuleCancellationTokenSource => Context.EngineCancellationToken;
 
     public ModuleRunType RunType => Module.ModuleRunType;
 

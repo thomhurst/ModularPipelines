@@ -12,7 +12,7 @@ internal class StatusHandler<T> : BaseHandler<T>, IStatusHandler
 
     public void LogModuleStatus()
     {
-        var moduleName = GetType().Name;
+        var moduleName = Module.GetType().Name;
 
         switch (Module.Status)
         {
