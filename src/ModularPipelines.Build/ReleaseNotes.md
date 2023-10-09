@@ -1,1 +1,1 @@
-- Refactored Module Handlers for cleaner code
+*   Refactored Module Handlers for cleaner code
