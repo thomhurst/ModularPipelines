@@ -81,10 +81,9 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             var executeResult = await ExecuteInternal(timeoutExceptionTask);
 
-            _stopwatch.Stop();
-
+            SetEndTime();
+            
             Status = Status.Successful;
-            EndTime = DateTimeOffset.UtcNow;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
             
@@ -94,14 +93,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         catch (Exception exception)
         {
-            _stopwatch.Stop();
+            SetEndTime();
             await ErrorHandler.Handle(exception);
         }
         finally
         {
             _stopwatch.Stop();
-            EndTime = DateTimeOffset.UtcNow;
-            Duration = _stopwatch.Elapsed;
 
             ModuleResultTaskCompletionSource.TrySetCanceled();
 
@@ -109,6 +106,13 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             StatusHandler.LogModuleStatus();
         }
+    }
+
+    private void SetEndTime()
+    {
+        _stopwatch.Stop();
+        EndTime = DateTimeOffset.UtcNow;
+        Duration = _stopwatch.Elapsed;
     }
 
     internal override ModuleBase Initialize(IPipelineContext context)
