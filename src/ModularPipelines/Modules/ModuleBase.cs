@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -22,7 +23,23 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     protected ModuleBase()
     {
         TypeDiscriminator = GetType().FullName!;
+
+        WaitHandler = new WaitHandler(this);
+        CancellationHandler = new CancellationHandler(this);
+        SkipHandler = new SkipHandler(this);
+        HistoryHandler = new HistoryHandler(this);
+        HookHandler = new HookHandler(this);
+        SuccessHandler = new SuccessHandler(this);
+        ErrorHandler = new ErrorHandler(this);
     }
+
+    internal readonly WaitHandler WaitHandler;
+    internal readonly CancellationHandler CancellationHandler;
+    internal readonly SkipHandler SkipHandler;
+    internal readonly HistoryHandler HistoryHandler;
+    internal readonly HookHandler HookHandler;
+    internal readonly SuccessHandler SuccessHandler;
+    internal readonly ErrorHandler ErrorHandler;
 
     private IPipelineContext? _context; // Late Initialisation
 
@@ -51,7 +68,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
     
     internal readonly Task StartTask = new(() => { });
-    internal readonly Task SkippedTask = new(() => { });
 
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;

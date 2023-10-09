@@ -58,19 +58,13 @@ public abstract partial class Module<T> : ModuleBase<T>
                 ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
-            
-            if (ModuleRunType != ModuleRunType.AlwaysRun)
-            {
-                Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
-            }
-            
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            var skipResult = await ShouldSkip(Context);
+            CancellationHandler.SetupCancellation();
 
-            if (skipResult.ShouldSkip)
+            var skipDecision = await ShouldSkip(Context);
+            
+            if (await SkipHandler.IsSkipped(skipDecision))
             {
-                await SetSkipped(skipResult);
                 return;
             }
 
@@ -176,25 +170,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         context.InitializeLogger(GetType());
         Context = context;
         return this;
-    }
-
-    internal override async Task SetSkipped(SkipDecision skipDecision)
-    {
-        Status = Status.Skipped;
-
-        SkipResult = skipDecision;
-
-        if (await UseResultFromHistoryIfSkipped(Context)
-            && await SetupModuleFromHistory(skipDecision.Reason))
-        {
-            return;
-        }
-
-        SkippedTask.Start(TaskScheduler.Default);
-
-        ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(this, skipDecision));
-
-        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 
     /// <summary>
