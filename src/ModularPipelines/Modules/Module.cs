@@ -16,7 +16,6 @@ public abstract class Module : Module<IDictionary<string, object>>
 {
 }
 
-
 /// <summary>
 /// An independent module used to perform an action, and optionally return some data, which can be used within other modules. This is the base class from which all custom modules should inherit.
 /// </summary>

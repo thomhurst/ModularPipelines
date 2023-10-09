@@ -5,21 +5,11 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal class BaseHandler<T> : BaseHandler
+internal class BaseHandler<T>
 {
-    public new Module<T> Module { get; }
+    public Module<T> Module { get; }
 
     public TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource => Module.ModuleResultTaskCompletionSource;
-
-    protected BaseHandler(Module<T> module) : base(module)
-    {
-        Module = module;
-    }
-}
-
-internal class BaseHandler
-{
-    public ModuleBase Module { get; }
 
     public IPipelineContext Context => Module.Context;
     
@@ -30,8 +20,8 @@ internal class BaseHandler
     public CancellationTokenSource ModuleCancellationTokenSource => Module.ModuleCancellationTokenSource;
 
     public ModuleRunType RunType => Module.ModuleRunType;
-
-    protected BaseHandler(ModuleBase module)
+    
+    protected BaseHandler(Module<T> module)
     {
         Module = module;
     }
