@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -23,6 +24,18 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     {
         TypeDiscriminator = GetType().FullName!;
     }
+    
+    internal abstract IWaitHandler WaitHandler { get; }
+
+    internal abstract ICancellationHandler CancellationHandler { get; }
+
+    internal abstract ISkipHandler SkipHandler { get; }
+
+    internal abstract IHookHandler HookHandler { get; }
+
+    internal abstract IStatusHandler StatusHandler { get; }
+
+    internal abstract IErrorHandler ErrorHandler { get; }
 
     private IPipelineContext? _context; // Late Initialisation
 
@@ -51,7 +64,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
     
     internal readonly Task StartTask = new(() => { });
-    internal readonly Task SkippedTask = new(() => { });
 
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
@@ -87,8 +99,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal Exception? Exception { get; set; }
 
     internal abstract Task StartAsync();
-
-    internal abstract Task SetSkipped(SkipDecision skipDecision);
 
     internal abstract ModuleBase Initialize(IPipelineContext context);
 
@@ -171,6 +181,8 @@ public abstract class ModuleBase<T> : ModuleBase
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
+    internal abstract IHistoryHandler<T> HistoryHandler { get; }
+    
     /// <summary>
     /// The awaiter used to return the result of the module when awaited
     /// </summary>

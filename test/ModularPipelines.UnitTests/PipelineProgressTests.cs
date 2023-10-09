@@ -1,13 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes;
+﻿using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Spectre.Console;
-using Vertical.SpectreLogger;
 
 namespace ModularPipelines.UnitTests;
 
@@ -61,7 +58,7 @@ public class PipelineProgressTests
     [DependsOn<Module1>]
     private class Module4 : Module
     {
-        protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Teting").AsTask();
         }
@@ -75,7 +72,7 @@ public class PipelineProgressTests
     [DependsOn<Module1>]
     private class Module5 : Module
     {
-        protected override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+        protected internal override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return true.AsTask();
         }

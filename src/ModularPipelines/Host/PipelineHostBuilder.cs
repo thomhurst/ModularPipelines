@@ -1,13 +1,10 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
-using Microsoft.Extensions.Logging.Console;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;

@@ -23,7 +23,7 @@ public class NugetVersionGeneratorModule : Module<string>
         
         if (_publishSettings.Value.IsAlpha)
         {
-            return $"{gitVersionInformation.FullSemVer}alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}";
+            return $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}";
         }
 
         return gitVersionInformation.FullSemVer;

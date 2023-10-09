@@ -9,19 +9,19 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleRetriever : IModuleRetriever
 {
-    private readonly IModuleIgnoreHandler _moduleIgnoreHandler;
+    private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<ModuleBase> _modules;
 
     public ModuleRetriever(
-        IModuleIgnoreHandler moduleIgnoreHandler,
+        IModuleConditionHandler moduleConditionHandler,
         IModuleInitializer moduleInitializer,
         IEnumerable<ModuleBase> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
-        _moduleIgnoreHandler = moduleIgnoreHandler;
+        _moduleConditionHandler = moduleConditionHandler;
         _moduleInitializer = moduleInitializer;
         _estimatedTimeProvider = estimatedTimeProvider;
         _modules = modules.ToList();
@@ -40,7 +40,7 @@ internal class ModuleRetriever : IModuleRetriever
             .ProcessInParallel();
 
         var modulesToIgnore = await _modules
-            .WhereAsync(async m => await _moduleIgnoreHandler.ShouldIgnore(m))
+            .WhereAsync(async m => await _moduleConditionHandler.ShouldIgnore(m))
             .ToListAsync();
 
         var modulesToProcess = _modules

@@ -4,7 +4,7 @@ using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
+using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -26,12 +26,34 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal List<DependsOnAttribute> DependentModules { get; } = new();
 
+    internal override IHistoryHandler<T> HistoryHandler { get; }
+
+    internal override IWaitHandler WaitHandler { get; }
+
+    internal override ICancellationHandler CancellationHandler { get; }
+
+    internal override ISkipHandler SkipHandler { get; }
+
+    internal override IHookHandler HookHandler { get; }
+
+    internal override IStatusHandler StatusHandler { get; }
+
+    internal override IErrorHandler ErrorHandler { get; }
+
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
     [JsonConstructor]
     protected Module()
     {
+        WaitHandler = new WaitHandler<T>(this);
+        CancellationHandler = new CancellationHandler<T>(this);
+        SkipHandler = new SkipHandler<T>(this);
+        HistoryHandler = new HistoryHandler<T>(this);
+        HookHandler = new HookHandler<T>(this);
+        StatusHandler = new StatusHandler<T>(this);
+        ErrorHandler = new ErrorHandler<T>(this);
+        
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
             AddDependency(customAttribute);
@@ -46,128 +68,57 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         try
         {
-            try
+            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
             {
-                await WaitForModuleDependencies();
-            }
-            catch when (Context.EngineCancellationToken.IsCancellationRequested && ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
-            {
-                // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
-                Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
-                
-                ModuleResultTaskCompletionSource.TrySetCanceled();
                 return;
             }
-            
-            if (ModuleRunType != ModuleRunType.AlwaysRun)
-            {
-                Context.EngineCancellationToken.Token.Register(ModuleCancellationTokenSource.Cancel);
-            }
-            
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            var skipResult = await ShouldSkip(Context);
-
-            if (skipResult.ShouldSkip)
+            CancellationHandler.SetupCancellation();
+            
+            if (await SkipHandler.HandleSkipped())
             {
-                await SetSkipped(skipResult);
                 return;
             }
 
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            await OnBeforeExecute(Context);
+            await HookHandler.OnBeforeExecute(Context);
 
             StartTask.Start(TaskScheduler.Default);
 
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
 
-            var timeoutExceptionTask = Task.CompletedTask;
-
-            if (Timeout != TimeSpan.Zero)
-            {
-                ModuleCancellationTokenSource.CancelAfter(Timeout);
-                timeoutExceptionTask = Task.Delay(Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
-            }
+            var timeoutExceptionTask = CancellationHandler.ConfigureModuleTimeout();
 
             _stopwatch.Start();
 
             var executeResult = await ExecuteInternal(timeoutExceptionTask);
 
-            _stopwatch.Stop();
-            Duration = _stopwatch.Elapsed;
-
+            SetEndTime();
+            
             Status = Status.Successful;
-            EndTime = DateTimeOffset.UtcNow;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
             
-            await SaveResult(moduleResult);
+            await HistoryHandler.SaveResult(moduleResult);
             
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
         {
-            _stopwatch.Stop();
-            Duration = _stopwatch.Elapsed;
-            EndTime = DateTimeOffset.UtcNow;
-
-            Context.Logger.LogError(exception, "Module Failed after {Duration}", Duration);
-
-            if (exception is TaskCanceledException or OperationCanceledException
-                && ModuleCancellationTokenSource.IsCancellationRequested
-                && !Context.EngineCancellationToken.IsCancellationRequested)
-            {
-                Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
-
-                Status = Status.TimedOut;
-            }
-            else if (exception is TaskCanceledException or OperationCanceledException
-                     && Context.EngineCancellationToken.IsCancellationRequested)
-            {
-                Status = Status.PipelineTerminated;
-                Context.Logger.LogInformation("Pipeline has been canceled");
-                return;
-            }
-            else
-            {
-                Status = Status.Failed;
-            }
-
-            Exception = exception;
-
-            if (await ShouldIgnoreFailures(Context, exception))
-            {
-                Context.Logger.LogDebug("Ignoring failures in this module and continuing...");
-                
-                var moduleResult = new ModuleResult<T>(exception, this);
-
-                Status = Status.IgnoredFailure;
-
-                await SaveResult(moduleResult);
-            }
-            else
-            {
-                Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
-                
-                Context.EngineCancellationToken.CancelWithReason($"{GetType().Name} failed with a {exception.GetType().Name}");
-
-                // Time for cancellation to register
-                await Task.Delay(TimeSpan.FromMilliseconds(200));
-
-                ModuleResultTaskCompletionSource.TrySetException(exception);
-
-                throw new ModuleFailedException(this, exception);
-            }
+            SetEndTime();
+            await ErrorHandler.Handle(exception);
         }
         finally
         {
+            _stopwatch.Stop();
+
             ModuleResultTaskCompletionSource.TrySetCanceled();
 
-            await OnAfterExecute(Context);
+            await HookHandler.OnAfterExecute(Context);
 
-            LogModuleStatus();
+            StatusHandler.LogModuleStatus();
         }
     }
 
@@ -176,25 +127,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         context.InitializeLogger(GetType());
         Context = context;
         return this;
-    }
-
-    internal override async Task SetSkipped(SkipDecision skipDecision)
-    {
-        Status = Status.Skipped;
-
-        SkipResult = skipDecision;
-
-        if (await UseResultFromHistoryIfSkipped(Context)
-            && await SetupModuleFromHistory(skipDecision.Reason))
-        {
-            return;
-        }
-
-        SkippedTask.Start(TaskScheduler.Default);
-
-        ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(this, skipDecision));
-
-        Context.Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
 
     /// <summary>
@@ -256,30 +188,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         DependentModules.Add(dependsOnAttribute);
     }
-
-    private async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
-    {
-        if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
-        {
-            Context.Logger.LogDebug("No results repository configured to pull historical results from");
-            return false;
-        }
-
-        var result = await Context.ModuleResultRepository.GetResultAsync<T>(this, Context);
-
-        if (result == null)
-        {
-            return false;
-        }
-        
-        Context.Logger.LogDebug("Setting up module from history");
-
-        Status = Status.UsedHistory;
-
-        Result = result;
-
-        return true;
-    }
     
     private void SetResult(ModuleResult<T> result)
     {
@@ -299,7 +207,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     private ModuleResult<T> _result = null!;
 
     [JsonInclude]
-    private ModuleResult<T> Result
+    internal ModuleResult<T> Result
     {
         get
         {
@@ -313,110 +221,24 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    private async Task WaitForModuleDependencies()
-    {
-        if (!DependentModules.Any())
-        {
-            Context.Logger.LogDebug("No dependent modules - Nothing to wait for");
-            return;
-        }
-
-        try
-        {
-            await DependentModules
-                .ToAsyncProcessorBuilder()
-                .ForEachAsync(dependsOnAttribute =>
-                {
-                    var module = Context.GetModule(dependsOnAttribute.Type);
-
-                    if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
-                    {
-                        Context.Logger.LogDebug("{Module} was not registered so not waiting", dependsOnAttribute.Type.Name);
-                        return Task.CompletedTask;
-                    }
-
-                    if (module is null)
-                    {
-                        throw new ModuleNotRegisteredException(
-                            $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
-                    }
-
-                    Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
-                    
-                    return module.ResultTaskInternal;
-                })
-                .ProcessInParallel();
-        }
-        catch (Exception e) when (ModuleRunType == ModuleRunType.AlwaysRun)
-        {
-            Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
-        }
-    }
-
-    private void LogModuleStatus()
-    {
-        var moduleName = GetType().Name;
-
-        switch (Status)
-        {
-            case Status.NotYetStarted:
-                Context.Logger.LogWarning("Module {Module} never started", moduleName);
-                break;
-            case Status.Processing:
-                Context.Logger.LogError("Module {Module} didn't finish executing", moduleName);
-                break;
-            case Status.Successful:
-                Context.Logger.LogInformation("Module {Module} completed successfully", moduleName);
-                break;
-            case Status.Failed:
-                Context.Logger.LogError("Module {Module} failed", moduleName);
-                break;
-            case Status.TimedOut:
-                Context.Logger.LogError("Module {Module} timed out", moduleName);
-                break;
-            case Status.Skipped:
-                Context.Logger.LogWarning("Module {Module} skipped", moduleName);
-                break;
-            case Status.Unknown:
-                Context.Logger.LogError("Unknown {Module} module status", moduleName);
-                break;
-            case Status.IgnoredFailure:
-                Context.Logger.LogError("Module {Module} failed but the failure was ignored, so this will not cause the pipeline to error", moduleName);
-                break;
-            case Status.PipelineTerminated:
-                Context.Logger.LogError("The pipeline has errored so Module {Module} will terminate", moduleName);
-                break;
-            case Status.UsedHistory:
-                Context.Logger.LogError("Module {Module} has been constructed from historical data", moduleName);
-                break;
-            default:
-                Context.Logger.LogError("Module {Module} status is: {Status}", moduleName, Status);
-                break;
-        }
-    }
-
-    private async Task SaveResult(ModuleResult<T> moduleResult)
-    {
-        try
-        {
-            Context.Logger.LogDebug("Saving module result");
-            Result = moduleResult;
-            ModuleResultTaskCompletionSource.TrySetResult(moduleResult);
-            await Context.ModuleResultRepository.SaveResultAsync(this, moduleResult, Context);
-        }
-        catch (Exception e)
-        {
-            Context.Logger.LogError(e, "Error saving module result to repository");
-        }
-    }
-
     private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
-        var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
+        {
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
+        });
 
         // Will throw a timeout exception if configured and timeout is reached
         await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
         return await executeAsyncTask;
+    }
+    
+    private void SetEndTime()
+    {
+        _stopwatch.Stop();
+        EndTime = DateTimeOffset.UtcNow;
+        Duration = _stopwatch.Elapsed;
     }
 }

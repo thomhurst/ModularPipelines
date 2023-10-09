@@ -10,7 +10,7 @@ public class IgnoredFailureTests : TestBase
 {
     private class IgnoredFailureModule : Module<CommandResult>
     {
-        protected override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+        protected internal override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
         }

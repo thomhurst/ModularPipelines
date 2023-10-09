@@ -8,7 +8,7 @@ public class SkippedModuleTests : TestBase
 {
     private class SkippedModule : Module<CommandResult>
     {
-        protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }

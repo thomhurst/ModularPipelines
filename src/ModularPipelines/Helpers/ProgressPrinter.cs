@@ -49,7 +49,7 @@ internal class ProgressPrinter : IProgressPrinter
                         return;
                     }
 
-                    await Task.Delay(1000);
+                    await Task.Delay(1000, CancellationToken.None);
                     progressContext.Refresh();
                 }
 
@@ -164,7 +164,7 @@ internal class ProgressPrinter : IProgressPrinter
                 progressTask.Description = moduleName;
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
@@ -180,7 +180,7 @@ internal class ProgressPrinter : IProgressPrinter
         ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has been ignored
-        _ = moduleToProcess.Module.SkippedTask.ContinueWith(t =>
+        _ = moduleToProcess.Module.SkipHandler.CallbackTask.ContinueWith(t =>
         {
             lock (moduleToProcess)
             {
@@ -257,7 +257,7 @@ internal class ProgressPrinter : IProgressPrinter
                 
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);

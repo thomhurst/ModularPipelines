@@ -115,7 +115,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<ISmartCollapsableLoggingStringBlockProvider, SmartCollapsableLoggingStringBlockProvider>()
-            .AddSingleton<IModuleIgnoreHandler, ModuleIgnoreHandler>()
+            .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>();

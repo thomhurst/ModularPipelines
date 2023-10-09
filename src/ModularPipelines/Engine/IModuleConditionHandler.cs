@@ -2,7 +2,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-internal interface IModuleIgnoreHandler
+internal interface IModuleConditionHandler
 {
     Task<bool> ShouldIgnore(ModuleBase module);
 }

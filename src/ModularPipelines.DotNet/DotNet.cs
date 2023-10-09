@@ -75,7 +75,7 @@ internal class DotNet : IDotNet
             throw new DotNetTestFailedException(result, null);
         }
 
-        var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync();
+        var trxContents = await _fileSystemContext.GetFile(trxFilePath).ReadAsync(cancellationToken);
 
         logger.LogDebug("Trx file contents: {Contents}", trxContents);
 

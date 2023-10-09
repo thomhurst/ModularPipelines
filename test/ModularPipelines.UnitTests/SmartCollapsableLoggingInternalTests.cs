@@ -1,10 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Azure.Pipelines;
 using ModularPipelines.Enums;
-using ModularPipelines.GitHub;
 using ModularPipelines.Interfaces;
-using ModularPipelines.TeamCity;
 using Moq;
 
 namespace ModularPipelines.UnitTests;
