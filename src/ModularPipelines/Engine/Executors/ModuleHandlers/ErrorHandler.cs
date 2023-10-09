@@ -73,7 +73,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
-        Context.EngineCancellationToken.CancelWithReason($"{GetType().Name} failed with a {exception.GetType().Name}");
+        Context.EngineCancellationToken.CancelWithReason($"{Module.GetType().Name} failed with a {exception.GetType().Name}");
 
         // Time for cancellation to register
         await Task.Delay(TimeSpan.FromMilliseconds(200));
