@@ -27,7 +27,7 @@ internal class BaseHandler
 
     public EngineCancellationToken EngineCancellationToken => Context.EngineCancellationToken;
 
-    public CancellationTokenSource ModuleCancellationTokenSource => Context.EngineCancellationToken;
+    public CancellationTokenSource ModuleCancellationTokenSource => Module.ModuleCancellationTokenSource;
 
     public ModuleRunType RunType => Module.ModuleRunType;
 

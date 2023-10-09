@@ -216,7 +216,11 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
-        var executeAsyncTask = RetryPolicy.ExecuteAsync(() => ExecuteAsync(Context, ModuleCancellationTokenSource.Token));
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
+        {
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
+        });
 
         // Will throw a timeout exception if configured and timeout is reached
         await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
