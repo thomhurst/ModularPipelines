@@ -41,6 +41,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = true,
+                Severity = "info",
             }, cancellationToken);
         }
         catch (Exception)
