@@ -1,1 +1,1 @@
-- Extension method to turn a boolean into a skip reason
+*   Extension method to turn a boolean into a skip reason
