@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("install")]
-public record NpmInstallOptions : NpmOptions
+[CommandPrecedingArguments("install-test")]
+public record NpmInstallTestOptions : NpmOptions
 {
     [BooleanCommandSwitch("--save")]
     public bool? Save { get; set; }
@@ -73,18 +73,4 @@ public record NpmInstallOptions : NpmOptions
     [BooleanCommandSwitch("--install-links")]
     public bool? InstallLinks { get; set; }
 
-    [BooleanCommandSwitch("--save-prod")]
-    public bool? SaveProd { get; set; }
-    
-    [BooleanCommandSwitch("--save-dev")]
-    public bool? SaveDev { get; set; }
-    
-    [BooleanCommandSwitch("--save-optional")]
-    public bool? SaveOptional { get; set; }
-    
-    [BooleanCommandSwitch("--no-save")]
-    public bool? NoSave { get; set; }
-    
-    [BooleanCommandSwitch("--save-bundle")]
-    public bool? SaveBundle { get; set; }
 }

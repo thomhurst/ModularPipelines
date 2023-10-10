@@ -4,11 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ci")]
-public record NpmCleanInstallOptions : NpmOptions
+[CommandPrecedingArguments("audit")]
+public record NpmAuditOptions : NpmOptions
 {
-    [CommandSwitch("--install-strategy")]
-    public string? InstallStrategy { get; set; }
+    [CommandSwitch("--audit-level")]
+    public string? AuditLevel { get; set; }
+
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
+
+    [BooleanCommandSwitch("--json")]
+    public bool? Json { get; set; }
+
+    [BooleanCommandSwitch("--package-lock-only")]
+    public bool? PackageLockOnly { get; set; }
+
+    [BooleanCommandSwitch("--package-lock")]
+    public bool? PackageLock { get; set; }
 
     [CommandSwitch("--omit")]
     public string? Omit { get; set; }
@@ -16,26 +31,11 @@ public record NpmCleanInstallOptions : NpmOptions
     [CommandSwitch("--include")]
     public string? Include { get; set; }
 
-    [BooleanCommandSwitch("--strict-peer-deps")]
-    public bool? StrictPeerDeps { get; set; }
-
     [BooleanCommandSwitch("--foreground-scripts")]
     public bool? ForegroundScripts { get; set; }
 
     [BooleanCommandSwitch("--ignore-scripts")]
     public bool? IgnoreScripts { get; set; }
-
-    [BooleanCommandSwitch("--audit")]
-    public bool? Audit { get; set; }
-
-    [BooleanCommandSwitch("--bin-links")]
-    public bool? BinLinks { get; set; }
-
-    [BooleanCommandSwitch("--fund")]
-    public bool? Fund { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 
     [CommandSwitch("--workspace")]
     public string[]? Workspace { get; set; }

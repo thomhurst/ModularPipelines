@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ci")]
-public record NpmCleanInstallOptions : NpmOptions
+[CommandPrecedingArguments("dedupe")]
+public record NpmDedupeOptions : NpmOptions
 {
     [CommandSwitch("--install-strategy")]
     public string? InstallStrategy { get; set; }
+
+    [BooleanCommandSwitch("--strict-peer-deps")]
+    public bool? StrictPeerDeps { get; set; }
+
+    [BooleanCommandSwitch("--package-lock")]
+    public bool? PackageLock { get; set; }
 
     [CommandSwitch("--omit")]
     public string? Omit { get; set; }
 
     [CommandSwitch("--include")]
     public string? Include { get; set; }
-
-    [BooleanCommandSwitch("--strict-peer-deps")]
-    public bool? StrictPeerDeps { get; set; }
-
-    [BooleanCommandSwitch("--foreground-scripts")]
-    public bool? ForegroundScripts { get; set; }
 
     [BooleanCommandSwitch("--ignore-scripts")]
     public bool? IgnoreScripts { get; set; }
