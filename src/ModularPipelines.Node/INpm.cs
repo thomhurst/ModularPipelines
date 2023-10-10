@@ -117,7 +117,7 @@ public interface INpm
 
     Task<CommandResult> Test(NpmTestOptions? options = default, CancellationToken token = default);
 
-    Task<CommandResult> Token(NpmTokenOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Token(NpmTokenOptions? options = default, CancellationToken cancellationToken = default);
 
     Task<CommandResult> Uninstall(NpmUninstallOptions? options = default, CancellationToken token = default);
 

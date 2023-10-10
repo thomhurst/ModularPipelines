@@ -295,9 +295,9 @@ internal class Npm : INpm
         return await _command.ExecuteCommandLineTool(options ?? new NpmTestOptions(), token);
     }
 
-    public async Task<CommandResult> Token(NpmTokenOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Token(NpmTokenOptions? options = default, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new NpmTokenOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new NpmTokenOptions(), cancellationToken);
     }
 
     public async Task<CommandResult> Uninstall(NpmUninstallOptions? options = default, CancellationToken token = default)
