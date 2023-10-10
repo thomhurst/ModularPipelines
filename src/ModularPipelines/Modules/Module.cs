@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;

@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
+﻿using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
@@ -15,38 +12,31 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinux]
 [SkipIfDependabot]
 [SkipOnMainBranch]
+[DependsOn<GetChangedFilesInPullRequest>]
 public class CheckReleaseNotesAddedModule : Module
 {
     private const string MissingReleaseNotesMessage = "No release notes for this change. Please add some notes to the ReleaseNotes.md file.";
-    private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly GitHubClient _gitHubClient;
-
-    public CheckReleaseNotesAddedModule(IOptions<GitHubSettings> githubSettings, GitHubClient gitHubClient)
-    {
-        _githubSettings = githubSettings;
-        _gitHubClient = gitHubClient;
-    }
 
     /// <inheritdoc/>
-    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
-        {
-            return Task.FromResult(SkipDecision.Skip("Not running on GitHub actions"));
-        }
+        var getChangedFilesInPullRequestModule = await GetModule<GetChangedFilesInPullRequest>();
 
-        var isPullRequest = !string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch);
-        return isPullRequest ? SkipDecision.DoNotSkip.AsTask() : SkipDecision.Skip("Not a pull request").AsTask();
+        return getChangedFilesInPullRequestModule.SkipDecision;
     }
 
     /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
+        var getChangedFilesInPullRequestModule = await GetModule<GetChangedFilesInPullRequest>();
+        
         var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
 
+        var changedFiles = getChangedFilesInPullRequestModule.Value!;
+        
         if (!releaseNotesFile.Exists
-            || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync())
-            || !await ReleaseNotesChangedInPullRequest())
+            || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync(cancellationToken))
+            || NeedsToUpdateReleaseNotes(changedFiles))
         {
             throw new Exception(MissingReleaseNotesMessage);
         }
@@ -54,11 +44,13 @@ public class CheckReleaseNotesAddedModule : Module
         return await NothingAsync();
     }
 
-    private async Task<bool> ReleaseNotesChangedInPullRequest()
+    private static bool NeedsToUpdateReleaseNotes(IReadOnlyList<PullRequestFile> changedFiles)
     {
-        var pullRequestFiles = await _gitHubClient.PullRequest.Files(_githubSettings.Value.Repository!.Id!.Value,
-            _githubSettings.Value.PullRequest!.Number!.Value);
-
-        return pullRequestFiles.Any(x => x.FileName == "src/ModularPipelines.Build/ReleaseNotes.md");
+        if (changedFiles.Any(x => x.FileName.EndsWith("ReleaseNotes.md")))
+        {
+            return false;
+        }
+        
+        return changedFiles.Any(x => x.FileName.EndsWith(".cs"));
     }
 }
