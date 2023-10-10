@@ -39,14 +39,14 @@ internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
             throw new JsonException();
         }
 
-        var result = (T) jsonDocument.Deserialize(type, GetOptions(options))!;
+        var result = (T)jsonDocument.Deserialize(type, GetOptions(options))!;
 
         return result;
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, (object) value, GetOptions(options));
+        JsonSerializer.Serialize(writer, (object)value, GetOptions(options));
     }
 
     private JsonSerializerOptions GetOptions(JsonSerializerOptions options)

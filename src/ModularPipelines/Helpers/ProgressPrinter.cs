@@ -236,7 +236,7 @@ internal class ProgressPrinter : IProgressPrinter
                 AutoStart = true,
             });
 
-            var list = (List<ProgressTask>) progressContext.GetType()
+            var list = (List<ProgressTask>)progressContext.GetType()
                 .GetField("_tasks", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .GetValue(progressContext)!;
 
