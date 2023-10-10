@@ -12,5 +12,4 @@ public record NpmLogoutOptions : NpmOptions
 
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
-
 }

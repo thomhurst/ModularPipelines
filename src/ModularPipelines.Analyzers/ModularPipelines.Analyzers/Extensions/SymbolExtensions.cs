@@ -32,7 +32,7 @@ internal static class SymbolExtensions
             classSymbol = baseType;
         }
     }
-    
+
     internal static bool IsDependsOnAttributeFor(this AttributeData attributeData, INamedTypeSymbol namedTypeSymbol)
     {
         var attributeClassName = attributeData.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -64,18 +64,18 @@ internal static class SymbolExtensions
             return false;
         });
     }
-    
+
     internal static INamedTypeSymbol? GetClassThatNodeIsIn(this SyntaxNodeAnalysisContext context)
     {
         var node = context.Node;
-        
+
         while (node is not ClassDeclarationSyntax)
         {
             if (node is null)
             {
                 return null;
             }
-            
+
             node = node.Parent;
         }
 

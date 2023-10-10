@@ -14,7 +14,7 @@ public sealed record SkipDecision
     private SkipDecision()
     {
     }
-    
+
     private SkipDecision(bool shouldSkip)
     {
         ShouldSkip = shouldSkip;

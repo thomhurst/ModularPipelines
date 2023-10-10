@@ -18,5 +18,4 @@ public record NpmOrgOptions : NpmOptions
 
     [BooleanCommandSwitch("--parseable")]
     public bool? Parseable { get; set; }
-
 }

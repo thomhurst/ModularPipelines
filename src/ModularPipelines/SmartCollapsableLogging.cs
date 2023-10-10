@@ -10,7 +10,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     private readonly IConsoleWriter _consoleWriter;
 
     private IModuleLogger ModuleLogger => _moduleLoggerProvider.GetLogger();
-    
+
     public SmartCollapsableLogging(IModuleLoggerProvider moduleLoggerProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter)

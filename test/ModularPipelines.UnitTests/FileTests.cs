@@ -178,7 +178,7 @@ public class FileTests : TestBase
 
         Assert.That(plainText, Is.EqualTo("Hello world!"));
     }
-    
+
     [Test]
     public async Task WriteStreamFile()
     {
@@ -307,19 +307,19 @@ public class FileTests : TestBase
     {
         var workingDirectory = new Folder(Environment.CurrentDirectory);
         var files = workingDirectory.GetFiles(globPattern).ToList();
-        
+
         Assert.That(files, Has.Count.EqualTo(1));
         Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
     }
-    
+
     [Test]
     public void GlobTest2()
     {
         var folder = new Folder(Environment.CurrentDirectory)
             .FindFolder(x => x.Name == "Nest5")!;
-        
+
         var files = folder.GetFiles("Blah.txt").ToList();
-        
+
         Assert.That(files, Has.Count.EqualTo(1));
         Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
     }

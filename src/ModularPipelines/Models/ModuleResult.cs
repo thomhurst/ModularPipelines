@@ -8,21 +8,21 @@ namespace ModularPipelines.Models;
 public class ModuleResult<T> : ModuleResult
 {
     private T? _value;
-    
+
     internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
     {
     }
-    
+
     internal ModuleResult(T? value, ModuleBase module) : base(module)
     {
         _value = value;
     }
-    
+
     [JsonConstructor]
     private ModuleResult()
     {
     }
-    
+
     /// <summary>
     /// The value held in the result
     /// </summary>
@@ -51,7 +51,7 @@ public class ModuleResult<T> : ModuleResult
             _value = value;
         }
     }
-    
+
     /// <summary>
     /// Gets whether the result holds a value.
     /// </summary>
@@ -119,13 +119,13 @@ public class ModuleResult : ITypeDiscriminator
         SkipDecision = module.SkipResult;
         TypeDiscriminator = GetType().FullName!;
     }
-    
+
     /// <summary>
     /// Gets the exception that occurred in the module, if one was thrown
     /// </summary>
     [JsonInclude]
     public Exception? Exception { get; private set; }
-    
+
     /// <summary>
     /// Gets the Skip Decision of the module
     /// </summary>
@@ -158,7 +158,7 @@ public class ModuleResult : ITypeDiscriminator
     /// </summary>
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
-    
+
     [JsonIgnore]
     internal ModuleBase? Module { get; set; }
 }

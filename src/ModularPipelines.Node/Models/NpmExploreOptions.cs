@@ -9,5 +9,4 @@ public record NpmExploreOptions : NpmOptions
 {
     [CommandSwitch("--shell")]
     public string? Shell { get; set; }
-
 }

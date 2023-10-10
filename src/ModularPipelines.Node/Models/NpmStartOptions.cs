@@ -12,5 +12,4 @@ public record NpmStartOptions : NpmOptions
 
     [CommandSwitch("--script-shell")]
     public string? ScriptShell { get; set; }
-
 }

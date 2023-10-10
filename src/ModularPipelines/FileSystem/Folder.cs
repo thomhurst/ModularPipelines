@@ -114,7 +114,7 @@ public class Folder : IEquatable<Folder>
         .Select(x => new File(x))
         .Distinct()
         .Where(predicate);
-    
+
     public IEnumerable<File> GetFiles(string globPattern)
     {
         return new Matcher(StringComparison.OrdinalIgnoreCase)

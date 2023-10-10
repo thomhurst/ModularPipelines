@@ -18,5 +18,4 @@ public record NpmViewOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
-
 }

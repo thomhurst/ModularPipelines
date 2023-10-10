@@ -17,7 +17,7 @@ public interface IPipelineHookContext
     /// Gets the cancellation token used for cancelling the pipeline on failures.
     /// </summary>
     internal EngineCancellationToken EngineCancellationToken { get; }
-    
+
     /// <summary>
     /// Gets the service provider orchestrating DI within the pipeline.
     /// </summary>
@@ -27,7 +27,7 @@ public interface IPipelineHookContext
     /// Gets the configuration powering the pipeline.
     /// </summary>
     public IConfiguration Configuration { get; }
-    
+
     /// <summary>
     /// Gets the pipeline's options.
     /// </summary>

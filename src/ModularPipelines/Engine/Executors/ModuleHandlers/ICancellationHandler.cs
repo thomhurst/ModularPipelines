@@ -3,6 +3,6 @@
 internal interface ICancellationHandler
 {
     void SetupCancellation();
-    
+
     Task ConfigureModuleTimeout();
 }

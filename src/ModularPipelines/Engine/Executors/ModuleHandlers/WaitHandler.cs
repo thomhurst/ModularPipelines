@@ -23,14 +23,14 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
         {
             // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
             Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
-                
+
             ModuleResultTaskCompletionSource.TrySetCanceled();
             return WaitResult.Abort;
         }
 
         return WaitResult.Continue;
     }
-    
+
     private async Task WaitForDependencies()
     {
         if (!Module.DependentModules.Any())
@@ -60,7 +60,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                     }
 
                     Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
-                    
+
                     return module.ResultTaskInternal;
                 })
                 .ProcessInParallel();

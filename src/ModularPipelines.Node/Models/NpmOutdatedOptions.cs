@@ -24,5 +24,4 @@ public record NpmOutdatedOptions : NpmOptions
 
     [CommandSwitch("--workspace")]
     public string[]? Workspace { get; set; }
-
 }

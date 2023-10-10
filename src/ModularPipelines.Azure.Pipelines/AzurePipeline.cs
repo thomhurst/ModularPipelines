@@ -8,7 +8,7 @@ internal class AzurePipeline : IAzurePipeline
     private readonly IEnvironmentContext _environment;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
-    public AzurePipeline(AzurePipelineVariables variables, 
+    public AzurePipeline(AzurePipelineVariables variables,
         IEnvironmentContext environment,
         IModuleLoggerProvider moduleLoggerProvider)
     {
@@ -21,7 +21,7 @@ internal class AzurePipeline : IAzurePipeline
         => !string.IsNullOrWhiteSpace(_environment.EnvironmentVariables.GetEnvironmentVariable("TF_BUILD"));
 
     public AzurePipelineVariables Variables { get; }
-    
+
     public void StartConsoleLogGroup(string name)
     {
         LogToConsole(BuildSystemValues.AzurePipelines.StartBlock(name));

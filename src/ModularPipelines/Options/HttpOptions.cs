@@ -15,7 +15,7 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.RequestAndResponse;
 
     public static implicit operator HttpOptions(HttpRequestMessage requestMessage) => new(requestMessage);
-    
+
     public static implicit operator HttpOptions(Uri uri) => new HttpRequestMessage(HttpMethod.Get, uri);
 
     public static implicit operator HttpOptions(string uri) => new Uri(uri, UriKind.RelativeOrAbsolute);

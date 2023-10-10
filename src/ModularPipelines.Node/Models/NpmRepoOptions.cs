@@ -21,5 +21,4 @@ public record NpmRepoOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
-
 }

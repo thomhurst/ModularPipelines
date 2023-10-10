@@ -81,9 +81,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             var end = DateTimeOffset.UtcNow;
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-            
+
             _consolePrinter.PrintResults(pipelineSummary);
-            
+
             await Console.Out.FlushAsync();
 
             if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))

@@ -15,5 +15,4 @@ public record NpmDistTagOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
-
 }

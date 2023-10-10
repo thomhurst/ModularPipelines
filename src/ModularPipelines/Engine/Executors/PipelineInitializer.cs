@@ -42,7 +42,7 @@ internal class PipelineInitializer : IPipelineInitializer
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
         Console.WriteLine();
-        
+
         _dependencyDetector.Check();
 
         await _pipelineSetupExecutor.OnStartAsync();

@@ -18,5 +18,4 @@ public record NpmUnpublishOptions : NpmOptions
 
     [BooleanCommandSwitch("--workspaces")]
     public bool? Workspaces { get; set; }
-
 }

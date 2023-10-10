@@ -21,7 +21,7 @@ public class GenerateReadMeModule : Module
 
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync(cancellationToken);
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync(cancellationToken);
-        
+
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Description | Version |");
@@ -59,7 +59,7 @@ public class GenerateReadMeModule : Module
     private string GetModuleReadMeDescription(File file)
     {
         var projectRootElement = ProjectRootElement.Open(file)!;
-        
+
         var descriptionProperty =
             projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
             ?? throw new ArgumentNullException($"No ModularPipelineReadMeDescription property found in {file.Name}");

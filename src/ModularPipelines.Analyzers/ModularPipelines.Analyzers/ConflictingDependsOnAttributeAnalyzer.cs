@@ -13,7 +13,7 @@ namespace ModularPipelines.Analyzers;
 public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "ConflictingDependsOnAttribute";
-    
+
     public static DiagnosticDescriptor Rule => PrivateRule;
 
     private const string Category = "Usage";
@@ -54,7 +54,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         {
             return;
         }
-        
+
         var allAttributesOnDependentType = namedArgumentTypeSymbol.GetAllAttributesIncludingBaseAndInterfaces();
 
         ReportDiagnostics(context, allAttributesOnDependentType, typeContainingAttribute, namedArgumentTypeSymbol);
@@ -63,7 +63,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     private static bool IsDependsOn(SyntaxNodeAnalysisContext context, out INamedTypeSymbol? namedTypeSymbol)
     {
         namedTypeSymbol = null;
-        
+
         if (context.Node is not AttributeSyntax attributeSyntax)
         {
             return false;

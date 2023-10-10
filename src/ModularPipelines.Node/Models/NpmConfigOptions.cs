@@ -21,5 +21,4 @@ public record NpmConfigOptions : NpmOptions
 
     [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }
-
 }

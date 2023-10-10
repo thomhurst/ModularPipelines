@@ -24,7 +24,7 @@ internal class BuildSystemDetector : IBuildSystemDetector
     {
         _environmentVariables = environmentVariables;
     }
-    
+
     public BuildSystem GetCurrentBuildSystem()
     {
         return _variablesToBuildSystem.Keys

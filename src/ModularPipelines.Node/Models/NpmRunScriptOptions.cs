@@ -27,5 +27,4 @@ public record NpmRunScriptOptions : NpmOptions
 
     [CommandSwitch("--script-shell")]
     public string? ScriptShell { get; set; }
-
 }

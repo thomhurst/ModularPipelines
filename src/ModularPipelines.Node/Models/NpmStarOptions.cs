@@ -15,5 +15,4 @@ public record NpmStarOptions : NpmOptions
 
     [CommandSwitch("--otp")]
     public string? Otp { get; set; }
-
 }

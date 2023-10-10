@@ -9,5 +9,4 @@ public record NpmHelpSearchOptions : NpmOptions
 {
     [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }
-
 }

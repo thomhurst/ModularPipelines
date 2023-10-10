@@ -15,5 +15,4 @@ public record NpmAdduserOptions : NpmOptions
 
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }
-
 }

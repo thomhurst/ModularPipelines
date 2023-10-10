@@ -21,5 +21,4 @@ public record NpmFundOptions : NpmOptions
 
     [BooleanCommandSwitch("--which")]
     public bool? Which { get; set; }
-
 }

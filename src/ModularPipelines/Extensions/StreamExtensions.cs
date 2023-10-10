@@ -23,9 +23,9 @@ public static class StreamExtensions
         {
             stream.Position = 0;
         }
-        
+
         await stream.CopyToAsync(memoryStream);
-        
+
         await stream.DisposeAsync();
 
         return memoryStream;

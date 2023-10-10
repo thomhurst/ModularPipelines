@@ -7,13 +7,12 @@ namespace ModularPipelines.Node.Models;
 [CommandPrecedingArguments("access")]
 public record NpmAccessOptions : NpmOptions
 {
-[BooleanCommandSwitch("--json")]
-public bool? Json { get; set; }
+    [BooleanCommandSwitch("--json")]
+    public bool? Json { get; set; }
 
-[CommandSwitch("--otp")]
-public string? Otp { get; set; }
+    [CommandSwitch("--otp")]
+    public string? Otp { get; set; }
 
-[CommandSwitch("--registry")]
-public Uri? Registry { get; set; }
-
+    [CommandSwitch("--registry")]
+    public Uri? Registry { get; set; }
 }

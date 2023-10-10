@@ -17,11 +17,11 @@ public class CollapsableLoggingTests : TestBase
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
-        
+
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await azurePipelines.Host.DisposeAsync();
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        ##[group]MyGroup
@@ -30,7 +30,7 @@ public class CollapsableLoggingTests : TestBase
                        """)
         );
     }
-    
+
     [Test]
     public async Task GitHub()
     {
@@ -40,11 +40,11 @@ public class CollapsableLoggingTests : TestBase
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
-        
+
         gitHub.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await gitHub.Host.DisposeAsync();
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        ::group::MyGroup
@@ -53,7 +53,7 @@ public class CollapsableLoggingTests : TestBase
                        """)
         );
     }
-    
+
     [Test]
     public async Task TeamCity()
     {
@@ -63,11 +63,11 @@ public class CollapsableLoggingTests : TestBase
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
-        
+
         teamCity.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await teamCity.Host.DisposeAsync();
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        ##teamcity[blockOpened name='MyGroup']

@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine;
 internal class EngineCancellationToken : CancellationTokenSource
 {
     public string? Reason { get; set; }
-    
+
     private bool _disposed;
 
     public EngineCancellationToken()

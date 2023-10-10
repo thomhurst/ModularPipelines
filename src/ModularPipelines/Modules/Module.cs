@@ -53,7 +53,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         HookHandler = new HookHandler<T>(this);
         StatusHandler = new StatusHandler<T>(this);
         ErrorHandler = new ErrorHandler<T>(this);
-        
+
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
             AddDependency(customAttribute);
@@ -74,7 +74,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
 
             CancellationHandler.SetupCancellation();
-            
+
             if (await SkipHandler.HandleSkipped())
             {
                 return;
@@ -96,13 +96,13 @@ public abstract partial class Module<T> : ModuleBase<T>
             var executeResult = await ExecuteInternal(timeoutExceptionTask);
 
             SetEndTime();
-            
+
             Status = Status.Successful;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
-            
+
             await HistoryHandler.SaveResult(moduleResult);
-            
+
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
         catch (Exception exception)
@@ -188,7 +188,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         DependentModules.Add(dependsOnAttribute);
     }
-    
+
     private void SetResult(ModuleResult<T> result)
     {
         result.Module ??= this;
@@ -196,11 +196,11 @@ public abstract partial class Module<T> : ModuleBase<T>
         Duration = result.ModuleDuration;
         StartTime = result.ModuleStart;
         EndTime = result.ModuleEnd;
-        
+
         SkipResult = result.SkipDecision;
 
         Exception = result.Exception;
-        
+
         ModuleResultTaskCompletionSource.TrySetResult(result);
     }
 
@@ -234,7 +234,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         return await executeAsyncTask;
     }
-    
+
     private void SetEndTime()
     {
         _stopwatch.Stop();

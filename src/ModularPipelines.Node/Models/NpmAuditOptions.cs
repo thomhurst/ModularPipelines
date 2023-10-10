@@ -48,5 +48,4 @@ public record NpmAuditOptions : NpmOptions
 
     [BooleanCommandSwitch("--install-links")]
     public bool? InstallLinks { get; set; }
-
 }

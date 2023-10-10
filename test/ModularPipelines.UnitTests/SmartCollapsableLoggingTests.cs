@@ -28,7 +28,7 @@ public class SmartCollapsableLoggingTests : TestBase
     public async Task GitHub()
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        ::group::SmartCollapsableLogging
@@ -44,7 +44,7 @@ public class SmartCollapsableLoggingTests : TestBase
     public async Task TeamCity()
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        ##teamcity[blockOpened name='SmartCollapsableLogging']
@@ -55,7 +55,7 @@ public class SmartCollapsableLoggingTests : TestBase
                        """)
         );
     }
-    
+
     [TestCase(BuildSystem.Jenkins)]
     [TestCase(BuildSystem.GitLab)]
     [TestCase(BuildSystem.Bitbucket)]
@@ -66,7 +66,7 @@ public class SmartCollapsableLoggingTests : TestBase
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
-        
+
         Assert.That(stringBuilder.ToString().Trim(),
             Is.EqualTo("""
                        Foo bar!
@@ -92,7 +92,7 @@ public class SmartCollapsableLoggingTests : TestBase
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await azurePipelines.Host.DisposeAsync();
-        
+
         return stringBuilder;
     }
 }

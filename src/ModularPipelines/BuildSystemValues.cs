@@ -15,7 +15,7 @@ public static class BuildSystemValues
 
         public static string EndBlock => @"##[endgroup]";
     }
-    
+
     public static class GitHub
     {
         public static string StartBlock(string name) => $"::group::{name}";

@@ -82,7 +82,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         var mappedFormatter = MapFormatter(formatter);
 
         var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
-        
+
         _stringOrLogEvents.Add(valueTuple!);
 
         LastLogWritten = DateTime.UtcNow;
@@ -140,12 +140,12 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
         _stringOrLogEvents.Add(value);
     }
-    
+
     private void PrintStartBlock()
     {
         var startConsoleLogGroup =
             _collapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(GetCollapsibleSectionName());
-        
+
         if (startConsoleLogGroup != null)
         {
             _consoleWriter.LogToConsole(startConsoleLogGroup);
@@ -155,7 +155,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     private void PrintEndBlock()
     {
         var endConsoleLogGroup = _collapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(GetCollapsibleSectionName());
-        
+
         if (endConsoleLogGroup != null)
         {
             _consoleWriter.LogToConsole(endConsoleLogGroup);
@@ -196,7 +196,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
         return (o, exception) =>
         {
-            var formattedString = formatter.Invoke((TState)o, exception);
+            var formattedString = formatter.Invoke((TState) o, exception);
             return _secretObfuscator.Obfuscate(formattedString, null);
         };
     }
@@ -213,7 +213,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
             get;
             private init;
         }
-        
+
         public string? StringValue { get; private init; }
 
         public bool IsString => StringValue != null;
@@ -222,7 +222,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         {
             StringValue = value,
         };
-        
+
         public static implicit operator StringOrLogEvent((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) value) => new()
         {
             LogEvent = value,

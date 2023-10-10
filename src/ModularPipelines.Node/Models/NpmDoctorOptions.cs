@@ -9,5 +9,4 @@ public record NpmDoctorOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
-
 }

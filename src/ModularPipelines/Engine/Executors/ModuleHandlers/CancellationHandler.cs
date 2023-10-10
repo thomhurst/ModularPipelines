@@ -15,7 +15,7 @@ internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
         {
             EngineCancellationToken.Token.Register(Module.ModuleCancellationTokenSource.Cancel);
         }
-        
+
         ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
     }
 
@@ -27,7 +27,7 @@ internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
         }
 
         ModuleCancellationTokenSource.CancelAfter(Module.Timeout);
-        
+
         return Task.Delay(Module.Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
     }
 }

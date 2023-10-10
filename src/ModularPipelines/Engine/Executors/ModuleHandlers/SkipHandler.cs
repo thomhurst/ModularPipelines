@@ -8,11 +8,11 @@ namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 {
     public Task CallbackTask { get; } = new(() => { });
-    
+
     public SkipHandler(Module<T> module) : base(module)
     {
     }
-    
+
     public async Task SetSkipped(SkipDecision skipDecision)
     {
         Module.Status = Status.Skipped;

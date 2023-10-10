@@ -14,7 +14,7 @@ public class RunIfBranchAttribute : RunConditionAttribute
     {
         BranchName = branchName;
     }
-    
+
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
         return Task.FromResult(pipelineContext.Git().Information.BranchName == BranchName);

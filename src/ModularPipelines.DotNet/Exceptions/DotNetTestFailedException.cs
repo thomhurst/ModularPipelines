@@ -32,7 +32,7 @@ public class DotNetTestFailedException : PipelineException
             foreach (var unitTestResult in unitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
             {
                 sb.AppendLine($"Failed Test: {unitTestResult.TestName}");
-                
+
                 if (!string.IsNullOrEmpty(unitTestResult.Output?.StdOut))
                 {
                     sb.AppendLine("Output:");

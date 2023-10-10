@@ -50,7 +50,7 @@ public interface IAzureProvisioner
     AzureNetworkProvisioner Network { get; }
 
     AzureStorageProvisioner Storage { get; }
-    
+
     AzureGatewayProvisioner Gateways { get; }
 
     ArmClient ArmClient { get; }

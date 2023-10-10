@@ -101,6 +101,6 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
     public AzureNetworkProvisioner Network { get; }
 
     public AzureStorageProvisioner Storage { get; }
-    
+
     public AzureGatewayProvisioner Gateways { get; }
 }

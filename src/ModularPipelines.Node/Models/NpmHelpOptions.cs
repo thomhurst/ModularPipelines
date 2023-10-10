@@ -9,5 +9,4 @@ public record NpmHelpOptions : NpmOptions
 {
     [CommandSwitch("--viewer")]
     public string? Viewer { get; set; }
-
 }

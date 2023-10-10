@@ -9,5 +9,4 @@ public record NpmCacheOptions : NpmOptions
 {
     [CommandSwitch("--cache")]
     public string? Cache { get; set; }
-
 }

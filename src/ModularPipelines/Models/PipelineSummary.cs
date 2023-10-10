@@ -30,7 +30,7 @@ public record PipelineSummary
     /// </summary>
     [JsonInclude]
     public DateTimeOffset End { get; private set; }
-    
+
     [JsonConstructor]
     internal PipelineSummary(IReadOnlyList<ModuleBase> modules,
         TimeSpan totalDuration,

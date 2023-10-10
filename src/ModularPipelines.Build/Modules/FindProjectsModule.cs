@@ -10,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
     public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-    
+
     /// <inheritdoc/>
     protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

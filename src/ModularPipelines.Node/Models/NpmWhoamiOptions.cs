@@ -9,5 +9,4 @@ public record NpmWhoamiOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
-
 }

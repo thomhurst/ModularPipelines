@@ -33,5 +33,4 @@ public record NpmPublishOptions : NpmOptions
 
     [CommandSwitch("--provenance-file")]
     public string? ProvenanceFile { get; set; }
-
 }

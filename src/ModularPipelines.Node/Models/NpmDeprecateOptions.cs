@@ -12,5 +12,4 @@ public record NpmDeprecateOptions : NpmOptions
 
     [CommandSwitch("--otp")]
     public string? Otp { get; set; }
-
 }

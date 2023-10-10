@@ -40,7 +40,7 @@ public static class HttpLogger
     {
         var sb = new StringBuilder();
 
-        var statusCode = (int)response.StatusCode;
+        var statusCode = (int) response.StatusCode;
 
         sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
 

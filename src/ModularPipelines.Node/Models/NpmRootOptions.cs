@@ -9,5 +9,4 @@ public record NpmRootOptions : NpmOptions
 {
     [BooleanCommandSwitch("--global")]
     public bool? Global { get; set; }
-
 }

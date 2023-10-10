@@ -39,5 +39,4 @@ public record NpmSearchOptions : NpmOptions
 
     [BooleanCommandSwitch("--offline")]
     public bool? Offline { get; set; }
-
 }

@@ -10,7 +10,7 @@ internal class HistoryHandler<T> : BaseHandler<T>, IHistoryHandler<T>
     public HistoryHandler(Module<T> module) : base(module)
     {
     }
-    
+
     public async Task<bool> SetupModuleFromHistory(string? skipDecisionReason)
     {
         if (Context.ModuleResultRepository.GetType() == typeof(NoOpModuleResultRepository))
@@ -25,7 +25,7 @@ internal class HistoryHandler<T> : BaseHandler<T>, IHistoryHandler<T>
         {
             return false;
         }
-        
+
         Context.Logger.LogDebug("Setting up module from history");
 
         Module.Status = Status.UsedHistory;
@@ -40,7 +40,7 @@ internal class HistoryHandler<T> : BaseHandler<T>, IHistoryHandler<T>
         try
         {
             Context.Logger.LogDebug("Saving module result");
-            
+
             Module.Result = moduleResult;
             ModuleResultTaskCompletionSource.TrySetResult(moduleResult);
 

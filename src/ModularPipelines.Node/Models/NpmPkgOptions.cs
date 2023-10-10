@@ -18,5 +18,4 @@ public record NpmPkgOptions : NpmOptions
 
     [BooleanCommandSwitch("--workspaces")]
     public bool? Workspaces { get; set; }
-
 }

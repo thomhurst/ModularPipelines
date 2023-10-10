@@ -18,5 +18,4 @@ public record NpmOwnerOptions : NpmOptions
 
     [BooleanCommandSwitch("--workspaces")]
     public bool? Workspaces { get; set; }
-
 }

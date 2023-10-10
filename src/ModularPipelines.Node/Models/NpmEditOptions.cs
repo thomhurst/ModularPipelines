@@ -9,5 +9,4 @@ public record NpmEditOptions : NpmOptions
 {
     [CommandSwitch("--editor")]
     public string? Editor { get; set; }
-
 }

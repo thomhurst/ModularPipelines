@@ -9,5 +9,4 @@ public record NpmPingOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
-
 }

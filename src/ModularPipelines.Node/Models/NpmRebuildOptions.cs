@@ -30,5 +30,4 @@ public record NpmRebuildOptions : NpmOptions
 
     [BooleanCommandSwitch("--install-links")]
     public bool? InstallLinks { get; set; }
-
 }

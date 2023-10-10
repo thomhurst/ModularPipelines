@@ -18,5 +18,4 @@ public record NpmTeamOptions : NpmOptions
 
     [BooleanCommandSwitch("--json")]
     public bool? Json { get; set; }
-
 }

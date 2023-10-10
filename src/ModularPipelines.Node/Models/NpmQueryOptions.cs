@@ -21,5 +21,4 @@ public record NpmQueryOptions : NpmOptions
 
     [BooleanCommandSwitch("--package-lock-only")]
     public bool? PackageLockOnly { get; set; }
-
 }

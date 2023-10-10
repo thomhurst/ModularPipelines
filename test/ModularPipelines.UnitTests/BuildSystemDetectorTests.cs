@@ -54,7 +54,7 @@ public class BuildSystemDetectorTests : TestBase
             Assert.That(_buildSystemDetector.IsRunningOnTravisCI, Is.False);
         });
     }
-    
+
     [TestCase("TF_BUILD", BuildSystem.AzurePipelines)]
     [TestCase("TEAMCITY_VERSION", BuildSystem.TeamCity)]
     [TestCase("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
@@ -69,7 +69,7 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-        
+
         Assert.That(_buildSystemDetector.GetCurrentBuildSystem(), Is.EqualTo(expectedBuildSystem));
     }
 }
