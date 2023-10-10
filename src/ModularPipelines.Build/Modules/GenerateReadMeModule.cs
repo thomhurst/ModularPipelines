@@ -3,6 +3,7 @@ using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using File = ModularPipelines.FileSystem.File;
 
@@ -11,6 +12,8 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class GenerateReadMeModule : Module
 {
+    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
     /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

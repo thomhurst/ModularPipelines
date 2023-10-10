@@ -15,6 +15,8 @@ namespace ModularPipelines.Build.Modules;
 [SkipOnMainBranch]
 public class CodeFormattedNicelyModule : Module<CommandResult>
 {
+    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+    
     private const string DotnetFormatGitMessage = "DotNet Format";
 
     private readonly IOptions<GitHubSettings> _githubSettings;
