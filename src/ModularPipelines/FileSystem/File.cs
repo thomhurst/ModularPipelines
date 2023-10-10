@@ -35,12 +35,12 @@ public class File : IEquatable<File>
     {
         return System.IO.File.ReadAllLinesAsync(Path, cancellationToken);
     }
-    
+
     public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
     {
         return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
     }
-    
+
     public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
         return System.IO.File.Open(Path, FileMode.OpenOrCreate, fileAccess);

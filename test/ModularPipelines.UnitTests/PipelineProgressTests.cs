@@ -19,13 +19,13 @@ public class PipelineProgressTests
         _originalInteractive = AnsiConsole.Profile.Capabilities.Interactive;
         AnsiConsole.Profile.Capabilities.Interactive = true;
     }
-    
+
     [TearDown]
     public static void TearDown()
     {
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
-    
+
     private class Module1 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ public class PipelineProgressTests
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module2 : Module
     {
@@ -44,7 +44,7 @@ public class PipelineProgressTests
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module3 : Module
     {
@@ -54,7 +54,7 @@ public class PipelineProgressTests
             throw new Exception();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module4 : Module
     {
@@ -68,7 +68,7 @@ public class PipelineProgressTests
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module5 : Module
     {
@@ -83,7 +83,7 @@ public class PipelineProgressTests
             throw new Exception();
         }
     }
-    
+
     private class Module6 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -97,7 +97,7 @@ public class PipelineProgressTests
             return await NothingAsync();
         }
     }
-    
+
     private class Module7 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -105,7 +105,7 @@ public class PipelineProgressTests
             foreach (var guid in Enumerable.Range(0, 20)
                          .Select(x => Guid.NewGuid().ToString("N")))
             {
-                await SubModule(guid, async () => await Task.FromResult(guid) );
+                await SubModule(guid, async () => await Task.FromResult(guid));
             }
 
             return await NothingAsync();

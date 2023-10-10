@@ -26,7 +26,7 @@ public class ModuleLoggerTests
     {
         var consoleStringBuilder = new StringBuilder();
         var file = File.GetNewTemporaryFilePath();
-        
+
         var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) =>
             {
@@ -35,13 +35,13 @@ public class ModuleLoggerTests
             })
             .AddModule<Module1>()
             .BuildHostAsync();
-            
+
         await host.ExecutePipelineAsync();
 
         await host.DisposeAsync();
-        
+
         var stringOutput = consoleStringBuilder.ToString();
-            
+
         Assert.That(stringOutput, Does.Contain(RandomString));
         Assert.That(await file.ReadAsync(), Does.Not.Contain(RandomString));
     }

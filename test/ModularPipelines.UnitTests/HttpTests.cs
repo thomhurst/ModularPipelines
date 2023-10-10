@@ -15,7 +15,7 @@ public class HttpTests : TestBase
 
         await http.SendAsync("https://www.github.com");
     }
-    
+
     [Test]
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {

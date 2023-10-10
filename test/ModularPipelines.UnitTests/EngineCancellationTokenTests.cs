@@ -14,12 +14,12 @@ public class EngineCancellationTokenTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            
+
             // Exception will cause the engine to cancel the engine token
             throw new Exception();
         }
     }
-    
+
     [DependsOn<BadModule>]
     private class Module1 : Module
     {
@@ -28,7 +28,7 @@ public class EngineCancellationTokenTests : TestBase
             return NothingAsync();
         }
     }
-    
+
     private class LongRunningModule : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -45,11 +45,11 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<BadModule>()
             .AddModule<Module1>()
             .BuildHostAsync();
-        
+
         var modules = host.RootServices.GetServices<ModuleBase>();
 
         var module1 = modules.GetModule<Module1>();
-       
+
         Assert.Multiple(() =>
         {
             Assert.That(async () => await host.ExecutePipelineAsync(), Throws.Exception);
@@ -70,7 +70,7 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModule = modules.GetModule<LongRunningModule>();
 
         var pipelineTask = host.ExecutePipelineAsync();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(async () => await pipelineTask, Throws.Exception);

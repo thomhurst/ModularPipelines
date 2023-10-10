@@ -46,7 +46,7 @@ public interface IBuildSystemDetector
     /// Gets a value indicating whether the current build agent is AppVeyor.
     /// </summary>
     bool IsRunningOnAppVeyor => Is(BuildSystem.AppVeyor);
-    
+
     /// <summary>
     /// Gets a value indicating whether the current build agent is known.
     /// </summary>

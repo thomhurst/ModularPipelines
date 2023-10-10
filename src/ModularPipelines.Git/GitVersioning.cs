@@ -26,7 +26,7 @@ internal class GitVersioning : IGitVersioning
     public async Task<GitVersionInformation> GetGitVersioningInformation()
     {
         await _semaphoreSlim.WaitAsync();
-        
+
         try
         {
             if (_prefetchedGitVersionInformation != null)

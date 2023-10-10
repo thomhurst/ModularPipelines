@@ -11,7 +11,7 @@ public class SubModule : SubModuleBase
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
-        
+
         Task = Task.Run(async () =>
         {
             try
@@ -23,7 +23,7 @@ public class SubModule : SubModuleBase
                 throw new SubModuleFailedException(this, e);
             }
         });
-        
+
         Task.ContinueWith(t =>
         {
             Duration = stopwatch.Elapsed;
@@ -40,7 +40,7 @@ public class SubModule<T> : SubModule
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
-        
+
         Task = System.Threading.Tasks.Task.Run(async () =>
         {
             try
@@ -52,7 +52,7 @@ public class SubModule<T> : SubModule
                 throw new SubModuleFailedException(this, e);
             }
         });
-        
+
         Task.ContinueWith(t =>
         {
             Duration = stopwatch.Elapsed;

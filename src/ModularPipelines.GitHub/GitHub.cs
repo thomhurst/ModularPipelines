@@ -14,7 +14,7 @@ internal class GitHub : IGitHub
     }
 
     public IGitHubEnvironmentVariables EnvironmentVariables { get; }
-    
+
     public void StartConsoleLogGroup(string name)
     {
         LogToConsole(BuildSystemValues.GitHub.StartBlock(name));

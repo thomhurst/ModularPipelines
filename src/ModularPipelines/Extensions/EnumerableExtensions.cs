@@ -44,7 +44,7 @@ public static class EnumerableExtensions
             }
         }
     }
-    
+
     internal static async Task<List<T>> ToListAsync<T>(this IAsyncEnumerable<T> asyncEnumerable, CancellationToken cancellationToken = default)
     {
         var results = new List<T>();

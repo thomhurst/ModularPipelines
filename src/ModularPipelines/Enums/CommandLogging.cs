@@ -11,17 +11,17 @@ public enum CommandLogging
     /// No logging
     /// </summary>
     None = 1,
-    
+
     /// <summary>
     /// Log command input
     /// </summary>
     Input = 2,
-    
+
     /// <summary>
     /// Log command standard output
     /// </summary>
     Output = 4,
-    
+
     /// <summary>
     /// Log command errors
     /// </summary>

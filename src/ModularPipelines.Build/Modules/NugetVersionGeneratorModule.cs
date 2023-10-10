@@ -15,12 +15,12 @@ public class NugetVersionGeneratorModule : Module<string>
     {
         _publishSettings = publishSettings;
     }
-    
+
     /// <inheritdoc/>
     protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
-        
+
         if (_publishSettings.Value.IsAlpha)
         {
             return $"{gitVersionInformation.FullSemVer}-alpha{gitVersionInformation.CommitsSinceVersionSourcePadded!}";

@@ -69,7 +69,7 @@ internal class ProgressPrinter : IProgressPrinter
         {
             return;
         }
-        
+
         var table = new Table
         {
             Expand = true,
@@ -93,10 +93,10 @@ internal class ProgressPrinter : IProgressPrinter
                 GetTime(module.StartTime, isSameDay),
                 GetTime(module.EndTime, isSameDay),
                 GetModuleExtraInformation(module));
-            
+
             table.AddEmptyRow();
         }
-        
+
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
 
         table.AddRow(
@@ -236,13 +236,13 @@ internal class ProgressPrinter : IProgressPrinter
                 AutoStart = true,
             });
 
-            var list = (List<ProgressTask>)progressContext.GetType()
+            var list = (List<ProgressTask>) progressContext.GetType()
                 .GetField("_tasks", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .GetValue(progressContext)!;
 
             list.Remove(progressTask);
             list.Insert(list.IndexOf(parentModuleTask) + ++subModuleIndex, progressTask);
-            
+
             Task.Run(async () =>
             {
                 var subModuleEstimation =
@@ -254,7 +254,7 @@ internal class ProgressPrinter : IProgressPrinter
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
 
                 var ticksPerSecond = 100 / totalEstimatedSeconds;
-                
+
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);

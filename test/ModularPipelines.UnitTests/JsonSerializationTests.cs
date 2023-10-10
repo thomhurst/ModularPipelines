@@ -12,7 +12,7 @@ public class JsonSerializationTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            
+
             return new Dictionary<string, object>
             {
                 ["Foo"] = "Bar",
@@ -20,13 +20,13 @@ public class JsonSerializationTests : TestBase
             };
         }
     }
-    
+
     public class Module2 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            
+
             return new Dictionary<string, object>
             {
                 ["Foo2"] = "Bar",
@@ -34,13 +34,13 @@ public class JsonSerializationTests : TestBase
             };
         }
     }
-    
+
     public class Module3 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            
+
             return new Dictionary<string, object>
             {
                 ["Foo3"] = "Bar",
@@ -48,7 +48,7 @@ public class JsonSerializationTests : TestBase
             };
         }
     }
-    
+
     [Test]
     public async Task Test1()
     {
@@ -60,7 +60,7 @@ public class JsonSerializationTests : TestBase
 
         var moduleJson = JsonSerializer.Serialize(module);
         var deserializedModule = JsonSerializer.Deserialize<ModuleBase>(moduleJson);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(moduleJson, Is.Not.Null.Or.Empty);
@@ -78,12 +78,12 @@ public class JsonSerializationTests : TestBase
 
         var module1Deserialized = deserializedSummary!.GetModule<Module1>();
         var module1DeserializedResult = await module1Deserialized;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(module1Deserialized, Is.Not.Null);
             Assert.That(module1DeserializedResult, Is.Not.Null);
-            
+
             Assert.That(module1DeserializedResult.Value!["Foo"].ToString(), Is.EqualTo("Bar"));
             Assert.That(module1DeserializedResult.Value!["Hello"].ToString(), Is.EqualTo("world!"));
 
@@ -92,14 +92,14 @@ public class JsonSerializationTests : TestBase
             Assert.That(deserializedSummary.TotalDuration, Is.EqualTo(pipelineSummary.TotalDuration));
             Assert.That(deserializedSummary.Modules, Has.Count.EqualTo(pipelineSummary.Modules.Count));
             Assert.That(deserializedSummary.Status, Is.EqualTo(pipelineSummary.Status));
-           
+
             Assert.That(module1Deserialized.StartTime, Is.EqualTo(module.StartTime));
             Assert.That(module1Deserialized.EndTime, Is.EqualTo(module.EndTime));
             Assert.That(module1Deserialized.Duration, Is.EqualTo(module.Duration));
             Assert.That(module1Deserialized.SkipResult, Is.EqualTo(module.SkipResult));
             Assert.That(module1Deserialized.GetType().Name, Is.EqualTo(module.GetType().Name));
             Assert.That(module1Deserialized.TypeDiscriminator, Is.EqualTo(module.GetType().FullName));
-            
+
             Assert.That(module1DeserializedResult.ModuleStart, Is.EqualTo(module.StartTime));
             Assert.That(module1DeserializedResult.ModuleEnd, Is.EqualTo(module.EndTime));
             Assert.That(module1DeserializedResult.ModuleDuration, Is.EqualTo(module.Duration));

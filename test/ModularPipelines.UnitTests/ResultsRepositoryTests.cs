@@ -30,7 +30,7 @@ public class ResultsRepositoryTests : TestBase
             return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(fileStream);
         }
     }
-    
+
     private class Module1 : Module
     {
         protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ public class ResultsRepositoryTests : TestBase
             return NothingAsync();
         }
     }
-    
+
     [DependsOn<Module1>]
     private class Module2 : Module
     {
@@ -56,10 +56,10 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-        
+
         Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful), Is.True);
     }
-    
+
     [Test, Order(2)]
     public async Task RunTwoFromHistory()
     {
@@ -69,7 +69,7 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module2>()
             .RunCategories("Other")
             .ExecutePipelineAsync();
-        
+
         Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory), Is.True);
     }
 }

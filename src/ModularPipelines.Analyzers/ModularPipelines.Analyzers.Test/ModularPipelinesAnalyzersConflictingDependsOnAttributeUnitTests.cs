@@ -41,7 +41,7 @@ public class Module2 : Module<List<string>>
     }
 }
 ";
-    
+
     private const string BadModuleSource2 = @"
 #nullable enable
 using System;
@@ -109,14 +109,14 @@ public class Module2 : Module<List<string>>
         var expected1 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
             .WithLocation(0)
             .WithArguments("Module2", "Module1");
-        
+
         var expected2 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
             .WithLocation(1)
             .WithArguments("Module1", "Module2");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource, expected1, expected2);
     }
-    
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Dependency_Depends_On_Self()
     {

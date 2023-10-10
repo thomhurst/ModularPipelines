@@ -10,13 +10,13 @@ public interface ICollapsableLogging : IConsoleWriter
     /// </summary>
     /// <param name="name">The name of the log group.</param>
     void StartConsoleLogGroup(string name);
-    
+
     /// <summary>
     /// Ends a collapsable log group
     /// </summary>
     /// <param name="name">The name of the log group.</param>
     void EndConsoleLogGroup(string name);
-    
+
     /// <summary>
     /// Opens, writes the value, and closes the log group
     /// </summary>

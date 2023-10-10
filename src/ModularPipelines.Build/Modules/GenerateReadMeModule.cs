@@ -3,6 +3,7 @@ using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using File = ModularPipelines.FileSystem.File;
 
@@ -11,6 +12,8 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class GenerateReadMeModule : Module
 {
+    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
     /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -18,7 +21,7 @@ public class GenerateReadMeModule : Module
 
         var readMeActualOriginalContents = await gitRootDirectory.GetFile("README.md").ReadAsync(cancellationToken);
         var readmeTemplateContents = await gitRootDirectory.GetFile("README_Template.md").ReadAsync(cancellationToken);
-        
+
         var generatedContentStringBuilder = new StringBuilder();
 
         generatedContentStringBuilder.AppendLine("| Package | Description | Version |");
@@ -56,7 +59,7 @@ public class GenerateReadMeModule : Module
     private string GetModuleReadMeDescription(File file)
     {
         var projectRootElement = ProjectRootElement.Open(file)!;
-        
+
         var descriptionProperty =
             projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
             ?? throw new ArgumentNullException($"No ModularPipelineReadMeDescription property found in {file.Name}");

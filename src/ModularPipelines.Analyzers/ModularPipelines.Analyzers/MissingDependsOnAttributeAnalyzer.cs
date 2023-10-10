@@ -13,7 +13,7 @@ namespace ModularPipelines.Analyzers;
 public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "MissingDependsOnAttribute";
-    
+
     public static DiagnosticDescriptor Rule => PrivateRule;
 
     private const string Category = "Usage";

@@ -68,12 +68,12 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         {
             list.Add(waitForWindows);
         }
-        
+
         if (waitForMac != null)
         {
             list.Add(waitForMac);
         }
-        
+
         return list;
     }
 

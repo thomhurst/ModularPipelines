@@ -36,7 +36,7 @@ public class CodeCovUploaderModule : Module<CommandResult>
     protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var coverageFileResult = await GetModule<MergeCoverageModule>();
-        
+
         if (OperatingSystem.IsWindows())
         {
             var exeFile = await context.Downloader.DownloadFileAsync(
@@ -57,7 +57,7 @@ public class CodeCovUploaderModule : Module<CommandResult>
                                                                ./codecov -t {_codeCovSettings.Value.Token} -f {coverageFileResult.Value}
                                                                """), cancellationToken);
         }
-        
+
         return await NothingAsync();
     }
 }

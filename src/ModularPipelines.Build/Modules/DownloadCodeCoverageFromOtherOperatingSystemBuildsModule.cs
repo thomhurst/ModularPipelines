@@ -36,7 +36,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             {
                 var listWorkflowArtifacts = await _gitHubClient.Actions.Artifacts.ListWorkflowArtifacts(BuildConstants.Owner,
                     BuildConstants.RepositoryName, run.Id);
-                
+
                 return listWorkflowArtifacts.Artifacts.FirstOrDefault(x => x.Name == "code-coverage") ?? throw new ArgumentException("No code-coverage artifact found");
             })
             .ProcessInParallel();
@@ -61,7 +61,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
         var file = File.GetNewTemporaryFilePath();
 
         await file.WriteAsync(zipStream);
-        
+
         return file;
     }
 }

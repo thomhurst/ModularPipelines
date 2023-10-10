@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "LoggerInConstructor";
-    
+
     public static DiagnosticDescriptor Rule => PrivateRule;
 
     private const string Category = "Usage";

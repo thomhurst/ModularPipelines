@@ -24,7 +24,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     {
         TypeDiscriminator = GetType().FullName!;
     }
-    
+
     internal abstract IWaitHandler WaitHandler { get; }
 
     internal abstract ICancellationHandler CancellationHandler { get; }
@@ -62,7 +62,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             OnInitialised?.Invoke(this, EventArgs.Empty);
         }
     }
-    
+
     internal readonly Task StartTask = new(() => { });
 
     [JsonInclude]
@@ -95,7 +95,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// </summary>
     [JsonInclude]
     public Status Status { get; internal set; } = Status.NotYetStarted;
-    
+
     internal Exception? Exception { get; set; }
 
     internal abstract Task StartAsync();
@@ -123,7 +123,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
         return await submodule.Task;
     }
-    
+
     /// <summary>
     /// Starts a Sub Module which will display in the pipeline progress in the console
     /// </summary>
@@ -138,7 +138,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             return Task.CompletedTask;
         });
     }
-    
+
     /// <summary>
     /// Starts a Sub Module which will display in the pipeline progress in the console
     /// </summary>
@@ -163,13 +163,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         OnSubModuleCreated?.Invoke(this, submodule);
 
         SubModuleBases.Add(submodule);
-        
+
         await submodule.Task;
     }
 
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
-    
+
     protected EventHandler? OnInitialised { get; set; }
 }
 
@@ -182,7 +182,7 @@ public abstract class ModuleBase<T> : ModuleBase
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
-    
+
     /// <summary>
     /// The awaiter used to return the result of the module when awaited
     /// </summary>
@@ -192,7 +192,7 @@ public abstract class ModuleBase<T> : ModuleBase
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
 
-    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object)t.Result);
+    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object) t.Result);
 
     /// <summary>
     /// Used to return no result in a module

@@ -23,7 +23,7 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
     {
         _buildSystemDetector = buildSystemDetector;
     }
-    
+
     public string? GetStartConsoleLogGroup(string name)
     {
         return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name);

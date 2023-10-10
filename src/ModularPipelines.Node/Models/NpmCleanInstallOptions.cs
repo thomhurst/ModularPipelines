@@ -1,15 +1,51 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
-[CommandPrecedingArguments("ci")]
 [ExcludeFromCodeCoverage]
-public record NpmCleanInstallOptions([property: PositionalArgument] string Target) : NpmOptions
+[CommandPrecedingArguments("ci")]
+public record NpmCleanInstallOptions : NpmOptions
 {
-    [CommandEqualsSeparatorSwitch("--install-strategy")]
-    public string? InstallStrategy { get; init; }
+    [CommandSwitch("--install-strategy")]
+    public string? InstallStrategy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--omit")]
-    public IEnumerable<string>? Omit { get; init; }
+    [CommandSwitch("--omit")]
+    public string? Omit { get; set; }
+
+    [CommandSwitch("--include")]
+    public string? Include { get; set; }
+
+    [BooleanCommandSwitch("--strict-peer-deps")]
+    public bool? StrictPeerDeps { get; set; }
+
+    [BooleanCommandSwitch("--foreground-scripts")]
+    public bool? ForegroundScripts { get; set; }
+
+    [BooleanCommandSwitch("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    [BooleanCommandSwitch("--audit")]
+    public bool? Audit { get; set; }
+
+    [BooleanCommandSwitch("--bin-links")]
+    public bool? BinLinks { get; set; }
+
+    [BooleanCommandSwitch("--fund")]
+    public bool? Fund { get; set; }
+
+    [BooleanCommandSwitch("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    [CommandSwitch("--workspace")]
+    public string[]? Workspace { get; set; }
+
+    [BooleanCommandSwitch("--workspaces")]
+    public bool? Workspaces { get; set; }
+
+    [BooleanCommandSwitch("--include-workspace-root")]
+    public bool? IncludeWorkspaceRoot { get; set; }
+
+    [BooleanCommandSwitch("--install-links")]
+    public bool? InstallLinks { get; set; }
 }

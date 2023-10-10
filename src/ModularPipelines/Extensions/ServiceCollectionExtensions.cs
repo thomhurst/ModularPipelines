@@ -143,7 +143,7 @@ public static class ServiceCollectionExtensions
     {
         return services.AddScoped<IPipelineModuleHooks, TModuleHooks>();
     }
-    
+
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddSingleton<IPipelineServiceContainerWrapper>(new PipelineServiceContainerWrapper(serviceCollection));

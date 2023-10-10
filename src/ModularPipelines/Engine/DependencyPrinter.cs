@@ -11,7 +11,7 @@ internal class DependencyPrinter : IDependencyPrinter
     private readonly ILogger<DependencyPrinter> _logger;
     private readonly IInternalCollapsableLogging _collapsableLogging;
 
-    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider, 
+    public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         ILogger<DependencyPrinter> logger,
         IInternalCollapsableLogging collapsableLogging)
     {

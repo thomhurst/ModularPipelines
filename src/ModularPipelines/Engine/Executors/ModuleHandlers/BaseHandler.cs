@@ -12,7 +12,7 @@ internal class BaseHandler<T>
     public TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource => Module.ModuleResultTaskCompletionSource;
 
     public IPipelineContext Context => Module.Context;
-    
+
     public ILogger Logger => Context.Logger;
 
     public EngineCancellationToken EngineCancellationToken => Context.EngineCancellationToken;
@@ -20,7 +20,7 @@ internal class BaseHandler<T>
     public CancellationTokenSource ModuleCancellationTokenSource => Module.ModuleCancellationTokenSource;
 
     public ModuleRunType RunType => Module.ModuleRunType;
-    
+
     protected BaseHandler(Module<T> module)
     {
         Module = module;

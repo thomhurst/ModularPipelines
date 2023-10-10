@@ -91,7 +91,7 @@ public class PipelineHostBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers hooks to be executed before all modules have started, and after all modules have finished.
     /// </summary>
@@ -107,7 +107,7 @@ public class PipelineHostBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers hooks to be executed before and after each module is executed.
     /// </summary>
@@ -208,7 +208,7 @@ public class PipelineHostBuilder
     {
         return OverrideGeneric<IModuleResultRepository, T>();
     }
-    
+
     /// <summary>
     /// Configures the log level for the pipeline
     /// </summary>
@@ -221,10 +221,10 @@ public class PipelineHostBuilder
             collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = logLevel);
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = logLevel);
         });
-        
+
         return this;
     }
-    
+
     internal async Task<IPipelineHost> BuildHostAsync()
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
@@ -276,7 +276,7 @@ public class PipelineHostBuilder
             .Concat(Directory.EnumerateFiles(AppDomain.CurrentDomain.DynamicDirectory, "*ModularPipeline*.dll", SearchOption.TopDirectoryOnly))
             .Distinct();
     }
-    
+
     private PipelineHostBuilder OverrideGeneric<TBase, T>()
         where T : class, TBase
         where TBase : class
