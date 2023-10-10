@@ -80,9 +80,9 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 
     private static AttributeSyntax CreateDependsOnAttribute(string name, SyntaxTree syntaxTree)
     {
-        var cSharpParseOptions = (CSharpParseOptions) syntaxTree.Options;
+        var cSharpParseOptions = (CSharpParseOptions)syntaxTree.Options;
 
-        if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion) 1100)
+        if (cSharpParseOptions.LanguageVersion.MapSpecifiedToEffectiveVersion() >= (LanguageVersion)1100)
         {
             return SyntaxFactory.Attribute(SyntaxFactory.ParseName($"DependsOn<{name}>"));
         }

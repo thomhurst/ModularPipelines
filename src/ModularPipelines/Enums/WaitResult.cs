@@ -3,5 +3,5 @@
 public enum WaitResult
 {
     Continue,
-    Abort
+    Abort,
 }

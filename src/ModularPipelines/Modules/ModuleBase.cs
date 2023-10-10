@@ -40,7 +40,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     private IPipelineContext? _context; // Late Initialisation
 
     /// <summary>
-    /// Gets or sets the pipeline context
+    /// Gets or sets the pipeline context.
     /// </summary>
     /// <exception cref="ModuleNotInitializedException">Thrown if this object is used before Initialise is called.</exception>
     [JsonIgnore]
@@ -73,7 +73,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
     /// <summary>
-    /// Gets the start time of the module
+    /// Gets the start time of the module.
     /// </summary>
     [JsonInclude]
     public DateTimeOffset StartTime { get; internal set; }
@@ -107,7 +107,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal EventHandler<SubModule>? OnSubModuleCreated;
 
     /// <summary>
-    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// Starts a Sub Module which will display in the pipeline progress in the console.
     /// </summary>
     /// <typeparam name="T">Any data to return from the submodule.</typeparam>
     /// <param name="name">The name of the submodule.</param>
@@ -125,7 +125,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
 
     /// <summary>
-    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// Starts a Sub Module which will display in the pipeline progress in the console.
     /// </summary>
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
@@ -140,7 +140,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
 
     /// <summary>
-    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// Starts a Sub Module which will display in the pipeline progress in the console.
     /// </summary>
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
@@ -151,7 +151,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
 
     /// <summary>
-    /// Starts a Sub Module which will display in the pipeline progress in the console
+    /// Starts a Sub Module which will display in the pipeline progress in the console.
     /// </summary>
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
@@ -174,7 +174,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 }
 
 /// <summary>
-/// A base class for all modules
+/// A base class for all modules.
 /// </summary>
 /// <typeparam name="T">Any data to return from the module.</typeparam>
 public abstract class ModuleBase<T> : ModuleBase
@@ -184,7 +184,7 @@ public abstract class ModuleBase<T> : ModuleBase
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 
     /// <summary>
-    /// The awaiter used to return the result of the module when awaited
+    /// The awaiter used to return the result of the module when awaited.
     /// </summary>
     /// <returns>The result of the ExecuteAsync method.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
@@ -192,10 +192,10 @@ public abstract class ModuleBase<T> : ModuleBase
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
 
-    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object) t.Result);
+    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object)t.Result);
 
     /// <summary>
-    /// Used to return no result in a module
+    /// Used to return no result in a module.
     /// </summary>
     /// <returns>Nothing.</returns>
     protected Task<T?> NothingAsync()
@@ -204,7 +204,7 @@ public abstract class ModuleBase<T> : ModuleBase
     }
 
     /// <summary>
-    /// The core logic of the module goes here
+    /// The core logic of the module goes here.
     /// </summary>
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <param name="cancellationToken">A token that will be cancelled if the pipeline has failed, or the module timeout has exceeded.</param>

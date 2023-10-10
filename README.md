@@ -52,7 +52,6 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 | ModularPipelines.TeamCity | Helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
 | ModularPipelines.Terraform | Helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 
-
 ## Getting Started
 
 If you want to see how to get started, or want to know more about ModularPipelines, [read the Wiki page here](https://github.com/thomhurst/ModularPipelines/wiki)
@@ -86,21 +85,13 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    private readonly ISomeService1 _someService1;
-
-    public FindNugetPackagesModule(ISomeService1 someService1) 
+    protected override Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        _someService1 = someService1;
-    }
-
-    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await _someService1.DoSomething();
-
         return context.Git()
             .RootDirectory
             .GetFiles(path => path.Extension is ".nupkg")
-            .ToList();
+            .ToList()
+            .AsTask();
     }
 }
 ```
@@ -121,10 +112,9 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
         return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
+            .UploadPackages(new NuGetUploadOptions(nugetFiles.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
-                ApiKey = _nugetSettings.Value.ApiKey,
-                NoSymbols = true
+                ApiKey = _nugetSettings.Value.ApiKey
             });
     }
 }

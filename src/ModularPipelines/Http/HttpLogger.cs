@@ -5,10 +5,13 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
 
+/// <summary>
+/// Logs HTTP Requests and Responses.
+/// </summary>
 public static class HttpLogger
 {
     /// <summary>
-    /// Prints the HTTP request
+    /// Prints the HTTP request.
     /// </summary>
     /// <param name="request">The HTTP request to print.</param>
     /// <param name="logger">The current module logger.</param>
@@ -31,7 +34,7 @@ public static class HttpLogger
     }
 
     /// <summary>
-    /// Prints the HTTP response
+    /// Prints the HTTP response.
     /// </summary>
     /// <param name="response">The HTTP response to print.</param>
     /// <param name="logger">The current module logger.</param>
@@ -40,7 +43,7 @@ public static class HttpLogger
     {
         var sb = new StringBuilder();
 
-        var statusCode = (int) response.StatusCode;
+        var statusCode = (int)response.StatusCode;
 
         sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
 

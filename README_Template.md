@@ -65,21 +65,13 @@ await PipelineHostBuilder.Create()
 ```csharp
 public class FindNugetPackagesModule : Module<FileInfo>
 {
-    private readonly ISomeService1 _someService1;
-
-    public FindNugetPackagesModule(ISomeService1 someService1) 
+    protected override Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        _someService1 = someService1;
-    }
-
-    protected override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        await _someService1.DoSomething();
-
         return context.Git()
             .RootDirectory
             .GetFiles(path => path.Extension is ".nupkg")
-            .ToList();
+            .ToList()
+            .AsTask();
     }
 }
 ```
@@ -100,10 +92,9 @@ public class UploadNugetPackagesModule : Module<FileInfo>
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
         return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(packagePaths.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
+            .UploadPackages(new NuGetUploadOptions(nugetFiles.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
             {
-                ApiKey = _nugetSettings.Value.ApiKey,
-                NoSymbols = true
+                ApiKey = _nugetSettings.Value.ApiKey
             });
     }
 }
