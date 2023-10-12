@@ -72,4 +72,19 @@ public record NpmInstallOptions : NpmOptions
 
     [BooleanCommandSwitch("--install-links")]
     public bool? InstallLinks { get; set; }
+    
+    [BooleanCommandSwitch("--save-prod")]
+    public bool? SaveProd { get; set; }
+    
+    [BooleanCommandSwitch("--save-dev")]
+    public bool? SaveDev { get; set; }
+    
+    [BooleanCommandSwitch("--save-optional")]
+    public bool? SaveOptional { get; set; }
+    
+    [BooleanCommandSwitch("--no-save")]
+    public bool? NoSave { get; set; }
+    
+    [BooleanCommandSwitch("--save-bundle")]
+    public bool? SaveBundle { get; set; }
 }
