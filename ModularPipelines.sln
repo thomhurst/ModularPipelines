@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.GitHub", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TeamCity", "src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj", "{8AAA3556-797E-495E-9213-E78238C06947}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Yarn", "src\ModularPipelines.Yarn\ModularPipelines.Yarn.csproj", "{966A259F-3AED-438A-A792-4B2574EA2F0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -180,6 +182,10 @@ Global
 		{8AAA3556-797E-495E-9213-E78238C06947}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AAA3556-797E-495E-9213-E78238C06947}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AAA3556-797E-495E-9213-E78238C06947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{966A259F-3AED-438A-A792-4B2574EA2F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{966A259F-3AED-438A-A792-4B2574EA2F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{966A259F-3AED-438A-A792-4B2574EA2F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{966A259F-3AED-438A-A792-4B2574EA2F0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +218,7 @@ Global
 		{B4A63CCF-229F-4EBE-AC85-778062C50930} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
 		{23A841CA-D773-4195-81A4-367544763909} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{8AAA3556-797E-495E-9213-E78238C06947} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
+		{966A259F-3AED-438A-A792-4B2574EA2F0E} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}
