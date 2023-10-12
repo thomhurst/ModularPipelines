@@ -189,9 +189,9 @@ public static class CommandOptionsObjectArgumentParser
 
     private static IEnumerable<string>? GetValues(object? rawValue)
     {
-        if (rawValue is KeyValueVariables keyValueVariables)
+        if (rawValue is IEnumerable<KeyValue> keyValues)
         {
-            return ParseKeyValueVariables(keyValueVariables);
+            return ParseKeyValues(keyValues);
         }
 
         if (rawValue is not IEnumerable enumerable)
@@ -218,14 +218,9 @@ public static class CommandOptionsObjectArgumentParser
         return list1.Concat(list2);
     }
 
-    private static IEnumerable<string>? ParseKeyValueVariables(KeyValueVariables keyValueVariables)
+    private static IEnumerable<string>? ParseKeyValues(IEnumerable<KeyValue> keyValues)
     {
-        var separator = keyValueVariables.Separator;
-
-        foreach (var (key, value) in keyValueVariables)
-        {
-            yield return $"{key}{separator}{value}";
-        }
+        return keyValues.Select(x => x.ToString());
     }
 
     private static string ParseEnum(object rawValue)
