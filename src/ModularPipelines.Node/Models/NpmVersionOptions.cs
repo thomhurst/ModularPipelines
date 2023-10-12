@@ -5,7 +5,9 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("version")]
-public record NpmVersionOptions : NpmOptions
+public record NpmVersionOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+) : NpmOptions
 {
     [BooleanCommandSwitch("--allow-same-version")]
     public bool? AllowSameVersion { get; set; }

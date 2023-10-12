@@ -4,8 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("team")]
-public record NpmTeamOptions : NpmOptions
+[CommandPrecedingArguments("team", "create")]
+public record NpmTeamCreateOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Scope,
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Otpcode
+) : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }

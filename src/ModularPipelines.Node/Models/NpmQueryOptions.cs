@@ -5,7 +5,9 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("query")]
-public record NpmQueryOptions : NpmOptions
+public record NpmQueryOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Selector
+) : NpmOptions
 {
     [BooleanCommandSwitch("--global")]
     public bool? Global { get; set; }

@@ -5,7 +5,9 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("restart")]
-public record NpmRestartOptions : NpmOptions
+public record NpmRestartOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Args
+) : NpmOptions
 {
     [BooleanCommandSwitch("--ignore-scripts")]
     public bool? IgnoreScripts { get; set; }

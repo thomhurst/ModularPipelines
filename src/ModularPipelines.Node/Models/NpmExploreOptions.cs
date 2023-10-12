@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("explore")]
+[CommandPrecedingArguments("explore", "--")]
 public record NpmExploreOptions : NpmOptions
 {
     [CommandSwitch("--shell")]

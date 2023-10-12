@@ -13,8 +13,8 @@ public record NpmDiffOptions : NpmOptions
     [BooleanCommandSwitch("--diff-name-only")]
     public bool? DiffNameOnly { get; set; }
 
-    [BooleanCommandSwitch("--diff-unified")]
-    public bool? DiffUnified { get; set; }
+    [CommandSwitch("--diff-unified")]
+    public int? DiffUnified { get; set; }
 
     [BooleanCommandSwitch("--diff-ignore-all-space")]
     public bool? DiffIgnoreAllSpace { get; set; }
@@ -45,4 +45,7 @@ public record NpmDiffOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Paths { get; set; }
 }

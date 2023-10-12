@@ -5,7 +5,9 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("stop")]
-public record NpmStopOptions : NpmOptions
+public record NpmStopOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Args
+) : NpmOptions
 {
     [BooleanCommandSwitch("--ignore-scripts")]
     public bool? IgnoreScripts { get; set; }

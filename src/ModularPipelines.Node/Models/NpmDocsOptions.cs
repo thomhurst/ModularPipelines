@@ -21,4 +21,7 @@ public record NpmDocsOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Pkgname { get; set; }
 }

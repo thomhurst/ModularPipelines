@@ -3,7 +3,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.ServiceBus;
 using ModularPipelines.Azure.Scopes;
 
-namespace ModularPipelines.Azure.Provisioning;
+namespace ModularPipelines.Azure.Provisioning.PubSub;
 
 public class AzureServiceBusProvisioner : BaseAzureProvisioner
 {

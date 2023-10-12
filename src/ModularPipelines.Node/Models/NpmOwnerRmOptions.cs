@@ -4,8 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("owner")]
-public record NpmOwnerOptions : NpmOptions
+[CommandPrecedingArguments("owner", "rm")]
+public record NpmOwnerRmOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string User
+) : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }

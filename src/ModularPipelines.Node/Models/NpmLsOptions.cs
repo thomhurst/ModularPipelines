@@ -22,8 +22,8 @@ public record NpmLsOptions : NpmOptions
     [BooleanCommandSwitch("--global")]
     public bool? Global { get; set; }
 
-    [BooleanCommandSwitch("--depth")]
-    public bool? Depth { get; set; }
+    [CommandSwitch("--depth")]
+    public int? Depth { get; set; }
 
     [CommandSwitch("--omit")]
     public string? Omit { get; set; }

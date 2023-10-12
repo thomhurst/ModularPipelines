@@ -4,8 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("init")]
-public record NpmInitOptions : NpmOptions
+[CommandPrecedingArguments("init", "(same", "as", "`npx")]
+public record NpmInitOptions
+(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+): NpmOptions
 {
     [CommandSwitch("--init-author-name")]
     public string? InitAuthorName { get; set; }

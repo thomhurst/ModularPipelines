@@ -1,11 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access")]
-public record NpmAccessOptions : NpmOptions
+[CommandPrecedingArguments("access", "get", "status")]
+public record NpmAccessGetStatusOptions : NpmOptions
 {
     [BooleanCommandSwitch("--json")]
     public bool? Json { get; set; }
@@ -15,4 +15,7 @@ public record NpmAccessOptions : NpmOptions
 
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Package { get; set; }
 }
