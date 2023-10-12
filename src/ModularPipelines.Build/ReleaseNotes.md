@@ -1,2 +1,2 @@
-* Yarn CLI helpers  
-* Breaking: Refactored `KeyValueVariables` into an `IEnumerable<KeyValue>`
+*   Yarn CLI helpers
+*   Breaking: Refactored `KeyValueVariables` into an `IEnumerable<KeyValue>`
