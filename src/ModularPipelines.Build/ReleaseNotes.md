@@ -1,1 +1,1 @@
-- Breaking: Refactored `KeyValueVariables` into an `IEnumerable<KeyValue>`
+*   Breaking: Refactored `KeyValueVariables` into an `IEnumerable<KeyValue>`
