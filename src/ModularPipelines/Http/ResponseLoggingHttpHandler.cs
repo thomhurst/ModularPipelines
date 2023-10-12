@@ -6,7 +6,7 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
-    public ResponseLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider)
+    public ResponseLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider, HttpMessageHandler innerHandler) : base(innerHandler)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }

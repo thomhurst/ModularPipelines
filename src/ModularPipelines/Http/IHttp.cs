@@ -21,5 +21,5 @@ public interface IHttp
     /// Gets a logging HTTP client.
     /// </summary>
     /// <returns>A logging HTTP client.</returns>
-    HttpClient GetLoggingHttpClient(HttpLoggingType loggingType = HttpLoggingType.RequestAndResponse);
+    HttpClient GetLoggingHttpClient(HttpLoggingType loggingType = HttpLoggingType.Request | HttpLoggingType.Response | HttpLoggingType.StatusCode | HttpLoggingType.Duration);
 }

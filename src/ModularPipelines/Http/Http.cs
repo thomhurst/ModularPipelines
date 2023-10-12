@@ -1,4 +1,6 @@
-﻿using ModularPipelines.Logging;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
@@ -13,6 +15,8 @@ internal class Http : IHttp
     private readonly HttpClient _requestLoggingHttpClient;
     private readonly HttpClient _responseLoggingHttpClient;
 
+    private readonly ConcurrentDictionary<HttpLoggingType, HttpClient> _loggingHttpClients = new();
+
     public Http(HttpClient defaultHttpClient,
         IModuleLoggerProvider moduleLoggerProvider,
         IHttpClientFactory httpClientFactory)
@@ -26,20 +30,24 @@ internal class Http : IHttp
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
-        if (httpOptions.HttpClient != null)
-        {
-            return await SendAndWrapLogging(httpOptions, cancellationToken);
-        }
-
-        var httpClient = GetLoggingHttpClient(httpOptions.LoggingType);
-
-        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
-
-        return response.EnsureSuccessStatusCode();
+        httpOptions.HttpClient ??= HttpClient;
+        
+        return await SendAndWrapLogging(httpOptions, cancellationToken);
     }
 
     public HttpClient GetLoggingHttpClient(HttpLoggingType loggingType)
     {
+        return _loggingHttpClients.GetOrAdd(loggingType, () =>
+        {
+            var innerHandler = new MessageHandler
+
+            if (loggingType.HasFlag(HttpLoggingType.Request))
+            {
+                handler = new RequestLoggingHttpHandler(_moduleLoggerProvider);
+            }
+            
+            
+        })
         return loggingType switch
         {
             HttpLoggingType.RequestAndResponse => _loggingHttpClient,
@@ -53,15 +61,19 @@ internal class Http : IHttp
     private async Task<HttpResponseMessage> SendAndWrapLogging(HttpOptions httpOptions, CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerProvider.GetLogger();
-
-        if (httpOptions.LoggingType is HttpLoggingType.RequestOnly or HttpLoggingType.RequestAndResponse)
+        
+        if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
             await HttpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger);
         }
+        
+        var stopwatch = Stopwatch.StartNew();
 
         var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
 
-        if (httpOptions.LoggingType is HttpLoggingType.ResponseOnly or HttpLoggingType.RequestAndResponse)
+        var duration = stopwatch.Elapsed;
+
+        if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
         {
             await HttpLogger.PrintResponse(response, logger);
         }
