@@ -27,7 +27,7 @@ public record TerraformPlanOptions : TerraformOptions
     public string? Target { get; set; }
 
     [CommandSwitch("-var")]
-    public KeyValueVariables? Vars { get; set; }
+    public IEnumerable<KeyValue>? Vars { get; set; }
 
     [CommandSwitch("-var-file")]
     public string? VarFile { get; set; }

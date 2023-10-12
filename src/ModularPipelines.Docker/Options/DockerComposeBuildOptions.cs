@@ -12,7 +12,7 @@ public record DockerComposeBuildOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public KeyValueVariables? BuildArgs { get; set; }
+    public IEnumerable<KeyValue>? BuildArgs { get; set; }
 
     [CommandSwitch("--builder")]
     public string? Builder { get; set; }

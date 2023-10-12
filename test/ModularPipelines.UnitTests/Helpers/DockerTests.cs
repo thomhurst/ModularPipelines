@@ -22,11 +22,11 @@ public class DockerTests : TestBase
             return await context.Docker().Build(new(pretendPath)
             {
                 InternalDryRun = true,
-                BuildArgs = new KeyValueVariables("=")
+                BuildArgs = new List<KeyValue>
                 {
-                    ["Arg1"] = "Value1",
-                    ["Arg2"] = "Value2",
-                    ["Arg3"] = "Value3",
+                    ("Arg1", "Value1"),
+                    ("Arg2", "Value2"),
+                    ("Arg3", "Value3"),
                 },
                 Tag = "mytaggedimage",
                 Output = "type=local,dest=out",

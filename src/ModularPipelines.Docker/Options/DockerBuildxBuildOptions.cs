@@ -54,7 +54,7 @@ public record DockerBuildxBuildOptions([property: PositionalArgument(Position = 
     public string? Attest { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public KeyValueVariables? BuildArgs { get; set; }
+    public IEnumerable<KeyValue>? BuildArgs { get; set; }
 
     [CommandSwitch("--build-context")]
     public string? BuildContext { get; set; }
