@@ -12,7 +12,7 @@ public record DockerImageBuildOptions([property: PositionalArgument(Position = P
     public string? AddHost { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public KeyValueVariables? BuildArgs { get; set; }
+    public IEnumerable<KeyValue>? BuildArgs { get; set; }
 
     [CommandSwitch("--cache-from")]
     public string? CacheFrom { get; set; }

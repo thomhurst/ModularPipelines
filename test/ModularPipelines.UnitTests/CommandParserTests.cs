@@ -17,15 +17,15 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task KeyValueVariables_Parse_As_Expected()
+    public async Task KeyValues_Parse_As_Expected()
     {
         var result = await GetResult(new MySuperSecretToolOptions
         {
-            BuildArgs = new KeyValueVariables("=")
+            BuildArgs = new List<KeyValue>
             {
-                ["Arg1"] = "Value1",
-                ["Arg2"] = "Value2",
-                ["Arg3"] = "Value3",
+                ("Arg1", "Value1"),
+                ("Arg2", "Value2"),
+                ("Arg3", "Value3"),
             },
         });
 
@@ -147,7 +147,7 @@ public class CommandParserTests : TestBase
     private record MySuperSecretToolOptions() : CommandLineToolOptions("mysupersecrettool")
     {
         [CommandSwitch("--build-arg")]
-        public KeyValueVariables? BuildArgs { get; set; }
+        public IEnumerable<KeyValue>? BuildArgs { get; set; }
 
         [BooleanCommandSwitch("--force")]
         public bool? Force { get; set; }
