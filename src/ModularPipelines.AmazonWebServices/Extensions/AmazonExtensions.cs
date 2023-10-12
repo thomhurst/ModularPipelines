@@ -2,10 +2,9 @@
 using Amazon.S3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.AmazonWebServices;
 using ModularPipelines.Context;
 
-namespace ModularPipelines.Amazon.Extensions;
+namespace ModularPipelines.AmazonWebServices.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class AmazonExtensions

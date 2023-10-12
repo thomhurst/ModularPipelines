@@ -9,4 +9,10 @@ public record NpmEditOptions : NpmOptions
 {
     [CommandSwitch("--editor")]
     public string? Editor { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Pkg { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Subpkg { get; set; }
 }

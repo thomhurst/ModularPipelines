@@ -3,7 +3,7 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.ContainerRegistry;
 using ModularPipelines.Azure.Scopes;
 
-namespace ModularPipelines.Azure.Provisioning;
+namespace ModularPipelines.Azure.Provisioning.Containers;
 
 public class AzureContainerProvisioner : BaseAzureProvisioner
 {

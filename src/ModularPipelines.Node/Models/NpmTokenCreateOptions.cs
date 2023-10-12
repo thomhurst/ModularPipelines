@@ -4,9 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hook")]
-public record NpmHookOptions : NpmOptions
+[CommandPrecedingArguments("token", "create")]
+public record NpmTokenCreateOptions : NpmOptions
 {
+    [BooleanCommandSwitch("--read-only")]
+    public bool? ReadOnly { get; set; }
+
+    [CommandSwitch("--cidr")]
+    public string? Cidr { get; set; }
+
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
 

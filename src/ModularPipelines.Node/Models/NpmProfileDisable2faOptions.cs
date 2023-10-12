@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("profile")]
-public record NpmProfileOptions : NpmOptions
+[CommandPrecedingArguments("profile", "disable-2fa")]
+public record NpmProfileDisable2faOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }

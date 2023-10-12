@@ -4,9 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Azure.Provisioning;
 using ModularPipelines.Azure.Provisioning.Compute;
+using ModularPipelines.Azure.Provisioning.Containers;
 using ModularPipelines.Azure.Provisioning.Cosmos;
 using ModularPipelines.Azure.Provisioning.Network;
+using ModularPipelines.Azure.Provisioning.PubSub;
 using ModularPipelines.Azure.Provisioning.Security;
+using ModularPipelines.Azure.Provisioning.Storage;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Azure.Extensions;

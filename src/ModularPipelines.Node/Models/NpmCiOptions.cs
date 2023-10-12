@@ -5,7 +5,7 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ci")]
-public record NpmCleanInstallOptions : NpmOptions
+public record NpmCiOptions : NpmOptions
 {
     [CommandSwitch("--install-strategy")]
     public string? InstallStrategy { get; set; }

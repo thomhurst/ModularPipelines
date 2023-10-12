@@ -13,7 +13,9 @@ using ModularPipelines.Azure.Provisioning.Compute;
 using ModularPipelines.Azure.Provisioning.Cosmos;
 using ModularPipelines.Azure.Provisioning.Gateways;
 using ModularPipelines.Azure.Provisioning.Network;
+using ModularPipelines.Azure.Provisioning.PubSub;
 using ModularPipelines.Azure.Provisioning.Security;
+using ModularPipelines.Azure.Provisioning.Storage;
 using ModularPipelines.Azure.Scopes;
 
 namespace ModularPipelines.Azure.Provisioning;

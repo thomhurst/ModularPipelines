@@ -4,8 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("exec")]
-public record NpmExecOptions : NpmOptions
+[CommandPrecedingArguments("exec", "--")]
+public record NpmExecOptions(
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value,
+    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Cmd
+) : NpmOptions
 {
     [CommandSwitch("--package")]
     public string[]? Package { get; set; }
@@ -21,4 +24,10 @@ public record NpmExecOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Pkg { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Version { get; set; }
 }

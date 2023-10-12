@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config")]
-public record NpmConfigOptions : NpmOptions
+[CommandPrecedingArguments("config", "edit")]
+public record NpmConfigEditOptions : NpmOptions
 {
     [BooleanCommandSwitch("--json")]
     public bool? Json { get; set; }

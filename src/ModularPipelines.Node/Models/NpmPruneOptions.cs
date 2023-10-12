@@ -36,4 +36,7 @@ public record NpmPruneOptions : NpmOptions
 
     [BooleanCommandSwitch("--install-links")]
     public bool? InstallLinks { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Pkg { get; set; }
 }

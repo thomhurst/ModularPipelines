@@ -4,9 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dist-tag")]
-public record NpmDistTagOptions : NpmOptions
+[CommandPrecedingArguments("exec", "-c")]
+public record NpmExecCOptions : NpmOptions
 {
+    [CommandSwitch("--package")]
+    public string[]? Package { get; set; }
+
+    [CommandSwitch("--call")]
+    public string? Call { get; set; }
+
     [CommandSwitch("--workspace")]
     public string[]? Workspace { get; set; }
 
@@ -15,4 +21,7 @@ public record NpmDistTagOptions : NpmOptions
 
     [BooleanCommandSwitch("--include-workspace-root")]
     public bool? IncludeWorkspaceRoot { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Cmd { get; set; }
 }

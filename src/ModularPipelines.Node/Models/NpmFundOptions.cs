@@ -19,6 +19,6 @@ public record NpmFundOptions : NpmOptions
     [CommandSwitch("--workspace")]
     public string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--which")]
-    public bool? Which { get; set; }
+    [CommandSwitch("--which")]
+    public int? Which { get; set; }
 }

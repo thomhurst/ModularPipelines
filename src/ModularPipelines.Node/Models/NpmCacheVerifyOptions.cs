@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache")]
-public record NpmCacheOptions : NpmOptions
+[CommandPrecedingArguments("cache", "verify")]
+public record NpmCacheVerifyOptions : NpmOptions
 {
     [CommandSwitch("--cache")]
     public string? Cache { get; set; }

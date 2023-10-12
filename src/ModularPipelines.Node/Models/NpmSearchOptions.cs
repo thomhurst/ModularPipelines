@@ -4,8 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("search")]
-public record NpmSearchOptions : NpmOptions
+[CommandPrecedingArguments("search", "terms")]
+public record NpmSearchOptions
+    (
+        [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+        ): NpmOptions
 {
     [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }

@@ -9,4 +9,19 @@ public record NpmDoctorOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Ping { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Versions { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Environment { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Permissions { get; set; }
+
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? Cache { get; set; }
 }

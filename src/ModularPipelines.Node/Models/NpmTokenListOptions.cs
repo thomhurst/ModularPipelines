@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("token")]
-public record NpmTokenOptions : NpmOptions
+[CommandPrecedingArguments("token", "list")]
+public record NpmTokenListOptions : NpmOptions
 {
     [BooleanCommandSwitch("--read-only")]
     public bool? ReadOnly { get; set; }
