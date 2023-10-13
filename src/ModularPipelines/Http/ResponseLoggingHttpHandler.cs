@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using ModularPipelines.Logging;
+﻿using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
 

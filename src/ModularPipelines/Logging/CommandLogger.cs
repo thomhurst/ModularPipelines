@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Helpers;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
@@ -74,7 +75,7 @@ internal class CommandLogger : ICommandLogger
                 Logger.LogInformation("""
                                       ---Duration---
                                       {Duration}
-                                      """, result.RunTime);
+                                      """, result.RunTime.ToDisplayString());
             }
 
             if (ShouldLogOutput(optionsCommandLogging))

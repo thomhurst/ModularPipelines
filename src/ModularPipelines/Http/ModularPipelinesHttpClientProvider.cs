@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-namespace ModularPipelines.Http;
+﻿namespace ModularPipelines.Http;
 
 internal class ModularPipelinesHttpClientProvider(HttpClient httpClient)
 {

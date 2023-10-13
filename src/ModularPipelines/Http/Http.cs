@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
@@ -92,6 +88,16 @@ internal class Http : IHttp, IDisposable
         });
     }
 
+    public void Dispose()
+    {
+        HttpClient.Dispose();
+
+        foreach (var httpClient in _loggingHttpClients.Values)
+        {
+            httpClient.Dispose();
+        }
+    }
+
     private async Task<HttpResponseMessage> SendAndWrapLogging(HttpOptions httpOptions, CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerProvider.GetLogger();
@@ -129,16 +135,6 @@ internal class Http : IHttp, IDisposable
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.StatusCode))
         {
             HttpLogger.PrintStatusCode(httpStatusCode, _moduleLoggerProvider.GetLogger());
-        }
-    }
-
-    public void Dispose()
-    {
-        HttpClient.Dispose();
-
-        foreach (var httpClient in _loggingHttpClients.Values)
-        {
-            httpClient.Dispose();
         }
     }
 }

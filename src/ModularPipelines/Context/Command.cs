@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
