@@ -49,7 +49,8 @@ internal class Http : IHttp
                 .AddSingleton(_moduleLoggerProvider);
 
             var httpClientBuilder = serviceCollection
-                .AddHttpClient<ModularPipelinesHttpClientProvider>();
+                .AddHttpClient<ModularPipelinesHttpClientProvider>()
+                .AddHttpMessageHandler<SuccessHttpHandler>();
 
             if (loggingType.HasFlag(HttpLoggingType.Request))
             {
@@ -100,27 +101,18 @@ internal class Http : IHttp
         }
 
         var stopWatch = Stopwatch.StartNew();
+        
+        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
 
-        try
+        LogStatusCode(response.StatusCode, httpOptions);
+        LogDuration(stopWatch.Elapsed, httpOptions);
+
+        if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
         {
-            var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
-
-            LogStatusCode(response.StatusCode, httpOptions);
-            LogDuration(stopWatch.Elapsed, httpOptions);
-            
-            if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
-            {
-                await HttpLogger.PrintResponse(response, logger);
-            }
-
-            return response.EnsureSuccessStatusCode();
+            await HttpLogger.PrintResponse(response, logger);
         }
-        catch (HttpRequestException e)
-        {
-            LogStatusCode(e.StatusCode, httpOptions);
-            LogDuration(stopWatch.Elapsed, httpOptions);
-            throw;
-        }
+
+        return response.EnsureSuccessStatusCode();
     }
 
     private void LogDuration(TimeSpan duration, HttpOptions httpOptions)
@@ -137,10 +129,5 @@ internal class Http : IHttp
         {
             HttpLogger.PrintStatusCode(httpStatusCode, _moduleLoggerProvider.GetLogger());
         }
-    }
-
-    private static async Task<HttpResponseMessage> NoOpDelegate(Func<Task<HttpResponseMessage>> action, IModuleLogger logger)
-    {
-        return await action();
     }
 }

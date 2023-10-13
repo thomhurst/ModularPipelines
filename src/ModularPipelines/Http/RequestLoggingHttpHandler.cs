@@ -23,6 +23,6 @@ internal class RequestLoggingHttpHandler : DelegatingHandler
 
         var response = await base.SendAsync(request, cancellationToken);
 
-        return response.EnsureSuccessStatusCode();
+        return response;
     }
 }

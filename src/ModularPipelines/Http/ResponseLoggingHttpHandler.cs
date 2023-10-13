@@ -23,6 +23,6 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
 
         await HttpLogger.PrintResponse(response, logger);
 
-        return response.EnsureSuccessStatusCode();
+        return response;
     }
 }
