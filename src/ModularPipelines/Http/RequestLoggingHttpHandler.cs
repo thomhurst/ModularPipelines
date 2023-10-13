@@ -1,4 +1,7 @@
-﻿using ModularPipelines.Logging;
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
 
@@ -6,7 +9,7 @@ internal class RequestLoggingHttpHandler : DelegatingHandler
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
-    public RequestLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider, HttpMessageHandler innerHandler) : base(innerHandler)
+    public RequestLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }

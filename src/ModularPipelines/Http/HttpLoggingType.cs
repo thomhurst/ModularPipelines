@@ -1,4 +1,6 @@
-﻿namespace ModularPipelines.Http;
+﻿using System;
+
+namespace ModularPipelines.Http;
 
 [Flags]
 public enum HttpLoggingType

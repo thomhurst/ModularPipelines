@@ -1,4 +1,7 @@
-﻿using ModularPipelines.Options;
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
@@ -9,7 +12,7 @@ public interface IHttp
     /// </summary>
     /// <param name="httpOptions">Options to control logging and the client.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
-    /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default);
 
     /// <summary>
