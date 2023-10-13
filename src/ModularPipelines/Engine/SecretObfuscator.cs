@@ -15,8 +15,13 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         _secretProvider = secretProvider;
     }
 
-    public string Obfuscate(string input, object? optionsObject)
+    public string? Obfuscate(string? input, object? optionsObject)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+        
         var stringBuilder = new StringBuilder(input);
 
         var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject);

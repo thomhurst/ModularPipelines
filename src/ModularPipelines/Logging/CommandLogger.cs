@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CliWrap.Buffered;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
 
@@ -9,18 +11,21 @@ internal class CommandLogger : ICommandLogger
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly ISecretObfuscator _secretObfuscator;
     private readonly object _lock = new();
 
-    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider, IOptions<PipelineOptions> pipelineOptions)
+    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider, 
+        IOptions<PipelineOptions> pipelineOptions,
+        ISecretObfuscator secretObfuscator)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         _pipelineOptions = pipelineOptions;
+        _secretObfuscator = secretObfuscator;
     }
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public void Log(CommandLineToolOptions options, string? inputToLog, int? resultExitCode, string? outputToLog,
-        string? errorToLog)
+    public void Log(CommandLineToolOptions options, string? inputToLog, BufferedCommandResult result)
     {
         if (options.CommandLogging == CommandLogging.None)
         {
@@ -40,11 +45,13 @@ internal class CommandLogger : ICommandLogger
 
             if (ShouldLogInput(optionsCommandLogging))
             {
+                var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
+
                 Logger.LogInformation("""
                                       ---Executing Command---
                                       {Input}
                                       """,
-                    inputToLog);
+                    inputLoggingManipulator(_secretObfuscator.Obfuscate(inputToLog, options)));
             }
             else
             {
@@ -53,21 +60,41 @@ internal class CommandLogger : ICommandLogger
                                       ********
                                       """);
             }
+            
+            if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
+            {
+                Logger.LogInformation("""
+                                      ---Result Code----
+                                      {ResultCode}
+                                      """, result.ExitCode);
+            }
+            
+            if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
+            {
+                Logger.LogInformation("""
+                                      ---Duration---
+                                      {Duration}
+                                      """, result.RunTime);
+            }
 
             if (ShouldLogOutput(optionsCommandLogging))
             {
+                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
+
                 Logger.LogInformation("""
                                       ---Command Result---
                                       {Output}
-                                      """, outputToLog);
+                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, options)));
             }
 
-            if (ShouldLogError(optionsCommandLogging, resultExitCode))
+            if (ShouldLogError(optionsCommandLogging, result.ExitCode))
             {
+                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
+
                 Logger.LogInformation("""
-                                      ---Command Error (Result code - {ResultCode})---
+                                      ---Command Error---
                                       {Error}
-                                      """, resultExitCode, errorToLog);
+                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, options)));
             }
         }
     }
