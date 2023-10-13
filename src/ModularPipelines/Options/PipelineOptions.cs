@@ -19,5 +19,5 @@ public record PipelineOptions
     public int DefaultRetryCount { get; set; }
 
     public CommandLogging DefaultCommandLogging { get; set; } =
-        CommandLogging.Input | CommandLogging.Output | CommandLogging.Error;
+        CommandLogging.Input | CommandLogging.Output | CommandLogging.Error | CommandLogging.Duration | CommandLogging.ExitCode;
 }

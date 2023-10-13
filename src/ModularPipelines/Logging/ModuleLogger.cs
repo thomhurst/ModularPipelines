@@ -197,7 +197,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         return (o, exception) =>
         {
             var formattedString = formatter.Invoke((TState)o, exception);
-            return _secretObfuscator.Obfuscate(formattedString, null);
+            return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
         };
     }
 

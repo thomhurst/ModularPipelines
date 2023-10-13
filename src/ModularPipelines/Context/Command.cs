@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -61,52 +61,22 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         {
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
-
-        var commandInput = secretObfuscator.Obfuscate(command.ToString(), optionsObject);
-
-        string? inputToLog = null;
-        string? outputToLog = null;
-        string? errorToLog = null;
-        int? resultExitCode = null;
-
-        var optionsCommandLogging = options.CommandLogging ?? pipelineOptions.Value.DefaultCommandLogging;
-
-        if (optionsCommandLogging.HasFlag(CommandLogging.Input))
+        
+        if (options.InternalDryRun)
         {
-            var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
-
-            inputToLog = inputLoggingManipulator(commandInput);
+            _commandLogger.Log(options, command.ToString(), 
+                new BufferedCommandResult(0, 
+                    DateTimeOffset.UtcNow, 
+                    DateTimeOffset.UtcNow,
+                    "Dummy Output Response",
+                    "Dummy Error Response"));
+            
+            return new CommandResult(command);
         }
 
-        try
-        {
-            if (options.InternalDryRun)
-            {
-                return new CommandResult(command);
-            }
+        var result = await Of(command, options, cancellationToken);
 
-            var result = await Of(command, options, cancellationToken);
-
-            var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-
-            if (optionsCommandLogging.HasFlag(CommandLogging.Output))
-            {
-                resultExitCode = result.ExitCode;
-                outputToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardOutput, optionsObject));
-            }
-
-            if (optionsCommandLogging.HasFlag(CommandLogging.Error))
-            {
-                resultExitCode = result.ExitCode;
-                errorToLog = outputLoggingManipulator(secretObfuscator.Obfuscate(result.StandardError, optionsObject));
-            }
-
-            return new CommandResult(command, result);
-        }
-        finally
-        {
-            _commandLogger.Log(options, inputToLog, resultExitCode, outputToLog, errorToLog);
-        }
+        return new CommandResult(command, result);
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)
@@ -114,12 +84,16 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         return options.OptionsObject ?? options;
     }
 
-    private static async Task<BufferedCommandResult> Of(CliWrap.Command command,
+    private async Task<BufferedCommandResult> Of(CliWrap.Command command,
         CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
         var result = await command
             .WithValidation(CommandResultValidation.None)
             .ExecuteBufferedAsync(cancellationToken);
+        
+        _commandLogger.Log(options: options, 
+            inputToLog: command.ToString(), 
+            result);
 
         if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
         {
