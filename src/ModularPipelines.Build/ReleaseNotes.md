@@ -1,1 +1,1 @@
-- Pretty Print Command Durations
+*   Pretty Print Command Durations
