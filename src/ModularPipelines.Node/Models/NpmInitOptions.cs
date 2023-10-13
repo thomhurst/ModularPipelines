@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmInitOptions
 (
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
-): NpmOptions
+) : NpmOptions
 {
     [CommandSwitch("--init-author-name")]
     public string? InitAuthorName { get; set; }

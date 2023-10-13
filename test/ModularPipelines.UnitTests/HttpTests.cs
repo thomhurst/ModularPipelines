@@ -115,7 +115,7 @@ public class HttpTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
 
         Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http."));
-       
+
         Assert.That(logFile, Does.Contain("---Request---"));
         Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
         Assert.That(logFile, Does.Contain("---Response---"));
@@ -124,7 +124,7 @@ public class HttpTests : TestBase
         Assert.That(logFile, Does.Contain("Body"));
         Assert.That(logFile, Does.Contain("---Duration---"));
         Assert.That(logFile, Does.Contain("---HTTP Status Code---"));
-        
+
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
         var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---"));

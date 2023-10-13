@@ -14,7 +14,7 @@ internal class DurationLoggingHttpHandler : DelegatingHandler
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var stopwatch = Stopwatch.StartNew();

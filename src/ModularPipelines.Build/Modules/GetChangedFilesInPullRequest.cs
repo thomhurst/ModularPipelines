@@ -24,7 +24,7 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
         _githubSettings = githubSettings;
         _gitHubClient = gitHubClient;
     }
-    
+
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         if (!context.BuildSystemDetector.IsRunningOnGitHubActions)
@@ -35,7 +35,7 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
         var isPullRequest = !string.IsNullOrEmpty(_githubSettings.Value.PullRequest?.Branch);
         return isPullRequest ? SkipDecision.DoNotSkip.AsTask() : SkipDecision.Skip("Not a pull request").AsTask();
     }
-    
+
     protected override async Task<IReadOnlyList<PullRequestFile>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await _gitHubClient

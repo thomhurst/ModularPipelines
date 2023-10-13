@@ -29,11 +29,11 @@ public class CheckReleaseNotesAddedModule : Module
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var getChangedFilesInPullRequestModule = await GetModule<GetChangedFilesInPullRequest>();
-        
+
         var releaseNotesFile = context.Git().RootDirectory.GetFolder("src").GetFolder("ModularPipelines.Build").GetFile("ReleaseNotes.md");
 
         var changedFiles = getChangedFilesInPullRequestModule.Value!;
-        
+
         if (!releaseNotesFile.Exists
             || string.IsNullOrEmpty(await releaseNotesFile.ReadAsync(cancellationToken))
             || NeedsToUpdateReleaseNotes(changedFiles))
@@ -50,7 +50,7 @@ public class CheckReleaseNotesAddedModule : Module
         {
             return false;
         }
-        
+
         return changedFiles.Any(x => x.FileName.EndsWith(".cs"));
     }
 }

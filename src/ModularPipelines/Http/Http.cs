@@ -11,7 +11,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
-internal class Http : IHttp
+internal class Http : IHttp, IDisposable
 {
     public HttpClient HttpClient { get; }
 
@@ -77,7 +77,7 @@ internal class Http : IHttp
 
                 httpClientBuilder.AddHttpMessageHandler<DurationLoggingHttpHandler>();
             }
-            
+
             if (loggingType.HasFlag(HttpLoggingType.StatusCode))
             {
                 serviceCollection
@@ -95,14 +95,14 @@ internal class Http : IHttp
     private async Task<HttpResponseMessage> SendAndWrapLogging(HttpOptions httpOptions, CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerProvider.GetLogger();
-        
+
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
             await HttpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger);
         }
 
         var stopWatch = Stopwatch.StartNew();
-        
+
         var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
 
         LogStatusCode(response.StatusCode, httpOptions);
@@ -123,12 +123,22 @@ internal class Http : IHttp
             HttpLogger.PrintDuration(duration, _moduleLoggerProvider.GetLogger());
         }
     }
-    
+
     private void LogStatusCode(HttpStatusCode? httpStatusCode, HttpOptions httpOptions)
     {
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.StatusCode))
         {
             HttpLogger.PrintStatusCode(httpStatusCode, _moduleLoggerProvider.GetLogger());
+        }
+    }
+
+    public void Dispose()
+    {
+        HttpClient.Dispose();
+
+        foreach (var httpClient in _loggingHttpClients.Values)
+        {
+            httpClient.Dispose();
         }
     }
 }

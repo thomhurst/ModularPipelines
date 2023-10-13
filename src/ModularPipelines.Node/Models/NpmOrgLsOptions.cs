@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmOrgLsOptions
 (
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string OrgName
-): NpmOptions
+) : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmSearchOptions
     (
         [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
-        ): NpmOptions
+        ) : NpmOptions
 {
     [BooleanCommandSwitch("--long")]
     public bool? Long { get; set; }

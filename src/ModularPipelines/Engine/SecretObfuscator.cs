@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Engine;
@@ -15,13 +16,13 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         _secretProvider = secretProvider;
     }
 
-    public string? Obfuscate(string? input, object? optionsObject)
+    public string Obfuscate(string? input, object? optionsObject)
     {
         if (string.IsNullOrEmpty(input))
         {
-            return input;
+            return string.Empty;
         }
-        
+
         var stringBuilder = new StringBuilder(input);
 
         var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject);

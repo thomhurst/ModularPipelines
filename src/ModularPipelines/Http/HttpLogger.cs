@@ -63,7 +63,7 @@ public static class HttpLogger
 
         logger.LogInformation("---Response---\r\n{Response}", sb.ToString());
     }
-    
+
     public static void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
     {
         var statusCode = httpStatusCode == null ? null as int? : (int)httpStatusCode;

@@ -148,7 +148,7 @@ public interface INpm
 
     Task<CommandResult> Sbom(NpmSbomOptions? options = default, CancellationToken token = default);
 
-    Task<CommandResult> Search(NpmSearchOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Search(NpmSearchOptions options, CancellationToken token = default);
 
     Task<CommandResult> Shrinkwrap(NpmShrinkwrapOptions? options = default, CancellationToken token = default);
 
@@ -186,7 +186,7 @@ public interface INpm
 
     Task<CommandResult> Update(NpmUpdateOptions? options = default, CancellationToken token = default);
 
-    Task<CommandResult> Version(NpmVersionOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Version(NpmVersionOptions options, CancellationToken token = default);
 
     Task<CommandResult> View(NpmViewOptions? options = default, CancellationToken token = default);
 

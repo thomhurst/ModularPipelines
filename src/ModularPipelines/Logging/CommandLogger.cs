@@ -14,7 +14,7 @@ internal class CommandLogger : ICommandLogger
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly object _lock = new();
 
-    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider, 
+    public CommandLogger(IModuleLoggerProvider moduleLoggerProvider,
         IOptions<PipelineOptions> pipelineOptions,
         ISecretObfuscator secretObfuscator)
     {
@@ -60,7 +60,7 @@ internal class CommandLogger : ICommandLogger
                                       ********
                                       """);
             }
-            
+
             if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
             {
                 Logger.LogInformation("""
@@ -68,7 +68,7 @@ internal class CommandLogger : ICommandLogger
                                       {ExitCode}
                                       """, result.ExitCode);
             }
-            
+
             if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
             {
                 Logger.LogInformation("""

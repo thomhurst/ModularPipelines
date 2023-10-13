@@ -9,11 +9,11 @@ public record NpmOrgSetOptions
 (
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string OrgName,
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Username
-): NpmOptions
+) : NpmOptions
 {
-    [PositionalArgument(Position = Position.BeforeSwitches)] 
-    public string PermissionLevel { get; set; }
-    
+    [PositionalArgument(Position = Position.BeforeSwitches)]
+    public string? PermissionLevel { get; set; }
+
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }
 

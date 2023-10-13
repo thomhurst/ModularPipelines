@@ -2,5 +2,5 @@
 
 public interface ISecretObfuscator
 {
-    string? Obfuscate(string? input, object? optionsObject);
+    string Obfuscate(string? input, object? optionsObject);
 }

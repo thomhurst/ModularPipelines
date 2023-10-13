@@ -56,5 +56,7 @@ public abstract class TestBase
         await _hosts.ToAsyncProcessorBuilder()
             .ForEachAsync(Disposer.DisposeObjectAsync)
             .ProcessInParallel();
+
+        _hosts.Clear();
     }
 }

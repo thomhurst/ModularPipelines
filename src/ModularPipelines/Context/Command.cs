@@ -14,7 +14,7 @@ using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
-internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger commandLogger, IOptions<PipelineOptions> pipelineOptions) : ICommand
+internal class Command(ICommandLogger commandLogger) : ICommand
 {
     private readonly ICommandLogger _commandLogger = commandLogger;
 
@@ -61,16 +61,16 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         {
             command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
         }
-        
+
         if (options.InternalDryRun)
         {
-            _commandLogger.Log(options, command.ToString(), 
-                new BufferedCommandResult(0, 
-                    DateTimeOffset.UtcNow, 
+            _commandLogger.Log(options, command.ToString(),
+                new BufferedCommandResult(0,
+                    DateTimeOffset.UtcNow,
                     DateTimeOffset.UtcNow,
                     "Dummy Output Response",
                     "Dummy Error Response"));
-            
+
             return new CommandResult(command);
         }
 
@@ -90,9 +90,9 @@ internal class Command(ISecretObfuscator secretObfuscator, ICommandLogger comman
         var result = await command
             .WithValidation(CommandResultValidation.None)
             .ExecuteBufferedAsync(cancellationToken);
-        
-        _commandLogger.Log(options: options, 
-            inputToLog: command.ToString(), 
+
+        _commandLogger.Log(options: options,
+            inputToLog: command.ToString(),
             result);
 
         if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)

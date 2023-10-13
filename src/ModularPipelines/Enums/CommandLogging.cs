@@ -28,12 +28,12 @@ public enum CommandLogging
     /// Log command errors
     /// </summary>
     Error = 1 << 2,
-    
+
     /// <summary>
     /// Log command duration
     /// </summary>
     Duration = 1 << 3,
-    
+
     /// <summary>
     /// Log command exit code
     /// </summary>

@@ -2,7 +2,7 @@
 
 public record KeyValue(string Key, string Value, string Separator)
 {
-    public KeyValue(string Key, string Value) : this(Key, Value, "=")
+    public KeyValue(string key, string value) : this(key, value, "=")
     {
     }
 

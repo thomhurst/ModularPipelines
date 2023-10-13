@@ -13,15 +13,15 @@ internal class StatusCodeLoggingHttpHandler : DelegatingHandler
     {
         _moduleLoggerProvider = moduleLoggerProvider;
     }
-    
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         try
         {
             var httpResponseMessage = await base.SendAsync(request, cancellationToken);
-            
+
             HttpLogger.PrintStatusCode(httpResponseMessage.StatusCode, _moduleLoggerProvider.GetLogger());
-            
+
             return httpResponseMessage;
         }
         catch (HttpRequestException e)

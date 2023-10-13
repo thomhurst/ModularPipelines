@@ -9,7 +9,7 @@ public record NpmOrgRmOptions
 (
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string OrgName,
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Username
-): NpmOptions
+) : NpmOptions
 {
     [CommandSwitch("--registry")]
     public Uri? Registry { get; set; }

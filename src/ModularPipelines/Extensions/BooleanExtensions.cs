@@ -10,7 +10,7 @@ public static class BooleanExtensions
         {
             return SkipDecision.Skip(reason);
         }
-        
+
         return SkipDecision.DoNotSkip;
     }
 }

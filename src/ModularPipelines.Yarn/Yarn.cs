@@ -12,7 +12,7 @@ internal class Yarn : IYarn
     {
         _command = command;
     }
-    
+
     public async Task<CommandResult> Add(YarnAddOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new YarnAddOptions(), token);

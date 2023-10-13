@@ -49,10 +49,10 @@ public class CommandLoggerTests : TestBase
 
         Assert.That(logFile,
             logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error"));
-        
+
         Assert.That(logFile,
             logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration"));
-        
+
         Assert.That(logFile,
             logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code"));
     }
@@ -85,12 +85,12 @@ public class CommandLoggerTests : TestBase
         {
             logging |= CommandLogging.Error;
         }
-        
+
         if (logExitCode)
         {
             logging |= CommandLogging.ExitCode;
         }
-        
+
         if (logDuration)
         {
             logging |= CommandLogging.Duration;

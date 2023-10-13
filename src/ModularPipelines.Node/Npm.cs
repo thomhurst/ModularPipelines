@@ -478,7 +478,7 @@ internal class Npm : INpm
         return await _command.ExecuteCommandLineTool(options ?? new NpmUpdateOptions(), token);
     }
 
-    public async Task<CommandResult> Version(NpmVersionOptions? options, CancellationToken token = default)
+    public async Task<CommandResult> Version(NpmVersionOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
