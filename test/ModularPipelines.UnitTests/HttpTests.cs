@@ -33,7 +33,7 @@ public class HttpTests : TestBase
 
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
         {
-            LoggingType = HttpLoggingType.ResponseOnly,
+            LoggingType = HttpLoggingType.Response,
         });
 
         await result.Host.DisposeAsync();
@@ -65,7 +65,7 @@ public class HttpTests : TestBase
 
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
         {
-            LoggingType = HttpLoggingType.RequestOnly,
+            LoggingType = HttpLoggingType.Request,
         });
 
         await result.Host.DisposeAsync();
@@ -80,8 +80,9 @@ public class HttpTests : TestBase
         Assert.That(logFile, Does.Not.Contain("Server: GitHub.com"));
     }
 
-    [Test]
-    public async Task Assert_LoggingHttpClient_Logs_As_Expected()
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -95,21 +96,47 @@ public class HttpTests : TestBase
             });
         });
 
-        var loggingClient = result.T.GetLoggingHttpClient();
+        if (!customHttpClient)
+        {
+            var loggingClient = result.T.GetLoggingHttpClient();
 
-        await loggingClient.GetAsync("https://www.github.com");
+            await loggingClient.GetAsync("https://www.github.com");
+        }
+        else
+        {
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
+            {
+                HttpClient = new HttpClient()
+            });
+        }
 
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.LoggingHttpHandler]"));
-
+        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http."));
+       
         Assert.That(logFile, Does.Contain("---Request---"));
         Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
         Assert.That(logFile, Does.Contain("---Response---"));
         Assert.That(logFile, Does.Contain("Headers"));
         Assert.That(logFile, Does.Contain("Server: GitHub.com"));
         Assert.That(logFile, Does.Contain("Body"));
+        Assert.That(logFile, Does.Contain("---Duration---"));
+        Assert.That(logFile, Does.Contain("---HTTP Status Code---"));
+        
+        var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
+
+        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---"));
+        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---"));
+        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---"));
+        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---"));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(indexOfRequest, Is.LessThan(indexOfStatusCode));
+            Assert.That(indexOfStatusCode, Is.LessThan(indexOfDuration));
+            Assert.That(indexOfDuration, Is.LessThan(indexOfResponse));
+        });
     }
 }

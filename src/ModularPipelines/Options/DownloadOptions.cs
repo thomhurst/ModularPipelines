@@ -8,5 +8,5 @@ public record DownloadOptions(Uri DownloadUri)
 
     public Action<HttpRequestMessage>? RequestConfigurator { get; init; }
 
-    public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.RequestAndResponse;
+    public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.Request | HttpLoggingType.Response | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
 }

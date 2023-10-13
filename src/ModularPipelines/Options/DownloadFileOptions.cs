@@ -6,7 +6,7 @@ public record DownloadFileOptions : DownloadOptions
 {
     public DownloadFileOptions(Uri downloadUri) : base(downloadUri)
     {
-        LoggingType = HttpLoggingType.RequestOnly;
+        LoggingType = HttpLoggingType.Request | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
     }
 
     public string? SavePath { get; init; }

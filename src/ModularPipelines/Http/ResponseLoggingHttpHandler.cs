@@ -1,4 +1,7 @@
-﻿using ModularPipelines.Logging;
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
 
@@ -20,6 +23,6 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
 
         await HttpLogger.PrintResponse(response, logger);
 
-        return response.EnsureSuccessStatusCode();
+        return response;
     }
 }
