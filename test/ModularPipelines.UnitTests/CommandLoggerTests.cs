@@ -14,16 +14,18 @@ public class CommandLoggerTests : TestBase
     public async Task Logs_As_Expected_With_Options(
         [Values(true, false)] bool logInput,
         [Values(true, false)] bool logOutput,
-        [Values(true, false)] bool logError)
+        [Values(true, false)] bool logError,
+        [Values(true, false)] bool logExitCode,
+        [Values(true, false)] bool logDuration)
     {
         var file = await RunPowershellCommand("""
                                         echo Hello world!
                                         throw "Error!"
-                                        """, logInput, logOutput, logError);
+                                        """, logInput, logOutput, logError, logExitCode, logDuration);
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        if (!logInput && !logOutput && !logError)
+        if (!logInput && !logOutput && !logError && !logDuration && !logExitCode)
         {
             Assert.That(logFile, Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
             return;
@@ -47,9 +49,16 @@ public class CommandLoggerTests : TestBase
 
         Assert.That(logFile,
             logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error"));
+        
+        Assert.That(logFile,
+            logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration"));
+        
+        Assert.That(logFile,
+            logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code"));
     }
 
-    private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError)
+    private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,
+        bool logExitCode, bool logDuration)
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -75,6 +84,16 @@ public class CommandLoggerTests : TestBase
         if (logError)
         {
             logging |= CommandLogging.Error;
+        }
+        
+        if (logExitCode)
+        {
+            logging |= CommandLogging.ExitCode;
+        }
+        
+        if (logDuration)
+        {
+            logging |= CommandLogging.Duration;
         }
 
         await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)

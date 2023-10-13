@@ -64,8 +64,8 @@ internal class CommandLogger : ICommandLogger
             if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
             {
                 Logger.LogInformation("""
-                                      ---Result Code----
-                                      {ResultCode}
+                                      ---Exit Code----
+                                      {ExitCode}
                                       """, result.ExitCode);
             }
             
