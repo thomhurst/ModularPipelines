@@ -46,7 +46,8 @@ internal class Http : IHttp
         return _loggingHttpClients.GetOrAdd(loggingType, _ =>
         {
             var serviceCollection = new ServiceCollection()
-                .AddSingleton(_moduleLoggerProvider);
+                .AddSingleton(_moduleLoggerProvider)
+                .AddTransient<SuccessHttpHandler>();
 
             var httpClientBuilder = serviceCollection
                 .AddHttpClient<ModularPipelinesHttpClientProvider>()
