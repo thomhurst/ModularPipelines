@@ -1,8 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ModularPipelines.Http;
+﻿namespace ModularPipelines.Http;
 
 public class SuccessHttpHandler : DelegatingHandler
 {

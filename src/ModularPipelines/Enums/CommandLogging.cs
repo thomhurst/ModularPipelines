@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ModularPipelines.Enums;
+﻿namespace ModularPipelines.Enums;
 
 /// <summary>
 /// Enum to control the level of logging a command should do
