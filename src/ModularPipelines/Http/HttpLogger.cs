@@ -1,6 +1,14 @@
-﻿using System.Net.Http.Headers;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Http;
@@ -43,9 +51,7 @@ public static class HttpLogger
     {
         var sb = new StringBuilder();
 
-        var statusCode = (int)response.StatusCode;
-
-        sb.AppendLine($"HTTP/{response.Version} {statusCode} {response.ReasonPhrase}");
+        sb.AppendLine($"HTTP/{response.Version} {response.ReasonPhrase}");
 
         sb.AppendLine();
 
@@ -56,6 +62,18 @@ public static class HttpLogger
         await PrintBody(sb, response.Content);
 
         logger.LogInformation("---Response---\r\n{Response}", sb.ToString());
+    }
+    
+    public static void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
+    {
+        var statusCode = httpStatusCode == null ? null as int? : (int)httpStatusCode;
+
+        logger.LogInformation("---HTTP Status Code---\r\n{IntegerStatusCode} {StatusCode}", statusCode, httpStatusCode);
+    }
+
+    public static void PrintDuration(TimeSpan duration, IModuleLogger logger)
+    {
+        logger.LogInformation("---Duration---\r\n{Duration}", duration.ToDisplayString());
     }
 
     private static void PrintHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders)
