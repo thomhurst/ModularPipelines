@@ -5,9 +5,9 @@ namespace ModularPipelines.Http;
 [Flags]
 public enum HttpLoggingType
 {
-    Request = 1,
-    Response = 2,
-    StatusCode = 4,
-    Duration = 8,
-    None,
+    None = 0,
+    Request = 1 << 0,
+    Response = 1 << 1,
+    StatusCode = 1 << 2,
+    Duration = 1 << 3,
 }
