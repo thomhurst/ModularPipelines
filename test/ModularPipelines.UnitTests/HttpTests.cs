@@ -80,8 +80,9 @@ public class HttpTests : TestBase
         Assert.That(logFile, Does.Not.Contain("Server: GitHub.com"));
     }
 
-    [Test]
-    public async Task Assert_LoggingHttpClient_Logs_As_Expected()
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -95,15 +96,25 @@ public class HttpTests : TestBase
             });
         });
 
-        var loggingClient = result.T.GetLoggingHttpClient();
+        if (!customHttpClient)
+        {
+            var loggingClient = result.T.GetLoggingHttpClient();
 
-        await loggingClient.GetAsync("https://www.github.com");
+            await loggingClient.GetAsync("https://www.github.com");
+        }
+        else
+        {
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
+            {
+                HttpClient = new HttpClient()
+            });
+        }
 
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]"));
+        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http."));
        
         Assert.That(logFile, Does.Contain("---Request---"));
         Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
