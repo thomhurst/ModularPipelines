@@ -63,10 +63,6 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
-                EnvironmentVariables = new Dictionary<string, string?>
-                {
-                    ["GITHUB_ACTIONS"] = null,
-                },
             }, cancellationToken))
             .ProcessInParallel();
     }
