@@ -7,10 +7,9 @@ Simply implement `IPipelineRequirement` and then call `IServiceCollection.AddReq
 ```csharp
 public class WindowsRequirement : IPipelineRequirement
 {
-    public async Task<bool> MustAsync(IPipelineHookContext context)
+    public Task<bool> MustAsync(IPipelineHookContext context)
     {
-        await Task.Yield();
-        return context.Environment.OperatingSystem == OSPlatform.Windows;
+        return (context.Environment.OperatingSystem == OSPlatform.Windows).AsTask();
     }
 }
 ```
