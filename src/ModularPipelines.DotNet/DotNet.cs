@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Exceptions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
@@ -86,6 +87,12 @@ internal class DotNet : IDotNet
             throw new DotNetTestFailedException(result, parsedTestResults);
         }
 
+        var success = parsedTestResults.UnitTestResults.Count(x => x.Outcome == TestOutcome.Passed);
+        var failed = parsedTestResults.UnitTestResults.Count(x => x.Outcome == TestOutcome.Failed);
+        var skipped = parsedTestResults.UnitTestResults.Count(x => x.Outcome == TestOutcome.NotExecuted);
+
+        logger.LogInformation("DotNet Test Results - Success: {Success} - Failed: {Failed} - Skipped: {Skipped}", success, failed, skipped);
+        
         return parsedTestResults;
     }
 
