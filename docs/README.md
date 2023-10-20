@@ -5,7 +5,9 @@
 Modular Pipelines is a framework for writing your pipeline in C#. Giving you strong types, intellisense, parallelisation, and the entire .NET ecosystem at your fingertips.
 
 ## Features
-*   Parallel execution with easy waiting on dependencies if necessary
+
+*   Parallel execution
+*   Dependency management
 *   Familiar C# code
 *   Ability to debug pipelines
 *   Ability to run pipelines locally, even creating versions for setting up local development
@@ -23,7 +25,10 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 *   Utilise existing .NET libraries
 *   Secret obfuscation
 *   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
+*   Run based on categories
+*   Easy to read exceptions
 *   Dynamic console progress reporting (if the console supports interactive mode)
+*   Pretty results table
 
 ## Why the name?
 
