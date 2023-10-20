@@ -8,7 +8,8 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 
 ## Features
 
-*   Parallel execution with easy waiting on dependencies if necessary
+*   Parallel execution
+*   Dependency management
 *   Familiar C# code
 *   Ability to debug pipelines
 *   Ability to run pipelines locally, even creating versions for setting up local development
@@ -26,7 +27,10 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 *   Utilise existing .NET libraries
 *   Secret obfuscation
 *   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
+*   Run based on categories
+*   Easy to read exceptions
 *   Dynamic console progress reporting (if the console supports interactive mode)
+*   Pretty results table
 
 ## Available Modules
 
