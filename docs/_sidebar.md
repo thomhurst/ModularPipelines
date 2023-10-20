@@ -2,6 +2,7 @@
 - Modular Pipelines
   - [About](/?id=about "About Modular Pipelines")
   - [Fundamentals](fundamentals "Fundamentals")
+  - [Why?](why "Why?")
 
 - Getting Started
   - [Pipeline Host](getting-started/pipeline-host "Pipeline Host")
