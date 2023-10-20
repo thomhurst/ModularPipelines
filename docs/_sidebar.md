@@ -1,6 +1,6 @@
 <!-- docs/_sidebar.md -->
-
-- [Modular Pipelines](/?id=about "About Modular Pipelines")
+- Modular Pipelines
+  - [About](/?id=about "About Modular Pipelines")
 
 - Getting Started
   - [Pipeline Host](getting-started/pipeline-host "Pipeline Host")
