@@ -18,13 +18,6 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 
 ```csharp
 await PipelineHostBuilder.Create()
-    .SetLogLevel(LogLevel.Debug)
-    .ConfigureAppConfiguration((_, builder) =>
-    {
-        builder.AddJsonFile("appsettings.json")
-            .AddUserSecrets<Program>()
-            .AddEnvironmentVariables();
-    })
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
@@ -39,13 +32,6 @@ await PipelineHostBuilder.Create()
 
 ```csharp
 await PipelineHostBuilder.Create()
-    .SetLogLevel(LogLevel.Debug)
-    .ConfigureAppConfiguration((_, builder) =>
-    {
-        builder.AddJsonFile("appsettings.json")
-            .AddUserSecrets<Program>()
-            .AddEnvironmentVariables();
-    })
     .AddModule<Module1>()
     .AddModule<Module2>()
     .AddModule<Module3>()
