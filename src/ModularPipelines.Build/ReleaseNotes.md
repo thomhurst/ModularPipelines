@@ -1,1 +1,1 @@
-- Print DotNet Test results if successful
+*   Print DotNet Test results if successful
