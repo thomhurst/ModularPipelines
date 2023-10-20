@@ -34,8 +34,7 @@ public class PackProjectsModule : Module<CommandResult[]>
             .SelectAsync(async projectFile => await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
-                Configuration = Configuration.Release,
-                IncludeSource = !projectFile.Path.Contains("Analyzer"),
+                IncludeSource = true,
                 Properties = new List<string>
                 {
                     $"PackageVersion={packageVersion.Value}",
