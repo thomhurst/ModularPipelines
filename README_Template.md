@@ -40,6 +40,9 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 
 If you want to see how to get started, or want to know more about ModularPipelines, [read the Documentation here]([https://github.com/thomhurst/ModularPipelines/wiki]\(https://thomhurst.github.io/ModularPipelines\))
 
+## Console Progress
+![image](https://github.com/thomhurst/ModularPipelines/assets/30480171/7d85af1e-abfd-40c4-8ef6-5df06baa88d6)
+
 ## Code Examples
 
 ### Program.cs - Main method
