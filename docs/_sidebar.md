@@ -1,6 +1,7 @@
 <!-- docs/_sidebar.md -->
 - Modular Pipelines
   - [About](/?id=about "About Modular Pipelines")
+  - [Fundamentals](fundamentals "Fundamentals")
 
 - Getting Started
   - [Pipeline Host](getting-started/pipeline-host "Pipeline Host")
@@ -13,3 +14,6 @@
   - [Requirements](getting-started/requirements "Requirements")
   - [Run conditions](getting-started/run-conditions "Run conditions")
   - [Inheriting](getting-started/inheriting "Inheriting")
+
+- Examples
+  - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
