@@ -1,10 +1,6 @@
 <!-- docs/_sidebar.md -->
 
-- Modular Pipelines
-
-  - [What is it?](/?id=about "About Modular Pipelines")
-  - [Features](/?id=features "Features")
-  - [Why the name?](/?id=why-the-name "Why the name")
+- [Modular Pipelines](/?id=about "About Modular Pipelines")
 
 - Getting Started
   - [Pipeline Host](getting-started/pipeline-host "Pipeline Host")
