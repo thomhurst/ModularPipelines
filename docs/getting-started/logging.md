@@ -18,6 +18,9 @@ Since all modules attempt to run in parallel, if there was no log organisation, 
 If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules.
 If you start writing to the console directly, then you'll be writing over the top of this progress dialog and messing up how it renders.
 
+## Analyzers
+If you forget the above, Modular Pipelines has analyzers built as part of its framework. It'll detect direct uses of `Console`, or trying to inject in custom `ILogger`s and will result in errors, asking you to fix the issues.
+
 ## How to access IModuleLogger
 
 ### Module
