@@ -31,7 +31,7 @@ public class PingApiModule : Module<HttpResponseMessage>
 You'll then be instructed by the compiler to make sure the return type of your main `ExecuteAsync` method matches the `Type` you've set up.
 
 ```csharp
-protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+protected override async Task<MyCustomClass?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
 ```
 
 ## Optional Data
