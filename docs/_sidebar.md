@@ -2,9 +2,9 @@
 
 - Modular Pipelines
 
-  - [What is it?](about?id=about "About Modular Pipelines")
-  - [Features](about?id=features "Features")
-  - [Why the name?](about?id=why-the-name "Why the name")
+  - [What is it?](readme?id=about "About Modular Pipelines")
+  - [Features](readme?id=features "Features")
+  - [Why the name?](readme?id=why-the-name "Why the name")
 
 - Getting Started
   - [Pipeline Host](pipeline-host "Pipeline Host")
