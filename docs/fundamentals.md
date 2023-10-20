@@ -38,6 +38,13 @@ protected override async Task<MyCustomClass?> ExecuteAsync(IPipelineContext cont
 
 You can choose not to set a `Type` and the default will be an `IDictionary<string, object>`.
 
+```csharp
+public class MyModule : Module
+{
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+}
+```
+
 Returning an object isn't mandatory either. You can return `null` or use the method `NothingAsync();`.
 
 ## Automatic Parallelisation and Explicit Dependencies
