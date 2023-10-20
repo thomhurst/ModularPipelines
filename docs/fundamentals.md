@@ -2,12 +2,11 @@
 
 The building blocks of your pipelines are called Modules. Modules can be as big or as small as you decide, though it's recommended to make them as small as possible. That way we can speed up execution by utilizing parallelization and we are able to more clearly see what failed and where it failed.
 
-## Module
 > a self-contained unit or item, such as an assembly of electronic components and associated wiring or a segment of computer software, which itself performs a defined task and can be linked with other such units to form a larger system
 
 Modules can retrieve other modules, and access information from them.
 
-### Strong Typing
+## Strong Typing
 
 Modules are strongly typed, so we can return clear, concrete objects, and other modules have direct access to those strong objects, without any need for casting or guessing the type, or guessing keys from a dictionary.
 
@@ -17,7 +16,7 @@ var string1 = myModule.Value!.MyFirstString;
 var string2 = myModule.Value!.MySecondString;
 ```
 
-### Custom Types
+## Custom Types
 
 A module isn't restricted to a pre-determined type either. You can pass the `Type` of object that you want to return when you inherit from the base `Module` class
 
@@ -35,13 +34,13 @@ You'll then be instructed by the compiler to make sure the return type of your m
 protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ```
 
-### Optional Data
+## Optional Data
 
 You can choose not to set a `Type` and the default will be an `IDictionary<string, object>`.
 
 Returning an object isn't mandatory either. You can return `null` or use the method `NothingAsync();`.
 
-### Automatic Parallelisation and Explicit Dependencies
+## Automatic Parallelisation and Explicit Dependencies
 
 Modules will all try to run in parallel if possible. But if a Module depends on another Module, it is smart enough to automatically wait for the dependent module to finish before executing.
 
@@ -52,7 +51,7 @@ Dependencies are configured by adding an attribute on your Module. This also mak
 public class MyModule : Module
 ```
 
-### Checking a Module's status
+## Checking a Module's status
 
 When you get another Module, you'll be passed an object that has the data you returned, as well as some information about its execution. So you can have logic in your pipeline for if another module was skipped for example.
 
