@@ -17,3 +17,4 @@
 
 - Examples
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
+  - [NuGet Publishing](/examples/dotnet-test-build-publish "NuGet Publishing")
