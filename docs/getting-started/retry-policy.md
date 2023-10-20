@@ -22,3 +22,18 @@ public class MyModule : Module
     }
 }
 ```
+
+## Default Example
+
+```csharp
+await PipelineHostBuilder.Create()
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>()
+    .ConfigurePipelineOptions((context, options) =>
+    {
+        options.DefaultRetryCount = 3;
+    })
+    .ExecutePipelineAsync();
+
+```
