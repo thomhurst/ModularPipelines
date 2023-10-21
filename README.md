@@ -71,6 +71,7 @@ If you want to see how to get started, or want to know more about ModularPipelin
 
 ## How does this compare to Cake / Nuke
 
+*   Strong types! You have complete control over what data, and what shape of data to pass around from and to different modules
 *   No external tooling is required. Pipelines are run with a simple `dotnet run`
 *   Full dependency injection support for your services
 *   Similar and familiar setup to frameworks like ASP.NET Core
