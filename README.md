@@ -57,7 +57,6 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 | ModularPipelines.Terraform | Helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 
-
 ## Getting Started
 
 If you want to see how to get started, or want to know more about ModularPipelines, [read the Documentation here](https://thomhurst.github.io/ModularPipelines)
@@ -69,6 +68,15 @@ If you want to see how to get started, or want to know more about ModularPipelin
 ## Results
 
 <img width="444" alt="image" src="https://github.com/thomhurst/ModularPipelines/assets/30480171/8963e891-2c29-4382-9a3e-6ced4daf4d4b">
+
+## How does this compare to Cake / Nuke
+
+*   No external tooling is required. Pipelines are run with a simple `dotnet run`
+*   Full dependency injection support for your services
+*   Similar and familiar setup to frameworks like ASP.NET Core
+*   Real C# - Whereas frameworks like cake are a scripted form of C#
+*   Parallelism - Work will run concurrently unless it is dependent on something else
+*   The style of writing pipelines is very different - Work is organised into separate module classes, keeping code organised and more closely following SRP than having all your work in one main class. This also helps multiple contributors avoid things like merge conflicts
 
 ## Code Examples
 
