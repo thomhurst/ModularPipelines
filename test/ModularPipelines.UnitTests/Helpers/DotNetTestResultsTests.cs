@@ -25,7 +25,6 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = testProject,
-                Framework = "net7.0",
                 CommandLogging = CommandLogging.Error,
             }, cancellationToken: cancellationToken);
         }
