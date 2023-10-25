@@ -41,7 +41,6 @@ public class DotNetTestResultsTests : TestBase
             {
                 TargetPath = testProject,
                 Filter = "TestCategory=Pass",
-                Framework = "net7.0",
                 CommandLogging = CommandLogging.Error,
             }, cancellationToken: cancellationToken);
         }
