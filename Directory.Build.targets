@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
-        <TargetFramework Condition="'$(TargetFrameworks)' == ''">net6.0</TargetFramework>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net6.0</TargetFramework>
     </PropertyGroup>
 </Project>
