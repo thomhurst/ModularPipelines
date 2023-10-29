@@ -104,7 +104,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
-    internal EventHandler<SubModule>? OnSubModuleCreated;
+    internal EventHandler<SubModuleBase>? OnSubModuleCreated;
 
     /// <summary>
     /// Starts a Sub Module which will display in the pipeline progress in the console.

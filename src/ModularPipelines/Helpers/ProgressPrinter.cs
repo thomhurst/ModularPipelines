@@ -263,7 +263,7 @@ internal class ProgressPrinter : IProgressPrinter
             }, cancellationToken);
 
             // Callback for Module has finished
-            subModule.Task.ContinueWith(t =>
+            subModule.CallbackTask.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {

@@ -5,6 +5,8 @@ public abstract class SubModuleBase
     public Type ParentModule { get; }
 
     public string Name { get; }
+    
+    public abstract Task CallbackTask { get; }
 
     internal TimeSpan Duration { get; set; }
 
