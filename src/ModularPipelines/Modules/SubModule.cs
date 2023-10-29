@@ -3,7 +3,7 @@ using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Modules;
 
-public class SubModule : SubModuleBase
+internal class SubModule : SubModuleBase
 {
     internal Task Task { get; }
 
@@ -30,13 +30,15 @@ public class SubModule : SubModuleBase
             EndTime = DateTimeOffset.UtcNow;
         });
     }
+    
+    public override Task CallbackTask => Task;
 }
 
-public class SubModule<T> : SubModule
+internal class SubModule<T> : SubModuleBase
 {
-    internal new Task<T> Task { get; }
+    internal Task<T> Task { get; }
 
-    internal SubModule(Type parentModule, string name, Func<Task<T>> action) : base(parentModule, name, action)
+    internal SubModule(Type parentModule, string name, Func<Task<T>> action) : base(parentModule, name)
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
@@ -59,4 +61,6 @@ public class SubModule<T> : SubModule
             EndTime = DateTimeOffset.UtcNow;
         });
     }
+
+    public override Task CallbackTask => Task;
 }

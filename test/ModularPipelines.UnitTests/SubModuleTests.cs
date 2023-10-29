@@ -11,11 +11,15 @@ public class SubModuleTests : TestBase
 {
     private class SubModulesWithReturnTypeModule : Module<string[]>
     {
+        private int _subModuleRunCount;
+        public int SubModuleRunCount => _subModuleRunCount;
+        
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(name => SubModule(name, () =>
                 {
+                    Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
                     return Task.FromResult(name);
                 }))
@@ -25,11 +29,15 @@ public class SubModuleTests : TestBase
 
     private class SubModulesWithoutReturnTypeModule : Module<string[]>
     {
+        private int _subModuleRunCount;
+        public int SubModuleRunCount => _subModuleRunCount;
+        
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name => SubModule(name, async () =>
                 {
+                    Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
                     await Task.Yield();
                 }))
@@ -41,11 +49,15 @@ public class SubModuleTests : TestBase
 
     private class SubModulesWithReturnTypeModuleSynchronous : Module<string[]>
     {
+        private int _subModuleRunCount;
+        public int SubModuleRunCount => _subModuleRunCount;
+        
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(name => SubModule(name, () =>
                 {
+                    Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
                     return name;
                 }))
@@ -55,11 +67,15 @@ public class SubModuleTests : TestBase
 
     private class SubModulesWithoutReturnTypeModuleSynchronous : Module<string[]>
     {
+        private int _subModuleRunCount;
+        public int SubModuleRunCount => _subModuleRunCount;
+        
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name => SubModule(name, () =>
                 {
+                    Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
                 }))
                 .ProcessInParallel();
@@ -136,7 +152,7 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
-    public async Task Submodule_With_Return_Type_Does_Not_Fail()
+    public async Task Submodule_With_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
         var module = await RunModule<SubModulesWithReturnTypeModule>();
 
@@ -146,11 +162,12 @@ public class SubModuleTests : TestBase
         {
             Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
             Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2", "3" }));
+            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
         });
     }
 
     [Test]
-    public async Task Submodule_Without_Return_Type_Does_Not_Fail()
+    public async Task Submodule_Without_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
         var module = await RunModule<SubModulesWithoutReturnTypeModule>();
 
@@ -160,11 +177,12 @@ public class SubModuleTests : TestBase
         {
             Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
             Assert.That(results.Value, Is.Null);
+            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
         });
     }
 
     [Test]
-    public async Task Submodule_With_Return_Type_Does_Not_Fail_Synchronous()
+    public async Task Submodule_With_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
         var module = await RunModule<SubModulesWithReturnTypeModuleSynchronous>();
 
@@ -174,11 +192,12 @@ public class SubModuleTests : TestBase
         {
             Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
             Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2", "3" }));
+            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
         });
     }
 
     [Test]
-    public async Task Submodule_Without_Return_Type_Does_Not_Fail_Synchronous()
+    public async Task Submodule_Without_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
         var module = await RunModule<SubModulesWithoutReturnTypeModuleSynchronous>();
 
@@ -188,6 +207,7 @@ public class SubModuleTests : TestBase
         {
             Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
             Assert.That(results.Value, Is.Null);
+            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
         });
     }
 
