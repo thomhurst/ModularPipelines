@@ -1,1 +1,1 @@
-- Fix issue with Submodules with a return type executing twice
+*   Fix issue with Submodules with a return type executing twice
