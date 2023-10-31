@@ -6,7 +6,7 @@
 
     <ItemGroup>
       <PackageReference Include="AWSSDK.Lambda" Version="3.7.202.9" />
-      <PackageReference Include="AWSSDK.S3" Version="3.7.205.19" />
+      <PackageReference Include="AWSSDK.S3" Version="3.7.205.20" />
     </ItemGroup>
 
     <ItemGroup>
