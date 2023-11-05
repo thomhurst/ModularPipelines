@@ -8,6 +8,7 @@ namespace ModularPipelines.Logging;
 internal abstract class ModuleLogger : IModuleLogger
 {
     protected static readonly object Lock = new();
+    protected Exception? _exception;
 
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
 
@@ -20,6 +21,11 @@ internal abstract class ModuleLogger : IModuleLogger
     public abstract void Dispose();
 
     public abstract void LogToConsole(string value);
+    
+    public void SetException(Exception exception)
+    {
+        _exception = exception;
+    }
 }
 
 internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
@@ -203,6 +209,11 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
     private string GetCollapsibleSectionName()
     {
+        if (_exception != null)
+        {
+            return $"{typeof(T).Name} - Error! {_exception.GetType().Name}";
+        }
+
         return $"{typeof(T).Name}";
     }
 
