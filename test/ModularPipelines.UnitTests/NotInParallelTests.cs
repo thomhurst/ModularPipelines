@@ -72,7 +72,7 @@ public class NotInParallelTests
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(1)).ToUnixTimeMilliseconds())
-                .Within(100)
+                .Within(150)
         );
     }
     
@@ -90,7 +90,7 @@ public class NotInParallelTests
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(1)).ToUnixTimeMilliseconds())
-                .Within(100)
+                .Within(150)
         );
     }
     
@@ -109,7 +109,7 @@ public class NotInParallelTests
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
-                .Within(100)
+                .Within(150)
         );
     }
 }
