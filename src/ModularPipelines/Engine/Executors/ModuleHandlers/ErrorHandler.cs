@@ -79,6 +79,8 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         await Task.Delay(TimeSpan.FromMilliseconds(200));
 
         ModuleResultTaskCompletionSource.TrySetException(exception);
+        
+        Context.Logger.SetException(exception);
 
         throw new ModuleFailedException(Module, exception);
     }

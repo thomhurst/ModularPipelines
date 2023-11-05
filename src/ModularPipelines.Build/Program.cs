@@ -66,4 +66,5 @@ await PipelineHostBuilder.Create()
                 .AddModule<UpdateReleaseNotesModule>();
         }
     })
+    .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
     .ExecutePipelineAsync();
