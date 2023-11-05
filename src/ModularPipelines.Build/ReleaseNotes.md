@@ -1,1 +1,1 @@
-- Chocolatey CLI helpers
+*   Chocolatey CLI helpers
