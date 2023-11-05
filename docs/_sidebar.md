@@ -1,15 +1,19 @@
 <!-- docs/_sidebar.md -->
+
 - Modular Pipelines
+
   - [About](/?id=about "About Modular Pipelines")
   - [Fundamentals](fundamentals "Fundamentals")
   - [Why?](why "Why?")
 
 - Getting Started
+
   - [Pipeline Host](getting-started/pipeline-host "Pipeline Host")
   - [Defining Modules](getting-started/defining-modules "Defining Modules")
   - [Execution and Dependencies](getting-started/execution-and-dependencies "Execution and Dependencies")
   - [Sharing data across modules](getting-started/sharing-data "Sharing Data amongst Modules")
   - [Storing and Retrieving Results](getting-started/storing-and-retrieving-results "Storing and Retrieving Results")
+  - [Parallelization](getting-started/parallelization "Parallelization")
   - [Custom commands](getting-started/custom-commands "Custom commands")
   - [Analyzers](getting-started/analyzers "Analyzers")
   - [Logging](getting-started/logging "Logging")
