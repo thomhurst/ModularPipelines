@@ -38,12 +38,16 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             Context.Logger.LogDebug("No dependent modules - Nothing to wait for");
             return;
         }
-        
+
         foreach (var dependsOnAttribute in Module.DependentModules)
         {
             // Start modules one at a time if they haven't already been started, in the context of NotInParallel modules.
-            var module = Context.GetModule(dependsOnAttribute.Type)!;
-            await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+            var module = Context.GetModule(dependsOnAttribute.Type);
+
+            if (module != null)
+            {
+                await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+            }
         }
 
         try
