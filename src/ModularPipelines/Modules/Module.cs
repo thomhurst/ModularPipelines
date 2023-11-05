@@ -22,9 +22,8 @@ public abstract class Module : Module<IDictionary<string, object>>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-
-    internal List<DependsOnAttribute> DependentModules { get; } = new();
-
+    private readonly object _startLock = new();
+    
     internal override IHistoryHandler<T> HistoryHandler { get; }
 
     internal override IWaitHandler WaitHandler { get; }
@@ -65,6 +64,16 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override async Task StartAsync()
     {
+        lock (_startLock)
+        {
+            if (IsStarted)
+            {
+                return;
+            }
+
+            IsStarted = true;
+        }
+        
         try
         {
             if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
