@@ -24,7 +24,11 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     {
         TypeDiscriminator = GetType().FullName!;
     }
+    
+    internal bool IsStarted { get; set; }
 
+    internal List<DependsOnAttribute> DependentModules { get; } = new();
+    
     internal abstract IWaitHandler WaitHandler { get; }
 
     internal abstract ICancellationHandler CancellationHandler { get; }
