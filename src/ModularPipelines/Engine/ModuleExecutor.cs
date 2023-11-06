@@ -71,7 +71,16 @@ internal class ModuleExecutor : IModuleExecutor
 
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
-            await module.StartAsync();
+            var startTask = module.StartAsync();
+
+            while (!module.IsStarted)
+            {
+                await Task.Delay(100);
+            }
+
+            module.Lock.Release();
+
+            await startTask;
 
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
 
@@ -80,9 +89,7 @@ internal class ModuleExecutor : IModuleExecutor
             return module;
         }
         finally
-        {
-            module.Lock?.Release();
-            
+        {            
             if (!AnsiConsole.Profile.Capabilities.Interactive || !_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(module);
