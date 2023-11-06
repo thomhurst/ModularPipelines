@@ -1,1 +1,1 @@
-- npm ConfigSetRegistry method
+*   npm ConfigSetRegistry method
