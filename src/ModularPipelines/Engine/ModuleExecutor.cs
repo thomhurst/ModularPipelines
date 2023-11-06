@@ -61,11 +61,6 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         await module.Lock.WaitAsync();
-
-        if (module.IsStarted)
-        {
-            return module;
-        }
         
         try
         {
