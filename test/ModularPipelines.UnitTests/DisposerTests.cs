@@ -26,7 +26,7 @@ public class DisposerTests
     }
 
     [Test]
-    public async Task Disposer_Calls_Sync_And_Async()
+    public async Task Disposer_Calls_Async()
     {
         var myClass = new MyClass();
 
@@ -38,7 +38,7 @@ public class DisposerTests
     }
 
     [Test]
-    public async Task Disposer_Calls_Sync_And_Async()
+    public async Task Disposer_Calls_Sync()
     {
         var myClass = new MyClass2();
 
