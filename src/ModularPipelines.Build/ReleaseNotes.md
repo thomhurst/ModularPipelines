@@ -1,1 +1,1 @@
-- Confirm choco commands by default
+*   Confirm choco commands by default
