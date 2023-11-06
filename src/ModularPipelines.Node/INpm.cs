@@ -40,6 +40,8 @@ public interface INpm
 
     Task<CommandResult> ConfigSet(NpmConfigSetOptions options, CancellationToken token = default);
 
+    Task<CommandResult> ConfigSetRegistry(NpmConfigSetRegistryOptions options, CancellationToken token = default);
+
     Task<CommandResult> ConfigGet(NpmConfigGetOptions? options = default, CancellationToken token = default);
 
     Task<CommandResult> ConfigDelete(NpmConfigDeleteOptions options, CancellationToken token = default);

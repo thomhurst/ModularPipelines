@@ -102,6 +102,11 @@ internal class Npm : INpm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
+    public async Task<CommandResult> ConfigSetRegistry(NpmConfigSetRegistryOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+
     public async Task<CommandResult> ConfigGet(NpmConfigGetOptions? options = default,
         CancellationToken token = default)
     {
