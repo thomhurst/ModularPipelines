@@ -10,8 +10,7 @@ public static class Disposer
         {
             await asyncDisposable.DisposeAsync();
         }
-
-        if (obj is IDisposable disposable)
+        else if (obj is IDisposable disposable)
         {
             disposable.Dispose();
         }

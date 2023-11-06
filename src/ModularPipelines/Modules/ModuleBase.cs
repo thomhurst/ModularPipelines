@@ -27,6 +27,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     
     internal bool IsStarted { get; set; }
 
+    internal SemaphoreSlim? Lock { get; set; } = new SemaphoreSlim(1, 1);
+
     internal List<DependsOnAttribute> DependentModules { get; } = new();
     
     internal abstract IWaitHandler WaitHandler { get; }

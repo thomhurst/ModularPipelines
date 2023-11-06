@@ -44,6 +44,12 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             // Start modules one at a time if they haven't already been started, in the context of NotInParallel modules.
             var module = Context.GetModule(dependsOnAttribute.Type);
 
+            if (module == null && !dependsOnAttribute.IgnoreIfNotRegistered)
+            {
+                throw new ModuleNotRegisteredException(
+                    $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
+            }
+
             if (module != null)
             {
                 await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
