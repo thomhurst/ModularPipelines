@@ -29,7 +29,7 @@ public record ChocoOptions() : CommandLineToolOptions("choco")
     public bool? AcceptLicense { get; set; }
 
     [BooleanCommandSwitch("--confirm")]
-    public bool? Confirm { get; set; }
+    public bool? Confirm { get; set; } = true;
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
