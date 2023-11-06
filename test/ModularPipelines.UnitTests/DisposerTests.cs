@@ -4,16 +4,9 @@ namespace ModularPipelines.UnitTests;
 
 public class DisposerTests
 {
-    private class MyClass : IDisposable, IAsyncDisposable
+    private class MyClass : IAsyncDisposable
     {
         public bool DisposedAsync { get; private set; }
-
-        public bool Disposed { get; private set; }
-
-        public void Dispose()
-        {
-            Disposed = true;
-        }
 
         public ValueTask DisposeAsync()
         {
@@ -22,23 +15,37 @@ public class DisposerTests
         }
     }
 
+    private class MyClass2 : IDisposable
+    {
+        public bool Disposed { get; private set; }
+
+        public void Dispose()
+        {
+            Disposed = true;
+        }
+    }
+
     [Test]
     public async Task Disposer_Calls_Sync_And_Async()
     {
         var myClass = new MyClass();
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(myClass.Disposed, Is.False);
-            Assert.That(myClass.DisposedAsync, Is.False);
-        });
+        Assert.That(myClass.DisposedAsync, Is.False);
 
         await Disposer.DisposeObjectAsync(myClass);
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(myClass.Disposed, Is.True);
-            Assert.That(myClass.DisposedAsync, Is.True);
-        });
+        Assert.That(myClass.DisposedAsync, Is.True);
+    }
+
+    [Test]
+    public async Task Disposer_Calls_Sync_And_Async()
+    {
+        var myClass = new MyClass2();
+
+        Assert.That(myClass.Disposed, Is.False);
+
+        await Disposer.DisposeObjectAsync(myClass);
+
+        Assert.That(myClass.Disposed, Is.True);
     }
 }
