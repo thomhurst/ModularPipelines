@@ -69,6 +69,11 @@ internal class ModuleExecutor : IModuleExecutor
         
         try
         {
+            if (module.IsStarted)
+            {
+                return module;
+            }
+
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
             await module.StartAsync();
