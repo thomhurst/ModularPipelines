@@ -11,7 +11,7 @@ public class LinuxOnlyTestAttribute : Attribute, IApplyToTest
     {
         if (!OperatingSystem.IsLinux())
         {
-            Assert.Ignore("This test is only runnable on Linux");
+            test.RunState = RunState.Ignored;
         }
     }
 }
