@@ -60,7 +60,7 @@ internal class ModuleExecutor : IModuleExecutor
             return module;
         }
 
-        await module.Lock.WaitAsync();
+        await module.Lock!.WaitAsync();
         
         try
         {
@@ -81,7 +81,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         finally
         {
-            module.Lock.Release();
+            module.Lock?.Release();
             
             if (!AnsiConsole.Profile.Capabilities.Interactive || !_pipelineOptions.Value.ShowProgressInConsole)
             {
