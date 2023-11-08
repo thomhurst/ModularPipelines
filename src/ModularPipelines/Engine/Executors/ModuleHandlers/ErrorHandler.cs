@@ -12,7 +12,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
     }
 
-    public async Task Handle(Exception exception)
+    public async Task Handle(Exception exception, bool isStartedAsDependency)
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 
@@ -72,8 +72,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     private async Task CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
-
-        Context.EngineCancellationToken.CancelWithReason($"{Module.GetType().Name} failed with a {exception.GetType().Name}");
+        
+        Context.EngineCancellationToken.CancelWithReason(
+            $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
 
         // Time for cancellation to register
         await Task.Delay(TimeSpan.FromMilliseconds(200));

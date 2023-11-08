@@ -13,11 +13,15 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
     {
     }
 
-    public async Task<WaitResult> WaitForModuleDependencies()
+    public async Task<WaitResult> WaitForModuleDependencies(bool isStartedAsDependency)
     {
         try
         {
             await WaitForDependencies();
+        }
+        catch when (isStartedAsDependency)
+        {
+            throw;
         }
         catch when (EngineCancellationToken.IsCancellationRequested && Module.ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
         {
@@ -25,6 +29,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
 
             ModuleResultTaskCompletionSource.TrySetCanceled();
+            
             return WaitResult.Abort;
         }
 
@@ -52,7 +57,15 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
             if (module != null)
             {
-                await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+                try
+                {
+                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module, true);
+                    await module.ResultTaskInternal;
+                }
+                catch (Exception e)
+                {
+                    throw new DependencyFailedException(e, module);
+                }
             }
         }
 

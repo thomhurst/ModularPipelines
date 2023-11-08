@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal interface IWaitHandler
 {
-    Task<WaitResult> WaitForModuleDependencies();
+    Task<WaitResult> WaitForModuleDependencies(bool isStartedAsDependency);
 }

@@ -62,8 +62,13 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
     /// </summary>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
-    internal override async Task StartAsync()
+    internal override async Task StartAsync(bool isStartedAsDependency)
     {
+        if (isStartedAsDependency)
+        {
+            await Task.Delay(500);
+        }
+        
         lock (_startLock)
         {
             if (IsStarted)
@@ -73,10 +78,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             IsStarted = true;
         }
-        
+
         try
         {
-            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
+            if (await WaitHandler.WaitForModuleDependencies(isStartedAsDependency) == WaitResult.Abort)
             {
                 return;
             }
@@ -113,10 +118,17 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
+        catch (Exception exception) when (isStartedAsDependency)
+        {
+            SetEndTime();
+            Status = Status.Failed;
+            Exception = exception;
+            throw;
+        }
         catch (Exception exception)
         {
             SetEndTime();
-            await ErrorHandler.Handle(exception);
+            await ErrorHandler.Handle(exception, isStartedAsDependency);
         }
         finally
         {
@@ -238,7 +250,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         });
 
         // Will throw a timeout exception if configured and timeout is reached
-        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+        await await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
         return await executeAsyncTask;
     }

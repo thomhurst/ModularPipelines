@@ -2,5 +2,5 @@
 
 internal interface IErrorHandler
 {
-    Task Handle(Exception exception);
+    Task Handle(Exception exception, bool isStartedAsDependency);
 }

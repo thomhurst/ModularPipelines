@@ -74,7 +74,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract Task<object> ResultTaskInternal { get; }
+    internal abstract Task ResultTaskInternal { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -104,7 +104,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal Exception? Exception { get; set; }
 
-    internal abstract Task StartAsync();
+    internal abstract Task StartAsync(bool isStartedAsDependency);
 
     internal abstract ModuleBase Initialize(IPipelineContext context);
 
@@ -198,7 +198,7 @@ public abstract class ModuleBase<T> : ModuleBase
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
 
-    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object)t.Result);
+    internal override Task ResultTaskInternal => ModuleResultTaskCompletionSource.Task;
 
     /// <summary>
     /// Used to return no result in a module.

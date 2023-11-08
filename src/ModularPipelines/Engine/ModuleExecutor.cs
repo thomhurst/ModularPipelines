@@ -42,7 +42,7 @@ internal class ModuleExecutor : IModuleExecutor
         
         foreach (var nonParallelModule in unKeyedNonParallelModules)
         {
-            moduleResults.Add(await ExecuteAsync(nonParallelModule));
+            moduleResults.Add(await ExecuteAsync(nonParallelModule, false));
         }
 
         var keyedNonParallelModules = nonParallelModules
@@ -57,7 +57,7 @@ internal class ModuleExecutor : IModuleExecutor
         
         moduleResults.AddRange(groupResults.SelectMany(x => x));
         
-        var moduleTasks = modules.Except(nonParallelModules).Select(ExecuteAsync).ToArray();
+        var moduleTasks = modules.Except(nonParallelModules).Select(x => ExecuteAsync(x, false)).ToArray();
         
         if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
         {
@@ -75,7 +75,7 @@ internal class ModuleExecutor : IModuleExecutor
         IGrouping<string?, ModuleBase> moduleBases,
         ICollection<ModuleBase> moduleResults)
     {
-        var executionProcessor = moduleBases.SelectAsync(ExecuteAsync);
+        var executionProcessor = moduleBases.SelectAsync(x => ExecuteAsync(x, false));
 
         if (string.IsNullOrEmpty(moduleBases.Key))
         {
@@ -85,10 +85,11 @@ internal class ModuleExecutor : IModuleExecutor
         return await executionProcessor.ProcessOneAtATime();
     }
 
-    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
+    public async Task<ModuleBase> ExecuteAsync(ModuleBase module, bool isStartedAsDependency)
     {
         if (module.IsStarted)
         {
+            await module.ResultTaskInternal;
             return module;
         }
 
@@ -96,6 +97,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         if (module.IsStarted)
         {
+            await module.ResultTaskInternal;
             return module;
         }
         
@@ -103,7 +105,7 @@ internal class ModuleExecutor : IModuleExecutor
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
-            var startTask = module.StartAsync();
+            var startTask = module.StartAsync(isStartedAsDependency);
 
             while (!module.IsStarted)
             {
