@@ -51,7 +51,7 @@ internal class ModuleExecutor : IModuleExecutor
         
         var groupResults = await keyedNonParallelModules
             .Concat(modules.Except(unKeyedNonParallelModules))
-            .GroupBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey)
+            .GroupBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()?.ConstraintKey)
             .SelectAsync(x => ProcessGroup(x, moduleResults))
             .ProcessInParallel();
         
