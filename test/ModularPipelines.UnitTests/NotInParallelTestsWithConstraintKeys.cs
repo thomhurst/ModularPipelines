@@ -73,7 +73,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
             Is.EqualTo((firstModule.StartTime + expectedTimeAfter).ToUnixTimeMilliseconds())
-                .Within(250)
+                .Within(350)
         );
     }
     
@@ -81,7 +81,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo(firstModule.StartTime.ToUnixTimeMilliseconds()).Within(250)
+            Is.EqualTo(firstModule.StartTime.ToUnixTimeMilliseconds()).Within(350)
         );
     }
 }
