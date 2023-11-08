@@ -1,1 +1,1 @@
-*   Retry message in logger
+*   Log a retry message when a module retries
