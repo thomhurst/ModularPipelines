@@ -1,1 +1,1 @@
-- Retry message in logger
+*   Retry message in logger
