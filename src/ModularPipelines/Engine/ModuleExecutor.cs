@@ -1,4 +1,5 @@
 using System.Reflection;
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
@@ -32,12 +33,29 @@ internal class ModuleExecutor : IModuleExecutor
         
         var nonParallelModules = modules
             .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+            .OrderBy(x => x.DependentModules.Count)
+            .ToList();
+
+        var unKeyedNonParallelModules = nonParallelModules
+            .Where(x => string.IsNullOrEmpty(x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey))
             .ToList();
         
-        foreach (var nonParallelModule in nonParallelModules.OrderBy(x => x.DependentModules.Count))
+        foreach (var nonParallelModule in unKeyedNonParallelModules)
         {
             moduleResults.Add(await ExecuteAsync(nonParallelModule));
         }
+
+        var keyedNonParallelModules = nonParallelModules
+            .Where(x => !string.IsNullOrEmpty(x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey))
+            .ToList();
+        
+        var groupResults = await keyedNonParallelModules
+            .Concat(modules.Except(unKeyedNonParallelModules))
+            .GroupBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey)
+            .SelectAsync(x => ProcessGroup(x, moduleResults))
+            .ProcessInParallel();
+        
+        moduleResults.AddRange(groupResults.SelectMany(x => x));
         
         var moduleTasks = modules.Except(nonParallelModules).Select(ExecuteAsync).ToArray();
         
@@ -51,6 +69,20 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return moduleResults;
+    }
+
+    private async Task<IEnumerable<ModuleBase>> ProcessGroup(
+        IGrouping<string?, ModuleBase> moduleBases,
+        ICollection<ModuleBase> moduleResults)
+    {
+        var executionProcessor = moduleBases.SelectAsync(ExecuteAsync);
+
+        if (string.IsNullOrEmpty(moduleBases.Key))
+        {
+            return await executionProcessor.ProcessInParallel();
+        }
+
+        return await executionProcessor.ProcessOneAtATime();
     }
 
     public async Task<ModuleBase> ExecuteAsync(ModuleBase module)

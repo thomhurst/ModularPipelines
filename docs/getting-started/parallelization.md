@@ -23,3 +23,40 @@ public class MyModule : Module
     }
 }
 ```
+
+Not `NotInParallel` attribute can also take a `ConstraintKey` parameter.
+If this is set, then a module will not run in parallel with other modules containing the same constraint key.
+If another module has a different constraint key, these will still run in parallel.
+
+## Example
+
+```csharp
+[NotInParallel(ConstraintKey = "Install")]
+public class InstallModule1 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[NotInParallel(ConstraintKey = "Install")]
+public class InstallModule2 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[NotInParallel(ConstraintKey = "Build")]
+public class BuildProjectModule : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+```
+
+In the above example, `InstallModule1` and `InstallModule2` will not run at the same time. However, either of them could run at the same time as `BuildProjectModule`.

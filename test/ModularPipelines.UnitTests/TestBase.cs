@@ -10,6 +10,7 @@ namespace ModularPipelines.UnitTests;
 
 [TestFixture]
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
+[Parallelizable(ParallelScope.All)]
 public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = new();
