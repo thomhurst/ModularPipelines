@@ -52,7 +52,7 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         try
         {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ResultTaskInternal));
+            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.WaitTask));
         }
         catch
         {

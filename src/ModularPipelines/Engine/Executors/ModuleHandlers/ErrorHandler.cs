@@ -12,7 +12,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
     }
 
-    public async Task Handle(Exception exception, bool isStartedAsDependency)
+    public async Task Handle(Exception exception)
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 

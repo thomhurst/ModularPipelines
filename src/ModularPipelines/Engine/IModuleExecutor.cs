@@ -6,5 +6,5 @@ internal interface IModuleExecutor
 {
     Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules);
     
-    Task<ModuleBase> ExecuteAsync(ModuleBase module, bool isStartedAsDependency);
+    Task<ModuleBase> ExecuteAsync(ModuleBase module);
 }

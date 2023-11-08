@@ -42,7 +42,7 @@ internal class ModuleExecutor : IModuleExecutor
         
         foreach (var nonParallelModule in unKeyedNonParallelModules)
         {
-            moduleResults.Add(await ExecuteAsync(nonParallelModule, false));
+            moduleResults.Add(await ExecuteAsync(nonParallelModule));
         }
 
         var keyedNonParallelModules = nonParallelModules
@@ -57,7 +57,7 @@ internal class ModuleExecutor : IModuleExecutor
         
         moduleResults.AddRange(groupResults.SelectMany(x => x));
         
-        var moduleTasks = modules.Except(nonParallelModules).Select(x => ExecuteAsync(x, false)).ToArray();
+        var moduleTasks = modules.Except(nonParallelModules).Select(ExecuteAsync).ToArray();
         
         if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
         {
@@ -71,33 +71,11 @@ internal class ModuleExecutor : IModuleExecutor
         return moduleResults;
     }
 
-    private async Task<IEnumerable<ModuleBase>> ProcessGroup(
-        IGrouping<string?, ModuleBase> moduleBases,
-        ICollection<ModuleBase> moduleResults)
-    {
-        var executionProcessor = moduleBases.SelectAsync(x => ExecuteAsync(x, false));
-
-        if (string.IsNullOrEmpty(moduleBases.Key))
-        {
-            return await executionProcessor.ProcessInParallel();
-        }
-
-        return await executionProcessor.ProcessOneAtATime();
-    }
-
-    public async Task<ModuleBase> ExecuteAsync(ModuleBase module, bool isStartedAsDependency)
+    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
     {
         if (module.IsStarted)
         {
-            await module.ResultTaskInternal;
-            return module;
-        }
-
-        await module.Lock!.WaitAsync();
-
-        if (module.IsStarted)
-        {
-            await module.ResultTaskInternal;
+            await module.WaitTask;
             return module;
         }
         
@@ -105,17 +83,8 @@ internal class ModuleExecutor : IModuleExecutor
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
-            var startTask = module.StartAsync(isStartedAsDependency);
-
-            while (!module.IsStarted)
-            {
-                await Task.Delay(100);
-            }
-
-            module.Lock.Release();
-
-            await startTask;
-
+            await module.StartAsync();
+            
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
 
             await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
@@ -129,5 +98,19 @@ internal class ModuleExecutor : IModuleExecutor
                 await _moduleDisposer.DisposeAsync(module);
             }
         }
+    }
+
+    private async Task<IEnumerable<ModuleBase>> ProcessGroup(
+        IGrouping<string?, ModuleBase> moduleBases,
+        ICollection<ModuleBase> moduleResults)
+    {
+        var executionProcessor = moduleBases.SelectAsync(ExecuteAsync);
+
+        if (string.IsNullOrEmpty(moduleBases.Key))
+        {
+            return await executionProcessor.ProcessInParallel();
+        }
+
+        return await executionProcessor.ProcessOneAtATime();
     }
 }

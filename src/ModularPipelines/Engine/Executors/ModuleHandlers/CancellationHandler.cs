@@ -30,7 +30,7 @@ internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
 
         return Task.Run(async () =>
         {
-            while (!Module.ResultTaskInternal.IsCompleted)
+            while (Module.WaitTask is not { IsCompleted: true })
             {
                 ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
             

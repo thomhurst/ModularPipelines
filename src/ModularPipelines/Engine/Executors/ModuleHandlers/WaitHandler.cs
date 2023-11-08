@@ -13,15 +13,11 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
     {
     }
 
-    public async Task<WaitResult> WaitForModuleDependencies(bool isStartedAsDependency)
+    public async Task<WaitResult> WaitForModuleDependencies()
     {
         try
         {
             await WaitForDependencies();
-        }
-        catch when (isStartedAsDependency)
-        {
-            throw;
         }
         catch when (EngineCancellationToken.IsCancellationRequested && Module.ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
         {
@@ -59,8 +55,8 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             {
                 try
                 {
-                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module, true);
-                    await module.ResultTaskInternal;
+                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+                    await module.WaitTask;
                 }
                 catch (Exception e)
                 {
@@ -91,7 +87,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
                     Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
 
-                    return module.ResultTaskInternal;
+                    return module.WaitTask;
                 })
                 .ProcessInParallel();
         }

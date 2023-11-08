@@ -62,21 +62,20 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
     /// </summary>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
-    internal override async Task StartAsync(bool isStartedAsDependency)
+    internal override Task StartAsync()
     {
         lock (_startLock)
         {
-            if (IsStarted)
-            {
-                return;
-            }
-
             IsStarted = true;
+            return ResultTaskInternal ??= StartInternal();
         }
+    }
 
+    private async Task StartInternal()
+    {
         try
         {
-            if (await WaitHandler.WaitForModuleDependencies(isStartedAsDependency) == WaitResult.Abort)
+            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
             {
                 return;
             }
@@ -113,17 +112,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
         }
-        catch (Exception exception) when (isStartedAsDependency)
-        {
-            SetEndTime();
-            Status = Status.Failed;
-            Exception = exception;
-            throw;
-        }
         catch (Exception exception)
         {
             SetEndTime();
-            await ErrorHandler.Handle(exception, isStartedAsDependency);
+            await ErrorHandler.Handle(exception);
         }
         finally
         {
