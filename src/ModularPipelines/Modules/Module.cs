@@ -238,9 +238,18 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
+        var isRetry = false;
         var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
         {
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            if (isRetry)
+            {
+                Context.Logger.LogWarning("An error occurred. Retrying...");
+            }
+
+            isRetry = true;
+            
             return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
         });
 
