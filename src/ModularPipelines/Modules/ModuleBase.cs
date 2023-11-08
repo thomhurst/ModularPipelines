@@ -26,9 +26,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
     
     internal bool IsStarted { get; set; }
-
-    internal SemaphoreSlim? Lock { get; set; } = new SemaphoreSlim(1, 1);
-
+    
     internal List<DependsOnAttribute> DependentModules { get; } = new();
     
     internal abstract IWaitHandler WaitHandler { get; }
@@ -74,7 +72,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract Task<object> ResultTaskInternal { get; }
+    internal abstract Task WaitTask { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -198,7 +196,7 @@ public abstract class ModuleBase<T> : ModuleBase
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
 
-    internal override Task<object> ResultTaskInternal => ModuleResultTaskCompletionSource.Task.ContinueWith(t => (object)t.Result);
+    internal Task? ResultTaskInternal { get; set; }
 
     /// <summary>
     /// Used to return no result in a module.

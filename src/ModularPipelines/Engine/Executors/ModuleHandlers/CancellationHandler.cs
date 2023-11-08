@@ -28,6 +28,19 @@ internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
 
         ModuleCancellationTokenSource.CancelAfter(Module.Timeout);
 
-        return Task.Delay(Module.Timeout + TimeSpan.FromSeconds(30), ModuleCancellationTokenSource.Token);
+        return Task.Run(async () =>
+        {
+            while (Module.WaitTask is not { IsCompleted: true })
+            {
+                ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
+                if (Module.ModuleRunType != ModuleRunType.AlwaysRun)
+                {
+                    EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                }
+                
+                await Task.Delay(500, ModuleCancellationTokenSource.Token);
+            }
+        }, ModuleCancellationTokenSource.Token);
     }
 }

@@ -43,14 +43,14 @@ internal class ProgressPrinter : IProgressPrinter
 
                 while (!progressContext.IsFinished)
                 {
+                    progressContext.Refresh();
+                    
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        progressContext.Refresh();
                         return;
                     }
 
-                    await Task.Delay(1000, CancellationToken.None);
-                    progressContext.Refresh();
+                    await Task.Delay(100, CancellationToken.None);
                 }
 
                 if (cancellationToken.IsCancellationRequested)
@@ -159,12 +159,12 @@ internal class ProgressPrinter : IProgressPrinter
 
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
 
-                var ticksPerSecond = 100 / totalEstimatedSeconds;
+                var ticksPerSecond = 1000 / totalEstimatedSeconds;
 
                 progressTask.Description = moduleName;
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromMilliseconds(100), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
@@ -194,7 +194,7 @@ internal class ProgressPrinter : IProgressPrinter
         CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has finished
-        _ = moduleToProcess.Module.ResultTaskInternal.ContinueWith(t =>
+        _ = moduleToProcess.Module.WaitTask.ContinueWith(t =>
         {
             lock (moduleToProcess)
             {
@@ -253,11 +253,11 @@ internal class ProgressPrinter : IProgressPrinter
 
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
 
-                var ticksPerSecond = 100 / totalEstimatedSeconds;
+                var ticksPerSecond = 1000 / totalEstimatedSeconds;
 
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromMilliseconds(100), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
@@ -279,7 +279,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static void CompleteTotalWhenFinished(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)
     {
-        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.ResultTaskInternal)).ContinueWith(x =>
+        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.WaitTask)).ContinueWith(x =>
         {
             totalTask.Increment(100);
             totalTask.StopTask();

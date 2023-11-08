@@ -25,6 +25,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
 
             ModuleResultTaskCompletionSource.TrySetCanceled();
+            
             return WaitResult.Abort;
         }
 
@@ -52,7 +53,15 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
             if (module != null)
             {
-                await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+                try
+                {
+                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
+                    await module.WaitTask;
+                }
+                catch (Exception e)
+                {
+                    throw new DependencyFailedException(e, module);
+                }
             }
         }
 
@@ -78,7 +87,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
                     Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
 
-                    return module.ResultTaskInternal;
+                    return module.WaitTask;
                 })
                 .ProcessInParallel();
         }

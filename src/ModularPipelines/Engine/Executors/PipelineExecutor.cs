@@ -31,7 +31,7 @@ internal class PipelineExecutor : IPipelineExecutor
         catch
         {
             // Give time for the console to update modules to Failed
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromMilliseconds(250));
             throw;
         }
         finally
@@ -52,7 +52,7 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         try
         {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ResultTaskInternal));
+            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.WaitTask));
         }
         catch
         {
