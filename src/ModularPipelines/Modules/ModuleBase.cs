@@ -198,19 +198,6 @@ public abstract class ModuleBase<T> : ModuleBase
 
     internal Task? ResultTaskInternal { get; set; }
 
-    internal override Task WaitTask
-    {
-        get
-        {
-            if (!IsStarted)
-            {
-                throw new ModuleNotInitializedException(GetType());
-            }
-            
-            return ResultTaskInternal!;
-        }
-    }
-
     /// <summary>
     /// Used to return no result in a module.
     /// </summary>

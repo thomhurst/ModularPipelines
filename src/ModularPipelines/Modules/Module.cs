@@ -67,7 +67,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         lock (_startLock)
         {
             IsStarted = true;
-            return ResultTaskInternal ??= StartInternal();
+            return WaitTask;
         }
     }
 
@@ -225,6 +225,17 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             _result = value;
             SetResult(value);
+        }
+    }
+
+    internal override Task WaitTask
+    {
+        get
+        {
+            lock (_startLock)
+            {
+                return ResultTaskInternal ??= StartInternal();
+            }
         }
     }
 
