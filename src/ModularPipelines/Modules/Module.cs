@@ -64,11 +64,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override async Task StartAsync(bool isStartedAsDependency)
     {
-        if (isStartedAsDependency)
-        {
-            await Task.Delay(500);
-        }
-        
         lock (_startLock)
         {
             if (IsStarted)
