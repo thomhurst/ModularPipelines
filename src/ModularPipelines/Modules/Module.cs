@@ -64,11 +64,8 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override Task StartAsync()
     {
-        lock (_startLock)
-        {
-            IsStarted = true;
-            return WaitTask;
-        }
+        IsStarted = true;
+        return WaitTask;
     }
 
     private async Task StartInternal()
