@@ -41,6 +41,12 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
