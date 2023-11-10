@@ -68,69 +68,37 @@ public abstract partial class Module<T> : ModuleBase<T>
         return WaitTask;
     }
 
-    private async Task StartInternal()
-    {
-        try
-        {
-            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
-            {
-                return;
-            }
-
-            CancellationHandler.SetupCancellation();
-
-            if (await SkipHandler.HandleSkipped())
-            {
-                return;
-            }
-
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-            await HookHandler.OnBeforeExecute(Context);
-
-            StartTask.Start(TaskScheduler.Default);
-
-            Status = Status.Processing;
-            StartTime = DateTimeOffset.UtcNow;
-
-            var timeoutExceptionTask = CancellationHandler.ConfigureModuleTimeout();
-
-            _stopwatch.Start();
-
-            var executeResult = await ExecuteInternal(timeoutExceptionTask);
-
-            SetEndTime();
-
-            Status = Status.Successful;
-
-            var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            await HistoryHandler.SaveResult(moduleResult);
-
-            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
-        }
-        catch (Exception exception)
-        {
-            SetEndTime();
-            await ErrorHandler.Handle(exception);
-        }
-        finally
-        {
-            _stopwatch.Stop();
-
-            ModuleResultTaskCompletionSource.TrySetCanceled();
-
-            await HookHandler.OnAfterExecute(Context);
-
-            StatusHandler.LogModuleStatus();
-        }
-    }
-
     internal override ModuleBase Initialize(IPipelineContext context)
     {
         context.InitializeLogger(GetType());
         Context = context;
         return this;
+    }
+
+        [JsonInclude]
+    internal ModuleResult<T> Result
+    {
+        get
+        {
+            return _result;
+        }
+
+        set
+        {
+            _result = value;
+            SetResult(value);
+        }
+    }
+
+    internal override Task WaitTask
+    {
+        get
+        {
+            lock (_startLock)
+            {
+                return ResultTaskInternal ??= StartInternal();
+            }
+        }
     }
 
     /// <summary>
@@ -193,6 +161,64 @@ public abstract partial class Module<T> : ModuleBase<T>
         DependentModules.Add(dependsOnAttribute);
     }
 
+    private async Task StartInternal()
+    {
+        try
+        {
+            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
+            {
+                return;
+            }
+
+            CancellationHandler.SetupCancellation();
+
+            if (await SkipHandler.HandleSkipped())
+            {
+                return;
+            }
+
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            await HookHandler.OnBeforeExecute(Context);
+
+            StartTask.Start(TaskScheduler.Default);
+
+            Status = Status.Processing;
+            StartTime = DateTimeOffset.UtcNow;
+
+            var timeoutExceptionTask = CancellationHandler.ConfigureModuleTimeout();
+
+            _stopwatch.Start();
+
+            var executeResult = await ExecuteInternal(timeoutExceptionTask);
+
+            SetEndTime();
+
+            Status = Status.Successful;
+
+            var moduleResult = new ModuleResult<T>(executeResult, this);
+
+            await HistoryHandler.SaveResult(moduleResult);
+
+            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+        }
+        catch (Exception exception)
+        {
+            SetEndTime();
+            await ErrorHandler.Handle(exception);
+        }
+        finally
+        {
+            _stopwatch.Stop();
+
+            ModuleResultTaskCompletionSource.TrySetCanceled();
+
+            await HookHandler.OnAfterExecute(Context);
+
+            StatusHandler.LogModuleStatus();
+        }
+    }
+
     private void SetResult(ModuleResult<T> result)
     {
         result.Module ??= this;
@@ -209,32 +235,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     }
 
     private ModuleResult<T> _result = null!;
-
-    [JsonInclude]
-    internal ModuleResult<T> Result
-    {
-        get
-        {
-            return _result;
-        }
-
-        set
-        {
-            _result = value;
-            SetResult(value);
-        }
-    }
-
-    internal override Task WaitTask
-    {
-        get
-        {
-            lock (_startLock)
-            {
-                return ResultTaskInternal ??= StartInternal();
-            }
-        }
-    }
 
     private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
     {
