@@ -42,11 +42,12 @@ jobs:
         with:
           dotnet-version: 7.0.x
       - name: Cache NuGet
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: |
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
