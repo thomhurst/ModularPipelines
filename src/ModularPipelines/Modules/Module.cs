@@ -75,7 +75,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         return this;
     }
 
-        [JsonInclude]
+    [JsonInclude]
     internal ModuleResult<T> Result
     {
         get
