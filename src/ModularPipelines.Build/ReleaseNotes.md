@@ -1,1 +1,1 @@
-- RunOnLinuxOnlyAttribute + RunOnWindowsOnlyAttribute + RunOnMacOSOnlyAttribute
+*   RunOnLinuxOnlyAttribute + RunOnWindowsOnlyAttribute + RunOnMacOSOnlyAttribute
