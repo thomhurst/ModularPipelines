@@ -8,7 +8,7 @@ namespace ModularPipelines.Requirements;
 public class WindowsAdminRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<bool> MustAsync(IPipelineContext context)
+    public Task<bool> MustAsync(IPipelineHookContext context)
     {
         if (context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
