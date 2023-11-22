@@ -5,8 +5,18 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Options for setting the context of a command, the command line tool, and any arguments it needs
 /// </summary>
-public record CommandLineToolOptions(string Tool) : CommandLineOptions
+public record CommandLineToolOptions : CommandLineOptions
 {
+    public CommandLineToolOptions(string Tool) : this(Tool, null)
+    {
+    }
+
+    public CommandLineToolOptions(string tool, params string[]? arguments)
+    {
+        Tool = tool;
+        Arguments = arguments;
+    }
+
     /// <summary>
     /// Used for providing switches and arguments to the tool
     /// </summary>
