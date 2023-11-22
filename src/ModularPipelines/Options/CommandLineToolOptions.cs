@@ -7,7 +7,7 @@ namespace ModularPipelines.Options;
 /// </summary>
 public record CommandLineToolOptions : CommandLineOptions
 {
-    public CommandLineToolOptions(string Tool) : this(Tool, null)
+    public CommandLineToolOptions(string tool) : this(tool, null)
     {
     }
 
