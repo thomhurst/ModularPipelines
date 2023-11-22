@@ -4,5 +4,5 @@ namespace ModularPipelines.Requirements;
 
 public interface IPipelineRequirement
 {
-    Task<bool> MustAsync(IPipelineContext context);
+    Task<bool> MustAsync(IPipelineHookContext context);
 }

@@ -44,7 +44,7 @@ public class PipelineRequirementTests
 
     private class SuccessfulRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IPipelineContext context)
+        public async Task<bool> MustAsync(IPipelineHookContext context)
         {
             await Task.Yield();
             return true;
@@ -53,7 +53,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IPipelineContext context)
+        public async Task<bool> MustAsync(IPipelineHookContext context)
         {
             await Task.Yield();
             return false;

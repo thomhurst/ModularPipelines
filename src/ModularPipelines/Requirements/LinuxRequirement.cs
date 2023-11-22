@@ -7,7 +7,7 @@ namespace ModularPipelines.Requirements;
 public class LinuxRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<bool> MustAsync(IPipelineContext context)
+    public Task<bool> MustAsync(IPipelineHookContext context)
     {
         return Task.FromResult(context.Environment.OperatingSystem == OperatingSystemIdentifier.Linux);
     }
