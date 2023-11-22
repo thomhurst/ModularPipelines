@@ -17,6 +17,8 @@ public record CommandLineToolOptions : CommandLineOptions
         Arguments = arguments;
     }
 
+    public string Tool { get; init; }
+
     /// <summary>
     /// Used for providing switches and arguments to the tool
     /// </summary>
