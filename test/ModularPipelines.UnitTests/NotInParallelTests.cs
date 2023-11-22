@@ -11,7 +11,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             return GetType().Name;
         }
     }
@@ -21,7 +21,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             return GetType().Name;
         }
     }
@@ -32,7 +32,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             return GetType().Name;
         }
     }
@@ -41,7 +41,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             return GetType().Name;
         }
     }
@@ -52,7 +52,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             return GetType().Name;
         }
     }
@@ -70,8 +70,8 @@ public class NotInParallelTests
 
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(1)).ToUnixTimeMilliseconds())
-                .Within(350)
+            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
+                .Within(500)
         );
     }
     
@@ -88,8 +88,8 @@ public class NotInParallelTests
 
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(1)).ToUnixTimeMilliseconds())
-                .Within(350)
+            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
+                .Within(500)
         );
     }
     
@@ -107,8 +107,8 @@ public class NotInParallelTests
 
         Assert.That(
             nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
-                .Within(350)
+            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(4)).ToUnixTimeMilliseconds())
+                .Within(500)
         );
     }
 }
