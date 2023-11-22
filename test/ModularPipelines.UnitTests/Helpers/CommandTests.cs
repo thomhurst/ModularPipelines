@@ -11,10 +11,12 @@ public class CommandTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("pwsh")
-            {
-                Arguments = new[] { "-Command", "echo 'Foo bar!'" },
-            }, cancellationToken: cancellationToken);
+            return await context.Command.ExecuteCommandLineTool(
+                new CommandLineToolOptions(
+                    "pwsh",
+                    "-Command", "echo 'Foo bar!'"
+                ), 
+                cancellationToken: cancellationToken);
         }
     }
 

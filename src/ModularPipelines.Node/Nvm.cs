@@ -22,4 +22,28 @@ internal class Nvm : INvm
             Arguments = new[] { "use", version },
         }, cancellationToken);
     }
+
+    public Task<CommandResult> Install(string version, CancellationToken cancellationToken = default)
+    {
+        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+        {
+            Arguments = new[] { "install", version },
+        }, cancellationToken);
+    }
+
+    public Task<CommandResult> Version(CancellationToken cancellationToken = default)
+    {
+        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+        {
+            Arguments = new[] { "version" },
+        }, cancellationToken);
+    }
+
+    public Task<CommandResult> Which(CancellationToken cancellationToken = default)
+    {
+        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
+        {
+            Arguments = new[] { "which" },
+        }, cancellationToken);
+    }
 }
