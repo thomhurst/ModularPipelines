@@ -5,8 +5,8 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AWSSDK.Lambda" Version="3.7.303.2" />
-      <PackageReference Include="AWSSDK.S3" Version="3.7.301.1" />
+      <PackageReference Include="AWSSDK.Lambda" Version="3.7.303.3" />
+      <PackageReference Include="AWSSDK.S3" Version="3.7.302" />
     </ItemGroup>
 
     <ItemGroup>
