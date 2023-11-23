@@ -1,1 +1,1 @@
-- Add NuGet Descriptions on packages
+*   Add NuGet Descriptions on packages
