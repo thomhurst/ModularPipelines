@@ -8,6 +8,8 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using Polly;
+using Polly.Retry;
 
 namespace ModularPipelines.Modules;
 
@@ -265,4 +267,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         EndTime = DateTimeOffset.UtcNow;
         Duration = _stopwatch.Elapsed;
     }
+
+    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
+        Policy<T?>.Handle<Exception>()
+            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 }

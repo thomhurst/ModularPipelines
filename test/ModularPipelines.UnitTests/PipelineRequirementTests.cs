@@ -33,6 +33,18 @@ public class PipelineRequirementTests
         Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
             .With.Message.EqualTo("Requirements failed:\r\nFailingRequirement"));
     }
+    
+    [Test]
+    public void When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
+    {
+        var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
+            .AddModule<DummyModule>()
+            .AddRequirement<FailingRequirementWithReason>()
+            .ExecutePipelineAsync();
+
+        Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
+            .With.Message.EqualTo("Requirements failed:\r\nError: Foo bar!"));
+    }
 
     private class DummyModule : Module
     {
@@ -58,6 +70,15 @@ public class PipelineRequirementTests
         {
             await Task.Yield();
             return false;
+        }
+    }
+    
+    private class FailingRequirementWithReason : IPipelineRequirement
+    {
+        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
+        {
+            await Task.Yield();
+            return RequirementDecision.Failed("Error: Foo bar!");
         }
     }
 }
