@@ -6,6 +6,9 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
+using Polly;
+using Polly.NoOp;
+using Polly.Retry;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -13,6 +16,8 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackProjectsModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
+    protected override AsyncRetryPolicy<DotNetTestResult[]?> RetryPolicy => CreateRetryPolicy(0);
+
     /// <inheritdoc/>
     protected override async Task<DotNetTestResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

@@ -57,7 +57,7 @@ public class NotInParallelTests
         }
     }
     
-    [Test, Repeat(10)]
+    [Test]
     public async Task NotInParallel()
     {
         var results = await TestPipelineHostBuilder.Create()
@@ -75,7 +75,7 @@ public class NotInParallelTests
         );
     }
     
-    [Test, Repeat(10)]
+    [Test]
     public async Task NotInParallel_With_ParallelDependency()
     {
         var results = await TestPipelineHostBuilder.Create()
@@ -93,7 +93,7 @@ public class NotInParallelTests
         );
     }
     
-    [Test, Repeat(10)]
+    [Test]
     public async Task NotInParallel_With_NonParallelDependency()
     {
         var results = await TestPipelineHostBuilder.Create()

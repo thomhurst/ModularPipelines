@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -8,6 +9,8 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using Polly;
+using Polly.Retry;
 
 namespace ModularPipelines.Modules;
 
@@ -41,6 +44,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     protected Module()
     {
@@ -265,4 +269,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         EndTime = DateTimeOffset.UtcNow;
         Duration = _stopwatch.Elapsed;
     }
+
+    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
+        Policy<T?>.Handle<Exception>()
+            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 }

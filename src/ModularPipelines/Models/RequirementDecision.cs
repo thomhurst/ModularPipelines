@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace ModularPipelines.Models;
 
@@ -10,6 +11,7 @@ public sealed record RequirementDecision
     [JsonInclude]
     public string? Reason { get; private init; }
 
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     private RequirementDecision()
     {
@@ -32,7 +34,7 @@ public sealed record RequirementDecision
         Reason = passed ? null : reason,
     };
 
-    public static implicit operator RequirementDecision(bool shouldSkip) => shouldSkip ? Failed(null) : Passed;
+    public static implicit operator RequirementDecision(bool passed) => passed ? Passed : Failed(null);
 
     public static implicit operator RequirementDecision(string reason) => Failed(reason);
 }
