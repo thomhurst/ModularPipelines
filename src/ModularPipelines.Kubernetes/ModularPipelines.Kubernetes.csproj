@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Helpers for interacting with kubectl CLI.</ModularPipelineReadMeDescription>
+    <Description>Helpers for interacting with kubectl CLI.</Description>
   </PropertyGroup>
 
     <ItemGroup>

@@ -61,7 +61,8 @@ public class GenerateReadMeModule : Module
         var projectRootElement = ProjectRootElement.Open(file)!;
 
         var descriptionProperty =
-            projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
+            projectRootElement.Properties.FirstOrDefault(p => p.Name == "Description")
+            ?? projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
             ?? throw new ArgumentNullException($"No ModularPipelineReadMeDescription property found in {file.Name}");
 
         return descriptionProperty.Value;
