@@ -1,6 +1,7 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using Polly.Retry;
 
 namespace ModularPipelines.UnitTests;
 
@@ -19,6 +20,26 @@ public class RetryTests : TestBase
 
     private class FailedModule : Module
     {
+        internal int ExecutionCount;
+
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            ExecutionCount++;
+
+            if (ExecutionCount != 4)
+            {
+                throw new Exception();
+            }
+
+            return await NothingAsync();
+        }
+    }
+    
+    private class FailedModuleWithCustomRetryPolicy : Module
+    {
+        protected override AsyncRetryPolicy<IDictionary<string, object>?> RetryPolicy
+            => CreateRetryPolicy(3);
+        
         internal int ExecutionCount;
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -78,6 +99,22 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<FailedModule>().First();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(module.ExecutionCount, Is.EqualTo(4));
+            Assert.That(module.Exception, Is.Null);
+        });
+    }
+    
+    [Test]
+    public async Task When_Error_With_Custom_RetryPolicy_Then_Retry()
+    {
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<FailedModuleWithCustomRetryPolicy>()
+            .ExecutePipelineAsync();
+
+        var module = pipelineSummary.Modules.OfType<FailedModuleWithCustomRetryPolicy>().First();
 
         Assert.Multiple(() =>
         {
