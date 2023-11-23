@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Helpers for interacting with GitHub Actions build agents.</ModularPipelineReadMeDescription>
+    <Description>Helpers for interacting with GitHub Actions build agents.</Description>
   </PropertyGroup>
 
     <ItemGroup>

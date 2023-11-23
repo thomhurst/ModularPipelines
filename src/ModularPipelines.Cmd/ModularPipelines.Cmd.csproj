@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ModularPipelineReadMeDescription>Helpers for interacting with the Windows cmd process.</ModularPipelineReadMeDescription>
+    <Description>Helpers for interacting with the Windows cmd process.</Description>
   </PropertyGroup>
 
     <ItemGroup>

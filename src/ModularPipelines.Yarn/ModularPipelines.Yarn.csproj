@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <ModularPipelineReadMeDescription>Helpers for interacting with Yarn CLI.</ModularPipelineReadMeDescription>
+        <Description>Helpers for interacting with Yarn CLI.</Description>
     </PropertyGroup>
 
     <ItemGroup>
