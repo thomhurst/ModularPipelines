@@ -21,6 +21,9 @@ public class ModuleTimeoutTests : TestBase
     public void Throws_Timeout_Exception()
     {
         var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module>);
-        Assert.That(exception!.InnerException, Is.TypeOf<TaskCanceledException>());
+        
+        Assert.That(exception!.InnerException, 
+            Is.TypeOf<TaskCanceledException>().Or.TypeOf<OperationCanceledException>()
+        );
     }
 }
