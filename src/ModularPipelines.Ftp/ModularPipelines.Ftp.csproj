@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+Description<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ModularPipelineReadMeDescription>Helpers for downloading and uploading via FTP.</ModularPipelineReadMeDescription>

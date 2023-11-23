@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿Descriptionusing System.Text;
 using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -60,7 +60,8 @@ public class GenerateReadMeModule : Module
     {
         var projectRootElement = ProjectRootElement.Open(file)!;
 
-        var descriptionProperty =
+        var descriptionProperty = 
+            projectRootElement.Properties.FirstOrDefault(p => p.Name == "Description")
             projectRootElement.Properties.FirstOrDefault(p => p.Name == "ModularPipelineReadMeDescription")
             ?? throw new ArgumentNullException($"No ModularPipelineReadMeDescription property found in {file.Name}");
 
