@@ -32,7 +32,7 @@ public sealed record RequirementDecision
         Reason = passed ? null : reason,
     };
 
-    public static implicit operator RequirementDecision(bool shouldSkip) => shouldSkip ? Failed(null) : Passed;
+    public static implicit operator RequirementDecision(bool passed) => passed ? Passed : Failed(null);
 
     public static implicit operator RequirementDecision(string reason) => Failed(reason);
 }

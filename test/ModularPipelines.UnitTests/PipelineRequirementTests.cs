@@ -31,7 +31,7 @@ public class PipelineRequirementTests
             .ExecutePipelineAsync();
 
         Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
-            .With.Message.EqualTo("Requirements failed: FailingRequirement"));
+            .With.Message.EqualTo("Requirements failed:\r\nFailingRequirement"));
     }
 
     private class DummyModule : Module
