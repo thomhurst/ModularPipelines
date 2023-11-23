@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -43,6 +44,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     protected Module()
     {

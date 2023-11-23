@@ -15,6 +15,18 @@ public class SkipDecisionTests
             Assert.That(skipDecision.Reason, Is.Null);
         });    
     }
+
+    [Test]
+    public void String_Implicit_Cast()
+    {
+        SkipDecision skipDecision = "Foo!";
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(skipDecision.ShouldSkip, Is.True);
+            Assert.That(skipDecision.Reason, Is.EqualTo("Foo"));
+        });    
+    }
     
     [Test]
     public void False_Implicit_Cast()

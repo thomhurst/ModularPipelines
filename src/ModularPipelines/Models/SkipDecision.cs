@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace ModularPipelines.Models;
 
@@ -10,6 +11,7 @@ public sealed record SkipDecision
     [JsonInclude]
     public string? Reason { get; private init; }
 
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     private SkipDecision()
     {

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
@@ -18,6 +19,7 @@ public class ModuleResult<T> : ModuleResult
         _value = value;
     }
 
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     private ModuleResult()
     {
@@ -93,6 +95,7 @@ public class ModuleResult : ITypeDiscriminator
     /// <summary>
     /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [JsonConstructor]
     protected ModuleResult()
     {

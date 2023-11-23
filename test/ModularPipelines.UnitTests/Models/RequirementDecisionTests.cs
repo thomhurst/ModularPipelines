@@ -29,6 +29,18 @@ public class RequirementDecisionTests
     }
     
     [Test]
+    public void String_Implicit_Cast()
+    {
+        RequirementDecision requirementDecision = "Foo!";
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(requirementDecision.Success, Is.False);
+            Assert.That(requirementDecision.Reason, Is.EqualTo("Foo"));
+        });    
+    }
+
+    [Test]
     public void Failed()
     {
         var requirementDecision = RequirementDecision.Failed("Blah!");
