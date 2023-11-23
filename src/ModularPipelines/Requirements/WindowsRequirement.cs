@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
 
@@ -7,8 +9,11 @@ namespace ModularPipelines.Requirements;
 public class WindowsRequirement : IPipelineRequirement
 {
     /// <inheritdoc/>
-    public Task<bool> MustAsync(IPipelineHookContext context)
+    public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
-        return Task.FromResult(context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows);
+        return RequirementDecision.Of(
+            passed: context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows,
+            reason: "Windows is required"
+        ).AsTask();
     }
 }

@@ -22,17 +22,17 @@ internal class RequirementChecker : IRequirementChecker
         await _requirements.ToAsyncProcessorBuilder()
             .ForEachAsync(async requirement =>
         {
-            var mustAsync = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
+            var requirementDecision = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
 
-            if (!mustAsync)
+            if (!requirementDecision.Success)
             {
-                failedRequirementsNames.Add(requirement.GetType().Name);
+                failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
             }
         }).ProcessInParallel();
 
         if (failedRequirementsNames.Any())
         {
-            throw new FailedRequirementsException($"Requirements failed: {string.Join(" | ", failedRequirementsNames)}");
+            throw new FailedRequirementsException($"Requirements failed:\r\n{string.Join("\r\n", failedRequirementsNames)}");
         }
     }
 }

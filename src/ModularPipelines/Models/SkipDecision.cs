@@ -20,11 +20,16 @@ public sealed record SkipDecision
         ShouldSkip = shouldSkip;
     }
 
-    public static readonly SkipDecision DoNotSkip = new SkipDecision(false);
+    public static readonly SkipDecision DoNotSkip = new(false);
 
-    public static SkipDecision Skip(string? reason) => new SkipDecision(true)
+    public static SkipDecision Skip(string? reason) => new(true)
     {
         Reason = reason,
+    };
+    
+    public static SkipDecision Of(bool shouldSkip, string? reason) => new(shouldSkip)
+    {
+        Reason = shouldSkip ? reason : null,
     };
 
     public static implicit operator SkipDecision(bool shouldSkip) => shouldSkip ? Skip(null) : DoNotSkip;

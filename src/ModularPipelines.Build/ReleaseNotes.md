@@ -1,0 +1,1 @@
+- RequirementDecision class to provide a Reason string for clearer pipeline errors

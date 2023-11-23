@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 
@@ -44,7 +45,7 @@ public class PipelineRequirementTests
 
     private class SuccessfulRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IPipelineHookContext context)
+        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
         {
             await Task.Yield();
             return true;
@@ -53,7 +54,7 @@ public class PipelineRequirementTests
 
     private class FailingRequirement : IPipelineRequirement
     {
-        public async Task<bool> MustAsync(IPipelineHookContext context)
+        public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)
         {
             await Task.Yield();
             return false;

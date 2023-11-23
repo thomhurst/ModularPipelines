@@ -1,8 +1,9 @@
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
 
 public interface IPipelineRequirement
 {
-    Task<bool> MustAsync(IPipelineHookContext context);
+    Task<RequirementDecision> MustAsync(IPipelineHookContext context);
 }
