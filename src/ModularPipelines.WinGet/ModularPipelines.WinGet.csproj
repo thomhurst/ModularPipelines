@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>Helpers for interacting with the Windows Package Manager.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+    </ItemGroup>
+
+</Project>

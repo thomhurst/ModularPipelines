@@ -25,7 +25,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
 
             ModuleResultTaskCompletionSource.TrySetCanceled();
-            
+
             return WaitResult.Abort;
         }
 

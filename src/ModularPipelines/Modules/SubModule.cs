@@ -30,7 +30,7 @@ internal class SubModule : SubModuleBase
             EndTime = DateTimeOffset.UtcNow;
         });
     }
-    
+
     public override Task CallbackTask => Task;
 }
 

@@ -28,7 +28,7 @@ public sealed record RequirementDecision
     {
         Reason = reason,
     };
-    
+
     public static RequirementDecision Of(bool passed, string? reason) => new(passed)
     {
         Reason = passed ? null : reason,

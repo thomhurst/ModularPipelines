@@ -16,7 +16,7 @@ public class WindowsAdminRequirement : IPipelineRequirement
         {
 #pragma warning disable CA1416
             return RequirementDecision.Of(
-                passed: WindowsIdentity.GetCurrent().Owner?.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid) 
+                passed: WindowsIdentity.GetCurrent().Owner?.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid)
                         ?? true,
                 reason: "Windows Admin is required."
             ).AsTask();

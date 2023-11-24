@@ -30,7 +30,7 @@ internal class ModuleExecutor : IModuleExecutor
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
         var moduleResults = new List<ModuleBase>();
-        
+
         var nonParallelModules = modules
             .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
             .OrderBy(x => x.DependentModules.Count)
@@ -39,7 +39,7 @@ internal class ModuleExecutor : IModuleExecutor
         var unKeyedNonParallelModules = nonParallelModules
             .Where(x => string.IsNullOrEmpty(x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey))
             .ToList();
-        
+
         foreach (var nonParallelModule in unKeyedNonParallelModules)
         {
             moduleResults.Add(await ExecuteAsync(nonParallelModule));
@@ -48,17 +48,17 @@ internal class ModuleExecutor : IModuleExecutor
         var keyedNonParallelModules = nonParallelModules
             .Where(x => !string.IsNullOrEmpty(x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKey))
             .ToList();
-        
+
         var groupResults = await keyedNonParallelModules
             .Concat(modules.Except(unKeyedNonParallelModules))
             .GroupBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()?.ConstraintKey)
             .SelectAsync(x => ProcessGroup(x, moduleResults))
             .ProcessInParallel();
-        
+
         moduleResults.AddRange(groupResults.SelectMany(x => x));
-        
+
         var moduleTasks = modules.Except(nonParallelModules).Select(ExecuteAsync).ToArray();
-        
+
         if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
         {
             moduleResults.AddRange(await moduleTasks.WhenAllFailFast());
@@ -78,13 +78,13 @@ internal class ModuleExecutor : IModuleExecutor
             await module.WaitTask;
             return module;
         }
-        
+
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
             await module.StartAsync();
-            
+
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
 
             await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
@@ -92,7 +92,7 @@ internal class ModuleExecutor : IModuleExecutor
             return module;
         }
         finally
-        {            
+        {
             if (!AnsiConsole.Profile.Capabilities.Interactive || !_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(module);

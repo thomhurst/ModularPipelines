@@ -60,7 +60,7 @@ public static class HttpLogger
 
     public static void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
     {
-        var statusCode = httpStatusCode == null ? null as int? : (int)httpStatusCode;
+        var statusCode = httpStatusCode == null ? null as int? : (int) httpStatusCode;
 
         logger.LogInformation("---HTTP Status Code---\r\n{IntegerStatusCode} {StatusCode}", statusCode, httpStatusCode);
     }

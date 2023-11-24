@@ -15,7 +15,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel(ConstraintKey = "A")]
     public class ModuleWithAConstraintKey2 : Module<string>
     {
@@ -25,7 +25,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey1 : Module<string>
     {
@@ -35,7 +35,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey2 : Module<string>
     {
@@ -45,7 +45,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
             return GetType().Name;
         }
     }
-    
+
     [Test]
     public async Task NotInParallel_If_Same_ConstraintKey()
     {
@@ -76,7 +76,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
                 .Within(350)
         );
     }
-    
+
     private void AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
     {
         Assert.That(

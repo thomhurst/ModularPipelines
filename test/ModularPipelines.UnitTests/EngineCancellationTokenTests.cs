@@ -37,7 +37,7 @@ public class EngineCancellationTokenTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class LongRunningModuleWithoutCancellation : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -87,7 +87,7 @@ public class EngineCancellationTokenTests : TestBase
             Assert.That(longRunningModule.Duration, Is.LessThan(TimeSpan.FromSeconds(2)));
         });
     }
-    
+
     [Test, Repeat(10)]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel_Without_Cancellation()
     {

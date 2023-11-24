@@ -72,7 +72,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     private async Task CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
-        
+
         Context.EngineCancellationToken.CancelWithReason(
             $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
 
@@ -80,7 +80,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         await Task.Delay(TimeSpan.FromMilliseconds(200));
 
         ModuleResultTaskCompletionSource.TrySetException(exception);
-        
+
         Context.Logger.SetException(exception);
 
         throw new ModuleFailedException(Module, exception);

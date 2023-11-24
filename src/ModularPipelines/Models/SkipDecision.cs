@@ -28,7 +28,7 @@ public sealed record SkipDecision
     {
         Reason = reason,
     };
-    
+
     public static SkipDecision Of(bool shouldSkip, string? reason) => new(shouldSkip)
     {
         Reason = shouldSkip ? reason : null,

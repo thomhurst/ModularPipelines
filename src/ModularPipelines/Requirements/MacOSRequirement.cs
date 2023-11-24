@@ -14,6 +14,6 @@ public class MacOSRequirement : IPipelineRequirement
         return RequirementDecision.Of(
             passed: context.Environment.OperatingSystem == OperatingSystemIdentifier.MacOS,
             reason: "MacOS is required"
-        ).AsTask();    
+        ).AsTask();
     }
 }

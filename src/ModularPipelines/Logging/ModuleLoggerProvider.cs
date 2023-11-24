@@ -74,7 +74,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
+        var logger = (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
 
         _logger = logger;
 
