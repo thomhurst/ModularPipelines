@@ -1,1 +1,1 @@
-*   Add WinGet Helpers
+*   Add WinGet Helpers for interacting the the winget CLI
