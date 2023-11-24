@@ -92,7 +92,7 @@ internal class DotNet : IDotNet
         var skipped = parsedTestResults.UnitTestResults.Count(x => x.Outcome == TestOutcome.NotExecuted);
 
         logger.LogInformation("DotNet Test Results - Success: {Success} - Failed: {Failed} - Skipped: {Skipped}", success, failed, skipped);
-        
+
         return parsedTestResults;
     }
 

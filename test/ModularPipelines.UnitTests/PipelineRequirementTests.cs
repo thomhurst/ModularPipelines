@@ -33,7 +33,7 @@ public class PipelineRequirementTests
         Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
             .With.Message.EqualTo("Requirements failed:\r\nFailingRequirement"));
     }
-    
+
     [Test]
     public void When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
     {
@@ -72,7 +72,7 @@ public class PipelineRequirementTests
             return false;
         }
     }
-    
+
     private class FailingRequirementWithReason : IPipelineRequirement
     {
         public async Task<RequirementDecision> MustAsync(IPipelineHookContext context)

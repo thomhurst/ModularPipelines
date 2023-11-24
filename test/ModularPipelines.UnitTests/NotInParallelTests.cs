@@ -15,7 +15,7 @@ public class NotInParallelTests
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel]
     public class Module2 : Module<string>
     {
@@ -25,7 +25,7 @@ public class NotInParallelTests
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel]
     [DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : Module<string>
@@ -36,7 +36,7 @@ public class NotInParallelTests
             return GetType().Name;
         }
     }
-    
+
     public class ParallelDependency : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ public class NotInParallelTests
             return GetType().Name;
         }
     }
-    
+
     [NotInParallel]
     [DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : Module<string>
@@ -56,7 +56,7 @@ public class NotInParallelTests
             return GetType().Name;
         }
     }
-    
+
     [Test]
     public async Task NotInParallel()
     {
@@ -74,7 +74,7 @@ public class NotInParallelTests
                 .Within(500)
         );
     }
-    
+
     [Test]
     public async Task NotInParallel_With_ParallelDependency()
     {
@@ -92,7 +92,7 @@ public class NotInParallelTests
                 .Within(500)
         );
     }
-    
+
     [Test]
     public async Task NotInParallel_With_NonParallelDependency()
     {

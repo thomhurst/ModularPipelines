@@ -13,7 +13,7 @@ public class SubModuleTests : TestBase
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
-        
+
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
@@ -31,7 +31,7 @@ public class SubModuleTests : TestBase
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
-        
+
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
@@ -51,7 +51,7 @@ public class SubModuleTests : TestBase
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
-        
+
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
@@ -69,7 +69,7 @@ public class SubModuleTests : TestBase
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
-        
+
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()

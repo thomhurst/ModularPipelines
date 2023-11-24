@@ -21,7 +21,7 @@ internal abstract class ModuleLogger : IModuleLogger
     public abstract void Dispose();
 
     public abstract void LogToConsole(string value);
-    
+
     public void SetException(Exception exception)
     {
         _exception = exception;
@@ -202,7 +202,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
         return (o, exception) =>
         {
-            var formattedString = formatter.Invoke((TState)o, exception);
+            var formattedString = formatter.Invoke((TState) o, exception);
             return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
         };
     }

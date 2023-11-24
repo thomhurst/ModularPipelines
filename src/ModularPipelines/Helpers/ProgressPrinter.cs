@@ -44,7 +44,7 @@ internal class ProgressPrinter : IProgressPrinter
                 while (!progressContext.IsFinished)
                 {
                     progressContext.Refresh();
-                    
+
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return;
@@ -236,7 +236,7 @@ internal class ProgressPrinter : IProgressPrinter
                 AutoStart = true,
             });
 
-            var list = (List<ProgressTask>)progressContext.GetType()
+            var list = (List<ProgressTask>) progressContext.GetType()
                 .GetField("_tasks", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .GetValue(progressContext)!;
 

@@ -15,7 +15,7 @@ public static class ChocolateyExtensions
     {
         ModularPipelinesContextRegistry.RegisterContext(collection => RegisterChocolateyContext(collection));
     }
-    
+
     public static IServiceCollection RegisterChocolateyContext(this IServiceCollection services)
     {
         services.TryAddScoped<IChoco, Choco>();

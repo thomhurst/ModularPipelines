@@ -26,7 +26,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     private readonly object _startLock = new();
-    
+
     internal override IHistoryHandler<T> HistoryHandler { get; }
 
     internal override IWaitHandler WaitHandler { get; }
@@ -142,6 +142,15 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         return Context.GetModule<TModule>();
     }
+    
+    /// <summary>
+    /// Creates a generic Retry policy that'll catch any exception and retry
+    /// </summary>
+    /// <param name="count">The amount of times to retry.</param>
+    /// <returns>{T}.</returns>
+    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
+        Policy<T?>.Handle<Exception>()
+            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 
     private void AddDependency(DependsOnAttribute dependsOnAttribute)
     {
@@ -253,7 +262,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
 
             isRetry = true;
-            
+
             return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
         });
 
@@ -269,8 +278,4 @@ public abstract partial class Module<T> : ModuleBase<T>
         EndTime = DateTimeOffset.UtcNow;
         Duration = _stopwatch.Elapsed;
     }
-
-    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
-        Policy<T?>.Handle<Exception>()
-            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 }

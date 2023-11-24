@@ -34,12 +34,12 @@ public class RetryTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class FailedModuleWithCustomRetryPolicy : Module
     {
         protected override AsyncRetryPolicy<IDictionary<string, object>?> RetryPolicy
             => CreateRetryPolicy(3);
-        
+
         internal int ExecutionCount;
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -106,7 +106,7 @@ public class RetryTests : TestBase
             Assert.That(module.Exception, Is.Null);
         });
     }
-    
+
     [Test]
     public async Task When_Error_With_Custom_RetryPolicy_Then_Retry()
     {

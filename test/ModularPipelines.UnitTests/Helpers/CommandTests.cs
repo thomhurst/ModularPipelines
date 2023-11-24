@@ -15,7 +15,7 @@ public class CommandTests : TestBase
                 new CommandLineToolOptions(
                     "pwsh",
                     "-Command", "echo 'Foo bar!'"
-                ), 
+                ),
                 cancellationToken: cancellationToken);
         }
     }
