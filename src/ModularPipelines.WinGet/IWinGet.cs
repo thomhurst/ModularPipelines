@@ -3,7 +3,7 @@ using ModularPipelines.WinGet.Options;
 
 namespace ModularPipelines.WinGet;
 
-public interface IWinget
+public interface IWinGet
 {
     Task<CommandResult> Configure(ConfigureOptions options = default, CancellationToken token = default);
 

@@ -8,12 +8,13 @@ namespace ModularPipelines.Requirements;
 [ExcludeFromCodeCoverage]
 public class WindowsRequirement : IPipelineRequirement
 {
-    /// <inheritdoc/>
     public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
-        return RequirementDecision.Of(
-            passed: context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows,
-            reason: "Windows is required"
-        ).AsTask();
+        if (OperatingSystem.IsWindows())
+        {
+            return RequirementDecision.Passed.AsTask();
+        }
+
+        return RequirementDecision.Failed("Windows is required").AsTask();
     }
 }

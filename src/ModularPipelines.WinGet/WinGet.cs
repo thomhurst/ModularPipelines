@@ -6,11 +6,11 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet;
 
 [ExcludeFromCodeCoverage]
-internal class Winget : IWinget
+internal class WinGet : IWinGet
 {
     private readonly ICommand _command;
     
-    public Winget(ICommand command)
+    public WinGet(ICommand command)
     {
         _command = command;
     }
