@@ -14,7 +14,8 @@ internal class WinGet : IWinGet
     {
         _command = command;
     }
-    public async Task<CommandResult> Configure(ConfigureOptions options = default, CancellationToken token = default)
+    
+    public async Task<CommandResult> Configure(ConfigureOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -128,5 +129,4 @@ internal class WinGet : IWinGet
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
-
 }

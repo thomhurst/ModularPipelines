@@ -5,7 +5,7 @@ namespace ModularPipelines.WinGet;
 
 public interface IWinGet
 {
-    Task<CommandResult> Configure(ConfigureOptions options = default, CancellationToken token = default);
+    Task<CommandResult> Configure(ConfigureOptions options, CancellationToken token = default);
 
     Task<CommandResult> Download(DownloadOptions options, CancellationToken token = default);
 
