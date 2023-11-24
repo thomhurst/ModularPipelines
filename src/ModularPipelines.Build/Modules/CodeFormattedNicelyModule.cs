@@ -58,6 +58,13 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = false,
             }, cancellationToken);
+            
+            await context.DotNet().Format(new DotNetFormatOptions
+            {
+                Arguments = new[] { "whitespace" },
+                WorkingDirectory = context.Git().RootDirectory,
+                VerifyNoChanges = false,
+            }, cancellationToken);
 
             var branchTriggeringPullRequest = _githubSettings.Value.PullRequest?.Branch!;
 

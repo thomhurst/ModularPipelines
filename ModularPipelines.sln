@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Yarn", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Chocolatey", "src\ModularPipelines.Chocolatey\ModularPipelines.Chocolatey.csproj", "{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.WinGet", "src\ModularPipelines.WinGet\ModularPipelines.WinGet.csproj", "{AA41FF20-E41B-4219-A0CE-55007105C2D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,10 @@ Global
 		{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA41FF20-E41B-4219-A0CE-55007105C2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA41FF20-E41B-4219-A0CE-55007105C2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA41FF20-E41B-4219-A0CE-55007105C2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA41FF20-E41B-4219-A0CE-55007105C2D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +232,7 @@ Global
 		{8AAA3556-797E-495E-9213-E78238C06947} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{966A259F-3AED-438A-A792-4B2574EA2F0E} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
+		{AA41FF20-E41B-4219-A0CE-55007105C2D2} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}
