@@ -20,7 +20,7 @@
       <PackageReference Include="Azure.ResourceManager.ManagedServiceIdentities" Version="1.1.0" />
       <PackageReference Include="Azure.ResourceManager.Network" Version="1.6.0" />
       <PackageReference Include="Azure.ResourceManager.OperationalInsights" Version="1.1.0" />
-      <PackageReference Include="Azure.ResourceManager.Redis" Version="1.2.0" />
+      <PackageReference Include="Azure.ResourceManager.Redis" Version="1.2.1" />
       <PackageReference Include="Azure.ResourceManager.SecurityCenter" Version="1.1.0" />
       <PackageReference Include="Azure.ResourceManager.ServiceBus" Version="1.0.0" />
       <PackageReference Include="Azure.ResourceManager.Sql" Version="1.2.0" />
