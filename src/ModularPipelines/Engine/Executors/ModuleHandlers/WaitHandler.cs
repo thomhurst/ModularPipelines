@@ -1,5 +1,7 @@
-﻿using EnumerableAsyncProcessor.Extensions;
+﻿using System.Reflection;
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -40,6 +42,18 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             return;
         }
 
+        if (GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+        {
+            await WaitForDependenciesOneByOne();
+        }
+        else
+        {
+            await WaitForDependenciesInParallel();
+        }
+    }
+
+    private async Task WaitForDependenciesOneByOne()
+    {
         foreach (var dependsOnAttribute in Module.DependentModules)
         {
             // Start modules one at a time if they haven't already been started, in the context of NotInParallel modules.
@@ -58,13 +72,20 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                     await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
                     await module.WaitTask;
                 }
+                catch (Exception e) when (Module.ModuleRunType == ModuleRunType.AlwaysRun)
+                {
+                    Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                }
                 catch (Exception e)
                 {
                     throw new DependencyFailedException(e, module);
                 }
             }
         }
+    }
 
+    private async Task WaitForDependenciesInParallel()
+    {
         try
         {
             await Module.DependentModules
@@ -75,7 +96,9 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
                     if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
                     {
-                        Context.Logger.LogDebug("{Module} was not registered so not waiting", dependsOnAttribute.Type.Name);
+                        Context.Logger.LogDebug("{Module} was not registered so not waiting",
+                            dependsOnAttribute.Type.Name);
+                        
                         return Task.CompletedTask;
                     }
 

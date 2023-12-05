@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -8,13 +9,16 @@ internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IModuleExecutor _moduleExecutor;
+    private readonly ILogger<PipelineExecutor> _logger;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleExecutor moduleExecutor)
+        IModuleExecutor moduleExecutor,
+        ILogger<PipelineExecutor> logger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
+        _logger = logger;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
@@ -54,9 +58,9 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.WaitTask));
         }
-        catch
+        catch (Exception e)
         {
-            // Ignored
+            _logger.LogWarning(e, "Error while waiting for Always Run modules");
         }
     }
 }

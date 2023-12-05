@@ -25,7 +25,8 @@ public abstract class Module : Module<IDictionary<string, object>>
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly object _startLock = new();
+    private readonly object _startCheckLock = new();
+    private readonly object _triggerLock = new();
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
 
@@ -68,8 +69,11 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
     internal override Task StartAsync()
     {
-        IsStarted = true;
-        return WaitTask;
+        lock (_startCheckLock)
+        {
+            IsStarted = true;
+            return WaitTask;
+        }
     }
 
     internal override ModuleBase Initialize(IPipelineContext context)
@@ -98,7 +102,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         get
         {
-            lock (_startLock)
+            lock (_triggerLock)
             {
                 return ResultTaskInternal ??= StartInternal();
             }
