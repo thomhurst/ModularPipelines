@@ -16,7 +16,7 @@
       <PackageReference Include="Azure.ResourceManager.DataLakeStore" Version="1.1.0" />
       <PackageReference Include="Azure.ResourceManager.KeyVault" Version="1.2.0" />
       <PackageReference Include="Azure.ResourceManager.Kubernetes" Version="1.0.0-beta.3" />
-      <PackageReference Include="Azure.ResourceManager.KubernetesConfiguration" Version="1.2.0-beta.1" />
+      <PackageReference Include="Azure.ResourceManager.KubernetesConfiguration" Version="1.2.0" />
       <PackageReference Include="Azure.ResourceManager.ManagedServiceIdentities" Version="1.2.0" />
       <PackageReference Include="Azure.ResourceManager.Network" Version="1.6.0" />
       <PackageReference Include="Azure.ResourceManager.OperationalInsights" Version="1.2.0" />
