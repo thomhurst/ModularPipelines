@@ -43,7 +43,7 @@ public record InstallOptions(
     public bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--silent")]
-    public bool? Silent { get; set; }
+    public bool? Silent { get; set; } = true;
 
     [CommandSwitch("--locale")]
     public string? Locale { get; set; }

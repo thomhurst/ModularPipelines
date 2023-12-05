@@ -5,6 +5,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
+using ModularPipelines.UnitTests.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -27,6 +28,72 @@ public abstract class TestBase
         var results = await host.ExecutePipelineAsync();
 
         return results.Modules.OfType<T>().Single();
+    }
+    
+    public async Task<(T, T2)> RunModule<T, T2>()
+        where T : ModuleBase
+        where T2 : ModuleBase
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<T>()
+            .AddModule<T2>()
+            .BuildHostAsync();
+
+        _hosts.Add(host);
+
+        var results = await host.ExecuteTest();
+
+        return (
+            results.GetServices<ModuleBase>().OfType<T>().Single(),
+            results.GetServices<ModuleBase>().OfType<T2>().Single()
+        );
+    }
+    
+    public async Task<(T, T2, T3)> RunModules<T, T2, T3>()
+        where T : ModuleBase
+        where T2 : ModuleBase
+        where T3 : ModuleBase
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<T>()
+            .AddModule<T2>()
+            .AddModule<T3>()
+            .BuildHostAsync();
+
+        _hosts.Add(host);
+
+        var results = await host.ExecuteTest();
+
+        return (
+            results.GetServices<ModuleBase>().OfType<T>().Single(),
+            results.GetServices<ModuleBase>().OfType<T2>().Single(),
+            results.GetServices<ModuleBase>().OfType<T3>().Single()
+        );    
+    }
+    
+    public async Task<(T, T2, T3, T4)> RunModules<T, T2, T3, T4>()
+        where T : ModuleBase
+        where T2 : ModuleBase
+        where T3 : ModuleBase
+        where T4 : ModuleBase
+    {
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<T>()
+            .AddModule<T2>()
+            .AddModule<T3>()
+            .AddModule<T4>()
+            .BuildHostAsync();
+
+        _hosts.Add(host);
+
+        var results = await host.ExecuteTest();
+
+        return (
+            results.GetServices<ModuleBase>().OfType<T>().Single(),
+            results.GetServices<ModuleBase>().OfType<T2>().Single(),
+            results.GetServices<ModuleBase>().OfType<T3>().Single(),
+            results.GetServices<ModuleBase>().OfType<T4>().Single()
+        );
     }
 
     public async Task<T> GetService<T>()

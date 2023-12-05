@@ -41,7 +41,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         }
         else
         {
-            await CancelPipelineAndThrow(exception);
+            CancelPipelineAndThrow(exception);
         }
     }
 
@@ -69,15 +69,11 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         await Module.HistoryHandler.SaveResult(moduleResult);
     }
 
-    private async Task CancelPipelineAndThrow(Exception exception)
+    private void CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
-        Context.EngineCancellationToken.CancelWithReason(
-            $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
-
-        // Time for cancellation to register
-        await Task.Delay(TimeSpan.FromMilliseconds(200));
+        Context.EngineCancellationToken.CancelWithReason($"{Module.GetType().Name} failed with a {exception.GetType().Name}");
 
         ModuleResultTaskCompletionSource.TrySetException(exception);
 

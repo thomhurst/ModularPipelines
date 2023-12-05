@@ -34,7 +34,7 @@ public record UpgradeOptions(
     public bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--silent")]
-    public bool? Silent { get; set; }
+    public bool? Silent { get; set; } = true;
 
     [BooleanCommandSwitch("--purge")]
     public bool? Purge { get; set; }
