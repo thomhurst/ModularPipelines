@@ -78,7 +78,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                 }
             });
 
-        if (GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+        if (Module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
         {
             await dependenciesProcessor.ProcessOneAtATime();
         }
