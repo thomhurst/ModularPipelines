@@ -42,34 +42,30 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             return;
         }
 
-        if (GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
-        {
-            await WaitForDependenciesOneByOne();
-        }
-        else
-        {
-            await WaitForDependenciesInParallel();
-        }
-    }
-
-    private async Task WaitForDependenciesOneByOne()
-    {
-        foreach (var dependsOnAttribute in Module.DependentModules)
-        {
-            // Start modules one at a time if they haven't already been started, in the context of NotInParallel modules.
-            var module = Context.GetModule(dependsOnAttribute.Type);
-
-            if (module == null && !dependsOnAttribute.IgnoreIfNotRegistered)
+        var dependenciesProcessor = Module.DependentModules
+            .ToAsyncProcessorBuilder()
+            .ForEachAsync(async dependsOnAttribute =>
             {
-                throw new ModuleNotRegisteredException(
-                    $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
-            }
+                var module = Context.GetModule(dependsOnAttribute.Type);
 
-            if (module != null)
-            {
+                if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
+                {
+                    Context.Logger.LogDebug("{Module} was not registered so not waiting",
+                        dependsOnAttribute.Type.Name);
+                        
+                    return;
+                }
+
+                if (module is null)
+                {
+                    throw new ModuleNotRegisteredException(
+                        $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
+                }
+
+                Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
+
                 try
                 {
-                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
                     await module.WaitTask;
                 }
                 catch (Exception e) when (Module.ModuleRunType == ModuleRunType.AlwaysRun)
@@ -80,43 +76,15 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                 {
                     throw new DependencyFailedException(e, module);
                 }
-            }
-        }
-    }
+            });
 
-    private async Task WaitForDependenciesInParallel()
-    {
-        try
+        if (GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
         {
-            await Module.DependentModules
-                .ToAsyncProcessorBuilder()
-                .ForEachAsync(dependsOnAttribute =>
-                {
-                    var module = Context.GetModule(dependsOnAttribute.Type);
-
-                    if (dependsOnAttribute.IgnoreIfNotRegistered && module is null)
-                    {
-                        Context.Logger.LogDebug("{Module} was not registered so not waiting",
-                            dependsOnAttribute.Type.Name);
-                        
-                        return Task.CompletedTask;
-                    }
-
-                    if (module is null)
-                    {
-                        throw new ModuleNotRegisteredException(
-                            $"The module {dependsOnAttribute.Type.Name} has not been registered", null);
-                    }
-
-                    Context.Logger.LogDebug("Waiting for {Module}", dependsOnAttribute.Type.Name);
-
-                    return module.WaitTask;
-                })
-                .ProcessInParallel();
+            await dependenciesProcessor.ProcessOneAtATime();
         }
-        catch (Exception e) when (Module.ModuleRunType == ModuleRunType.AlwaysRun)
+        else
         {
-            Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+            await dependenciesProcessor.ProcessInParallel();
         }
     }
 }
