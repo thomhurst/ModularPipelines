@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
@@ -43,6 +44,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         }
     }
 
+    [ExcludeFromCodeCoverage]
     private async Task SafelyAwaitProgressPrinter(Task printProgressTask)
     {
         try
