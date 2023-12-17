@@ -1,13 +1,26 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests;
 
 public class CommandParserTests : TestBase
 {
+    public class AzureCommandModule : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            return await context.Azure().Az.Account.Alias.Create(new AzAccountAliasCreateOptions("MyName")
+            {
+                InternalDryRun = true
+            }, cancellationToken);
+        }
+    }
+    
     [Test]
     public async Task Empty_Options_Parse_As_Expected()
     {
@@ -131,6 +144,16 @@ public class CommandParserTests : TestBase
 
         Assert.That(result.CommandInput, Is.EqualTo("""
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
+                                                    """));
+    }
+    
+    [Test]
+    public async Task Azure_Command_Is_Expected_Command()
+    {
+        var result = await RunModule<AzureCommandModule>();
+
+        Assert.That(result.Result.Value.CommandInput, Is.EqualTo("""
+                                                    az account alias create --name MyName
                                                     """));
     }
 
