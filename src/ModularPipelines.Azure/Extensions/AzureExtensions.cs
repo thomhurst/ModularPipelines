@@ -17,7 +17,14 @@ namespace ModularPipelines.Azure.Extensions;
 
 public static class AzureExtensions
 {
-    [ModuleInitializer]
+    #pragma warning disable CA2255
+        [ModuleInitializer]
+    #pragma warning restore CA2255
+        public static void RegisterAzureContext()
+        {
+            ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAzureContext(collection));
+        }
+    
     public static IServiceCollection RegisterAzureContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAzure, Azure>();
