@@ -7,6 +7,7 @@ using ModularPipelines.Azure.Provisioning;
 using ModularPipelines.Azure.Provisioning.Compute;
 using ModularPipelines.Azure.Provisioning.Containers;
 using ModularPipelines.Azure.Provisioning.Cosmos;
+using ModularPipelines.Azure.Provisioning.Gateways;
 using ModularPipelines.Azure.Provisioning.Network;
 using ModularPipelines.Azure.Provisioning.PubSub;
 using ModularPipelines.Azure.Provisioning.Security;
@@ -41,6 +42,7 @@ public static class AzureExtensions
         services.TryAddScoped<AzureTrafficAndLoadBalancerProvisioner>();
         services.TryAddScoped<AzureStorageProvisioner>();
         services.TryAddScoped<AzureContainerProvisioner>();
+        services.TryAddScoped<AzureGatewayProvisioner>();
 
         services.TryAddScoped<Az>();
         services.TryAddScoped<AzArcdata>();
