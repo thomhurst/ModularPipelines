@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "central", "device", "c2d-message", "purge")]
 public record AzIotCentralDeviceC2dMessagePurgeOptions(

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-connection", "show-device-config-script")]
 public record AzNetworkVpnConnectionShowDeviceConfigScriptOptions(

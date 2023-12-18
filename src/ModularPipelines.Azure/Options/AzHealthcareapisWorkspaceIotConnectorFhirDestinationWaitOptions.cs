@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("healthcareapis", "workspace", "iot-connector", "fhir-destination", "wait")]
 public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationWaitOptions : AzOptions

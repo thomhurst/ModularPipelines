@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("spring", "application-configuration-service", "git", "repo", "list")]
 public record AzSpringApplicationConfigurationServiceGitRepoListOptions(

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appservice", "plan", "show", "(appservice-kube", "extension)")]
 public record AzAppservicePlanShowAppserviceKubeExtensionOptions : AzOptions

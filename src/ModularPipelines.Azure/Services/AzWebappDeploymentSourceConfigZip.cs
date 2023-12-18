@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Services;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "deployment", "source")]
 public class AzWebappDeploymentSourceConfigZip

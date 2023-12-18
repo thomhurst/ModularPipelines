@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "ms-support", "audit-policy", "show")]
 public record AzSqlServerMsSupportAuditPolicyShowOptions : AzOptions

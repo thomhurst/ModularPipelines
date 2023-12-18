@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud-service", "update-domain", "walk-update-domain")]
 public record AzCloudServiceUpdateDomainWalkUpdateDomainOptions : AzOptions

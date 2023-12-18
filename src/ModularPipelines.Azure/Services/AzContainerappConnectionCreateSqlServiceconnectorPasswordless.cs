@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Services;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "connection", "create", "sql")]
 public class AzContainerappConnectionCreateSqlServiceconnectorPasswordless

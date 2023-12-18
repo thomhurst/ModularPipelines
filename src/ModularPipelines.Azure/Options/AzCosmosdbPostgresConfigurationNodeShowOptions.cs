@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "postgres", "configuration", "node", "show")]
 public record AzCosmosdbPostgresConfigurationNodeShowOptions : AzOptions

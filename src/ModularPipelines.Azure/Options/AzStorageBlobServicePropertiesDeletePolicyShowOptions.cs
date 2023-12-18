@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "service-properties", "delete-policy", "show")]
 public record AzStorageBlobServicePropertiesDeletePolicyShowOptions : AzOptions

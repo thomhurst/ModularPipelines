@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("hpc-cache", "blob-storage-target", "update")]
 public record AzHpcCacheBlobStorageTargetUpdateOptions(

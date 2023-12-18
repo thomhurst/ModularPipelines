@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("hdinsight-on-aks", "cluster", "job", "run")]
 public record AzHdinsightOnAksClusterJobRunOptions : AzOptions

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Services;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "system-topic", "event-subscription", "show")]
 public class AzEventgridSystemTopicEventSubscriptionShowEventgrid

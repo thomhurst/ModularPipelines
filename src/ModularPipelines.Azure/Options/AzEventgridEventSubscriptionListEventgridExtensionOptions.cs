@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "event-subscription", "list", "(eventgrid", "extension)")]
 public record AzEventgridEventSubscriptionListEventgridExtensionOptions(

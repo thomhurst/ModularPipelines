@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "management-group", "tenant-backfill", "start")]
 public record AzAccountManagementGroupTenantBackfillStartOptions : AzOptions

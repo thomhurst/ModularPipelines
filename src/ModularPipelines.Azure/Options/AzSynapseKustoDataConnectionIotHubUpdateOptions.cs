@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "kusto", "data-connection", "iot-hub", "update")]
 public record AzSynapseKustoDataConnectionIotHubUpdateOptions : AzOptions

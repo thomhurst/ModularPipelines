@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("workloads", "sap-virtual-instance", "start")]
 public record AzWorkloadsSapVirtualInstanceStartOptions : AzOptions

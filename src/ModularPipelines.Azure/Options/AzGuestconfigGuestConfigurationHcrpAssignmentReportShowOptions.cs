@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("guestconfig", "guest-configuration-hcrp-assignment-report", "show")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions : AzOptions

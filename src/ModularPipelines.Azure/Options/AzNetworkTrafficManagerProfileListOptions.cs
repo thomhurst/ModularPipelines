@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "traffic-manager", "profile", "list")]
 public record AzNetworkTrafficManagerProfileListOptions : AzOptions

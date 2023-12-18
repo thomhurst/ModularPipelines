@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("site-recovery", "vault", "list-protection-container-mapping")]
 public record AzSiteRecoveryVaultListProtectionContainerMappingOptions(

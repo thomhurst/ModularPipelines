@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "gallery-application", "version", "wait")]
 public record AzSigGalleryApplicationVersionWaitOptions : AzOptions

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "application-gateway", "waf-policy", "delete")]
 public record AzNetworkApplicationGatewayWafPolicyDeleteOptions : AzOptions

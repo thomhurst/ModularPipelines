@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("stream-analytics", "subscription", "inspect")]
 public record AzStreamAnalyticsSubscriptionInspectOptions : AzOptions

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("new-relic", "monitor", "tag-rule", "update")]
 public record AzNewRelicMonitorTagRuleUpdateOptions : AzOptions

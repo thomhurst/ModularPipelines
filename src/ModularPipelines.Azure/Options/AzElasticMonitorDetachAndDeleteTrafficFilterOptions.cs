@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("elastic", "monitor", "detach-and-delete-traffic-filter")]
 public record AzElasticMonitorDetachAndDeleteTrafficFilterOptions(

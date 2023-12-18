@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "account", "network-profile", "network-rule", "delete")]
 public record AzBatchAccountNetworkProfileNetworkRuleDeleteOptions(

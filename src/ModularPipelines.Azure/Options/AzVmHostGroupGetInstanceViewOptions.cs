@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "host", "group", "get-instance-view")]
 public record AzVmHostGroupGetInstanceViewOptions : AzOptions

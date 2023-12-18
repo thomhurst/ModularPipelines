@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Services;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("spring-cloud", "api-portal")]
 public class AzSpringCloudApiPortalCustomDomain

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "mongodb", "user", "definition", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbMongodbUserDefinitionListCosmosdbPreviewExtensionOptions(

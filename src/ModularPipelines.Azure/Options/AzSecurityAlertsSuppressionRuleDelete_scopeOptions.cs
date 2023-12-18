@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "alerts-suppression-rule", "delete_scope")]
 public record AzSecurityAlertsSuppressionRuleDelete_scopeOptions(

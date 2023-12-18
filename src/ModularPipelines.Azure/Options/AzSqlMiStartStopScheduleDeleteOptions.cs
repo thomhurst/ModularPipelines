@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "start-stop-schedule", "delete")]
 public record AzSqlMiStartStopScheduleDeleteOptions : AzOptions

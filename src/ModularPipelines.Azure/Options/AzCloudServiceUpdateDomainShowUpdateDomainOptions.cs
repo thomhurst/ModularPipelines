@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud-service", "update-domain", "show-update-domain")]
 public record AzCloudServiceUpdateDomainShowUpdateDomainOptions : AzOptions

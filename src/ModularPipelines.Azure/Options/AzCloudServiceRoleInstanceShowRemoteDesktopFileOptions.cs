@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud-service", "role-instance", "show-remote-desktop-file")]
 public record AzCloudServiceRoleInstanceShowRemoteDesktopFileOptions : AzOptions

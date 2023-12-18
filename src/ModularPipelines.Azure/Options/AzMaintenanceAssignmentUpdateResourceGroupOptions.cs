@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maintenance", "assignment", "update-resource-group")]
 public record AzMaintenanceAssignmentUpdateResourceGroupOptions : AzOptions

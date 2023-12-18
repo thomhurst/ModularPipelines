@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "data-connection", "event-grid", "data-connection-validation")]
 public record AzKustoDataConnectionEventGridDataConnectionValidationOptions : AzOptions

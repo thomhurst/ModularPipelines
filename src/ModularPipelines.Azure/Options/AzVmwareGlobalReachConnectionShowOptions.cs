@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "global-reach-connection", "show")]
 public record AzVmwareGlobalReachConnectionShowOptions : AzOptions

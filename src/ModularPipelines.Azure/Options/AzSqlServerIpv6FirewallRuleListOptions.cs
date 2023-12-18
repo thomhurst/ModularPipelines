@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "ipv6-firewall-rule", "list")]
 public record AzSqlServerIpv6FirewallRuleListOptions : AzOptions

@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "advanced-threat-protection-setting", "show")]
 public record AzSqlMiAdvancedThreatProtectionSettingShowOptions : AzOptions

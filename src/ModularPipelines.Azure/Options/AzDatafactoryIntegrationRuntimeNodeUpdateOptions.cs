@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "integration-runtime-node", "update")]
 public record AzDatafactoryIntegrationRuntimeNodeUpdateOptions : AzOptions

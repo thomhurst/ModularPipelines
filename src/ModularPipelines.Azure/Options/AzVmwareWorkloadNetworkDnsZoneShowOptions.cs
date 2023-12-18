@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "workload-network", "dns-zone", "show")]
 public record AzVmwareWorkloadNetworkDnsZoneShowOptions : AzOptions

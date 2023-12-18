@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "security-admin-config", "rule-collection", "list")]
 public record AzNetworkManagerSecurityAdminConfigRuleCollectionListOptions(

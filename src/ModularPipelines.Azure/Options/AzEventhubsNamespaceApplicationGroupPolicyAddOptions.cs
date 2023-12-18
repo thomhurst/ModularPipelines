@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventhubs", "namespace", "application-group", "policy", "add")]
 public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions(

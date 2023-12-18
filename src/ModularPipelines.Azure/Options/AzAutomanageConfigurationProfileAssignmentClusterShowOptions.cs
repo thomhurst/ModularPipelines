@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("automanage", "configuration-profile-assignment", "cluster", "show")]
 public record AzAutomanageConfigurationProfileAssignmentClusterShowOptions : AzOptions

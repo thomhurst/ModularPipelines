@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("k8s-extension", "extension-types", "show-by-cluster")]
 public record AzK8sExtensionExtensionTypesShowByClusterOptions(

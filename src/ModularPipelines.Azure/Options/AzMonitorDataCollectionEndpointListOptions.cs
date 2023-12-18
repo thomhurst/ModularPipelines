@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "data-collection", "endpoint", "list")]
 public record AzMonitorDataCollectionEndpointListOptions : AzOptions

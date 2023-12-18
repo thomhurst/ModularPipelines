@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
+namespace ModularPipelines.Azure.Options;
+
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "domain", "delete", "(eventgrid", "extension)")]
 public record AzEventgridDomainDeleteEventgridExtensionOptions : AzOptions
