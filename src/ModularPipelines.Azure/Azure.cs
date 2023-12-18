@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Azure.Provisioning;
 using ModularPipelines.Azure.Services;
 
 namespace ModularPipelines.Azure;
 
+[ExcludeFromCodeCoverage]
 public class Azure : IAzure
 {
     public Azure(IAzureProvisioner azureProvisioner, IAzureKeyVault keyVault, Az az)
