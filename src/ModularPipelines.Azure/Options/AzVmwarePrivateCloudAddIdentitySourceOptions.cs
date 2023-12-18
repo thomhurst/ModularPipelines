@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "private-cloud", "addidentitysource")]
-public record AzVmwarePrivateCloudAddidentitysourceOptions(
+public record AzVmwarePrivateCloudAddIdentitySourceOptions(
 [property: CommandSwitch("--alias")] string Alias,
 [property: CommandSwitch("--base-group-dn")] string BaseGroupDn,
 [property: CommandSwitch("--base-user-dn")] string BaseUserDn,

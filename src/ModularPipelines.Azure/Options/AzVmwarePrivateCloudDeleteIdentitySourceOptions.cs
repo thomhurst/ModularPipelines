@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "private-cloud", "deleteidentitysource")]
-public record AzVmwarePrivateCloudDeleteidentitysourceOptions(
+public record AzVmwarePrivateCloudDeleteIdentitySourceOptions(
 [property: CommandSwitch("--alias")] string Alias,
 [property: CommandSwitch("--domain")] string Domain,
 [property: CommandSwitch("--name")] string Name,
