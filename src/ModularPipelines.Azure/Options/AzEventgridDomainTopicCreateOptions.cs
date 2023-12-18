@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -12,6 +9,4 @@ public record AzEventgridDomainTopicCreateOptions(
 [property: CommandSwitch("--domain-name")] string DomainName,
 [property: CommandSwitch("--name")] string Name,
 [property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
-{
-}
+) : AzOptions;

@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -17,6 +14,4 @@ public record AzSynapseSqlPoolClassificationCreateOptions(
 [property: CommandSwitch("--schema")] string Schema,
 [property: CommandSwitch("--table")] string Table,
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
-{
-}
+) : AzOptions;

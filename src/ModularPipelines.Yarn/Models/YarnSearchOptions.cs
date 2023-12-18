@@ -5,6 +5,4 @@ namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("search")]
-public record YarnSearchOptions : YarnOptions
-{
-}
+public record YarnSearchOptions : YarnOptions;

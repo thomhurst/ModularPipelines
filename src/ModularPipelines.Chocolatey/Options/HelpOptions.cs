@@ -5,6 +5,4 @@ namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("help")]
-public record HelpOptions : ChocoOptions
-{
-}
+public record HelpOptions : ChocoOptions;

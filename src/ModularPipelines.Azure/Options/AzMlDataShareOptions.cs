@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -16,6 +13,4 @@ public record AzMlDataShareOptions(
 [property: CommandSwitch("--share-with-version")] string ShareWithVersion,
 [property: CommandSwitch("--version")] string Version,
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
-{
-}
+) : AzOptions;

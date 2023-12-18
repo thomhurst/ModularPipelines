@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -16,6 +13,4 @@ public record AzHanainstanceCreateOptions(
 [property: CommandSwitch("--partner-node-id")] string PartnerNodeId,
 [property: CommandSwitch("--resource-group")] string ResourceGroup,
 [property: CommandSwitch("--ssh-public-key")] string SshPublicKey
-) : AzOptions
-{
-}
+) : AzOptions;

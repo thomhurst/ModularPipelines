@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -11,6 +8,4 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkFrontDoorCheckNameAvailabilityOptions(
 [property: CommandSwitch("--name")] string Name,
 [property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
-{
-}
+) : AzOptions;

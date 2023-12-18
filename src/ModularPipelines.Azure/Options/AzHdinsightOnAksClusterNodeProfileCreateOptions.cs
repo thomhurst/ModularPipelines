@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -12,6 +9,4 @@ public record AzHdinsightOnAksClusterNodeProfileCreateOptions(
 [property: CommandSwitch("--count")] int Count,
 [property: CommandSwitch("--node-type")] string NodeType,
 [property: CommandSwitch("--vm-size")] string VmSize
-) : AzOptions
-{
-}
+) : AzOptions;

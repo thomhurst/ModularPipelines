@@ -5,6 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("checkpoint")]
 [ExcludeFromCodeCoverage]
-public record DockerCheckpointOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
-{
-}
+public record DockerCheckpointOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;

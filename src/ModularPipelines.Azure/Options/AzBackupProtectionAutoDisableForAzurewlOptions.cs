@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -15,6 +12,4 @@ public record AzBackupProtectionAutoDisableForAzurewlOptions(
 [property: CommandSwitch("--server-name")] string ServerName,
 [property: CommandSwitch("--vault-name")] string VaultName,
 [property: CommandSwitch("--workload-type")] string WorkloadType
-) : AzOptions
-{
-}
+) : AzOptions;

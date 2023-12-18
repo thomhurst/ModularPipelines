@@ -5,6 +5,4 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("shrinkwrap")]
-public record NpmShrinkwrapOptions : NpmOptions
-{
-}
+public record NpmShrinkwrapOptions : NpmOptions;

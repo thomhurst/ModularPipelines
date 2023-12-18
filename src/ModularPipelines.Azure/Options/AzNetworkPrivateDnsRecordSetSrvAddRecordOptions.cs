@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -16,6 +13,4 @@ public record AzNetworkPrivateDnsRecordSetSrvAddRecordOptions(
 [property: CommandSwitch("--target")] string Target,
 [property: CommandSwitch("--weight")] string Weight,
 [property: CommandSwitch("--zone-name")] string ZoneName
-) : AzOptions
-{
-}
+) : AzOptions;

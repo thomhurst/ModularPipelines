@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -10,6 +7,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("partnercenter", "marketplace", "offer", "listing", "uri", "list")]
 public record AzPartnercenterMarketplaceOfferListingUriListOptions(
 [property: CommandSwitch("--offer-id")] string OfferId
-) : AzOptions
-{
-}
+) : AzOptions;

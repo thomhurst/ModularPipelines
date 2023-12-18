@@ -7,6 +7,4 @@ namespace ModularPipelines.Yarn.Models;
 [CommandPrecedingArguments("exec")]
 public record YarnExecOptions(
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string CommandName
-) : YarnOptions
-{
-}
+) : YarnOptions;

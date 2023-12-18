@@ -5,6 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("stack rm")]
 [ExcludeFromCodeCoverage]
-public record DockerStackRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Stacks) : DockerOptions
-{
-}
+public record DockerStackRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Stacks) : DockerOptions;

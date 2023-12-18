@@ -8,6 +8,4 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmTagAddOptions(
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Package,
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Tag
-) : YarnOptions
-{
-}
+) : YarnOptions;

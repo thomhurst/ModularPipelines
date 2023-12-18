@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -14,6 +11,4 @@ public record AzSpringAppIdentityForceSetOptions(
 [property: CommandSwitch("--service")] string Service,
 [property: CommandSwitch("--system-assigned")] string SystemAssigned,
 [property: CommandSwitch("--user-assigned")] string UserAssigned
-) : AzOptions
-{
-}
+) : AzOptions;

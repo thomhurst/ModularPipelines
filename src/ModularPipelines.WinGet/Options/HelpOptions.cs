@@ -5,6 +5,4 @@ namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("help")]
-public record HelpOptions : WingetOptions
-{
-}
+public record HelpOptions : WingetOptions;

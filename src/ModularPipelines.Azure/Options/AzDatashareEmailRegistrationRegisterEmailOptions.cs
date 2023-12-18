@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -10,6 +7,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("datashare", "email-registration", "register-email")]
 public record AzDatashareEmailRegistrationRegisterEmailOptions(
 [property: CommandSwitch("--location")] string Location
-) : AzOptions
-{
-}
+) : AzOptions;

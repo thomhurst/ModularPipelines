@@ -5,6 +5,4 @@ namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("completion")]
-public record NpmCompletionOptions : NpmOptions
-{
-}
+public record NpmCompletionOptions : NpmOptions;

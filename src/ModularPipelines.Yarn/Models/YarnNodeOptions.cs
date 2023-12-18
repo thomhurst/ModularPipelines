@@ -5,6 +5,4 @@ namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("node")]
-public record YarnNodeOptions : YarnOptions
-{
-}
+public record YarnNodeOptions : YarnOptions;

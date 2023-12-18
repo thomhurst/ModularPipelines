@@ -5,6 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("plugin")]
 [ExcludeFromCodeCoverage]
-public record DockerPluginOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
-{
-}
+public record DockerPluginOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;

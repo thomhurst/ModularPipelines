@@ -5,6 +5,4 @@ namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("rebuild")]
-public record YarnRebuildOptions : YarnOptions
-{
-}
+public record YarnRebuildOptions : YarnOptions;

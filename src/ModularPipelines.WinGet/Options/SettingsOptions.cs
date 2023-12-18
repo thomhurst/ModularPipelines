@@ -5,6 +5,4 @@ namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("settings")]
-public record SettingsOptions : WingetOptions
-{
-}
+public record SettingsOptions : WingetOptions;

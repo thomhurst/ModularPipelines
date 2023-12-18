@@ -7,6 +7,4 @@ namespace ModularPipelines.WinGet.Options;
 [CommandPrecedingArguments("configure")]
 public record ConfigureOptions(
     [property: CommandSwitch("--file")] string File
-) : WingetOptions
-{
-}
+) : WingetOptions;

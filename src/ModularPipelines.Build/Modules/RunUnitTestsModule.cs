@@ -6,8 +6,6 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-using Polly;
-using Polly.NoOp;
 using Polly.Retry;
 
 namespace ModularPipelines.Build.Modules;

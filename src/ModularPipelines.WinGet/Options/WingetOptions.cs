@@ -4,6 +4,4 @@ using ModularPipelines.Options;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-public record WingetOptions() : CommandLineToolOptions("winget")
-{
-}
+public record WingetOptions() : CommandLineToolOptions("winget");

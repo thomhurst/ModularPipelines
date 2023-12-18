@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -14,6 +11,4 @@ public record AzCosmosdbGremlinRetrieveLatestBackupTimeOptions(
 [property: CommandSwitch("--graph-name")] string GraphName,
 [property: CommandSwitch("--location")] string Location,
 [property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
-{
-}
+) : AzOptions;

@@ -5,6 +5,4 @@ namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("update-ref")]
 [ExcludeFromCodeCoverage]
-public record GitUpdateRefOptions : GitOptions
-{
-}
+public record GitUpdateRefOptions : GitOptions;

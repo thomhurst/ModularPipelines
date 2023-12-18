@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -13,6 +10,4 @@ public record AzCosmosdbSqlTriggerListOptions(
 [property: CommandSwitch("--container-name")] string ContainerName,
 [property: CommandSwitch("--database-name")] string DatabaseName,
 [property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
-{
-}
+) : AzOptions;

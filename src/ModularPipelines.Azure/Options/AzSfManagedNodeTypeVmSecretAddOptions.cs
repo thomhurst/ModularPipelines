@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -15,6 +12,4 @@ public record AzSfManagedNodeTypeVmSecretAddOptions(
 [property: CommandSwitch("--name")] string Name,
 [property: CommandSwitch("--resource-group")] string ResourceGroup,
 [property: CommandSwitch("--source-vault-id")] string SourceVaultId
-) : AzOptions
-{
-}
+) : AzOptions;

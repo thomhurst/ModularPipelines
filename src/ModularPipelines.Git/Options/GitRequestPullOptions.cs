@@ -5,6 +5,4 @@ namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("request-pull")]
 [ExcludeFromCodeCoverage]
-public record GitRequestPullOptions : GitOptions
-{
-}
+public record GitRequestPullOptions : GitOptions;

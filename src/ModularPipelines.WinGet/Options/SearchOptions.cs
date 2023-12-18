@@ -7,6 +7,4 @@ namespace ModularPipelines.WinGet.Options;
 [CommandPrecedingArguments("search")]
 public record SearchOptions(
     [property: CommandSwitch("--query")] string Query
-) : WingetOptions
-{
-}
+) : WingetOptions;

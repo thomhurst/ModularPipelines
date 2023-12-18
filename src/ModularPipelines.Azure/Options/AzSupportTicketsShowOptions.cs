@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -10,6 +7,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("support", "tickets", "show")]
 public record AzSupportTicketsShowOptions(
 [property: CommandSwitch("--ticket-name")] string TicketName
-) : AzOptions
-{
-}
+) : AzOptions;

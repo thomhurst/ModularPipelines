@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -12,6 +9,4 @@ public record AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions(
 [property: CommandSwitch("--name")] string Name,
 [property: CommandSwitch("--sas-token")] string SasToken,
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
-{
-}
+) : AzOptions;

@@ -1,8 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -14,6 +11,4 @@ public record AzMysqlServerFirewallRuleCreateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup,
 [property: CommandSwitch("--server-name")] string ServerName,
 [property: CommandSwitch("--start-ip-address")] string StartIpAddress
-) : AzOptions
-{
-}
+) : AzOptions;
