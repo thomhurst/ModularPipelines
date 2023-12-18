@@ -41,13 +41,15 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 Arguments = new[] { "whitespace" },
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = true,
+                Severity = "info",
             }, cancellationToken);
-            
+
             // The code hasn't been formatted nicely!
             return await context.DotNet().Format(new DotNetFormatOptions
             {
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = true,
+                Severity = "info",
             }, cancellationToken);
         }
         catch (Exception)
@@ -64,6 +66,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
             {
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = false,
+                Severity = "info",
             }, cancellationToken);
 
             await context.DotNet().Format(new DotNetFormatOptions
@@ -71,6 +74,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 Arguments = new[] { "whitespace" },
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = false,
+                Severity = "info",
             }, cancellationToken);
 
             var branchTriggeringPullRequest = _githubSettings.Value.PullRequest?.Branch!;
