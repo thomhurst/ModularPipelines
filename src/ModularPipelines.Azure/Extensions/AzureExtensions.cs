@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using System.Runtime.CompilerServices;
+using Azure.Core;
 using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,6 +17,7 @@ namespace ModularPipelines.Azure.Extensions;
 
 public static class AzureExtensions
 {
+    [ModuleInitializer]
     public static IServiceCollection RegisterAzureContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAzure, Azure>();
