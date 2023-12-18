@@ -23,4 +23,3 @@ public record AzEventgridTopicPrivateLinkResourceShowOptions : AzOptions
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

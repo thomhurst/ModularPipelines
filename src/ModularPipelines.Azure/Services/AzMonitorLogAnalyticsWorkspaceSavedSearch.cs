@@ -42,4 +42,3 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

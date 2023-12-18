@@ -20,4 +20,3 @@ public record AzElasticMonitorDeleteTrafficFilterOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

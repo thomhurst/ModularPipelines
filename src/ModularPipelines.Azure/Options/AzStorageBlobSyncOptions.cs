@@ -41,4 +41,3 @@ public record AzStorageBlobSyncOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ExtraOptions { get; set; }
 }
-

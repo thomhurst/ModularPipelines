@@ -52,4 +52,3 @@ public class AzFluidRelayServer
         return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayServerUpdateOptions(), token);
     }
 }
-

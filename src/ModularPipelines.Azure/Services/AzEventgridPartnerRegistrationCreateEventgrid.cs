@@ -22,4 +22,3 @@ public class AzEventgridPartnerRegistrationCreateEventgrid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

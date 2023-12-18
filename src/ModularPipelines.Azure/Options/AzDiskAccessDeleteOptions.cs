@@ -23,4 +23,3 @@ public record AzDiskAccessDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

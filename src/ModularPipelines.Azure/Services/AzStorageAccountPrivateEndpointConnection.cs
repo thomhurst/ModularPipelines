@@ -37,4 +37,3 @@ public class AzStorageAccountPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

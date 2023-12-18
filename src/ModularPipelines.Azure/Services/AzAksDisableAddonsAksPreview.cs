@@ -22,4 +22,3 @@ public class AzAksDisableAddonsAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

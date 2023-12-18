@@ -27,4 +27,3 @@ public class AzDevcenterDevSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

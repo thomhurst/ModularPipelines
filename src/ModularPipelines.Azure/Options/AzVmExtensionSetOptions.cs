@@ -50,4 +50,3 @@ public record AzVmExtensionSetOptions(
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

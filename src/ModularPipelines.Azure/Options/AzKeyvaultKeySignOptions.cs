@@ -26,4 +26,3 @@ public record AzKeyvaultKeySignOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

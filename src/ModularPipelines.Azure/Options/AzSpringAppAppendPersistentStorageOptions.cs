@@ -27,4 +27,3 @@ public record AzSpringAppAppendPersistentStorageOptions(
     [CommandSwitch("--share-name")]
     public string? ShareName { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzDevopsUserListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -51,4 +51,3 @@ public class AzStorageTable
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableStatsOptions(), token);
     }
 }
-

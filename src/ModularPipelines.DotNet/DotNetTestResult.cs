@@ -1,4 +1,4 @@
-﻿using ModularPipelines.DotNet.Enums;
+using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet;
 

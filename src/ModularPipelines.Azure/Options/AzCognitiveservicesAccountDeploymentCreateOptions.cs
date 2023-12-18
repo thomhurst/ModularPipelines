@@ -32,4 +32,3 @@ public record AzCognitiveservicesAccountDeploymentCreateOptions(
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
 }
-

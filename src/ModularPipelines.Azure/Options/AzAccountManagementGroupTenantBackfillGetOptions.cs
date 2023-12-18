@@ -9,4 +9,3 @@ using ModularPipelines.Options;
 public record AzAccountManagementGroupTenantBackfillGetOptions : AzOptions
 {
 }
-

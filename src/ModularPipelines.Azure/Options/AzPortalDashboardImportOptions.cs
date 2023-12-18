@@ -14,4 +14,3 @@ public record AzPortalDashboardImportOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

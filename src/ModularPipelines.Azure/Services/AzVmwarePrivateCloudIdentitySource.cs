@@ -47,4 +47,3 @@ public class AzVmwarePrivateCloudIdentitySource
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudIdentitySourceWaitOptions(), token);
     }
 }
-

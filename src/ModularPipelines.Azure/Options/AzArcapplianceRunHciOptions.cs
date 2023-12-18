@@ -30,4 +30,3 @@ public record AzArcapplianceRunHciOptions(
     [CommandSwitch("--working-dir")]
     public string? WorkingDir { get; set; }
 }
-

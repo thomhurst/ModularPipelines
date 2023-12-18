@@ -44,4 +44,3 @@ public record AzNetworkPerimeterAssociationWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

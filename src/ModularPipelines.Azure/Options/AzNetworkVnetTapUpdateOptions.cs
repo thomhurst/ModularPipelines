@@ -32,4 +32,3 @@ public record AzNetworkVnetTapUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

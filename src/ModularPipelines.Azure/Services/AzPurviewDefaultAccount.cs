@@ -32,4 +32,3 @@ public class AzPurviewDefaultAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

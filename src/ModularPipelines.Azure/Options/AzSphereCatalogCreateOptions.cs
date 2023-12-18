@@ -14,4 +14,3 @@ public record AzSphereCatalogCreateOptions(
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }
 }
-

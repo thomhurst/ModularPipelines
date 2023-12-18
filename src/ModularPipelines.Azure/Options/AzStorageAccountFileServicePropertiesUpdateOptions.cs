@@ -46,4 +46,3 @@ public record AzStorageAccountFileServicePropertiesUpdateOptions(
     [CommandSwitch("--versions")]
     public string? Versions { get; set; }
 }
-

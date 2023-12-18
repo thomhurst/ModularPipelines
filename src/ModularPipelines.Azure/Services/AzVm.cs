@@ -233,4 +233,3 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options ?? new AzVmWaitOptions(), token);
     }
 }
-

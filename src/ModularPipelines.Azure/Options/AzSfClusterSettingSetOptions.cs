@@ -23,4 +23,3 @@ public record AzSfClusterSettingSetOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

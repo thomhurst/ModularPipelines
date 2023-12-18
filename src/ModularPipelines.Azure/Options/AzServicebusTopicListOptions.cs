@@ -17,4 +17,3 @@ public record AzServicebusTopicListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

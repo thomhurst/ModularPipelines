@@ -22,4 +22,3 @@ public record AzProviderhubSkuCreateOptions(
     [CommandSwitch("--nested-resource-type-third")]
     public string? NestedResourceTypeThird { get; set; }
 }
-

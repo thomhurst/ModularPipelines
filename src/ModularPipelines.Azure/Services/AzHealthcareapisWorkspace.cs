@@ -67,4 +67,3 @@ public class AzHealthcareapisWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceWaitOptions(), token);
     }
 }
-

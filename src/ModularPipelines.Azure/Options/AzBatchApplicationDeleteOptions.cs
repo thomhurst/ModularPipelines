@@ -15,4 +15,3 @@ public record AzBatchApplicationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

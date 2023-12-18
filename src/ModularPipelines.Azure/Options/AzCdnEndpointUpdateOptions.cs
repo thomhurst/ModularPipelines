@@ -67,4 +67,3 @@ public record AzCdnEndpointUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

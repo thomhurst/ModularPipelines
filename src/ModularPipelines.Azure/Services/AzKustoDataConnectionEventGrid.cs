@@ -32,4 +32,3 @@ public class AzKustoDataConnectionEventGrid
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventGridUpdateOptions(), token);
     }
 }
-

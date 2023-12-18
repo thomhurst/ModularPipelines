@@ -41,4 +41,3 @@ public record AzNetworkVnetGatewayRevokedCertWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

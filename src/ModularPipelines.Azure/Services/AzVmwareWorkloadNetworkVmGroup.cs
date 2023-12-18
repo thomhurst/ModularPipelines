@@ -47,4 +47,3 @@ public class AzVmwareWorkloadNetworkVmGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkVmGroupWaitOptions(), token);
     }
 }
-

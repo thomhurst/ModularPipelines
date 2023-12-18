@@ -13,4 +13,3 @@ public record AzQuantumOfferingsListOptions(
     [BooleanCommandSwitch("--autoadd-only")]
     public bool? AutoaddOnly { get; set; }
 }
-

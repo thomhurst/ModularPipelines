@@ -37,4 +37,3 @@ public class AzMysqlServerPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzDynatraceMonitorTagRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

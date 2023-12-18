@@ -33,4 +33,3 @@ public record AzSynapseSqlScriptCreateOptions(
     [CommandSwitch("--sql-pool-name")]
     public string? SqlPoolName { get; set; }
 }
-

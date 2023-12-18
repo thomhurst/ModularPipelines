@@ -46,4 +46,3 @@ public record AzConnectionCreateCosmosSqlOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

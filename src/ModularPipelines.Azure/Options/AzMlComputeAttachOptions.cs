@@ -47,4 +47,3 @@ public record AzMlComputeAttachOptions(
     [CommandSwitch("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }
-

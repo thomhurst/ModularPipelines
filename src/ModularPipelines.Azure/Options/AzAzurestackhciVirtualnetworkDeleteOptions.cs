@@ -23,4 +23,3 @@ public record AzAzurestackhciVirtualnetworkDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

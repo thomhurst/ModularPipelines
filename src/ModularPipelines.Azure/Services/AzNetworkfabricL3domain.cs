@@ -52,4 +52,3 @@ public class AzNetworkfabricL3domain
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL3domainWaitOptions(), token);
     }
 }
-

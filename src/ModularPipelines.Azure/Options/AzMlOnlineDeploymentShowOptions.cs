@@ -19,4 +19,3 @@ public record AzMlOnlineDeploymentShowOptions(
     [BooleanCommandSwitch("--web")]
     public bool? Web { get; set; }
 }
-

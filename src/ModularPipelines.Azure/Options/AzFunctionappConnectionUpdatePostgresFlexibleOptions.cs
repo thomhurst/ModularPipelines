@@ -38,4 +38,3 @@ public record AzFunctionappConnectionUpdatePostgresFlexibleOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

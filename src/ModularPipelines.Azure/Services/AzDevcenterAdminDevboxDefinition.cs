@@ -47,4 +47,3 @@ public class AzDevcenterAdminDevboxDefinition
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionWaitOptions(), token);
     }
 }
-

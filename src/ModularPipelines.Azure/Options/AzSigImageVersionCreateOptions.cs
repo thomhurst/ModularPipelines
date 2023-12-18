@@ -88,4 +88,3 @@ public record AzSigImageVersionCreateOptions(
     [CommandSwitch("--virtual-machine")]
     public string? VirtualMachine { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzWebappConfigSslUnbind
 
     public AzWebappConfigSslUnbindAppserviceKube AppserviceKube { get; }
 }
-

@@ -18,4 +18,3 @@ public record AzCosmosdbServiceShowOptions(
     [CommandSwitch("--size")]
     public string? Size { get; set; }
 }
-

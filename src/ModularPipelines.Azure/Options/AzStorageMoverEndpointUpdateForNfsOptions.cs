@@ -15,4 +15,3 @@ public record AzStorageMoverEndpointUpdateForNfsOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

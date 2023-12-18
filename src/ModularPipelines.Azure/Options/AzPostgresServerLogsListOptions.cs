@@ -20,4 +20,3 @@ public record AzPostgresServerLogsListOptions(
     [CommandSwitch("--max-file-size")]
     public string? MaxFileSize { get; set; }
 }
-

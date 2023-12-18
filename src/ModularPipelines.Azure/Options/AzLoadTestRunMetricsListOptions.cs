@@ -33,4 +33,3 @@ public record AzLoadTestRunMetricsListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzDnsResolverForwardingRulesetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

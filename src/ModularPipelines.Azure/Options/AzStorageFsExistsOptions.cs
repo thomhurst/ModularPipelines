@@ -31,4 +31,3 @@ public record AzStorageFsExistsOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

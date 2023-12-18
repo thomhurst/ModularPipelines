@@ -22,4 +22,3 @@ public class AzKustoClusterCreateKusto
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzPolicyAttestation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

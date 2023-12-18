@@ -22,4 +22,3 @@ public class AzAksEgressEndpoints
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

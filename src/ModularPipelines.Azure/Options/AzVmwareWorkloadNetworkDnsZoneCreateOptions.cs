@@ -33,4 +33,3 @@ public record AzVmwareWorkloadNetworkDnsZoneCreateOptions(
     [CommandSwitch("--source-ip")]
     public string? SourceIp { get; set; }
 }
-

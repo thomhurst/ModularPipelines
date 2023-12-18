@@ -33,4 +33,3 @@ public record AzContainerappSslUploadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

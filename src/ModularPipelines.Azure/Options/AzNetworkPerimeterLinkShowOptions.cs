@@ -23,4 +23,3 @@ public record AzNetworkPerimeterLinkShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

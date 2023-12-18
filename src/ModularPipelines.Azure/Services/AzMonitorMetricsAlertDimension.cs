@@ -22,4 +22,3 @@ public class AzMonitorMetricsAlertDimension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

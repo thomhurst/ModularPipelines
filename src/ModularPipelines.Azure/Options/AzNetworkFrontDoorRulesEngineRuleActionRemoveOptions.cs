@@ -17,4 +17,3 @@ public record AzNetworkFrontDoorRulesEngineRuleActionRemoveOptions(
     [CommandSwitch("--index")]
     public string? Index { get; set; }
 }
-

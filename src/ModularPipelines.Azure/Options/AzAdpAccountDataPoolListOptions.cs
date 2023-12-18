@@ -20,4 +20,3 @@ public record AzAdpAccountDataPoolListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

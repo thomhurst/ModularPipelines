@@ -19,4 +19,3 @@ public record AzDtRoleAssignmentListOptions(
     [CommandSwitch("--role")]
     public string? Role { get; set; }
 }
-

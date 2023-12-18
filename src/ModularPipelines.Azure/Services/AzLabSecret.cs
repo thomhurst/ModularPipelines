@@ -37,4 +37,3 @@ public class AzLabSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

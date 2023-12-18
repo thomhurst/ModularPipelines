@@ -54,4 +54,3 @@ public class AzNetworkPrivateDnsRecordSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

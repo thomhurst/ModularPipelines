@@ -27,4 +27,3 @@ public class AzSecuritySubAssessment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzIotHubCertificateRootAuthoritySetOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

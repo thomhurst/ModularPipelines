@@ -24,4 +24,3 @@ public record AzKeyvaultCertificateIssuerCreateOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

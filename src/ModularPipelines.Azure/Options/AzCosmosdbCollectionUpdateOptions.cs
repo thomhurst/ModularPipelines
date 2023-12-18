@@ -32,4 +32,3 @@ public record AzCosmosdbCollectionUpdateOptions(
     [CommandSwitch("--url-connection")]
     public string? UrlConnection { get; set; }
 }
-

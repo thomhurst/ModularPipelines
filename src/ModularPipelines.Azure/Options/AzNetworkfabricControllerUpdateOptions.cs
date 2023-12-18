@@ -32,4 +32,3 @@ public record AzNetworkfabricControllerUpdateOptions : AzOptions
     [CommandSwitch("--workload-er-connections")]
     public string? WorkloadErConnections { get; set; }
 }
-

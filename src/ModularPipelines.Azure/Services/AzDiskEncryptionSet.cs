@@ -55,4 +55,3 @@ public class AzDiskEncryptionSet
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetWaitOptions(), token);
     }
 }
-

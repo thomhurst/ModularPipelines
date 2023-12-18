@@ -66,4 +66,3 @@ public class AzConnectedk8s
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedk8sUpgradeOptions(), token);
     }
 }
-

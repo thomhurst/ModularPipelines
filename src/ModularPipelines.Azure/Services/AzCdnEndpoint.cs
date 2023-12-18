@@ -75,4 +75,3 @@ public class AzCdnEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

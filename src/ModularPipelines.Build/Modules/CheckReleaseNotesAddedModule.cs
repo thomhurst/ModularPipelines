@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;

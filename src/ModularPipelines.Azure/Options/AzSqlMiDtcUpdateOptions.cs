@@ -62,4 +62,3 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     [BooleanCommandSwitch("--xa-transactions")]
     public bool? XaTransactions { get; set; }
 }
-

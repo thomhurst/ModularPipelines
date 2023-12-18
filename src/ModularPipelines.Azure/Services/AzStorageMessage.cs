@@ -47,4 +47,3 @@ public class AzStorageMessage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

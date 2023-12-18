@@ -37,4 +37,3 @@ public class AzAcrTaskrun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

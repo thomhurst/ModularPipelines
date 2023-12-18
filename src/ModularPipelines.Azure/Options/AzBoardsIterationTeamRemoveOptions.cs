@@ -20,4 +20,3 @@ public record AzBoardsIterationTeamRemoveOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

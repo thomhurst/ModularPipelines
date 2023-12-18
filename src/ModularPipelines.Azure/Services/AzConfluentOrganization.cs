@@ -47,4 +47,3 @@ public class AzConfluentOrganization
         return await _command.ExecuteCommandLineTool(options ?? new AzConfluentOrganizationWaitOptions(), token);
     }
 }
-

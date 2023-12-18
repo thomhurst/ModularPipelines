@@ -51,4 +51,3 @@ public class AzIotHubMessageRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

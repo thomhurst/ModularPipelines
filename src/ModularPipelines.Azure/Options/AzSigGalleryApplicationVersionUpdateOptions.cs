@@ -35,4 +35,3 @@ public record AzSigGalleryApplicationVersionUpdateOptions(
     [CommandSwitch("--target-regions")]
     public string? TargetRegions { get; set; }
 }
-

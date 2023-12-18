@@ -20,4 +20,3 @@ public record AzSecurityContactCreateOptions(
     [CommandSwitch("--phone")]
     public string? Phone { get; set; }
 }
-

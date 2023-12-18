@@ -63,4 +63,3 @@ public class AzWebappConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigShowOptions(), token);
     }
 }
-

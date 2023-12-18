@@ -20,4 +20,3 @@ public record AzNetworkVhubBgpconnectionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

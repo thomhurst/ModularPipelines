@@ -41,4 +41,3 @@ public record AzAfdRuleConditionAddOptions(
     [CommandSwitch("--transforms")]
     public string? Transforms { get; set; }
 }
-

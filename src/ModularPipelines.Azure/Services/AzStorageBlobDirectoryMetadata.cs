@@ -27,4 +27,3 @@ public class AzStorageBlobDirectoryMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

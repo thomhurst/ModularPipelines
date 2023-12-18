@@ -54,4 +54,3 @@ public record AzAksMaintenanceconfigurationAddAksPreviewExtensionOptions(
     [CommandSwitch("--weekday")]
     public string? Weekday { get; set; }
 }
-

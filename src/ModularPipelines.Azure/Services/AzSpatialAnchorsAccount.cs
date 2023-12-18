@@ -45,4 +45,3 @@ public class AzSpatialAnchorsAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountUpdateOptions(), token);
     }
 }
-

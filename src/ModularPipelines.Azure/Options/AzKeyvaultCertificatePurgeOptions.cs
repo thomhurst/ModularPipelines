@@ -19,4 +19,3 @@ public record AzKeyvaultCertificatePurgeOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

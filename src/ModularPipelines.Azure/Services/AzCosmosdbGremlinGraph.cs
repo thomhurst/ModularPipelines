@@ -56,4 +56,3 @@ public class AzCosmosdbGremlinGraph
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

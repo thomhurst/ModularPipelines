@@ -89,4 +89,3 @@ public record AzWebappConfigSetOptions : AzOptions
     [CommandSwitch("--windows-fx-version")]
     public string? WindowsFxVersion { get; set; }
 }
-

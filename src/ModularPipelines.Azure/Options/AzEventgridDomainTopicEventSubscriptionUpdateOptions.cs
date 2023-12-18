@@ -46,4 +46,3 @@ public record AzEventgridDomainTopicEventSubscriptionUpdateOptions(
     [CommandSwitch("--update-endpoint-type")]
     public string? UpdateEndpointType { get; set; }
 }
-

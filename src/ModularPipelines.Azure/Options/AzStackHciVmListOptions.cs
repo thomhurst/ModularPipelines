@@ -11,4 +11,3 @@ public record AzStackHciVmListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

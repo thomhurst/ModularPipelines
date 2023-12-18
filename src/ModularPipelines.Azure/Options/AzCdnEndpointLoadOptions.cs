@@ -28,4 +28,3 @@ public record AzCdnEndpointLoadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

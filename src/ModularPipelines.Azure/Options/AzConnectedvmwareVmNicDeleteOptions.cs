@@ -18,4 +18,3 @@ public record AzConnectedvmwareVmNicDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

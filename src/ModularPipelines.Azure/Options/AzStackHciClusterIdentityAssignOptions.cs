@@ -14,4 +14,3 @@ public record AzStackHciClusterIdentityAssignOptions(
     [BooleanCommandSwitch("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 }
-

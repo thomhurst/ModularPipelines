@@ -17,4 +17,3 @@ public record AzSignalrCustomCertificateCreateOptions(
     [CommandSwitch("--keyvault-secret-version")]
     public string? KeyvaultSecretVersion { get; set; }
 }
-

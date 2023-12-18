@@ -16,4 +16,3 @@ public class AzNginx
 
     public AzNginxDeployment Deployment { get; }
 }
-

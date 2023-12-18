@@ -57,4 +57,3 @@ public record AzEventhubsEventhubCreateOptions(
     [CommandSwitch("--tombstone-retention-time-in-hours")]
     public string? TombstoneRetentionTimeInHours { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzSerialConsoleConnectOptions(
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
 }
-

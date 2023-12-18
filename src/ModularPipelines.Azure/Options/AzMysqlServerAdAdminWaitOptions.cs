@@ -41,4 +41,3 @@ public record AzMysqlServerAdAdminWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

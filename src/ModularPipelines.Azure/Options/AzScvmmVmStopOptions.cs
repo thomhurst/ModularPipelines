@@ -26,4 +26,3 @@ public record AzScvmmVmStopOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

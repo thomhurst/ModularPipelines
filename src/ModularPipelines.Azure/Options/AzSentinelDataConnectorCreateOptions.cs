@@ -75,4 +75,3 @@ public record AzSentinelDataConnectorCreateOptions(
     [CommandSwitch("--threat-intelligence")]
     public string? ThreatIntelligence { get; set; }
 }
-

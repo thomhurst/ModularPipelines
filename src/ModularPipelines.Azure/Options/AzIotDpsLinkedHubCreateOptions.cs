@@ -31,4 +31,3 @@ public record AzIotDpsLinkedHubCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

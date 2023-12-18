@@ -20,4 +20,3 @@ public record AzNetworkDdosProtectionCreateOptions(
     [CommandSwitch("--vnets")]
     public string? Vnets { get; set; }
 }
-

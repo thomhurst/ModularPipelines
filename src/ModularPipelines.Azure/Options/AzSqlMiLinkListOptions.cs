@@ -20,4 +20,3 @@ public record AzSqlMiLinkListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

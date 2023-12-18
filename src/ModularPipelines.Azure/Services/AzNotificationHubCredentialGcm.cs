@@ -22,4 +22,3 @@ public class AzNotificationHubCredentialGcm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzAutomationScheduleCreateOptions(
     [CommandSwitch("--time-zone")]
     public string? TimeZone { get; set; }
 }
-

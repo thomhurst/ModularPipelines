@@ -21,4 +21,3 @@ public record AzSpringAppEnableRemoteDebuggingOptions(
     [CommandSwitch("--port")]
     public int? Port { get; set; }
 }
-

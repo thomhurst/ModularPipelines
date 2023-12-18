@@ -23,4 +23,3 @@ public record AzSynapseSparkSessionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzMariadbServerVnetRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzNetworkPerimeterLinkReferenceListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

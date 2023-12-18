@@ -33,4 +33,3 @@ public record AzNetappfilesAccountBackupShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzScvmmVmTemplateCreateOptions(
     [CommandSwitch("--vmmserver")]
     public string? Vmmserver { get; set; }
 }
-

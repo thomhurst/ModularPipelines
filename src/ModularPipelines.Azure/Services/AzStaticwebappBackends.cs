@@ -37,4 +37,3 @@ public class AzStaticwebappBackends
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

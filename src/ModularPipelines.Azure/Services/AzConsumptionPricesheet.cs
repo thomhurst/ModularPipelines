@@ -22,4 +22,3 @@ public class AzConsumptionPricesheet
         return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionPricesheetShowOptions(), token);
     }
 }
-

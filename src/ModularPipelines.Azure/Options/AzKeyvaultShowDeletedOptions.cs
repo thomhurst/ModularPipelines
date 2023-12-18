@@ -16,4 +16,3 @@ public record AzKeyvaultShowDeletedOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

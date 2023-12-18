@@ -35,4 +35,3 @@ public record AzConfidentialledgerManagedccfsUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzScvmmVmExtensionListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

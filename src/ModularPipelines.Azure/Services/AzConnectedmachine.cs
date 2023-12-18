@@ -71,4 +71,3 @@ public class AzConnectedmachine
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineUpgradeExtensionOptions(), token);
     }
 }
-

@@ -25,4 +25,3 @@ public record AzReposPolicyCommentRequiredCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

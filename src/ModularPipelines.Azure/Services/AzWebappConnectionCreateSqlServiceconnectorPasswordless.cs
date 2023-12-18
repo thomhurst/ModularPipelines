@@ -22,4 +22,3 @@ public class AzWebappConnectionCreateSqlServiceconnectorPasswordless
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateSqlServiceconnectorPasswordlessExtensionOptions(), token);
     }
 }
-

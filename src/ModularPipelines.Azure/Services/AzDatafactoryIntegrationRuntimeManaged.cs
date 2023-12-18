@@ -22,4 +22,3 @@ public class AzDatafactoryIntegrationRuntimeManaged
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

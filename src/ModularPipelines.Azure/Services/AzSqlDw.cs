@@ -52,4 +52,3 @@ public class AzSqlDw
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwUpdateOptions(), token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzDtRouteDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

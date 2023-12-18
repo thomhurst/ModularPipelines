@@ -13,4 +13,3 @@ public record AzVmDiagnosticsGetDefaultConfigOptions(
     [BooleanCommandSwitch("--is-windows-os")]
     public bool? IsWindowsOs { get; set; }
 }
-

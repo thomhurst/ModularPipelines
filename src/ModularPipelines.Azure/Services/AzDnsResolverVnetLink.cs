@@ -47,4 +47,3 @@ public class AzDnsResolverVnetLink
         return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkWaitOptions(), token);
     }
 }
-

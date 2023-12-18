@@ -18,4 +18,3 @@ public record AzIotDuDeviceClassUpdateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

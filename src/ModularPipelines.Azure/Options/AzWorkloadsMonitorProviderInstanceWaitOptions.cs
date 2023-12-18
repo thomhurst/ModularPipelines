@@ -44,4 +44,3 @@ public record AzWorkloadsMonitorProviderInstanceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

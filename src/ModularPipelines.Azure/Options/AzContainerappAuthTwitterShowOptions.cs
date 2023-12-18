@@ -20,4 +20,3 @@ public record AzContainerappAuthTwitterShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

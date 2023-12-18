@@ -22,4 +22,3 @@ public class AzNetworkPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkResourceListOptions(), token);
     }
 }
-

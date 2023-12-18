@@ -21,4 +21,3 @@ public record AzBatchApplicationSetOptions(
     [CommandSwitch("--display-name")]
     public string? DisplayName { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzIotProductTestTaskShowOptions(
     [CommandSwitch("--task-id")]
     public string? TaskId { get; set; }
 }
-

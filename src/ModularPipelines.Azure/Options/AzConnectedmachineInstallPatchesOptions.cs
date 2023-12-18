@@ -32,4 +32,3 @@ public record AzConnectedmachineInstallPatchesOptions(
     [CommandSwitch("--windows-parameters")]
     public string? WindowsParameters { get; set; }
 }
-

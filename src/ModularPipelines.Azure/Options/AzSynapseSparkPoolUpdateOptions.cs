@@ -76,4 +76,3 @@ public record AzSynapseSparkPoolUpdateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

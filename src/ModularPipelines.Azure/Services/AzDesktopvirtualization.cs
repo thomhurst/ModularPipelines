@@ -24,4 +24,3 @@ public class AzDesktopvirtualization
 
     public AzDesktopvirtualizationWorkspace Workspace { get; }
 }
-

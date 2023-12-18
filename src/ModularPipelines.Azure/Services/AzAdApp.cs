@@ -58,4 +58,3 @@ public class AzAdApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

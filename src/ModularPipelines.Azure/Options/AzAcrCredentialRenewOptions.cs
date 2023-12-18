@@ -14,4 +14,3 @@ public record AzAcrCredentialRenewOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

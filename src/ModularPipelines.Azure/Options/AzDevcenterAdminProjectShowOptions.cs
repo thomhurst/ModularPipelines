@@ -20,4 +20,3 @@ public record AzDevcenterAdminProjectShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

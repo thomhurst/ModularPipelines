@@ -20,4 +20,3 @@ public record AzBatchPoolSupportedImagesListOptions : AzOptions
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

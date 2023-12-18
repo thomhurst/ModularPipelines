@@ -31,4 +31,3 @@ public record AzSqlInstancePoolCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

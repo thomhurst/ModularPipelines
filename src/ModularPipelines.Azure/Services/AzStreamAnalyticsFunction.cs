@@ -57,4 +57,3 @@ public class AzStreamAnalyticsFunction
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

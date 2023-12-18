@@ -35,4 +35,3 @@ public record AzVmAvailabilitySetCreateOptions(
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
 }
-

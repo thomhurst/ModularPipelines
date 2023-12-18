@@ -98,4 +98,3 @@ public record AzContainerappJobUpdateOptions : AzOptions
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

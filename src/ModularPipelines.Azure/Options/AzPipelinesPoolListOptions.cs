@@ -25,4 +25,3 @@ public record AzPipelinesPoolListOptions(
     [CommandSwitch("--pool-type")]
     public string? PoolType { get; set; }
 }
-

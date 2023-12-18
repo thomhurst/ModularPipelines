@@ -42,4 +42,3 @@ public class AzSpringCloudBuildServiceBuilderBuildpackBinding
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

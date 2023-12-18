@@ -37,4 +37,3 @@ public class AzSqlMiKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -24,4 +24,3 @@ public record AzNetworkLbAddressPoolTunnelInterfaceAddOptions(
     [CommandSwitch("--port")]
     public int? Port { get; set; }
 }
-

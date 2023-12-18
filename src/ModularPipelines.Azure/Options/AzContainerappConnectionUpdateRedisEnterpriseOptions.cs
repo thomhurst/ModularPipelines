@@ -38,4 +38,3 @@ public record AzContainerappConnectionUpdateRedisEnterpriseOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

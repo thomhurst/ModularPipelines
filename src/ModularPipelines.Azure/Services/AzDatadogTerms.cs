@@ -32,4 +32,3 @@ public class AzDatadogTerms
         return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsUpdateOptions(), token);
     }
 }
-

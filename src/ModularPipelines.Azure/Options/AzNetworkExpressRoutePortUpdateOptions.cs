@@ -38,4 +38,3 @@ public record AzNetworkExpressRoutePortUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

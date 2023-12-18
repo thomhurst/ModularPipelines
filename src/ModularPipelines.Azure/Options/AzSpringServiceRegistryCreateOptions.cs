@@ -14,4 +14,3 @@ public record AzSpringServiceRegistryCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

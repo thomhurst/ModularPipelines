@@ -22,4 +22,3 @@ public record AzBoardsAreaProjectDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

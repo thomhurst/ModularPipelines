@@ -29,4 +29,3 @@ public record AzVmwareWorkloadNetworkDhcpRelayDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

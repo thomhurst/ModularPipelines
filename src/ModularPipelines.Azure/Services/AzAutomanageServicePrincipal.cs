@@ -27,4 +27,3 @@ public class AzAutomanageServicePrincipal
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageServicePrincipalShowDefaultOptions(), token);
     }
 }
-

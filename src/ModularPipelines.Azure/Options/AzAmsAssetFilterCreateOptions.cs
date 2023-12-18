@@ -37,4 +37,3 @@ public record AzAmsAssetFilterCreateOptions(
     [CommandSwitch("--tracks")]
     public string? Tracks { get; set; }
 }
-

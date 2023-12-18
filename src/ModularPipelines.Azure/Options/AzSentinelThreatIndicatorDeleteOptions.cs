@@ -23,4 +23,3 @@ public record AzSentinelThreatIndicatorDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

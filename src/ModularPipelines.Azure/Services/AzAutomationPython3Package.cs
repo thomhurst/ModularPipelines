@@ -42,4 +42,3 @@ public class AzAutomationPython3Package
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageUpdateOptions(), token);
     }
 }
-

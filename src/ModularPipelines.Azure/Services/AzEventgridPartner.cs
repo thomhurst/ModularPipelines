@@ -37,4 +37,3 @@ public class AzEventgridPartner
 
     public AzEventgridPartnerVerifiedPartner VerifiedPartner { get; }
 }
-

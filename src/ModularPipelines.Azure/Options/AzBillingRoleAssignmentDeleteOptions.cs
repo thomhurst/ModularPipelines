@@ -20,4 +20,3 @@ public record AzBillingRoleAssignmentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

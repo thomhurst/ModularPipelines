@@ -57,4 +57,3 @@ public class AzBlockchainTransactionNode
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -33,4 +33,3 @@ public record AzNetworkFrontDoorBackendPoolCreateOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

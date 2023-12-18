@@ -29,4 +29,3 @@ public record AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions : AzOption
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

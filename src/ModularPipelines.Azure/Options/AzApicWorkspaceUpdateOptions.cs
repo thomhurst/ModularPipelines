@@ -41,4 +41,3 @@ public record AzApicWorkspaceUpdateOptions : AzOptions
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

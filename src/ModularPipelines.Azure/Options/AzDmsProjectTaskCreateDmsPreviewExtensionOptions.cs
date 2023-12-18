@@ -34,4 +34,3 @@ public record AzDmsProjectTaskCreateDmsPreviewExtensionOptions(
     [CommandSwitch("--validated-task-name")]
     public string? ValidatedTaskName { get; set; }
 }
-

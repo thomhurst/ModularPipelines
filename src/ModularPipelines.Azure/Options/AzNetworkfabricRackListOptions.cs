@@ -11,4 +11,3 @@ public record AzNetworkfabricRackListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

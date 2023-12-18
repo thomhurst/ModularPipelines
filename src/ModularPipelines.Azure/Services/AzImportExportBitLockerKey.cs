@@ -22,4 +22,3 @@ public class AzImportExportBitLockerKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

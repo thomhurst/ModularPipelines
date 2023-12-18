@@ -33,4 +33,3 @@ public record AzNetworkVhubRouteTableCreateOptions(
     [CommandSwitch("--route-name")]
     public string? RouteName { get; set; }
 }
-

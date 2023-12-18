@@ -18,4 +18,3 @@ public record AzSpringAppStopOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

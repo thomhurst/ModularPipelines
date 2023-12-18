@@ -41,4 +41,3 @@ public record AzContainerappDaprEnableOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

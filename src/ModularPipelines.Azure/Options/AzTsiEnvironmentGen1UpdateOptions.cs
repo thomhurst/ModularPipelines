@@ -35,4 +35,3 @@ public record AzTsiEnvironmentGen1UpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

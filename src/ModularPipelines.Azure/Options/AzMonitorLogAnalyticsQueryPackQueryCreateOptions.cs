@@ -29,4 +29,3 @@ public record AzMonitorLogAnalyticsQueryPackQueryCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

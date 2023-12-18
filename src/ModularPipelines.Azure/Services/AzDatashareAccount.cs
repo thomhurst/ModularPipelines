@@ -47,4 +47,3 @@ public class AzDatashareAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountWaitOptions(), token);
     }
 }
-

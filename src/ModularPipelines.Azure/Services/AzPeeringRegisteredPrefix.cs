@@ -42,4 +42,3 @@ public class AzPeeringRegisteredPrefix
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

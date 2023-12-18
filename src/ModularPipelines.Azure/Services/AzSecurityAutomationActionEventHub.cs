@@ -22,4 +22,3 @@ public class AzSecurityAutomationActionEventHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

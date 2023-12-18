@@ -32,4 +32,3 @@ public record AzIotCentralExportCreateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

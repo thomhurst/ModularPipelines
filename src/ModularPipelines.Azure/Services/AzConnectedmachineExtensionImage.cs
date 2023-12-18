@@ -27,4 +27,3 @@ public class AzConnectedmachineExtensionImage
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineExtensionImageShowOptions(), token);
     }
 }
-

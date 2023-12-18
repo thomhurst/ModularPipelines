@@ -61,4 +61,3 @@ public class AzStackHciCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterWaitOptions(), token);
     }
 }
-

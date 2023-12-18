@@ -86,4 +86,3 @@ public class AzStorageContainer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

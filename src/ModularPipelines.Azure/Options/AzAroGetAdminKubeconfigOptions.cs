@@ -14,4 +14,3 @@ public record AzAroGetAdminKubeconfigOptions(
     [CommandSwitch("--file")]
     public string? File { get; set; }
 }
-

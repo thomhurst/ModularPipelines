@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Attributes;
+namespace ModularPipelines.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class CommandPrecedingArgumentsAttribute : Attribute

@@ -31,4 +31,3 @@ public record AzDiskPoolIscsiTargetCreateOptions(
     [CommandSwitch("--target-iqn")]
     public string? TargetIqn { get; set; }
 }
-

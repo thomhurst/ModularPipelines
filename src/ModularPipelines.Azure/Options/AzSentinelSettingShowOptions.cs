@@ -23,4 +23,3 @@ public record AzSentinelSettingShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzNetworkCrossRegionLbAddressPoolAddress
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

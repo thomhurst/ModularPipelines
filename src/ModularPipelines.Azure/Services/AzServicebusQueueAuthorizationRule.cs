@@ -46,4 +46,3 @@ public class AzServicebusQueueAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueAuthorizationRuleUpdateOptions(), token);
     }
 }
-

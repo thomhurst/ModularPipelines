@@ -47,4 +47,3 @@ public class AzCosmosdbCopy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

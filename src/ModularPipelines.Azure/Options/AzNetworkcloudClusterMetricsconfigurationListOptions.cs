@@ -17,4 +17,3 @@ public record AzNetworkcloudClusterMetricsconfigurationListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzOffazureVmwareSite
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareSiteShowOptions(), token);
     }
 }
-

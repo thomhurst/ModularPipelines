@@ -17,4 +17,3 @@ public record AzSphereDeviceAppStartOptions : AzOptions
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

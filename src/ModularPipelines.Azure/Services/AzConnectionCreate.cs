@@ -148,4 +148,3 @@ public class AzConnectionCreate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzEventgridPartnerTopicEventSubscriptionShowOptions(
     [BooleanCommandSwitch("--include-full-endpoint-url")]
     public bool? IncludeFullEndpointUrl { get; set; }
 }
-

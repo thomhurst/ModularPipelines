@@ -18,4 +18,3 @@ public record AzSentinelIncidentListAlertOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

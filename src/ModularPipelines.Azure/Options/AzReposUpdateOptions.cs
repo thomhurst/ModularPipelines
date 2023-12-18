@@ -25,4 +25,3 @@ public record AzReposUpdateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

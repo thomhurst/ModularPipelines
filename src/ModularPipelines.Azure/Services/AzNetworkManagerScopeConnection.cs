@@ -42,4 +42,3 @@ public class AzNetworkManagerScopeConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionUpdateOptions(), token);
     }
 }
-

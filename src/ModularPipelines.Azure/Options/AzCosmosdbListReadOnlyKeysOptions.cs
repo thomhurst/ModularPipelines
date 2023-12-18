@@ -22,4 +22,3 @@ public record AzCosmosdbListReadOnlyKeysOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

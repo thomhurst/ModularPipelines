@@ -27,4 +27,3 @@ public class AzAmsAccountMru
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountMruShowOptions(), token);
     }
 }
-

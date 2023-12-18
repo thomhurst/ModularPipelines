@@ -17,4 +17,3 @@ public record AzReservationsReservationListAvailableScopeOptions(
     [CommandSwitch("--scopes")]
     public string? Scopes { get; set; }
 }
-

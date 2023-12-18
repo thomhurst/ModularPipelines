@@ -22,4 +22,3 @@ public record AzReposRefLockOptions(
     [CommandSwitch("--repository")]
     public string? Repository { get; set; }
 }
-

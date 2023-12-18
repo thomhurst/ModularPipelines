@@ -17,4 +17,3 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     [BooleanCommandSwitch("--show-resource-name")]
     public bool? ShowResourceName { get; set; }
 }
-

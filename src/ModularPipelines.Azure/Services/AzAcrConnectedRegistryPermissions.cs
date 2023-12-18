@@ -27,4 +27,3 @@ public class AzAcrConnectedRegistryPermissions
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

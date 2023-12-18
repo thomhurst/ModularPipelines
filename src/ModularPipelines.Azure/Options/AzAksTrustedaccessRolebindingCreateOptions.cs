@@ -17,4 +17,3 @@ public record AzAksTrustedaccessRolebindingCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

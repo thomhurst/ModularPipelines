@@ -24,4 +24,3 @@ public record AzLogzRuleCreateOptions(
     [BooleanCommandSwitch("--send-subscription-logs")]
     public bool? SendSubscriptionLogs { get; set; }
 }
-

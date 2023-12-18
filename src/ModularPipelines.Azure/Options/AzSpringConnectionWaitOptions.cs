@@ -47,4 +47,3 @@ public record AzSpringConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

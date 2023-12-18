@@ -42,4 +42,3 @@ public class AzBillingProduct
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

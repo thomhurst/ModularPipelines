@@ -47,4 +47,3 @@ public record AzResourceUpdateOptions : AzOptions
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

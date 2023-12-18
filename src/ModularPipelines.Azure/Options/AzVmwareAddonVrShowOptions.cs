@@ -22,4 +22,3 @@ public record AzVmwareAddonVrShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

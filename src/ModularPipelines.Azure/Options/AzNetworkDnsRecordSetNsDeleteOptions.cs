@@ -26,4 +26,3 @@ public record AzNetworkDnsRecordSetNsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzAmsContentKeyPolicyShowOptions : AzOptions
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

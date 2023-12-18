@@ -36,4 +36,3 @@ public class AzManagementpartner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

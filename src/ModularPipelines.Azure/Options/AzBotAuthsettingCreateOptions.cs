@@ -19,4 +19,3 @@ public record AzBotAuthsettingCreateOptions(
     [CommandSwitch("--parameters")]
     public string[]? Parameters { get; set; }
 }
-

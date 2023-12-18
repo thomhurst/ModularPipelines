@@ -27,4 +27,3 @@ public class AzBatchaiJobFile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

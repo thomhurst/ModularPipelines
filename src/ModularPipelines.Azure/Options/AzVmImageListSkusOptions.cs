@@ -15,4 +15,3 @@ public record AzVmImageListSkusOptions(
     [CommandSwitch("--edge-zone")]
     public string? EdgeZone { get; set; }
 }
-

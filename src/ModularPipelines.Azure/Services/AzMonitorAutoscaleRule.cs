@@ -37,4 +37,3 @@ public class AzMonitorAutoscaleRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

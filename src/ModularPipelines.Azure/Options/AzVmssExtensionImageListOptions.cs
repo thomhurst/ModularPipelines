@@ -23,4 +23,3 @@ public record AzVmssExtensionImageListOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

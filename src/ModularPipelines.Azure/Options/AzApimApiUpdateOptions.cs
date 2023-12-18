@@ -60,4 +60,3 @@ public record AzApimApiUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

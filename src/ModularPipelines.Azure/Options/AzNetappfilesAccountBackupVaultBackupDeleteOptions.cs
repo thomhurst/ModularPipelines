@@ -27,4 +27,3 @@ public record AzNetappfilesAccountBackupVaultBackupDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

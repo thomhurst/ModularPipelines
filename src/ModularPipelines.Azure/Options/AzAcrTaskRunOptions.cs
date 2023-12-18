@@ -53,4 +53,3 @@ public record AzAcrTaskRunOptions(
     [CommandSwitch("--update-trigger-token")]
     public string? UpdateTriggerToken { get; set; }
 }
-

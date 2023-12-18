@@ -14,4 +14,3 @@ public record AzSphereDeviceNetworkShowStatusOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

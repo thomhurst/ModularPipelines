@@ -56,4 +56,3 @@ public record AzFunctionappConnectionCreateSignalrOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

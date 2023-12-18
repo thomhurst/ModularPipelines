@@ -23,4 +23,3 @@ public record AzEventgridPartnerNamespaceChannelDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

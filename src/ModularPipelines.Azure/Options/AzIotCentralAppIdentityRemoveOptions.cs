@@ -16,4 +16,3 @@ public record AzIotCentralAppIdentityRemoveOptions(
     [BooleanCommandSwitch("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzDataboxedgeDeviceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

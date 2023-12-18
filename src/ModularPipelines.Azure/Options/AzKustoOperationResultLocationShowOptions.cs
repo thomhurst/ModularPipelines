@@ -20,4 +20,3 @@ public record AzKustoOperationResultLocationShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzConnectedk8sDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

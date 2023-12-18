@@ -15,4 +15,3 @@ public record AzSqlInstanceFailoverGroupSetPrimaryOptions(
     [BooleanCommandSwitch("--allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 }
-

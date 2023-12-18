@@ -43,4 +43,3 @@ public record AzBatchPoolResetOptions(
     [CommandSwitch("--start-task-wait-for-success")]
     public string? StartTaskWaitForSuccess { get; set; }
 }
-

@@ -73,4 +73,3 @@ public record AzBatchJobCreateAzureBatchCliExtensionsExtensionOptions(
     [BooleanCommandSwitch("--uses-task-dependencies")]
     public bool? UsesTaskDependencies { get; set; }
 }
-

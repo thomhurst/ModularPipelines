@@ -25,4 +25,3 @@ public record AzBillingPeriodListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

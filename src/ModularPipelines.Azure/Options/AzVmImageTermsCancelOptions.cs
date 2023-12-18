@@ -20,4 +20,3 @@ public record AzVmImageTermsCancelOptions : AzOptions
     [CommandSwitch("--urn")]
     public string? Urn { get; set; }
 }
-

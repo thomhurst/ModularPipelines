@@ -28,4 +28,3 @@ public record AzDatafactoryDatasetShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

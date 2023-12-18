@@ -22,4 +22,3 @@ public class AzNewRelicPlan
         return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicPlanListOptions(), token);
     }
 }
-

@@ -56,4 +56,3 @@ public record AzMobileNetworkSimPolicyUpdateOptions : AzOptions
     [CommandSwitch("--ue-ambr")]
     public string? UeAmbr { get; set; }
 }
-

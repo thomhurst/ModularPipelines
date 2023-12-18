@@ -33,4 +33,3 @@ public record AzBillingInvoiceSectionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzFunctionappCorsRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzLoadTestServerMetric
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

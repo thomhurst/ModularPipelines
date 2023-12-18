@@ -48,4 +48,3 @@ public record AzAfdOriginCreateOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

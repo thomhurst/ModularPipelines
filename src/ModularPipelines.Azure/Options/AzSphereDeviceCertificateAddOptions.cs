@@ -21,4 +21,3 @@ public record AzSphereDeviceCertificateAddOptions(
     [CommandSwitch("--private-key-password")]
     public string? PrivateKeyPassword { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzNetworkCrossRegionLbRuleDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

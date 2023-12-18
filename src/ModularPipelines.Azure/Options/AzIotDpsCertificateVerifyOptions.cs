@@ -16,4 +16,3 @@ public record AzIotDpsCertificateVerifyOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

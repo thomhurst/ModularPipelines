@@ -14,4 +14,3 @@ public record AzDatashareConsumerInvitationListInvitationOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

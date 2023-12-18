@@ -26,4 +26,3 @@ public record AzDnsResolverForwardingRuleCreateOptions(
     [CommandSwitch("--metadata")]
     public string? Metadata { get; set; }
 }
-

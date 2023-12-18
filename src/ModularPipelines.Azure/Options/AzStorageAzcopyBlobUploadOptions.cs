@@ -32,4 +32,3 @@ public record AzStorageAzcopyBlobUploadOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

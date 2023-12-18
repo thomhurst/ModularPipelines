@@ -17,4 +17,3 @@ public record AzSynapsePipelineRunCancelOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

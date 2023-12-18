@@ -20,4 +20,3 @@ public record AzSphereDeviceClaimOptions(
     [CommandSwitch("--product")]
     public string? Product { get; set; }
 }
-

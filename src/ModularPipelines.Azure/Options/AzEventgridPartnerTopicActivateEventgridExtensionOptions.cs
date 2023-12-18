@@ -20,4 +20,3 @@ public record AzEventgridPartnerTopicActivateEventgridExtensionOptions : AzOptio
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

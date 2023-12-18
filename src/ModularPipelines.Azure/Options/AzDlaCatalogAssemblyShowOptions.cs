@@ -20,4 +20,3 @@ public record AzDlaCatalogAssemblyShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

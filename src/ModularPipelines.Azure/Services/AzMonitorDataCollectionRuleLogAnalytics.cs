@@ -42,4 +42,3 @@ public class AzMonitorDataCollectionRuleLogAnalytics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

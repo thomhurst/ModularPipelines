@@ -27,4 +27,3 @@ public class AzAmsAccountSp
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountSpResetCredentialsOptions(), token);
     }
 }
-

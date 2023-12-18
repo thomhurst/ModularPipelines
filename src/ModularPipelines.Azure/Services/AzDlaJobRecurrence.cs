@@ -27,4 +27,3 @@ public class AzDlaJobRecurrence
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

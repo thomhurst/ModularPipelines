@@ -17,4 +17,3 @@ public record AzNetworkLbListNicOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

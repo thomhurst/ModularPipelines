@@ -23,4 +23,3 @@ public record AzMysqlFlexibleServerFirewallRuleShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

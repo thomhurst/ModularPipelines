@@ -13,4 +13,3 @@ public record AzFunctionappDeploymentUserSetOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

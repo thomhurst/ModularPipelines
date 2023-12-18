@@ -13,4 +13,3 @@ public record AzVmImageListPublishersOptions(
     [CommandSwitch("--edge-zone")]
     public string? EdgeZone { get; set; }
 }
-

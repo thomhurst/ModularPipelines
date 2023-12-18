@@ -27,4 +27,3 @@ public class AzIotHubMessageRouteFallback
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

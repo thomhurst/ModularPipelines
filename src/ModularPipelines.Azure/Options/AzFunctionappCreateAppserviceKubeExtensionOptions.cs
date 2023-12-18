@@ -80,4 +80,3 @@ public record AzFunctionappCreateAppserviceKubeExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

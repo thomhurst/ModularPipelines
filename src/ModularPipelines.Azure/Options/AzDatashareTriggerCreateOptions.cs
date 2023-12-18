@@ -19,4 +19,3 @@ public record AzDatashareTriggerCreateOptions(
     [CommandSwitch("--scheduled-trigger")]
     public string? ScheduledTrigger { get; set; }
 }
-

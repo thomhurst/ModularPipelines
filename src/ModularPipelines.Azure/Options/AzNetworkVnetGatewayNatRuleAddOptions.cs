@@ -26,4 +26,3 @@ public record AzNetworkVnetGatewayNatRuleAddOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

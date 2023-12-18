@@ -33,4 +33,3 @@ public record AzStorageBlobIncrementalCopyCancelOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

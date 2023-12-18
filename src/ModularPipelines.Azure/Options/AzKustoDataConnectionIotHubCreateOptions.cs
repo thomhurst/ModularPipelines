@@ -43,4 +43,3 @@ public record AzKustoDataConnectionIotHubCreateOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

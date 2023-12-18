@@ -47,4 +47,3 @@ public class AzSpringCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

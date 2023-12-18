@@ -93,4 +93,3 @@ public class AzCommunication
         return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationWaitOptions(), token);
     }
 }
-

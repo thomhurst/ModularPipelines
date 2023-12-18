@@ -37,4 +37,3 @@ public record AzContainerappHostnameBindOptions(
     [CommandSwitch("--validation-method")]
     public string? ValidationMethod { get; set; }
 }
-

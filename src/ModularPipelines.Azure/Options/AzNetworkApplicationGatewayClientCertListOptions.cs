@@ -14,4 +14,3 @@ public record AzNetworkApplicationGatewayClientCertListOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

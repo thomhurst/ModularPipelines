@@ -26,4 +26,3 @@ public record AzServicebusTopicAuthorizationRuleShowOptions : AzOptions
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

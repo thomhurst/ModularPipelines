@@ -25,4 +25,3 @@ public record AzPipelinesQueueListOptions(
     [CommandSwitch("--queue-name")]
     public string? QueueName { get; set; }
 }
-

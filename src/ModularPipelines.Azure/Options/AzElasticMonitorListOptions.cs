@@ -17,4 +17,3 @@ public record AzElasticMonitorListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

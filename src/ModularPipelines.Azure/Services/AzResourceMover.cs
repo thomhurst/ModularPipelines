@@ -20,4 +20,3 @@ public class AzResourceMover
 
     public AzResourceMoverMoveResource MoveResource { get; }
 }
-

@@ -27,4 +27,3 @@ public class AzFunctionappDeploymentUser
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentUserShowOptions(), token);
     }
 }
-

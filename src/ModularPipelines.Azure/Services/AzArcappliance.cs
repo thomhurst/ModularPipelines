@@ -85,4 +85,3 @@ public class AzArcappliance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzStaticwebappIdentityRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

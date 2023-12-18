@@ -26,4 +26,3 @@ public record AzNetworkcloudClusterBmckeysetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

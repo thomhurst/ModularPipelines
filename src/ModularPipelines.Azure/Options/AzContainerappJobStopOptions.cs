@@ -29,4 +29,3 @@ public record AzContainerappJobStopOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

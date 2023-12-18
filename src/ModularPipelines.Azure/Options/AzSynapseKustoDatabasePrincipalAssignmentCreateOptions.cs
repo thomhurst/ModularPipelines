@@ -29,4 +29,3 @@ public record AzSynapseKustoDatabasePrincipalAssignmentCreateOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

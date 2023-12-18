@@ -20,4 +20,3 @@ public record AzApicMetadataSchemaListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

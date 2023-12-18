@@ -26,4 +26,3 @@ public record AzDatashareDataSetCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

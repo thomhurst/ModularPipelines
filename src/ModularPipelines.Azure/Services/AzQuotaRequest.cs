@@ -31,4 +31,3 @@ public class AzQuotaRequest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -34,4 +34,3 @@ public record AzMonitorActivityLogAlertActionGroupRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzSynapsePipelineCreateRunOptions(
     [CommandSwitch("--start-activity-name")]
     public string? StartActivityName { get; set; }
 }
-

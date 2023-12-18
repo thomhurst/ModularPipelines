@@ -37,4 +37,3 @@ public class AzAcrExportPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

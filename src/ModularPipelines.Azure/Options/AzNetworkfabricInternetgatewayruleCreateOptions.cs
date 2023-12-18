@@ -24,4 +24,3 @@ public record AzNetworkfabricInternetgatewayruleCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

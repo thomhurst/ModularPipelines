@@ -39,4 +39,3 @@ public class AzCosmosdbPostgresConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationShowOptions(), token);
     }
 }
-

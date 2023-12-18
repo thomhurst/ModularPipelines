@@ -23,4 +23,3 @@ public record AzDatafactoryTriggerDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

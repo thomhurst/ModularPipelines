@@ -31,4 +31,3 @@ public record AzAutomationRunbookCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

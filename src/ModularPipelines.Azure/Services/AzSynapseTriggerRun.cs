@@ -32,4 +32,3 @@ public class AzSynapseTriggerRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzEventhubsGeorecoveryAliasAuthorizationRuleListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

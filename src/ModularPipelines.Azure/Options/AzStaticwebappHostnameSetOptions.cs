@@ -20,4 +20,3 @@ public record AzStaticwebappHostnameSetOptions(
     [CommandSwitch("--validation-method")]
     public string? ValidationMethod { get; set; }
 }
-

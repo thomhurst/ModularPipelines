@@ -20,4 +20,3 @@ public record AzAksDeleteAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzNetworkLbInboundNatPoolWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

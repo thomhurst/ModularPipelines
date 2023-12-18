@@ -47,4 +47,3 @@ public record AzNetworkVhubBgpconnectionUpdateOptions : AzOptions
     [CommandSwitch("--vhub-name")]
     public string? VhubName { get; set; }
 }
-

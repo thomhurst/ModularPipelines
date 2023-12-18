@@ -31,4 +31,3 @@ public record AzStorageAccountMigrationStartStoragePreviewExtensionOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

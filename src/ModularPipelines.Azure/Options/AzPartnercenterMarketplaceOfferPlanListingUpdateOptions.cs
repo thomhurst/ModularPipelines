@@ -32,4 +32,3 @@ public record AzPartnercenterMarketplaceOfferPlanListingUpdateOptions(
     [CommandSwitch("--summary")]
     public string? Summary { get; set; }
 }
-

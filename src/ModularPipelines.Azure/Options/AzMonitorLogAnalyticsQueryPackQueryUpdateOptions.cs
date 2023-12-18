@@ -56,4 +56,3 @@ public record AzMonitorLogAnalyticsQueryPackQueryUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

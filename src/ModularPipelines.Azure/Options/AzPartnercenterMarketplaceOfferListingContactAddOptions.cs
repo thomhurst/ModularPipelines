@@ -35,4 +35,3 @@ public record AzPartnercenterMarketplaceOfferListingContactAddOptions(
     [CommandSwitch("--uri")]
     public string? Uri { get; set; }
 }
-

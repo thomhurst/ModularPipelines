@@ -45,4 +45,3 @@ public record AzAcrPackBuildOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? SourceLocation { get; set; }
 }
-

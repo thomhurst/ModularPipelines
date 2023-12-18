@@ -48,4 +48,3 @@ public record AzSfManagedServiceListOptions(
     [CommandSwitch("--target-replica")]
     public string? TargetReplica { get; set; }
 }
-

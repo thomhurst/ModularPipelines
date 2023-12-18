@@ -35,4 +35,3 @@ public class AzSpringBuildService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -37,4 +37,3 @@ public class AzSignalrReplica
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaShowOptions(), token);
     }
 }
-

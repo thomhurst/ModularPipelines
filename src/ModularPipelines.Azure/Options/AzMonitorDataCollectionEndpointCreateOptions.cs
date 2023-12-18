@@ -24,4 +24,3 @@ public record AzMonitorDataCollectionEndpointCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

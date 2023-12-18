@@ -37,4 +37,3 @@ public record AzIotEdgeDeploymentUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

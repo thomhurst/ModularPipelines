@@ -22,4 +22,3 @@ public record AzSentinelAlertRuleActionCreateOptions(
     [CommandSwitch("--trigger-uri")]
     public string? TriggerUri { get; set; }
 }
-

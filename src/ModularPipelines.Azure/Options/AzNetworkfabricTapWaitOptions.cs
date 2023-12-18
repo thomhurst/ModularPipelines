@@ -41,4 +41,3 @@ public record AzNetworkfabricTapWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

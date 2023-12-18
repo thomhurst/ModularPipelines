@@ -23,4 +23,3 @@ public record AzWebappAuthMicrosoftShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

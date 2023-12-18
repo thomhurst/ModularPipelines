@@ -22,4 +22,3 @@ public record AzMonitorDataCollectionRuleLogAnalyticsShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

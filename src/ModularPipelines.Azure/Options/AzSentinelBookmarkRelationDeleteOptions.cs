@@ -24,4 +24,3 @@ public record AzSentinelBookmarkRelationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

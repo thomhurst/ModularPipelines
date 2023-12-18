@@ -32,4 +32,3 @@ public class AzSecurityIotAlerts
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

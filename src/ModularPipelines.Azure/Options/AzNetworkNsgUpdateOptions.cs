@@ -41,4 +41,3 @@ public record AzNetworkNsgUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

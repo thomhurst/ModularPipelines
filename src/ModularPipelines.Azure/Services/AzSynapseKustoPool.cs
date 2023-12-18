@@ -87,4 +87,3 @@ public class AzSynapseKustoPool
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolWaitOptions(), token);
     }
 }
-

@@ -50,4 +50,3 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     [CommandSwitch("--sync-mode")]
     public string? SyncMode { get; set; }
 }
-

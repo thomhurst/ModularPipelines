@@ -68,4 +68,3 @@ public class AzBatchAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountShowOptions(), token);
     }
 }
-

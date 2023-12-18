@@ -26,4 +26,3 @@ public record AzAksDraftSetupGhOptions : AzOptions
     [CommandSwitch("--subscription-id")]
     public string? SubscriptionId { get; set; }
 }
-

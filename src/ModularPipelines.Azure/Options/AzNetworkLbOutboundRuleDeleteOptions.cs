@@ -15,4 +15,3 @@ public record AzNetworkLbOutboundRuleDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

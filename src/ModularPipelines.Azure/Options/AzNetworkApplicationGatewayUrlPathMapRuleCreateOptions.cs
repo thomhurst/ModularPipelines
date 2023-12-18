@@ -32,4 +32,3 @@ public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
     [CommandSwitch("--waf-policy")]
     public string? WafPolicy { get; set; }
 }
-

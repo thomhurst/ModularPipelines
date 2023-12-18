@@ -35,4 +35,3 @@ public class AzSerialConsole
         return await _command.ExecuteCommandLineTool(options ?? new AzSerialConsoleEnableOptions(), token);
     }
 }
-

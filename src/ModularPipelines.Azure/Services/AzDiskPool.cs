@@ -80,4 +80,3 @@ public class AzDiskPool
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolWaitOptions(), token);
     }
 }
-

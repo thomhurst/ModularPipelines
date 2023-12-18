@@ -25,4 +25,3 @@ public record AzMonitorAppInsightsComponentContinuesExportDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

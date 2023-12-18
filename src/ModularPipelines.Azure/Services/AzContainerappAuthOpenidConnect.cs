@@ -37,4 +37,3 @@ public class AzContainerappAuthOpenidConnect
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

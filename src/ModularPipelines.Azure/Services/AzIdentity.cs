@@ -50,4 +50,3 @@ public class AzIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityShowOptions(), token);
     }
 }
-

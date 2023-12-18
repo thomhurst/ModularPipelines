@@ -24,4 +24,3 @@ public record AzNetworkfabricIpcommunityCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

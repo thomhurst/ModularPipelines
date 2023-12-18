@@ -24,4 +24,3 @@ public record AzStorageContainerImmutabilityPolicyExtendOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

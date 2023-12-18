@@ -13,4 +13,3 @@ public record AzAcrShowUsageOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

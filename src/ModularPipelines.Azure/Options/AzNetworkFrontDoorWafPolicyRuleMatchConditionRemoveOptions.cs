@@ -28,4 +28,3 @@ public record AzNetworkFrontDoorWafPolicyRuleMatchConditionRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

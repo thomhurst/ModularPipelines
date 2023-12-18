@@ -26,4 +26,3 @@ public record AzNetworkcloudBaremetalmachineReimageOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

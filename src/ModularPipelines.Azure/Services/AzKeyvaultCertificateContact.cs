@@ -32,4 +32,3 @@ public class AzKeyvaultCertificateContact
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

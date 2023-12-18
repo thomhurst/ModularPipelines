@@ -27,4 +27,3 @@ public record AzSpringCloudAppScaleOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

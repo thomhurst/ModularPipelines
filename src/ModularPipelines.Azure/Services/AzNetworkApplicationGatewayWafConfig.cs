@@ -32,4 +32,3 @@ public class AzNetworkApplicationGatewayWafConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigShowOptions(), token);
     }
 }
-

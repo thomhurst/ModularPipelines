@@ -12,4 +12,3 @@ public record AzK8sExtensionExtensionTypesShowOptions(
 ) : AzOptions
 {
 }
-

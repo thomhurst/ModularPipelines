@@ -37,4 +37,3 @@ public class AzStaticwebappHostname
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

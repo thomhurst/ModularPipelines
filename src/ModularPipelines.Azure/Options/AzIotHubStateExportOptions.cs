@@ -28,4 +28,3 @@ public record AzIotHubStateExportOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

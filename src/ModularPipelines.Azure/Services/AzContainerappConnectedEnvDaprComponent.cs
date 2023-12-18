@@ -37,4 +37,3 @@ public class AzContainerappConnectedEnvDaprComponent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

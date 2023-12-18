@@ -32,4 +32,3 @@ public record AzFunctionappDevopsPipelineCreateOptions : AzOptions
     [CommandSwitch("--repository-name")]
     public string? RepositoryName { get; set; }
 }
-

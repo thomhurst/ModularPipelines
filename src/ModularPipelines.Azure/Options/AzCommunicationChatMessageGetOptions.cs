@@ -17,4 +17,3 @@ public record AzCommunicationChatMessageGetOptions(
     [CommandSwitch("--endpoint")]
     public string? Endpoint { get; set; }
 }
-

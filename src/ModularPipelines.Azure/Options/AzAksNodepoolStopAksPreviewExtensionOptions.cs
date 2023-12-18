@@ -18,4 +18,3 @@ public record AzAksNodepoolStopAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzBotSmsCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

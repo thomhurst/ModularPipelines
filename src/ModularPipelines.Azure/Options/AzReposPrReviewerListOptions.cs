@@ -16,4 +16,3 @@ public record AzReposPrReviewerListOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

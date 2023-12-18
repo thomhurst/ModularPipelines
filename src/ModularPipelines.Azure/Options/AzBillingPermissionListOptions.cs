@@ -19,4 +19,3 @@ public record AzBillingPermissionListOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

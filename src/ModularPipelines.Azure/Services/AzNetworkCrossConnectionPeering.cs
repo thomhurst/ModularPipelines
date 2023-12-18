@@ -42,4 +42,3 @@ public class AzNetworkCrossConnectionPeering
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringUpdateOptions(), token);
     }
 }
-

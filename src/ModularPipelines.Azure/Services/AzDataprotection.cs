@@ -40,4 +40,3 @@ public class AzDataprotection
 
     public AzDataprotectionRestorableTimeRange RestorableTimeRange { get; }
 }
-

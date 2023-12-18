@@ -44,4 +44,3 @@ public record AzNetworkWatcherConnectionMonitorOutputRemoveOptions(
     [CommandSwitch("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }
-

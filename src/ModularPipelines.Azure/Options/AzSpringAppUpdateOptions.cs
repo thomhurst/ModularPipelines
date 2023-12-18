@@ -102,4 +102,3 @@ public record AzSpringAppUpdateOptions(
     [CommandSwitch("--workload-profile")]
     public string? WorkloadProfile { get; set; }
 }
-

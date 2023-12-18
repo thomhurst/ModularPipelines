@@ -14,4 +14,3 @@ public record AzBillingSubscriptionMoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

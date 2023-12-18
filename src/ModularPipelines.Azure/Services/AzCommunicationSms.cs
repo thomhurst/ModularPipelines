@@ -27,4 +27,3 @@ public class AzCommunicationSms
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

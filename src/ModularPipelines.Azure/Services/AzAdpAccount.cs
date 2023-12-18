@@ -51,4 +51,3 @@ public class AzAdpAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountWaitOptions(), token);
     }
 }
-

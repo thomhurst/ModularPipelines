@@ -27,4 +27,3 @@ public class AzContainerappAuthGoogle
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthGoogleUpdateOptions(), token);
     }
 }
-

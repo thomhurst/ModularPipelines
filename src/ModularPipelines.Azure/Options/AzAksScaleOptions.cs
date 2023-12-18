@@ -18,4 +18,3 @@ public record AzAksScaleOptions(
     [CommandSwitch("--nodepool-name")]
     public string? NodepoolName { get; set; }
 }
-

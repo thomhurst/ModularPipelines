@@ -40,4 +40,3 @@ public record AzResourceCreateOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

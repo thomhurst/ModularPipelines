@@ -42,4 +42,3 @@ public class AzNetworkFrontDoorLoadBalancing
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

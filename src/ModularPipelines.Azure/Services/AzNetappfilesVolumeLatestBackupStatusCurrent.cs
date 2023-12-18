@@ -22,4 +22,3 @@ public class AzNetappfilesVolumeLatestBackupStatusCurrent
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions(), token);
     }
 }
-

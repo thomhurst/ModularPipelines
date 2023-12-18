@@ -22,4 +22,3 @@ public class AzSfClusterUpgradeType
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -15,4 +15,3 @@ public record AzAksApproutingZoneUpdateOptions(
     [BooleanCommandSwitch("--attach-zones")]
     public bool? AttachZones { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzSelfHelpCheckNameAvailabilityOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

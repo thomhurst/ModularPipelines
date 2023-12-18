@@ -32,4 +32,3 @@ public record AzSqlInstancePoolWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

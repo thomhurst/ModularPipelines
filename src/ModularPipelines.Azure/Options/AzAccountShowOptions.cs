@@ -11,4 +11,3 @@ public record AzAccountShowOptions : AzOptions
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

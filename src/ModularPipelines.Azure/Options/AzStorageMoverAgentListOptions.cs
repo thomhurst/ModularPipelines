@@ -17,4 +17,3 @@ public record AzStorageMoverAgentListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

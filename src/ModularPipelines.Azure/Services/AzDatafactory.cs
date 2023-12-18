@@ -104,4 +104,3 @@ public class AzDatafactory
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryUpdateOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzResourceMoverMoveCollectionResolveDependencyOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzSpringAppCustomDomainUpdateOptions(
     [BooleanCommandSwitch("--enable-ingress-to-app-tls")]
     public bool? EnableIngressToAppTls { get; set; }
 }
-

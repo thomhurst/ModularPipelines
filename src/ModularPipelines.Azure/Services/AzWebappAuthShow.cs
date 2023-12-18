@@ -17,4 +17,3 @@ public class AzWebappAuthShow
 
     public AzWebappAuthShowAuthV2 AuthV2 { get; }
 }
-

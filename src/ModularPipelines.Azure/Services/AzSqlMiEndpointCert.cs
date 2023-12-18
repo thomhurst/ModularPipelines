@@ -27,4 +27,3 @@ public class AzSqlMiEndpointCert
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiEndpointCertShowOptions(), token);
     }
 }
-

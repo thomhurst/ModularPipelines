@@ -31,4 +31,3 @@ public class AzMonitorActivityLog
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogListCategoriesOptions(), token);
     }
 }
-

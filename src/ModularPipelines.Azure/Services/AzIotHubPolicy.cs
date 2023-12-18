@@ -42,4 +42,3 @@ public class AzIotHubPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyShowOptions(), token);
     }
 }
-

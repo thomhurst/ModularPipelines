@@ -44,4 +44,3 @@ public record AzBackupRestoreRestoreAzurefileshareOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

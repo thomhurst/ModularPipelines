@@ -18,4 +18,3 @@ public record AzSqlMiKeyCreateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

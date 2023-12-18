@@ -15,4 +15,3 @@ public record AzLabArtifactSourceShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

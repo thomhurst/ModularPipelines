@@ -42,4 +42,3 @@ public class AzAutomanageConfigurationProfileVersion
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileVersionUpdateOptions(), token);
     }
 }
-

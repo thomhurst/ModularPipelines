@@ -47,4 +47,3 @@ public class AzVmwareWorkloadNetworkDnsService
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceWaitOptions(), token);
     }
 }
-

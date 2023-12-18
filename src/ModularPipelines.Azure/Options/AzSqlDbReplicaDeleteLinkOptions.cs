@@ -31,4 +31,3 @@ public record AzSqlDbReplicaDeleteLinkOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

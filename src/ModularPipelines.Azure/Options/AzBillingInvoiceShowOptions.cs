@@ -16,4 +16,3 @@ public record AzBillingInvoiceShowOptions(
     [CommandSwitch("--by-subscription")]
     public string? BySubscription { get; set; }
 }
-

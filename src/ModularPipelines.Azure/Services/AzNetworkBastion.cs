@@ -62,4 +62,3 @@ public class AzNetworkBastion
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkBastionWaitOptions(), token);
     }
 }
-

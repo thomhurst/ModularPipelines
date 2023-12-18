@@ -37,4 +37,3 @@ public class AzDynatraceMonitorSsoConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorSsoConfigWaitOptions(), token);
     }
 }
-

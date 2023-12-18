@@ -23,4 +23,3 @@ public record AzAutomationRunbookListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

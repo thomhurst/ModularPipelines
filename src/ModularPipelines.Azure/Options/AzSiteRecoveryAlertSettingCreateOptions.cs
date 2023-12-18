@@ -21,4 +21,3 @@ public record AzSiteRecoveryAlertSettingCreateOptions(
     [CommandSwitch("--send-to-owners")]
     public string? SendToOwners { get; set; }
 }
-

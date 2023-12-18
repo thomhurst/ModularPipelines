@@ -20,4 +20,3 @@ public record AzRelayWcfrelayDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

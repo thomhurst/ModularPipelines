@@ -36,4 +36,3 @@ public record AzStorageBlobCopyCancelOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzContainerappConnectionCreateMysqlFlexible
 
     public AzContainerappConnectionCreateMysqlFlexibleServiceconnectorPasswordless ServiceconnectorPasswordless { get; }
 }
-

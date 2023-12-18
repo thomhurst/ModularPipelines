@@ -97,4 +97,3 @@ public class AzDevcenterDevDevBox
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

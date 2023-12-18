@@ -22,4 +22,3 @@ public record AzStorageAccountOrPolicyRuleAddOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

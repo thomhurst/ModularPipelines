@@ -27,4 +27,3 @@ public class AzHpcCacheBlobStorageTarget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

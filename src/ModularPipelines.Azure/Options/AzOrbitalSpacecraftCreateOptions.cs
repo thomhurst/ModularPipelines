@@ -35,4 +35,3 @@ public record AzOrbitalSpacecraftCreateOptions(
     [CommandSwitch("--tle-line2")]
     public string? TleLine2 { get; set; }
 }
-

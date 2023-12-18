@@ -50,4 +50,3 @@ public class AzMonitorActivityLogAlert
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertUpdateOptions(), token);
     }
 }
-

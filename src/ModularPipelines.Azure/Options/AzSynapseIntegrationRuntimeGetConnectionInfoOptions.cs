@@ -20,4 +20,3 @@ public record AzSynapseIntegrationRuntimeGetConnectionInfoOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

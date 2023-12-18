@@ -25,4 +25,3 @@ public record AzAksarcNoticeOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

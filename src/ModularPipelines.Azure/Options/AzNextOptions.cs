@@ -16,4 +16,3 @@ public record AzNextOptions(
     [BooleanCommandSwitch("--scenario")]
     public bool? Scenario { get; set; }
 }
-

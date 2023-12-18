@@ -27,4 +27,3 @@ public class AzDataboxedgeAlert
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeAlertShowOptions(), token);
     }
 }
-

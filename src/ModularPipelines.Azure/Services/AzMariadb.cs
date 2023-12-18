@@ -24,4 +24,3 @@ public class AzMariadb
 
     public AzMariadbServerLogs ServerLogs { get; }
 }
-

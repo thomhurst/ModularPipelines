@@ -44,4 +44,3 @@ public record AzSqlMidbRestoreOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

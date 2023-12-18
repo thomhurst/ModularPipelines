@@ -17,4 +17,3 @@ public class AzEventgridPartnerTopicShow
 
     public AzEventgridPartnerTopicShowEventgrid Eventgrid { get; }
 }
-

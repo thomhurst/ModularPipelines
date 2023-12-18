@@ -26,4 +26,3 @@ public record AzStackHciArcSettingDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

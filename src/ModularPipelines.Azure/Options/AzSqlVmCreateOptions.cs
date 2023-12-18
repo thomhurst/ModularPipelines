@@ -113,4 +113,3 @@ public record AzSqlVmCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzStorageAccountOrPolicyUpdateOptions(
     [CommandSwitch("--source-account")]
     public int? SourceAccount { get; set; }
 }
-

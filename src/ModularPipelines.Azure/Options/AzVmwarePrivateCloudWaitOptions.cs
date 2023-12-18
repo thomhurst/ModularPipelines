@@ -41,4 +41,3 @@ public record AzVmwarePrivateCloudWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

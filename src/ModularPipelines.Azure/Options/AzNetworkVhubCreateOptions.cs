@@ -41,4 +41,3 @@ public record AzNetworkVhubCreateOptions(
     [CommandSwitch("--vwan")]
     public string? Vwan { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzDlaCatalogCredentialShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

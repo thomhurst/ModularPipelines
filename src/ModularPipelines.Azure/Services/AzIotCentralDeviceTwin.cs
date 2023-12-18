@@ -32,4 +32,3 @@ public class AzIotCentralDeviceTwin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

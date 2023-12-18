@@ -39,4 +39,3 @@ public record AzNetworkWatcherConnectionMonitorEndpointAddOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

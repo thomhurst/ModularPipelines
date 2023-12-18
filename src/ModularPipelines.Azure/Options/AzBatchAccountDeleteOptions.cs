@@ -17,4 +17,3 @@ public record AzBatchAccountDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzAmsContentKeyPolicyOption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

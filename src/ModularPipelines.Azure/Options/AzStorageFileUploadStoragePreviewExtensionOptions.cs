@@ -68,4 +68,3 @@ public record AzStorageFileUploadStoragePreviewExtensionOptions(
     [BooleanCommandSwitch("--validate-content")]
     public bool? ValidateContent { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzReposPrPolicyListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

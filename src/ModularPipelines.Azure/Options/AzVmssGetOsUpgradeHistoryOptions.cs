@@ -17,4 +17,3 @@ public record AzVmssGetOsUpgradeHistoryOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

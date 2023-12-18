@@ -25,4 +25,3 @@ public record AzTsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

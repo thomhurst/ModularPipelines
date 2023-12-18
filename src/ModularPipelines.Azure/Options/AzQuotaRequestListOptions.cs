@@ -25,4 +25,3 @@ public record AzQuotaRequestListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

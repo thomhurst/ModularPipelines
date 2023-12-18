@@ -23,4 +23,3 @@ public record AzAutomanageConfigurationProfileAssignmentArcShowOptions : AzOptio
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

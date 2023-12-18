@@ -47,4 +47,3 @@ public record AzStackHciExtensionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

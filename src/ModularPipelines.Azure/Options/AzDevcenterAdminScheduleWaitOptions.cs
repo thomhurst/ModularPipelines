@@ -44,4 +44,3 @@ public record AzDevcenterAdminScheduleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

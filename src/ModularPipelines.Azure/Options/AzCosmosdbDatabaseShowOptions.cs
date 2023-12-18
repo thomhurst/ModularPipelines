@@ -22,4 +22,3 @@ public record AzCosmosdbDatabaseShowOptions(
     [CommandSwitch("--url-connection")]
     public string? UrlConnection { get; set; }
 }
-

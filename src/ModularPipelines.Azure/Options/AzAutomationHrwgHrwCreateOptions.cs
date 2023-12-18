@@ -16,4 +16,3 @@ public record AzAutomationHrwgHrwCreateOptions(
     [CommandSwitch("--vm-resource-id")]
     public string? VmResourceId { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzStackHciArcSettingWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

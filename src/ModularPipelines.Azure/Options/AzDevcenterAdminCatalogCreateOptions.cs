@@ -24,4 +24,3 @@ public record AzDevcenterAdminCatalogCreateOptions(
     [CommandSwitch("--sync-type")]
     public string? SyncType { get; set; }
 }
-

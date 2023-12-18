@@ -46,4 +46,3 @@ public class AzMapsAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

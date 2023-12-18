@@ -20,4 +20,3 @@ public record AzHealthcareapisPrivateLinkResourceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

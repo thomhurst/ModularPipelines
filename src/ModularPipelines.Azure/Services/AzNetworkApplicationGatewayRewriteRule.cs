@@ -65,4 +65,3 @@ public class AzNetworkApplicationGatewayRewriteRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleWaitOptions(), token);
     }
 }
-

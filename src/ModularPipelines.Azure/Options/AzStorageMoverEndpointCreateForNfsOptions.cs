@@ -20,4 +20,3 @@ public record AzStorageMoverEndpointCreateForNfsOptions(
     [CommandSwitch("--nfs-version")]
     public string? NfsVersion { get; set; }
 }
-

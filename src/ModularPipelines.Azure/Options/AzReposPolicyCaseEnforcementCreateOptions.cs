@@ -21,4 +21,3 @@ public record AzReposPolicyCaseEnforcementCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

@@ -36,4 +36,3 @@ public record AzHealthcareapisWorkspaceIotConnectorCreateOptions(
     [CommandSwitch("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzNetworkManagerConnectionSubscriptionListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

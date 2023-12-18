@@ -20,4 +20,3 @@ public record AzIotCentralDeviceManualFailbackOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

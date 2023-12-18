@@ -14,4 +14,3 @@ public record AzBillingProductMoveOptions(
     [CommandSwitch("--destination-invoice-section-id")]
     public string? DestinationInvoiceSectionId { get; set; }
 }
-

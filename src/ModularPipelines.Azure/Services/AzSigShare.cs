@@ -46,4 +46,3 @@ public class AzSigShare
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

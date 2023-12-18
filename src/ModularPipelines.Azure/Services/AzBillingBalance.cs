@@ -22,4 +22,3 @@ public class AzBillingBalance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

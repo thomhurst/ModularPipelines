@@ -35,4 +35,3 @@ public record AzHdinsightOnAksClusterResizeOptions : AzOptions
     [CommandSwitch("--target-worker-node-count")]
     public int? TargetWorkerNodeCount { get; set; }
 }
-

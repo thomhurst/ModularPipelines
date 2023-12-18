@@ -29,4 +29,3 @@ public record AzAcrManifestShowOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ManifestId { get; set; }
 }
-

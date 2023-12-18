@@ -18,4 +18,3 @@ public record AzLogzSubAccountListPayloadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

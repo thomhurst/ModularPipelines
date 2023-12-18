@@ -27,4 +27,3 @@ public class AzWebappAuthTwitter
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthTwitterUpdateOptions(), token);
     }
 }
-

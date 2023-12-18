@@ -56,4 +56,3 @@ public class AzOrbitalSpacecraft
         return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftWaitOptions(), token);
     }
 }
-

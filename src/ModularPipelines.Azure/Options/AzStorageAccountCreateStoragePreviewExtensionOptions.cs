@@ -188,4 +188,3 @@ public record AzStorageAccountCreateStoragePreviewExtensionOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

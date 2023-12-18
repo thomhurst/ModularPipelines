@@ -52,4 +52,3 @@ public class AzMaintenanceApplyupdate
         return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateUpdateOptions(), token);
     }
 }
-

@@ -60,4 +60,3 @@ public class AzFunctionappConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionWaitOptions(), token);
     }
 }
-

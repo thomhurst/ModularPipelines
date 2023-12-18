@@ -16,4 +16,3 @@ public record AzNetworkDnsRecordSetTxtAddRecordOptions(
     [CommandSwitch("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 }
-

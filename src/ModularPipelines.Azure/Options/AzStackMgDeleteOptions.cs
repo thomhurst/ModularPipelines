@@ -28,4 +28,3 @@ public record AzStackMgDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzIotCentralOrganizationShowOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

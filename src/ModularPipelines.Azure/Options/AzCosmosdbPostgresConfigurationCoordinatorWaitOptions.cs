@@ -44,4 +44,3 @@ public record AzCosmosdbPostgresConfigurationCoordinatorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

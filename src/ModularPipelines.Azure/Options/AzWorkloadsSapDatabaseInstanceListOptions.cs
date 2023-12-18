@@ -20,4 +20,3 @@ public record AzWorkloadsSapDatabaseInstanceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

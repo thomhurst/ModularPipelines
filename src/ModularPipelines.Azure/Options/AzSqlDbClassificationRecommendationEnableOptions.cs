@@ -27,4 +27,3 @@ public record AzSqlDbClassificationRecommendationEnableOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

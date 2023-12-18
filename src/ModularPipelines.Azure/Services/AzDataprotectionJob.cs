@@ -32,4 +32,3 @@ public class AzDataprotectionJob
         return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionJobShowOptions(), token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzSentinelEntityQueryTemplateListOptions(
     [CommandSwitch("--kind")]
     public string? Kind { get; set; }
 }
-

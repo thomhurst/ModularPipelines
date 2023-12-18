@@ -38,4 +38,3 @@ public record AzHdinsightOnAksClusterpoolCreateOptions(
     [CommandSwitch("--workernode-size")]
     public string? WorkernodeSize { get; set; }
 }
-

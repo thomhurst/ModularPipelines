@@ -22,4 +22,3 @@ public record AzSqlMiKeyDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

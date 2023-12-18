@@ -66,4 +66,3 @@ public record AzAkshybridCreateOptions(
     [CommandSwitch("--vnet-ids")]
     public string? VnetIds { get; set; }
 }
-

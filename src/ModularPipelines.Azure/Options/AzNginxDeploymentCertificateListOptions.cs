@@ -20,4 +20,3 @@ public record AzNginxDeploymentCertificateListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

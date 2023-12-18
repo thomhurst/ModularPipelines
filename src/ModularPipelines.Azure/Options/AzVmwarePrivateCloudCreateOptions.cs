@@ -50,4 +50,3 @@ public record AzVmwarePrivateCloudCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

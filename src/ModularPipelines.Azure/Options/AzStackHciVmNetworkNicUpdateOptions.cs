@@ -23,4 +23,3 @@ public record AzStackHciVmNetworkNicUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -35,4 +35,3 @@ public record AzGrafanaCreateOptions(
     [CommandSwitch("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }
-

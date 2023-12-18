@@ -25,4 +25,3 @@ public record AzWebappDeploymentSourceConfigLocalGitOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

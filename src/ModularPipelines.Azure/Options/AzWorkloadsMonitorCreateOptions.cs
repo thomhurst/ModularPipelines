@@ -41,4 +41,3 @@ public record AzWorkloadsMonitorCreateOptions(
     [CommandSwitch("--zone-redundancy-preference")]
     public string? ZoneRedundancyPreference { get; set; }
 }
-

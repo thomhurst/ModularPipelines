@@ -22,4 +22,3 @@ public record AzPostgresServerKeyShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

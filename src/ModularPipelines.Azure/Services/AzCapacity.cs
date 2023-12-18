@@ -16,4 +16,3 @@ public class AzCapacity
 
     public AzCapacityReservation Reservation { get; }
 }
-

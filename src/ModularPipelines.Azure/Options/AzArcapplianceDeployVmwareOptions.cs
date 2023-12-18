@@ -34,4 +34,3 @@ public record AzArcapplianceDeployVmwareOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

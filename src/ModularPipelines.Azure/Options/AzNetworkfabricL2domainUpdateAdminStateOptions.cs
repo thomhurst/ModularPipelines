@@ -29,4 +29,3 @@ public record AzNetworkfabricL2domainUpdateAdminStateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

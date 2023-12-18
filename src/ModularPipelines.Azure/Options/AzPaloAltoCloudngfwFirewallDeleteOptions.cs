@@ -23,4 +23,3 @@ public record AzPaloAltoCloudngfwFirewallDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

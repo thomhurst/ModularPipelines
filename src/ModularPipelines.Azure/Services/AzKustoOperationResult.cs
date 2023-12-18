@@ -22,4 +22,3 @@ public class AzKustoOperationResult
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultShowOptions(), token);
     }
 }
-

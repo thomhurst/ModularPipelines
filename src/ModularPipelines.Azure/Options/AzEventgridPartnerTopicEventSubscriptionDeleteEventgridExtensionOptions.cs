@@ -15,4 +15,3 @@ public record AzEventgridPartnerTopicEventSubscriptionDeleteEventgridExtensionOp
     [CommandSwitch("--odata-query")]
     public string? OdataQuery { get; set; }
 }
-

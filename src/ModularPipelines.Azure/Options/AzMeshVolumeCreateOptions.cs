@@ -18,4 +18,3 @@ public record AzMeshVolumeCreateOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

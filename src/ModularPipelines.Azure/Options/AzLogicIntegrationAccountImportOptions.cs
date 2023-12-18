@@ -21,4 +21,3 @@ public record AzLogicIntegrationAccountImportOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

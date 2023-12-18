@@ -47,4 +47,3 @@ public class AzNetworkcloudVirtualmachineConsole
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineConsoleWaitOptions(), token);
     }
 }
-

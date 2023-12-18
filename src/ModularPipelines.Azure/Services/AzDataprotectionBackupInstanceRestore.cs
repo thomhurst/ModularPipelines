@@ -37,4 +37,3 @@ public class AzDataprotectionBackupInstanceRestore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

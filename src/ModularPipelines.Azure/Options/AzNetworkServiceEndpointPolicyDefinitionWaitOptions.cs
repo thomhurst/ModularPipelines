@@ -44,4 +44,3 @@ public record AzNetworkServiceEndpointPolicyDefinitionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

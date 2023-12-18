@@ -23,4 +23,3 @@ public record AzNetworkDnsRecordSetAaaaShowOptions : AzOptions
     [CommandSwitch("--zone-name")]
     public string? ZoneName { get; set; }
 }
-

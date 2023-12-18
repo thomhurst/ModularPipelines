@@ -46,4 +46,3 @@ public record AzIotProductTestCreateOptions(
     [CommandSwitch("--validation-type")]
     public string? ValidationType { get; set; }
 }
-

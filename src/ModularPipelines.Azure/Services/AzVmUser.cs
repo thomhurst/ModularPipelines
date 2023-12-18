@@ -32,4 +32,3 @@ public class AzVmUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

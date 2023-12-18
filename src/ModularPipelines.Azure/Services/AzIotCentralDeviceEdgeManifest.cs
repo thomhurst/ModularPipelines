@@ -22,4 +22,3 @@ public class AzIotCentralDeviceEdgeManifest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

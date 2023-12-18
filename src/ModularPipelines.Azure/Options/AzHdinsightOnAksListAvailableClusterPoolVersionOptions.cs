@@ -16,4 +16,3 @@ public record AzHdinsightOnAksListAvailableClusterPoolVersionOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

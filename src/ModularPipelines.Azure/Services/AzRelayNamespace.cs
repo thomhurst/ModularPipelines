@@ -56,4 +56,3 @@ public class AzRelayNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceWaitOptions(), token);
     }
 }
-

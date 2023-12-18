@@ -29,4 +29,3 @@ public class AzOffazureVmware
 
     public AzOffazureVmwareVcenter Vcenter { get; }
 }
-

@@ -47,4 +47,3 @@ public class AzCosmosdbDts
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

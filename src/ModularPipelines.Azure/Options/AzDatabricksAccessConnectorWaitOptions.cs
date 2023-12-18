@@ -41,4 +41,3 @@ public record AzDatabricksAccessConnectorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

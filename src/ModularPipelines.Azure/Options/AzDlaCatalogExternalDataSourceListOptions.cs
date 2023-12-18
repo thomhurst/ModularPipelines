@@ -37,4 +37,3 @@ public record AzDlaCatalogExternalDataSourceListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

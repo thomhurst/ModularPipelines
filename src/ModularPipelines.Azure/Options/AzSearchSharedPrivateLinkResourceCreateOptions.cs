@@ -20,4 +20,3 @@ public record AzSearchSharedPrivateLinkResourceCreateOptions(
     [CommandSwitch("--request-message")]
     public string? RequestMessage { get; set; }
 }
-

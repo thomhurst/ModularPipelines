@@ -67,4 +67,3 @@ public class AzAksNodepoolSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -64,4 +64,3 @@ public class AzMonitorAppInsightsComponent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

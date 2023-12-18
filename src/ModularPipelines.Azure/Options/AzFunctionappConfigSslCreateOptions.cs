@@ -18,4 +18,3 @@ public record AzFunctionappConfigSslCreateOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzIotHubDeviceTwinReplaceOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

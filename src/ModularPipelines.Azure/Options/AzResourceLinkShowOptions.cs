@@ -16,4 +16,3 @@ public record AzResourceLinkShowOptions(
     [CommandSwitch("--target")]
     public string? Target { get; set; }
 }
-

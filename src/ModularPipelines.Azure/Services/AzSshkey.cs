@@ -41,4 +41,3 @@ public class AzSshkey
         return await _command.ExecuteCommandLineTool(options ?? new AzSshkeyUpdateOptions(), token);
     }
 }
-

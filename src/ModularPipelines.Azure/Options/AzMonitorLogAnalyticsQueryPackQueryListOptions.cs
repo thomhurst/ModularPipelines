@@ -14,4 +14,3 @@ public record AzMonitorLogAnalyticsQueryPackQueryListOptions(
     [BooleanCommandSwitch("--include-body")]
     public bool? IncludeBody { get; set; }
 }
-

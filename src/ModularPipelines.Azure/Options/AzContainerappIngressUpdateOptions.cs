@@ -35,4 +35,3 @@ public record AzContainerappIngressUpdateOptions : AzOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

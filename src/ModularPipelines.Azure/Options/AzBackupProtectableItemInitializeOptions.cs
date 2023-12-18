@@ -22,4 +22,3 @@ public record AzBackupProtectableItemInitializeOptions(
     [CommandSwitch("--server-name")]
     public string? ServerName { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzTsiEventSourceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzDevcenterAdminGallery
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminGalleryWaitOptions(), token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzAfdRoute
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteUpdateOptions(), token);
     }
 }
-

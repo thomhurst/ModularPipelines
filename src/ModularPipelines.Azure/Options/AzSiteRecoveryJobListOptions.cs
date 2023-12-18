@@ -20,4 +20,3 @@ public record AzSiteRecoveryJobListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

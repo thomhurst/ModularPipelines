@@ -33,4 +33,3 @@ public record AzMonitorAppInsightsComponentCreateOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

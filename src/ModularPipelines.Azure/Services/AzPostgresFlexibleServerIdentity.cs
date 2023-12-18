@@ -37,4 +37,3 @@ public class AzPostgresFlexibleServerIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

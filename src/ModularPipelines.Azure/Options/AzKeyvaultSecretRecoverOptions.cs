@@ -17,4 +17,3 @@ public record AzKeyvaultSecretRecoverOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

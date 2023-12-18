@@ -29,4 +29,3 @@ public record AzWebappConnectionDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

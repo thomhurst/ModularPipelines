@@ -42,4 +42,3 @@ public class AzResourceLock
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockUpdateOptions(), token);
     }
 }
-

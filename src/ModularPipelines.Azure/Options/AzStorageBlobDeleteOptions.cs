@@ -64,4 +64,3 @@ public record AzStorageBlobDeleteOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

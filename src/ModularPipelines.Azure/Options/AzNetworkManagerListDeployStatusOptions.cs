@@ -32,4 +32,3 @@ public record AzNetworkManagerListDeployStatusOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzNetworkcloudBaremetalmachineCordonOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

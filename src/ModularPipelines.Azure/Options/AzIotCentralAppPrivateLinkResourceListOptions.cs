@@ -20,4 +20,3 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

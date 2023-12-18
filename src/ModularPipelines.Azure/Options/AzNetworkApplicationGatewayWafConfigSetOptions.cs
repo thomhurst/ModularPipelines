@@ -52,4 +52,3 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

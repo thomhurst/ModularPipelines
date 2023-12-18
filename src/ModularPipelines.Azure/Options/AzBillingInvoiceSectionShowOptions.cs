@@ -21,4 +21,3 @@ public record AzBillingInvoiceSectionShowOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

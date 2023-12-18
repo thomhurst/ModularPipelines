@@ -29,4 +29,3 @@ public record AzIotDuUpdateListOptions(
     [CommandSwitch("--up")]
     public string? Up { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzHpcCacheStorageTarget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

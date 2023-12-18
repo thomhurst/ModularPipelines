@@ -23,4 +23,3 @@ public record AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions(
     [CommandSwitch("--weeks-of-month")]
     public string? WeeksOfMonth { get; set; }
 }
-

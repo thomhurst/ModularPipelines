@@ -34,4 +34,3 @@ public record AzPipelinesVariableCreateOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

@@ -52,4 +52,3 @@ public class AzMlDataset
         return await _command.ExecuteCommandLineTool(options ?? new AzMlDatasetUnregisterOptions(), token);
     }
 }
-

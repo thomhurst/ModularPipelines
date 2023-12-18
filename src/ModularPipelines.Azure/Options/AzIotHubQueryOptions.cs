@@ -25,4 +25,3 @@ public record AzIotHubQueryOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

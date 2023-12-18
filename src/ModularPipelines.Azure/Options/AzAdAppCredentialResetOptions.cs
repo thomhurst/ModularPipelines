@@ -31,4 +31,3 @@ public record AzAdAppCredentialResetOptions(
     [CommandSwitch("--years")]
     public string? Years { get; set; }
 }
-

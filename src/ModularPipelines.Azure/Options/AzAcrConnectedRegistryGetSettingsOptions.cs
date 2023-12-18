@@ -21,4 +21,3 @@ public record AzAcrConnectedRegistryGetSettingsOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

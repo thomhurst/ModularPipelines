@@ -50,4 +50,3 @@ public record AzSentinelAutomationRuleUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

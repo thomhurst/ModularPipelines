@@ -22,4 +22,3 @@ public class AzInternetAnalyzerPreconfiguredEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

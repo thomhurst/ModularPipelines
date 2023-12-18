@@ -24,4 +24,3 @@ public record AzTsiEnvironmentGen2CreateOptions(
     [CommandSwitch("--warm-store-config")]
     public string? WarmStoreConfig { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzCosmosdbPostgresRoleCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

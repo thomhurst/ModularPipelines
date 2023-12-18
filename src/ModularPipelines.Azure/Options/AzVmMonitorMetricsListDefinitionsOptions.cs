@@ -14,4 +14,3 @@ public record AzVmMonitorMetricsListDefinitionsOptions(
     [CommandSwitch("--namespace")]
     public string? Namespace { get; set; }
 }
-

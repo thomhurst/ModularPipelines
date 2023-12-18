@@ -44,4 +44,3 @@ public record AzEventgridNamespaceTopicSpaceUpdateOptions : AzOptions
     [CommandSwitch("--topic-templates")]
     public string? TopicTemplates { get; set; }
 }
-

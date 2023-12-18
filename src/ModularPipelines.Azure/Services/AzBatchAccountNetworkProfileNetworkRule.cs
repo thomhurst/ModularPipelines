@@ -32,4 +32,3 @@ public class AzBatchAccountNetworkProfileNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

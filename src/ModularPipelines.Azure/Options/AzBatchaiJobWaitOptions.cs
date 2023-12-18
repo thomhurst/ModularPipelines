@@ -29,4 +29,3 @@ public record AzBatchaiJobWaitOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

@@ -43,4 +43,3 @@ public class AzEdgeorder
         return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderListMetadataOptions(), token);
     }
 }
-

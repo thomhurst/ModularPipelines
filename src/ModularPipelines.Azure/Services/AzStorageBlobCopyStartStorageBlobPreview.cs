@@ -22,4 +22,3 @@ public class AzStorageBlobCopyStartStorageBlobPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

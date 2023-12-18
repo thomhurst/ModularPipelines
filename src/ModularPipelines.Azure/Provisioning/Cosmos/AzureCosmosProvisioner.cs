@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.ResourceManager;
 using Azure.ResourceManager.CosmosDB;
 using Azure.ResourceManager.CosmosDB.Models;

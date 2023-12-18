@@ -24,4 +24,3 @@ public record AzSfClusterNodeTypeAddOptions(
     [CommandSwitch("--vm-tier")]
     public string? VmTier { get; set; }
 }
-

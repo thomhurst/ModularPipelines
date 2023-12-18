@@ -26,4 +26,3 @@ public record AzCloudServiceRestartOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

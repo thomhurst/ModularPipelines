@@ -17,4 +17,3 @@ public class AzEventgridPartnerNamespaceDelete
 
     public AzEventgridPartnerNamespaceDeleteEventgrid Eventgrid { get; }
 }
-

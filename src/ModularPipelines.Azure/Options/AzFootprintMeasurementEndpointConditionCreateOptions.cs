@@ -25,4 +25,3 @@ public record AzFootprintMeasurementEndpointConditionCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

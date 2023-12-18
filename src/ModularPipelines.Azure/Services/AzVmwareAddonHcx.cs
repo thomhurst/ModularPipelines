@@ -37,4 +37,3 @@ public class AzVmwareAddonHcx
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

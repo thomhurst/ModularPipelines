@@ -32,4 +32,3 @@ public class AzOffazureHypervSite
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervSiteShowOptions(), token);
     }
 }
-

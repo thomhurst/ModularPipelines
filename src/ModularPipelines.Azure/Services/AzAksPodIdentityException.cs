@@ -37,4 +37,3 @@ public class AzAksPodIdentityException
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

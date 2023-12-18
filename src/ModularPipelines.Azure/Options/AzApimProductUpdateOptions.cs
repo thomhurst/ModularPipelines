@@ -51,4 +51,3 @@ public record AzApimProductUpdateOptions(
     [CommandSwitch("--subscriptions-limit")]
     public string? SubscriptionsLimit { get; set; }
 }
-

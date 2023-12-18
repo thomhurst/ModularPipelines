@@ -15,4 +15,3 @@ public record AzStorageMoverEndpointUpdateForStorageContainerOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

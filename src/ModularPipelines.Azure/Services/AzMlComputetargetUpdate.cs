@@ -27,4 +27,3 @@ public class AzMlComputetargetUpdate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

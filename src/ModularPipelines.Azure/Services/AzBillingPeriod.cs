@@ -27,4 +27,3 @@ public class AzBillingPeriod
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

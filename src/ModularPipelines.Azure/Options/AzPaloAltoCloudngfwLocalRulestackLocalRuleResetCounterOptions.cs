@@ -26,4 +26,3 @@ public record AzPaloAltoCloudngfwLocalRulestackLocalRuleResetCounterOptions : Az
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

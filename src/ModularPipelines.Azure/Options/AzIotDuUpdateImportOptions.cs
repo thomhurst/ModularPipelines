@@ -33,4 +33,3 @@ public record AzIotDuUpdateImportOptions(
     [CommandSwitch("--size")]
     public string? Size { get; set; }
 }
-

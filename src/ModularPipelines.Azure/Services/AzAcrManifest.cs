@@ -71,4 +71,3 @@ public class AzAcrManifest
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrManifestUpdateMetadataOptions(), token);
     }
 }
-

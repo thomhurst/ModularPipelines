@@ -41,4 +41,3 @@ public record AzSqlMidbUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

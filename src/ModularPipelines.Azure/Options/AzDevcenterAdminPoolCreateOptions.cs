@@ -38,4 +38,3 @@ public record AzDevcenterAdminPoolCreateOptions(
     [CommandSwitch("--virtual-network-type")]
     public string? VirtualNetworkType { get; set; }
 }
-

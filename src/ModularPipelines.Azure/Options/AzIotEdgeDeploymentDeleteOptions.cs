@@ -25,4 +25,3 @@ public record AzIotEdgeDeploymentDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

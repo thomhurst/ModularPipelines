@@ -71,4 +71,3 @@ public class AzSqlVm
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmValidateAzureAdAuthOptions(), token);
     }
 }
-

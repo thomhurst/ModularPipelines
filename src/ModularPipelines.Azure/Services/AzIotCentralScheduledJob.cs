@@ -47,4 +47,3 @@ public class AzIotCentralScheduledJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

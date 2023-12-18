@@ -16,4 +16,3 @@ public record AzReservationsReservationMergeOptions(
     [CommandSwitch("--sources")]
     public string? Sources { get; set; }
 }
-

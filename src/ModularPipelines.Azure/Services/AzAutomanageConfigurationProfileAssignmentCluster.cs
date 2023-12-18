@@ -41,4 +41,3 @@ public class AzAutomanageConfigurationProfileAssignmentCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterUpdateOptions(), token);
     }
 }
-

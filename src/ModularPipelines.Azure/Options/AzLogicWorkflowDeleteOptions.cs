@@ -20,4 +20,3 @@ public record AzLogicWorkflowDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

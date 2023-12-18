@@ -38,4 +38,3 @@ public record AzNetworkPublicIpPrefixUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

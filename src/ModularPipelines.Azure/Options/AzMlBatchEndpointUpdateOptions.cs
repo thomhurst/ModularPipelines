@@ -35,4 +35,3 @@ public record AzMlBatchEndpointUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzNginxDeploymentCertificateCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

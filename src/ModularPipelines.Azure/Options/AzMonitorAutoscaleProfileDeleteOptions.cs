@@ -18,4 +18,3 @@ public record AzMonitorAutoscaleProfileDeleteOptions(
     [CommandSwitch("--search-query")]
     public string? SearchQuery { get; set; }
 }
-

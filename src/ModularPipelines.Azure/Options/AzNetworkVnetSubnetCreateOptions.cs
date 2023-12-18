@@ -45,4 +45,3 @@ public record AzNetworkVnetSubnetCreateOptions(
     [CommandSwitch("--service-endpoints")]
     public string? ServiceEndpoints { get; set; }
 }
-

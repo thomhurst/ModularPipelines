@@ -42,4 +42,3 @@ public class AzConnectedvmwareVmExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

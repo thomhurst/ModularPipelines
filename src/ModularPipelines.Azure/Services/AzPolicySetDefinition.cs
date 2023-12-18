@@ -42,4 +42,3 @@ public class AzPolicySetDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzNetworkFrontDoorLoadBalancingListOptions(
     [CommandSwitch("--successful-samples-required")]
     public string? SuccessfulSamplesRequired { get; set; }
 }
-

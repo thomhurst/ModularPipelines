@@ -36,4 +36,3 @@ public class AzScvmm
 
     public AzScvmmVmmserver Vmmserver { get; }
 }
-

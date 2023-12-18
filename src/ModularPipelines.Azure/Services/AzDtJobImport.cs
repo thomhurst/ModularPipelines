@@ -42,4 +42,3 @@ public class AzDtJobImport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

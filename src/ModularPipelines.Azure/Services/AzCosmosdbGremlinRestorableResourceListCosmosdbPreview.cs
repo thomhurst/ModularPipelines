@@ -22,4 +22,3 @@ public class AzCosmosdbGremlinRestorableResourceListCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

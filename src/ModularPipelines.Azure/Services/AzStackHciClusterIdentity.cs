@@ -27,4 +27,3 @@ public class AzStackHciClusterIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

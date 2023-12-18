@@ -43,4 +43,3 @@ public record AzPipelinesBuildListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

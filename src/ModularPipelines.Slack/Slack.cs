@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Http;
+using ModularPipelines.Http;
 using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
 

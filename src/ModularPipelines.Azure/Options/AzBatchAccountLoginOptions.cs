@@ -17,4 +17,3 @@ public record AzBatchAccountLoginOptions(
     [BooleanCommandSwitch("--show")]
     public bool? Show { get; set; }
 }
-

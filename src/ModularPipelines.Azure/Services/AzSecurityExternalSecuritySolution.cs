@@ -27,4 +27,3 @@ public class AzSecurityExternalSecuritySolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

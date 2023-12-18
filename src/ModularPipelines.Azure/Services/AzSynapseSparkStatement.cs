@@ -37,4 +37,3 @@ public class AzSynapseSparkStatement
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

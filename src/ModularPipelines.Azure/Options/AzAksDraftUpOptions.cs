@@ -41,4 +41,3 @@ public record AzAksDraftUpOptions : AzOptions
     [CommandSwitch("--subscription-id")]
     public string? SubscriptionId { get; set; }
 }
-

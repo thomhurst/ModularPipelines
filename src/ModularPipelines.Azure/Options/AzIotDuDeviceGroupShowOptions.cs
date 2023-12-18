@@ -21,4 +21,3 @@ public record AzIotDuDeviceGroupShowOptions(
     [BooleanCommandSwitch("--update-compliance")]
     public bool? UpdateCompliance { get; set; }
 }
-

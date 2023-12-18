@@ -71,4 +71,3 @@ public record AzNetworkNsgRuleUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzBotSms
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

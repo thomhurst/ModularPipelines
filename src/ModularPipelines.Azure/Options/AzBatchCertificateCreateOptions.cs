@@ -23,4 +23,3 @@ public record AzBatchCertificateCreateOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

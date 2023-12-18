@@ -42,4 +42,3 @@ public class AzDatamigrationSqlManagedInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlManagedInstanceWaitOptions(), token);
     }
 }
-

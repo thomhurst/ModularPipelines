@@ -25,4 +25,3 @@ public record AzNetworkcloudClusterUpdateVersionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

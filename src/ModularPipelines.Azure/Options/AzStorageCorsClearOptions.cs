@@ -25,4 +25,3 @@ public record AzStorageCorsClearOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

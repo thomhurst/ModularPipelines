@@ -18,4 +18,3 @@ public record AzLoadTestRunAppComponentRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

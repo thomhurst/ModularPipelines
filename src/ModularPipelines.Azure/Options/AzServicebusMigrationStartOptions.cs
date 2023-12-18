@@ -32,4 +32,3 @@ public record AzServicebusMigrationStartOptions : AzOptions
     [CommandSwitch("--target-namespace")]
     public string? TargetNamespace { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzNetworkFirewallNetworkRuleCollection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleCollectionShowOptions(), token);
     }
 }
-

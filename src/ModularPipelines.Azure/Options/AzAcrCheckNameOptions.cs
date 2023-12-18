@@ -43,4 +43,3 @@ public record AzAcrCheckNameOptions(
     [CommandSwitch("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }
-

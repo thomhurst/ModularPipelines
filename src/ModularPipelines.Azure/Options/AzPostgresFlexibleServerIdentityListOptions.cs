@@ -17,4 +17,3 @@ public record AzPostgresFlexibleServerIdentityListOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

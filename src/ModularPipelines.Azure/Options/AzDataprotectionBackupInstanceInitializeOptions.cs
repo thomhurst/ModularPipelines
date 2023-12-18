@@ -31,4 +31,3 @@ public record AzDataprotectionBackupInstanceInitializeOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

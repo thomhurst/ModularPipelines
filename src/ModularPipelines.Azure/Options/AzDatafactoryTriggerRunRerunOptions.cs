@@ -26,4 +26,3 @@ public record AzDatafactoryTriggerRunRerunOptions : AzOptions
     [CommandSwitch("--trigger-name")]
     public string? TriggerName { get; set; }
 }
-

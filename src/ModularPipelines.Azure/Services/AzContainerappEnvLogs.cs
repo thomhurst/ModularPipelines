@@ -22,4 +22,3 @@ public class AzContainerappEnvLogs
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvLogsShowOptions(), token);
     }
 }
-

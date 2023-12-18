@@ -25,4 +25,3 @@ public record AzNetworkcloudClusterMetricsconfigurationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

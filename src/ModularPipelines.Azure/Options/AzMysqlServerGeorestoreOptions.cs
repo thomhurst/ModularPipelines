@@ -35,4 +35,3 @@ public record AzMysqlServerGeorestoreOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

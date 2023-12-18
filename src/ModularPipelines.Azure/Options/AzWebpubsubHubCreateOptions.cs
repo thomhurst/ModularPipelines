@@ -18,4 +18,3 @@ public record AzWebpubsubHubCreateOptions(
     [CommandSwitch("--event-handler")]
     public string? EventHandler { get; set; }
 }
-

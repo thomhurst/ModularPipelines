@@ -28,4 +28,3 @@ public record AzSphereDeviceGroupUpdateOptions(
     [CommandSwitch("--regional-data-boundary")]
     public string? RegionalDataBoundary { get; set; }
 }
-

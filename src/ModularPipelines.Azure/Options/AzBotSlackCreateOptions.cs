@@ -23,4 +23,3 @@ public record AzBotSlackCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

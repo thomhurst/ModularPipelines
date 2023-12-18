@@ -14,4 +14,3 @@ public record AzConfigUnsetOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? KEY { get; set; }
 }
-

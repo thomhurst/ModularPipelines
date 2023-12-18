@@ -24,4 +24,3 @@ public record AzAksNodepoolSnapshotCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

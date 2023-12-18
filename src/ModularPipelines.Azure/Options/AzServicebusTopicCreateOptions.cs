@@ -45,4 +45,3 @@ public record AzServicebusTopicCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

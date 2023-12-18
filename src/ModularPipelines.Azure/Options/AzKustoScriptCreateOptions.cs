@@ -31,4 +31,3 @@ public record AzKustoScriptCreateOptions(
     [CommandSwitch("--script-url-sas-token")]
     public string? ScriptUrlSasToken { get; set; }
 }
-

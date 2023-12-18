@@ -43,4 +43,3 @@ public record AzMonitorMetricsAlertCreateOptions(
     [CommandSwitch("--window-size")]
     public string? WindowSize { get; set; }
 }
-

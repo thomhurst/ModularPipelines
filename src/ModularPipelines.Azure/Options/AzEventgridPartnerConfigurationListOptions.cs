@@ -13,4 +13,3 @@ public record AzEventgridPartnerConfigurationListOptions(
     [CommandSwitch("--odata-query")]
     public string? OdataQuery { get; set; }
 }
-

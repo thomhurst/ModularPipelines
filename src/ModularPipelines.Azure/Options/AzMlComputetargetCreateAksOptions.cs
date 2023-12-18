@@ -79,4 +79,3 @@ public record AzMlComputetargetCreateAksOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

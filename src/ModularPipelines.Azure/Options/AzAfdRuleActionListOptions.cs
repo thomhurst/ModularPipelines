@@ -19,4 +19,3 @@ public record AzAfdRuleActionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

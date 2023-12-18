@@ -25,4 +25,3 @@ public record AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

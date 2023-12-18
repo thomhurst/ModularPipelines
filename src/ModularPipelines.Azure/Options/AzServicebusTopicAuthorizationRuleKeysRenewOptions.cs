@@ -31,4 +31,3 @@ public record AzServicebusTopicAuthorizationRuleKeysRenewOptions(
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

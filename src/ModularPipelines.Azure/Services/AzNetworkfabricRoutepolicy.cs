@@ -47,4 +47,3 @@ public class AzNetworkfabricRoutepolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRoutepolicyWaitOptions(), token);
     }
 }
-

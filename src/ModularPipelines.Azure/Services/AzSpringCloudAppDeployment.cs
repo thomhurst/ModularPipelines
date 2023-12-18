@@ -52,4 +52,3 @@ public class AzSpringCloudAppDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

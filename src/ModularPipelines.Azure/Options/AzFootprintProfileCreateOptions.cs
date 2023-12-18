@@ -28,4 +28,3 @@ public record AzFootprintProfileCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

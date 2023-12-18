@@ -46,4 +46,3 @@ public class AzAutomationHrwg
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgUpdateOptions(), token);
     }
 }
-

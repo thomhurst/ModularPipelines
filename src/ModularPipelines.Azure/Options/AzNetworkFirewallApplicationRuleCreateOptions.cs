@@ -35,4 +35,3 @@ public record AzNetworkFirewallApplicationRuleCreateOptions(
     [CommandSwitch("--target-fqdns")]
     public string? TargetFqdns { get; set; }
 }
-

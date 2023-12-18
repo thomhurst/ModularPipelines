@@ -11,4 +11,3 @@ public record AzConfigParamPersistShowOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? NAME { get; set; }
 }
-

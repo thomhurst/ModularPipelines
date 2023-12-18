@@ -50,4 +50,3 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyUpdateOptions : Az
     [CommandSwitch("--traffic-collector-name")]
     public string? TrafficCollectorName { get; set; }
 }
-

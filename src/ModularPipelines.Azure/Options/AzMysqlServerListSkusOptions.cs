@@ -22,4 +22,3 @@ public record AzMysqlServerListSkusOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

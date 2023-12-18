@@ -27,4 +27,3 @@ public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

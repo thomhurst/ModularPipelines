@@ -53,4 +53,3 @@ public record AzContainerappConnectionUpdateServicebusOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

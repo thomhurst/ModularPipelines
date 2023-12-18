@@ -46,4 +46,3 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

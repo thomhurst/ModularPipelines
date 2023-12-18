@@ -17,4 +17,3 @@ public class AzManagedCassandraDatacenterUpdate
 
     public AzManagedCassandraDatacenterUpdateCosmosdbPreview CosmosdbPreview { get; }
 }
-

@@ -57,4 +57,3 @@ public class AzNetappfilesVolumeReplication
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationWaitOptions(), token);
     }
 }
-

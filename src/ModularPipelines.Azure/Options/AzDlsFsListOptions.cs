@@ -19,4 +19,3 @@ public record AzDlsFsListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

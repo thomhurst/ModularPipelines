@@ -73,4 +73,3 @@ public record AzMysqlFlexibleServerRestoreOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

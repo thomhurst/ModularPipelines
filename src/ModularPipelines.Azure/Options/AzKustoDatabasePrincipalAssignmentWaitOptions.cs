@@ -47,4 +47,3 @@ public record AzKustoDatabasePrincipalAssignmentWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

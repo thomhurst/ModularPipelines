@@ -278,4 +278,3 @@ public class AzAks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

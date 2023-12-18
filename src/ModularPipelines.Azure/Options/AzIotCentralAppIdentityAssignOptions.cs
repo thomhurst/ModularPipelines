@@ -16,4 +16,3 @@ public record AzIotCentralAppIdentityAssignOptions(
     [BooleanCommandSwitch("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 }
-

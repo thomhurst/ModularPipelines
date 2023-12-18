@@ -15,4 +15,3 @@ public record AzApimNvDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

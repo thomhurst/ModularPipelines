@@ -64,4 +64,3 @@ public class AzContainerappJob
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobUpdateOptions(), token);
     }
 }
-

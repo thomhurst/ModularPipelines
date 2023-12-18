@@ -23,4 +23,3 @@ public record AzLogicIntegrationAccountMapDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzVmssDiagnosticsSetOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzAksCreate
 
     public AzAksCreateAksPreview AksPreview { get; }
 }
-

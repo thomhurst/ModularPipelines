@@ -21,4 +21,3 @@ public class AzAfdWafLogAnalytic
 
     public AzAfdWafLogAnalyticRanking Ranking { get; }
 }
-

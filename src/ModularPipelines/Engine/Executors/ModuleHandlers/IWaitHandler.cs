@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Enums;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 

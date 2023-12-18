@@ -47,4 +47,3 @@ public class AzDatabricksAccessConnector
         return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorWaitOptions(), token);
     }
 }
-

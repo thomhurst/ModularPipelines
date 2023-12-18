@@ -24,4 +24,3 @@ public record AzAksNodepoolSnapshotCreateAksPreviewExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

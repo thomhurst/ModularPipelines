@@ -32,4 +32,3 @@ public class AzPostgresServerConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationShowOptions(), token);
     }
 }
-

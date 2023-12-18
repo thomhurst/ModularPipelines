@@ -25,4 +25,3 @@ public class AzSqlServerArc
 
     public AzSqlServerArcExtension Extension { get; }
 }
-

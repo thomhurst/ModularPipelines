@@ -28,4 +28,3 @@ public record AzPipelinesVariableGroupUpdateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

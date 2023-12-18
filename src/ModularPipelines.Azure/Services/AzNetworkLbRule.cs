@@ -47,4 +47,3 @@ public class AzNetworkLbRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbRuleWaitOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzAmsStreamingLocatorShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

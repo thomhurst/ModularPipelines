@@ -42,4 +42,3 @@ public class AzKeyvaultSecurityDomain
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecurityDomainWaitOptions(), token);
     }
 }
-

@@ -19,4 +19,3 @@ public record AzReposPrShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

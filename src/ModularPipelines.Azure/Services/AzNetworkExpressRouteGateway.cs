@@ -51,4 +51,3 @@ public class AzNetworkExpressRouteGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayWaitOptions(), token);
     }
 }
-

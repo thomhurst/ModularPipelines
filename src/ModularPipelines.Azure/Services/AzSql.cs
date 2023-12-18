@@ -108,4 +108,3 @@ public class AzSql
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlUpOptions(), token);
     }
 }
-

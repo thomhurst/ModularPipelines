@@ -19,4 +19,3 @@ public record AzBillingCustomerListOptions(
     [CommandSwitch("--search")]
     public string? Search { get; set; }
 }
-

@@ -176,4 +176,3 @@ public record AzContainerappCreateOptions(
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

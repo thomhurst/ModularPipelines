@@ -27,4 +27,3 @@ public class AzAppserviceDomain
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

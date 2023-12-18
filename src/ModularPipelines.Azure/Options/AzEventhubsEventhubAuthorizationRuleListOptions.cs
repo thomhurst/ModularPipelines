@@ -18,4 +18,3 @@ public record AzEventhubsEventhubAuthorizationRuleListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

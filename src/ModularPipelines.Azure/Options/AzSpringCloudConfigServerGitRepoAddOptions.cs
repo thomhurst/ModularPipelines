@@ -43,4 +43,3 @@ public record AzSpringCloudConfigServerGitRepoAddOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

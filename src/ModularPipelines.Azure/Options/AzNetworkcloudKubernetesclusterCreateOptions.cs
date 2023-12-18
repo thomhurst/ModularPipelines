@@ -43,4 +43,3 @@ public record AzNetworkcloudKubernetesclusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

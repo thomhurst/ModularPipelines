@@ -22,4 +22,3 @@ public class AzStorageFileUploadBatchStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

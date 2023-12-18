@@ -22,4 +22,3 @@ public record AzContainerappShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

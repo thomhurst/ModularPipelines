@@ -20,4 +20,3 @@ public class AzSupport
 
     public AzSupportTickets Tickets { get; }
 }
-

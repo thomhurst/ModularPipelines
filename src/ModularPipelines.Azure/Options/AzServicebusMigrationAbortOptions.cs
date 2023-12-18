@@ -20,4 +20,3 @@ public record AzServicebusMigrationAbortOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

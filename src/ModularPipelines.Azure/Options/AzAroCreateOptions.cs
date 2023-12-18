@@ -88,4 +88,3 @@ public record AzAroCreateOptions(
     [CommandSwitch("--worker-vm-size")]
     public string? WorkerVmSize { get; set; }
 }
-

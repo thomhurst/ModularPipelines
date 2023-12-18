@@ -61,4 +61,3 @@ public record AzBatchPoolSetOptions(
     [CommandSwitch("--target-communication")]
     public string? TargetCommunication { get; set; }
 }
-

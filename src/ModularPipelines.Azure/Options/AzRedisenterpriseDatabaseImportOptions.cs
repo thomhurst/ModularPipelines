@@ -25,4 +25,3 @@ public record AzRedisenterpriseDatabaseImportOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

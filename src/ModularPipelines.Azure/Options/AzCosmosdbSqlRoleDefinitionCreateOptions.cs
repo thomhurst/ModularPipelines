@@ -15,4 +15,3 @@ public record AzCosmosdbSqlRoleDefinitionCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

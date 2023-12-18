@@ -42,4 +42,3 @@ public class AzHdinsightApplication
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

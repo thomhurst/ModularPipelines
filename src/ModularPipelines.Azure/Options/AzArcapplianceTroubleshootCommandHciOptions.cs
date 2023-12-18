@@ -23,4 +23,3 @@ public record AzArcapplianceTroubleshootCommandHciOptions : AzOptions
     [CommandSwitch("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 }
-

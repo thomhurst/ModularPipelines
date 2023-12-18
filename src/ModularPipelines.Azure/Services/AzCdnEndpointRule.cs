@@ -40,4 +40,3 @@ public class AzCdnEndpointRule
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleShowOptions(), token);
     }
 }
-

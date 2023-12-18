@@ -52,4 +52,3 @@ public class AzNetworkVnetPeering
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringWaitOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzCosmosdbSqlContainerRestoreOptions(
     [CommandSwitch("--physical-partition-ids")]
     public string? PhysicalPartitionIds { get; set; }
 }
-

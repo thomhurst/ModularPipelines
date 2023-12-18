@@ -18,4 +18,3 @@ public record AzCosmosdbSqlUserDefinedFunctionCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -46,4 +46,3 @@ public record AzDlaJobListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

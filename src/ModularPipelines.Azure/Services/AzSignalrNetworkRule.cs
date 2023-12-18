@@ -27,4 +27,3 @@ public class AzSignalrNetworkRule
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrNetworkRuleUpdateOptions(), token);
     }
 }
-

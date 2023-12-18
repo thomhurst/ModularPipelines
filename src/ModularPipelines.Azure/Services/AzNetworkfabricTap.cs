@@ -52,4 +52,3 @@ public class AzNetworkfabricTap
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricTapWaitOptions(), token);
     }
 }
-

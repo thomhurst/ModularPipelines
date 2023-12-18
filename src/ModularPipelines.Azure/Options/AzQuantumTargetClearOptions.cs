@@ -15,4 +15,3 @@ public record AzQuantumTargetClearOptions(
     [CommandSwitch("--target-id")]
     public string? TargetId { get; set; }
 }
-

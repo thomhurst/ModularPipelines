@@ -70,4 +70,3 @@ public record AzMlModelProfileOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

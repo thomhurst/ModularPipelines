@@ -19,4 +19,3 @@ public record AzReservationsReservationSplitOptions(
     [CommandSwitch("--reservation-id")]
     public string? ReservationId { get; set; }
 }
-

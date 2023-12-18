@@ -14,4 +14,3 @@ public record AzStackSubExportOptions : AzOptions
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

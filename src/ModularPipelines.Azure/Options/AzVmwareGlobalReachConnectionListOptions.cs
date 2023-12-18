@@ -17,4 +17,3 @@ public record AzVmwareGlobalReachConnectionListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

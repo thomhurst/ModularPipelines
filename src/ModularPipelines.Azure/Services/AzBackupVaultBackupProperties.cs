@@ -27,4 +27,3 @@ public class AzBackupVaultBackupProperties
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesShowOptions(), token);
     }
 }
-

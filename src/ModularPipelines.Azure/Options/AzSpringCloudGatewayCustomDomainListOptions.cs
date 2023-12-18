@@ -14,4 +14,3 @@ public record AzSpringCloudGatewayCustomDomainListOptions(
     [CommandSwitch("--certificate")]
     public string? Certificate { get; set; }
 }
-

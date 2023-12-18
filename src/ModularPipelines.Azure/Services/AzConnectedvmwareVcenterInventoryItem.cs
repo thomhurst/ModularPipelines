@@ -27,4 +27,3 @@ public class AzConnectedvmwareVcenterInventoryItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

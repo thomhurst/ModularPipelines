@@ -73,4 +73,3 @@ public record AzKeyvaultCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

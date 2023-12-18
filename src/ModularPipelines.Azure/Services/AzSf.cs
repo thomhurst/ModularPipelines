@@ -48,4 +48,3 @@ public class AzSf
 
     public AzSfService Service { get; }
 }
-

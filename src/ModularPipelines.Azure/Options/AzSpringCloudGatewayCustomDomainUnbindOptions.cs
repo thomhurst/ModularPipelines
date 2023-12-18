@@ -15,4 +15,3 @@ public record AzSpringCloudGatewayCustomDomainUnbindOptions(
     [CommandSwitch("--certificate")]
     public string? Certificate { get; set; }
 }
-

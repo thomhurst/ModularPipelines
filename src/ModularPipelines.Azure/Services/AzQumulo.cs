@@ -16,4 +16,3 @@ public class AzQumulo
 
     public AzQumuloStorage Storage { get; }
 }
-

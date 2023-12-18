@@ -52,4 +52,3 @@ public class AzNetworkDnsRecordSetTlsa
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetTlsaUpdateOptions(), token);
     }
 }
-

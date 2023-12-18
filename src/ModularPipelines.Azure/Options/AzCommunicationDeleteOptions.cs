@@ -26,4 +26,3 @@ public record AzCommunicationDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

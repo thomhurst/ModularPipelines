@@ -62,4 +62,3 @@ public class AzSpringApm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

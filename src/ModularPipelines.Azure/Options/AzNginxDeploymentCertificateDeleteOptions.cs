@@ -26,4 +26,3 @@ public record AzNginxDeploymentCertificateDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

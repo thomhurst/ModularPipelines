@@ -43,4 +43,3 @@ public record AzReposPolicyRequiredReviewerUpdateOptions(
     [CommandSwitch("--required-reviewer-ids")]
     public string? RequiredReviewerIds { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzBatchJobTaskCountsShowOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

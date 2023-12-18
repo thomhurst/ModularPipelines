@@ -47,4 +47,3 @@ public class AzSynapseDataset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

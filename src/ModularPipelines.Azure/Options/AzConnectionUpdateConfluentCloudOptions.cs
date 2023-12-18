@@ -43,4 +43,3 @@ public record AzConnectionUpdateConfluentCloudOptions(
     [CommandSwitch("--schema-secret")]
     public string? SchemaSecret { get; set; }
 }
-

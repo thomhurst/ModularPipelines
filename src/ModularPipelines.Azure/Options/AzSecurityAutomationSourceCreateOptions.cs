@@ -13,4 +13,3 @@ public record AzSecurityAutomationSourceCreateOptions(
     [CommandSwitch("--rule-sets")]
     public string? RuleSets { get; set; }
 }
-

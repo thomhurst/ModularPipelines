@@ -37,4 +37,3 @@ public class AzPostgresServerKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

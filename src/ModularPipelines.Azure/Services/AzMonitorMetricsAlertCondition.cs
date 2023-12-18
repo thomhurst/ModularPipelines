@@ -22,4 +22,3 @@ public class AzMonitorMetricsAlertCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

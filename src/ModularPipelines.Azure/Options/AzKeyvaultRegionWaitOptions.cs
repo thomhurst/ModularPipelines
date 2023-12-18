@@ -34,4 +34,3 @@ public record AzKeyvaultRegionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

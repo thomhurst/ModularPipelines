@@ -43,4 +43,3 @@ public record AzContainerappEnvDaprComponentResiliencyCreateOptions(
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

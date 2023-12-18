@@ -32,4 +32,3 @@ public class AzArcapplianceValidate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzStorageEntityMergeOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

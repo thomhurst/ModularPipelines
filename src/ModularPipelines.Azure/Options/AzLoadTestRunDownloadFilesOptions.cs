@@ -27,4 +27,3 @@ public record AzLoadTestRunDownloadFilesOptions(
     [BooleanCommandSwitch("--result")]
     public bool? Result { get; set; }
 }
-

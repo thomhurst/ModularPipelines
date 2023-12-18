@@ -50,4 +50,3 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzWebappSshOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

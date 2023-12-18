@@ -28,4 +28,3 @@ public record AzEventgridNamespaceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

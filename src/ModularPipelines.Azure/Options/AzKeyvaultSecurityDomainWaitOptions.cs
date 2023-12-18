@@ -17,4 +17,3 @@ public record AzKeyvaultSecurityDomainWaitOptions : AzOptions
     [CommandSwitch("--target-operation")]
     public string? TargetOperation { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzStreamAnalyticsClusterListStreamingJobOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

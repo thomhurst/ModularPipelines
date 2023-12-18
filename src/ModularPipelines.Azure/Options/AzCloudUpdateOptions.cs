@@ -62,4 +62,3 @@ public record AzCloudUpdateOptions : AzOptions
     [CommandSwitch("--suffix-storage-endpoint")]
     public string? SuffixStorageEndpoint { get; set; }
 }
-

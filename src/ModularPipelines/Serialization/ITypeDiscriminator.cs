@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Serialization;
+namespace ModularPipelines.Serialization;
 
 public interface ITypeDiscriminator
 {

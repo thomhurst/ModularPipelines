@@ -13,4 +13,3 @@ public record AzSphereDeviceCertificateDeleteOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

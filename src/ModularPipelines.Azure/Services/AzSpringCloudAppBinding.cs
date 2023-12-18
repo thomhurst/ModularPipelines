@@ -44,4 +44,3 @@ public class AzSpringCloudAppBinding
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

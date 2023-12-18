@@ -60,4 +60,3 @@ public record AzServicebusQueueCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

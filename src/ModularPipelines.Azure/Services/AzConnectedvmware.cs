@@ -44,4 +44,3 @@ public class AzConnectedvmware
 
     public AzConnectedvmwareVmTemplate VmTemplate { get; }
 }
-

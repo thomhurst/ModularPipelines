@@ -29,4 +29,3 @@ public record AzAmsAccountSpCreateOptions(
     [CommandSwitch("--years")]
     public string? Years { get; set; }
 }
-

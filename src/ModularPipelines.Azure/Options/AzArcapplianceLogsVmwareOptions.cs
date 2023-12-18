@@ -29,4 +29,3 @@ public record AzArcapplianceLogsVmwareOptions : AzOptions
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

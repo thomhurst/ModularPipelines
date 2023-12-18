@@ -25,4 +25,3 @@ public record AzNetworkVnetGatewayDisconnectVpnConnectionsOptions(
     [CommandSwitch("--vpn-connections")]
     public string? VpnConnections { get; set; }
 }
-

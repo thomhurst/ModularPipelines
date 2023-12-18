@@ -27,4 +27,3 @@ public record AzNetworkFrontDoorWafPolicyRuleCreateOptions(
     [CommandSwitch("--rate-limit-threshold")]
     public string? RateLimitThreshold { get; set; }
 }
-

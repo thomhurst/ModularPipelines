@@ -15,4 +15,3 @@ public record AzVmssRunCommandListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

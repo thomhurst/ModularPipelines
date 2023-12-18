@@ -31,4 +31,3 @@ public record AzAcrHelmDeleteOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? CHART { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzVmwareScriptExecutionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

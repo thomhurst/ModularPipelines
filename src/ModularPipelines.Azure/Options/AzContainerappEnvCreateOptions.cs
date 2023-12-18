@@ -77,4 +77,3 @@ public record AzContainerappEnvCreateOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

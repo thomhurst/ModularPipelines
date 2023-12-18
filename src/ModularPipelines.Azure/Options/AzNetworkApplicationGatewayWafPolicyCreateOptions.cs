@@ -32,4 +32,3 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

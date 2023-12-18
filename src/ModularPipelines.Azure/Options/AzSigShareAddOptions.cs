@@ -26,4 +26,3 @@ public record AzSigShareAddOptions(
     [CommandSwitch("--tenant-ids")]
     public string? TenantIds { get; set; }
 }
-

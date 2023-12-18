@@ -26,4 +26,3 @@ public record AzNetworkManagerListEffectiveConnectivityConfigOptions(
     [CommandSwitch("--virtual-network-name")]
     public string? VirtualNetworkName { get; set; }
 }
-

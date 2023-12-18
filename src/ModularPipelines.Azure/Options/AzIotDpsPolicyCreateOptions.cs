@@ -24,4 +24,3 @@ public record AzIotDpsPolicyCreateOptions(
     [CommandSwitch("--secondary-key")]
     public string? SecondaryKey { get; set; }
 }
-

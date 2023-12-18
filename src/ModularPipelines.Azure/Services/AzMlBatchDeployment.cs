@@ -47,4 +47,3 @@ public class AzMlBatchDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzNotificationHubDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

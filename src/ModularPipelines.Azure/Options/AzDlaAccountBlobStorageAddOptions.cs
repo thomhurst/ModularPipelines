@@ -26,4 +26,3 @@ public record AzDlaAccountBlobStorageAddOptions(
     [CommandSwitch("--suffix")]
     public string? Suffix { get; set; }
 }
-

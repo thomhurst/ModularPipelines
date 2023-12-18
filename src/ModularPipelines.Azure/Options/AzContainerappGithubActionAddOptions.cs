@@ -55,4 +55,3 @@ public record AzContainerappGithubActionAddOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

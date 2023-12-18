@@ -17,4 +17,3 @@ public record AzBlueprintVersionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

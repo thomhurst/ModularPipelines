@@ -32,4 +32,3 @@ public class AzSpringEurekaServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -24,4 +24,3 @@ public record AzRestorePointDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

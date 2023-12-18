@@ -16,4 +16,3 @@ public record AzWebappListRuntimesOptions(
     [CommandSwitch("--os")]
     public string? Os { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzWorkloadsMonitorProviderInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceWaitOptions(), token);
     }
 }
-

@@ -52,4 +52,3 @@ public record AzHealthcareapisServiceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

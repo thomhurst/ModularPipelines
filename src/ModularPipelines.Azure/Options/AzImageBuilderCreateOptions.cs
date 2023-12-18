@@ -71,4 +71,3 @@ public record AzImageBuilderCreateOptions(
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }
 }
-

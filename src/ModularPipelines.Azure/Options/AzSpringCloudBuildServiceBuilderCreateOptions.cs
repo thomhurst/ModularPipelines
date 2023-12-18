@@ -21,4 +21,3 @@ public record AzSpringCloudBuildServiceBuilderCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

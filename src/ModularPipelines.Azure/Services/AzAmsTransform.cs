@@ -46,4 +46,3 @@ public class AzAmsTransform
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformUpdateOptions(), token);
     }
 }
-

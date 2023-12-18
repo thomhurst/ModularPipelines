@@ -40,4 +40,3 @@ public record AzApicApiDefinitionImportSpecificationOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

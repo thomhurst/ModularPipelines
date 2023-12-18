@@ -41,4 +41,3 @@ public record AzConfidentialledgerManagedccfsWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

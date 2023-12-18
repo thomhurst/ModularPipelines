@@ -20,4 +20,3 @@ public record AzPostgresFlexibleServerFirewallRuleCreateOptions(
     [CommandSwitch("--start-ip-address")]
     public string? StartIpAddress { get; set; }
 }
-

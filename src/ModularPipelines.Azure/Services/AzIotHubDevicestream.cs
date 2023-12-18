@@ -22,4 +22,3 @@ public class AzIotHubDevicestream
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDevicestreamShowOptions(), token);
     }
 }
-

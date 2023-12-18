@@ -27,4 +27,3 @@ public class AzSynapseKustoDataConnectionIotHub
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionIotHubUpdateOptions(), token);
     }
 }
-

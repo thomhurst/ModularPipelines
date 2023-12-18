@@ -26,4 +26,3 @@ public record AzAksAppUpOptions : AzOptions
     [CommandSwitch("--repository")]
     public string? Repository { get; set; }
 }
-

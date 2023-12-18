@@ -32,4 +32,3 @@ public record AzAksWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

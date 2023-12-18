@@ -41,4 +41,3 @@ public record AzDlaAccountUpdateOptions : AzOptions
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzWebpubsubServiceGroupRemoveConnectionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

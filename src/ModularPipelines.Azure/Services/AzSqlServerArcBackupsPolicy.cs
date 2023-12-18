@@ -27,4 +27,3 @@ public class AzSqlServerArcBackupsPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

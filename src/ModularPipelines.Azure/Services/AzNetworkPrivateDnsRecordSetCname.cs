@@ -52,4 +52,3 @@ public class AzNetworkPrivateDnsRecordSetCname
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetCnameUpdateOptions(), token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzDatafactoryManagedPrivateEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointUpdateOptions(), token);
     }
 }
-

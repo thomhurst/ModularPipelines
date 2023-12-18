@@ -20,4 +20,3 @@ public record AzDynatraceMonitorGetVmHostPayloadOptions(
     [CommandSwitch("--user-principal")]
     public string? UserPrincipal { get; set; }
 }
-

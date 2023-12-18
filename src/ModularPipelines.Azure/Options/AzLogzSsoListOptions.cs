@@ -20,4 +20,3 @@ public record AzLogzSsoListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

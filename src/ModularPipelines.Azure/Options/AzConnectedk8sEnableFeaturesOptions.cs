@@ -34,4 +34,3 @@ public record AzConnectedk8sEnableFeaturesOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

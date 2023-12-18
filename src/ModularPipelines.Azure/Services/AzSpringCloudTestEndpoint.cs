@@ -37,4 +37,3 @@ public class AzSpringCloudTestEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -34,4 +34,3 @@ public record AzAmsAccountEncryptionSetOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzNetworkFirewallThreatIntelAllowlistDeleteOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

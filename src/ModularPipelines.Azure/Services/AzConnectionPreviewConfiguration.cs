@@ -132,4 +132,3 @@ public class AzConnectionPreviewConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectionPreviewConfigurationWebpubsubOptions(), token);
     }
 }
-

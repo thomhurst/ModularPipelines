@@ -42,4 +42,3 @@ public class AzMaintenanceConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationUpdateOptions(), token);
     }
 }
-

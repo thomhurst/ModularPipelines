@@ -27,4 +27,3 @@ public class AzNetworkfabricNpb
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNpbShowOptions(), token);
     }
 }
-

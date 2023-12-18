@@ -11,4 +11,3 @@ public record AzCommunicationListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

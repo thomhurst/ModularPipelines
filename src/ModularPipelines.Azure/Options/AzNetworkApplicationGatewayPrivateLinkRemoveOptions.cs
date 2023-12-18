@@ -18,4 +18,3 @@ public record AzNetworkApplicationGatewayPrivateLinkRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

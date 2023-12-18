@@ -21,4 +21,3 @@ public record AzWorkloadsMonitorProviderInstanceCreateOptions(
     [CommandSwitch("--provider-settings")]
     public string? ProviderSettings { get; set; }
 }
-

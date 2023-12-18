@@ -14,4 +14,3 @@ public record AzNetworkPrivateEndpointIpConfigListOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

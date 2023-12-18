@@ -18,4 +18,3 @@ public record AzHackCreateOptions(
     [CommandSwitch("--database")]
     public string? Database { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzTsExportOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

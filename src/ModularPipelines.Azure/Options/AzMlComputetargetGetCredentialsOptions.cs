@@ -25,4 +25,3 @@ public record AzMlComputetargetGetCredentialsOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

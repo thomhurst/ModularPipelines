@@ -37,4 +37,3 @@ public class AzPostgresFlexibleServerDb
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDbShowOptions(), token);
     }
 }
-

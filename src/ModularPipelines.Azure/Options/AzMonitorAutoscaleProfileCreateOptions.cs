@@ -32,4 +32,3 @@ public record AzMonitorAutoscaleProfileCreateOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzGuestconfigGuestConfigurationAssignmentReport
         return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentReportShowOptions(), token);
     }
 }
-

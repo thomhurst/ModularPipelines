@@ -16,4 +16,3 @@ public record AzDevcenterDevProjectShowOptions(
     [CommandSwitch("--endpoint")]
     public string? Endpoint { get; set; }
 }
-

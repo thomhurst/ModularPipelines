@@ -20,4 +20,3 @@ public record AzNetappfilesAccountAdListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

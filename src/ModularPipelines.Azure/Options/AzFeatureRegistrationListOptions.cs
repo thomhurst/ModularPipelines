@@ -14,4 +14,3 @@ public record AzFeatureRegistrationListOptions(
     [CommandSwitch("--namespace")]
     public string? Namespace { get; set; }
 }
-

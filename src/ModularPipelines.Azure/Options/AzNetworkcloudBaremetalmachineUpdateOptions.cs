@@ -29,4 +29,3 @@ public record AzNetworkcloudBaremetalmachineUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

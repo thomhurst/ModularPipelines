@@ -59,4 +59,3 @@ public record AzKustoDataConnectionEventHubDataConnectionValidationOptions : AzO
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

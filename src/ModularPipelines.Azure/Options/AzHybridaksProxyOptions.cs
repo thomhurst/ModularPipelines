@@ -29,4 +29,3 @@ public record AzHybridaksProxyOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

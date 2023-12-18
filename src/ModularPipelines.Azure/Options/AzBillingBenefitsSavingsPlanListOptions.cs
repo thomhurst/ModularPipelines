@@ -23,4 +23,3 @@ public record AzBillingBenefitsSavingsPlanListOptions : AzOptions
     [CommandSwitch("--take")]
     public string? Take { get; set; }
 }
-

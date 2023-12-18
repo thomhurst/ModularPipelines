@@ -26,4 +26,3 @@ public record AzCommandChangeVersionDiffOptions(
     [CommandSwitch("--version-diff-file")]
     public string? VersionDiffFile { get; set; }
 }
-

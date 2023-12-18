@@ -49,4 +49,3 @@ public record AzAmsStreamingEndpointCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

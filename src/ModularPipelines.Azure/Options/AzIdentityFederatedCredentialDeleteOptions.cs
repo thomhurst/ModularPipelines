@@ -15,4 +15,3 @@ public record AzIdentityFederatedCredentialDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

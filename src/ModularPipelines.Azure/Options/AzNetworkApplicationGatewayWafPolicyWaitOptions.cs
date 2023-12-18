@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayWafPolicyWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

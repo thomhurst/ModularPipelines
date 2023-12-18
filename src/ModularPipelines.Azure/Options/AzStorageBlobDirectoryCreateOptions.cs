@@ -41,4 +41,3 @@ public record AzStorageBlobDirectoryCreateOptions(
     [CommandSwitch("--umask")]
     public string? Umask { get; set; }
 }
-

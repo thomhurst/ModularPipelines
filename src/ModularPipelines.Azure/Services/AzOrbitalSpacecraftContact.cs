@@ -42,4 +42,3 @@ public class AzOrbitalSpacecraftContact
         return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactWaitOptions(), token);
     }
 }
-

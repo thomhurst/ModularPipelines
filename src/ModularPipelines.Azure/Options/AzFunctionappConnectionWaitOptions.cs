@@ -41,4 +41,3 @@ public record AzFunctionappConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

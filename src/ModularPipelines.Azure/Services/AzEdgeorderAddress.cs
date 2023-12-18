@@ -47,4 +47,3 @@ public class AzEdgeorderAddress
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

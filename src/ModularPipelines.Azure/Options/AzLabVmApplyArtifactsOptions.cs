@@ -15,4 +15,3 @@ public record AzLabVmApplyArtifactsOptions(
     [CommandSwitch("--artifacts")]
     public string? Artifacts { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzPaloAltoCloudngfwLocalRulestackListCountryOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

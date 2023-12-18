@@ -14,4 +14,3 @@ public record AzPurviewAccountListOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

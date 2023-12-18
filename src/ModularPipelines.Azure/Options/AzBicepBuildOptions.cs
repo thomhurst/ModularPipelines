@@ -22,4 +22,3 @@ public record AzBicepBuildOptions(
     [CommandSwitch("--stdout")]
     public string? Stdout { get; set; }
 }
-

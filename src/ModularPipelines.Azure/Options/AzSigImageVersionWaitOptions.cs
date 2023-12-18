@@ -37,4 +37,3 @@ public record AzSigImageVersionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

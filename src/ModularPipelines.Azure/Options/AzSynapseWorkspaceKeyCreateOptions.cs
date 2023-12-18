@@ -16,4 +16,3 @@ public record AzSynapseWorkspaceKeyCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

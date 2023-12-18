@@ -23,4 +23,3 @@ public record AzSpringCloudConnectionValidateOptions : AzOptions
     [CommandSwitch("--service")]
     public string? Service { get; set; }
 }
-

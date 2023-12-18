@@ -20,4 +20,3 @@ public record AzSentinelBookmarkListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

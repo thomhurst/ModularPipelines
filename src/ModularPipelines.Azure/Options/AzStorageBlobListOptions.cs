@@ -49,4 +49,3 @@ public record AzStorageBlobListOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

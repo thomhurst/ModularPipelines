@@ -37,4 +37,3 @@ public record AzVmssDiskAttachOptions(
     [CommandSwitch("--vmss-name")]
     public string? VmssName { get; set; }
 }
-

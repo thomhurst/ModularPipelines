@@ -20,4 +20,3 @@ public record AzEventgridTopicDeleteEventgridExtensionOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

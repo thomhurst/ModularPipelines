@@ -37,4 +37,3 @@ public class AzManagedservicesAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

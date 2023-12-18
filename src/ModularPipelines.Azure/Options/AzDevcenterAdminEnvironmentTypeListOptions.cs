@@ -17,4 +17,3 @@ public record AzDevcenterAdminEnvironmentTypeListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

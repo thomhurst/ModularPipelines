@@ -28,4 +28,3 @@ public record AzDlaAccountComputePolicyUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

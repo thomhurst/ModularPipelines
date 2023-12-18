@@ -44,4 +44,3 @@ public record AzEventgridNamespaceCreateOptions(
     [CommandSwitch("--topic-spaces-configuration")]
     public string? TopicSpacesConfiguration { get; set; }
 }
-

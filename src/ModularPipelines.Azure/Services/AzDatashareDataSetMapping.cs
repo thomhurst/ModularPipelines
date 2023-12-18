@@ -37,4 +37,3 @@ public class AzDatashareDataSetMapping
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetMappingShowOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzMysqlFlexibleServerParameterListOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzStorageMoverEndpointUpdateForSmbOptions(
     [CommandSwitch("--username-uri")]
     public string? UsernameUri { get; set; }
 }
-

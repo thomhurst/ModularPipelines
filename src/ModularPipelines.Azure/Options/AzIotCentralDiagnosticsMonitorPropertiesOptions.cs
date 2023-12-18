@@ -17,4 +17,3 @@ public record AzIotCentralDiagnosticsMonitorPropertiesOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzAkshybridGetVersionsOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

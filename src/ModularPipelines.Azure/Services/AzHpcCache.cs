@@ -86,4 +86,3 @@ public class AzHpcCache
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

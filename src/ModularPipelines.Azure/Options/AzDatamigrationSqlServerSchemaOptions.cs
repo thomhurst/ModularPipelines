@@ -26,4 +26,3 @@ public record AzDatamigrationSqlServerSchemaOptions : AzOptions
     [CommandSwitch("--tgt-sql-connection-str")]
     public string? TgtSqlConnectionStr { get; set; }
 }
-

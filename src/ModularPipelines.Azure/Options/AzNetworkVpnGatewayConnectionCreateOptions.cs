@@ -58,4 +58,3 @@ public record AzNetworkVpnGatewayConnectionCreateOptions(
     [BooleanCommandSwitch("--with-link")]
     public bool? WithLink { get; set; }
 }
-

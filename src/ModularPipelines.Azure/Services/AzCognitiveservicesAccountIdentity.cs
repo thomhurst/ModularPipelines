@@ -32,4 +32,3 @@ public class AzCognitiveservicesAccountIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -51,4 +51,3 @@ public class AzNetworkFirewallPolicyRuleCollectionGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupWaitOptions(), token);
     }
 }
-

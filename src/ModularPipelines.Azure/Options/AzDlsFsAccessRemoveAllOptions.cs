@@ -22,4 +22,3 @@ public record AzDlsFsAccessRemoveAllOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

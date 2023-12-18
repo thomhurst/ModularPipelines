@@ -21,4 +21,3 @@ public record AzAcrTaskTimerUpdateOptions(
     [CommandSwitch("--schedule")]
     public string? Schedule { get; set; }
 }
-

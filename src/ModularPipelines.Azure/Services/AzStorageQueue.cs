@@ -55,4 +55,3 @@ public class AzStorageQueue
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageQueueStatsOptions(), token);
     }
 }
-

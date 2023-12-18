@@ -23,4 +23,3 @@ public record AzSqlMiAdAdminUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

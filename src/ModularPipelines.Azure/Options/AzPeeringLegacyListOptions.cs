@@ -14,4 +14,3 @@ public record AzPeeringLegacyListOptions(
     [CommandSwitch("--asn")]
     public string? Asn { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzStorageBlobTag
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

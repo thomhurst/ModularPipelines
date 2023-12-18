@@ -50,4 +50,3 @@ public record AzEventgridNamespacePermissionBindingUpdateOptions : AzOptions
     [CommandSwitch("--topic-space-name")]
     public string? TopicSpaceName { get; set; }
 }
-

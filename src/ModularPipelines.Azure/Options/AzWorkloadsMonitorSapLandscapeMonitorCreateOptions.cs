@@ -17,4 +17,3 @@ public record AzWorkloadsMonitorSapLandscapeMonitorCreateOptions(
     [CommandSwitch("--top-metrics-thresholds")]
     public string? TopMetricsThresholds { get; set; }
 }
-

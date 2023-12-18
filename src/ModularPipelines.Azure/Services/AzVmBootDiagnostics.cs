@@ -37,4 +37,3 @@ public class AzVmBootDiagnostics
         return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), token);
     }
 }
-

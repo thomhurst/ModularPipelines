@@ -22,4 +22,3 @@ public class AzQuotaOperation
         return await _command.ExecuteCommandLineTool(options ?? new AzQuotaOperationListOptions(), token);
     }
 }
-

@@ -95,4 +95,3 @@ public class AzDatashare
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareWaitOptions(), token);
     }
 }
-

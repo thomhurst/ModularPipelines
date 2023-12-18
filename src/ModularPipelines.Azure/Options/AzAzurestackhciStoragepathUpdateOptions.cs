@@ -23,4 +23,3 @@ public record AzAzurestackhciStoragepathUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

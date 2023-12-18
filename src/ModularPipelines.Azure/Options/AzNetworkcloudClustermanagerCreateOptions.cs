@@ -27,4 +27,3 @@ public record AzNetworkcloudClustermanagerCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

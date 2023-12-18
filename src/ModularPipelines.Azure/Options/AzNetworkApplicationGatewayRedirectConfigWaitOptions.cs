@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayRedirectConfigWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

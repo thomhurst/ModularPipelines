@@ -17,4 +17,3 @@ public record AzNetworkFrontDoorLoadBalancingCreateOptions(
     [CommandSwitch("--additional-latency")]
     public string? AdditionalLatency { get; set; }
 }
-

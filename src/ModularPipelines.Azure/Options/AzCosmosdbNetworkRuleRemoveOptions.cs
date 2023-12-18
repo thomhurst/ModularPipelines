@@ -25,4 +25,3 @@ public record AzCosmosdbNetworkRuleRemoveOptions(
     [CommandSwitch("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }
-

@@ -11,4 +11,3 @@ public record AzDevopsLogoutOptions : AzOptions
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

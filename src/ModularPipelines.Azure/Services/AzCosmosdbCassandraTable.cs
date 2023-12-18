@@ -51,4 +51,3 @@ public class AzCosmosdbCassandraTable
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

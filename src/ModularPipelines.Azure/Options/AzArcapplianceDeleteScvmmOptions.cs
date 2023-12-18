@@ -34,4 +34,3 @@ public record AzArcapplianceDeleteScvmmOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

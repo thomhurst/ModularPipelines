@@ -27,4 +27,3 @@ public class AzSqlMiTdeKey
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiTdeKeyShowOptions(), token);
     }
 }
-

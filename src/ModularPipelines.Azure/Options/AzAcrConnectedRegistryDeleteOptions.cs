@@ -20,4 +20,3 @@ public record AzAcrConnectedRegistryDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

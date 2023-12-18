@@ -20,4 +20,3 @@ public record AzSqlMiPartnerCertListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

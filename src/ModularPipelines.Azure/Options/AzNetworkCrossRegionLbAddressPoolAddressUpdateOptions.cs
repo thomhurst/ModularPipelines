@@ -31,4 +31,3 @@ public record AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

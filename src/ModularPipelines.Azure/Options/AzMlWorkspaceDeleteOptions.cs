@@ -23,4 +23,3 @@ public record AzMlWorkspaceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzIotDuDeviceLog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

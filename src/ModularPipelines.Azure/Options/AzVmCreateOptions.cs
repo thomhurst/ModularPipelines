@@ -287,4 +287,3 @@ public record AzVmCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

@@ -20,4 +20,3 @@ public class AzDatabricks
 
     public AzDatabricksWorkspace Workspace { get; }
 }
-

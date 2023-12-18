@@ -22,4 +22,3 @@ public record AzCosmosdbCassandraTableExistsOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

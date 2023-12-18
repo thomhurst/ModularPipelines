@@ -30,4 +30,3 @@ public record AzVmwareWorkloadNetworkSegmentCreateOptions(
     [CommandSwitch("--revision")]
     public string? Revision { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzLogzSubAccountDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

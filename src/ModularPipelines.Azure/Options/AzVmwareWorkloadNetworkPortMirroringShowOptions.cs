@@ -23,4 +23,3 @@ public record AzVmwareWorkloadNetworkPortMirroringShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

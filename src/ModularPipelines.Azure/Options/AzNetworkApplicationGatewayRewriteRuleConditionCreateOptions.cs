@@ -26,4 +26,3 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionCreateOptions(
     [CommandSwitch("--pattern")]
     public string? Pattern { get; set; }
 }
-

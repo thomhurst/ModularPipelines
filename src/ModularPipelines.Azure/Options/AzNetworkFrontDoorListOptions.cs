@@ -13,4 +13,3 @@ public record AzNetworkFrontDoorListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

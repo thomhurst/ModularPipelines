@@ -46,4 +46,3 @@ public record AzReposPolicyApproverCountUpdateOptions(
     [BooleanCommandSwitch("--reset-on-source-push")]
     public bool? ResetOnSourcePush { get; set; }
 }
-

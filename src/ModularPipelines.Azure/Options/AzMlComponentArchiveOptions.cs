@@ -25,4 +25,3 @@ public record AzMlComponentArchiveOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

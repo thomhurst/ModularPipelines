@@ -22,4 +22,3 @@ public class AzNetappfilesSubvolumeMetadata
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSubvolumeMetadataShowOptions(), token);
     }
 }
-

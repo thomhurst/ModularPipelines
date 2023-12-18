@@ -26,4 +26,3 @@ public record AzSqlServerArcBackupsPolicySetOptions(
     [CommandSwitch("--tlog-backup-mins")]
     public string? TlogBackupMins { get; set; }
 }
-

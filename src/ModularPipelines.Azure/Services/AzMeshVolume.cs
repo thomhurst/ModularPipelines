@@ -37,4 +37,3 @@ public class AzMeshVolume
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeShowOptions(), token);
     }
 }
-

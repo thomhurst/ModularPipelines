@@ -22,4 +22,3 @@ public record AzKeyvaultKeyBackupOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

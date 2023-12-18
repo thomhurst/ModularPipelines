@@ -37,4 +37,3 @@ public class AzCosmosdbPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

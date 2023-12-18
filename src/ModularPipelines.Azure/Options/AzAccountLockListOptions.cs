@@ -11,4 +11,3 @@ public record AzAccountLockListOptions : AzOptions
     [CommandSwitch("--filter-string")]
     public string? FilterString { get; set; }
 }
-

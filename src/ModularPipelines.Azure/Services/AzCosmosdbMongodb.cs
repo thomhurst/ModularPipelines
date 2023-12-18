@@ -50,4 +50,3 @@ public class AzCosmosdbMongodb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

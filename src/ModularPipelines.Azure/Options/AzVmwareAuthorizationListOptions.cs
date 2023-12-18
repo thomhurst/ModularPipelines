@@ -17,4 +17,3 @@ public record AzVmwareAuthorizationListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

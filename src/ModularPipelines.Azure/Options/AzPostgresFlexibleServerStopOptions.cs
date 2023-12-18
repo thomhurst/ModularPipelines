@@ -25,4 +25,3 @@ public record AzPostgresFlexibleServerStopOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

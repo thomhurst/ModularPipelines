@@ -47,4 +47,3 @@ public class AzSynapseLinkedService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

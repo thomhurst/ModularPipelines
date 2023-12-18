@@ -29,4 +29,3 @@ public record AzImageBuilderValidatorAddOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

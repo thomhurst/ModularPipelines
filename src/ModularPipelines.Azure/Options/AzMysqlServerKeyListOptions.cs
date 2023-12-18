@@ -22,4 +22,3 @@ public record AzMysqlServerKeyListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

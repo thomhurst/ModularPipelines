@@ -42,4 +42,3 @@ public class AzNetappfilesVolumeGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -97,4 +97,3 @@ public record AzSqlDbCopyOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

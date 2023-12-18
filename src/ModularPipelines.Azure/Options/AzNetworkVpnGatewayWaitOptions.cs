@@ -41,4 +41,3 @@ public record AzNetworkVpnGatewayWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzCognitiveservicesAccountNetworkRuleAddOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

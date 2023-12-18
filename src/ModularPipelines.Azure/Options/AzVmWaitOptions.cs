@@ -41,4 +41,3 @@ public record AzVmWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

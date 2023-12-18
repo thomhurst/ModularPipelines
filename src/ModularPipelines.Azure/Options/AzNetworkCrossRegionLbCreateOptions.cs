@@ -44,4 +44,3 @@ public record AzNetworkCrossRegionLbCreateOptions(
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
 }
-

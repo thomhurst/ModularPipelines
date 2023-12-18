@@ -14,4 +14,3 @@ public record AzMlRegistryListOptions(
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
 }
-

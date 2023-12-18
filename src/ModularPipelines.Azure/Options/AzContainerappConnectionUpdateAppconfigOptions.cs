@@ -49,4 +49,3 @@ public record AzContainerappConnectionUpdateAppconfigOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

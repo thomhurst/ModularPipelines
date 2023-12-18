@@ -23,4 +23,3 @@ public record AzMonitorDataCollectionEndpointDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzResourcePatchOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

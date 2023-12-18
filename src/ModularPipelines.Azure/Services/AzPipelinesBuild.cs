@@ -45,4 +45,3 @@ public class AzPipelinesBuild
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

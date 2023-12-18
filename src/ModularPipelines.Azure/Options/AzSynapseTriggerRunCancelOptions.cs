@@ -21,4 +21,3 @@ public record AzSynapseTriggerRunCancelOptions(
     [CommandSwitch("--order-by")]
     public string? OrderBy { get; set; }
 }
-

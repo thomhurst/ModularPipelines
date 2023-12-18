@@ -20,4 +20,3 @@ public record AzCdnCustomDomainCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

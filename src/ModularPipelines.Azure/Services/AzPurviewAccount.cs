@@ -57,4 +57,3 @@ public class AzPurviewAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountWaitOptions(), token);
     }
 }
-

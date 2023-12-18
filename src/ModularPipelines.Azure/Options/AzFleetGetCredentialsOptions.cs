@@ -20,4 +20,3 @@ public record AzFleetGetCredentialsOptions(
     [BooleanCommandSwitch("--overwrite-existing")]
     public bool? OverwriteExisting { get; set; }
 }
-

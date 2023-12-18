@@ -32,4 +32,3 @@ public class AzMeshSecret
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshSecretShowOptions(), token);
     }
 }
-

@@ -32,4 +32,3 @@ public class AzKustoDataConnectionEventHub
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventHubUpdateOptions(), token);
     }
 }
-

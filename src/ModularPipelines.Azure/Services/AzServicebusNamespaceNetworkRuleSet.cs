@@ -45,4 +45,3 @@ public class AzServicebusNamespaceNetworkRuleSet
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetUpdateOptions(), token);
     }
 }
-

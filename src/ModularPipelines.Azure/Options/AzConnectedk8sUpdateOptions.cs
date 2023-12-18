@@ -62,4 +62,3 @@ public record AzConnectedk8sUpdateOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

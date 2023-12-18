@@ -22,4 +22,3 @@ public record AzSelfHelpDiscoverySolutionListOptions(
     [CommandSwitch("--skiptoken")]
     public string? Skiptoken { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzStorageShareUrlOptions(
     [BooleanCommandSwitch("--unc")]
     public bool? Unc { get; set; }
 }
-

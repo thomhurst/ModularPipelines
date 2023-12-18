@@ -17,4 +17,3 @@ public record AzDatashareShareSubscriptionCreateOptions(
     [CommandSwitch("--expiration-date")]
     public string? ExpirationDate { get; set; }
 }
-

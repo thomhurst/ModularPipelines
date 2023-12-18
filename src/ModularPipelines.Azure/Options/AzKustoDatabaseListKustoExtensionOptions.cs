@@ -23,4 +23,3 @@ public record AzKustoDatabaseListKustoExtensionOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

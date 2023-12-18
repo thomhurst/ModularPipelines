@@ -18,4 +18,3 @@ public record AzNetworkApplicationGatewayFrontendPortCreateOptions(
     [CommandSwitch("--port")]
     public int? Port { get; set; }
 }
-

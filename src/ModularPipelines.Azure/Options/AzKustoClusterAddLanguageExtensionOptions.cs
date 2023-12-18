@@ -27,4 +27,3 @@ public record AzKustoClusterAddLanguageExtensionOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

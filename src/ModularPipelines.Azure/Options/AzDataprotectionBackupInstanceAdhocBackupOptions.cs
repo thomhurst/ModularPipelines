@@ -31,4 +31,3 @@ public record AzDataprotectionBackupInstanceAdhocBackupOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

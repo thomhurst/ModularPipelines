@@ -12,4 +12,3 @@ public record AzSecurityAllowed_connectionsListOptions(
 ) : AzOptions
 {
 }
-

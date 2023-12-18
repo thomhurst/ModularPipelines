@@ -32,4 +32,3 @@ public class AzWebappCors
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappCorsShowOptions(), token);
     }
 }
-

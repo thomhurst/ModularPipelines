@@ -20,4 +20,3 @@ public record AzNotificationHubCredentialBaiduUpdateOptions(
     [CommandSwitch("--baidu-secret-key")]
     public string? BaiduSecretKey { get; set; }
 }
-

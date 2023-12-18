@@ -21,4 +21,3 @@ public record AzEventgridPartnerNamespaceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

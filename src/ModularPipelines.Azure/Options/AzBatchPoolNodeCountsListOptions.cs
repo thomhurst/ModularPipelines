@@ -20,4 +20,3 @@ public record AzBatchPoolNodeCountsListOptions : AzOptions
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

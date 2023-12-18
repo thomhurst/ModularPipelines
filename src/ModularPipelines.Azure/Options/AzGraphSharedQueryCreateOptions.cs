@@ -16,4 +16,3 @@ public record AzGraphSharedQueryCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

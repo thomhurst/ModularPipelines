@@ -18,4 +18,3 @@ public record AzSigGalleryApplicationShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

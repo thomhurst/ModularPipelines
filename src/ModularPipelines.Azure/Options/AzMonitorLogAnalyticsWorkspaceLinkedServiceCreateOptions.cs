@@ -24,4 +24,3 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
     [CommandSwitch("--write-access-resource-id")]
     public string? WriteAccessResourceId { get; set; }
 }
-

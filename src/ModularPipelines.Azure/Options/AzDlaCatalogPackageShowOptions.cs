@@ -21,4 +21,3 @@ public record AzDlaCatalogPackageShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

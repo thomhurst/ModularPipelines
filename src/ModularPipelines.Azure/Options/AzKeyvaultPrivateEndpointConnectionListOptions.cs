@@ -13,4 +13,3 @@ public record AzKeyvaultPrivateEndpointConnectionListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

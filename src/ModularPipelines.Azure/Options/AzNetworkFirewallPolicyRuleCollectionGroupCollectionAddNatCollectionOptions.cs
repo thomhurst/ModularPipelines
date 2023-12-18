@@ -60,4 +60,3 @@ public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionAddNatCollecti
     [CommandSwitch("--translated-port")]
     public string? TranslatedPort { get; set; }
 }
-

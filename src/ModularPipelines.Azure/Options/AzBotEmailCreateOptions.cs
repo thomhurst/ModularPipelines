@@ -19,4 +19,3 @@ public record AzBotEmailCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

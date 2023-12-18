@@ -26,4 +26,3 @@ public class AzTerm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

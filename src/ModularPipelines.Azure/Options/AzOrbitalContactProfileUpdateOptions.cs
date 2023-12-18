@@ -59,4 +59,3 @@ public record AzOrbitalContactProfileUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

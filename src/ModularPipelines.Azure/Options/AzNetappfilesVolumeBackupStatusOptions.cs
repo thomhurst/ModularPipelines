@@ -26,4 +26,3 @@ public record AzNetappfilesVolumeBackupStatusOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

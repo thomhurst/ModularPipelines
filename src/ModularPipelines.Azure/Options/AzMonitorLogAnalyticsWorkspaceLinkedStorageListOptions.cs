@@ -20,4 +20,3 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedStorageListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -49,4 +49,3 @@ public class AzKustoDataConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionWaitOptions(), token);
     }
 }
-

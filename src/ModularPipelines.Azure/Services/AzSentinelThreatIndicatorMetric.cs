@@ -22,4 +22,3 @@ public class AzSentinelThreatIndicatorMetric
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

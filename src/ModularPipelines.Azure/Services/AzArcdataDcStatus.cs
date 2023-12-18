@@ -22,4 +22,3 @@ public class AzArcdataDcStatus
         return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcStatusShowOptions(), token);
     }
 }
-

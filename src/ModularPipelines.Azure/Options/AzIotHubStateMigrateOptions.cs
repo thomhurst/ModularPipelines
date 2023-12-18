@@ -35,4 +35,3 @@ public record AzIotHubStateMigrateOptions : AzOptions
     [BooleanCommandSwitch("--replace")]
     public bool? Replace { get; set; }
 }
-

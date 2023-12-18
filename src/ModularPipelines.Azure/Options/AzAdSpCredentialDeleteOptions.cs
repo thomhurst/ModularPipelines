@@ -14,4 +14,3 @@ public record AzAdSpCredentialDeleteOptions(
     [BooleanCommandSwitch("--cert")]
     public bool? Cert { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzBlueprintVersionArtifact
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

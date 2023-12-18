@@ -17,4 +17,3 @@ public class AzAksUseDevSpaces
 
     public AzAksUseDevSpacesDevSpaces DevSpaces { get; }
 }
-

@@ -16,4 +16,3 @@ public record AzNetworkVnetGatewayRevokedCertCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

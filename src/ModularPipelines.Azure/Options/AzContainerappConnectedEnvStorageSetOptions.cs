@@ -27,4 +27,3 @@ public record AzContainerappConnectedEnvStorageSetOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

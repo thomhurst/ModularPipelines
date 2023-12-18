@@ -41,4 +41,3 @@ public class AzDtDataHistoryConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzAksarcNodepoolDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzMonitorMetricsAlertDimensionCreateOptions(
     [CommandSwitch("--op")]
     public string? Op { get; set; }
 }
-

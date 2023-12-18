@@ -19,4 +19,3 @@ public record AzIotCentralRoleListOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

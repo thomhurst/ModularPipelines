@@ -14,4 +14,3 @@ public record AzAcrConnectedRegistryListClientTokensOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

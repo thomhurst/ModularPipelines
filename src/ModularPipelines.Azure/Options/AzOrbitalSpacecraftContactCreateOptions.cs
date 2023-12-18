@@ -27,4 +27,3 @@ public record AzOrbitalSpacecraftContactCreateOptions(
     [CommandSwitch("--reservation-start-time")]
     public string? ReservationStartTime { get; set; }
 }
-

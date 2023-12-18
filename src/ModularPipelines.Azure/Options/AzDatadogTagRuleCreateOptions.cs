@@ -27,4 +27,3 @@ public record AzDatadogTagRuleCreateOptions(
     [BooleanCommandSwitch("--send-subscription-logs")]
     public bool? SendSubscriptionLogs { get; set; }
 }
-

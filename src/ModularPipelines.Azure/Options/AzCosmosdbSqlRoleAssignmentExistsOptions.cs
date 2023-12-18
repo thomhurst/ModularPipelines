@@ -27,4 +27,3 @@ public record AzCosmosdbSqlRoleAssignmentExistsOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

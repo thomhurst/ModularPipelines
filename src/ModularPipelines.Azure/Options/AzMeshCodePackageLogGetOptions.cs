@@ -32,4 +32,3 @@ public record AzMeshCodePackageLogGetOptions : AzOptions
     [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 }
-

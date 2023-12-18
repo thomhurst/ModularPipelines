@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 using ModularPipelines.FileSystem;
 using File = ModularPipelines.FileSystem.File;
 

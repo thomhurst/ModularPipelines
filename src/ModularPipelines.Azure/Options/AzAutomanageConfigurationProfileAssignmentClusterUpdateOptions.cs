@@ -38,4 +38,3 @@ public record AzAutomanageConfigurationProfileAssignmentClusterUpdateOptions : A
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

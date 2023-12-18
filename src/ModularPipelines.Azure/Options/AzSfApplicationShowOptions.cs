@@ -66,4 +66,3 @@ public record AzSfApplicationShowOptions(
     [CommandSwitch("--upgrade-timeout")]
     public string? UpgradeTimeout { get; set; }
 }
-

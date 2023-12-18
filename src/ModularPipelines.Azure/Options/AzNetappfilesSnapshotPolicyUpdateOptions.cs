@@ -71,4 +71,3 @@ public record AzNetappfilesSnapshotPolicyUpdateOptions : AzOptions
     [CommandSwitch("--weekly-snapshots")]
     public string? WeeklySnapshots { get; set; }
 }
-

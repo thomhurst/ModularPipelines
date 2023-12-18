@@ -48,4 +48,3 @@ public record AzNetworkApplicationGatewayHttpListenerShowOptions(
     [CommandSwitch("--waf-policy")]
     public string? WafPolicy { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzK8sExtensionExtensionTypesListVersionsByLocationOptions(
     [BooleanCommandSwitch("--show-latest")]
     public bool? ShowLatest { get; set; }
 }
-

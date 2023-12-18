@@ -37,4 +37,3 @@ public record AzApicApiDefinitionExportSpecificationOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

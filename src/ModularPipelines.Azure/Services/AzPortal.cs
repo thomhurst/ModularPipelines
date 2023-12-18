@@ -16,4 +16,3 @@ public class AzPortal
 
     public AzPortalDashboard Dashboard { get; }
 }
-

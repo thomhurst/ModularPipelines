@@ -37,4 +37,3 @@ public class AzNetworkDnsDnssecConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsDnssecConfigWaitOptions(), token);
     }
 }
-

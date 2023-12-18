@@ -60,4 +60,3 @@ public class AzMonitorLogAnalyticsWorkspaceTable
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableWaitOptions(), token);
     }
 }
-

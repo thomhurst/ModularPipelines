@@ -42,4 +42,3 @@ public class AzVmwareAuthorization
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationWaitOptions(), token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzVmwareGlobalReachConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionWaitOptions(), token);
     }
 }
-

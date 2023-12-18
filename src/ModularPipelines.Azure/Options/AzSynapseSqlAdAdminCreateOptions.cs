@@ -16,4 +16,3 @@ public record AzSynapseSqlAdAdminCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

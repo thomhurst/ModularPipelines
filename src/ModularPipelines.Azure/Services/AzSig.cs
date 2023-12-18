@@ -85,4 +85,3 @@ public class AzSig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

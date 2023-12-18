@@ -22,4 +22,3 @@ public record AzCdnWafPolicyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

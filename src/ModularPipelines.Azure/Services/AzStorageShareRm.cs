@@ -62,4 +62,3 @@ public class AzStorageShareRm
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageShareRmUpdateOptions(), token);
     }
 }
-

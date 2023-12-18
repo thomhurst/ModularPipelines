@@ -17,4 +17,3 @@ public class AzEventgridEventSubscriptionList
 
     public AzEventgridEventSubscriptionListEventgrid Eventgrid { get; }
 }
-

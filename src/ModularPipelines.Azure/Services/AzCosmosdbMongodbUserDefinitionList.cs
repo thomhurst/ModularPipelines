@@ -17,4 +17,3 @@ public class AzCosmosdbMongodbUserDefinitionList
 
     public AzCosmosdbMongodbUserDefinitionListCosmosdbPreview CosmosdbPreview { get; }
 }
-

@@ -44,4 +44,3 @@ public record AzNetworkcloudVirtualmachineConsoleWaitOptions : AzOptions
     [CommandSwitch("--virtual-machine-name")]
     public string? VirtualMachineName { get; set; }
 }
-

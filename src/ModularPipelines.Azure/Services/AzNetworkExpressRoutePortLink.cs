@@ -37,4 +37,3 @@ public class AzNetworkExpressRoutePortLink
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLinkWaitOptions(), token);
     }
 }
-

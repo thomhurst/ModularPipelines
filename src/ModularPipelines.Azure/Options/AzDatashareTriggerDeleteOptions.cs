@@ -27,4 +27,3 @@ public record AzDatashareTriggerDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzKustoDatabaseCreateKustoExtensionOptions(
     [CommandSwitch("--read-write-database")]
     public string? ReadWriteDatabase { get; set; }
 }
-

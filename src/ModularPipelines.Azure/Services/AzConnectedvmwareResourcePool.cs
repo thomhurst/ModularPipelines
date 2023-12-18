@@ -37,4 +37,3 @@ public class AzConnectedvmwareResourcePool
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareResourcePoolShowOptions(), token);
     }
 }
-

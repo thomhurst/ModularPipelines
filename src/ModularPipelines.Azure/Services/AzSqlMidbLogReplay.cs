@@ -42,4 +42,3 @@ public class AzSqlMidbLogReplay
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayWaitOptions(), token);
     }
 }
-

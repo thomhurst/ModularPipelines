@@ -80,4 +80,3 @@ public class AzBilling
 
     public AzBillingTransaction Transaction { get; }
 }
-

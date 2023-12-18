@@ -96,4 +96,3 @@ public record AzSentinelThreatIndicatorReplaceTagOptions(
     [CommandSwitch("--valid-until")]
     public string? ValidUntil { get; set; }
 }
-

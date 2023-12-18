@@ -34,4 +34,3 @@ public record AzWebappConfigBackupRestoreOptions(
     [CommandSwitch("--target-name")]
     public string? TargetName { get; set; }
 }
-

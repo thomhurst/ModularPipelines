@@ -23,4 +23,3 @@ public record AzAfdOriginGroupDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzConnectionUpdateStorageTableOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

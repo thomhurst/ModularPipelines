@@ -22,4 +22,3 @@ public record AzSqlServerOutboundFirewallRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

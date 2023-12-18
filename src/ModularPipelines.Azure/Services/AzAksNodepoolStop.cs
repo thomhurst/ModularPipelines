@@ -17,4 +17,3 @@ public class AzAksNodepoolStop
 
     public AzAksNodepoolStopAksPreview AksPreview { get; }
 }
-

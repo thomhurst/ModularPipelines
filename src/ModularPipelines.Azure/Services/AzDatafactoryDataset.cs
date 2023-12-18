@@ -42,4 +42,3 @@ public class AzDatafactoryDataset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

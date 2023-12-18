@@ -22,4 +22,3 @@ public class AzSecuritySecuritySolutions
         return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsListOptions(), token);
     }
 }
-

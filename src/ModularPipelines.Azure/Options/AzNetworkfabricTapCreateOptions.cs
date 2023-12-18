@@ -28,4 +28,3 @@ public record AzNetworkfabricTapCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

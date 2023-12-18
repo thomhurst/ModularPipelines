@@ -17,4 +17,3 @@ public record AzPpgDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

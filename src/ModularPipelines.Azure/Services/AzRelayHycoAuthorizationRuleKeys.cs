@@ -27,4 +27,3 @@ public class AzRelayHycoAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

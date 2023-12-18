@@ -17,4 +17,3 @@ public record AzKeyvaultCertificateShowDeletedOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

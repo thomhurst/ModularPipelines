@@ -19,4 +19,3 @@ public record AzKeyvaultDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

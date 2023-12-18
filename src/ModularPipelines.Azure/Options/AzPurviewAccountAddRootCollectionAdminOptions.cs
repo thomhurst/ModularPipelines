@@ -20,4 +20,3 @@ public record AzPurviewAccountAddRootCollectionAdminOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

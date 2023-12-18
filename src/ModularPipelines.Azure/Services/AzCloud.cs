@@ -51,4 +51,3 @@ public class AzCloud
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudUpdateOptions(), token);
     }
 }
-

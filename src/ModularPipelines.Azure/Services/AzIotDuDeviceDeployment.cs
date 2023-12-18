@@ -52,4 +52,3 @@ public class AzIotDuDeviceDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

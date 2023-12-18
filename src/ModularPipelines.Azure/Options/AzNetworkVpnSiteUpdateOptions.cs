@@ -71,4 +71,3 @@ public record AzNetworkVpnSiteUpdateOptions : AzOptions
     [CommandSwitch("--virtual-wan")]
     public string? VirtualWan { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzSynapseWorkspaceManagedIdentityWaitOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

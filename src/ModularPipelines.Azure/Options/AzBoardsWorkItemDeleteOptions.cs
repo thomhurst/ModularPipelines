@@ -25,4 +25,3 @@ public record AzBoardsWorkItemDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

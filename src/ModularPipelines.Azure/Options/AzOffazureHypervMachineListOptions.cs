@@ -20,4 +20,3 @@ public record AzOffazureHypervMachineListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

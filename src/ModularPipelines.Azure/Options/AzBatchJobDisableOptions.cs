@@ -34,4 +34,3 @@ public record AzBatchJobDisableOptions(
     [CommandSwitch("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 }
-

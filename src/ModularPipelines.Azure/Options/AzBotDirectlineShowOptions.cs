@@ -14,4 +14,3 @@ public record AzBotDirectlineShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

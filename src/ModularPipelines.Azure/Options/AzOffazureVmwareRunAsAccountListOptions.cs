@@ -20,4 +20,3 @@ public record AzOffazureVmwareRunAsAccountListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

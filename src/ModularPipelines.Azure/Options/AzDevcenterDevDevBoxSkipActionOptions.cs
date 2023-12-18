@@ -21,4 +21,3 @@ public record AzDevcenterDevDevBoxSkipActionOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

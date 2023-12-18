@@ -11,4 +11,3 @@ public record AzQuantumTargetShowOptions : AzOptions
     [CommandSwitch("--target-id")]
     public string? TargetId { get; set; }
 }
-

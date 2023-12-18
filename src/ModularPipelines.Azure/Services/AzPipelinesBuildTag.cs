@@ -32,4 +32,3 @@ public class AzPipelinesBuildTag
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

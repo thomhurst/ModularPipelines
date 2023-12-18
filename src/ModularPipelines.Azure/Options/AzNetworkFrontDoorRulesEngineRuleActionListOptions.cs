@@ -16,4 +16,3 @@ public record AzNetworkFrontDoorRulesEngineRuleActionListOptions(
     [CommandSwitch("--index")]
     public string? Index { get; set; }
 }
-

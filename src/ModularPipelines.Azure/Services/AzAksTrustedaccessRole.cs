@@ -22,4 +22,3 @@ public class AzAksTrustedaccessRole
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

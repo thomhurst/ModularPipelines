@@ -22,4 +22,3 @@ public class AzKustoDatabaseCreateKusto
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

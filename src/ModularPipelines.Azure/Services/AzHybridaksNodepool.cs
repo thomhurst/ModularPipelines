@@ -42,4 +42,3 @@ public class AzHybridaksNodepool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

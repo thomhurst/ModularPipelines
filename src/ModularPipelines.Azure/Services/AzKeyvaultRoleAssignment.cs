@@ -32,4 +32,3 @@ public class AzKeyvaultRoleAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleAssignmentListOptions(), token);
     }
 }
-

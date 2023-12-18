@@ -26,4 +26,3 @@ public record AzGrafanaDashboardCreateOptions(
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

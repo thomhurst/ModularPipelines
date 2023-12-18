@@ -56,4 +56,3 @@ public record AzNetworkFrontDoorCheckNameAvailabilityOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

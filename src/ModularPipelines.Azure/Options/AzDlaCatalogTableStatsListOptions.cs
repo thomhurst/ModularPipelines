@@ -25,4 +25,3 @@ public record AzDlaCatalogTableStatsListOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzAutomationRunbookDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

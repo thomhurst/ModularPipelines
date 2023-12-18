@@ -47,4 +47,3 @@ public class AzNetworkfabricInternetgatewayrule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleWaitOptions(), token);
     }
 }
-

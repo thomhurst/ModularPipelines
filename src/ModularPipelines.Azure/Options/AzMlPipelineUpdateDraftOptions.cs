@@ -40,4 +40,3 @@ public record AzMlPipelineUpdateDraftOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

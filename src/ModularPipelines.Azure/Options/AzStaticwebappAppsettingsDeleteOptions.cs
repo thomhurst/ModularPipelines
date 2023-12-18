@@ -17,4 +17,3 @@ public record AzStaticwebappAppsettingsDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzNetworkVhubBgpconnectionCreateOptions(
     [CommandSwitch("--vhub-conn")]
     public string? VhubConn { get; set; }
 }
-

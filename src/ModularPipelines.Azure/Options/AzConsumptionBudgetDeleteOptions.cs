@@ -13,4 +13,3 @@ public record AzConsumptionBudgetDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzHybridaksNoticeOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

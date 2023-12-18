@@ -26,4 +26,3 @@ public record AzPostgresServerRestoreOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

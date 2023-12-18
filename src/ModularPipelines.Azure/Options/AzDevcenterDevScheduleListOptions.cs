@@ -19,4 +19,3 @@ public record AzDevcenterDevScheduleListOptions(
     [CommandSwitch("--pool")]
     public string? Pool { get; set; }
 }
-

@@ -41,4 +41,3 @@ public class AzDevopsWiki
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

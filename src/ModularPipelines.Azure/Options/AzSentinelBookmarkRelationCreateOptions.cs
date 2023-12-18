@@ -19,4 +19,3 @@ public record AzSentinelBookmarkRelationCreateOptions(
     [CommandSwitch("--related-resource-id")]
     public string? RelatedResourceId { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzStorageMoverJobDefinitionStopJobOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

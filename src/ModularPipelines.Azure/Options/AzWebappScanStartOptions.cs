@@ -28,4 +28,3 @@ public record AzWebappScanStartOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -47,4 +47,3 @@ public record AzMobileNetworkSimGroupUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

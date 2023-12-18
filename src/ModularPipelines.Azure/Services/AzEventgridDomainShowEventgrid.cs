@@ -22,4 +22,3 @@ public class AzEventgridDomainShowEventgrid
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainShowEventgridExtensionOptions(), token);
     }
 }
-

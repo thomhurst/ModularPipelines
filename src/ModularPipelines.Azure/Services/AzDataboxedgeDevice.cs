@@ -67,4 +67,3 @@ public class AzDataboxedgeDevice
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceWaitOptions(), token);
     }
 }
-

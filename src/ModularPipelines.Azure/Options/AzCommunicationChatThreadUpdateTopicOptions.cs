@@ -17,4 +17,3 @@ public record AzCommunicationChatThreadUpdateTopicOptions(
     [CommandSwitch("--endpoint")]
     public string? Endpoint { get; set; }
 }
-

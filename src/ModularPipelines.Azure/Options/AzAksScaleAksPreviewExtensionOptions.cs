@@ -21,4 +21,3 @@ public record AzAksScaleAksPreviewExtensionOptions(
     [CommandSwitch("--nodepool-name")]
     public string? NodepoolName { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzContainerappRegistryRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

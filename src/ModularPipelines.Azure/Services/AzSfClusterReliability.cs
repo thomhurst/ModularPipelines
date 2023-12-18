@@ -22,4 +22,3 @@ public class AzSfClusterReliability
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

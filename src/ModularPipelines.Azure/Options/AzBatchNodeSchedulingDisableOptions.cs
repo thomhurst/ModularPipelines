@@ -23,4 +23,3 @@ public record AzBatchNodeSchedulingDisableOptions(
     [CommandSwitch("--node-disable-scheduling-option")]
     public string? NodeDisableSchedulingOption { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzConnectionCreateSqlOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzDlaJobWaitOptions(
     [CommandSwitch("--wait-interval-sec")]
     public string? WaitIntervalSec { get; set; }
 }
-

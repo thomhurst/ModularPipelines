@@ -22,4 +22,3 @@ public class AzMeshGenerate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

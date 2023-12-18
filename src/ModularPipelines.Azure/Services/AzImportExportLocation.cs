@@ -27,4 +27,3 @@ public class AzImportExportLocation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

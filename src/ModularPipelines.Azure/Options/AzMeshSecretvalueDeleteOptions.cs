@@ -26,4 +26,3 @@ public record AzMeshSecretvalueDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

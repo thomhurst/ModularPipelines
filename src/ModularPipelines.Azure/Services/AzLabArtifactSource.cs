@@ -27,4 +27,3 @@ public class AzLabArtifactSource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

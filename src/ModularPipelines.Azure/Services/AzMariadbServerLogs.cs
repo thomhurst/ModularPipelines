@@ -27,4 +27,3 @@ public class AzMariadbServerLogs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

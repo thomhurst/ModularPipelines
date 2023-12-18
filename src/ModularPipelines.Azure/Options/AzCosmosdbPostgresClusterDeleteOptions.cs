@@ -26,4 +26,3 @@ public record AzCosmosdbPostgresClusterDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -40,4 +40,3 @@ public record AzDataprotectionBackupInstanceInitializeRestoreconfigOptions(
     [CommandSwitch("--restore-hook-references")]
     public string? RestoreHookReferences { get; set; }
 }
-

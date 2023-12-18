@@ -32,4 +32,3 @@ public class AzBackupItem
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemShowOptions(), token);
     }
 }
-

@@ -59,4 +59,3 @@ public class AzMonitorPrivateLinkScope
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeWaitOptions(), token);
     }
 }
-

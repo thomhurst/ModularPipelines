@@ -49,4 +49,3 @@ public record AzSqlDbLtrBackupShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

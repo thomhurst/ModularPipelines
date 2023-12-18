@@ -17,4 +17,3 @@ public record AzMlComputeListSizesOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

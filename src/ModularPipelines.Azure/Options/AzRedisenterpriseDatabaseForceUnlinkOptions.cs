@@ -25,4 +25,3 @@ public record AzRedisenterpriseDatabaseForceUnlinkOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

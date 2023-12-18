@@ -82,4 +82,3 @@ public class AzAksarc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

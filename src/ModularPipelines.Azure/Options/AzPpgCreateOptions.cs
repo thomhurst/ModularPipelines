@@ -26,4 +26,3 @@ public record AzPpgCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzFunctionappConfigContainerDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

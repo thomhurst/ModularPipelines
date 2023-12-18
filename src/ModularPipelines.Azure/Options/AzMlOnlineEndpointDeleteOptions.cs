@@ -21,4 +21,3 @@ public record AzMlOnlineEndpointDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

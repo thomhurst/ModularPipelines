@@ -20,4 +20,3 @@ public record AzNetworkFunctionTrafficCollectorCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

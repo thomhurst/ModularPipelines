@@ -17,4 +17,3 @@ public record AzContainerappEnvDaprComponentInitOptions(
     [CommandSwitch("--statestore")]
     public string? Statestore { get; set; }
 }
-

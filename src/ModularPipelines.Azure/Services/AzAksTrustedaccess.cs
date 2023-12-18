@@ -21,4 +21,3 @@ public class AzAksTrustedaccess
 
     public AzAksTrustedaccessRolebinding Rolebinding { get; }
 }
-

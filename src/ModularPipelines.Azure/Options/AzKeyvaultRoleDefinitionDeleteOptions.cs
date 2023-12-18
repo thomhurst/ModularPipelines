@@ -16,4 +16,3 @@ public record AzKeyvaultRoleDefinitionDeleteOptions(
     [CommandSwitch("--role-id")]
     public string? RoleId { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzBillingBenefitsSavingsPlanOrderSavingsPlanUpdateOptions(
     [CommandSwitch("--renew-properties")]
     public string? RenewProperties { get; set; }
 }
-

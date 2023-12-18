@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Enums;
+namespace ModularPipelines.Enums;
 
 public enum WaitResult
 {

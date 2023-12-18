@@ -14,4 +14,3 @@ public record AzLogzMonitorListResourceOptions(
     [CommandSwitch("--email-address")]
     public string? EmailAddress { get; set; }
 }
-

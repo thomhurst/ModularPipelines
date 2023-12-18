@@ -18,4 +18,3 @@ public record AzServicebusNamespacePrivateEndpointConnectionApproveOptions(
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 }
-

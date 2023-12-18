@@ -59,4 +59,3 @@ public record AzMysqlServerCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

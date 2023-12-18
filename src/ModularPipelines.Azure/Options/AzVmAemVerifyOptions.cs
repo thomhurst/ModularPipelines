@@ -26,4 +26,3 @@ public record AzVmAemVerifyOptions : AzOptions
     [CommandSwitch("--wait-time-in-minutes")]
     public string? WaitTimeInMinutes { get; set; }
 }
-

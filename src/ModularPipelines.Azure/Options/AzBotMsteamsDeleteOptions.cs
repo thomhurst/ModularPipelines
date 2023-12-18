@@ -14,4 +14,3 @@ public record AzBotMsteamsDeleteOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

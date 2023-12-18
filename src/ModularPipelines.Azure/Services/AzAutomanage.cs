@@ -28,4 +28,3 @@ public class AzAutomanage
 
     public AzAutomanageServicePrincipal ServicePrincipal { get; }
 }
-

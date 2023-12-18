@@ -22,4 +22,3 @@ public record AzMapsAccountShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

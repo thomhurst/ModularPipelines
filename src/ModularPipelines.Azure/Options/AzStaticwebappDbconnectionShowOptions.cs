@@ -17,4 +17,3 @@ public record AzStaticwebappDbconnectionShowOptions(
     [CommandSwitch("--environment")]
     public string? Environment { get; set; }
 }
-

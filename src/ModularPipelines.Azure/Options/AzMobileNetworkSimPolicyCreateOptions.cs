@@ -30,4 +30,3 @@ public record AzMobileNetworkSimPolicyCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

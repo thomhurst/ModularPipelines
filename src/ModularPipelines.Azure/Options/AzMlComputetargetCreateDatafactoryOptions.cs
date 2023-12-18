@@ -31,4 +31,3 @@ public record AzMlComputetargetCreateDatafactoryOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

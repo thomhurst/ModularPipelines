@@ -27,4 +27,3 @@ public class AzVmwareScriptCmdlet
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptCmdletShowOptions(), token);
     }
 }
-

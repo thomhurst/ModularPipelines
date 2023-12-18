@@ -27,4 +27,3 @@ public record AzBatchTaskFileDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

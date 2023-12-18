@@ -30,4 +30,3 @@ public record AzDatabricksWorkspaceVnetPeeringCreateOptions(
     [BooleanCommandSwitch("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 }
-

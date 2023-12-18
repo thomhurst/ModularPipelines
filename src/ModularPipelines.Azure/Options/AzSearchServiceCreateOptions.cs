@@ -51,4 +51,3 @@ public record AzSearchServiceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

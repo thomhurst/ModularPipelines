@@ -20,4 +20,3 @@ public record AzHanainstanceShutdownOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

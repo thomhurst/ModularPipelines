@@ -22,4 +22,3 @@ public record AzRoleDefinitionListOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

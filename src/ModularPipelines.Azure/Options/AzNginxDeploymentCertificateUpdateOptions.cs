@@ -56,4 +56,3 @@ public record AzNginxDeploymentCertificateUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

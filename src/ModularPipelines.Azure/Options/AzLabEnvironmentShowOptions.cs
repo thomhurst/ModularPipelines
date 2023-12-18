@@ -15,4 +15,3 @@ public record AzLabEnvironmentShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzCosmosdbMongodbCollectionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

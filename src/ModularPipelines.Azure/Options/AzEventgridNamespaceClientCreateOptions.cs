@@ -33,4 +33,3 @@ public record AzEventgridNamespaceClientCreateOptions(
     [CommandSwitch("--state")]
     public string? State { get; set; }
 }
-

@@ -46,4 +46,3 @@ public class AzCommunicationChatMessage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

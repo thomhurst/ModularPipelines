@@ -37,4 +37,3 @@ public class AzAppconfigReplica
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

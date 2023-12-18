@@ -22,4 +22,3 @@ public record AzIotHubRouteShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

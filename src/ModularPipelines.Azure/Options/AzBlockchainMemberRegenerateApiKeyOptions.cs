@@ -14,4 +14,3 @@ public record AzBlockchainMemberRegenerateApiKeyOptions(
     [CommandSwitch("--key-name")]
     public string? KeyName { get; set; }
 }
-

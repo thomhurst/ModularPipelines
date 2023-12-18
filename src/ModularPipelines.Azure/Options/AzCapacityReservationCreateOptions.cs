@@ -28,4 +28,3 @@ public record AzCapacityReservationCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzStackHciExtensionCreateOptions(
     [CommandSwitch("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 }
-

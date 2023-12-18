@@ -17,4 +17,3 @@ public class AzCosmosdbSqlContainerUpdate
 
     public AzCosmosdbSqlContainerUpdateCosmosdbPreview CosmosdbPreview { get; }
 }
-

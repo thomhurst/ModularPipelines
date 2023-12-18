@@ -22,4 +22,3 @@ public class AzCliTranslatorArm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

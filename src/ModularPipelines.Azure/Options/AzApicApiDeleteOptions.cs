@@ -26,4 +26,3 @@ public record AzApicApiDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

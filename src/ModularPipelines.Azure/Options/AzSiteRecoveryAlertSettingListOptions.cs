@@ -17,4 +17,3 @@ public record AzSiteRecoveryAlertSettingListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

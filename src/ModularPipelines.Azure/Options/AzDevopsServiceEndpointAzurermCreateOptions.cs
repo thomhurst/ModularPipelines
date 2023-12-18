@@ -26,4 +26,3 @@ public record AzDevopsServiceEndpointAzurermCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

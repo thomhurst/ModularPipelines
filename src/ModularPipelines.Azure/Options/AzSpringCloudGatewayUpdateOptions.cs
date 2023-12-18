@@ -74,4 +74,3 @@ public record AzSpringCloudGatewayUpdateOptions(
     [CommandSwitch("--server-url")]
     public string? ServerUrl { get; set; }
 }
-

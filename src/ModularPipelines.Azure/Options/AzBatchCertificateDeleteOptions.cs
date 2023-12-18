@@ -25,4 +25,3 @@ public record AzBatchCertificateDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

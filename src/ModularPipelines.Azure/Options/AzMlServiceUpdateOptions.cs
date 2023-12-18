@@ -190,4 +190,3 @@ public record AzMlServiceUpdateOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzPipelinesBuildCancelOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

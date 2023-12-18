@@ -46,4 +46,3 @@ public class AzAcrToken
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

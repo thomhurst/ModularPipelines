@@ -56,4 +56,3 @@ public record AzHdinsightOnAksClusterpoolUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

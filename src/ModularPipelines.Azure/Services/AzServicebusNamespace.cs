@@ -76,4 +76,3 @@ public class AzServicebusNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceWaitOptions(), token);
     }
 }
-

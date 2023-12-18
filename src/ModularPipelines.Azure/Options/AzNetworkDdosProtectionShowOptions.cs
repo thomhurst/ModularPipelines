@@ -20,4 +20,3 @@ public record AzNetworkDdosProtectionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

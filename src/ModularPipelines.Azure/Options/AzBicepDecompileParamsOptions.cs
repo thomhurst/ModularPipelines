@@ -22,4 +22,3 @@ public record AzBicepDecompileParamsOptions(
     [CommandSwitch("--stdout")]
     public string? Stdout { get; set; }
 }
-

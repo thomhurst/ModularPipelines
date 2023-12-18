@@ -27,4 +27,3 @@ public class AzMonitorLogAnalyticsWorkspaceTableSearchJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzSynapseSparkSession
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

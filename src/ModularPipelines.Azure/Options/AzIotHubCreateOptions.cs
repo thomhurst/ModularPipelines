@@ -101,4 +101,3 @@ public record AzIotHubCreateOptions(
     [CommandSwitch("--unit")]
     public string? Unit { get; set; }
 }
-

@@ -50,4 +50,3 @@ public record AzAfdRouteCreateOptions(
     [CommandSwitch("--rule-sets")]
     public string? RuleSets { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzSfManagedNodeTypeVmSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzAkshybridNodepool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

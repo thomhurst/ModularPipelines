@@ -42,4 +42,3 @@ public class AzReposRef
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

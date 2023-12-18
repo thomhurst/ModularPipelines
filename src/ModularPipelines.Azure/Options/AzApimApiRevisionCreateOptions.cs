@@ -16,4 +16,3 @@ public record AzApimApiRevisionCreateOptions(
     [CommandSwitch("--api-revision-description")]
     public string? ApiRevisionDescription { get; set; }
 }
-

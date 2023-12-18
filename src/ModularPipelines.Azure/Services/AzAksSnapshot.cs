@@ -58,4 +58,3 @@ public class AzAksSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

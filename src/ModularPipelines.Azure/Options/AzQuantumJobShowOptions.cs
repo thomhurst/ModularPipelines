@@ -49,4 +49,3 @@ public record AzQuantumJobShowOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ProgramArgs { get; set; }
 }
-

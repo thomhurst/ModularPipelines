@@ -52,4 +52,3 @@ public class AzVmwareCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareClusterWaitOptions(), token);
     }
 }
-

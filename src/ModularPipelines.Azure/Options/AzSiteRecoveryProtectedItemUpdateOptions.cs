@@ -53,4 +53,3 @@ public record AzSiteRecoveryProtectedItemUpdateOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

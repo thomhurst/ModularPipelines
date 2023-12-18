@@ -29,4 +29,3 @@ public record AzNetappfilesSubvolumeShowOptions : AzOptions
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

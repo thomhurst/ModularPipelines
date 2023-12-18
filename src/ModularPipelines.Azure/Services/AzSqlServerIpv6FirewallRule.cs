@@ -42,4 +42,3 @@ public class AzSqlServerIpv6FirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleUpdateOptions(), token);
     }
 }
-

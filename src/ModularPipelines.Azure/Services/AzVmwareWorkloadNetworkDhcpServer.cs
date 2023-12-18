@@ -32,4 +32,3 @@ public class AzVmwareWorkloadNetworkDhcpServer
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpServerUpdateOptions(), token);
     }
 }
-

@@ -21,4 +21,3 @@ public record AzMysqlServerKeyCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

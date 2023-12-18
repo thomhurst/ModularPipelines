@@ -26,4 +26,3 @@ public record AzNetappfilesVolumeShowNetappfilesPreviewExtensionOptions : AzOpti
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

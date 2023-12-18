@@ -28,4 +28,3 @@ public class AzTsi
 
     public AzTsiReferenceDataSet ReferenceDataSet { get; }
 }
-

@@ -42,4 +42,3 @@ public class AzSentinelAnalyticsSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAnalyticsSettingUpdateOptions(), token);
     }
 }
-

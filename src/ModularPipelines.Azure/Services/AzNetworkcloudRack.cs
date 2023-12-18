@@ -37,4 +37,3 @@ public class AzNetworkcloudRack
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackWaitOptions(), token);
     }
 }
-

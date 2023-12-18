@@ -44,4 +44,3 @@ public record AzNetworkRouteserverPeeringUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

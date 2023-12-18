@@ -54,4 +54,3 @@ public record AzSentinelIncidentCreateOptions(
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

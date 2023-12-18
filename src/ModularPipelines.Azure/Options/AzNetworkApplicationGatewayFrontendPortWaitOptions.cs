@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayFrontendPortWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

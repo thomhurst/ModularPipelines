@@ -32,4 +32,3 @@ public class AzQuantumOfferings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

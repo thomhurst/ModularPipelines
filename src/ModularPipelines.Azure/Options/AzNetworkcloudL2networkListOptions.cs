@@ -17,4 +17,3 @@ public record AzNetworkcloudL2networkListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzPostgresFlexibleServerDeploySetupOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

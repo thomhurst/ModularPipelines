@@ -37,4 +37,3 @@ public record AzSqlVmGroupAgListenerUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

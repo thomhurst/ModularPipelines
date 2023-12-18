@@ -38,4 +38,3 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

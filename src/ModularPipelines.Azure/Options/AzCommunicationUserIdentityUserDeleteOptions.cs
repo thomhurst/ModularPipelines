@@ -16,4 +16,3 @@ public record AzCommunicationUserIdentityUserDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

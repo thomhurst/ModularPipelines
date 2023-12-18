@@ -32,4 +32,3 @@ public class AzIotDpsEnrollmentGroupRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

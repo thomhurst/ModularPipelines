@@ -46,4 +46,3 @@ public class AzNetworkCrossRegionLbAddressPool
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolUpdateOptions(), token);
     }
 }
-

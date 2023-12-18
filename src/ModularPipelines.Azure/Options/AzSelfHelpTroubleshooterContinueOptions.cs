@@ -17,4 +17,3 @@ public record AzSelfHelpTroubleshooterContinueOptions(
     [CommandSwitch("--step-id")]
     public string? StepId { get; set; }
 }
-

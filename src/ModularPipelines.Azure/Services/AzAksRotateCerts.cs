@@ -17,4 +17,3 @@ public class AzAksRotateCerts
 
     public AzAksRotateCertsAksPreview AksPreview { get; }
 }
-

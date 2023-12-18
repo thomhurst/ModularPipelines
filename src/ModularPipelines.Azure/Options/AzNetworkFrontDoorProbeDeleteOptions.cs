@@ -27,4 +27,3 @@ public record AzNetworkFrontDoorProbeDeleteOptions(
     [CommandSwitch("--protocol")]
     public string? Protocol { get; set; }
 }
-

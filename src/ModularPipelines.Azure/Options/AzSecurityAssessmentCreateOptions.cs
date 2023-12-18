@@ -23,4 +23,3 @@ public record AzSecurityAssessmentCreateOptions(
     [CommandSwitch("--status-description")]
     public string? StatusDescription { get; set; }
 }
-

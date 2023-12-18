@@ -23,4 +23,3 @@ public record AzBatchNodeShowOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

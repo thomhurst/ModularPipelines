@@ -21,4 +21,3 @@ public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

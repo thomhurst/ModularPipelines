@@ -32,4 +32,3 @@ public class AzDiskEncryptionSetIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityShowOptions(), token);
     }
 }
-

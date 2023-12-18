@@ -25,4 +25,3 @@ public record AzVmUserDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

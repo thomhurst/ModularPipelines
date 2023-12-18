@@ -27,4 +27,3 @@ public class AzSecurityAllowed_connections
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

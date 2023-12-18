@@ -51,4 +51,3 @@ public record AzSupportTicketsCreateOptions(
     [CommandSwitch("--technical-resource")]
     public string? TechnicalResource { get; set; }
 }
-

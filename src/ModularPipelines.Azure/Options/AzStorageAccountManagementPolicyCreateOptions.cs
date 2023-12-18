@@ -24,4 +24,3 @@ public record AzStorageAccountManagementPolicyCreateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

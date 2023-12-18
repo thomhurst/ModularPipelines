@@ -22,4 +22,3 @@ public record AzMonitorAppInsightsComponentContinuesExportShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

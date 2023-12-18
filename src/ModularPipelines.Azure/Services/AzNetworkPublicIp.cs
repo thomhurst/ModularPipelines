@@ -51,4 +51,3 @@ public class AzNetworkPublicIp
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpWaitOptions(), token);
     }
 }
-

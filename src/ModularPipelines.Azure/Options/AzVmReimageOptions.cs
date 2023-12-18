@@ -37,4 +37,3 @@ public record AzVmReimageOptions(
     [BooleanCommandSwitch("--temp-disk")]
     public bool? TempDisk { get; set; }
 }
-

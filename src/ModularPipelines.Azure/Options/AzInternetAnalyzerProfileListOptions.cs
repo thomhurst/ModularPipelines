@@ -19,4 +19,3 @@ public record AzInternetAnalyzerProfileListOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

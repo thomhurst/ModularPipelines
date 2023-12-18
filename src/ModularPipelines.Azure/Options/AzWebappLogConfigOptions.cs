@@ -41,4 +41,3 @@ public record AzWebappLogConfigOptions : AzOptions
     [CommandSwitch("--web-server-logging")]
     public string? WebServerLogging { get; set; }
 }
-

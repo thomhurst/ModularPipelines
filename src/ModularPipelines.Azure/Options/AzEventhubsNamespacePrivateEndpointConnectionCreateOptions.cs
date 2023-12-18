@@ -21,4 +21,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

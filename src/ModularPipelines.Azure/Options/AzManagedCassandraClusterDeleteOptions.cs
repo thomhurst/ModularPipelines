@@ -17,4 +17,3 @@ public record AzManagedCassandraClusterDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

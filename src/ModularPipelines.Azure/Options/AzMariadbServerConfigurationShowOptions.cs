@@ -23,4 +23,3 @@ public record AzMariadbServerConfigurationShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

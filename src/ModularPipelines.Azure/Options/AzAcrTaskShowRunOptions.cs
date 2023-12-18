@@ -14,4 +14,3 @@ public record AzAcrTaskShowRunOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

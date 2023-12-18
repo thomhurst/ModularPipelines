@@ -14,4 +14,3 @@ public record AzDtNetworkPrivateLinkShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

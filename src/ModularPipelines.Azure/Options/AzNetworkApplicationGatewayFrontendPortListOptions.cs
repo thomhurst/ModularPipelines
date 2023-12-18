@@ -29,4 +29,3 @@ public record AzNetworkApplicationGatewayFrontendPortListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

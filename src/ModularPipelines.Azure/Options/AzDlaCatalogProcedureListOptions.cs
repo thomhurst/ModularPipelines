@@ -38,4 +38,3 @@ public record AzDlaCatalogProcedureListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -75,4 +75,3 @@ public record AzAksNodepoolUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--update-cluster-autoscaler")]
     public bool? UpdateClusterAutoscaler { get; set; }
 }
-

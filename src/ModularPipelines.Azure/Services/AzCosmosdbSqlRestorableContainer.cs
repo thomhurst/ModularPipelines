@@ -26,4 +26,3 @@ public class AzCosmosdbSqlRestorableContainer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

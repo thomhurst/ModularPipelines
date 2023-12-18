@@ -25,4 +25,3 @@ public record AzVmResizeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

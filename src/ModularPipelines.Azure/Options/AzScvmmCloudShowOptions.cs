@@ -20,4 +20,3 @@ public record AzScvmmCloudShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -59,4 +59,3 @@ public record AzWebappUpdateOptions : AzOptions
     [BooleanCommandSwitch("--ttl-in-seconds")]
     public bool? TtlInSeconds { get; set; }
 }
-

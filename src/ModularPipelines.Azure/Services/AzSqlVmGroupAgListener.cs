@@ -42,4 +42,3 @@ public class AzSqlVmGroupAgListener
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

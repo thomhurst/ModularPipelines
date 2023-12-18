@@ -17,4 +17,3 @@ public record AzAcrTaskShowOptions(
     [BooleanCommandSwitch("--with-secure-properties")]
     public bool? WithSecureProperties { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

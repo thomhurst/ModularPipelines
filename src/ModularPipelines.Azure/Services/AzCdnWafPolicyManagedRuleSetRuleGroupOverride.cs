@@ -42,4 +42,3 @@ public class AzCdnWafPolicyManagedRuleSetRuleGroupOverride
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

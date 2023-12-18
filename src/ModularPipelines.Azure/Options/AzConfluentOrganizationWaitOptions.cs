@@ -41,4 +41,3 @@ public record AzConfluentOrganizationWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzServicebusNamespaceIdentityRemoveOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

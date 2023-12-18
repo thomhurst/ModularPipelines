@@ -38,4 +38,3 @@ public record AzIotHubGenerateSasTokenOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

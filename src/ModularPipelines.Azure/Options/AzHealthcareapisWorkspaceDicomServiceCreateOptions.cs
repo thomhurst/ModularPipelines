@@ -33,4 +33,3 @@ public record AzHealthcareapisWorkspaceDicomServiceCreateOptions(
     [CommandSwitch("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzHpcCacheBlobStorageTargetUpdateOptions(
     [CommandSwitch("--virtual-namespace-path")]
     public string? VirtualNamespacePath { get; set; }
 }
-

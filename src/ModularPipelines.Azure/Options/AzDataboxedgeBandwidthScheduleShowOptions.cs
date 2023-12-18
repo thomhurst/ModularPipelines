@@ -28,4 +28,3 @@ public record AzDataboxedgeBandwidthScheduleShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

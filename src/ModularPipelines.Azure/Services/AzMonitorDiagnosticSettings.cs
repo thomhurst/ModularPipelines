@@ -50,4 +50,3 @@ public class AzMonitorDiagnosticSettings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

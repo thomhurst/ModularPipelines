@@ -46,4 +46,3 @@ public class AzEventhubsNamespaceApplicationGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceApplicationGroupUpdateOptions(), token);
     }
 }
-

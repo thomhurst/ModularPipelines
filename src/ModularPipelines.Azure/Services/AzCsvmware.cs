@@ -32,4 +32,3 @@ public class AzCsvmware
 
     public AzCsvmwareVmTemplate VmTemplate { get; }
 }
-

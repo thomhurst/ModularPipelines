@@ -20,4 +20,3 @@ public record AzFluidRelayServerListKeyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzBotDeleteOptions(
     [CommandSwitch("--save-path")]
     public string? SavePath { get; set; }
 }
-

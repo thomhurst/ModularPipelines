@@ -22,4 +22,3 @@ public record AzDlaAccountBlobStorageShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

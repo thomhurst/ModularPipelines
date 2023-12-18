@@ -14,4 +14,3 @@ public record AzWebappWebjobContinuousListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

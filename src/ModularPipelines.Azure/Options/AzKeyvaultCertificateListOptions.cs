@@ -22,4 +22,3 @@ public record AzKeyvaultCertificateListOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

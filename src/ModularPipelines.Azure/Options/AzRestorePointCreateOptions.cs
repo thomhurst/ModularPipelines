@@ -42,4 +42,3 @@ public record AzRestorePointCreateOptions(
     [CommandSwitch("--source-restore-point")]
     public string? SourceRestorePoint { get; set; }
 }
-

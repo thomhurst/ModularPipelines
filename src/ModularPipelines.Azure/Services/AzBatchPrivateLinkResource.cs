@@ -27,4 +27,3 @@ public class AzBatchPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

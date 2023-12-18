@@ -25,4 +25,3 @@ public record AzDlsAccountTrustedProviderUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzDevcenterDevDevBoxRepairOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

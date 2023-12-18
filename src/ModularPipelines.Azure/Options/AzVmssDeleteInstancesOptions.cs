@@ -15,4 +15,3 @@ public record AzVmssDeleteInstancesOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

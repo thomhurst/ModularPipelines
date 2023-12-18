@@ -22,4 +22,3 @@ public record AzApimApiSchemaDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

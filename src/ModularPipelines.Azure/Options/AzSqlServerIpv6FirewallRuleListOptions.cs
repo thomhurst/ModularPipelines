@@ -20,4 +20,3 @@ public record AzSqlServerIpv6FirewallRuleListOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzKustoDatabaseShow
 
     public AzKustoDatabaseShowKusto Kusto { get; }
 }
-

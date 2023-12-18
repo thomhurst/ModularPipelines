@@ -42,4 +42,3 @@ public class AzSecurityIotSolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

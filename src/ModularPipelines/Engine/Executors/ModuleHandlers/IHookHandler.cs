@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 

@@ -26,4 +26,3 @@ public record AzScvmmVmmserverUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

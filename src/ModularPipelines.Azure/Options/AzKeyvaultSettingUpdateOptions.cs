@@ -20,4 +20,3 @@ public record AzKeyvaultSettingUpdateOptions(
     [CommandSwitch("--setting-type")]
     public string? SettingType { get; set; }
 }
-

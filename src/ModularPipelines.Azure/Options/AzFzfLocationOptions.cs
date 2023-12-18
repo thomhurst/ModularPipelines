@@ -14,4 +14,3 @@ public record AzFzfLocationOptions : AzOptions
     [BooleanCommandSwitch("--no-default")]
     public bool? NoDefault { get; set; }
 }
-

@@ -52,4 +52,3 @@ public class AzBackup
 
     public AzBackupVault Vault { get; }
 }
-

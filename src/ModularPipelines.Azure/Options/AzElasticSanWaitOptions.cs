@@ -41,4 +41,3 @@ public record AzElasticSanWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

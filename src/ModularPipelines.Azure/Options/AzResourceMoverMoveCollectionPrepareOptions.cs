@@ -32,4 +32,3 @@ public record AzResourceMoverMoveCollectionPrepareOptions : AzOptions
     [BooleanCommandSwitch("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }
-

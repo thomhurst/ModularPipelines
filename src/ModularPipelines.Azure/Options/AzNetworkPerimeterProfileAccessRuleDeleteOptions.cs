@@ -24,4 +24,3 @@ public record AzNetworkPerimeterProfileAccessRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

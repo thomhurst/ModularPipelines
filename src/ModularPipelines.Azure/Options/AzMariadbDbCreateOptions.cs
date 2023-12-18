@@ -18,4 +18,3 @@ public record AzMariadbDbCreateOptions(
     [CommandSwitch("--collation")]
     public string? Collation { get; set; }
 }
-

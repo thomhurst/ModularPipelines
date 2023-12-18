@@ -44,4 +44,3 @@ public record AzAmlfsCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

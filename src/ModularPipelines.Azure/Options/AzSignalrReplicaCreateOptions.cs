@@ -22,4 +22,3 @@ public record AzSignalrReplicaCreateOptions(
     [CommandSwitch("--unit-count")]
     public int? UnitCount { get; set; }
 }
-

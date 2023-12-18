@@ -25,4 +25,3 @@ public record AzAdSpListOptions(
     [CommandSwitch("--spn")]
     public string? Spn { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzMlJobStreamOptions(
     [BooleanCommandSwitch("--web")]
     public bool? Web { get; set; }
 }
-

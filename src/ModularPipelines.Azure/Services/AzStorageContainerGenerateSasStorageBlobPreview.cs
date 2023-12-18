@@ -22,4 +22,3 @@ public class AzStorageContainerGenerateSasStorageBlobPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

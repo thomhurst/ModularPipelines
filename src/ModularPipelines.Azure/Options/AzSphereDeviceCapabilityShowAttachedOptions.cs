@@ -13,4 +13,3 @@ public record AzSphereDeviceCapabilityShowAttachedOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

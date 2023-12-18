@@ -62,4 +62,3 @@ public record AzAmsAssetFilterUpdateOptions : AzOptions
     [CommandSwitch("--tracks")]
     public string? Tracks { get; set; }
 }
-

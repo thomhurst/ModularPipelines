@@ -44,4 +44,3 @@ public record AzIotHubMessageEndpointUpdateCosmosdbContainerOptions(
     [CommandSwitch("--secondary-key")]
     public string? SecondaryKey { get; set; }
 }
-

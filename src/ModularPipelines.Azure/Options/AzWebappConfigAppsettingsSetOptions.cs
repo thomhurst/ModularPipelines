@@ -29,4 +29,3 @@ public record AzWebappConfigAppsettingsSetOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

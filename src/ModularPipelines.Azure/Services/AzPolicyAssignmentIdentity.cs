@@ -32,4 +32,3 @@ public class AzPolicyAssignmentIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

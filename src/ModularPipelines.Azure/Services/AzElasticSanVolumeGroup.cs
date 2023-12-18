@@ -47,4 +47,3 @@ public class AzElasticSanVolumeGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeGroupWaitOptions(), token);
     }
 }
-

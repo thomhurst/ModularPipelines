@@ -22,4 +22,3 @@ public class AzSphereImagePackage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzAfdEndpointShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

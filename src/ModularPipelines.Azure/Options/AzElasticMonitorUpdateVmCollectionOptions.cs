@@ -26,4 +26,3 @@ public record AzElasticMonitorUpdateVmCollectionOptions : AzOptions
     [CommandSwitch("--vm-resource-id")]
     public string? VmResourceId { get; set; }
 }
-

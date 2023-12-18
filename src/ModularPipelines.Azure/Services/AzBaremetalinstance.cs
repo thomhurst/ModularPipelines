@@ -51,4 +51,3 @@ public class AzBaremetalinstance
         return await _command.ExecuteCommandLineTool(options ?? new AzBaremetalinstanceUpdateOptions(), token);
     }
 }
-

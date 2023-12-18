@@ -22,4 +22,3 @@ public class AzIotCentralDeviceTelemetry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

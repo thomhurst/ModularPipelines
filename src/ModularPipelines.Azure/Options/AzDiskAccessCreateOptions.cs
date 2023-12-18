@@ -20,4 +20,3 @@ public record AzDiskAccessCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

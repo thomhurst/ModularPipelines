@@ -42,4 +42,3 @@ public class AzNetworkVwan
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVwanUpdateOptions(), token);
     }
 }
-

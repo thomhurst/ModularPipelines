@@ -26,4 +26,3 @@ public record AzDatafactoryTriggerSubscribeToEventOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

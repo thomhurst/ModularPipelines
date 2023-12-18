@@ -27,4 +27,3 @@ public class AzDataprotectionBackupPolicyTrigger
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzStorageContainerLegalHoldSetOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

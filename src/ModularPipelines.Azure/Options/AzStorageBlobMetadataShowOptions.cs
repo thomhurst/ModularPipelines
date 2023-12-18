@@ -59,4 +59,3 @@ public record AzStorageBlobMetadataShowOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

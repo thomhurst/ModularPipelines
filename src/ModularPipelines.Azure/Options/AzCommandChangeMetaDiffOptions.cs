@@ -20,4 +20,3 @@ public record AzCommandChangeMetaDiffOptions(
     [CommandSwitch("--output-type")]
     public string? OutputType { get; set; }
 }
-

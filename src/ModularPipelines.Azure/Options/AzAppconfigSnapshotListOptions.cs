@@ -34,4 +34,3 @@ public record AzAppconfigSnapshotListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

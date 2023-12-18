@@ -41,4 +41,3 @@ public record AzStorageContainerPolicyCreateOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

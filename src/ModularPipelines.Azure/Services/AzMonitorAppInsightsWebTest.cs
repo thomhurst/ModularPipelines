@@ -42,4 +42,3 @@ public class AzMonitorAppInsightsWebTest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzDesktopvirtualizationWorkspaceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

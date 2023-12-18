@@ -38,4 +38,3 @@ public record AzMlModelUpdateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

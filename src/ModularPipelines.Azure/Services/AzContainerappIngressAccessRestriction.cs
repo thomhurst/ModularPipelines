@@ -32,4 +32,3 @@ public class AzContainerappIngressAccessRestriction
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

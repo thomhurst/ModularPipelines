@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;

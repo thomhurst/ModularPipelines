@@ -26,4 +26,3 @@ public record AzNetworkFirewallPolicyRuleCollectionGroupDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

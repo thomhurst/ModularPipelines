@@ -20,4 +20,3 @@ public record AzNetworkExpressRouteAuthListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzCloudServiceDeleteInstanceOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

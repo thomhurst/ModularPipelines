@@ -60,4 +60,3 @@ public record AzStackSubCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

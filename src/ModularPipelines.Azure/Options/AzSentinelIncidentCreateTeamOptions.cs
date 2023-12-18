@@ -22,4 +22,3 @@ public record AzSentinelIncidentCreateTeamOptions(
     [CommandSwitch("--team-description")]
     public string? TeamDescription { get; set; }
 }
-

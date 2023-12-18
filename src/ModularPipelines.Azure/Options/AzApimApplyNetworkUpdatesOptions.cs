@@ -17,4 +17,3 @@ public record AzApimApplyNetworkUpdatesOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

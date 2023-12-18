@@ -32,4 +32,3 @@ public class AzProviderhubCustomRollout
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubCustomRolloutShowOptions(), token);
     }
 }
-

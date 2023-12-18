@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewaySettings
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySettingsWaitOptions(), token);
     }
 }
-

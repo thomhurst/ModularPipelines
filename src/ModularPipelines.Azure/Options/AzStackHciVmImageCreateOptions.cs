@@ -43,4 +43,3 @@ public record AzStackHciVmImageCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

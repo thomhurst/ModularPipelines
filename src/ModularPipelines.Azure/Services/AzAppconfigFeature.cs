@@ -61,4 +61,3 @@ public class AzAppconfigFeature
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureUnlockOptions(), token);
     }
 }
-

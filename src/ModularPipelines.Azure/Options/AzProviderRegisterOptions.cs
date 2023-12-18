@@ -19,4 +19,3 @@ public record AzProviderRegisterOptions(
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 }
-

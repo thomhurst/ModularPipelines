@@ -40,4 +40,3 @@ public record AzContainerappAuthOpenidConnectAddOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -55,4 +55,3 @@ public record AzNetappfilesVolumeQuotaRuleUpdateOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

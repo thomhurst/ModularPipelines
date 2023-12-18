@@ -21,4 +21,3 @@ public class AzAiExamples
         return await _command.ExecuteCommandLineTool(options ?? new AzAiExamplesCheckConnectionOptions(), token);
     }
 }
-

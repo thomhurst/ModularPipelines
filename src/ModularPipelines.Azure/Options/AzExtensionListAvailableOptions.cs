@@ -13,4 +13,3 @@ public record AzExtensionListAvailableOptions(
     [BooleanCommandSwitch("--show-details")]
     public bool? ShowDetails { get; set; }
 }
-

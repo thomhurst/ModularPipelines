@@ -35,4 +35,3 @@ public record AzSiteRecoveryProtectionContainerSwitchProtectionOptions : AzOptio
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

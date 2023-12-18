@@ -49,4 +49,3 @@ public record AzAzurestackhciVirtualmachineExtensionUpdateOptions(
     [CommandSwitch("--virtualmachine-name")]
     public string? VirtualmachineName { get; set; }
 }
-

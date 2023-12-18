@@ -16,4 +16,3 @@ public record AzPolicyExemptionDeleteOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

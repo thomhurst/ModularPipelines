@@ -32,4 +32,3 @@ public record AzSigShareWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzDatashareInvitationCreateOptions(
     [CommandSwitch("--target-object-id")]
     public string? TargetObjectId { get; set; }
 }
-

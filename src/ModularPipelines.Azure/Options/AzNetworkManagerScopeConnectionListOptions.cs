@@ -23,4 +23,3 @@ public record AzNetworkManagerScopeConnectionListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

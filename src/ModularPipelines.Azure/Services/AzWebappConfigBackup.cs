@@ -47,4 +47,3 @@ public class AzWebappConfigBackup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -37,4 +37,3 @@ public record AzNetworkManagerSecurityAdminConfigRuleCollectionRuleCreateOptions
     [CommandSwitch("--sources")]
     public string? Sources { get; set; }
 }
-

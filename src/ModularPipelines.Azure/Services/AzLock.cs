@@ -41,4 +41,3 @@ public class AzLock
         return await _command.ExecuteCommandLineTool(options ?? new AzLockUpdateOptions(), token);
     }
 }
-

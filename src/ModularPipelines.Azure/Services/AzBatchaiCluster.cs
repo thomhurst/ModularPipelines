@@ -55,4 +55,3 @@ public class AzBatchaiCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchaiClusterShowOptions(), token);
     }
 }
-

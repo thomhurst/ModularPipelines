@@ -27,4 +27,3 @@ public class AzNetworkVirtualApplianceSku
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSkuShowOptions(), token);
     }
 }
-

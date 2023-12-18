@@ -25,4 +25,3 @@ public record AzAppconfigSnapshotShowOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

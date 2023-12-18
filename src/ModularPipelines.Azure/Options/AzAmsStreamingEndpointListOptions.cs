@@ -20,4 +20,3 @@ public record AzAmsStreamingEndpointListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

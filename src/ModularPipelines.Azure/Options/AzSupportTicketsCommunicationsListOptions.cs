@@ -13,4 +13,3 @@ public record AzSupportTicketsCommunicationsListOptions(
     [CommandSwitch("--filters")]
     public string? Filters { get; set; }
 }
-

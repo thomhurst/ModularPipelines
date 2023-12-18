@@ -44,4 +44,3 @@ public class AzEventgridTopicType
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

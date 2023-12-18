@@ -78,4 +78,3 @@ public record AzNetappfilesAccountAdUpdateOptions(
     [CommandSwitch("--user-dn")]
     public string? UserDn { get; set; }
 }
-

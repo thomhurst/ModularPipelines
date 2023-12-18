@@ -23,4 +23,3 @@ public record AzNetworkfabricInterfaceDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

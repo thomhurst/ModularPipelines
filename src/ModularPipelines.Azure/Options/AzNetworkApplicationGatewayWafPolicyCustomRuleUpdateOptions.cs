@@ -48,4 +48,3 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
     [CommandSwitch("--state")]
     public string? State { get; set; }
 }
-

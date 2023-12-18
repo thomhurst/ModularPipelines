@@ -27,4 +27,3 @@ public record AzAppserviceDomainCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzMonitorAppInsightsComponentContinuesExportUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

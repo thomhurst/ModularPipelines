@@ -16,4 +16,3 @@ public class AzDatabox
 
     public AzDataboxJob Job { get; }
 }
-

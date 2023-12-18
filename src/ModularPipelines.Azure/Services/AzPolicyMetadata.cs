@@ -27,4 +27,3 @@ public class AzPolicyMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

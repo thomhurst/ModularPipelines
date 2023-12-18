@@ -40,4 +40,3 @@ public record AzWebappDeploymentSourceConfigOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

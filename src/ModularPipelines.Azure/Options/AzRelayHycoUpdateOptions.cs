@@ -44,4 +44,3 @@ public record AzRelayHycoUpdateOptions : AzOptions
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzNetworkWatcherPacketCaptureShowOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

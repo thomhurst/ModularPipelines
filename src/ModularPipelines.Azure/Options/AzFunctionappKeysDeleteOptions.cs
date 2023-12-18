@@ -16,4 +16,3 @@ public record AzFunctionappKeysDeleteOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

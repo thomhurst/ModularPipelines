@@ -27,4 +27,3 @@ public class AzNetworkfabricRack
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRackShowOptions(), token);
     }
 }
-

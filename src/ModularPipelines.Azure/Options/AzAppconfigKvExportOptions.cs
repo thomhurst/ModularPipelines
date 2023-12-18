@@ -85,4 +85,3 @@ public record AzAppconfigKvExportOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

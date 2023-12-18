@@ -16,4 +16,3 @@ public record AzSecurityAssessmentMetadataCreateOptions(
     [CommandSwitch("--remediation-description")]
     public string? RemediationDescription { get; set; }
 }
-

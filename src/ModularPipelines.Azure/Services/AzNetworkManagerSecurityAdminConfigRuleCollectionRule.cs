@@ -42,4 +42,3 @@ public class AzNetworkManagerSecurityAdminConfigRuleCollectionRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzAccountTenant
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountTenantListOptions(), token);
     }
 }
-

@@ -60,4 +60,3 @@ public class AzContainerappConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionWaitOptions(), token);
     }
 }
-

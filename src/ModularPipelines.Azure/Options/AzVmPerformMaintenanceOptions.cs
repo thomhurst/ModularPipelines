@@ -25,4 +25,3 @@ public record AzVmPerformMaintenanceOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

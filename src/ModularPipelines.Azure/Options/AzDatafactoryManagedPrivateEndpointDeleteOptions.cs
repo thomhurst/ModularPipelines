@@ -24,4 +24,3 @@ public record AzDatafactoryManagedPrivateEndpointDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

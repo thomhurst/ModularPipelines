@@ -22,4 +22,3 @@ public record AzDevopsServiceEndpointUpdateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

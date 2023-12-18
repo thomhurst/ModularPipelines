@@ -19,4 +19,3 @@ public record AzDevopsSecurityGroupMembershipListOptions(
     [CommandSwitch("--relationship")]
     public string? Relationship { get; set; }
 }
-

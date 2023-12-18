@@ -17,4 +17,3 @@ public record AzSynapseLinkedServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

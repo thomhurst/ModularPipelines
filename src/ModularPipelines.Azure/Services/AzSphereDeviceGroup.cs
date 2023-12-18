@@ -47,4 +47,3 @@ public class AzSphereDeviceGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

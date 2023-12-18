@@ -27,4 +27,3 @@ public class AzContainerappServicePostgres
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

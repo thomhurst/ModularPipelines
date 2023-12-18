@@ -20,4 +20,3 @@ public record AzNetworkDnsDnssecConfigShowOptions : AzOptions
     [CommandSwitch("--zone-name")]
     public string? ZoneName { get; set; }
 }
-

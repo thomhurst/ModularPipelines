@@ -23,4 +23,3 @@ public record AzBackupProtectionEnableForAzurefileshareOptions(
     [BooleanCommandSwitch("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 }
-

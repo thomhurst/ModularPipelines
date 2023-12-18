@@ -38,4 +38,3 @@ public record AzLogzMonitorCreateOptions(
     [CommandSwitch("--user-info")]
     public string? UserInfo { get; set; }
 }
-

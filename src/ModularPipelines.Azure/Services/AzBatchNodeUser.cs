@@ -32,4 +32,3 @@ public class AzBatchNodeUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

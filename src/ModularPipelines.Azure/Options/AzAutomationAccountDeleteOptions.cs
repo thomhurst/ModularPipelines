@@ -23,4 +23,3 @@ public record AzAutomationAccountDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

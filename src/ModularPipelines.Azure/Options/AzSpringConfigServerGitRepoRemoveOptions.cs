@@ -15,4 +15,3 @@ public record AzSpringConfigServerGitRepoRemoveOptions(
     [CommandSwitch("--defer")]
     public string? Defer { get; set; }
 }
-

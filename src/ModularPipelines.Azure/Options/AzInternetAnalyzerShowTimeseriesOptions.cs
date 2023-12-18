@@ -20,4 +20,3 @@ public record AzInternetAnalyzerShowTimeseriesOptions(
     [CommandSwitch("--country")]
     public int? Country { get; set; }
 }
-

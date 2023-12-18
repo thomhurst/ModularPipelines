@@ -17,4 +17,3 @@ public class AzLogicappConfig
 
     public AzLogicappConfigAppsettings Appsettings { get; }
 }
-

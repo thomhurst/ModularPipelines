@@ -32,4 +32,3 @@ public record AzNetappfilesVolumeGroupListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzMlDatastoreDetachOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

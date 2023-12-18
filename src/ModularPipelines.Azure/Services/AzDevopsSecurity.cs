@@ -21,4 +21,3 @@ public class AzDevopsSecurity
 
     public AzDevopsSecurityPermission Permission { get; }
 }
-

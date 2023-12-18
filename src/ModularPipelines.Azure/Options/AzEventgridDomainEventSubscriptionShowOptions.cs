@@ -18,4 +18,3 @@ public record AzEventgridDomainEventSubscriptionShowOptions(
     [BooleanCommandSwitch("--include-attrib-secret")]
     public bool? IncludeAttribSecret { get; set; }
 }
-

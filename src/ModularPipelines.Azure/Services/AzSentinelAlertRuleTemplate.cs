@@ -27,4 +27,3 @@ public class AzSentinelAlertRuleTemplate
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleTemplateShowOptions(), token);
     }
 }
-

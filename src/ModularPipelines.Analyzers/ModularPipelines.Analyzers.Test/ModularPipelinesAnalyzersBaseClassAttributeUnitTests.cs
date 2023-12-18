@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.MissingDependsOnAttributeAnalyzer,
     ModularPipelines.Analyzers.MissingDependsOnAttributeCodeFixProvider>;

@@ -44,4 +44,3 @@ public record AzMlDataCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzConnectionListOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzCosmosdbLocations
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

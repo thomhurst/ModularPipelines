@@ -30,4 +30,3 @@ public record AzStorageBlobDirectoryUploadOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

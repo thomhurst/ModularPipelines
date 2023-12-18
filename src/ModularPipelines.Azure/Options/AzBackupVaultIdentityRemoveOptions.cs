@@ -26,4 +26,3 @@ public record AzBackupVaultIdentityRemoveOptions : AzOptions
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

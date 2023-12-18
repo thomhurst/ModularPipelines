@@ -37,4 +37,3 @@ public class AzVmwareHcxEnterpriseSite
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteShowOptions(), token);
     }
 }
-

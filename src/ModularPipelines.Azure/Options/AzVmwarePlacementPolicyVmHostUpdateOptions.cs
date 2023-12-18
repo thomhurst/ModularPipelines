@@ -59,4 +59,3 @@ public record AzVmwarePlacementPolicyVmHostUpdateOptions : AzOptions
     [CommandSwitch("--vm-members")]
     public string? VmMembers { get; set; }
 }
-

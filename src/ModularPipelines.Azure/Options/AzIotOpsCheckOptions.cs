@@ -32,4 +32,3 @@ public record AzIotOpsCheckOptions(
     [CommandSwitch("--resources")]
     public string? Resources { get; set; }
 }
-

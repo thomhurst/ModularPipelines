@@ -26,4 +26,3 @@ public record AzDevcenterAdminEnvironmentDefinitionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

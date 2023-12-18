@@ -42,4 +42,3 @@ public class AzApimApiVersionset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

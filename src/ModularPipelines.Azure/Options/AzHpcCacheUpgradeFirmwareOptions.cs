@@ -32,4 +32,3 @@ public record AzHpcCacheUpgradeFirmwareOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

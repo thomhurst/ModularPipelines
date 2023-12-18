@@ -17,4 +17,3 @@ public class AzCosmosdbMongodbRoleDefinitionDelete
 
     public AzCosmosdbMongodbRoleDefinitionDeleteCosmosdbPreview CosmosdbPreview { get; }
 }
-

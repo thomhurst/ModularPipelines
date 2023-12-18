@@ -17,4 +17,3 @@ public record AzVmssListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

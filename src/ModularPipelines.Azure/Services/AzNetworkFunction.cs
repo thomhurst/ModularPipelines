@@ -16,4 +16,3 @@ public class AzNetworkFunction
 
     public AzNetworkFunctionTrafficCollector TrafficCollector { get; }
 }
-

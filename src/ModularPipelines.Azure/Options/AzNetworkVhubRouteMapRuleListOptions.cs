@@ -39,4 +39,3 @@ public record AzNetworkVhubRouteMapRuleListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

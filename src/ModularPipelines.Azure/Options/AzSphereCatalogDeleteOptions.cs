@@ -14,4 +14,3 @@ public record AzSphereCatalogDeleteOptions(
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }
 }
-

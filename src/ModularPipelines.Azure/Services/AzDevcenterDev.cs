@@ -45,4 +45,3 @@ public class AzDevcenterDev
 
     public AzDevcenterDevSchedule Schedule { get; }
 }
-

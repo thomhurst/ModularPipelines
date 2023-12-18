@@ -23,4 +23,3 @@ public record AzHealthcareapisAcrRemoveOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

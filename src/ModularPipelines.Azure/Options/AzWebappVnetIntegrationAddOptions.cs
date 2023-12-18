@@ -19,4 +19,3 @@ public record AzWebappVnetIntegrationAddOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

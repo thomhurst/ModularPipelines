@@ -31,4 +31,3 @@ public record AzFunctionappDeploymentSourceConfigZipOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

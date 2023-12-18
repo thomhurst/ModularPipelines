@@ -70,4 +70,3 @@ public class AzDms
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -56,4 +56,3 @@ public record AzMonitorAutoscaleCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

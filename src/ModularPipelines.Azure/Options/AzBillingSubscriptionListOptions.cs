@@ -19,4 +19,3 @@ public record AzBillingSubscriptionListOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

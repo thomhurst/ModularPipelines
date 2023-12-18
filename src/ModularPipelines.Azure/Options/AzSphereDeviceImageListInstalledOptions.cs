@@ -14,4 +14,3 @@ public record AzSphereDeviceImageListInstalledOptions : AzOptions
     [BooleanCommandSwitch("--full")]
     public bool? Full { get; set; }
 }
-

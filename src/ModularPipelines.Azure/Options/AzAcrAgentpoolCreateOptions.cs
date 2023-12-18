@@ -26,4 +26,3 @@ public record AzAcrAgentpoolCreateOptions(
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

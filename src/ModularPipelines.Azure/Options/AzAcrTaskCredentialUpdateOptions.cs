@@ -24,4 +24,3 @@ public record AzAcrTaskCredentialUpdateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzSignalrCreateOptions(
     [CommandSwitch("--unit-count")]
     public int? UnitCount { get; set; }
 }
-

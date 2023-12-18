@@ -14,4 +14,3 @@ public record AzDeploymentScriptsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

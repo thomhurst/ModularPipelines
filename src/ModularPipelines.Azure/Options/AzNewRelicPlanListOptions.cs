@@ -14,4 +14,3 @@ public record AzNewRelicPlanListOptions : AzOptions
     [CommandSwitch("--organization-id")]
     public string? OrganizationId { get; set; }
 }
-

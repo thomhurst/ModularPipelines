@@ -26,4 +26,3 @@ public record AzSphereDeviceGroupCreateOptions(
     [CommandSwitch("--regional-data-boundary")]
     public string? RegionalDataBoundary { get; set; }
 }
-

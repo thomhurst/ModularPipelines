@@ -21,4 +21,3 @@ public record AzNetworkRouteserverPeeringCreateOptions(
     [CommandSwitch("--peer-ip")]
     public string? PeerIp { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzDtEndpointCreateServicebusOptions(
     [CommandSwitch("--sbs")]
     public string? Sbs { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzFunctionappConfigAppsettings
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAppsettingsSetOptions(), token);
     }
 }
-

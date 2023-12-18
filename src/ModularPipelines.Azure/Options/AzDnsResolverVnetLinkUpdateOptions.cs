@@ -44,4 +44,3 @@ public record AzDnsResolverVnetLinkUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

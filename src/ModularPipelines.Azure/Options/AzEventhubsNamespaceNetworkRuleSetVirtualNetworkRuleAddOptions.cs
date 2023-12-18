@@ -14,4 +14,3 @@ public record AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions(
     [CommandSwitch("--subnet")]
     public string? Subnet { get; set; }
 }
-

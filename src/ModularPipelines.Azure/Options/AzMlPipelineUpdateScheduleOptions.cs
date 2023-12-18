@@ -25,4 +25,3 @@ public record AzMlPipelineUpdateScheduleOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

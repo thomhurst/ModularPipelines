@@ -22,4 +22,3 @@ public record AzSqlMiOpCancelOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

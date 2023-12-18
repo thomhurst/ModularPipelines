@@ -17,4 +17,3 @@ public record AzSpringGatewaySyncCertOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

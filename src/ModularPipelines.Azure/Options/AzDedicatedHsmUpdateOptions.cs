@@ -26,4 +26,3 @@ public record AzDedicatedHsmUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

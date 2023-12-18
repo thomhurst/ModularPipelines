@@ -13,4 +13,3 @@ public record AzSphereDeviceCapabilitySelectOptions(
     [BooleanCommandSwitch("--none")]
     public bool? None { get; set; }
 }
-

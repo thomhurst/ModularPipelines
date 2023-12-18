@@ -14,4 +14,3 @@ public record AzWebappConfigStorageAccountListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

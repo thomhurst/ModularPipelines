@@ -82,4 +82,3 @@ public class AzDt
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

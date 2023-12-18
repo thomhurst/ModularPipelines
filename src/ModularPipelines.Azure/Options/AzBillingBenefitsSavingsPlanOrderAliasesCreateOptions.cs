@@ -37,4 +37,3 @@ public record AzBillingBenefitsSavingsPlanOrderAliasesCreateOptions(
     [CommandSwitch("--term")]
     public string? Term { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzSynapseNotebookImportOptions(
     [CommandSwitch("--spark-pool-name")]
     public string? SparkPoolName { get; set; }
 }
-

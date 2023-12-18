@@ -20,4 +20,3 @@ public record AzRedisIdentityShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

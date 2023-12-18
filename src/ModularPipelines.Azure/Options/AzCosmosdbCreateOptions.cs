@@ -122,4 +122,3 @@ public record AzCosmosdbCreateOptions(
     [CommandSwitch("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }
-

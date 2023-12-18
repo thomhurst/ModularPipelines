@@ -42,4 +42,3 @@ public class AzAksarcNodepool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

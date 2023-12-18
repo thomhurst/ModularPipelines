@@ -15,4 +15,3 @@ public record AzNetworkApplicationGatewayProbeDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

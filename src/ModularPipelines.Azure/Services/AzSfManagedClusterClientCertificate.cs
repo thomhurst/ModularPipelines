@@ -27,4 +27,3 @@ public class AzSfManagedClusterClientCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

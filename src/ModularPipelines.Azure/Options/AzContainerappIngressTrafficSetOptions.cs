@@ -29,4 +29,3 @@ public record AzContainerappIngressTrafficSetOptions : AzOptions
     [CommandSwitch("--traffic-weight")]
     public string? TrafficWeight { get; set; }
 }
-

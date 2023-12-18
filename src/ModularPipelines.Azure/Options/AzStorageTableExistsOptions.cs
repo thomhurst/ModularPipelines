@@ -28,4 +28,3 @@ public record AzStorageTableExistsOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

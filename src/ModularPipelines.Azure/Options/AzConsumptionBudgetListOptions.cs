@@ -19,4 +19,3 @@ public record AzConsumptionBudgetListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

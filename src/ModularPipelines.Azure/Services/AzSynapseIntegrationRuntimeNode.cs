@@ -37,4 +37,3 @@ public class AzSynapseIntegrationRuntimeNode
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

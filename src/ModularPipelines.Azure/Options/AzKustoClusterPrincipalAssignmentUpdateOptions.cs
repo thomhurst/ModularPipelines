@@ -50,4 +50,3 @@ public record AzKustoClusterPrincipalAssignmentUpdateOptions : AzOptions
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

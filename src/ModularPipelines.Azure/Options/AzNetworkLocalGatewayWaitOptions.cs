@@ -41,4 +41,3 @@ public record AzNetworkLocalGatewayWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

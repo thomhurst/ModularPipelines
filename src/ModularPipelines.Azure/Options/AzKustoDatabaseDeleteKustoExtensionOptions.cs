@@ -26,4 +26,3 @@ public record AzKustoDatabaseDeleteKustoExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

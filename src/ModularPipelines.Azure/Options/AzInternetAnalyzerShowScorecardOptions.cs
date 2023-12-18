@@ -19,4 +19,3 @@ public record AzInternetAnalyzerShowScorecardOptions(
     [CommandSwitch("--end-date-time-utc")]
     public string? EndDateTimeUtc { get; set; }
 }
-

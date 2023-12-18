@@ -26,4 +26,3 @@ public record AzSfApplicationCreateOptions(
     [CommandSwitch("--package-url")]
     public string? PackageUrl { get; set; }
 }
-

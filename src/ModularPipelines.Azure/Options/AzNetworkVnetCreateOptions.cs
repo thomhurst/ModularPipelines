@@ -62,4 +62,3 @@ public record AzNetworkVnetCreateOptions(
     [BooleanCommandSwitch("--vm-protection")]
     public bool? VmProtection { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzSiteRecoveryProtectableItemListOptions(
     [CommandSwitch("--take")]
     public string? Take { get; set; }
 }
-

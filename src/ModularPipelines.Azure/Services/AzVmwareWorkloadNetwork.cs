@@ -49,4 +49,3 @@ public class AzVmwareWorkloadNetwork
 
     public AzVmwareWorkloadNetworkVmGroup VmGroup { get; }
 }
-

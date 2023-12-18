@@ -26,4 +26,3 @@ public record AzLargeInstanceRestartOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

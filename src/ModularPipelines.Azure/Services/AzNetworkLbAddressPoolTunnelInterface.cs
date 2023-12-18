@@ -47,4 +47,3 @@ public class AzNetworkLbAddressPoolTunnelInterface
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolTunnelInterfaceWaitOptions(), token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzContainerappAuthMicrosoft
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthMicrosoftUpdateOptions(), token);
     }
 }
-

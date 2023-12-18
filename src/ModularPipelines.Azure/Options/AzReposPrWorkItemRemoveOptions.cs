@@ -17,4 +17,3 @@ public record AzReposPrWorkItemRemoveOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

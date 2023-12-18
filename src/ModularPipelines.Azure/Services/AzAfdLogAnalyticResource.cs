@@ -22,4 +22,3 @@ public class AzAfdLogAnalyticResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

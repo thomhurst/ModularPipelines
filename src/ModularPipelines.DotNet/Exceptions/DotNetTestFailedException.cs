@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;

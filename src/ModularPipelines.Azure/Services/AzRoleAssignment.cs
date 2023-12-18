@@ -42,4 +42,3 @@ public class AzRoleAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

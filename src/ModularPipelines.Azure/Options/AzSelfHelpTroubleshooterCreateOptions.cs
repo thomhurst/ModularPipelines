@@ -17,4 +17,3 @@ public record AzSelfHelpTroubleshooterCreateOptions(
     [CommandSwitch("--solution-id")]
     public string? SolutionId { get; set; }
 }
-

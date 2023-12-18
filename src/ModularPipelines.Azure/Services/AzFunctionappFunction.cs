@@ -36,4 +36,3 @@ public class AzFunctionappFunction
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -53,4 +53,3 @@ public record AzSpringConnectionUpdateWebpubsubOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

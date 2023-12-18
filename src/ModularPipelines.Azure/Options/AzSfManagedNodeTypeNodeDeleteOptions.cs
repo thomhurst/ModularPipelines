@@ -16,4 +16,3 @@ public record AzSfManagedNodeTypeNodeDeleteOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

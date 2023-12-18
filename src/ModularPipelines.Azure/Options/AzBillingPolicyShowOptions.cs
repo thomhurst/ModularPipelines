@@ -16,4 +16,3 @@ public record AzBillingPolicyShowOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

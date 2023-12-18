@@ -20,4 +20,3 @@ public record AzSpatialAnchorsAccountKeyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

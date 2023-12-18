@@ -22,4 +22,3 @@ public class AzLabGalleryImage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

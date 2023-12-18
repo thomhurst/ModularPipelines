@@ -27,4 +27,3 @@ public class AzSiteRecoveryEvent
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryEventShowOptions(), token);
     }
 }
-

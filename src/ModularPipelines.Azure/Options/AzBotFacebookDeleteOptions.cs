@@ -14,4 +14,3 @@ public record AzBotFacebookDeleteOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzAosmNfd
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

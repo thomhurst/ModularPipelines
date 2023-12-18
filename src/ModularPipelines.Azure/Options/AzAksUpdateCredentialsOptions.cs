@@ -23,4 +23,3 @@ public record AzAksUpdateCredentialsOptions(
     [CommandSwitch("--service-principal")]
     public string? ServicePrincipal { get; set; }
 }
-

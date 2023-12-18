@@ -41,4 +41,3 @@ public record AzMysqlFlexibleServerWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

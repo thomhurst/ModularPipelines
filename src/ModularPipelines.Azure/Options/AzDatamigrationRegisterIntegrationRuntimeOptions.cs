@@ -16,4 +16,3 @@ public record AzDatamigrationRegisterIntegrationRuntimeOptions(
     [CommandSwitch("--ir-path")]
     public string? IrPath { get; set; }
 }
-

@@ -40,4 +40,3 @@ public record AzPipelinesVariableUpdateOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

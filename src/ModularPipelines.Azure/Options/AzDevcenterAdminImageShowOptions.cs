@@ -26,4 +26,3 @@ public record AzDevcenterAdminImageShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

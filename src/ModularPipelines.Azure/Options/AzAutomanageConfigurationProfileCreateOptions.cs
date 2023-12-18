@@ -20,4 +20,3 @@ public record AzAutomanageConfigurationProfileCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

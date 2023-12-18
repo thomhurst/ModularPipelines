@@ -60,4 +60,3 @@ public record AzAksEnableAddonsAksPreviewExtensionOptions(
     [CommandSwitch("--workspace-resource-id")]
     public string? WorkspaceResourceId { get; set; }
 }
-

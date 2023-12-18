@@ -17,4 +17,3 @@ public record AzSpringBuildServiceBuildResultShowOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

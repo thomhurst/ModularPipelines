@@ -25,4 +25,3 @@ public record AzMlComputetargetDetachOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

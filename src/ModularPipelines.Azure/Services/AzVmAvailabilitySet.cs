@@ -52,4 +52,3 @@ public class AzVmAvailabilitySet
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetUpdateOptions(), token);
     }
 }
-

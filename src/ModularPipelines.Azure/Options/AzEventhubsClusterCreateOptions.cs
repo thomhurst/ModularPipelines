@@ -32,4 +32,3 @@ public record AzEventhubsClusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

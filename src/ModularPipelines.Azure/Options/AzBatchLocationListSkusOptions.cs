@@ -16,4 +16,3 @@ public record AzBatchLocationListSkusOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

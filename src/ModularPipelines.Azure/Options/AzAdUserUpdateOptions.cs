@@ -25,4 +25,3 @@ public record AzAdUserUpdateOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

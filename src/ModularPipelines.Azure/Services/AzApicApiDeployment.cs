@@ -47,4 +47,3 @@ public class AzApicApiDeployment
         return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentUpdateOptions(), token);
     }
 }
-

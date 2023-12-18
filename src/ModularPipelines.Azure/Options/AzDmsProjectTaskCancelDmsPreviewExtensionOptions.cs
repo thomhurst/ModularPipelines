@@ -16,4 +16,3 @@ public record AzDmsProjectTaskCancelDmsPreviewExtensionOptions(
     [CommandSwitch("--object-name")]
     public string? ObjectName { get; set; }
 }
-

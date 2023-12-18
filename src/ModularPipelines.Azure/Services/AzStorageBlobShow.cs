@@ -17,4 +17,3 @@ public class AzStorageBlobShow
 
     public AzStorageBlobShowStorageBlobPreview StorageBlobPreview { get; }
 }
-

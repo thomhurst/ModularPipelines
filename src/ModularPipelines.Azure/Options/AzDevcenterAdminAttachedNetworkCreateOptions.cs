@@ -16,4 +16,3 @@ public record AzDevcenterAdminAttachedNetworkCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

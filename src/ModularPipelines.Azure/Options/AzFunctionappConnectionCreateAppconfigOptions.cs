@@ -63,4 +63,3 @@ public record AzFunctionappConnectionCreateAppconfigOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzSigImageVersionShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

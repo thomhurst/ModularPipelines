@@ -22,4 +22,3 @@ public record AzCosmosdbMongodbCollectionMergeOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

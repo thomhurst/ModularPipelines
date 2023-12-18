@@ -32,4 +32,3 @@ public class AzCosmosdbGremlinDatabaseThroughput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

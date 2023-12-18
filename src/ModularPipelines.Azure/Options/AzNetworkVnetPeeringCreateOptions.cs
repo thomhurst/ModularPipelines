@@ -28,4 +28,3 @@ public record AzNetworkVnetPeeringCreateOptions(
     [BooleanCommandSwitch("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 }
-

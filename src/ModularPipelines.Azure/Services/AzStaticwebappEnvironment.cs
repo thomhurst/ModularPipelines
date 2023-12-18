@@ -37,4 +37,3 @@ public class AzStaticwebappEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

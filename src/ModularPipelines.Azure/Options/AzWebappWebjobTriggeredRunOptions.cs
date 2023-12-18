@@ -25,4 +25,3 @@ public record AzWebappWebjobTriggeredRunOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

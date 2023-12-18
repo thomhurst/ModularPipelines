@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Kubernetes.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Kubernetes;

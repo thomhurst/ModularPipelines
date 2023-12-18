@@ -22,4 +22,3 @@ public record AzMonitorAppInsightsComponentLinkedStorageLinkOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

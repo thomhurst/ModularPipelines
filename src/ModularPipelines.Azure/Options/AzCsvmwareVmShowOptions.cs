@@ -26,4 +26,3 @@ public record AzCsvmwareVmShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

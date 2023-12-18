@@ -22,4 +22,3 @@ public record AzContainerappIngressCorsDisableOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

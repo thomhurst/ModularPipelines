@@ -22,4 +22,3 @@ public record AzMysqlServerUpgradeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

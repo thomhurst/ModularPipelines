@@ -17,4 +17,3 @@ public record AzGrafanaDataSourceCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

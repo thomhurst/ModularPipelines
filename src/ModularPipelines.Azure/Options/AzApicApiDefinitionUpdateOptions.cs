@@ -50,4 +50,3 @@ public record AzApicApiDefinitionUpdateOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

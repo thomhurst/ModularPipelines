@@ -107,4 +107,3 @@ public class AzMlDatastore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

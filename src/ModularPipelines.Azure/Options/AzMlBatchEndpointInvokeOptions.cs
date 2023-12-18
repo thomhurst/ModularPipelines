@@ -48,4 +48,3 @@ public record AzMlBatchEndpointInvokeOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

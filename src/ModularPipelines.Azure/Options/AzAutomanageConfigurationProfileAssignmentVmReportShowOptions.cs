@@ -26,4 +26,3 @@ public record AzAutomanageConfigurationProfileAssignmentVmReportShowOptions : Az
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

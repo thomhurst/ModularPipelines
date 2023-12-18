@@ -16,4 +16,3 @@ public record AzMlPipelineDeleteDraftOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

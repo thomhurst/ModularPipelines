@@ -21,4 +21,3 @@ public record AzTsiAccessPolicyCreateOptions(
     [CommandSwitch("--roles")]
     public string? Roles { get; set; }
 }
-

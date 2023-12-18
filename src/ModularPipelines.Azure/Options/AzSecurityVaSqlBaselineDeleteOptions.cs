@@ -23,4 +23,3 @@ public record AzSecurityVaSqlBaselineDeleteOptions(
     [CommandSwitch("--vm-uuid")]
     public string? VmUuid { get; set; }
 }
-

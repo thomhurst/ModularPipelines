@@ -47,4 +47,3 @@ public class AzNetworkNatGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNatGatewayWaitOptions(), token);
     }
 }
-

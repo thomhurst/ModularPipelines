@@ -31,4 +31,3 @@ public record AzRestOptions(
     [CommandSwitch("--uri-parameters")]
     public string? UriParameters { get; set; }
 }
-

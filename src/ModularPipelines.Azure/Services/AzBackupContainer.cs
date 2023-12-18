@@ -42,4 +42,3 @@ public class AzBackupContainer
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerUnregisterOptions(), token);
     }
 }
-

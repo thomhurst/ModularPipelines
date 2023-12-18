@@ -14,4 +14,3 @@ public record AzContainerStartOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

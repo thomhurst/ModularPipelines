@@ -26,4 +26,3 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -40,4 +40,3 @@ public class AzIotHubMessageEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

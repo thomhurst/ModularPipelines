@@ -17,4 +17,3 @@ public record AzDatadogMonitorListApiKeyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

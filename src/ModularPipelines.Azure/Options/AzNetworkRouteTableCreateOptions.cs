@@ -23,4 +23,3 @@ public record AzNetworkRouteTableCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

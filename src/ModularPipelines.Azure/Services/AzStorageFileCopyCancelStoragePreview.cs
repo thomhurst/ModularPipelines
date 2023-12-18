@@ -22,4 +22,3 @@ public class AzStorageFileCopyCancelStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

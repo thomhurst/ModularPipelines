@@ -20,4 +20,3 @@ public record AzVmwarePrivateCloudEnableCmkEncryptionOptions(
     [CommandSwitch("--enc-kv-url")]
     public string? EncKvUrl { get; set; }
 }
-

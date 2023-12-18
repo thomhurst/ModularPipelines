@@ -41,4 +41,3 @@ public class AzBatchai
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

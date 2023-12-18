@@ -27,4 +27,3 @@ public class AzIotHubDistributedTracing
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzMysqlFlexibleServerFirewallRuleCreateOptions(
     [CommandSwitch("--start-ip-address")]
     public string? StartIpAddress { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzIotCentralDeviceC2dMessagePurgeOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

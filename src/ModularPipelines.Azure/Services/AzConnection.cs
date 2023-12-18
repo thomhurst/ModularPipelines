@@ -63,4 +63,3 @@ public class AzConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectionWaitOptions(), token);
     }
 }
-

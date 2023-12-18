@@ -43,4 +43,3 @@ public record AzNetworkfabricNniCreateOptions(
     [CommandSwitch("--option-b-layer3-configuration")]
     public string? OptionBLayer3Configuration { get; set; }
 }
-

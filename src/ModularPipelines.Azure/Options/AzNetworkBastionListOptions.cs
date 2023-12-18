@@ -13,4 +13,3 @@ public record AzNetworkBastionListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

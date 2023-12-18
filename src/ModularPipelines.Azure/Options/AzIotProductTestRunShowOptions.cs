@@ -22,4 +22,3 @@ public record AzIotProductTestRunShowOptions(
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 }
-

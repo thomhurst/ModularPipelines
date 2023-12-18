@@ -32,4 +32,3 @@ public class AzNetworkFrontDoorRulesEngineRuleCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

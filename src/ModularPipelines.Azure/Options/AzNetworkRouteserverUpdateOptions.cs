@@ -44,4 +44,3 @@ public record AzNetworkRouteserverUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

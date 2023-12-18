@@ -23,4 +23,3 @@ public record AzDatafactoryLinkedServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

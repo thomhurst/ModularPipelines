@@ -22,4 +22,3 @@ public record AzIotProductTestSearchOptions(
     [CommandSwitch("--registration-id")]
     public string? RegistrationId { get; set; }
 }
-

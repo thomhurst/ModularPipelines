@@ -26,4 +26,3 @@ public class AzSpringConfigServerGit
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

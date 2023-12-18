@@ -85,4 +85,3 @@ public class AzNetworkFirewall
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallWaitOptions(), token);
     }
 }
-

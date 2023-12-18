@@ -19,4 +19,3 @@ public record AzSynapseKustoDatabaseCreateOptions(
     [CommandSwitch("--read-write-database")]
     public string? ReadWriteDatabase { get; set; }
 }
-

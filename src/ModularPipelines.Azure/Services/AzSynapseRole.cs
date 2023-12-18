@@ -25,4 +25,3 @@ public class AzSynapseRole
 
     public AzSynapseRoleScope Scope { get; }
 }
-

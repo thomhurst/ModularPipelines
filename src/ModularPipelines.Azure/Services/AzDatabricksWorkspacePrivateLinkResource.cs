@@ -27,4 +27,3 @@ public class AzDatabricksWorkspacePrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateLinkResourceShowOptions(), token);
     }
 }
-

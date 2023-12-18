@@ -17,4 +17,3 @@ public record AzAksSnapshotDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

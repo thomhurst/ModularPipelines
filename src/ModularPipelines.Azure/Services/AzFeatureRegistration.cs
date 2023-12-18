@@ -37,4 +37,3 @@ public class AzFeatureRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

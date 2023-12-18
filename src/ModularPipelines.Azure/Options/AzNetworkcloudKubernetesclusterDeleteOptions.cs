@@ -28,4 +28,3 @@ public record AzNetworkcloudKubernetesclusterDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

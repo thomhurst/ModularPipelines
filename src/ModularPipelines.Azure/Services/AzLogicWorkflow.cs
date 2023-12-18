@@ -46,4 +46,3 @@ public class AzLogicWorkflow
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

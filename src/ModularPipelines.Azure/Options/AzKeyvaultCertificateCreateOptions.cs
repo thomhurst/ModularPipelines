@@ -21,4 +21,3 @@ public record AzKeyvaultCertificateCreateOptions(
     [CommandSwitch("--validity")]
     public string? Validity { get; set; }
 }
-

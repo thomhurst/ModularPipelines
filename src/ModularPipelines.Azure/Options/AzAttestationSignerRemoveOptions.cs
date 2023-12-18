@@ -23,4 +23,3 @@ public record AzAttestationSignerRemoveOptions : AzOptions
     [CommandSwitch("--signer-file")]
     public string? SignerFile { get; set; }
 }
-

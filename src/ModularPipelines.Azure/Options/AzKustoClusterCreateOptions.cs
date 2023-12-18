@@ -21,4 +21,3 @@ public record AzKustoClusterCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

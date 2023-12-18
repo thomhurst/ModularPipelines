@@ -26,4 +26,3 @@ public record AzMlJobListOptions(
     [CommandSwitch("--parent-job-name")]
     public string? ParentJobName { get; set; }
 }
-

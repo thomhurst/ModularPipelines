@@ -19,4 +19,3 @@ public record AzCommunicationChatMessageReceiptListOptions(
     [CommandSwitch("--skip")]
     public string? Skip { get; set; }
 }
-

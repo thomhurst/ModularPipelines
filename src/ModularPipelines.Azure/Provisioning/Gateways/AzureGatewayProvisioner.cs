@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Network;
 using ModularPipelines.Azure.Scopes;

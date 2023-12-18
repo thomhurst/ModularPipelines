@@ -23,4 +23,3 @@ public record AzContainerappExecOptions(
     [CommandSwitch("--revision")]
     public string? Revision { get; set; }
 }
-

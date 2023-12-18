@@ -35,4 +35,3 @@ public record AzDtDataHistoryConnectionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

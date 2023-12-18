@@ -23,4 +23,3 @@ public record AzDevcenterAdminProjectAllowedEnvironmentTypeShowOptions : AzOptio
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzReposPrReviewerRemoveOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

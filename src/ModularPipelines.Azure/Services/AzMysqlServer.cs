@@ -119,4 +119,3 @@ public class AzMysqlServer
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerWaitOptions(), token);
     }
 }
-

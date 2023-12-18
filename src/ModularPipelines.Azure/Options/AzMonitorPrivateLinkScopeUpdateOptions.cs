@@ -35,4 +35,3 @@ public record AzMonitorPrivateLinkScopeUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

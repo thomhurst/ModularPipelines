@@ -47,4 +47,3 @@ public class AzSentinelSourceControl
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlUpdateOptions(), token);
     }
 }
-

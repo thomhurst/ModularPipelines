@@ -14,4 +14,3 @@ public record AzSynapseSqlScriptExportOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

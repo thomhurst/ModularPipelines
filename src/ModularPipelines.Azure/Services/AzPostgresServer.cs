@@ -104,4 +104,3 @@ public class AzPostgresServer
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerWaitOptions(), token);
     }
 }
-

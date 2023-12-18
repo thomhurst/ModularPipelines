@@ -16,4 +16,3 @@ public record AzStaticwebappSecretsResetApiKeyOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

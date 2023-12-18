@@ -16,4 +16,3 @@ public record AzNotificationHubAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

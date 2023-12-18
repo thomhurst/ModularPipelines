@@ -23,4 +23,3 @@ public record AzSqlInstanceFailoverGroupCreateOptions(
     [CommandSwitch("--secondary-type")]
     public string? SecondaryType { get; set; }
 }
-

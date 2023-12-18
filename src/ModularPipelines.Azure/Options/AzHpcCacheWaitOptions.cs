@@ -32,4 +32,3 @@ public record AzHpcCacheWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

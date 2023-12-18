@@ -17,4 +17,3 @@ public record AzDatadogMonitorListLinkedResourceOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

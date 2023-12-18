@@ -17,4 +17,3 @@ public record AzSpringDevToolDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

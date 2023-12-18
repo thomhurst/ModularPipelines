@@ -33,4 +33,3 @@ public record AzFleetMemberWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

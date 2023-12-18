@@ -51,4 +51,3 @@ public class AzNetworkPrivateLinkService
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceWaitOptions(), token);
     }
 }
-

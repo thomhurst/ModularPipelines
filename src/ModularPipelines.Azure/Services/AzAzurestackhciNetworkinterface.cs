@@ -42,4 +42,3 @@ public class AzAzurestackhciNetworkinterface
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceUpdateOptions(), token);
     }
 }
-

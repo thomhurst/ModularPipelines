@@ -15,4 +15,3 @@ public record AzNetworkVpnServerConfigIpsecPolicyRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

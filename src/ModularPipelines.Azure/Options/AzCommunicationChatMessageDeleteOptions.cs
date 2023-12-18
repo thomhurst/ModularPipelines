@@ -20,4 +20,3 @@ public record AzCommunicationChatMessageDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

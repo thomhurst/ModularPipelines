@@ -23,4 +23,3 @@ public record AzLogzMonitorDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

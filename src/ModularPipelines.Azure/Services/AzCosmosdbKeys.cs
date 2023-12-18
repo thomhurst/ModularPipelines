@@ -27,4 +27,3 @@ public class AzCosmosdbKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

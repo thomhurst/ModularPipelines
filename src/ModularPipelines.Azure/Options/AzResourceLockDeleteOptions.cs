@@ -29,4 +29,3 @@ public record AzResourceLockDeleteOptions : AzOptions
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

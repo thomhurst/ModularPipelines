@@ -181,4 +181,3 @@ public record AzSqlMiArcCreateOptions(
     [CommandSwitch("--volume-size-orchestrator-logs")]
     public string? VolumeSizeOrchestratorLogs { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzAfdSecretCreateOptions(
     [BooleanCommandSwitch("--use-latest-version")]
     public bool? UseLatestVersion { get; set; }
 }
-

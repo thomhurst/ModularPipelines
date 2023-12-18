@@ -105,4 +105,3 @@ public record AzSqlMiCreateOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

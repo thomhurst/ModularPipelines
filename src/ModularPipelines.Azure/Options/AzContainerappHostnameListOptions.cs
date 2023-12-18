@@ -14,4 +14,3 @@ public record AzContainerappHostnameListOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

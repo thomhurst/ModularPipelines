@@ -42,4 +42,3 @@ public class AzSynapseDataFlow
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

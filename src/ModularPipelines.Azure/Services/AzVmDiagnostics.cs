@@ -27,4 +27,3 @@ public class AzVmDiagnostics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

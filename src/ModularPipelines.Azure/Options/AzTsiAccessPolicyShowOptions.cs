@@ -23,4 +23,3 @@ public record AzTsiAccessPolicyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

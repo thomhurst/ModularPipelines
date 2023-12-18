@@ -41,4 +41,3 @@ public record AzEventhubsEventhubConsumerGroupUpdateOptions : AzOptions
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }
 }
-

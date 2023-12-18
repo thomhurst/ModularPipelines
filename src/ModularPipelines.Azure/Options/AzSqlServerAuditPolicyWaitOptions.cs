@@ -41,4 +41,3 @@ public record AzSqlServerAuditPolicyWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

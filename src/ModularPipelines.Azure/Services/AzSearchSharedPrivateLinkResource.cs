@@ -47,4 +47,3 @@ public class AzSearchSharedPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

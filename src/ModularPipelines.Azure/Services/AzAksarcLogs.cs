@@ -22,4 +22,3 @@ public class AzAksarcLogs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

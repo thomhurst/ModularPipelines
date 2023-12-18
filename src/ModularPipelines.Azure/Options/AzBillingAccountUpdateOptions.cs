@@ -28,4 +28,3 @@ public record AzBillingAccountUpdateOptions(
     [CommandSwitch("--sold-to")]
     public string? SoldTo { get; set; }
 }
-

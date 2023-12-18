@@ -17,4 +17,3 @@ public record AzVmwareWorkloadNetworkSegmentListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

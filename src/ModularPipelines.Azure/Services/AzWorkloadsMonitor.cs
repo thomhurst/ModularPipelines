@@ -55,4 +55,3 @@ public class AzWorkloadsMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorWaitOptions(), token);
     }
 }
-

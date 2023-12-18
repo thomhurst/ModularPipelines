@@ -17,4 +17,3 @@ public class AzWebappRestart
 
     public AzWebappRestartAppserviceKube AppserviceKube { get; }
 }
-

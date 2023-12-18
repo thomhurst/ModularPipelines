@@ -28,4 +28,3 @@ public record AzDmsProjectTaskCreateOptions(
     [CommandSwitch("--task-type")]
     public string? TaskType { get; set; }
 }
-

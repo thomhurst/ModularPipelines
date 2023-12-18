@@ -49,4 +49,3 @@ public class AzIotProductTest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

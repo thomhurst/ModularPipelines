@@ -123,4 +123,3 @@ public record AzSpringAppCreateOptions(
     [CommandSwitch("--workload-profile")]
     public string? WorkloadProfile { get; set; }
 }
-

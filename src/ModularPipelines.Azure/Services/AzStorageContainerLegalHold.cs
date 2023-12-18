@@ -32,4 +32,3 @@ public class AzStorageContainerLegalHold
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

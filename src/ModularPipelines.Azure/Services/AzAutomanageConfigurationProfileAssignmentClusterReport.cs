@@ -27,4 +27,3 @@ public class AzAutomanageConfigurationProfileAssignmentClusterReport
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterReportShowOptions(), token);
     }
 }
-

@@ -72,4 +72,3 @@ public record AzEventgridSystemTopicEventSubscriptionCreateOptions(
     [CommandSwitch("--subject-ends-with")]
     public string? SubjectEndsWith { get; set; }
 }
-

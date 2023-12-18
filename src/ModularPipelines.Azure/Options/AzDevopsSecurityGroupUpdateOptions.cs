@@ -22,4 +22,3 @@ public record AzDevopsSecurityGroupUpdateOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzDtNetworkPrivateEndpoint
 
     public AzDtNetworkPrivateEndpointConnection Connection { get; }
 }
-

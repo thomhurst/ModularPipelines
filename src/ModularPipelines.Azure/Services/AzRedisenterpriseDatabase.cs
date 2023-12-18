@@ -77,4 +77,3 @@ public class AzRedisenterpriseDatabase
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseWaitOptions(), token);
     }
 }
-

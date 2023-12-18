@@ -17,4 +17,3 @@ public record AzVmwarePrivateCloudListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

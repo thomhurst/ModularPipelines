@@ -22,4 +22,3 @@ public class AzPostgresServerArcEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerArcEndpointListOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzDlsFsCreateOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

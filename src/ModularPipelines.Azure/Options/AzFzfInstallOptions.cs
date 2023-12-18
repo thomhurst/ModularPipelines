@@ -14,4 +14,3 @@ public record AzFzfInstallOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

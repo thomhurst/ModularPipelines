@@ -148,4 +148,3 @@ public class AzWebappConnectionCreate
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateWebpubsubOptions(), token);
     }
 }
-

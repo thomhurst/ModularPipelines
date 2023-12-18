@@ -40,4 +40,3 @@ public record AzIotCentralExportDestinationCreateOptions(
     [CommandSwitch("--url")]
     public string? Url { get; set; }
 }
-

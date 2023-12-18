@@ -50,4 +50,3 @@ public class AzMonitorMetricsAlert
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorMetricsAlertUpdateOptions(), token);
     }
 }
-

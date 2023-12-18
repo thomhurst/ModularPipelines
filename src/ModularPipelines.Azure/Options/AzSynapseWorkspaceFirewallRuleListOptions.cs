@@ -20,4 +20,3 @@ public record AzSynapseWorkspaceFirewallRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

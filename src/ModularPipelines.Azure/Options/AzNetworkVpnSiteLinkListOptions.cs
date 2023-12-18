@@ -20,4 +20,3 @@ public record AzNetworkVpnSiteLinkListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

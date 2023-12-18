@@ -14,4 +14,3 @@ public record AzSpringCloudGatewayClearOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

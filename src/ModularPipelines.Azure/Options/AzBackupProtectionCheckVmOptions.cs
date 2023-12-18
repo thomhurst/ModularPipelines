@@ -17,4 +17,3 @@ public record AzBackupProtectionCheckVmOptions(
     [CommandSwitch("--vm")]
     public string? Vm { get; set; }
 }
-

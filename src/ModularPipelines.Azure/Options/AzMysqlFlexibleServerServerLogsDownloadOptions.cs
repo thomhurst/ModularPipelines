@@ -21,4 +21,3 @@ public record AzMysqlFlexibleServerServerLogsDownloadOptions(
     [CommandSwitch("--max-file-size")]
     public string? MaxFileSize { get; set; }
 }
-

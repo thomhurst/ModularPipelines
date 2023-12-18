@@ -25,4 +25,3 @@ public record AzDevopsAdminBannerUpdateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

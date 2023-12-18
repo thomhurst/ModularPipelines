@@ -37,4 +37,3 @@ public class AzSphereImage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

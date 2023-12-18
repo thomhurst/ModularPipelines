@@ -22,4 +22,3 @@ public record AzNetworkFrontDoorFrontendEndpointCreateOptions(
     [CommandSwitch("--waf-policy")]
     public string? WafPolicy { get; set; }
 }
-

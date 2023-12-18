@@ -27,4 +27,3 @@ public class AzBatchApplicationSummary
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

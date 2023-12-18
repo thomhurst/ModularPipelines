@@ -19,4 +19,3 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOption
     [CommandSwitch("--rule")]
     public string? Rule { get; set; }
 }
-

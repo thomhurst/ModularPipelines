@@ -29,4 +29,3 @@ public record AzAfdSecurityPolicyUpdateOptions : AzOptions
     [CommandSwitch("--waf-policy")]
     public string? WafPolicy { get; set; }
 }
-

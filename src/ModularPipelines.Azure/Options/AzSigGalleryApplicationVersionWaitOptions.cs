@@ -50,4 +50,3 @@ public record AzSigGalleryApplicationVersionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

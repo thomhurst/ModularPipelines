@@ -31,4 +31,3 @@ public class AzStorageAccountBlobServiceProperties
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

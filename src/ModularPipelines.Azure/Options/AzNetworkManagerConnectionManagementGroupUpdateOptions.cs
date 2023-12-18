@@ -26,4 +26,3 @@ public record AzNetworkManagerConnectionManagementGroupUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

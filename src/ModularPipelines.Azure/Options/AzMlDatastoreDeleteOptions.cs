@@ -15,4 +15,3 @@ public record AzMlDatastoreDeleteOptions(
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewaySslCertWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

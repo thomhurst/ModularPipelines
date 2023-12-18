@@ -20,4 +20,3 @@ public record AzStreamAnalyticsJobStartOptions(
     [CommandSwitch("--output-start-time")]
     public string? OutputStartTime { get; set; }
 }
-

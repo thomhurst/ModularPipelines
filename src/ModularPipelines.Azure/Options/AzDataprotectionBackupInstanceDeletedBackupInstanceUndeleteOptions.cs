@@ -26,4 +26,3 @@ public record AzDataprotectionBackupInstanceDeletedBackupInstanceUndeleteOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzNotificationHubCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

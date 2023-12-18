@@ -28,4 +28,3 @@ public record AzPaloAltoCloudngfwLocalRulestackListAdvancedSecurityObjectOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

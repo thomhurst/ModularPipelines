@@ -16,4 +16,3 @@ public record AzEventgridPartnerConfigurationUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

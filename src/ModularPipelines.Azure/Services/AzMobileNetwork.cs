@@ -78,4 +78,3 @@ public class AzMobileNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkWaitOptions(), token);
     }
 }
-

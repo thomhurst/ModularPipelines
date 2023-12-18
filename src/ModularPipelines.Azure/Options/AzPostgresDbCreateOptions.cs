@@ -18,4 +18,3 @@ public record AzPostgresDbCreateOptions(
     [CommandSwitch("--collation")]
     public string? Collation { get; set; }
 }
-

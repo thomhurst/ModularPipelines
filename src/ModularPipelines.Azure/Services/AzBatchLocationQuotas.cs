@@ -22,4 +22,3 @@ public class AzBatchLocationQuotas
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

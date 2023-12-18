@@ -29,4 +29,3 @@ public record AzDnsResolverUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzVmwareLocation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzEdgeorderOrderListOptions : AzOptions
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

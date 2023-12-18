@@ -20,4 +20,3 @@ public record AzEventgridPartnerRegistrationDeleteEventgridExtensionOptions : Az
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

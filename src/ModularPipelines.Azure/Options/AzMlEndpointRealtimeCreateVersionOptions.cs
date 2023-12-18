@@ -137,4 +137,3 @@ public record AzMlEndpointRealtimeCreateVersionOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

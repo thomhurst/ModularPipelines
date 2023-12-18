@@ -27,4 +27,3 @@ public class AzApimApiRevision
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

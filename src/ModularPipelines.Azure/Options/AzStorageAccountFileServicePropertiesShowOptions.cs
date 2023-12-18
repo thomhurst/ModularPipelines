@@ -13,4 +13,3 @@ public record AzStorageAccountFileServicePropertiesShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

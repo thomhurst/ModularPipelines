@@ -19,4 +19,3 @@ public record AzDtDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

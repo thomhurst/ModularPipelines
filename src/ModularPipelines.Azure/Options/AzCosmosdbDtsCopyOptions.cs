@@ -35,4 +35,3 @@ public record AzCosmosdbDtsCopyOptions(
     [CommandSwitch("--worker-count")]
     public int? WorkerCount { get; set; }
 }
-

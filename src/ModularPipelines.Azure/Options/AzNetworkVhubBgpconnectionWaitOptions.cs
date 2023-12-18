@@ -44,4 +44,3 @@ public record AzNetworkVhubBgpconnectionWaitOptions : AzOptions
     [CommandSwitch("--vhub-name")]
     public string? VhubName { get; set; }
 }
-

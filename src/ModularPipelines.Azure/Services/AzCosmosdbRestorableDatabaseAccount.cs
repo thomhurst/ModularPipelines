@@ -35,4 +35,3 @@ public class AzCosmosdbRestorableDatabaseAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowOptions(), token);
     }
 }
-

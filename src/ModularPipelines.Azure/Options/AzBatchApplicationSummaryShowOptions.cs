@@ -19,4 +19,3 @@ public record AzBatchApplicationSummaryShowOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

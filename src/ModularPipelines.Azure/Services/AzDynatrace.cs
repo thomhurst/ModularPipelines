@@ -16,4 +16,3 @@ public class AzDynatrace
 
     public AzDynatraceMonitor Monitor { get; }
 }
-

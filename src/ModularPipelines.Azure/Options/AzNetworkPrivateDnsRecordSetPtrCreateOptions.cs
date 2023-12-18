@@ -18,4 +18,3 @@ public record AzNetworkPrivateDnsRecordSetPtrCreateOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

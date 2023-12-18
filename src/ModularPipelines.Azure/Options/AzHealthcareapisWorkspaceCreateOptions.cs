@@ -26,4 +26,3 @@ public record AzHealthcareapisWorkspaceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

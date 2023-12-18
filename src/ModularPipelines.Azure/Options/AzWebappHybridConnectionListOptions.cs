@@ -14,4 +14,3 @@ public record AzWebappHybridConnectionListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

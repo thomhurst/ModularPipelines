@@ -39,4 +39,3 @@ public record AzMlFeatureSetCreateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

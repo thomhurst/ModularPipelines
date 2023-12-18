@@ -19,4 +19,3 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRem
     [CommandSwitch("--group-name")]
     public string? GroupName { get; set; }
 }
-

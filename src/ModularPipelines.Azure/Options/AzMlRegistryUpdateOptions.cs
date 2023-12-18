@@ -40,4 +40,3 @@ public record AzMlRegistryUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

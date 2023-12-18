@@ -23,4 +23,3 @@ public record AzNetappfilesSnapshotPolicyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

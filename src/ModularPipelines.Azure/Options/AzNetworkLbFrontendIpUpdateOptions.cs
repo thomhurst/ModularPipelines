@@ -51,4 +51,3 @@ public record AzNetworkLbFrontendIpUpdateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

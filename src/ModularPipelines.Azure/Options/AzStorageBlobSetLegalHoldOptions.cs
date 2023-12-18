@@ -33,4 +33,3 @@ public record AzStorageBlobSetLegalHoldOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzWebappAuthGoogle
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGoogleUpdateOptions(), token);
     }
 }
-

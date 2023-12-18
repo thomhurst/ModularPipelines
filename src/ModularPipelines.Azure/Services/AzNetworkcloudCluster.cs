@@ -74,4 +74,3 @@ public class AzNetworkcloudCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterWaitOptions(), token);
     }
 }
-

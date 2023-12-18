@@ -19,4 +19,3 @@ public record AzConnectionGenerateConfigurationOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

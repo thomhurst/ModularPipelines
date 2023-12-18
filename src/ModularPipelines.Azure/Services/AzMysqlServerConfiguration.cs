@@ -32,4 +32,3 @@ public class AzMysqlServerConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationShowOptions(), token);
     }
 }
-

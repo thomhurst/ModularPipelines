@@ -11,4 +11,3 @@ public record AzNetworkDnsListReferencesOptions : AzOptions
     [CommandSwitch("--parameters")]
     public string[]? Parameters { get; set; }
 }
-

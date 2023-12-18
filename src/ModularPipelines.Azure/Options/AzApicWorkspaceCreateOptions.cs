@@ -20,4 +20,3 @@ public record AzApicWorkspaceCreateOptions(
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

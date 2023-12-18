@@ -16,4 +16,3 @@ public record AzSupportTicketsCommunicationsCreateOptions(
     [CommandSwitch("--communication-sender")]
     public string? CommunicationSender { get; set; }
 }
-

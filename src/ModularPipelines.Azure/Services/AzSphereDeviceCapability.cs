@@ -37,4 +37,3 @@ public class AzSphereDeviceCapability
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

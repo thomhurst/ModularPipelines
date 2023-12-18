@@ -24,4 +24,3 @@ public class AzDnc
 
     public AzDncOrchestratorInstanceService OrchestratorInstanceService { get; }
 }
-

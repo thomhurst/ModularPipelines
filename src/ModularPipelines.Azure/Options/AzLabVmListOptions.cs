@@ -35,4 +35,3 @@ public record AzLabVmListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

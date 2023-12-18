@@ -20,4 +20,3 @@ public record AzMysqlShowConnectionStringOptions : AzOptions
     [CommandSwitch("--server-name")]
     public string? ServerName { get; set; }
 }
-

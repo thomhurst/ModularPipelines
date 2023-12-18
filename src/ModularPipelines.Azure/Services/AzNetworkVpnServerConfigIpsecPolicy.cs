@@ -37,4 +37,3 @@ public class AzNetworkVpnServerConfigIpsecPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

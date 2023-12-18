@@ -23,4 +23,3 @@ public record AzAutomationPython3PackageDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

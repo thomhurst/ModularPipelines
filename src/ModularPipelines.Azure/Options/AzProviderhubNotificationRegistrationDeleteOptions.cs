@@ -22,4 +22,3 @@ public record AzProviderhubNotificationRegistrationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

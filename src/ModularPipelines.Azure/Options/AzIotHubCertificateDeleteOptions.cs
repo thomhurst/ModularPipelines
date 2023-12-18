@@ -23,4 +23,3 @@ public record AzIotHubCertificateDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzStorageEntity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

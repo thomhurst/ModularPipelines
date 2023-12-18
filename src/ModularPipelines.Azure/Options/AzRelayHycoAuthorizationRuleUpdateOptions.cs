@@ -40,4 +40,3 @@ public record AzRelayHycoAuthorizationRuleUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

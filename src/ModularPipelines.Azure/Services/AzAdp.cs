@@ -29,4 +29,3 @@ public class AzAdp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

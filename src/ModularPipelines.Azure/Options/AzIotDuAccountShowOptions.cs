@@ -13,4 +13,3 @@ public record AzIotDuAccountShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzMysqlFlexibleServerFirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerFirewallRuleUpdateOptions(), token);
     }
 }
-

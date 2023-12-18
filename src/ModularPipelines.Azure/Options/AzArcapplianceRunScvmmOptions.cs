@@ -36,4 +36,3 @@ public record AzArcapplianceRunScvmmOptions(
     [CommandSwitch("--working-dir")]
     public string? WorkingDir { get; set; }
 }
-

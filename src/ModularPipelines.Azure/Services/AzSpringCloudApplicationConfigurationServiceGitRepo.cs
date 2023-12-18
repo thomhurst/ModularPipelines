@@ -37,4 +37,3 @@ public class AzSpringCloudApplicationConfigurationServiceGitRepo
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

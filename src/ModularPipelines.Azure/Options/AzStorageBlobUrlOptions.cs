@@ -35,4 +35,3 @@ public record AzStorageBlobUrlOptions(
     [CommandSwitch("--snapshot")]
     public string? Snapshot { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzVmImageListOptions(
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
 }
-

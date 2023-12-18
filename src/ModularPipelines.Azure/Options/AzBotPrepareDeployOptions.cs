@@ -16,4 +16,3 @@ public record AzBotPrepareDeployOptions(
     [CommandSwitch("--proj-file-path")]
     public string? ProjFilePath { get; set; }
 }
-

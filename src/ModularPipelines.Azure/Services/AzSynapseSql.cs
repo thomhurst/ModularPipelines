@@ -25,4 +25,3 @@ public class AzSynapseSql
 
     public AzSynapseSqlPool Pool { get; }
 }
-

@@ -47,4 +47,3 @@ public class AzNetworkServiceEndpointPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyWaitOptions(), token);
     }
 }
-

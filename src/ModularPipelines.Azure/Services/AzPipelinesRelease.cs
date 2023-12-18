@@ -36,4 +36,3 @@ public class AzPipelinesRelease
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

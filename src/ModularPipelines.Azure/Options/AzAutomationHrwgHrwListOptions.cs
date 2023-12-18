@@ -15,4 +15,3 @@ public record AzAutomationHrwgHrwListOptions(
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

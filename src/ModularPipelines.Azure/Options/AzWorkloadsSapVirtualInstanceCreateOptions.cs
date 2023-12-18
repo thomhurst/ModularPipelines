@@ -38,4 +38,3 @@ public record AzWorkloadsSapVirtualInstanceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzKeyvaultSecurityDomainUploadOptions(
     [CommandSwitch("--sd-wrapping-keys")]
     public string? SdWrappingKeys { get; set; }
 }
-

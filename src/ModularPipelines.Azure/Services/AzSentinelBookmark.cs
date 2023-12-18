@@ -51,4 +51,3 @@ public class AzSentinelBookmark
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkUpdateOptions(), token);
     }
 }
-

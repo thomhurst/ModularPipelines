@@ -36,4 +36,3 @@ public record AzAmsAccountFilterCreateOptions(
     [CommandSwitch("--tracks")]
     public string? Tracks { get; set; }
 }
-

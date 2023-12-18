@@ -42,4 +42,3 @@ public class AzPostgresFlexibleServerMigration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

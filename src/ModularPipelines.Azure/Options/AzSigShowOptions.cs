@@ -23,4 +23,3 @@ public record AzSigShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

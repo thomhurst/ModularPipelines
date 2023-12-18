@@ -104,4 +104,3 @@ public record AzSqlMiUpdateOptions : AzOptions
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

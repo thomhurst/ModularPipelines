@@ -16,4 +16,3 @@ public record AzAcrDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzApicEnvironmentHeadOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

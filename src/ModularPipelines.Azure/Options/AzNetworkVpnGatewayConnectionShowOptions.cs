@@ -23,4 +23,3 @@ public record AzNetworkVpnGatewayConnectionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

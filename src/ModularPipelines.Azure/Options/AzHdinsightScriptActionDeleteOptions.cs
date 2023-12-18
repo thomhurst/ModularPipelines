@@ -18,4 +18,3 @@ public record AzHdinsightScriptActionDeleteOptions(
     [CommandSwitch("--script-parameters")]
     public string? ScriptParameters { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzDatadogMonitorGetDefaultKeyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

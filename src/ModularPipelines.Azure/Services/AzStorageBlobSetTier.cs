@@ -17,4 +17,3 @@ public class AzStorageBlobSetTier
 
     public AzStorageBlobSetTierStorageBlobPreview StorageBlobPreview { get; }
 }
-

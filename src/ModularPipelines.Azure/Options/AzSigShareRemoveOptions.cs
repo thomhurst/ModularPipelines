@@ -26,4 +26,3 @@ public record AzSigShareRemoveOptions(
     [CommandSwitch("--tenant-ids")]
     public string? TenantIds { get; set; }
 }
-

@@ -40,4 +40,3 @@ public record AzPipelinesRunOptions(
     [CommandSwitch("--variables")]
     public string? Variables { get; set; }
 }
-

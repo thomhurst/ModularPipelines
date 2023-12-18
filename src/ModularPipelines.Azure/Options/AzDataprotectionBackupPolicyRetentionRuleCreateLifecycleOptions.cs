@@ -18,4 +18,3 @@ public record AzDataprotectionBackupPolicyRetentionRuleCreateLifecycleOptions(
     [CommandSwitch("--target-datastore")]
     public string? TargetDatastore { get; set; }
 }
-

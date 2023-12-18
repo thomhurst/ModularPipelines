@@ -56,4 +56,3 @@ public class AzNotificationHubNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubNamespaceWaitOptions(), token);
     }
 }
-

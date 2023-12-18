@@ -14,4 +14,3 @@ public record AzConfluentOfferDetailShowOptions : AzOptions
     [CommandSwitch("--publisher-id")]
     public string? PublisherId { get; set; }
 }
-

@@ -101,4 +101,3 @@ public record AzProviderhubResourceTypeRegistrationCreateOptions(
     [CommandSwitch("--throttling-rules")]
     public string? ThrottlingRules { get; set; }
 }
-

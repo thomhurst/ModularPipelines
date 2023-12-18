@@ -27,4 +27,3 @@ public record AzSentinelAutomationRuleCreateOptions(
     [CommandSwitch("--triggering-logic")]
     public string? TriggeringLogic { get; set; }
 }
-

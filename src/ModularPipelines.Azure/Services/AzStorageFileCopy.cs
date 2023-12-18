@@ -44,4 +44,3 @@ public class AzStorageFileCopy
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileCopyStartBatchOptions(), token);
     }
 }
-

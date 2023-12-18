@@ -17,4 +17,3 @@ public record AzGrafanaFolderDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

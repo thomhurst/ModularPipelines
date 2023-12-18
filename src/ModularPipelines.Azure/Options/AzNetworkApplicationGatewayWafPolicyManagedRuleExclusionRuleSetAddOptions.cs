@@ -22,4 +22,3 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAdd
     [CommandSwitch("--rule-ids")]
     public string? RuleIds { get; set; }
 }
-

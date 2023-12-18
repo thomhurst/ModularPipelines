@@ -32,4 +32,3 @@ public record AzStorageBlobServicePropertiesDeletePolicyUpdateOptions : AzOption
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

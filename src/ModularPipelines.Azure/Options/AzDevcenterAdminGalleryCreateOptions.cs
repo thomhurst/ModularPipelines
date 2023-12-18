@@ -16,4 +16,3 @@ public record AzDevcenterAdminGalleryCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -56,4 +56,3 @@ public record AzNetworkFrontDoorWafPolicyUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

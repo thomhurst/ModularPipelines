@@ -32,4 +32,3 @@ public record AzDtEndpointWaitOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

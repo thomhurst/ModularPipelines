@@ -21,4 +21,3 @@ public record AzConnectedvmwareDatastoreCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

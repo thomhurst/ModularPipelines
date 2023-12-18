@@ -27,4 +27,3 @@ public class AzStorageFsServiceProperties
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsServicePropertiesUpdateOptions(), token);
     }
 }
-

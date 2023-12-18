@@ -71,4 +71,3 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

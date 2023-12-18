@@ -32,4 +32,3 @@ public class AzBackupProtectableItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

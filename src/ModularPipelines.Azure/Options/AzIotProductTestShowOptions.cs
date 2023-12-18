@@ -13,4 +13,3 @@ public record AzIotProductTestShowOptions(
     [CommandSwitch("--base-url")]
     public string? BaseUrl { get; set; }
 }
-

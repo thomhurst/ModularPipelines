@@ -32,4 +32,3 @@ public class AzStaticwebappDbconnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzQumuloStorageFileSystem
         return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemWaitOptions(), token);
     }
 }
-

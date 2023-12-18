@@ -41,4 +41,3 @@ public record AzWebpubsubUpdateOptions : AzOptions
     [CommandSwitch("--unit-count")]
     public int? UnitCount { get; set; }
 }
-

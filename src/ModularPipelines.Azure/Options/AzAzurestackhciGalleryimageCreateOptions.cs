@@ -41,4 +41,3 @@ public record AzAzurestackhciGalleryimageCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

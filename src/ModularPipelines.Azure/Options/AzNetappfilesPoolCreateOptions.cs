@@ -32,4 +32,3 @@ public record AzNetappfilesPoolCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzDatafactoryTriggerListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

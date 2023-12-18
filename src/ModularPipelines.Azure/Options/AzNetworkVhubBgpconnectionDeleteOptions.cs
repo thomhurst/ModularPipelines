@@ -26,4 +26,3 @@ public record AzNetworkVhubBgpconnectionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

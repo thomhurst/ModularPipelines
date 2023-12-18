@@ -15,4 +15,3 @@ public record AzAppconfigReplicaCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

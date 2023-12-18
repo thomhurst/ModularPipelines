@@ -21,4 +21,3 @@ public record AzAutomanageConfigurationProfileAssignmentClusterReportListOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

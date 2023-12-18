@@ -14,4 +14,3 @@ public record AzDevcenterAdminSkuListOptions : AzOptions
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

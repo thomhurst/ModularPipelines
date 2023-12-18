@@ -19,4 +19,3 @@ public record AzDevcenterDevEnvironmentDefinitionListOptions(
     [CommandSwitch("--endpoint")]
     public string? Endpoint { get; set; }
 }
-

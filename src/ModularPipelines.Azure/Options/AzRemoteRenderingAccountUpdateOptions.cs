@@ -35,4 +35,3 @@ public record AzRemoteRenderingAccountUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

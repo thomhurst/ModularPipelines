@@ -75,4 +75,3 @@ public record AzMlComputetargetCreateAmlcomputeOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

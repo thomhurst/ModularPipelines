@@ -14,4 +14,3 @@ public record AzSfManagedApplicationTypeListOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

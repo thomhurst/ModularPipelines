@@ -16,4 +16,3 @@ public record AzNetworkLbAddressPoolTunnelInterfaceRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

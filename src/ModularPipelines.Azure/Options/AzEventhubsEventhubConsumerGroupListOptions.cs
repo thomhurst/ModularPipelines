@@ -24,4 +24,3 @@ public record AzEventhubsEventhubConsumerGroupListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzStorageCors
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsListOptions(), token);
     }
 }
-

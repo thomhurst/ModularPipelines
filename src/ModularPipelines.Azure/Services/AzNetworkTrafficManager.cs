@@ -21,4 +21,3 @@ public class AzNetworkTrafficManager
 
     public AzNetworkTrafficManagerProfile Profile { get; }
 }
-

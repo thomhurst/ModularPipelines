@@ -19,4 +19,3 @@ public record AzEventgridEventSubscriptionShowOptions(
     [CommandSwitch("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 }
-

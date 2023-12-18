@@ -27,4 +27,3 @@ public class AzIotHubCertificateRootAuthority
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

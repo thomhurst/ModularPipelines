@@ -17,4 +17,3 @@ public class AzStorageFileGenerateSas
 
     public AzStorageFileGenerateSasStoragePreview StoragePreview { get; }
 }
-

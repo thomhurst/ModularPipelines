@@ -28,4 +28,3 @@ public record AzArcapplianceValidateVmwareOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

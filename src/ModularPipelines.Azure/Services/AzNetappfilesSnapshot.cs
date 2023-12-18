@@ -56,4 +56,3 @@ public class AzNetappfilesSnapshot
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotWaitOptions(), token);
     }
 }
-

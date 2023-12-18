@@ -11,4 +11,3 @@ public record AzVmRepairListScriptsOptions : AzOptions
     [CommandSwitch("--preview")]
     public string? Preview { get; set; }
 }
-

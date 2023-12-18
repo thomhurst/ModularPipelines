@@ -31,4 +31,3 @@ public record AzMlServiceGetLogsOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

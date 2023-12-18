@@ -30,4 +30,3 @@ public record AzStaticwebappDbconnectionCreateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

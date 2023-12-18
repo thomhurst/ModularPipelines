@@ -39,4 +39,3 @@ public record AzDlaCatalogTablePartitionListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

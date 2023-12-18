@@ -13,4 +13,3 @@ public record AzBillingAccountShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

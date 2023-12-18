@@ -155,4 +155,3 @@ public record AzSqlVmUpdateOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

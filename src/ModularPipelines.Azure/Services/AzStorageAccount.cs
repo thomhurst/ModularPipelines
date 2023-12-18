@@ -132,4 +132,3 @@ public class AzStorageAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateOptions(), token);
     }
 }
-

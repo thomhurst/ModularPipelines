@@ -75,4 +75,3 @@ public record AzSentinelWatchlistCreateOptions(
     [CommandSwitch("--watchlist-type")]
     public string? WatchlistType { get; set; }
 }
-

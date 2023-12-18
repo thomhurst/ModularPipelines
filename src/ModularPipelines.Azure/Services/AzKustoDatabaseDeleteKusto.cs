@@ -22,4 +22,3 @@ public class AzKustoDatabaseDeleteKusto
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

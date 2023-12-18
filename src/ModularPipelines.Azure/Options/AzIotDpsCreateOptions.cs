@@ -26,4 +26,3 @@ public record AzIotDpsCreateOptions(
     [CommandSwitch("--unit")]
     public string? Unit { get; set; }
 }
-

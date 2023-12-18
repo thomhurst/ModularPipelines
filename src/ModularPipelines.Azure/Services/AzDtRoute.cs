@@ -37,4 +37,3 @@ public class AzDtRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzElasticMonitorListAssociatedTrafficFilterOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

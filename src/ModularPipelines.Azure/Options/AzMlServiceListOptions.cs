@@ -44,4 +44,3 @@ public record AzMlServiceListOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

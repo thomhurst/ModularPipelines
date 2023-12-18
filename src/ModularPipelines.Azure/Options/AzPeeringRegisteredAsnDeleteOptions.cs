@@ -15,4 +15,3 @@ public record AzPeeringRegisteredAsnDeleteOptions(
     [CommandSwitch("--asn")]
     public string? Asn { get; set; }
 }
-

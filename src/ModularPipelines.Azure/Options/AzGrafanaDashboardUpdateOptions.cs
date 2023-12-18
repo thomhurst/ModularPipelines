@@ -23,4 +23,3 @@ public record AzGrafanaDashboardUpdateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

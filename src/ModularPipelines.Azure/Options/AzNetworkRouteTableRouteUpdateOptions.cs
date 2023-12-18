@@ -47,4 +47,3 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

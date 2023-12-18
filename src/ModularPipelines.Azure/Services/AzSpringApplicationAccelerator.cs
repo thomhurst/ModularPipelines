@@ -40,4 +40,3 @@ public class AzSpringApplicationAccelerator
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -16,4 +16,3 @@ public record AzStackGroupExportOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

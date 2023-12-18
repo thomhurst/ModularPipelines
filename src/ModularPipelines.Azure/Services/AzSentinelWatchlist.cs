@@ -42,4 +42,3 @@ public class AzSentinelWatchlist
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistUpdateOptions(), token);
     }
 }
-

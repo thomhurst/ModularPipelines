@@ -34,4 +34,3 @@ public record AzStorageMessagePeekOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

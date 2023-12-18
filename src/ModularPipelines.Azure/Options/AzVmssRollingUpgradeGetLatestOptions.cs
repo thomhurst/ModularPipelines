@@ -20,4 +20,3 @@ public record AzVmssRollingUpgradeGetLatestOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzLabArmTemplateShowOptions(
     [BooleanCommandSwitch("--export-parameters")]
     public bool? ExportParameters { get; set; }
 }
-

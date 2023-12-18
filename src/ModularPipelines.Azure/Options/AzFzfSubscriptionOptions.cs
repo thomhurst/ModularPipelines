@@ -14,4 +14,3 @@ public record AzFzfSubscriptionOptions : AzOptions
     [BooleanCommandSwitch("--no-default")]
     public bool? NoDefault { get; set; }
 }
-

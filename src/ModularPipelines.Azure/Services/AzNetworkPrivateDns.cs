@@ -25,4 +25,3 @@ public class AzNetworkPrivateDns
 
     public AzNetworkPrivateDnsZone Zone { get; }
 }
-

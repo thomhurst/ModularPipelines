@@ -19,4 +19,3 @@ public record AzKeyvaultCertificateDeleteOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

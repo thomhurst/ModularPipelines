@@ -12,4 +12,3 @@ public record AzFunctionappFunctionListOptions(
 ) : AzOptions
 {
 }
-

@@ -38,4 +38,3 @@ public class AzInternetAnalyzer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

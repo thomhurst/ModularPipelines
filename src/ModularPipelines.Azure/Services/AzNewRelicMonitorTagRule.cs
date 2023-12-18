@@ -47,4 +47,3 @@ public class AzNewRelicMonitorTagRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleWaitOptions(), token);
     }
 }
-

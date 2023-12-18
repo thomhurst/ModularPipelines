@@ -62,4 +62,3 @@ public record AzSqlServerCreateOptions(
     [CommandSwitch("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }
 }
-

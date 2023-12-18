@@ -42,4 +42,3 @@ public class AzContainerappService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzStorageBlobCopyStart
 
     public AzStorageBlobCopyStartStorageBlobPreview StorageBlobPreview { get; }
 }
-

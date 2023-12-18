@@ -35,4 +35,3 @@ public record AzAzurestackhciVirtualmachineUpdateOptions : AzOptions
     [CommandSwitch("--vnic-names")]
     public string? VnicNames { get; set; }
 }
-

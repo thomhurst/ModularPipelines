@@ -70,4 +70,3 @@ public record AzAdDsCreateOptions(
     [CommandSwitch("--tls-v1")]
     public string? TlsV1 { get; set; }
 }
-

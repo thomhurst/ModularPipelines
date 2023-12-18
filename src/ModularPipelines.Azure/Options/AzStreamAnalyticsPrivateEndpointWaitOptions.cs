@@ -44,4 +44,3 @@ public record AzStreamAnalyticsPrivateEndpointWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

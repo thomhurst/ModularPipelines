@@ -57,4 +57,3 @@ public class AzServicebusNamespacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

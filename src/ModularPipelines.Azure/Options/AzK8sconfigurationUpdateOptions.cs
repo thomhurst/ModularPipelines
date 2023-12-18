@@ -34,4 +34,3 @@ public record AzK8sconfigurationUpdateOptions(
     [CommandSwitch("--ssh-known-hosts-file")]
     public string? SshKnownHostsFile { get; set; }
 }
-

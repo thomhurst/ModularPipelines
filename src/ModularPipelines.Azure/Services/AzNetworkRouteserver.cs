@@ -51,4 +51,3 @@ public class AzNetworkRouteserver
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverWaitOptions(), token);
     }
 }
-

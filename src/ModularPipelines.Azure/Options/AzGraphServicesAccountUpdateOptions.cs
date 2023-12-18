@@ -41,4 +41,3 @@ public record AzGraphServicesAccountUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

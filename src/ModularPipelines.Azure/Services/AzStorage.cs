@@ -94,4 +94,3 @@ public class AzStorage
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageRemoveOptions(), token);
     }
 }
-

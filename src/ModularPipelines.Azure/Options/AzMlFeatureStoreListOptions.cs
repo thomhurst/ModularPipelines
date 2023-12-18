@@ -14,4 +14,3 @@ public record AzMlFeatureStoreListOptions(
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
 }
-

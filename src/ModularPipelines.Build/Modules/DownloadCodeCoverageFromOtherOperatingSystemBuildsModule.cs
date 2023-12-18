@@ -1,4 +1,4 @@
-﻿using EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;

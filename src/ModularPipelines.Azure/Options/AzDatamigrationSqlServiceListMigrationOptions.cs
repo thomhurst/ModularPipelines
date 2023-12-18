@@ -26,4 +26,3 @@ public record AzDatamigrationSqlServiceListMigrationOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

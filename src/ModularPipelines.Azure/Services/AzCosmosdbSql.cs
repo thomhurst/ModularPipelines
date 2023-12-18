@@ -58,4 +58,3 @@ public class AzCosmosdbSql
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

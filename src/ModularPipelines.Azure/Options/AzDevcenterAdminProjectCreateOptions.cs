@@ -30,4 +30,3 @@ public record AzDevcenterAdminProjectCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

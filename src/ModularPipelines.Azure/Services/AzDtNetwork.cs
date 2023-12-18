@@ -21,4 +21,3 @@ public class AzDtNetwork
 
     public AzDtNetworkPrivateLink PrivateLink { get; }
 }
-

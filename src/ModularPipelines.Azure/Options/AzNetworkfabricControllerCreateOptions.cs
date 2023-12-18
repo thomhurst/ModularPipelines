@@ -44,4 +44,3 @@ public record AzNetworkfabricControllerCreateOptions(
     [CommandSwitch("--workload-er-connections")]
     public string? WorkloadErConnections { get; set; }
 }
-

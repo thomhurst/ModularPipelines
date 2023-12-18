@@ -22,4 +22,3 @@ public class AzPolicyRemediationDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -25,4 +25,3 @@ public record AzDlaAccountDataLakeStoreAddOptions(
     [CommandSwitch("--suffix")]
     public string? Suffix { get; set; }
 }
-

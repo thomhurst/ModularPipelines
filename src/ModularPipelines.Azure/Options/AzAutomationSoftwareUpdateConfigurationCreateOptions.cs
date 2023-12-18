@@ -99,4 +99,3 @@ public record AzAutomationSoftwareUpdateConfigurationCreateOptions(
     [CommandSwitch("--time-zone")]
     public string? TimeZone { get; set; }
 }
-

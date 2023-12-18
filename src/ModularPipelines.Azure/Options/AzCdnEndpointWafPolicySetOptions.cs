@@ -35,4 +35,3 @@ public record AzCdnEndpointWafPolicySetOptions : AzOptions
     [CommandSwitch("--waf-policy-subscription-id")]
     public string? WafPolicySubscriptionId { get; set; }
 }
-

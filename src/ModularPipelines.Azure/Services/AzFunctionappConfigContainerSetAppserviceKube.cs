@@ -22,4 +22,3 @@ public class AzFunctionappConfigContainerSetAppserviceKube
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerSetAppserviceKubeExtensionOptions(), token);
     }
 }
-

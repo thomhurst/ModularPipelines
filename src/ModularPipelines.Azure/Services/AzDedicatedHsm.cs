@@ -51,4 +51,3 @@ public class AzDedicatedHsm
         return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmWaitOptions(), token);
     }
 }
-

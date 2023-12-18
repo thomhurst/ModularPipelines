@@ -41,4 +41,3 @@ public record AzNetworkcloudStorageapplianceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

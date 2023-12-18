@@ -46,4 +46,3 @@ public record AzPipelinesCreateOptions(
     [CommandSwitch("--yaml-path")]
     public string? YamlPath { get; set; }
 }
-

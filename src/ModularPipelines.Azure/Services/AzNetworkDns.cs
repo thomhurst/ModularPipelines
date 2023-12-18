@@ -34,4 +34,3 @@ public class AzNetworkDns
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsListReferencesOptions(), token);
     }
 }
-

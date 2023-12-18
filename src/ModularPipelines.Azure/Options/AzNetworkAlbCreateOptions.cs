@@ -20,4 +20,3 @@ public record AzNetworkAlbCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

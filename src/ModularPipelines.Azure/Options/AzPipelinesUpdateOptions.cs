@@ -37,4 +37,3 @@ public record AzPipelinesUpdateOptions(
     [CommandSwitch("--yaml-path")]
     public string? YamlPath { get; set; }
 }
-

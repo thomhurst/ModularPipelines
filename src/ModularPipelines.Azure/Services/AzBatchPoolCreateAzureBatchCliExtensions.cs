@@ -22,4 +22,3 @@ public class AzBatchPoolCreateAzureBatchCliExtensions
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

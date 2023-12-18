@@ -83,4 +83,3 @@ public record AzDiskUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

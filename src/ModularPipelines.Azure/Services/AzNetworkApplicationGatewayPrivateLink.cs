@@ -46,4 +46,3 @@ public class AzNetworkApplicationGatewayPrivateLink
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayPrivateLinkWaitOptions(), token);
     }
 }
-

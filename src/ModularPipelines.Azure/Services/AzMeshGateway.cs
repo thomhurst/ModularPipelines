@@ -32,4 +32,3 @@ public class AzMeshGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayShowOptions(), token);
     }
 }
-

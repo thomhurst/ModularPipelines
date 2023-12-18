@@ -25,4 +25,3 @@ public record AzWebappScanShowResultOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

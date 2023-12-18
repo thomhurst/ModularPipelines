@@ -37,4 +37,3 @@ public class AzLabFormula
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

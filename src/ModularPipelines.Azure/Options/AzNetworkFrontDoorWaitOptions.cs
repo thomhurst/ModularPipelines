@@ -41,4 +41,3 @@ public record AzNetworkFrontDoorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

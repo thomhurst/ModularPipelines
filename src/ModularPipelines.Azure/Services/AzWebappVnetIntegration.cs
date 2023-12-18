@@ -32,4 +32,3 @@ public class AzWebappVnetIntegration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

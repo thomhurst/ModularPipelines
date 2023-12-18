@@ -95,4 +95,3 @@ public record AzMonitorAppInsightsWebTestShowOptions(
     [CommandSwitch("--web-test-kind")]
     public string? WebTestKind { get; set; }
 }
-

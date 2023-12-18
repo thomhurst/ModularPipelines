@@ -41,4 +41,3 @@ public record AzSiteRecoveryProtectedItemUnplannedFailoverOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzScvmmAvsetShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

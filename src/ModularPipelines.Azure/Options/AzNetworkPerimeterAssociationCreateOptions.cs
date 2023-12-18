@@ -27,4 +27,3 @@ public record AzNetworkPerimeterAssociationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

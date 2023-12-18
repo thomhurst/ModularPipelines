@@ -21,4 +21,3 @@ public record AzAfdOriginGroupCreateOptions(
     [CommandSwitch("--probe-interval-in-seconds")]
     public string? ProbeIntervalInSeconds { get; set; }
 }
-

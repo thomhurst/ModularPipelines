@@ -22,4 +22,3 @@ public class AzSynapseRoleScope
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

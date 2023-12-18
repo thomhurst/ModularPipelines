@@ -66,4 +66,3 @@ public class AzLab
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

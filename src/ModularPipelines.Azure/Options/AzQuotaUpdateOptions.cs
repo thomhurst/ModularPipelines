@@ -23,4 +23,3 @@ public record AzQuotaUpdateOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

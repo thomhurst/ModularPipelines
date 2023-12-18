@@ -23,4 +23,3 @@ public record AzSfManagedApplicationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

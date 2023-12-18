@@ -37,4 +37,3 @@ public record AzNetworkApplicationGatewayRewriteRuleCreateOptions(
     [CommandSwitch("--sequence")]
     public string? Sequence { get; set; }
 }
-

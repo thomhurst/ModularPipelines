@@ -36,4 +36,3 @@ public class AzBillingBenefitsSavingsPlanOrder
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

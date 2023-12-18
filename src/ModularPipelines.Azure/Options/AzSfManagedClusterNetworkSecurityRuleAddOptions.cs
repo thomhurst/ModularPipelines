@@ -41,4 +41,3 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions(
     [CommandSwitch("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 }
-

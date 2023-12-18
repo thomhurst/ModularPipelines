@@ -23,4 +23,3 @@ public record AzImageBuilderIdentityShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

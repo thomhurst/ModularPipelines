@@ -44,4 +44,3 @@ public record AzNetworkExpressRoutePortLinkListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

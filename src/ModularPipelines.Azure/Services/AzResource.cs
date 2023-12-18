@@ -74,4 +74,3 @@ public class AzResource
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceWaitOptions(), token);
     }
 }
-

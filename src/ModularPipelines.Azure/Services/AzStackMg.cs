@@ -42,4 +42,3 @@ public class AzStackMg
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

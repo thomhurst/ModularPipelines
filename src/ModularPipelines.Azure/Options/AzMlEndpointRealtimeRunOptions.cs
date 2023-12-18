@@ -28,4 +28,3 @@ public record AzMlEndpointRealtimeRunOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

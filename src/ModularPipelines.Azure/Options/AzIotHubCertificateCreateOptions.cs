@@ -18,4 +18,3 @@ public record AzIotHubCertificateCreateOptions(
     [BooleanCommandSwitch("--verified")]
     public bool? Verified { get; set; }
 }
-

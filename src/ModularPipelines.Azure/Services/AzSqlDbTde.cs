@@ -31,4 +31,3 @@ public class AzSqlDbTde
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeShowOptions(), token);
     }
 }
-

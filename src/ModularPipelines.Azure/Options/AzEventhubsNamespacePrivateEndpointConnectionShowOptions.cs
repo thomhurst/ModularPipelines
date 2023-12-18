@@ -26,4 +26,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionShowOptions : AzOptio
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

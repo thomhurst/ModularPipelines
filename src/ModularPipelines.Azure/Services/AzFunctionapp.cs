@@ -135,4 +135,3 @@ public class AzFunctionapp
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappUpdateOptions(), token);
     }
 }
-

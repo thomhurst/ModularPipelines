@@ -37,4 +37,3 @@ public class AzBatchaiExperiment
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchaiExperimentShowOptions(), token);
     }
 }
-

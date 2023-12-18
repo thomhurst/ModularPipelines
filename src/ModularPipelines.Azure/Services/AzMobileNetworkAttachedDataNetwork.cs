@@ -47,4 +47,3 @@ public class AzMobileNetworkAttachedDataNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkAttachedDataNetworkWaitOptions(), token);
     }
 }
-

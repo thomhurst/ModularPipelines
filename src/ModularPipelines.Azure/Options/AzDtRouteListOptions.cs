@@ -13,4 +13,3 @@ public record AzDtRouteListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

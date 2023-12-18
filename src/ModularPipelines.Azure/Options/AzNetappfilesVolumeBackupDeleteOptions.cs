@@ -25,4 +25,3 @@ public record AzNetappfilesVolumeBackupDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

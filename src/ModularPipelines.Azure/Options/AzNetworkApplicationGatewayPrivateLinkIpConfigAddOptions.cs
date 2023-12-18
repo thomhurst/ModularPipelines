@@ -22,4 +22,3 @@ public record AzNetworkApplicationGatewayPrivateLinkIpConfigAddOptions(
     [BooleanCommandSwitch("--primary")]
     public bool? Primary { get; set; }
 }
-

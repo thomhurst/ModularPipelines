@@ -50,4 +50,3 @@ public record AzStorageContainerListOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

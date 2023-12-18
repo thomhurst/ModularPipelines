@@ -75,4 +75,3 @@ public record AzStackHciVmCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

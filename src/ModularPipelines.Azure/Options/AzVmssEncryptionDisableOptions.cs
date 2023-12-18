@@ -28,4 +28,3 @@ public record AzVmssEncryptionDisableOptions(
     [CommandSwitch("--volume-type")]
     public string? VolumeType { get; set; }
 }
-

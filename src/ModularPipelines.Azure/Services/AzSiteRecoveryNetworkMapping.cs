@@ -42,4 +42,3 @@ public class AzSiteRecoveryNetworkMapping
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryNetworkMappingUpdateOptions(), token);
     }
 }
-

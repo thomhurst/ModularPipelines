@@ -117,4 +117,3 @@ public record AzSpringAppDeployOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

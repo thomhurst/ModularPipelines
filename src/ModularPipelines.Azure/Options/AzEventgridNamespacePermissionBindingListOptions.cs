@@ -23,4 +23,3 @@ public record AzEventgridNamespacePermissionBindingListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

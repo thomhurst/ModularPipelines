@@ -64,4 +64,3 @@ public class AzAms
 
     public AzAmsTransform Transform { get; }
 }
-

@@ -13,4 +13,3 @@ public record AzAmsAccountCheckNameOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

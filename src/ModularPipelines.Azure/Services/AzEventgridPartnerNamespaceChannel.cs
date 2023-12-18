@@ -42,4 +42,3 @@ public class AzEventgridPartnerNamespaceChannel
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelUpdateOptions(), token);
     }
 }
-

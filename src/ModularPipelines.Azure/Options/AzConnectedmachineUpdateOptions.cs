@@ -77,4 +77,3 @@ public record AzConnectedmachineUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzDatafactoryIntegrationRuntimeNodeShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

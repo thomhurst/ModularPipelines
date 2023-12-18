@@ -41,4 +41,3 @@ public record AzNetworkfabricTapruleUpdateOptions : AzOptions
     [CommandSwitch("--tap-rules-url")]
     public string? TapRulesUrl { get; set; }
 }
-

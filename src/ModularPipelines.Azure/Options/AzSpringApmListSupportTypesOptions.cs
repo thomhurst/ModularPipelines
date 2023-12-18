@@ -20,4 +20,3 @@ public record AzSpringApmListSupportTypesOptions(
     [CommandSwitch("--secrets")]
     public string? Secrets { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzCosmosdbMongoclusterUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

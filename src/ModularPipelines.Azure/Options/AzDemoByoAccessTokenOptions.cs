@@ -14,4 +14,3 @@ public record AzDemoByoAccessTokenOptions(
     [CommandSwitch("--theme")]
     public string? Theme { get; set; }
 }
-

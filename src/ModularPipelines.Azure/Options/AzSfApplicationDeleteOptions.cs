@@ -66,4 +66,3 @@ public record AzSfApplicationDeleteOptions(
     [CommandSwitch("--upgrade-timeout")]
     public string? UpgradeTimeout { get; set; }
 }
-

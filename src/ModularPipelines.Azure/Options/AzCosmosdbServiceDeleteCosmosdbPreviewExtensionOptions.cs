@@ -18,4 +18,3 @@ public record AzCosmosdbServiceDeleteCosmosdbPreviewExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

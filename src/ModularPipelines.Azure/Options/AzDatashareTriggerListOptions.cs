@@ -15,4 +15,3 @@ public record AzDatashareTriggerListOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

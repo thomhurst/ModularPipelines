@@ -71,4 +71,3 @@ public record AzIotDpsEnrollmentCreateOptions(
     [CommandSwitch("--webhook-url")]
     public string? WebhookUrl { get; set; }
 }
-

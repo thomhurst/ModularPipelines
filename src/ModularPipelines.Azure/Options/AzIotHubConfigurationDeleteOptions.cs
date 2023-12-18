@@ -25,4 +25,3 @@ public record AzIotHubConfigurationDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

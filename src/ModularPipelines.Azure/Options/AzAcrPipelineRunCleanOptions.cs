@@ -14,4 +14,3 @@ public record AzAcrPipelineRunCleanOptions(
     [BooleanCommandSwitch("--dry-run")]
     public bool? DryRun { get; set; }
 }
-

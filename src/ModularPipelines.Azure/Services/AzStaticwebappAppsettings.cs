@@ -32,4 +32,3 @@ public class AzStaticwebappAppsettings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

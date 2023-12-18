@@ -19,4 +19,3 @@ public record AzIotCentralEnrollmentGroupListOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

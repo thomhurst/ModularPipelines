@@ -21,4 +21,3 @@ public record AzIotCentralDeviceAttestationUpdateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

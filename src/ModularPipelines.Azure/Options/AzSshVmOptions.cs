@@ -53,4 +53,3 @@ public record AzSshVmOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? SshArgs { get; set; }
 }
-

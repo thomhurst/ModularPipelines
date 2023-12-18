@@ -38,4 +38,3 @@ public record AzIotHubMessageEndpointCreateServicebusTopicOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

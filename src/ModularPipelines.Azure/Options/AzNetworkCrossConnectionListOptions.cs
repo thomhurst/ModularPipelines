@@ -14,4 +14,3 @@ public record AzNetworkCrossConnectionListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

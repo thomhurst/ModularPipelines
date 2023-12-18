@@ -29,4 +29,3 @@ public record AzDesktopvirtualizationApplicationgroupUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

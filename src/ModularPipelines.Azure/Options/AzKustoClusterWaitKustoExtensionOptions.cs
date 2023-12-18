@@ -41,4 +41,3 @@ public record AzKustoClusterWaitKustoExtensionOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

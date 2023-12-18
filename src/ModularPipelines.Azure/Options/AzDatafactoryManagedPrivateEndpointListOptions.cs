@@ -24,4 +24,3 @@ public record AzDatafactoryManagedPrivateEndpointListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

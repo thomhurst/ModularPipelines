@@ -37,4 +37,3 @@ public class AzSelfHelpSolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

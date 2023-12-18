@@ -14,4 +14,3 @@ public record AzSelfTestOptions : AzOptions
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

@@ -42,4 +42,3 @@ public class AzSynapseWorkspaceKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

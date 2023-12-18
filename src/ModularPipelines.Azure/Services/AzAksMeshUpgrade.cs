@@ -32,4 +32,3 @@ public class AzAksMeshUpgrade
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

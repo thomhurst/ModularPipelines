@@ -22,4 +22,3 @@ public class AzContainerappConnectionCreateSqlServiceconnectorPasswordless
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateSqlServiceconnectorPasswordlessExtensionOptions(), token);
     }
 }
-

@@ -49,4 +49,3 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzDesktopvirtualizationWorkspaceShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

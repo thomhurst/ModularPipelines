@@ -25,4 +25,3 @@ public record AzWebpubsubServicePermissionRevokeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzAcrCredentialSetUpdateOptions(
     [CommandSwitch("--username-id")]
     public string? UsernameId { get; set; }
 }
-

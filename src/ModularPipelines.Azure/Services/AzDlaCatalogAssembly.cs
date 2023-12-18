@@ -27,4 +27,3 @@ public class AzDlaCatalogAssembly
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -53,4 +53,3 @@ public record AzSpringCloudConnectionUpdateCosmosGremlinOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

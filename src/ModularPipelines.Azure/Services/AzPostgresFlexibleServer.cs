@@ -142,4 +142,3 @@ public class AzPostgresFlexibleServer
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerWaitOptions(), token);
     }
 }
-

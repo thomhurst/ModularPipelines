@@ -26,4 +26,3 @@ public record AzContainerappResiliencyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

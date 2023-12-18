@@ -27,4 +27,3 @@ public class AzStaticwebappSecrets
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

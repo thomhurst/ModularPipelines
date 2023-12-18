@@ -47,4 +47,3 @@ public class AzMobileNetworkSimPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyWaitOptions(), token);
     }
 }
-

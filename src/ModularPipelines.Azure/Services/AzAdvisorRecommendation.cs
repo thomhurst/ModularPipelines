@@ -32,4 +32,3 @@ public class AzAdvisorRecommendation
         return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationListOptions(), token);
     }
 }
-

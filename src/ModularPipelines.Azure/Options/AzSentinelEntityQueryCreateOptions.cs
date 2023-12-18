@@ -18,4 +18,3 @@ public record AzSentinelEntityQueryCreateOptions(
     [CommandSwitch("--etag")]
     public string? Etag { get; set; }
 }
-

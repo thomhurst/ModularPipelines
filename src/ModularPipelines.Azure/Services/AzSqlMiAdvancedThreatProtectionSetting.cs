@@ -27,4 +27,3 @@ public class AzSqlMiAdvancedThreatProtectionSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdvancedThreatProtectionSettingUpdateOptions(), token);
     }
 }
-

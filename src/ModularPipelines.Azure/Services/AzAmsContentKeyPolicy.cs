@@ -46,4 +46,3 @@ public class AzAmsContentKeyPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyUpdateOptions(), token);
     }
 }
-

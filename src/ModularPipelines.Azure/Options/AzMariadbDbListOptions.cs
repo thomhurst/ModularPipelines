@@ -17,4 +17,3 @@ public record AzMariadbDbListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

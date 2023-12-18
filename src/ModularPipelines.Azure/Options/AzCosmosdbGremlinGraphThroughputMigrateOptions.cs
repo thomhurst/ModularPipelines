@@ -20,4 +20,3 @@ public record AzCosmosdbGremlinGraphThroughputMigrateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

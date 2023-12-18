@@ -22,4 +22,3 @@ public record AzIotEdgeDeploymentShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

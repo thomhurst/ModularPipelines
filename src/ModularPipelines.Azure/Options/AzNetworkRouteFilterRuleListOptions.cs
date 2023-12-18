@@ -20,4 +20,3 @@ public record AzNetworkRouteFilterRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

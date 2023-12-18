@@ -25,4 +25,3 @@ public class AzSecurityVaSql
 
     public AzSecurityVaSqlScans Scans { get; }
 }
-

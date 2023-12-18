@@ -32,4 +32,3 @@ public class AzCognitiveservicesAccountNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

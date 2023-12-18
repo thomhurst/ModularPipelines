@@ -41,4 +41,3 @@ public record AzStreamAnalyticsClusterWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

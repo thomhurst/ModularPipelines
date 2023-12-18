@@ -47,4 +47,3 @@ public class AzNetworkVirtualApplianceSite
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteWaitOptions(), token);
     }
 }
-

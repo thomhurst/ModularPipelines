@@ -17,4 +17,3 @@ public class AzArcapplianceTroubleshoot
 
     public AzArcapplianceTroubleshootCommand Command { get; }
 }
-

@@ -17,4 +17,3 @@ public class AzStorageDirectoryDelete
 
     public AzStorageDirectoryDeleteStoragePreview StoragePreview { get; }
 }
-

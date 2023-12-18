@@ -28,4 +28,3 @@ public record AzArtifactsUniversalPublishOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzGroupLockListOptions(
     [CommandSwitch("--filter-string")]
     public string? FilterString { get; set; }
 }
-

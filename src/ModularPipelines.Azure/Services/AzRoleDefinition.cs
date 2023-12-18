@@ -37,4 +37,3 @@ public class AzRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

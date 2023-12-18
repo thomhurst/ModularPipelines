@@ -42,4 +42,3 @@ public class AzKeyvaultRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

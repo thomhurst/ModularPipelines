@@ -42,4 +42,3 @@ public class AzNetworkVhubRouteMapRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapRuleWaitOptions(), token);
     }
 }
-

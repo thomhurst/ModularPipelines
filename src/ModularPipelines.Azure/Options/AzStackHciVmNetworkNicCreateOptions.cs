@@ -36,4 +36,3 @@ public record AzStackHciVmNetworkNicCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

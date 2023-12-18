@@ -20,4 +20,3 @@ public record AzCommunicationChatThreadListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

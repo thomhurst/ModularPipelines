@@ -29,4 +29,3 @@ public record AzIotDuInstanceUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

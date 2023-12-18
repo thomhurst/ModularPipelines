@@ -15,4 +15,3 @@ public record AzCosmosdbMongodbRoleDefinitionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzBackupVaultEncryption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzMeshCodePackageLog
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshCodePackageLogGetOptions(), token);
     }
 }
-

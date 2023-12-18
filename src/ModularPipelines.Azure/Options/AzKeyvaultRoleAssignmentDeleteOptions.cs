@@ -32,4 +32,3 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

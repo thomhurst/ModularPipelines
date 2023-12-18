@@ -22,4 +22,3 @@ public class AzVmMonitorLog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

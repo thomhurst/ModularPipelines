@@ -19,4 +19,3 @@ public record AzPipelinesPoolShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

@@ -42,4 +42,3 @@ public record AzImageCreateOptions(
     [BooleanCommandSwitch("--zone-resilient")]
     public bool? ZoneResilient { get; set; }
 }
-

@@ -11,4 +11,3 @@ public record AzFunctionappListRuntimesOptions : AzOptions
     [CommandSwitch("--os")]
     public string? Os { get; set; }
 }
-

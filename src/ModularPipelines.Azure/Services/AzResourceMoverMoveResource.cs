@@ -42,4 +42,3 @@ public class AzResourceMoverMoveResource
         return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveResourceWaitOptions(), token);
     }
 }
-

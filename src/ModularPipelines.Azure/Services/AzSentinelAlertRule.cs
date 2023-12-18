@@ -50,4 +50,3 @@ public class AzSentinelAlertRule
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleUpdateOptions(), token);
     }
 }
-

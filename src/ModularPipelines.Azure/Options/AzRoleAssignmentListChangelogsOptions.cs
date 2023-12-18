@@ -16,4 +16,3 @@ public record AzRoleAssignmentListChangelogsOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

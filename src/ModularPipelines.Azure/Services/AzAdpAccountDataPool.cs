@@ -47,4 +47,3 @@ public class AzAdpAccountDataPool
         return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolWaitOptions(), token);
     }
 }
-

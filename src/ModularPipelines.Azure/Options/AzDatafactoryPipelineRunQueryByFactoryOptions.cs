@@ -32,4 +32,3 @@ public record AzDatafactoryPipelineRunQueryByFactoryOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

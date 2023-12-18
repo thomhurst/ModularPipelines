@@ -56,4 +56,3 @@ public class AzSphereDeviceNetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

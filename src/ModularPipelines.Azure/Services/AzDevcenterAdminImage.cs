@@ -27,4 +27,3 @@ public class AzDevcenterAdminImage
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminImageShowOptions(), token);
     }
 }
-

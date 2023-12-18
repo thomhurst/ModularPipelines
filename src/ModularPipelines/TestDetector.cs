@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines;
+namespace ModularPipelines;
 
 internal static class TestDetector
 {

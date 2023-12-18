@@ -59,4 +59,3 @@ public record AzWebappConnectionCreateMysqlOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

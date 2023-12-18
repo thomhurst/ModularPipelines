@@ -26,4 +26,3 @@ public record AzPipelinesReleaseDefinitionShowOptions : AzOptions
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

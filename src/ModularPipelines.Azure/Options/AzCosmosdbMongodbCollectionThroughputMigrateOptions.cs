@@ -20,4 +20,3 @@ public record AzCosmosdbMongodbCollectionThroughputMigrateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

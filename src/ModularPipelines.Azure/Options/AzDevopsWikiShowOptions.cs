@@ -22,4 +22,3 @@ public record AzDevopsWikiShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

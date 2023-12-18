@@ -26,4 +26,3 @@ public record AzCosmosdbCassandraTableCreateOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

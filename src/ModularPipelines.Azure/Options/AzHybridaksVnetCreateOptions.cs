@@ -36,4 +36,3 @@ public record AzHybridaksVnetCreateOptions(
     [CommandSwitch("--vsphere-segment-name")]
     public string? VsphereSegmentName { get; set; }
 }
-

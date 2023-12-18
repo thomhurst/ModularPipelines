@@ -25,4 +25,3 @@ public record AzEventgridEventSubscriptionListOptions(
     [CommandSwitch("--topic-type-name")]
     public string? TopicTypeName { get; set; }
 }
-

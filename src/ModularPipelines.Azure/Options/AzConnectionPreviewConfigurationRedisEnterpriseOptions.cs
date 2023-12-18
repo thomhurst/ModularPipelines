@@ -14,4 +14,3 @@ public record AzConnectionPreviewConfigurationRedisEnterpriseOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzMysqlFlexibleServerExport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

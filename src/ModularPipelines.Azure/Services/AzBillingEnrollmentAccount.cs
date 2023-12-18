@@ -27,4 +27,3 @@ public class AzBillingEnrollmentAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

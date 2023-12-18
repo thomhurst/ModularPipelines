@@ -17,4 +17,3 @@ public record AzKeyvaultSecretPurgeOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

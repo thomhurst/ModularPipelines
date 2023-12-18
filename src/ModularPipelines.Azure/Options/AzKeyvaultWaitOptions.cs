@@ -34,4 +34,3 @@ public record AzKeyvaultWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

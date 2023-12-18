@@ -28,4 +28,3 @@ public record AzVmwareAddonSrmDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

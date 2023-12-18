@@ -37,4 +37,3 @@ public class AzApimProductApi
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

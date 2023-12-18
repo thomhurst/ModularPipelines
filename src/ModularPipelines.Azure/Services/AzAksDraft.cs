@@ -42,4 +42,3 @@ public class AzAksDraft
         return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftUpdateOptions(), token);
     }
 }
-

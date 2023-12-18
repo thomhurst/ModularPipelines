@@ -24,4 +24,3 @@ public record AzSecurityVaSqlResultsShowOptions(
     [CommandSwitch("--vm-uuid")]
     public string? VmUuid { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzMonitorAutoscaleProfile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

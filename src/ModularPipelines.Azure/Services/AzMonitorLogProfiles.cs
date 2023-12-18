@@ -42,4 +42,3 @@ public class AzMonitorLogProfiles
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesUpdateOptions(), token);
     }
 }
-

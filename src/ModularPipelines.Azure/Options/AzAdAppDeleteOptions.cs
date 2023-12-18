@@ -28,4 +28,3 @@ public record AzAdAppDeleteOptions(
     [CommandSwitch("--show-mine")]
     public string? ShowMine { get; set; }
 }
-

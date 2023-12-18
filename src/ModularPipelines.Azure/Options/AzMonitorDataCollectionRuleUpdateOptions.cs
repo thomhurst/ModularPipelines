@@ -47,4 +47,3 @@ public record AzMonitorDataCollectionRuleUpdateOptions : AzOptions
     [CommandSwitch("--windows-event-logs")]
     public string? WindowsEventLogs { get; set; }
 }
-

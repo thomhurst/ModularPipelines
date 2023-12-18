@@ -23,4 +23,3 @@ public record AzMonitorActionGroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

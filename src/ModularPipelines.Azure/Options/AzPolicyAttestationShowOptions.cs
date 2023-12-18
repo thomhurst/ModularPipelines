@@ -25,4 +25,3 @@ public record AzPolicyAttestationShowOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

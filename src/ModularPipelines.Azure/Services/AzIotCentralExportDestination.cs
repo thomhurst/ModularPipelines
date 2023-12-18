@@ -42,4 +42,3 @@ public class AzIotCentralExportDestination
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

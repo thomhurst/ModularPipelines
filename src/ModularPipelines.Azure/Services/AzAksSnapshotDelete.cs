@@ -17,4 +17,3 @@ public class AzAksSnapshotDelete
 
     public AzAksSnapshotDeleteAksPreview AksPreview { get; }
 }
-

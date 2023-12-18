@@ -22,4 +22,3 @@ public record AzSynapseKqlScriptCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

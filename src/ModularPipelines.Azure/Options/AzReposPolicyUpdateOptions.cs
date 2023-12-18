@@ -20,4 +20,3 @@ public record AzReposPolicyUpdateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

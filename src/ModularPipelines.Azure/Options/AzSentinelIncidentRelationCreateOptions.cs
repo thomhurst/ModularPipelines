@@ -19,4 +19,3 @@ public record AzSentinelIncidentRelationCreateOptions(
     [CommandSwitch("--related-resource-id")]
     public string? RelatedResourceId { get; set; }
 }
-

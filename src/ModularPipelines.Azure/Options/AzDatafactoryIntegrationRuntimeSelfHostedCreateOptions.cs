@@ -21,4 +21,3 @@ public record AzDatafactoryIntegrationRuntimeSelfHostedCreateOptions(
     [CommandSwitch("--linked-info")]
     public string? LinkedInfo { get; set; }
 }
-

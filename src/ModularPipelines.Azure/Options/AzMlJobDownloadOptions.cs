@@ -21,4 +21,3 @@ public record AzMlJobDownloadOptions(
     [CommandSwitch("--output-name")]
     public string? OutputName { get; set; }
 }
-

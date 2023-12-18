@@ -44,4 +44,3 @@ public record AzBoardsWorkItemCreateOptions(
     [CommandSwitch("--reason")]
     public string? Reason { get; set; }
 }
-

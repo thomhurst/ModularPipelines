@@ -80,4 +80,3 @@ public class AzSigImageVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

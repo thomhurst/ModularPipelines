@@ -22,4 +22,3 @@ public class AzLogicappDeploymentSource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

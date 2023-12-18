@@ -47,4 +47,3 @@ public class AzHdinsightOnAksClusterpool
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolWaitOptions(), token);
     }
 }
-

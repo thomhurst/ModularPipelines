@@ -51,4 +51,3 @@ public class AzWorkloads
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapSupportedSkuOptions(), token);
     }
 }
-

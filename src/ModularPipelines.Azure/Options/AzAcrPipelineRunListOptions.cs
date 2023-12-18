@@ -14,4 +14,3 @@ public record AzAcrPipelineRunListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

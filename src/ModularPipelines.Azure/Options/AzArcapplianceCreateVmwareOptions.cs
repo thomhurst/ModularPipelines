@@ -23,4 +23,3 @@ public record AzArcapplianceCreateVmwareOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

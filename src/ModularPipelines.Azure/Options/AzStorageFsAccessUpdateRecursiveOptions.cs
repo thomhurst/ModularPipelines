@@ -45,4 +45,3 @@ public record AzStorageFsAccessUpdateRecursiveOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

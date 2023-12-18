@@ -42,4 +42,3 @@ public class AzMonitorScheduledQuery
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryUpdateOptions(), token);
     }
 }
-

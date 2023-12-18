@@ -44,4 +44,3 @@ public record AzStorageFileDownloadBatchStoragePreviewExtensionOptions(
     [BooleanCommandSwitch("--validate-content")]
     public bool? ValidateContent { get; set; }
 }
-

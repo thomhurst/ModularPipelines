@@ -52,4 +52,3 @@ public class AzStreamAnalyticsCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterWaitOptions(), token);
     }
 }
-

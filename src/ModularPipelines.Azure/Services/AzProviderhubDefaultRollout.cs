@@ -42,4 +42,3 @@ public class AzProviderhubDefaultRollout
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubDefaultRolloutStopOptions(), token);
     }
 }
-

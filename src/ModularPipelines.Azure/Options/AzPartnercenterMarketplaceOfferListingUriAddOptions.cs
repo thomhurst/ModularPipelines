@@ -26,4 +26,3 @@ public record AzPartnercenterMarketplaceOfferListingUriAddOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

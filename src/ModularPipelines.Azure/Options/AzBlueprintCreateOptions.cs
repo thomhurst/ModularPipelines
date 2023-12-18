@@ -29,4 +29,3 @@ public record AzBlueprintCreateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

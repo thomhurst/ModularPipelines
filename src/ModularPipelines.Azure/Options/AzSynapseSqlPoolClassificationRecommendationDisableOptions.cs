@@ -27,4 +27,3 @@ public record AzSynapseSqlPoolClassificationRecommendationDisableOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

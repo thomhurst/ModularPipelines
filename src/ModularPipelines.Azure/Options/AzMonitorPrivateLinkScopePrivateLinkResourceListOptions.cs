@@ -17,4 +17,3 @@ public record AzMonitorPrivateLinkScopePrivateLinkResourceListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

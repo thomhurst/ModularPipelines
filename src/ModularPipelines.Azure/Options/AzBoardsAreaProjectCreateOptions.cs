@@ -22,4 +22,3 @@ public record AzBoardsAreaProjectCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

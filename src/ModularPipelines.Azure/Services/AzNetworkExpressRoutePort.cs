@@ -64,4 +64,3 @@ public class AzNetworkExpressRoutePort
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortWaitOptions(), token);
     }
 }
-

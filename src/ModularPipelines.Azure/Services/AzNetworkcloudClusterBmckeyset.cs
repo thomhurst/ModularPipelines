@@ -47,4 +47,3 @@ public class AzNetworkcloudClusterBmckeyset
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBmckeysetWaitOptions(), token);
     }
 }
-

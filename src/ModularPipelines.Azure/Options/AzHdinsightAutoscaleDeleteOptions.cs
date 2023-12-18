@@ -17,4 +17,3 @@ public record AzHdinsightAutoscaleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -73,4 +73,3 @@ public class AzDevops
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsLogoutOptions(), token);
     }
 }
-

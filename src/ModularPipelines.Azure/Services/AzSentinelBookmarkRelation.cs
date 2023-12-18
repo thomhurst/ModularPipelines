@@ -42,4 +42,3 @@ public class AzSentinelBookmarkRelation
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationUpdateOptions(), token);
     }
 }
-

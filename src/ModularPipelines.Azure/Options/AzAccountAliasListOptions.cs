@@ -31,4 +31,3 @@ public record AzAccountAliasListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

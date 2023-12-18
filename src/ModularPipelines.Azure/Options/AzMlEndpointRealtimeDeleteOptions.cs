@@ -25,4 +25,3 @@ public record AzMlEndpointRealtimeDeleteOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

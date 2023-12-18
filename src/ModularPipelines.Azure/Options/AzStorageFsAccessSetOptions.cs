@@ -41,4 +41,3 @@ public record AzStorageFsAccessSetOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

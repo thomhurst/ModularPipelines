@@ -32,4 +32,3 @@ public class AzBackupVaultResourceGuardMapping
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

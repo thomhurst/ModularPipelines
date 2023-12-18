@@ -17,4 +17,3 @@ public record AzReposPrPolicyQueueOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

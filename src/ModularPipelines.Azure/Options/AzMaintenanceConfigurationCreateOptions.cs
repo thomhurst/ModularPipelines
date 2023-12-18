@@ -53,4 +53,3 @@ public record AzMaintenanceConfigurationCreateOptions(
     [CommandSwitch("--visibility")]
     public string? Visibility { get; set; }
 }
-

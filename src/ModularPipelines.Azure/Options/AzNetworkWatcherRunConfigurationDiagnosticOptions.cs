@@ -40,4 +40,3 @@ public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
     [CommandSwitch("--source")]
     public string? Source { get; set; }
 }
-

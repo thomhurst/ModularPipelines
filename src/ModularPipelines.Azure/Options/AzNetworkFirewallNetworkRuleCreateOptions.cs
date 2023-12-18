@@ -39,4 +39,3 @@ public record AzNetworkFirewallNetworkRuleCreateOptions(
     [CommandSwitch("--source-ip-groups")]
     public string? SourceIpGroups { get; set; }
 }
-

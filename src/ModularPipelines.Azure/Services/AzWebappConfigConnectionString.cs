@@ -32,4 +32,3 @@ public class AzWebappConfigConnectionString
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringSetOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzSiteRecoveryJobCancelOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

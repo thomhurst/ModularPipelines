@@ -42,4 +42,3 @@ public class AzTsiAccessPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyUpdateOptions(), token);
     }
 }
-

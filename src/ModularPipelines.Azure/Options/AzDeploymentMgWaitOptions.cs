@@ -32,4 +32,3 @@ public record AzDeploymentMgWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

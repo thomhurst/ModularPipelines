@@ -23,4 +23,3 @@ public record AzVmExtensionListOptions(
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzStaticwebappListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

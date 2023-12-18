@@ -29,4 +29,3 @@ public record AzStorageShareRmCreateOptions(
     [CommandSwitch("--root-squash")]
     public string? RootSquash { get; set; }
 }
-

@@ -26,4 +26,3 @@ public class AzChangeAnalysis
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

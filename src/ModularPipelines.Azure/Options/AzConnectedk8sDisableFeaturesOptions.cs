@@ -31,4 +31,3 @@ public record AzConnectedk8sDisableFeaturesOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

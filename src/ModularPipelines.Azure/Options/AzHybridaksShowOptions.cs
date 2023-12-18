@@ -17,4 +17,3 @@ public record AzHybridaksShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

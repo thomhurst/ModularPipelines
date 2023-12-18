@@ -14,4 +14,3 @@ public record AzHdinsightOnAksClusterSecretCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzPostgresFlexibleServerShowConnectionStringOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

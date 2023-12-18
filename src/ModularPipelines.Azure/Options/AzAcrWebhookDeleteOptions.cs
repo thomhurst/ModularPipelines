@@ -14,4 +14,3 @@ public record AzAcrWebhookDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -48,4 +48,3 @@ public record AzBatchaiFileServerCreateOptions(
     [CommandSwitch("--vm-size")]
     public string? VmSize { get; set; }
 }
-

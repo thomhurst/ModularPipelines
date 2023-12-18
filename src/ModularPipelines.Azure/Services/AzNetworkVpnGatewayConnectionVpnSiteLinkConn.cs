@@ -36,4 +36,3 @@ public class AzNetworkVpnGatewayConnectionVpnSiteLinkConn
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

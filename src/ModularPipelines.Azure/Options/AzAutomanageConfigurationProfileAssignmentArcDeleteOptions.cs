@@ -26,4 +26,3 @@ public record AzAutomanageConfigurationProfileAssignmentArcDeleteOptions : AzOpt
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

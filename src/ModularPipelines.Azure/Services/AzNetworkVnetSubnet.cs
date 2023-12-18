@@ -57,4 +57,3 @@ public class AzNetworkVnetSubnet
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetWaitOptions(), token);
     }
 }
-

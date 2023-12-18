@@ -15,4 +15,3 @@ public record AzMeshSecretvalueShowOptions(
     [BooleanCommandSwitch("--show-value")]
     public bool? ShowValue { get; set; }
 }
-

@@ -77,4 +77,3 @@ public record AzCosmosdbPostgresClusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

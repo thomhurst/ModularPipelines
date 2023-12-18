@@ -45,4 +45,3 @@ public record AzStackHciVmNetworkLnetCreateOptions(
     [CommandSwitch("--vm-switch-name")]
     public string? VmSwitchName { get; set; }
 }
-

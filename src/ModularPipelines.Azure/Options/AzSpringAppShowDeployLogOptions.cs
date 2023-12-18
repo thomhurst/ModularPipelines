@@ -15,4 +15,3 @@ public record AzSpringAppShowDeployLogOptions(
     [CommandSwitch("--deployment")]
     public string? Deployment { get; set; }
 }
-

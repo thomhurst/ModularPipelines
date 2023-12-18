@@ -56,4 +56,3 @@ public class AzNetworkCrossConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionWaitOptions(), token);
     }
 }
-

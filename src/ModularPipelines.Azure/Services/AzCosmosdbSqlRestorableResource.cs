@@ -22,4 +22,3 @@ public class AzCosmosdbSqlRestorableResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

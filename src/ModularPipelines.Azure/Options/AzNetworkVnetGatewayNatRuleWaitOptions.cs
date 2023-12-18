@@ -41,4 +41,3 @@ public record AzNetworkVnetGatewayNatRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

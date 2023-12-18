@@ -81,4 +81,3 @@ public record AzHybridaksCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

@@ -38,4 +38,3 @@ public record AzDtCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

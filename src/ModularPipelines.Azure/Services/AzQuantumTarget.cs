@@ -37,4 +37,3 @@ public class AzQuantumTarget
         return await _command.ExecuteCommandLineTool(options ?? new AzQuantumTargetShowOptions(), token);
     }
 }
-

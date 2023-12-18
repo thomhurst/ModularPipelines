@@ -20,4 +20,3 @@ public record AzPpgShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

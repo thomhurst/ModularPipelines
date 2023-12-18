@@ -16,4 +16,3 @@ public record AzDmsProjectTaskShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

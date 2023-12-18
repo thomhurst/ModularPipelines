@@ -16,4 +16,3 @@ public record AzAosmNsdDeleteOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

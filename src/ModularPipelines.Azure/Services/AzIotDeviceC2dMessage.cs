@@ -47,4 +47,3 @@ public class AzIotDeviceC2dMessage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

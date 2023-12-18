@@ -19,4 +19,3 @@ public record AzGroupShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

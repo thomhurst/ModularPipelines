@@ -27,4 +27,3 @@ public class AzOffazureHypervMachine
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervMachineShowOptions(), token);
     }
 }
-

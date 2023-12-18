@@ -22,4 +22,3 @@ public class AzAksNodepoolSnapshotShowAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

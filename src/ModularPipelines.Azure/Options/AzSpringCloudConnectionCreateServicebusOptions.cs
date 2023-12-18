@@ -62,4 +62,3 @@ public record AzSpringCloudConnectionCreateServicebusOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

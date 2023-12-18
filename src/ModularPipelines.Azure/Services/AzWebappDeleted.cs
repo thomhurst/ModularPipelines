@@ -27,4 +27,3 @@ public class AzWebappDeleted
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

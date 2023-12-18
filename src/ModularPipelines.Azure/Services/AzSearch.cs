@@ -36,4 +36,3 @@ public class AzSearch
 
     public AzSearchSharedPrivateLinkResource SharedPrivateLinkResource { get; }
 }
-

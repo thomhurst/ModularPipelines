@@ -103,4 +103,3 @@ public record AzPostgresServerArcCreateOptions(
     [CommandSwitch("--volume-size-logs")]
     public string? VolumeSizeLogs { get; set; }
 }
-

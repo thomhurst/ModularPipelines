@@ -30,4 +30,3 @@ public record AzSfServiceCreateOptions(
     [CommandSwitch("--target-replica")]
     public string? TargetReplica { get; set; }
 }
-

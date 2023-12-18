@@ -20,4 +20,3 @@ public record AzDevcenterAdminScheduleCreateOptions(
     [CommandSwitch("--state")]
     public string? State { get; set; }
 }
-

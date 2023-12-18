@@ -14,4 +14,3 @@ public record AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions(
     [CommandSwitch("--ip-rule")]
     public string? IpRule { get; set; }
 }
-

@@ -61,4 +61,3 @@ public record AzServicebusTopicSubscriptionCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

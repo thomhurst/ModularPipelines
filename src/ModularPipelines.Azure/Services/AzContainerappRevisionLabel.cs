@@ -32,4 +32,3 @@ public class AzContainerappRevisionLabel
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

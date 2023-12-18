@@ -33,4 +33,3 @@ public record AzMlDataUpdateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

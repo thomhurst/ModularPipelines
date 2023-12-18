@@ -15,4 +15,3 @@ public record AzAutomanageConfigurationProfileAssignmentClusterCreateOptions(
     [CommandSwitch("--configuration-profile")]
     public string? ConfigurationProfile { get; set; }
 }
-

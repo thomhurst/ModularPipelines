@@ -66,4 +66,3 @@ public class AzAro
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

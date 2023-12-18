@@ -36,4 +36,3 @@ public record AzMonitorAutoscaleRuleCreateOptions(
     [CommandSwitch("--timegrain")]
     public string? Timegrain { get; set; }
 }
-

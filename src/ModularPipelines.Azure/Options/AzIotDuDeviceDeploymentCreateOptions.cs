@@ -37,4 +37,3 @@ public record AzIotDuDeviceDeploymentCreateOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

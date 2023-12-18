@@ -44,4 +44,3 @@ public record AzNetworkRouteFilterWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

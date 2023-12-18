@@ -22,4 +22,3 @@ public class AzNetworkPerimeterOnboardedResources
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

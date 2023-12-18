@@ -63,4 +63,3 @@ public record AzNetworkVnetCheckIpAddressOptions(
     [BooleanCommandSwitch("--vm-protection")]
     public bool? VmProtection { get; set; }
 }
-

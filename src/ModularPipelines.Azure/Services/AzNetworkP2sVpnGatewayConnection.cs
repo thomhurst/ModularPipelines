@@ -27,4 +27,3 @@ public class AzNetworkP2sVpnGatewayConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkP2sVpnGatewayConnectionShowOptions(), token);
     }
 }
-

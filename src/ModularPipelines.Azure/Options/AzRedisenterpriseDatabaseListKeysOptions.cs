@@ -22,4 +22,3 @@ public record AzRedisenterpriseDatabaseListKeysOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzMysqlFlexibleServerFirewallRuleDeleteOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

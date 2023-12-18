@@ -34,4 +34,3 @@ public record AzReposPolicyFileSizeUpdateOptions(
     [BooleanCommandSwitch("--use-uncompressed-size")]
     public bool? UseUncompressedSize { get; set; }
 }
-

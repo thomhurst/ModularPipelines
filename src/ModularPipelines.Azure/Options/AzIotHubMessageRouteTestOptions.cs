@@ -28,4 +28,3 @@ public record AzIotHubMessageRouteTestOptions(
     [CommandSwitch("--sp")]
     public string? Sp { get; set; }
 }
-

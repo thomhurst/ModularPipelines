@@ -15,4 +15,3 @@ public record AzMlComputeConnectSshOptions(
     [CommandSwitch("--private-key-file-path")]
     public string? PrivateKeyFilePath { get; set; }
 }
-

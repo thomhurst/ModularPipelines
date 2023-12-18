@@ -20,4 +20,3 @@ public record AzProviderhubOperationCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

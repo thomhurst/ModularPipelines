@@ -125,4 +125,3 @@ public class AzAksNodepool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

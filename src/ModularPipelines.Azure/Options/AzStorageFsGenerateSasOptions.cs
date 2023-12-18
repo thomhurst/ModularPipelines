@@ -67,4 +67,3 @@ public record AzStorageFsGenerateSasOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

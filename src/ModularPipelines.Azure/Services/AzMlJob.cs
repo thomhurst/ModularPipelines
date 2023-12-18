@@ -72,4 +72,3 @@ public class AzMlJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzLogzMonitorUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

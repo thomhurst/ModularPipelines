@@ -27,4 +27,3 @@ public class AzNetworkcloudRacksku
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackskuShowOptions(), token);
     }
 }
-

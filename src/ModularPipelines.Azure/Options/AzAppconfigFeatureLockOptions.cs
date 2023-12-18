@@ -32,4 +32,3 @@ public record AzAppconfigFeatureLockOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

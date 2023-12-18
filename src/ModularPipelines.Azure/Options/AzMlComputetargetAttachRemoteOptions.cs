@@ -28,4 +28,3 @@ public record AzMlComputetargetAttachRemoteOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

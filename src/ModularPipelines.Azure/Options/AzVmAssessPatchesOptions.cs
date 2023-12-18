@@ -25,4 +25,3 @@ public record AzVmAssessPatchesOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

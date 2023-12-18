@@ -40,4 +40,3 @@ public record AzDlaAccountBlobStorageListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzMonitorDataCollectionRuleAssociationShowOptions(
     [CommandSwitch("--rule-id")]
     public string? RuleId { get; set; }
 }
-

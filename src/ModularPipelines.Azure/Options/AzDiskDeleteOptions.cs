@@ -28,4 +28,3 @@ public record AzDiskDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

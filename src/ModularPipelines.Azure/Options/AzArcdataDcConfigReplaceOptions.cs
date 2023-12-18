@@ -18,4 +18,3 @@ public record AzArcdataDcConfigReplaceOptions(
     [CommandSwitch("--use-k8s")]
     public string? UseK8s { get; set; }
 }
-

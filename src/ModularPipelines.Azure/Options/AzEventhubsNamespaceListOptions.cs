@@ -17,4 +17,3 @@ public record AzEventhubsNamespaceListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

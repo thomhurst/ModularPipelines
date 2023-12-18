@@ -16,4 +16,3 @@ public record AzNetworkTrafficManagerProfileCheckDnsOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

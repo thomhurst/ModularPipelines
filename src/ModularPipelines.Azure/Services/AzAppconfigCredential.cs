@@ -27,4 +27,3 @@ public class AzAppconfigCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

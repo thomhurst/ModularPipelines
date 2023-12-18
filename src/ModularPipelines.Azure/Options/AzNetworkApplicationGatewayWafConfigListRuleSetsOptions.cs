@@ -19,4 +19,3 @@ public record AzNetworkApplicationGatewayWafConfigListRuleSetsOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

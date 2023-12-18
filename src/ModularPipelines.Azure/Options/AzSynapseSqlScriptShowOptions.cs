@@ -32,4 +32,3 @@ public record AzSynapseSqlScriptShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

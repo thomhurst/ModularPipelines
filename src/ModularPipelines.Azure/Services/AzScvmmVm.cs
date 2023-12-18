@@ -93,4 +93,3 @@ public class AzScvmmVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

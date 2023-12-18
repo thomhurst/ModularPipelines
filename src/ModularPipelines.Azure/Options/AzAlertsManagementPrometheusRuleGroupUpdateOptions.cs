@@ -53,4 +53,3 @@ public record AzAlertsManagementPrometheusRuleGroupUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

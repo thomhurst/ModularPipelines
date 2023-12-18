@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayPrivateLinkIpConfigWaitOptions : AzOpti
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

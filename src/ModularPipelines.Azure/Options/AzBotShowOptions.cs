@@ -14,4 +14,3 @@ public record AzBotShowOptions(
     [BooleanCommandSwitch("--msbot")]
     public bool? Msbot { get; set; }
 }
-

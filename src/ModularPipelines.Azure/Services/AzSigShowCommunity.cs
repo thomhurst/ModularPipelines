@@ -17,4 +17,3 @@ public class AzSigShowCommunity
 
     public AzSigShowCommunityImageGallery ImageGallery { get; }
 }
-

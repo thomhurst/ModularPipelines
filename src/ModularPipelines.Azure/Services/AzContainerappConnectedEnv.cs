@@ -49,4 +49,3 @@ public class AzContainerappConnectedEnv
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvShowOptions(), token);
     }
 }
-

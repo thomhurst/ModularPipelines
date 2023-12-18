@@ -23,4 +23,3 @@ public record AzEventgridNamespaceCaCertificateListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

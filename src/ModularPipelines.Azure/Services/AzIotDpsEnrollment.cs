@@ -46,4 +46,3 @@ public class AzIotDpsEnrollment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

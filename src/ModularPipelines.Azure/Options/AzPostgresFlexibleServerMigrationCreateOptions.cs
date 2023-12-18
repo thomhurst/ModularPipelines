@@ -24,4 +24,3 @@ public record AzPostgresFlexibleServerMigrationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

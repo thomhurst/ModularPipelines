@@ -19,4 +19,3 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions(
     [CommandSwitch("--policy-config")]
     public string? PolicyConfig { get; set; }
 }
-

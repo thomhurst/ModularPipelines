@@ -22,4 +22,3 @@ public class AzWebappConfigSslUnbindAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -15,4 +15,3 @@ public record AzPeeringRegisteredPrefixDeleteOptions(
     [CommandSwitch("--prefix")]
     public string? Prefix { get; set; }
 }
-

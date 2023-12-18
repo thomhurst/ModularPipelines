@@ -62,4 +62,3 @@ public record AzMonitorDiagnosticSettingsUpdateOptions(
     [CommandSwitch("--workspace-id")]
     public string? WorkspaceId { get; set; }
 }
-

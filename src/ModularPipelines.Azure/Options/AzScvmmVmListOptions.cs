@@ -13,4 +13,3 @@ public record AzScvmmVmListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -58,4 +58,3 @@ public record AzMonitorMetricsListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

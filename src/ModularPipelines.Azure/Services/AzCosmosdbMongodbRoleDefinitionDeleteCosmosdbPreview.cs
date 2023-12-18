@@ -22,4 +22,3 @@ public class AzCosmosdbMongodbRoleDefinitionDeleteCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

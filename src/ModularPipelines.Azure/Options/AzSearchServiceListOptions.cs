@@ -19,4 +19,3 @@ public record AzSearchServiceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

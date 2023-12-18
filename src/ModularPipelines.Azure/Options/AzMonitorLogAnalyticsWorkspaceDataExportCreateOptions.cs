@@ -20,4 +20,3 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions(
     [CommandSwitch("--event-hub-name")]
     public string? EventHubName { get; set; }
 }
-

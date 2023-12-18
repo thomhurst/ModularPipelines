@@ -31,4 +31,3 @@ public record AzDevopsProjectListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzArcappliancePrepareHciOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

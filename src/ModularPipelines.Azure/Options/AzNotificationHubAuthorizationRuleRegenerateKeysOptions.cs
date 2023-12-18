@@ -28,4 +28,3 @@ public record AzNotificationHubAuthorizationRuleRegenerateKeysOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

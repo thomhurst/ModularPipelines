@@ -13,4 +13,3 @@ public record AzAliasImportOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

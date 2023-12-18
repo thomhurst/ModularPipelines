@@ -32,4 +32,3 @@ public class AzFunctionappFunctionKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

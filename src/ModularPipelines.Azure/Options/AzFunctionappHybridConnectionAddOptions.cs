@@ -16,4 +16,3 @@ public record AzFunctionappHybridConnectionAddOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

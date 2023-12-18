@@ -38,4 +38,3 @@ public record AzIotHubMessageEndpointUpdateStorageContainerOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

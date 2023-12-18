@@ -19,4 +19,3 @@ public record AzAksPodIdentityExceptionAddOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzAppserviceAseCreateInboundServicesOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

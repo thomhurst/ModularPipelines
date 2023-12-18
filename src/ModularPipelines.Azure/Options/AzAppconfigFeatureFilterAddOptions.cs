@@ -40,4 +40,3 @@ public record AzAppconfigFeatureFilterAddOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

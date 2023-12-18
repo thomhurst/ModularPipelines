@@ -17,4 +17,3 @@ public class AzMlEndpoint
 
     public AzMlEndpointRealtime Realtime { get; }
 }
-

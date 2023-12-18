@@ -29,4 +29,3 @@ public record AzReposPolicyApproverCountCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzDataprotectionRecoveryPointListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

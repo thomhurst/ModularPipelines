@@ -20,4 +20,3 @@ public record AzCosmosdbPostgresRoleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

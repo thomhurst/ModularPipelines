@@ -20,4 +20,3 @@ public record AzContainerappConnectedEnvCertificateListOptions(
     [CommandSwitch("--thumbprint")]
     public string? Thumbprint { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzAksDisableAddons
 
     public AzAksDisableAddonsAksPreview AksPreview { get; }
 }
-

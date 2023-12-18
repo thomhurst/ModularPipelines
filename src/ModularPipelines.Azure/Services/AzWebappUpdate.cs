@@ -17,4 +17,3 @@ public class AzWebappUpdate
 
     public AzWebappUpdateAppserviceKube AppserviceKube { get; }
 }
-

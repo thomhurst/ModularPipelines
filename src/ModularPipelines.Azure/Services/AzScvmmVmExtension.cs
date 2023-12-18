@@ -42,4 +42,3 @@ public class AzScvmmVmExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

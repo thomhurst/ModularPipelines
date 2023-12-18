@@ -22,4 +22,3 @@ public class AzKustoOperationResultLocation
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultLocationShowOptions(), token);
     }
 }
-

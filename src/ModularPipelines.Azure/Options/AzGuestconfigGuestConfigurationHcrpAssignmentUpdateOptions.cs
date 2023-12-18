@@ -50,4 +50,3 @@ public record AzGuestconfigGuestConfigurationHcrpAssignmentUpdateOptions : AzOpt
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzNetworkNatGatewayUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

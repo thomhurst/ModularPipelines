@@ -17,4 +17,3 @@ public class AzCosmosdbGremlinRestorableGraphList
 
     public AzCosmosdbGremlinRestorableGraphListCosmosdbPreview CosmosdbPreview { get; }
 }
-

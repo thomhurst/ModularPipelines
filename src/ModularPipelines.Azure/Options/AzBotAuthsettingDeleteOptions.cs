@@ -15,4 +15,3 @@ public record AzBotAuthsettingDeleteOptions(
     [CommandSwitch("--provider-name")]
     public string? ProviderName { get; set; }
 }
-

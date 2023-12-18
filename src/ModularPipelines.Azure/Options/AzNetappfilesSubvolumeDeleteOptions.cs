@@ -28,4 +28,3 @@ public record AzNetappfilesSubvolumeDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

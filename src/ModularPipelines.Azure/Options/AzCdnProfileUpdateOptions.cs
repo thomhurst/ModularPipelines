@@ -35,4 +35,3 @@ public record AzCdnProfileUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

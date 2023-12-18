@@ -37,4 +37,3 @@ public record AzDlaCatalogSchemaListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

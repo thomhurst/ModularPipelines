@@ -71,4 +71,3 @@ public record AzStorageBlobGenerateSasStorageBlobPreviewExtensionOptions(
     [CommandSwitch("--version-id")]
     public string? VersionId { get; set; }
 }
-

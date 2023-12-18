@@ -24,4 +24,3 @@ public record AzBillingInstructionCreateOptions(
     [CommandSwitch("--start-date")]
     public string? StartDate { get; set; }
 }
-

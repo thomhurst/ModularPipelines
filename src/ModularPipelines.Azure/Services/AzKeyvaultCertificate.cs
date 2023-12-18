@@ -104,4 +104,3 @@ public class AzKeyvaultCertificate
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateShowDeletedOptions(), token);
     }
 }
-

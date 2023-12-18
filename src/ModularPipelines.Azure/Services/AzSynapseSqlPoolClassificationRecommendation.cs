@@ -32,4 +32,3 @@ public class AzSynapseSqlPoolClassificationRecommendation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

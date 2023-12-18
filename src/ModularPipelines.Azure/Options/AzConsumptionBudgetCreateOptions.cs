@@ -27,4 +27,3 @@ public record AzConsumptionBudgetCreateOptions(
     [CommandSwitch("--resource-group-filter")]
     public string? ResourceGroupFilter { get; set; }
 }
-

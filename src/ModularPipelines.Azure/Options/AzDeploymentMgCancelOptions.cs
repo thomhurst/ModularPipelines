@@ -53,4 +53,3 @@ public record AzDeploymentMgCancelOptions(
     [CommandSwitch("--what-if-result-format")]
     public string? WhatIfResultFormat { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzAccountLockCreateOptions(
     [CommandSwitch("--notes")]
     public string? Notes { get; set; }
 }
-

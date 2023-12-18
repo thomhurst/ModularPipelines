@@ -37,4 +37,3 @@ public class AzSqlMiPartnerCert
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiPartnerCertShowOptions(), token);
     }
 }
-

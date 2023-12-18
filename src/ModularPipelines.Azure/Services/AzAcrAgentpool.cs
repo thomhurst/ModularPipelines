@@ -42,4 +42,3 @@ public class AzAcrAgentpool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

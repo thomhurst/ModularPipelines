@@ -47,4 +47,3 @@ public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

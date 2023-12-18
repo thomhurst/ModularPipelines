@@ -32,4 +32,3 @@ public record AzCustomlocationPatchOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

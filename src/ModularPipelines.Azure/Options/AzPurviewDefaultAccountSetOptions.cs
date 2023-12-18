@@ -23,4 +23,3 @@ public record AzPurviewDefaultAccountSetOptions(
     [CommandSwitch("--scope-type")]
     public string? ScopeType { get; set; }
 }
-

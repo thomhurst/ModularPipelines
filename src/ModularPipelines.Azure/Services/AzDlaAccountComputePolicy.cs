@@ -42,4 +42,3 @@ public class AzDlaAccountComputePolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

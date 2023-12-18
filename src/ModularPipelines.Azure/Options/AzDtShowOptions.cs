@@ -13,4 +13,3 @@ public record AzDtShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

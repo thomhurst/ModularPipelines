@@ -42,4 +42,3 @@ public class AzSqlDbLtrBackup
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbLtrBackupWaitOptions(), token);
     }
 }
-

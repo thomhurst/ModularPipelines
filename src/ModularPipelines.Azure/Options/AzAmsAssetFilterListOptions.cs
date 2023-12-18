@@ -21,4 +21,3 @@ public record AzAmsAssetFilterListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

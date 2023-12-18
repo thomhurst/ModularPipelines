@@ -17,4 +17,3 @@ public class AzCosmosdbList
 
     public AzCosmosdbListCosmosdbPreview CosmosdbPreview { get; }
 }
-

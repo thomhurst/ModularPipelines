@@ -31,4 +31,3 @@ public record AzNetworkManagerSecurityAdminConfigRuleCollectionUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

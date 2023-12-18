@@ -20,4 +20,3 @@ public record AzNetworkPrivateLinkResourceListOptions : AzOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

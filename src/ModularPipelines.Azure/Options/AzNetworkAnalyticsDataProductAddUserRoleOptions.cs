@@ -27,4 +27,3 @@ public record AzNetworkAnalyticsDataProductAddUserRoleOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzSqlMidbCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -59,4 +59,3 @@ public class AzDataprotectionBackupPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyUpdateOptions(), token);
     }
 }
-

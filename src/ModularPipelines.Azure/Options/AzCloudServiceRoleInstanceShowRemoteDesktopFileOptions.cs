@@ -23,4 +23,3 @@ public record AzCloudServiceRoleInstanceShowRemoteDesktopFileOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

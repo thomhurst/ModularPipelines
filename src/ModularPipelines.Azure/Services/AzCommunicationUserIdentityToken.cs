@@ -32,4 +32,3 @@ public class AzCommunicationUserIdentityToken
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

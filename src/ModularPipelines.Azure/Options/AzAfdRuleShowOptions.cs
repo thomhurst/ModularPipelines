@@ -26,4 +26,3 @@ public record AzAfdRuleShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

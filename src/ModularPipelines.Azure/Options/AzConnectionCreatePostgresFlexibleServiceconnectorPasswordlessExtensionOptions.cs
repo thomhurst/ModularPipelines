@@ -49,4 +49,3 @@ public record AzConnectionCreatePostgresFlexibleServiceconnectorPasswordlessExte
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

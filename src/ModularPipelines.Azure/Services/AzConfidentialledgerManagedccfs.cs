@@ -47,4 +47,3 @@ public class AzConfidentialledgerManagedccfs
         return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsWaitOptions(), token);
     }
 }
-

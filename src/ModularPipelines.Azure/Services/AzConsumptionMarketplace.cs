@@ -22,4 +22,3 @@ public class AzConsumptionMarketplace
         return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionMarketplaceListOptions(), token);
     }
 }
-

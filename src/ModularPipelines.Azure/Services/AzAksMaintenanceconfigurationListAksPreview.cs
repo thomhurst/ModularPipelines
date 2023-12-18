@@ -22,4 +22,3 @@ public class AzAksMaintenanceconfigurationListAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

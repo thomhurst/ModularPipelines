@@ -42,4 +42,3 @@ public class AzImageBuilderTrigger
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerWaitOptions(), token);
     }
 }
-

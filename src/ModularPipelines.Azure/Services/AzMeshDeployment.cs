@@ -22,4 +22,3 @@ public class AzMeshDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

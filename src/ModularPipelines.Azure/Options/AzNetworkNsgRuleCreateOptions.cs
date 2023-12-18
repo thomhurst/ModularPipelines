@@ -46,4 +46,3 @@ public record AzNetworkNsgRuleCreateOptions(
     [CommandSwitch("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 }
-

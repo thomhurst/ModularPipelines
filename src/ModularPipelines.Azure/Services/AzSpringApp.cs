@@ -137,4 +137,3 @@ public class AzSpringApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzNetworkWatcherConnectionMonitorEndpointRemoveOptions(
     [CommandSwitch("--test-groups")]
     public string? TestGroups { get; set; }
 }
-

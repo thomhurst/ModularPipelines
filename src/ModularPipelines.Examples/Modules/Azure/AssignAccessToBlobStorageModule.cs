@@ -1,4 +1,4 @@
-﻿using Azure.ResourceManager.Authorization;
+using Azure.ResourceManager.Authorization;
 using Azure.ResourceManager.Authorization.Models;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Extensions;

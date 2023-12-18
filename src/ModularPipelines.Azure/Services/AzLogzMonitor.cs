@@ -72,4 +72,3 @@ public class AzLogzMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorWaitOptions(), token);
     }
 }
-

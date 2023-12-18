@@ -14,4 +14,3 @@ public record AzCapacityReservationGroupShowOptions(
     [CommandSwitch("--instance-view")]
     public string? InstanceView { get; set; }
 }
-

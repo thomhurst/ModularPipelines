@@ -32,4 +32,3 @@ public class AzMlComputetargetComputeinstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

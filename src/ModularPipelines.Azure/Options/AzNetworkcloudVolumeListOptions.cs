@@ -17,4 +17,3 @@ public record AzNetworkcloudVolumeListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

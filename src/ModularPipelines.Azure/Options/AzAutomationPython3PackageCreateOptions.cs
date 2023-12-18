@@ -16,4 +16,3 @@ public record AzAutomationPython3PackageCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

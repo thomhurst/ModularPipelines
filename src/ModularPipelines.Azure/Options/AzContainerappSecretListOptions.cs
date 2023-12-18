@@ -14,4 +14,3 @@ public record AzContainerappSecretListOptions(
     [BooleanCommandSwitch("--show-values")]
     public bool? ShowValues { get; set; }
 }
-

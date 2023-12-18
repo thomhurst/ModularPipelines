@@ -49,4 +49,3 @@ public record AzNetworkVhubConnectionCreateOptions(
     [BooleanCommandSwitch("--use-hub-vnet-gateways")]
     public bool? UseHubVnetGateways { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzFzfGroupOptions : AzOptions
     [BooleanCommandSwitch("--no-default")]
     public bool? NoDefault { get; set; }
 }
-

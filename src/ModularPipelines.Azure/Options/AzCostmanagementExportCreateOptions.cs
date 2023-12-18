@@ -35,4 +35,3 @@ public record AzCostmanagementExportCreateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

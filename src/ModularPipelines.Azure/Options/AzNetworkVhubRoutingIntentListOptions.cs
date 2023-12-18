@@ -20,4 +20,3 @@ public record AzNetworkVhubRoutingIntentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

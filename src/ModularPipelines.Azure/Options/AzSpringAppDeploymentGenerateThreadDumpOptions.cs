@@ -17,4 +17,3 @@ public record AzSpringAppDeploymentGenerateThreadDumpOptions(
     [CommandSwitch("--deployment")]
     public string? Deployment { get; set; }
 }
-

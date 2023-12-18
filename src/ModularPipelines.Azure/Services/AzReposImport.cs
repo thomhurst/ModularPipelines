@@ -22,4 +22,3 @@ public class AzReposImport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

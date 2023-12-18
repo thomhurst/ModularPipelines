@@ -16,4 +16,3 @@ public record AzRelayWcfrelayAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

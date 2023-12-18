@@ -26,4 +26,3 @@ public record AzSigShareEnableCommunityImageGalleryExtensionOptions(
     [CommandSwitch("--tenant-ids")]
     public string? TenantIds { get; set; }
 }
-

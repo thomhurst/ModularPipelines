@@ -17,4 +17,3 @@ public record AzChangeAnalysisListOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

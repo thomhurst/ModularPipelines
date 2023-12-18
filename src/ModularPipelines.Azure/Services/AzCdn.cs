@@ -54,4 +54,3 @@ public class AzCdn
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnUsageOptions(), token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzMonitorDiagnosticSettingsCategories
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

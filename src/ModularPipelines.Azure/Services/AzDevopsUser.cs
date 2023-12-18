@@ -42,4 +42,3 @@ public class AzDevopsUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

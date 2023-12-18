@@ -32,4 +32,3 @@ public class AzFluidRelayContainer
         return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerShowOptions(), token);
     }
 }
-

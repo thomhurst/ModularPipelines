@@ -20,4 +20,3 @@ public record AzSqlVmStartAssessmentOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

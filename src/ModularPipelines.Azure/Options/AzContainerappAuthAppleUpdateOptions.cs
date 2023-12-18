@@ -35,4 +35,3 @@ public record AzContainerappAuthAppleUpdateOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

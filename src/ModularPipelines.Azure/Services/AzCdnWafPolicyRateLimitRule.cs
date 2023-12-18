@@ -37,4 +37,3 @@ public class AzCdnWafPolicyRateLimitRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

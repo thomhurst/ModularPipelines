@@ -44,4 +44,3 @@ public record AzMlOnlineEndpointUpdateOptions(
     [BooleanCommandSwitch("--web")]
     public bool? Web { get; set; }
 }
-

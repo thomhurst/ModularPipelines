@@ -47,4 +47,3 @@ public class AzDesktopvirtualizationHostpool
         return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationHostpoolUpdateOptions(), token);
     }
 }
-

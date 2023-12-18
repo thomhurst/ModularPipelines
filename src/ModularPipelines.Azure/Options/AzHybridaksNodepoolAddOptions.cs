@@ -33,4 +33,3 @@ public record AzHybridaksNodepoolAddOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

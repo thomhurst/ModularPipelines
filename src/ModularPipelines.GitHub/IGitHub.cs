@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Interfaces;
+using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.GitHub;
 

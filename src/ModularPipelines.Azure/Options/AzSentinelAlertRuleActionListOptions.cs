@@ -21,4 +21,3 @@ public record AzSentinelAlertRuleActionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

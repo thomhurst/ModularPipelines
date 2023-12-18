@@ -22,4 +22,3 @@ public class AzBatchJobPrepReleaseStatus
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

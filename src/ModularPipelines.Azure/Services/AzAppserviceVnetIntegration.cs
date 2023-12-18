@@ -22,4 +22,3 @@ public class AzAppserviceVnetIntegration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

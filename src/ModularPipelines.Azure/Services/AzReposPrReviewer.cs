@@ -32,4 +32,3 @@ public class AzReposPrReviewer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

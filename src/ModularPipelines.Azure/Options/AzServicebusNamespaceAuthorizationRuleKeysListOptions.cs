@@ -21,4 +21,3 @@ public record AzServicebusNamespaceAuthorizationRuleKeysListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -87,4 +87,3 @@ public class AzRedis
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisUpdateOptions(), token);
     }
 }
-

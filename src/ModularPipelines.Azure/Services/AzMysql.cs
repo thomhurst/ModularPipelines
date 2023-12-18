@@ -47,4 +47,3 @@ public class AzMysql
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlUpOptions(), token);
     }
 }
-

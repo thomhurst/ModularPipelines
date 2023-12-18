@@ -31,4 +31,3 @@ public record AzContainerappRegistrySetOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzSapmonitorProviderInstanceCreateOptions(
     [CommandSwitch("--provider-instance-metadata")]
     public string? ProviderInstanceMetadata { get; set; }
 }
-

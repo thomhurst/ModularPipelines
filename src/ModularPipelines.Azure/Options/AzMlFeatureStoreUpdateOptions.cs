@@ -62,4 +62,3 @@ public record AzMlFeatureStoreUpdateOptions(
     [BooleanCommandSwitch("--update-dependent-resources")]
     public bool? UpdateDependentResources { get; set; }
 }
-

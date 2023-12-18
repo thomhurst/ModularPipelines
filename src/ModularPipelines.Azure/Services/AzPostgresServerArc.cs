@@ -51,4 +51,3 @@ public class AzPostgresServerArc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

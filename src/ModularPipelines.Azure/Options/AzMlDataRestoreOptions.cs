@@ -22,4 +22,3 @@ public record AzMlDataRestoreOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

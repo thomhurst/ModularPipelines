@@ -14,4 +14,3 @@ public record AzEventgridPartnerNamespaceEventChannelListOptions(
     [CommandSwitch("--odata-query")]
     public string? OdataQuery { get; set; }
 }
-

@@ -35,4 +35,3 @@ public record AzSqlUpOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

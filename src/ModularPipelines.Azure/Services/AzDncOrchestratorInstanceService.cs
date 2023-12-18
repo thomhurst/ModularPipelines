@@ -37,4 +37,3 @@ public class AzDncOrchestratorInstanceService
         return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceWaitOptions(), token);
     }
 }
-

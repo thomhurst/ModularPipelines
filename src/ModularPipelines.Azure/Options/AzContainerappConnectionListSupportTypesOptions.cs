@@ -11,4 +11,3 @@ public record AzContainerappConnectionListSupportTypesOptions : AzOptions
     [CommandSwitch("--target-type")]
     public string? TargetType { get; set; }
 }
-

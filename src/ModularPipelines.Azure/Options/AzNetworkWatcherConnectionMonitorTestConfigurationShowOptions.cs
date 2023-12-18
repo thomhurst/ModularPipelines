@@ -45,4 +45,3 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationShowOptions(
     [CommandSwitch("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }
-

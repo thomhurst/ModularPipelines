@@ -27,4 +27,3 @@ public class AzIotCentralAppPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateLinkResourceShowOptions(), token);
     }
 }
-

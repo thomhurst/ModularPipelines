@@ -25,4 +25,3 @@ public record AzCloudServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

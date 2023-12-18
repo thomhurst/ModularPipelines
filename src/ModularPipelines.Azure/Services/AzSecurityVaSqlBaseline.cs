@@ -42,4 +42,3 @@ public class AzSecurityVaSqlBaseline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

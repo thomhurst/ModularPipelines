@@ -38,4 +38,3 @@ public record AzDiskAccessUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

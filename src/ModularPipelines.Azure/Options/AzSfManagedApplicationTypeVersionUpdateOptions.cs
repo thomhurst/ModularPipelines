@@ -19,4 +19,3 @@ public record AzSfManagedApplicationTypeVersionUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

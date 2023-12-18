@@ -104,4 +104,3 @@ public record AzCosmosdbUpdateCosmosdbPreviewExtensionOptions : AzOptions
     [CommandSwitch("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }
-

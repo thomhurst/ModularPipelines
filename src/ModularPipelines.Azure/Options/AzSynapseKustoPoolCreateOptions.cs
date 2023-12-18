@@ -40,4 +40,3 @@ public record AzSynapseKustoPoolCreateOptions(
     [CommandSwitch("--workspace-uid")]
     public string? WorkspaceUid { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzK8sExtensionExtensionTypesListOptions(
     [CommandSwitch("--release-train")]
     public string? ReleaseTrain { get; set; }
 }
-

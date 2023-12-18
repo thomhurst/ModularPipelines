@@ -52,4 +52,3 @@ public record AzPolicyAttestationUpdateOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

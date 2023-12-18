@@ -22,4 +22,3 @@ public record AzMonitorAppInsightsComponentContinuesExportCreateOptions(
     [BooleanCommandSwitch("--is-enabled")]
     public bool? IsEnabled { get; set; }
 }
-

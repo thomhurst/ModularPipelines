@@ -37,4 +37,3 @@ public record AzBatchJobScheduleShowOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzAmsContentKeyPolicyListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

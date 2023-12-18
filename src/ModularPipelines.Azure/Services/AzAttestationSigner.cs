@@ -32,4 +32,3 @@ public class AzAttestationSigner
         return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerRemoveOptions(), token);
     }
 }
-

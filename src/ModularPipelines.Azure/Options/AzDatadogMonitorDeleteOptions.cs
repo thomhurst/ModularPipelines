@@ -23,4 +23,3 @@ public record AzDatadogMonitorDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

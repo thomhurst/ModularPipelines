@@ -23,4 +23,3 @@ public record AzFootprintExperimentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

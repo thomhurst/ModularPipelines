@@ -22,4 +22,3 @@ public record AzBatchaiJobFileListOptions(
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

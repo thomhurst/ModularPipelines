@@ -32,4 +32,3 @@ public class AzCosmosdbMongodbCollectionThroughput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

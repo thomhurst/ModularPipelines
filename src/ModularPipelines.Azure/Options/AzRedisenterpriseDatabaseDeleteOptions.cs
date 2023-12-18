@@ -28,4 +28,3 @@ public record AzRedisenterpriseDatabaseDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

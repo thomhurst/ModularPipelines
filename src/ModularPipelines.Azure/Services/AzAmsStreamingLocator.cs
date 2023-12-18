@@ -47,4 +47,3 @@ public class AzAmsStreamingLocator
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorShowOptions(), token);
     }
 }
-

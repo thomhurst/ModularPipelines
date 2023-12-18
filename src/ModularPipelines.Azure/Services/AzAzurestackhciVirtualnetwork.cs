@@ -42,4 +42,3 @@ public class AzAzurestackhciVirtualnetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkUpdateOptions(), token);
     }
 }
-

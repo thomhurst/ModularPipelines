@@ -113,4 +113,3 @@ public record AzStorageBlobCopyStartStorageBlobPreviewExtensionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -401,4 +401,3 @@ public record AzAksCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

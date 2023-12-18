@@ -32,4 +32,3 @@ public class AzFunctionappIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappIdentityShowOptions(), token);
     }
 }
-

@@ -24,4 +24,3 @@ public record AzStreamAnalyticsTransformationShowOptions(
     [CommandSwitch("--valid-streaming-units")]
     public string? ValidStreamingUnits { get; set; }
 }
-

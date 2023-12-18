@@ -42,4 +42,3 @@ public class AzSynapseWorkspacePackage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

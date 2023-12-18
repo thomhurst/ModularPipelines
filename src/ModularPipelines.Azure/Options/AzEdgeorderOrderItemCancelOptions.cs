@@ -22,4 +22,3 @@ public record AzEdgeorderOrderItemCancelOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

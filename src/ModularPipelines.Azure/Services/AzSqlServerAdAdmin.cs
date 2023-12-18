@@ -37,4 +37,3 @@ public class AzSqlServerAdAdmin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

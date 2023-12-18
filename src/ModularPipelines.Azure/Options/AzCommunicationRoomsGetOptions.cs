@@ -13,4 +13,3 @@ public record AzCommunicationRoomsGetOptions(
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
 }
-

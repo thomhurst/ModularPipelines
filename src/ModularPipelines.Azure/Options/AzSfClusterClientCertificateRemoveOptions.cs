@@ -23,4 +23,3 @@ public record AzSfClusterClientCertificateRemoveOptions(
     [CommandSwitch("--thumbprints")]
     public string? Thumbprints { get; set; }
 }
-

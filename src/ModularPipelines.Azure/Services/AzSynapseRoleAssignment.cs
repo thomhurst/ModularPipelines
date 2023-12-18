@@ -37,4 +37,3 @@ public class AzSynapseRoleAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

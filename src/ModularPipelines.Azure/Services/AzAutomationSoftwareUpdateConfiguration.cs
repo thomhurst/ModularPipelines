@@ -45,4 +45,3 @@ public class AzAutomationSoftwareUpdateConfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

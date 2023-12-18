@@ -22,4 +22,3 @@ public record AzContainerAttachOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

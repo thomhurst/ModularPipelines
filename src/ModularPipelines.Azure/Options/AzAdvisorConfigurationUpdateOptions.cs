@@ -35,4 +35,3 @@ public record AzAdvisorConfigurationUpdateOptions : AzOptions
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

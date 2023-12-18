@@ -119,4 +119,3 @@ public record AzStorageBlobUploadOptions(
     [BooleanCommandSwitch("--validate-content")]
     public bool? ValidateContent { get; set; }
 }
-

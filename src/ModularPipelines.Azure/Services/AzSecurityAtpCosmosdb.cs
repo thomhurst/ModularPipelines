@@ -27,4 +27,3 @@ public class AzSecurityAtpCosmosdb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

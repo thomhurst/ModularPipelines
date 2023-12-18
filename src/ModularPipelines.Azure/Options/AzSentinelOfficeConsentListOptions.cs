@@ -20,4 +20,3 @@ public record AzSentinelOfficeConsentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

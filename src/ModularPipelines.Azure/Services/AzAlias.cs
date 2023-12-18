@@ -46,4 +46,3 @@ public class AzAlias
         return await _command.ExecuteCommandLineTool(options ?? new AzAliasRemoveAllOptions(), token);
     }
 }
-

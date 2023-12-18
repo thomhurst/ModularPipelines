@@ -28,4 +28,3 @@ public record AzApicMetadataSchemaExportMetadataSchemaOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

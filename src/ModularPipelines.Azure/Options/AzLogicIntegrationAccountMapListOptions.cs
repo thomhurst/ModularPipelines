@@ -17,4 +17,3 @@ public record AzLogicIntegrationAccountMapListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

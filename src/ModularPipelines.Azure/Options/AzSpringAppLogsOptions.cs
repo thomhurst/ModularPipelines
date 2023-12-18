@@ -33,4 +33,3 @@ public record AzSpringAppLogsOptions(
     [CommandSwitch("--since")]
     public string? Since { get; set; }
 }
-

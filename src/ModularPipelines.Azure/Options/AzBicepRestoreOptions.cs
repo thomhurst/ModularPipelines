@@ -13,4 +13,3 @@ public record AzBicepRestoreOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

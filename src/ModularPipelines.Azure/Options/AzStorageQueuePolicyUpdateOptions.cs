@@ -35,4 +35,3 @@ public record AzStorageQueuePolicyUpdateOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

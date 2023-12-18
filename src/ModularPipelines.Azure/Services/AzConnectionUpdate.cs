@@ -132,4 +132,3 @@ public class AzConnectionUpdate
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectionUpdateWebpubsubOptions(), token);
     }
 }
-

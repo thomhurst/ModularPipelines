@@ -50,4 +50,3 @@ public record AzPostgresUpOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

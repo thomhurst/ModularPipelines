@@ -37,4 +37,3 @@ public class AzBatchCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

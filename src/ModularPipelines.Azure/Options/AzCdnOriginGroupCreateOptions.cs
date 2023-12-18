@@ -28,4 +28,3 @@ public record AzCdnOriginGroupCreateOptions(
     [CommandSwitch("--probe-protocol")]
     public string? ProbeProtocol { get; set; }
 }
-

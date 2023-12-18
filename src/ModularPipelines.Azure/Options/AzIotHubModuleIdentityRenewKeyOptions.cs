@@ -25,4 +25,3 @@ public record AzIotHubModuleIdentityRenewKeyOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

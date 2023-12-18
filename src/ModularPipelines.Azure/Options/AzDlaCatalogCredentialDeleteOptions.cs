@@ -26,4 +26,3 @@ public record AzDlaCatalogCredentialDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

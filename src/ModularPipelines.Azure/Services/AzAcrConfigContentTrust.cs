@@ -27,4 +27,3 @@ public class AzAcrConfigContentTrust
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

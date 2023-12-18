@@ -47,4 +47,3 @@ public class AzFleetMember
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

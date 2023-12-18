@@ -22,4 +22,3 @@ public class AzCosmosdbSqlRestorableContainerListCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public record AzStackHciExtensionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

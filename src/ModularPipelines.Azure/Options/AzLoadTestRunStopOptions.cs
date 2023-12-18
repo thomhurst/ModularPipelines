@@ -17,4 +17,3 @@ public record AzLoadTestRunStopOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

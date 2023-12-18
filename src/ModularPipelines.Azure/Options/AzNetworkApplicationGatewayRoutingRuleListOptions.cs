@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayRoutingRuleListOptions(
     [CommandSwitch("--settings")]
     public string? Settings { get; set; }
 }
-

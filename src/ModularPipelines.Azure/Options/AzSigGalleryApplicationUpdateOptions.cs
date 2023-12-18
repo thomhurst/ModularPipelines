@@ -24,4 +24,3 @@ public record AzSigGalleryApplicationUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

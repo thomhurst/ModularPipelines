@@ -35,4 +35,3 @@ public record AzDatamigrationTdeMigrationOptions : AzOptions
     [CommandSwitch("--target-subscription-id")]
     public string? TargetSubscriptionId { get; set; }
 }
-

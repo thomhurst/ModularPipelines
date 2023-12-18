@@ -55,4 +55,3 @@ public record AzNetworkTrafficManagerEndpointCreateOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

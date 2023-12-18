@@ -31,4 +31,3 @@ public record AzVmwarePlacementPolicyVmHostCreateOptions(
     [CommandSwitch("--state")]
     public string? State { get; set; }
 }
-

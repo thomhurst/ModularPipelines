@@ -47,4 +47,3 @@ public class AzAdDs
         return await _command.ExecuteCommandLineTool(options ?? new AzAdDsWaitOptions(), token);
     }
 }
-

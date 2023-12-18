@@ -20,4 +20,3 @@ public record AzDiskPoolListOutboundNetworkDependencyEndpointOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

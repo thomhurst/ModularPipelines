@@ -32,4 +32,3 @@ public class AzSqlDbGeoBackup
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupShowOptions(), token);
     }
 }
-

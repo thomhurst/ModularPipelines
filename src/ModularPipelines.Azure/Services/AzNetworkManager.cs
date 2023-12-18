@@ -97,4 +97,3 @@ public class AzNetworkManager
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerWaitOptions(), token);
     }
 }
-

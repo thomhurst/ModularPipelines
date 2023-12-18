@@ -55,4 +55,3 @@ public class AzIotDuUpdate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -46,4 +46,3 @@ public class AzServicebusTopicAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleUpdateOptions(), token);
     }
 }
-

@@ -182,4 +182,3 @@ public class AzIotHub
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubWaitOptions(), token);
     }
 }
-

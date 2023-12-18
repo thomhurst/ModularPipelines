@@ -52,4 +52,3 @@ public record AzNetworkcloudClusterCreateOptions(
     [CommandSwitch("--update-strategy")]
     public string? UpdateStrategy { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzContainerappJobIdentityAssignOptions : AzOptions
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

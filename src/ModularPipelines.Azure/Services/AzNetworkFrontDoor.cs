@@ -90,4 +90,3 @@ public class AzNetworkFrontDoor
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWaitOptions(), token);
     }
 }
-

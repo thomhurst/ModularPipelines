@@ -17,4 +17,3 @@ public class AzSigShareEnableCommunity
 
     public AzSigShareEnableCommunityImageGallery ImageGallery { get; }
 }
-

@@ -26,4 +26,3 @@ public record AzRedisDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

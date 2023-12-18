@@ -26,4 +26,3 @@ public record AzIotHubIdentityRemoveOptions : AzOptions
     [CommandSwitch("--user")]
     public string? User { get; set; }
 }
-

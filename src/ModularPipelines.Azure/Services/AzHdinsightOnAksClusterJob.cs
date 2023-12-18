@@ -27,4 +27,3 @@ public class AzHdinsightOnAksClusterJob
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterJobRunOptions(), token);
     }
 }
-

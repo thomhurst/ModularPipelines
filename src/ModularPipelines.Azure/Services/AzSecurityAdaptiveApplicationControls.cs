@@ -27,4 +27,3 @@ public class AzSecurityAdaptiveApplicationControls
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

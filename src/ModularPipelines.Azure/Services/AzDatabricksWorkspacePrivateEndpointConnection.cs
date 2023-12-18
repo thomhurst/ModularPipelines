@@ -47,4 +47,3 @@ public class AzDatabricksWorkspacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

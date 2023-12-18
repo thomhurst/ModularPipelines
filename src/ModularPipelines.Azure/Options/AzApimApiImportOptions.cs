@@ -67,4 +67,3 @@ public record AzApimApiImportOptions(
     [CommandSwitch("--wsdl-service-name")]
     public string? WsdlServiceName { get; set; }
 }
-

@@ -29,4 +29,3 @@ public class AzIotDu
 
     public AzIotDuUpdate Update { get; }
 }
-

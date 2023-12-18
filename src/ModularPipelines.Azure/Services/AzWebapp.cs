@@ -168,4 +168,3 @@ public class AzWebapp
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpdateOptions(), token);
     }
 }
-

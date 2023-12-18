@@ -26,4 +26,3 @@ public record AzGrafanaDashboardSyncOptions(
     [CommandSwitch("--folders-to-include")]
     public string? FoldersToInclude { get; set; }
 }
-

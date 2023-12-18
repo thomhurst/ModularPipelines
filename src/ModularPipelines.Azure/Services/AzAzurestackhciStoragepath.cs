@@ -42,4 +42,3 @@ public class AzAzurestackhciStoragepath
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathUpdateOptions(), token);
     }
 }
-

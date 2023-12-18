@@ -47,4 +47,3 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedStorage
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedStorageShowOptions(), token);
     }
 }
-

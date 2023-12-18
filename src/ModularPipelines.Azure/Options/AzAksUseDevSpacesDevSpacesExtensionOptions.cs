@@ -23,4 +23,3 @@ public record AzAksUseDevSpacesDevSpacesExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

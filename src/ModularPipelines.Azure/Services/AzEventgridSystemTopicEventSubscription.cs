@@ -62,4 +62,3 @@ public class AzEventgridSystemTopicEventSubscription
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

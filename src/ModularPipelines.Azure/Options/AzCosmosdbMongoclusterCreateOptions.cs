@@ -22,4 +22,3 @@ public record AzCosmosdbMongoclusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

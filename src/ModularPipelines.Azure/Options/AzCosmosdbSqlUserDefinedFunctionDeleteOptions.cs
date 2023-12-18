@@ -17,4 +17,3 @@ public record AzCosmosdbSqlUserDefinedFunctionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

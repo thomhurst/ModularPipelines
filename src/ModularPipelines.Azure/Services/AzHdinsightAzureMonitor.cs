@@ -32,4 +32,3 @@ public class AzHdinsightAzureMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzDevopsExtensionListOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

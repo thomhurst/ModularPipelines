@@ -27,4 +27,3 @@ public class AzTsiEventSourceEventhub
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceEventhubUpdateOptions(), token);
     }
 }
-

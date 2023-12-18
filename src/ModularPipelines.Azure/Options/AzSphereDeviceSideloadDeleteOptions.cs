@@ -19,4 +19,3 @@ public record AzSphereDeviceSideloadDeleteOptions(
     [CommandSwitch("--except-component-ids")]
     public string? ExceptComponentIds { get; set; }
 }
-

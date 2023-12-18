@@ -17,4 +17,3 @@ public record AzSecurityAlertsSuppressionRuleUpsert_scopeOptions(
     [CommandSwitch("--contains-substring")]
     public string? ContainsSubstring { get; set; }
 }
-

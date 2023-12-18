@@ -42,4 +42,3 @@ public class AzMonitorDataCollectionRulePerformanceCounter
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public record AzIotOpsAssetEventAddOptions(
     [CommandSwitch("--sampling-interval")]
     public string? SamplingInterval { get; set; }
 }
-

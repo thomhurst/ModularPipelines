@@ -42,4 +42,3 @@ public class AzStackHciExtension
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionWaitOptions(), token);
     }
 }
-

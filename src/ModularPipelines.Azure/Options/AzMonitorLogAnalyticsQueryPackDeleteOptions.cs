@@ -23,4 +23,3 @@ public record AzMonitorLogAnalyticsQueryPackDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

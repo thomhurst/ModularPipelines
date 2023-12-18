@@ -32,4 +32,3 @@ public class AzKustoDataConnectionIotHub
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionIotHubUpdateOptions(), token);
     }
 }
-

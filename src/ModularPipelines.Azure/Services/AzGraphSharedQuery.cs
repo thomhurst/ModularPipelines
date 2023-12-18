@@ -37,4 +37,3 @@ public class AzGraphSharedQuery
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzEventgridPartnerVerifiedPartner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

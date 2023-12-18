@@ -26,4 +26,3 @@ public record AzSpringCloudAppInsightsUpdateOptions(
     [CommandSwitch("--sampling-rate")]
     public string? SamplingRate { get; set; }
 }
-

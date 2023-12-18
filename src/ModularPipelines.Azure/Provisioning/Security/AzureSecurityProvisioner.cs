@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Authorization;

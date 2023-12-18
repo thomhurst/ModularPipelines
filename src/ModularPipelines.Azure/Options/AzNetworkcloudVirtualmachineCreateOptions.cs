@@ -57,4 +57,3 @@ public record AzNetworkcloudVirtualmachineCreateOptions(
     [CommandSwitch("--vm-image-repository-credentials")]
     public string? VmImageRepositoryCredentials { get; set; }
 }
-

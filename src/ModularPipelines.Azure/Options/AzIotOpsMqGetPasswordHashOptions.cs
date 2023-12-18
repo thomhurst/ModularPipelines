@@ -13,4 +13,3 @@ public record AzIotOpsMqGetPasswordHashOptions(
     [CommandSwitch("--iterations")]
     public string? Iterations { get; set; }
 }
-

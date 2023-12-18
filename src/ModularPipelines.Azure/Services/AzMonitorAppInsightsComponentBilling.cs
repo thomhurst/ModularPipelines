@@ -27,4 +27,3 @@ public class AzMonitorAppInsightsComponentBilling
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentBillingUpdateOptions(), token);
     }
 }
-

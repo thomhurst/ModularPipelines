@@ -13,4 +13,3 @@ public record AzSphereDeviceCapabilityUpdateOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

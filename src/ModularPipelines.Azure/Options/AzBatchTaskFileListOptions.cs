@@ -26,4 +26,3 @@ public record AzBatchTaskFileListOptions(
     [CommandSwitch("--recursive")]
     public string? Recursive { get; set; }
 }
-

@@ -61,4 +61,3 @@ public record AzIotDeviceC2dMessageSendOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

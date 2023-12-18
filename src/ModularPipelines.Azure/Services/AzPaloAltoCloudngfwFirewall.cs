@@ -66,4 +66,3 @@ public class AzPaloAltoCloudngfwFirewall
         return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwFirewallWaitOptions(), token);
     }
 }
-

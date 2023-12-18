@@ -27,4 +27,3 @@ public class AzAcrEncryption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

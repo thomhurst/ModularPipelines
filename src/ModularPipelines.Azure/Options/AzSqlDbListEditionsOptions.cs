@@ -28,4 +28,3 @@ public record AzSqlDbListEditionsOptions(
     [CommandSwitch("--vcores")]
     public string? Vcores { get; set; }
 }
-

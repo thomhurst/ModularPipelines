@@ -23,4 +23,3 @@ public record AzMonitorPrivateLinkScopeScopedResourceShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

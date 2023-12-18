@@ -28,4 +28,3 @@ public class AzGuestconfig
 
     public AzGuestconfigGuestConfigurationHcrpAssignmentReport GuestConfigurationHcrpAssignmentReport { get; }
 }
-

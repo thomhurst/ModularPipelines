@@ -41,4 +41,3 @@ public record AzGroupDeploymentCancelOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

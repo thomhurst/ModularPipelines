@@ -27,4 +27,3 @@ public record AzIotCentralDeviceTwinUpdateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

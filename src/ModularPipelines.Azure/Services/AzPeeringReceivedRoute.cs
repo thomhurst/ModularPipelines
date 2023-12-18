@@ -22,4 +22,3 @@ public class AzPeeringReceivedRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

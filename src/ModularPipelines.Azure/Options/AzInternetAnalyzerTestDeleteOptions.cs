@@ -36,4 +36,3 @@ public record AzInternetAnalyzerTestDeleteOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

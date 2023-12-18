@@ -35,4 +35,3 @@ public record AzBlueprintArtifactTemplateUpdateOptions(
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 }
-

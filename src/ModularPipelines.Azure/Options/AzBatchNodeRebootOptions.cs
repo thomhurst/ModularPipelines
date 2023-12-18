@@ -23,4 +23,3 @@ public record AzBatchNodeRebootOptions(
     [CommandSwitch("--node-reboot-option")]
     public string? NodeRebootOption { get; set; }
 }
-

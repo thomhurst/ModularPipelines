@@ -38,4 +38,3 @@ public record AzAutomanageConfigurationProfileAssignmentArcUpdateOptions : AzOpt
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

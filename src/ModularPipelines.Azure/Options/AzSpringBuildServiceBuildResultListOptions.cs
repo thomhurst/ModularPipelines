@@ -14,4 +14,3 @@ public record AzSpringBuildServiceBuildResultListOptions(
     [CommandSwitch("--build-name")]
     public string? BuildName { get; set; }
 }
-

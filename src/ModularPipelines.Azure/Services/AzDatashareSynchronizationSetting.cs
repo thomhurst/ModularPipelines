@@ -42,4 +42,3 @@ public class AzDatashareSynchronizationSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingWaitOptions(), token);
     }
 }
-

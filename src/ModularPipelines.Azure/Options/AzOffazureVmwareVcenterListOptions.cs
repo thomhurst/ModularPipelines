@@ -20,4 +20,3 @@ public record AzOffazureVmwareVcenterListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

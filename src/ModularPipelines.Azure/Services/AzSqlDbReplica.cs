@@ -37,4 +37,3 @@ public class AzSqlDbReplica
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaSetPrimaryOptions(), token);
     }
 }
-

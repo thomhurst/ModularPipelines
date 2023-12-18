@@ -32,4 +32,3 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions(), token);
     }
 }
-

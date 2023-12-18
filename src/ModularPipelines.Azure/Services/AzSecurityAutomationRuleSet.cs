@@ -22,4 +22,3 @@ public class AzSecurityAutomationRuleSet
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationRuleSetCreateOptions(), token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzDnsResolverForwardingRulesetListByVirtualNetworkOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

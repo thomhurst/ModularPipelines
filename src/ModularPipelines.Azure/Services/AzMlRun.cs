@@ -67,4 +67,3 @@ public class AzMlRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

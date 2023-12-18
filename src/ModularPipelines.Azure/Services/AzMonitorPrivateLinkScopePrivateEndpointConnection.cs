@@ -47,4 +47,3 @@ public class AzMonitorPrivateLinkScopePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

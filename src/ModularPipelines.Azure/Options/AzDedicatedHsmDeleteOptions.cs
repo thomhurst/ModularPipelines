@@ -23,4 +23,3 @@ public record AzDedicatedHsmDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

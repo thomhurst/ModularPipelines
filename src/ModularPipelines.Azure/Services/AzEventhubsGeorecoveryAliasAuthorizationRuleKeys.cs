@@ -22,4 +22,3 @@ public class AzEventhubsGeorecoveryAliasAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

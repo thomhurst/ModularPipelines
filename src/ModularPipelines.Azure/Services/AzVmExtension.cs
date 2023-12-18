@@ -46,4 +46,3 @@ public class AzVmExtension
         return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionWaitOptions(), token);
     }
 }
-

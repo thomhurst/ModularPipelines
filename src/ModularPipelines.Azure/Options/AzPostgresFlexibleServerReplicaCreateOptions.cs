@@ -57,4 +57,3 @@ public record AzPostgresFlexibleServerReplicaCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

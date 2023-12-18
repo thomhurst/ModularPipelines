@@ -35,4 +35,3 @@ public record AzMlDatastoreDownloadOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

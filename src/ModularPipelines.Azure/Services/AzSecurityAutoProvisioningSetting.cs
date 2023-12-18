@@ -32,4 +32,3 @@ public class AzSecurityAutoProvisioningSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

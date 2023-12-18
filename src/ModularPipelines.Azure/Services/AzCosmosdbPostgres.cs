@@ -38,4 +38,3 @@ public class AzCosmosdbPostgres
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

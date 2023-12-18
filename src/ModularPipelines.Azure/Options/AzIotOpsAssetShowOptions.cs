@@ -71,4 +71,3 @@ public record AzIotOpsAssetShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

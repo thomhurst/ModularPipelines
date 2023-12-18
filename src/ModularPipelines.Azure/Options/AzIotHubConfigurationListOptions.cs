@@ -25,4 +25,3 @@ public record AzIotHubConfigurationListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

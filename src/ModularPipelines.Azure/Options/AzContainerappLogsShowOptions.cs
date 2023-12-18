@@ -32,4 +32,3 @@ public record AzContainerappLogsShowOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

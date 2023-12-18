@@ -27,4 +27,3 @@ public class AzEventgridDomainPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainPrivateLinkResourceShowOptions(), token);
     }
 }
-

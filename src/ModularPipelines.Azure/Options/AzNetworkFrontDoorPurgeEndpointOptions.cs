@@ -22,4 +22,3 @@ public record AzNetworkFrontDoorPurgeEndpointOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

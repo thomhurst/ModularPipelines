@@ -25,4 +25,3 @@ public record AzReposPolicyWorkItemLinkingCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

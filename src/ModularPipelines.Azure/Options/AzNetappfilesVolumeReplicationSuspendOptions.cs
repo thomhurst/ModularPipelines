@@ -32,4 +32,3 @@ public record AzNetappfilesVolumeReplicationSuspendOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

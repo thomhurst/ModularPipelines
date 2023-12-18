@@ -32,4 +32,3 @@ public class AzArcapplianceUpgrade
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

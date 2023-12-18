@@ -14,4 +14,3 @@ public record AzNetworkDnsZoneExportOptions(
     [CommandSwitch("--file-name")]
     public string? FileName { get; set; }
 }
-

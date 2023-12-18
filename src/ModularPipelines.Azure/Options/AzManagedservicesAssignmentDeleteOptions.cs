@@ -13,4 +13,3 @@ public record AzManagedservicesAssignmentDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

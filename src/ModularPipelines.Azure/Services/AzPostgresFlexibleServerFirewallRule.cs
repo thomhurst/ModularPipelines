@@ -42,4 +42,3 @@ public class AzPostgresFlexibleServerFirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerFirewallRuleUpdateOptions(), token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzWebappConnectionUpdateRedisOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

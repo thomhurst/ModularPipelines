@@ -42,4 +42,3 @@ public class AzAzurestackhciImage
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciImageUpdateOptions(), token);
     }
 }
-

@@ -31,4 +31,3 @@ public record AzManagedservicesDefinitionCreateOptions(
     [CommandSwitch("--plan-version")]
     public string? PlanVersion { get; set; }
 }
-

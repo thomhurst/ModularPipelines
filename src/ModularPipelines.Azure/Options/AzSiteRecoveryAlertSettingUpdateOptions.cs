@@ -44,4 +44,3 @@ public record AzSiteRecoveryAlertSettingUpdateOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzDatashareListSynchronizationOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

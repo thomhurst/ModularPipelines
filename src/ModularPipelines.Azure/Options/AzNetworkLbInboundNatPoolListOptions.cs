@@ -50,4 +50,3 @@ public record AzNetworkLbInboundNatPoolListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

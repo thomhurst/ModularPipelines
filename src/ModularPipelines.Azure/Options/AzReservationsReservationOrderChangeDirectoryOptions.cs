@@ -13,4 +13,3 @@ public record AzReservationsReservationOrderChangeDirectoryOptions(
     [CommandSwitch("--destination-tenant-id")]
     public string? DestinationTenantId { get; set; }
 }
-

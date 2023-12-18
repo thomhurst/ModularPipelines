@@ -192,4 +192,3 @@ public record AzHdinsightCreateOptions(
     [CommandSwitch("--zookeepernode-size")]
     public string? ZookeepernodeSize { get; set; }
 }
-

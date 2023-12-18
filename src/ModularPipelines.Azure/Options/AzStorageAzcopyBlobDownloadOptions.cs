@@ -32,4 +32,3 @@ public record AzStorageAzcopyBlobDownloadOptions(
     [CommandSwitch("--source")]
     public string? Source { get; set; }
 }
-

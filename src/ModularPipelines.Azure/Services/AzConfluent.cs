@@ -24,4 +24,3 @@ public class AzConfluent
 
     public AzConfluentTerms Terms { get; }
 }
-

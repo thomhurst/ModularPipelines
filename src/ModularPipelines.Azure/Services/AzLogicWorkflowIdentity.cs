@@ -27,4 +27,3 @@ public class AzLogicWorkflowIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

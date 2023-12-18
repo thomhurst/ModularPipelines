@@ -22,4 +22,3 @@ public record AzContainerExportOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

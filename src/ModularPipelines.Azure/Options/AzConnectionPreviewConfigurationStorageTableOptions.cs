@@ -14,4 +14,3 @@ public record AzConnectionPreviewConfigurationStorageTableOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

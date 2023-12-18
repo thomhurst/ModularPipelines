@@ -25,4 +25,3 @@ public record AzNetworkVpnSiteLinkRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

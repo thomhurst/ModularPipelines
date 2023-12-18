@@ -22,4 +22,3 @@ public class AzSigShareEnableCommunityImageGallery
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

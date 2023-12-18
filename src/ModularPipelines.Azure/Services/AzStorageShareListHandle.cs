@@ -17,4 +17,3 @@ public class AzStorageShareListHandle
 
     public AzStorageShareListHandleStoragePreview StoragePreview { get; }
 }
-

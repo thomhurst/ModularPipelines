@@ -40,4 +40,3 @@ public class AzTsiEventSource
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceShowOptions(), token);
     }
 }
-

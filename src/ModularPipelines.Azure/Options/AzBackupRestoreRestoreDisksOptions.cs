@@ -88,4 +88,3 @@ public record AzBackupRestoreRestoreDisksOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

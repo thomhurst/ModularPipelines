@@ -46,4 +46,3 @@ public class AzServicebusQueue
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueUpdateOptions(), token);
     }
 }
-

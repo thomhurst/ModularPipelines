@@ -22,4 +22,3 @@ public class AzContainerappSsl
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

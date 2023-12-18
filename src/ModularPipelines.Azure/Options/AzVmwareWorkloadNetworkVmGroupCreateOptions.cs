@@ -24,4 +24,3 @@ public record AzVmwareWorkloadNetworkVmGroupCreateOptions(
     [CommandSwitch("--revision")]
     public string? Revision { get; set; }
 }
-

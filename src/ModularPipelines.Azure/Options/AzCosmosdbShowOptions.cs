@@ -20,4 +20,3 @@ public record AzCosmosdbShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

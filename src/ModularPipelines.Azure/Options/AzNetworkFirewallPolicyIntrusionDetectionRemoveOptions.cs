@@ -86,4 +86,3 @@ public record AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions : AzOptions
     [CommandSwitch("--threat-intel-mode")]
     public string? ThreatIntelMode { get; set; }
 }
-

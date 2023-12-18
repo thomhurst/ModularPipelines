@@ -54,4 +54,3 @@ public record AzAksMaintenanceconfigurationDeleteOptions(
     [CommandSwitch("--weekday")]
     public string? Weekday { get; set; }
 }
-

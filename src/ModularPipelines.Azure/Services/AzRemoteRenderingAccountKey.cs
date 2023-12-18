@@ -27,4 +27,3 @@ public class AzRemoteRenderingAccountKey
         return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountKeyShowOptions(), token);
     }
 }
-

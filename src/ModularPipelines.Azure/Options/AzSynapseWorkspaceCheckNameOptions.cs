@@ -73,4 +73,3 @@ public record AzSynapseWorkspaceCheckNameOptions(
     [CommandSwitch("--use-sami-in-encrypt")]
     public string? UseSamiInEncrypt { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzAcrExportPipelineCreateOptions(
     [CommandSwitch("--options")]
     public string? Options { get; set; }
 }
-

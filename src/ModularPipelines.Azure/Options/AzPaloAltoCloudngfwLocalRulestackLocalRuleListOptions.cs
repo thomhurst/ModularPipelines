@@ -17,4 +17,3 @@ public record AzPaloAltoCloudngfwLocalRulestackLocalRuleListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

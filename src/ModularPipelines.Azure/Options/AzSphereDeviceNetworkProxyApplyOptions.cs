@@ -30,4 +30,3 @@ public record AzSphereDeviceNetworkProxyApplyOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

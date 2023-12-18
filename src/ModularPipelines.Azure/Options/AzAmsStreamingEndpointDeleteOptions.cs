@@ -20,4 +20,3 @@ public record AzAmsStreamingEndpointDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

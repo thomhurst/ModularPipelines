@@ -18,4 +18,3 @@ public record AzStorageMoverJobDefinitionListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzNetworkApplicationGatewayRewriteRuleSetCreateOptions(
     [CommandSwitch("--rules")]
     public string? Rules { get; set; }
 }
-

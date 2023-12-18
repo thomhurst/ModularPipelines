@@ -15,4 +15,3 @@ public record AzCosmosdbMongodbUserDefinitionDeleteCosmosdbPreviewExtensionOptio
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

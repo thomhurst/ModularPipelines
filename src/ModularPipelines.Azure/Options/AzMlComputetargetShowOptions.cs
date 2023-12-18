@@ -25,4 +25,3 @@ public record AzMlComputetargetShowOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

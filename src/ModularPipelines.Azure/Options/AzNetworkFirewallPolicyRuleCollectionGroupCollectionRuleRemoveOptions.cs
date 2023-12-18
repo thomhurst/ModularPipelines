@@ -29,4 +29,3 @@ public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleRemoveOpti
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

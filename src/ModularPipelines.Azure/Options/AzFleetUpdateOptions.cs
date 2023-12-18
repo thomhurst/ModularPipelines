@@ -23,4 +23,3 @@ public record AzFleetUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

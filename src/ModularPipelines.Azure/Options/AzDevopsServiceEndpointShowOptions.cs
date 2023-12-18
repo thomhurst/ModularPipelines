@@ -19,4 +19,3 @@ public record AzDevopsServiceEndpointShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

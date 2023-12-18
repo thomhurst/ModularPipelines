@@ -20,4 +20,3 @@ public record AzAutomationAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

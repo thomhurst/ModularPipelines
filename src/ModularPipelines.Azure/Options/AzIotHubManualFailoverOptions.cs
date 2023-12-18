@@ -25,4 +25,3 @@ public record AzIotHubManualFailoverOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

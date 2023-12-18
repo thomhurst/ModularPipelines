@@ -24,4 +24,3 @@ public record AzLabSecretDeleteOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

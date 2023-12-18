@@ -13,4 +13,3 @@ public record AzKeyvaultListDeletedOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

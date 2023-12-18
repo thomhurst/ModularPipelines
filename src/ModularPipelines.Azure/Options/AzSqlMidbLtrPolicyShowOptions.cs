@@ -23,4 +23,3 @@ public record AzSqlMidbLtrPolicyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

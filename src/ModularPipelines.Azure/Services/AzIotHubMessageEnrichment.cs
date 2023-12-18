@@ -37,4 +37,3 @@ public class AzIotHubMessageEnrichment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzSigCreate
 
     public AzSigCreateImageGallery ImageGallery { get; }
 }
-

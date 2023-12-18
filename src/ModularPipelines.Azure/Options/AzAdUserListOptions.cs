@@ -19,4 +19,3 @@ public record AzAdUserListOptions(
     [CommandSwitch("--upn")]
     public string? Upn { get; set; }
 }
-

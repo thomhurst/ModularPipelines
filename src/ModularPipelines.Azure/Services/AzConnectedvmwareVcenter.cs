@@ -41,4 +41,3 @@ public class AzConnectedvmwareVcenter
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterShowOptions(), token);
     }
 }
-

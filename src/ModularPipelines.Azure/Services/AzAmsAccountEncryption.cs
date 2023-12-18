@@ -27,4 +27,3 @@ public class AzAmsAccountEncryption
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountEncryptionShowOptions(), token);
     }
 }
-

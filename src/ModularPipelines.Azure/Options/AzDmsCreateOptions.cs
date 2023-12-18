@@ -20,4 +20,3 @@ public record AzDmsCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

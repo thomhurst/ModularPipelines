@@ -22,4 +22,3 @@ public record AzReservationsReservationOrderCalculateRefundOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

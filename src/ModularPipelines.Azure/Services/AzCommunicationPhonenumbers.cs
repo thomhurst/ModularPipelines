@@ -27,4 +27,3 @@ public class AzCommunicationPhonenumbers
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

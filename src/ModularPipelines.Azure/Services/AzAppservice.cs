@@ -45,4 +45,3 @@ public class AzAppservice
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

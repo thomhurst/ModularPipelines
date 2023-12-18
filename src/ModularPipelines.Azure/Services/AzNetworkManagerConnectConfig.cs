@@ -47,4 +47,3 @@ public class AzNetworkManagerConnectConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigWaitOptions(), token);
     }
 }
-

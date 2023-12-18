@@ -22,4 +22,3 @@ public class AzCosmosdbMongodbRoleDefinitionUpdateCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

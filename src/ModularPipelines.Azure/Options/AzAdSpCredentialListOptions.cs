@@ -13,4 +13,3 @@ public record AzAdSpCredentialListOptions(
     [BooleanCommandSwitch("--cert")]
     public bool? Cert { get; set; }
 }
-

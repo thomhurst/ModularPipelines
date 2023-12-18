@@ -13,4 +13,3 @@ public record AzAppserviceAseSendTestNotificationOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzContainerappDapr
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDaprEnableOptions(), token);
     }
 }
-

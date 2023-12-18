@@ -16,4 +16,3 @@ public record AzAccountManagementGroupHierarchySettingsCreateOptions(
     [CommandSwitch("--require-authorization-for-group-creation")]
     public string? RequireAuthorizationForGroupCreation { get; set; }
 }
-

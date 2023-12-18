@@ -27,4 +27,3 @@ public class AzDevcenterAdminImageVersion
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminImageVersionShowOptions(), token);
     }
 }
-

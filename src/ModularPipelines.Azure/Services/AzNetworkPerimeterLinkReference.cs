@@ -37,4 +37,3 @@ public class AzNetworkPerimeterLinkReference
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceWaitOptions(), token);
     }
 }
-

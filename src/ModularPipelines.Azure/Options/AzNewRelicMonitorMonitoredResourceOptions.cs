@@ -17,4 +17,3 @@ public record AzNewRelicMonitorMonitoredResourceOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

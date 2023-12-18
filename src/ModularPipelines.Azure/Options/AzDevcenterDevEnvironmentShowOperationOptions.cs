@@ -21,4 +21,3 @@ public record AzDevcenterDevEnvironmentShowOperationOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

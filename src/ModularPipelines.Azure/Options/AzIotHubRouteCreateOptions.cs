@@ -22,4 +22,3 @@ public record AzIotHubRouteCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

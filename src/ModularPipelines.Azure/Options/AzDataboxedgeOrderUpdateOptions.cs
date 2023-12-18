@@ -74,4 +74,3 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

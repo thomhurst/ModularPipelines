@@ -22,4 +22,3 @@ public record AzSqlServerDnsAliasDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

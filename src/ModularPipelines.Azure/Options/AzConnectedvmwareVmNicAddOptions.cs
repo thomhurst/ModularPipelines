@@ -22,4 +22,3 @@ public record AzConnectedvmwareVmNicAddOptions(
     [CommandSwitch("--power-on-boot")]
     public string? PowerOnBoot { get; set; }
 }
-

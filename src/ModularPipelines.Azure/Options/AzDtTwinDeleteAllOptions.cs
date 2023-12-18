@@ -16,4 +16,3 @@ public record AzDtTwinDeleteAllOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzContainerappHostnameDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

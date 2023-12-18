@@ -27,4 +27,3 @@ public class AzBillingPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

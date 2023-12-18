@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionWaitOptions : AzOpt
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

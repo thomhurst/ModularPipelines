@@ -23,4 +23,3 @@ public record AzNetworkVhubConnectionShowOptions : AzOptions
     [CommandSwitch("--vhub-name")]
     public string? VhubName { get; set; }
 }
-

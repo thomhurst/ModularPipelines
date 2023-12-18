@@ -20,4 +20,3 @@ public record AzAosmNfdBuildOptions(
     [BooleanCommandSwitch("--order-params")]
     public bool? OrderParams { get; set; }
 }
-

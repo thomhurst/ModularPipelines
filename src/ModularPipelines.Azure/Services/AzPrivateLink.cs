@@ -16,4 +16,3 @@ public class AzPrivateLink
 
     public AzPrivateLinkAssociation Association { get; }
 }
-

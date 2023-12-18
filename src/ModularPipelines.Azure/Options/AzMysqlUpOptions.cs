@@ -50,4 +50,3 @@ public record AzMysqlUpOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

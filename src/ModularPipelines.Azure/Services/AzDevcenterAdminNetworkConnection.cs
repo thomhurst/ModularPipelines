@@ -67,4 +67,3 @@ public class AzDevcenterAdminNetworkConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminNetworkConnectionWaitOptions(), token);
     }
 }
-

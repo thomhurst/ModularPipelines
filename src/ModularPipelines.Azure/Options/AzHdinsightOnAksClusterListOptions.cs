@@ -17,4 +17,3 @@ public record AzHdinsightOnAksClusterListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

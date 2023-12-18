@@ -55,4 +55,3 @@ public record AzStorageShareGenerateSasOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

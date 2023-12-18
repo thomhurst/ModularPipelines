@@ -52,4 +52,3 @@ public class AzDevopsExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

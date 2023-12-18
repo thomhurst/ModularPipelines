@@ -34,4 +34,3 @@ public record AzReposPolicyWorkItemLinkingUpdateOptions(
     [CommandSwitch("--repository-id")]
     public string? RepositoryId { get; set; }
 }
-

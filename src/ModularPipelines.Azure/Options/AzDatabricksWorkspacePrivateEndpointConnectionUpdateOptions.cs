@@ -50,4 +50,3 @@ public record AzDatabricksWorkspacePrivateEndpointConnectionUpdateOptions : AzOp
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

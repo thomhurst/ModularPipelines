@@ -38,4 +38,3 @@ public record AzSqlVmGroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

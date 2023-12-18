@@ -35,4 +35,3 @@ public record AzHealthcareapisWorkspaceFhirServiceUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

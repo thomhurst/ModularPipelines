@@ -101,4 +101,3 @@ public class AzIotCentralDevice
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

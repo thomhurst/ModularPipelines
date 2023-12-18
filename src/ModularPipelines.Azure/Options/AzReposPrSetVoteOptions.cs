@@ -17,4 +17,3 @@ public record AzReposPrSetVoteOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzPipelinesVariableGroupVariableDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

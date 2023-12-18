@@ -30,4 +30,3 @@ public record AzMlBatchDeploymentCreateOptions(
     [BooleanCommandSwitch("--skip-script-validation")]
     public bool? SkipScriptValidation { get; set; }
 }
-

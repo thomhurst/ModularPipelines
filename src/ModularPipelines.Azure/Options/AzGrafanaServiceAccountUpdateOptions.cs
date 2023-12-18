@@ -23,4 +23,3 @@ public record AzGrafanaServiceAccountUpdateOptions(
     [CommandSwitch("--role")]
     public string? Role { get; set; }
 }
-

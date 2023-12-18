@@ -17,4 +17,3 @@ public record AzSphereDeviceNetworkShowDiagnosticsOptions(
     [CommandSwitch("--network")]
     public string? Network { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzNetworkTrafficManagerEndpointDeleteOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

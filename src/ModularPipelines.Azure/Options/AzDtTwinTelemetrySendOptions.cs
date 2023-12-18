@@ -26,4 +26,3 @@ public record AzDtTwinTelemetrySendOptions(
     [CommandSwitch("--telemetry-source-time")]
     public string? TelemetrySourceTime { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzScvmmVmDisk
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

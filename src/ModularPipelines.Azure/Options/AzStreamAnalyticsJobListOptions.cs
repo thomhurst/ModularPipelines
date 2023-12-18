@@ -14,4 +14,3 @@ public record AzStreamAnalyticsJobListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

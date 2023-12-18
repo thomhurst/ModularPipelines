@@ -37,4 +37,3 @@ public class AzSynapseWorkspaceManagedIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityWaitOptions(), token);
     }
 }
-

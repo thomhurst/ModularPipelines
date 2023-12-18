@@ -42,4 +42,3 @@ public record AzSentinelSourceControlCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

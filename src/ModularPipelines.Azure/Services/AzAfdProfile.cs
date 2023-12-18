@@ -47,4 +47,3 @@ public class AzAfdProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileUsageOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public record AzManagedCassandraClusterUpdateCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

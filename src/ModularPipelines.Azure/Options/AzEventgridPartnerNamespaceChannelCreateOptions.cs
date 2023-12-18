@@ -48,4 +48,3 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions(
     [CommandSwitch("--partner-topic-source")]
     public string? PartnerTopicSource { get; set; }
 }
-

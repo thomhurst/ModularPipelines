@@ -15,4 +15,3 @@ public record AzQuantumWorkspaceListOptions(
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }
-

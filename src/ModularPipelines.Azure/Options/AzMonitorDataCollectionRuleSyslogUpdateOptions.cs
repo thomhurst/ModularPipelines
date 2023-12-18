@@ -31,4 +31,3 @@ public record AzMonitorDataCollectionRuleSyslogUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

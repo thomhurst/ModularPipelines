@@ -22,4 +22,3 @@ public class AzAksSnapshotDeleteAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

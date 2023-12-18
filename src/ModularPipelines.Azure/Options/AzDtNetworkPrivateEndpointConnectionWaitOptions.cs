@@ -29,4 +29,3 @@ public record AzDtNetworkPrivateEndpointConnectionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

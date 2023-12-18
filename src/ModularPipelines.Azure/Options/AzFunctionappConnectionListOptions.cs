@@ -17,4 +17,3 @@ public record AzFunctionappConnectionListOptions : AzOptions
     [CommandSwitch("--source-id")]
     public string? SourceId { get; set; }
 }
-

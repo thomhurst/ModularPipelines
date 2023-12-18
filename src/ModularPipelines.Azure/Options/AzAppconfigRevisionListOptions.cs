@@ -38,4 +38,3 @@ public record AzAppconfigRevisionListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

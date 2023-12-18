@@ -14,4 +14,3 @@ public record AzSynapseWorkspacePackageUploadBatchOptions(
     [BooleanCommandSwitch("--no-progress")]
     public bool? NoProgress { get; set; }
 }
-

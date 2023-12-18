@@ -23,4 +23,3 @@ public record AzVmwareScriptPackageShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzStorageFsDirectoryUploadOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

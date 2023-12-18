@@ -38,4 +38,3 @@ public record AzNetworkVnetGatewayAadShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzNetworkFirewallIpConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigShowOptions(), token);
     }
 }
-

@@ -28,4 +28,3 @@ public record AzNetworkExpressRoutePortDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

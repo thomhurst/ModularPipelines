@@ -23,4 +23,3 @@ public record AzIotOpsSupportCreateBundleOptions : AzOptions
     [CommandSwitch("--ops-service")]
     public string? OpsService { get; set; }
 }
-

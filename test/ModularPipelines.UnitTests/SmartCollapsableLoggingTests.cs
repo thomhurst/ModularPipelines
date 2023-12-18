@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;

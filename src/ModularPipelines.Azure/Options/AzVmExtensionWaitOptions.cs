@@ -44,4 +44,3 @@ public record AzVmExtensionWaitOptions : AzOptions
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzFunctionappConfigAppsettingsListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

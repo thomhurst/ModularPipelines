@@ -41,4 +41,3 @@ public record AzManagedCassandraClusterStatusOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

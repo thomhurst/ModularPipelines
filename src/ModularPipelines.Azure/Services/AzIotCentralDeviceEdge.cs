@@ -25,4 +25,3 @@ public class AzIotCentralDeviceEdge
 
     public AzIotCentralDeviceEdgeModule Module { get; }
 }
-

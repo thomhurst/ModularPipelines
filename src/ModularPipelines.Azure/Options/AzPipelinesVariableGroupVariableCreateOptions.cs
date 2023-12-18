@@ -26,4 +26,3 @@ public record AzPipelinesVariableGroupVariableCreateOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzVmExtensionDeleteOptions(
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

@@ -30,4 +30,3 @@ public record AzVmwareWorkloadNetworkPortMirroringCreateOptions(
     [CommandSwitch("--source")]
     public string? Source { get; set; }
 }
-

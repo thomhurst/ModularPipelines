@@ -44,4 +44,3 @@ public record AzNginxDeploymentCertificateWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

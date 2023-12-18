@@ -46,4 +46,3 @@ public record AzKustoDataConnectionEventHubCreateOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

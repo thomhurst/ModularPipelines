@@ -35,4 +35,3 @@ public record AzStoragesyncSyncGroupServerEndpointCreateOptions(
     [CommandSwitch("--volume-free-space-percent")]
     public string? VolumeFreeSpacePercent { get; set; }
 }
-

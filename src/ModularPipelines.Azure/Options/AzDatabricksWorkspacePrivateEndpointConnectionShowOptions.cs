@@ -23,4 +23,3 @@ public record AzDatabricksWorkspacePrivateEndpointConnectionShowOptions : AzOpti
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

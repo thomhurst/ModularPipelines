@@ -31,4 +31,3 @@ public record AzBicepFormatOptions(
     [CommandSwitch("--stdout")]
     public string? Stdout { get; set; }
 }
-

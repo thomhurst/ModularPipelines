@@ -17,4 +17,3 @@ public record AzHdinsightShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

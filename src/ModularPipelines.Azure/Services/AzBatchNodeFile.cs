@@ -37,4 +37,3 @@ public class AzBatchNodeFile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

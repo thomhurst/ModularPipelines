@@ -65,4 +65,3 @@ public record AzAfdOriginUpdateOptions : AzOptions
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

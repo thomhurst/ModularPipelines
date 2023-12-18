@@ -64,4 +64,3 @@ public record AzMysqlServerUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

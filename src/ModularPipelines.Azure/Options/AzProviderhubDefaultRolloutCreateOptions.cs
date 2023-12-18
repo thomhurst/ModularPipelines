@@ -20,4 +20,3 @@ public record AzProviderhubDefaultRolloutCreateOptions(
     [CommandSwitch("--rest-of-the-world-group-two")]
     public string? RestOfTheWorldGroupTwo { get; set; }
 }
-

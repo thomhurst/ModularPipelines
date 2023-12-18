@@ -50,4 +50,3 @@ public record AzLoadTestUpdateOptions(
     [CommandSwitch("--test-plan")]
     public string? TestPlan { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzBillingProfileCreateOptions(
     [CommandSwitch("--po-number")]
     public string? PoNumber { get; set; }
 }
-

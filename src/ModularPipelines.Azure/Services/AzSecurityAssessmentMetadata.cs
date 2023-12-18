@@ -37,4 +37,3 @@ public class AzSecurityAssessmentMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

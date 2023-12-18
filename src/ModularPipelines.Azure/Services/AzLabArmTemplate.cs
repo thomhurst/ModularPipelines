@@ -27,4 +27,3 @@ public class AzLabArmTemplate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

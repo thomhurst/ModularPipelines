@@ -21,4 +21,3 @@ public record AzLabCustomImageCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

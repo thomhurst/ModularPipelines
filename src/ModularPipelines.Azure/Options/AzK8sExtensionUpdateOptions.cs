@@ -55,4 +55,3 @@ public record AzK8sExtensionUpdateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

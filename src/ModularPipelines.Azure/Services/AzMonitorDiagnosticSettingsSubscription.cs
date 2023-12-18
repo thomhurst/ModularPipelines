@@ -42,4 +42,3 @@ public class AzMonitorDiagnosticSettingsSubscription
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsSubscriptionUpdateOptions(), token);
     }
 }
-

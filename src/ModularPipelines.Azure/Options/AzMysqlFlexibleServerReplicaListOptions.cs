@@ -20,4 +20,3 @@ public record AzMysqlFlexibleServerReplicaListOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzSentinelWatchlistListOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

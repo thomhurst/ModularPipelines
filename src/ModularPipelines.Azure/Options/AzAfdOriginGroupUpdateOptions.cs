@@ -44,4 +44,3 @@ public record AzAfdOriginGroupUpdateOptions : AzOptions
     [CommandSwitch("--successful-samples-required")]
     public string? SuccessfulSamplesRequired { get; set; }
 }
-

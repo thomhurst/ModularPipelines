@@ -28,4 +28,3 @@ public record AzNetworkApplicationGatewayRedirectConfigCreateOptions(
     [CommandSwitch("--target-url")]
     public string? TargetUrl { get; set; }
 }
-

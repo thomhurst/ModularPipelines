@@ -13,4 +13,3 @@ public record AzSphereDeviceManufacturingStateUpdateOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

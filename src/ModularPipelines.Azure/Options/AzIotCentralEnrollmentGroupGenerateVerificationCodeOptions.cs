@@ -23,4 +23,3 @@ public record AzIotCentralEnrollmentGroupGenerateVerificationCodeOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

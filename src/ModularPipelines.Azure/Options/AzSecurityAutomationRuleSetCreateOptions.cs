@@ -11,4 +11,3 @@ public record AzSecurityAutomationRuleSetCreateOptions : AzOptions
     [CommandSwitch("--rules")]
     public string? Rules { get; set; }
 }
-

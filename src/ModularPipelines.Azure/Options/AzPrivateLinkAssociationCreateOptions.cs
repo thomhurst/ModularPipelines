@@ -16,4 +16,3 @@ public record AzPrivateLinkAssociationCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzSynapseIntegrationRuntimeManagedCreateOptions(
     [CommandSwitch("--time-to-live")]
     public string? TimeToLive { get; set; }
 }
-

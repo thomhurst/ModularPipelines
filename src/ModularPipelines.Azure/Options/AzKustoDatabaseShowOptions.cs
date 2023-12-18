@@ -25,4 +25,3 @@ public record AzKustoDatabaseShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

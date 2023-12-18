@@ -25,4 +25,3 @@ public record AzStorageAccountHnsMigrationStartOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

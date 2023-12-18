@@ -24,4 +24,3 @@ public record AzSynapseKustoPoolListSkuOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

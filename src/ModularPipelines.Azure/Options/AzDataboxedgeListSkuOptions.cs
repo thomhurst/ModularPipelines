@@ -11,4 +11,3 @@ public record AzDataboxedgeListSkuOptions : AzOptions
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

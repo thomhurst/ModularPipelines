@@ -37,4 +37,3 @@ public class AzConnectedvmwareDatastore
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareDatastoreShowOptions(), token);
     }
 }
-

@@ -89,4 +89,3 @@ public class AzAppconfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

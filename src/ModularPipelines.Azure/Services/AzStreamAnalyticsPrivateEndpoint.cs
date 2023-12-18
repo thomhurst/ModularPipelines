@@ -42,4 +42,3 @@ public class AzStreamAnalyticsPrivateEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointWaitOptions(), token);
     }
 }
-

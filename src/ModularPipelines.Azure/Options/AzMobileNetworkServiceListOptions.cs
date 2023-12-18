@@ -20,4 +20,3 @@ public record AzMobileNetworkServiceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

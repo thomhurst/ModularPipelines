@@ -23,4 +23,3 @@ public record AzStreamAnalyticsClusterDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzNetworkPrivateEndpointConnectionShowOptions : AzOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

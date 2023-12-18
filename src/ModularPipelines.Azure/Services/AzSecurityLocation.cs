@@ -27,4 +27,3 @@ public class AzSecurityLocation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

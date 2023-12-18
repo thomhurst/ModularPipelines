@@ -32,4 +32,3 @@ public class AzContainerappJobIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityShowOptions(), token);
     }
 }
-

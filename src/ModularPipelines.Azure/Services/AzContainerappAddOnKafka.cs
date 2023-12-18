@@ -27,4 +27,3 @@ public class AzContainerappAddOnKafka
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzMariadbServerFirewallRuleUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

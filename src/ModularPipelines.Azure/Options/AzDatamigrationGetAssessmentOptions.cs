@@ -22,4 +22,3 @@ public record AzDatamigrationGetAssessmentOptions(
     [BooleanCommandSwitch("--overwrite")]
     public bool? Overwrite { get; set; }
 }
-

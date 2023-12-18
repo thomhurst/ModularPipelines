@@ -38,4 +38,3 @@ public record AzAcrManifestUpdateMetadataOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ManifestId { get; set; }
 }
-

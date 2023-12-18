@@ -22,4 +22,3 @@ public record AzNetworkVnetGatewayListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzFeatureRegistrationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

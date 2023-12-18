@@ -27,4 +27,3 @@ public class AzDeploymentOperationSub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

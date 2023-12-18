@@ -30,4 +30,3 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

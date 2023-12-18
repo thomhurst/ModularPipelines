@@ -43,4 +43,3 @@ public record AzIotHubDeviceTwinUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

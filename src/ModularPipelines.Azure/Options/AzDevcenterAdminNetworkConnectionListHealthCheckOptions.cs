@@ -17,4 +17,3 @@ public record AzDevcenterAdminNetworkConnectionListHealthCheckOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

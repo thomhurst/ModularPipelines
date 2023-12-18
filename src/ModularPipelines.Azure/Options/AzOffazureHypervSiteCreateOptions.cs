@@ -29,4 +29,3 @@ public record AzOffazureHypervSiteCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

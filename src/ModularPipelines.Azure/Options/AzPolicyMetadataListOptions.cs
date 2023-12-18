@@ -13,4 +13,3 @@ public record AzPolicyMetadataListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

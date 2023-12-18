@@ -15,4 +15,3 @@ public record AzMlOnlineDeploymentListOptions(
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 }
-

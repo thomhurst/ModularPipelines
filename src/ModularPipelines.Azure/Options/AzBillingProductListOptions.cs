@@ -22,4 +22,3 @@ public record AzBillingProductListOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzConnectionCreateServicebusOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

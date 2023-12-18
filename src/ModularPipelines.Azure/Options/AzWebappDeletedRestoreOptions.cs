@@ -31,4 +31,3 @@ public record AzWebappDeletedRestoreOptions(
     [CommandSwitch("--target-app-svc-plan")]
     public string? TargetAppSvcPlan { get; set; }
 }
-

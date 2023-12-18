@@ -47,4 +47,3 @@ public class AzNetworkSecurityPartnerProvider
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderWaitOptions(), token);
     }
 }
-

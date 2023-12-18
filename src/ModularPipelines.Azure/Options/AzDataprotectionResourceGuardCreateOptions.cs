@@ -20,4 +20,3 @@ public record AzDataprotectionResourceGuardCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzAcrConfigSoftDelete
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -30,4 +30,3 @@ public class AzDemo
         return await _command.ExecuteCommandLineTool(options ?? new AzDemoStyleOptions(), token);
     }
 }
-

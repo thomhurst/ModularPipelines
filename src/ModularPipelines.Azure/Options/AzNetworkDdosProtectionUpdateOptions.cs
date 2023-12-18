@@ -26,4 +26,3 @@ public record AzNetworkDdosProtectionUpdateOptions : AzOptions
     [CommandSwitch("--vnets")]
     public string? Vnets { get; set; }
 }
-

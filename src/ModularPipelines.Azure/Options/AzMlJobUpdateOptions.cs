@@ -27,4 +27,3 @@ public record AzMlJobUpdateOptions(
     [BooleanCommandSwitch("--web")]
     public bool? Web { get; set; }
 }
-

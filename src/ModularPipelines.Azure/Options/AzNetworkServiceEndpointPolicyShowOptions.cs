@@ -20,4 +20,3 @@ public record AzNetworkServiceEndpointPolicyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

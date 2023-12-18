@@ -41,4 +41,3 @@ public record AzNetappfilesAccountCreateOptions(
     [CommandSwitch("--user-assigned-identity")]
     public string? UserAssignedIdentity { get; set; }
 }
-

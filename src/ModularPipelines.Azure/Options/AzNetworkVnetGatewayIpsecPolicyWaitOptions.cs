@@ -41,4 +41,3 @@ public record AzNetworkVnetGatewayIpsecPolicyWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

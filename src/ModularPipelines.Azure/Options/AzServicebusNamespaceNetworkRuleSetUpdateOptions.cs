@@ -47,4 +47,3 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     [CommandSwitch("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }
-

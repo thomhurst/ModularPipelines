@@ -27,4 +27,3 @@ public class AzMaintenanceUpdate
         return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceUpdateListParentOptions(), token);
     }
 }
-

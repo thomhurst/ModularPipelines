@@ -106,4 +106,3 @@ public class AzMariadbServer
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerWaitOptions(), token);
     }
 }
-

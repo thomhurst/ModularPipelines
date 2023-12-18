@@ -46,4 +46,3 @@ public record AzWebappConfigAccessRestrictionRemoveOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

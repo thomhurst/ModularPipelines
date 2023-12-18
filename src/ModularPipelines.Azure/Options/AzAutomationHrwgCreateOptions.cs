@@ -15,4 +15,3 @@ public record AzAutomationHrwgCreateOptions(
     [CommandSwitch("--credential")]
     public string? Credential { get; set; }
 }
-

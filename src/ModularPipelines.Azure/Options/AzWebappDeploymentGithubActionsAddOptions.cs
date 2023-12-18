@@ -40,4 +40,3 @@ public record AzWebappDeploymentGithubActionsAddOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

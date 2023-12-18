@@ -82,4 +82,3 @@ public record AzAmsContentKeyPolicyOptionUpdateOptions(
     [CommandSwitch("--widevine-template")]
     public string? WidevineTemplate { get; set; }
 }
-

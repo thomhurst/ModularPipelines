@@ -11,4 +11,3 @@ public record AzSecuritySecureScoreControlsList_by_scoreOptions(
 ) : AzOptions
 {
 }
-

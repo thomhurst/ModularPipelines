@@ -11,4 +11,3 @@ public record AzFunctionappListConsumptionLocationsOptions : AzOptions
     [CommandSwitch("--os")]
     public string? Os { get; set; }
 }
-

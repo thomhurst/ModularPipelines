@@ -29,4 +29,3 @@ public record AzDnsResolverDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

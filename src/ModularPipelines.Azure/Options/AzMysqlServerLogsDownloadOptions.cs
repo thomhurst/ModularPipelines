@@ -22,4 +22,3 @@ public record AzMysqlServerLogsDownloadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

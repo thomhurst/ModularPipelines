@@ -31,4 +31,3 @@ public record AzDeploymentSubShowOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

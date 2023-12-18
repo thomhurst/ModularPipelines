@@ -61,4 +61,3 @@ public record AzCloudRegisterOptions(
     [CommandSwitch("--suffix-storage-endpoint")]
     public string? SuffixStorageEndpoint { get; set; }
 }
-

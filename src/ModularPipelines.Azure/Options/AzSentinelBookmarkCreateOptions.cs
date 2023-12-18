@@ -63,4 +63,3 @@ public record AzSentinelBookmarkCreateOptions(
     [CommandSwitch("--updated-by")]
     public string? UpdatedBy { get; set; }
 }
-

@@ -59,4 +59,3 @@ public record AzSynapseKustoDataConnectionEventGridUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzRelayWcfrelayCreateOptions(
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }
 }
-

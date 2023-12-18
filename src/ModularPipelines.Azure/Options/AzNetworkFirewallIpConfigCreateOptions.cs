@@ -25,4 +25,3 @@ public record AzNetworkFirewallIpConfigCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

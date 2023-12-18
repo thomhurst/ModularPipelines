@@ -22,4 +22,3 @@ public class AzIotEdgeDevices
         return await _command.ExecuteCommandLineTool(options ?? new AzIotEdgeDevicesCreateOptions(), token);
     }
 }
-

@@ -38,4 +38,3 @@ public record AzMonitorAppInsightsComponentBillingUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzBlockchainMemberDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

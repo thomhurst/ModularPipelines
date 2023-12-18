@@ -27,4 +27,3 @@ public class AzOffazureVmwareVcenter
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareVcenterShowOptions(), token);
     }
 }
-

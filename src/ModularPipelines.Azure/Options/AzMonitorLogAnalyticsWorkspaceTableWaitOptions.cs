@@ -44,4 +44,3 @@ public record AzMonitorLogAnalyticsWorkspaceTableWaitOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

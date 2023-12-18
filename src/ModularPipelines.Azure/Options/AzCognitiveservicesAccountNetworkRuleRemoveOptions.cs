@@ -20,4 +20,3 @@ public record AzCognitiveservicesAccountNetworkRuleRemoveOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

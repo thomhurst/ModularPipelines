@@ -60,4 +60,3 @@ public class AzAfd
 
     public AzAfdWafLogAnalytic WafLogAnalytic { get; }
 }
-

@@ -13,4 +13,3 @@ public record AzNetworkVnetListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

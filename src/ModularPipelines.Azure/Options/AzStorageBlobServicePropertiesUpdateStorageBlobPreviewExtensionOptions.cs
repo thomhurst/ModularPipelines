@@ -47,4 +47,3 @@ public record AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOpt
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

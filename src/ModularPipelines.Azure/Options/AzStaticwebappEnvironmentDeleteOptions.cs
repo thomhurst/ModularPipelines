@@ -19,4 +19,3 @@ public record AzStaticwebappEnvironmentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

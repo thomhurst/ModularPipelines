@@ -37,4 +37,3 @@ public class AzConnectedvmwareHost
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareHostShowOptions(), token);
     }
 }
-

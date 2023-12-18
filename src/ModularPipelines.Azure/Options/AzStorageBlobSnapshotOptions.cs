@@ -62,4 +62,3 @@ public record AzStorageBlobSnapshotOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzIotDuInstanceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

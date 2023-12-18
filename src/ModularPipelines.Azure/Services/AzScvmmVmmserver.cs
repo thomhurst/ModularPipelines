@@ -51,4 +51,3 @@ public class AzScvmmVmmserver
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

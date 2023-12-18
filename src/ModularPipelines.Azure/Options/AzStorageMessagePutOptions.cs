@@ -38,4 +38,3 @@ public record AzStorageMessagePutOptions(
     [CommandSwitch("--visibility-timeout")]
     public string? VisibilityTimeout { get; set; }
 }
-

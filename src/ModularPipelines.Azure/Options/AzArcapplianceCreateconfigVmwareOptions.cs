@@ -84,4 +84,3 @@ public record AzArcapplianceCreateconfigVmwareOptions(
     [CommandSwitch("--working-dir")]
     public string? WorkingDir { get; set; }
 }
-

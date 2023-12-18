@@ -15,4 +15,3 @@ public record AzNetworkDnsZoneImportOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

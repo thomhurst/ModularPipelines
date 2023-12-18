@@ -47,4 +47,3 @@ public record AzStorageRemoveOptions : AzOptions
     [CommandSwitch("--share-name")]
     public string? ShareName { get; set; }
 }
-

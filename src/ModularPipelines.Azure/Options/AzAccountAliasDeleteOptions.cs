@@ -31,4 +31,3 @@ public record AzAccountAliasDeleteOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

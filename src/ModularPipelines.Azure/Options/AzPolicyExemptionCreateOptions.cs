@@ -37,4 +37,3 @@ public record AzPolicyExemptionCreateOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

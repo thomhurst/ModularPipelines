@@ -17,4 +17,3 @@ public record AzIotDuUpdateFileListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

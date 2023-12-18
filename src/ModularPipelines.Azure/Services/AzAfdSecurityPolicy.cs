@@ -42,4 +42,3 @@ public class AzAfdSecurityPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyUpdateOptions(), token);
     }
 }
-

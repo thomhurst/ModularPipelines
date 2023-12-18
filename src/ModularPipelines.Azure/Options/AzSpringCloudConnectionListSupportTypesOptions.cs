@@ -11,4 +11,3 @@ public record AzSpringCloudConnectionListSupportTypesOptions : AzOptions
     [CommandSwitch("--target-type")]
     public string? TargetType { get; set; }
 }
-

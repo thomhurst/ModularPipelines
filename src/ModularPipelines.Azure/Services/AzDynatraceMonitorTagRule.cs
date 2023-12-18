@@ -47,4 +47,3 @@ public class AzDynatraceMonitorTagRule
         return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorTagRuleWaitOptions(), token);
     }
 }
-

@@ -11,4 +11,3 @@ public record AzOrbitalAvailableGroundStationListOptions : AzOptions
     [CommandSwitch("--capability")]
     public string? Capability { get; set; }
 }
-

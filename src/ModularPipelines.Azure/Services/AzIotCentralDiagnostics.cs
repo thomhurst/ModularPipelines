@@ -42,4 +42,3 @@ public class AzIotCentralDiagnostics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

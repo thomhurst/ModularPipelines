@@ -25,4 +25,3 @@ public record AzDlaJobRecurrenceShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

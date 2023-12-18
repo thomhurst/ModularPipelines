@@ -17,4 +17,3 @@ public record AzContainerappAddOnPostgresDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzDataprotectionBackupInstanceListFromResourcegraphOptions(
     [CommandSwitch("--vaults")]
     public string? Vaults { get; set; }
 }
-

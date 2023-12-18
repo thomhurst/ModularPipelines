@@ -22,4 +22,3 @@ public class AzConfluentTerms
         return await _command.ExecuteCommandLineTool(options ?? new AzConfluentTermsListOptions(), token);
     }
 }
-

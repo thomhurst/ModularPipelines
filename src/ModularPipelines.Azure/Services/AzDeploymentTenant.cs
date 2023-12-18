@@ -62,4 +62,3 @@ public class AzDeploymentTenant
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

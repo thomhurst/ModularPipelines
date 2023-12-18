@@ -35,4 +35,3 @@ public record AzApimNvListOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

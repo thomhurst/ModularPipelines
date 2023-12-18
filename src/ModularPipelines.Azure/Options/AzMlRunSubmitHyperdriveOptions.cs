@@ -46,4 +46,3 @@ public record AzMlRunSubmitHyperdriveOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? UserScriptAndArguments { get; set; }
 }
-

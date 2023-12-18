@@ -11,4 +11,3 @@ public record AzDatadogTermsCreateOptions : AzOptions
     [CommandSwitch("--properties")]
     public string? Properties { get; set; }
 }
-

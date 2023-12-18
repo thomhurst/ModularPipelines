@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines;
+namespace ModularPipelines;
 
 /// <summary>
 /// Used for writing to the console

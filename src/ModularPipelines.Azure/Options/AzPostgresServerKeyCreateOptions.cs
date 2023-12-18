@@ -21,4 +21,3 @@ public record AzPostgresServerKeyCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

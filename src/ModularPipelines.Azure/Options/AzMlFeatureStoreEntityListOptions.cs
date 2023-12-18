@@ -29,4 +29,3 @@ public record AzMlFeatureStoreEntityListOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

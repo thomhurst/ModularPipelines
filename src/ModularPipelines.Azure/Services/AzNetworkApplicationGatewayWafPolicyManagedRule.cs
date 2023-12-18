@@ -21,4 +21,3 @@ public class AzNetworkApplicationGatewayWafPolicyManagedRule
 
     public AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSet RuleSet { get; }
 }
-

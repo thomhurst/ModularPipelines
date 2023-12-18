@@ -32,4 +32,3 @@ public class AzStorageBlobAccess
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

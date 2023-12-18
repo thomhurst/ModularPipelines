@@ -37,4 +37,3 @@ public class AzSqlServerKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

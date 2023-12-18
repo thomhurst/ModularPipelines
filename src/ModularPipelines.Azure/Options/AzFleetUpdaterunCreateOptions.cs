@@ -28,4 +28,3 @@ public record AzFleetUpdaterunCreateOptions(
     [CommandSwitch("--update-strategy-name")]
     public string? UpdateStrategyName { get; set; }
 }
-

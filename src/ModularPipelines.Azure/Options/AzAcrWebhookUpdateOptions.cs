@@ -44,4 +44,3 @@ public record AzAcrWebhookUpdateOptions(
     [CommandSwitch("--uri")]
     public string? Uri { get; set; }
 }
-

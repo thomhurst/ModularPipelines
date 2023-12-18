@@ -37,4 +37,3 @@ public record AzArcapplianceDeployScvmmOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

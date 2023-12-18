@@ -31,4 +31,3 @@ public record AzSynapseKqlScriptListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

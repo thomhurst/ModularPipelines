@@ -40,4 +40,3 @@ public class AzFeature
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

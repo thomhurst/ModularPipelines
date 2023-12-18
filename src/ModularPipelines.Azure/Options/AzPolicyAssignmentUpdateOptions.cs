@@ -32,4 +32,3 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

@@ -25,4 +25,3 @@ public class AzGraph
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

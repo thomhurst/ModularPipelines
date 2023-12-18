@@ -22,4 +22,3 @@ public record AzIotHubJobCancelOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

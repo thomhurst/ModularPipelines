@@ -101,4 +101,3 @@ public record AzStorageBlobUploadBatchOptions(
     [BooleanCommandSwitch("--validate-content")]
     public bool? ValidateContent { get; set; }
 }
-

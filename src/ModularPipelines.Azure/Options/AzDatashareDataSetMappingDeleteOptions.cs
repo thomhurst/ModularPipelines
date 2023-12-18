@@ -24,4 +24,3 @@ public record AzDatashareDataSetMappingDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

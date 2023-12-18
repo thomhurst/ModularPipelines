@@ -18,4 +18,3 @@ public record AzNetworkManagerSecurityAdminConfigCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

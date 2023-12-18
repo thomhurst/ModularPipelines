@@ -65,4 +65,3 @@ public record AzSqlServerUpdateOptions : AzOptions
     [CommandSwitch("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }
 }
-

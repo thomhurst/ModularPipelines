@@ -25,4 +25,3 @@ public record AzAosmNsdPublishOptions(
     [CommandSwitch("--skip")]
     public string? Skip { get; set; }
 }
-

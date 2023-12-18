@@ -40,4 +40,3 @@ public record AzBotCreateOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

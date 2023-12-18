@@ -19,4 +19,3 @@ public record AzAksarcLogsHciOptions(
     [CommandSwitch("--out-dir")]
     public string? OutDir { get; set; }
 }
-

@@ -88,4 +88,3 @@ public class AzNetworkExpressRoute
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteWaitOptions(), token);
     }
 }
-

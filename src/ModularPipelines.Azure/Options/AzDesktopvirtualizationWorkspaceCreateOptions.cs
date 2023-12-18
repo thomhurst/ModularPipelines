@@ -26,4 +26,3 @@ public record AzDesktopvirtualizationWorkspaceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzDatamigrationSqlManagedInstanceCancelOptions(
     [CommandSwitch("--target-db-name")]
     public string? TargetDbName { get; set; }
 }
-

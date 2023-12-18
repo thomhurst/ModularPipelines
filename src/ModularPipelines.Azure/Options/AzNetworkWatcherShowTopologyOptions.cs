@@ -22,4 +22,3 @@ public record AzNetworkWatcherShowTopologyOptions(
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }
 }
-

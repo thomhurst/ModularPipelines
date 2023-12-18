@@ -29,4 +29,3 @@ public record AzNetworkPrivateDnsLinkVnetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

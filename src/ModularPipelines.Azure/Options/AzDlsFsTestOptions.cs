@@ -19,4 +19,3 @@ public record AzDlsFsTestOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

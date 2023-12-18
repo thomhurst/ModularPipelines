@@ -35,4 +35,3 @@ public record AzElasticMonitorCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

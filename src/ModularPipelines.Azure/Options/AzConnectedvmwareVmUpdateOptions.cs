@@ -35,4 +35,3 @@ public record AzConnectedvmwareVmUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

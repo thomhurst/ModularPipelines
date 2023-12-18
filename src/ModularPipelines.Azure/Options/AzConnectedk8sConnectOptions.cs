@@ -74,4 +74,3 @@ public record AzConnectedk8sConnectOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

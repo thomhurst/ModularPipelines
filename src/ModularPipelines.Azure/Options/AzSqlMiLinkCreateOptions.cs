@@ -27,4 +27,3 @@ public record AzSqlMiLinkCreateOptions(
     [CommandSwitch("--target-database")]
     public string? TargetDatabase { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzStorageFsDirectoryMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

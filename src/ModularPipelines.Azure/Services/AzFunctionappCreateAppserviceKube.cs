@@ -22,4 +22,3 @@ public class AzFunctionappCreateAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

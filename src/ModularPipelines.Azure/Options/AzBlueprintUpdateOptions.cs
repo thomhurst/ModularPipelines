@@ -43,4 +43,3 @@ public record AzBlueprintUpdateOptions(
     [CommandSwitch("--target-scope")]
     public string? TargetScope { get; set; }
 }
-

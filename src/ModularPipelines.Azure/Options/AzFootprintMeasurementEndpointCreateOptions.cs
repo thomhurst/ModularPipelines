@@ -42,4 +42,3 @@ public record AzFootprintMeasurementEndpointCreateOptions(
     [CommandSwitch("--start-time-utc")]
     public string? StartTimeUtc { get; set; }
 }
-

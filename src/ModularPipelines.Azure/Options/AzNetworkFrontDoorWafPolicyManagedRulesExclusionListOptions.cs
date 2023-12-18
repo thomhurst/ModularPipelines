@@ -18,4 +18,3 @@ public record AzNetworkFrontDoorWafPolicyManagedRulesExclusionListOptions(
     [CommandSwitch("--rule-id")]
     public string? RuleId { get; set; }
 }
-

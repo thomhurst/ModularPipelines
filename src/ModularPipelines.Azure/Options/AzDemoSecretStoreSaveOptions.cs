@@ -11,4 +11,3 @@ public record AzDemoSecretStoreSaveOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? KeyValue { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzKustoPrivateEndpointConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

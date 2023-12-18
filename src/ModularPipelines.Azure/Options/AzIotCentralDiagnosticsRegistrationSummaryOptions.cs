@@ -19,4 +19,3 @@ public record AzIotCentralDiagnosticsRegistrationSummaryOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

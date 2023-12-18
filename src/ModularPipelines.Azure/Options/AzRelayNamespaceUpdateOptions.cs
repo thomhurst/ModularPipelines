@@ -38,4 +38,3 @@ public record AzRelayNamespaceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

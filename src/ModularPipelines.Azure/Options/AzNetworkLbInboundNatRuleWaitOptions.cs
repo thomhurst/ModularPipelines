@@ -41,4 +41,3 @@ public record AzNetworkLbInboundNatRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

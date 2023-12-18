@@ -22,4 +22,3 @@ public class AzSecuritySecuritySolutionsReferenceData
         return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsReferenceDataListOptions(), token);
     }
 }
-

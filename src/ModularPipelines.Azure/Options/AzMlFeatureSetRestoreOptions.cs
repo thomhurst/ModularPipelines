@@ -23,4 +23,3 @@ public record AzMlFeatureSetRestoreOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzSqlFailoverGroupSetPrimaryOptions(
     [BooleanCommandSwitch("--tpbff")]
     public bool? Tpbff { get; set; }
 }
-

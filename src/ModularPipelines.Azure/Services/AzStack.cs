@@ -24,4 +24,3 @@ public class AzStack
 
     public AzStackSub Sub { get; }
 }
-

@@ -50,4 +50,3 @@ public class AzMobileNetworkSim
         return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimWaitOptions(), token);
     }
 }
-

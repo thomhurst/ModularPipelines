@@ -47,4 +47,3 @@ public class AzAmsAssetTrack
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

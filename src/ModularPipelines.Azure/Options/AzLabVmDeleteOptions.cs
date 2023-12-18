@@ -36,4 +36,3 @@ public record AzLabVmDeleteOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

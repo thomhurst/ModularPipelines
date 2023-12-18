@@ -22,4 +22,3 @@ public record AzArcapplianceUpdateInfracredentialsVmwareOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

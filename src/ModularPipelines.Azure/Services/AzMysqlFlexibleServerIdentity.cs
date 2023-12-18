@@ -37,4 +37,3 @@ public class AzMysqlFlexibleServerIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

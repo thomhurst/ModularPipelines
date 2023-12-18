@@ -37,4 +37,3 @@ public class AzSiteRecoveryAlertSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryAlertSettingUpdateOptions(), token);
     }
 }
-

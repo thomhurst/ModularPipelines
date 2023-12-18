@@ -73,4 +73,3 @@ public record AzKeyvaultKeyGetPolicyTemplateOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

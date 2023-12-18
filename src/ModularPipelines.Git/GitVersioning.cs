@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;

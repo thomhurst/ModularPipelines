@@ -24,4 +24,3 @@ public record AzKeyvaultCertificateImportOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

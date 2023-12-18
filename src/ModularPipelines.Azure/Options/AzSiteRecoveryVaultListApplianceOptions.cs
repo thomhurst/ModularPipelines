@@ -20,4 +20,3 @@ public record AzSiteRecoveryVaultListApplianceOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

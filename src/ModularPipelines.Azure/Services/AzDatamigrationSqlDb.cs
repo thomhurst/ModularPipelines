@@ -42,4 +42,3 @@ public class AzDatamigrationSqlDb
         return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbWaitOptions(), token);
     }
 }
-

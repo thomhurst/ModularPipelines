@@ -22,4 +22,3 @@ public record AzCosmosdbSqlContainerExistsOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

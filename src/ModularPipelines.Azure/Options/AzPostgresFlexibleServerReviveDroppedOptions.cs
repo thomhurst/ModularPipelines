@@ -62,4 +62,3 @@ public record AzPostgresFlexibleServerReviveDroppedOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzSfManagedNodeTypeShowOptions(
     [CommandSwitch("--placement-property")]
     public string? PlacementProperty { get; set; }
 }
-

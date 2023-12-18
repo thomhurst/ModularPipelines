@@ -20,4 +20,3 @@ public record AzPipelinesRunsTagDeleteOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

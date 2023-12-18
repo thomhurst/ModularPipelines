@@ -47,4 +47,3 @@ public record AzApicApiVersionUpdateOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

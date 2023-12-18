@@ -1,4 +1,4 @@
-﻿using Azure.ResourceManager;
+using Azure.ResourceManager;
 using Azure.ResourceManager.AppConfiguration;
 using Azure.ResourceManager.ApplicationInsights;
 using Azure.ResourceManager.ContainerRegistry;

@@ -15,4 +15,3 @@ public record AzFleetMemberShowOptions(
     [CommandSwitch("--update-group")]
     public string? UpdateGroup { get; set; }
 }
-

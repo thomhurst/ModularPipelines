@@ -23,4 +23,3 @@ public record AzSynapseActivityRunQueryByPipelineRunOptions(
     [CommandSwitch("--order-by")]
     public string? OrderBy { get; set; }
 }
-

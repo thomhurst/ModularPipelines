@@ -27,4 +27,3 @@ public class AzIotDuUpdateFile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

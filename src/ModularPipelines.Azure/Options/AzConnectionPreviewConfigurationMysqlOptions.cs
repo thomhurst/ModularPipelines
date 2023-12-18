@@ -14,4 +14,3 @@ public record AzConnectionPreviewConfigurationMysqlOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

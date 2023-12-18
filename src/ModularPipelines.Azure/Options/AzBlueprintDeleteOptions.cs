@@ -19,4 +19,3 @@ public record AzBlueprintDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

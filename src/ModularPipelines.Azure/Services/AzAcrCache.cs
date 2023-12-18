@@ -42,4 +42,3 @@ public class AzAcrCache
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

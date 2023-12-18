@@ -20,4 +20,3 @@ public record AzNetworkfabricNniListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

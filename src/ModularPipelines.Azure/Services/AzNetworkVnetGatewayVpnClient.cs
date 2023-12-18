@@ -36,4 +36,3 @@ public class AzNetworkVnetGatewayVpnClient
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), token);
     }
 }
-

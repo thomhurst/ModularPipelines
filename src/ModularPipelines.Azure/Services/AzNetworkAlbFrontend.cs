@@ -47,4 +47,3 @@ public class AzNetworkAlbFrontend
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbFrontendWaitOptions(), token);
     }
 }
-

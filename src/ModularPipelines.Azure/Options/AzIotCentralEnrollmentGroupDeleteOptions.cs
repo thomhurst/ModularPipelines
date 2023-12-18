@@ -20,4 +20,3 @@ public record AzIotCentralEnrollmentGroupDeleteOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

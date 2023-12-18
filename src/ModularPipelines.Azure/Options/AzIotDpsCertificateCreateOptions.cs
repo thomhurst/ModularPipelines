@@ -18,4 +18,3 @@ public record AzIotDpsCertificateCreateOptions(
     [BooleanCommandSwitch("--verified")]
     public bool? Verified { get; set; }
 }
-

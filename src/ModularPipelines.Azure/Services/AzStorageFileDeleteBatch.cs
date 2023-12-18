@@ -17,4 +17,3 @@ public class AzStorageFileDeleteBatch
 
     public AzStorageFileDeleteBatchStoragePreview StoragePreview { get; }
 }
-

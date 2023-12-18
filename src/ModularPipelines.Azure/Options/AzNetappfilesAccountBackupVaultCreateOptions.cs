@@ -21,4 +21,3 @@ public record AzNetappfilesAccountBackupVaultCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

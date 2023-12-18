@@ -18,4 +18,3 @@ public record AzEventgridPartnerDestinationActivateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

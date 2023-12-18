@@ -29,4 +29,3 @@ public record AzAksKollectOptions(
     [CommandSwitch("--storage-account")]
     public int? StorageAccount { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzSecurityPricingCreateOptions(
     [CommandSwitch("--subplan")]
     public string? Subplan { get; set; }
 }
-

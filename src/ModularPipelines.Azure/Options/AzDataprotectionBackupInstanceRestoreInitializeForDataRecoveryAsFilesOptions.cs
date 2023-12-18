@@ -29,4 +29,3 @@ public record AzDataprotectionBackupInstanceRestoreInitializeForDataRecoveryAsFi
     [CommandSwitch("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzStorageContainerPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

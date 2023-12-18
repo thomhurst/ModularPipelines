@@ -47,4 +47,3 @@ public class AzNetworkPrivateDnsLinkVnet
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsLinkVnetWaitOptions(), token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzSiteRecoveryVaultListProtectionContainerOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -58,4 +58,3 @@ public record AzNetworkfabricInternalnetworkCreateOptions(
     [CommandSwitch("--static-route-configuration")]
     public string? StaticRouteConfiguration { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzContainerappConnectionCreateSql
 
     public AzContainerappConnectionCreateSqlServiceconnectorPasswordless ServiceconnectorPasswordless { get; }
 }
-

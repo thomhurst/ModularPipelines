@@ -47,4 +47,3 @@ public class AzIotDuInstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

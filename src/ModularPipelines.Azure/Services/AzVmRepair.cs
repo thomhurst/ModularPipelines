@@ -47,4 +47,3 @@ public class AzVmRepair
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRunOptions(), token);
     }
 }
-

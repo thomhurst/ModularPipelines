@@ -44,4 +44,3 @@ public record AzMonitorPrivateLinkScopePrivateEndpointConnectionWaitOptions : Az
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

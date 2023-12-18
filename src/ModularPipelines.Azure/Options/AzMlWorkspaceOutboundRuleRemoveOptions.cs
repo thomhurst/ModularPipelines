@@ -18,4 +18,3 @@ public record AzMlWorkspaceOutboundRuleRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

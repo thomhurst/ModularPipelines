@@ -38,4 +38,3 @@ public record AzOrbitalContactProfileCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

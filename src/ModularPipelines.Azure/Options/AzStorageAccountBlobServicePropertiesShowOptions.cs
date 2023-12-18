@@ -13,4 +13,3 @@ public record AzStorageAccountBlobServicePropertiesShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

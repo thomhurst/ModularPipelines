@@ -17,4 +17,3 @@ public class AzWebappCreate
 
     public AzWebappCreateAppserviceKube AppserviceKube { get; }
 }
-

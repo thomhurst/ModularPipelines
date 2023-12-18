@@ -64,4 +64,3 @@ public class AzApicApi
         return await _command.ExecuteCommandLineTool(options ?? new AzApicApiUpdateOptions(), token);
     }
 }
-

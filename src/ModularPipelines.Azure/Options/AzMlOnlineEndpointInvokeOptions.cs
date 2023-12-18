@@ -21,4 +21,3 @@ public record AzMlOnlineEndpointInvokeOptions(
     [CommandSwitch("--request-file")]
     public string? RequestFile { get; set; }
 }
-

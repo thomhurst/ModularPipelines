@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Azure.Provisioning;
+using ModularPipelines.Azure.Provisioning;
 
 namespace ModularPipelines.Azure;
 

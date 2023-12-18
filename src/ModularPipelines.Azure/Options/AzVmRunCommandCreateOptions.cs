@@ -54,4 +54,3 @@ public record AzVmRunCommandCreateOptions(
     [CommandSwitch("--timeout-in-seconds")]
     public string? TimeoutInSeconds { get; set; }
 }
-

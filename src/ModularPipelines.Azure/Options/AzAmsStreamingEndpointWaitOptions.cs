@@ -44,4 +44,3 @@ public record AzAmsStreamingEndpointWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

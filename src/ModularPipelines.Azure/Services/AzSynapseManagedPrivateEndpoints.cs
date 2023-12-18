@@ -37,4 +37,3 @@ public class AzSynapseManagedPrivateEndpoints
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

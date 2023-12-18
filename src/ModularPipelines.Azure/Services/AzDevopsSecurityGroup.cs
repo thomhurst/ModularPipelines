@@ -46,4 +46,3 @@ public class AzDevopsSecurityGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

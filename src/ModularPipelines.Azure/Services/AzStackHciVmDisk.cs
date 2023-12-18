@@ -52,4 +52,3 @@ public class AzStackHciVmDisk
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmDiskUpdateOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzReposShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

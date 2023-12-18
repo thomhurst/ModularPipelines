@@ -55,4 +55,3 @@ public class AzBatchaiJob
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchaiJobWaitOptions(), token);
     }
 }
-

@@ -44,4 +44,3 @@ public record AzKeyvaultPrivateEndpointConnectionWaitOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

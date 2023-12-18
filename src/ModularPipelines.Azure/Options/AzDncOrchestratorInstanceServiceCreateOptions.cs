@@ -44,4 +44,3 @@ public record AzDncOrchestratorInstanceServiceCreateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

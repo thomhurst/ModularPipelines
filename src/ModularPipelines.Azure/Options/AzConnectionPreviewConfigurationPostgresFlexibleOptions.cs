@@ -17,4 +17,3 @@ public record AzConnectionPreviewConfigurationPostgresFlexibleOptions : AzOption
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

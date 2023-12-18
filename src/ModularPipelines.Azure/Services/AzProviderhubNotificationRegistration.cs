@@ -37,4 +37,3 @@ public class AzProviderhubNotificationRegistration
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubNotificationRegistrationShowOptions(), token);
     }
 }
-

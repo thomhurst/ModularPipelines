@@ -17,4 +17,3 @@ public record AzSphereImageListOptions(
     [BooleanCommandSwitch("--full")]
     public bool? Full { get; set; }
 }
-

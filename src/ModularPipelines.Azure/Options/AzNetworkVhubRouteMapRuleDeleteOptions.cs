@@ -19,4 +19,3 @@ public record AzNetworkVhubRouteMapRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -63,4 +63,3 @@ public record AzConnectedvmwareVmCreateOptions(
     [CommandSwitch("--vm-template")]
     public string? VmTemplate { get; set; }
 }
-

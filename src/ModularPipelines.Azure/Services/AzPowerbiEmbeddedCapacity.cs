@@ -47,4 +47,3 @@ public class AzPowerbiEmbeddedCapacity
         return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityWaitOptions(), token);
     }
 }
-

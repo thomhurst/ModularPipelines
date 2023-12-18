@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using File = ModularPipelines.FileSystem.File;
 

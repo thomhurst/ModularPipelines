@@ -42,4 +42,3 @@ public class AzPaloAltoCloudngfwLocalRulestackCertificate
         return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateWaitOptions(), token);
     }
 }
-

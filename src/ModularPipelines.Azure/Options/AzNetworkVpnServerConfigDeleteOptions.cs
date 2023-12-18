@@ -14,4 +14,3 @@ public record AzNetworkVpnServerConfigDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

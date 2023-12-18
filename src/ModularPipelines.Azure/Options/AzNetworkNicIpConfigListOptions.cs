@@ -65,4 +65,3 @@ public record AzNetworkNicIpConfigListOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzDiskPoolListZonesOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

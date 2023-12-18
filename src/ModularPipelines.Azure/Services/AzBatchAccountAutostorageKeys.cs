@@ -22,4 +22,3 @@ public class AzBatchAccountAutostorageKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

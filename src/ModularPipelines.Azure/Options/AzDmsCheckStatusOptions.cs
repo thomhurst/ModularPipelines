@@ -17,4 +17,3 @@ public record AzDmsCheckStatusOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

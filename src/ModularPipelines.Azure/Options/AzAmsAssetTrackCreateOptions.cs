@@ -29,4 +29,3 @@ public record AzAmsAssetTrackCreateOptions(
     [CommandSwitch("--player-visibility")]
     public string? PlayerVisibility { get; set; }
 }
-

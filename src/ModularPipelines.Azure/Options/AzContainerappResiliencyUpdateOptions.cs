@@ -68,4 +68,3 @@ public record AzContainerappResiliencyUpdateOptions(
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

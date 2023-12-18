@@ -23,4 +23,3 @@ public record AzAcrQueryOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

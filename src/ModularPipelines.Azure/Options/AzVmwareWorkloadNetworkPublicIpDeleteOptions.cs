@@ -26,4 +26,3 @@ public record AzVmwareWorkloadNetworkPublicIpDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

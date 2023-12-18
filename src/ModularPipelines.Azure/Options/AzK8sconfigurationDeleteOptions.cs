@@ -16,4 +16,3 @@ public record AzK8sconfigurationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

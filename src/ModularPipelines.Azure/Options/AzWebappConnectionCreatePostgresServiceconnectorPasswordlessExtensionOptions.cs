@@ -74,4 +74,3 @@ public record AzWebappConnectionCreatePostgresServiceconnectorPasswordlessExtens
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzAzurestackhciVirtualmachineExtensionWaitOptions : AzOptions
     [CommandSwitch("--virtualmachine-name")]
     public string? VirtualmachineName { get; set; }
 }
-

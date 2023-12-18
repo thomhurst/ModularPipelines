@@ -11,4 +11,3 @@ public record AzWebappDeploymentSourceUpdateTokenOptions : AzOptions
     [CommandSwitch("--git-token")]
     public string? GitToken { get; set; }
 }
-

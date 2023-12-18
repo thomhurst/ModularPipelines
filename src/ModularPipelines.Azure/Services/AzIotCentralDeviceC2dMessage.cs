@@ -22,4 +22,3 @@ public class AzIotCentralDeviceC2dMessage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

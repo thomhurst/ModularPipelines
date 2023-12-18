@@ -14,4 +14,3 @@ public record AzAcrTaskTimerListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

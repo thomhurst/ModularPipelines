@@ -17,4 +17,3 @@ public record AzStaticwebappBackendsUnlinkOptions(
     [BooleanCommandSwitch("--remove-backend-auth")]
     public bool? RemoveBackendAuth { get; set; }
 }
-

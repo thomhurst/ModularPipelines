@@ -22,4 +22,3 @@ public class AzWebpubsubClient
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzAmsTransformOutput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

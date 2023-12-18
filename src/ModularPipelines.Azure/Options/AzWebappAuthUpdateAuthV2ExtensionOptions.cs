@@ -59,4 +59,3 @@ public record AzWebappAuthUpdateAuthV2ExtensionOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

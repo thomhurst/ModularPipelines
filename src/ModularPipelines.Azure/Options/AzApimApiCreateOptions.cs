@@ -53,4 +53,3 @@ public record AzApimApiCreateOptions(
     [BooleanCommandSwitch("--subscription-required")]
     public bool? SubscriptionRequired { get; set; }
 }
-

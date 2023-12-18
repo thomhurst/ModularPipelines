@@ -47,4 +47,3 @@ public record AzNetappfilesVolumeWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

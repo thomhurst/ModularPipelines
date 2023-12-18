@@ -22,4 +22,3 @@ public record AzSignalrCorsRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

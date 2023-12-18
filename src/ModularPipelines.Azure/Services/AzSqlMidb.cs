@@ -89,4 +89,3 @@ public class AzSqlMidb
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbUpdateOptions(), token);
     }
 }
-

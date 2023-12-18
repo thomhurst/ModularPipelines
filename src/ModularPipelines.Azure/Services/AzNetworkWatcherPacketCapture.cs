@@ -52,4 +52,3 @@ public class AzNetworkWatcherPacketCapture
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherPacketCaptureWaitOptions(), token);
     }
 }
-

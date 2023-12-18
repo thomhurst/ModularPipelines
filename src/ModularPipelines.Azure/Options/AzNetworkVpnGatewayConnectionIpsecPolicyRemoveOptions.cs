@@ -16,4 +16,3 @@ public record AzNetworkVpnGatewayConnectionIpsecPolicyRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

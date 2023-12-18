@@ -42,4 +42,3 @@ public class AzNetworkExpressRouteAuth
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthWaitOptions(), token);
     }
 }
-

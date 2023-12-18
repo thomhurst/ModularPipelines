@@ -56,4 +56,3 @@ public class AzMesh
 
     public AzMeshVolume Volume { get; }
 }
-

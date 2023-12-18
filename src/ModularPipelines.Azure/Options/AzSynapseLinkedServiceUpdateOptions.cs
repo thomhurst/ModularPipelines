@@ -15,4 +15,3 @@ public record AzSynapseLinkedServiceUpdateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

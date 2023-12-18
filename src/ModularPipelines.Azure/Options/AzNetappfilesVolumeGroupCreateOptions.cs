@@ -117,4 +117,3 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

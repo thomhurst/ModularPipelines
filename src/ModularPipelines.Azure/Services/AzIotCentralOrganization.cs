@@ -42,4 +42,3 @@ public class AzIotCentralOrganization
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

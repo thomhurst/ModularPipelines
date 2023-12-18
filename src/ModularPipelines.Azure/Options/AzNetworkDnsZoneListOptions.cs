@@ -14,4 +14,3 @@ public record AzNetworkDnsZoneListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzGrafanaServiceAccountCreateOptions(
     [CommandSwitch("--role")]
     public string? Role { get; set; }
 }
-

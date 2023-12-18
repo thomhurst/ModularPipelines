@@ -31,4 +31,3 @@ public record AzWebappDeploymentSlotSwapOptions(
     [CommandSwitch("--target-slot")]
     public string? TargetSlot { get; set; }
 }
-

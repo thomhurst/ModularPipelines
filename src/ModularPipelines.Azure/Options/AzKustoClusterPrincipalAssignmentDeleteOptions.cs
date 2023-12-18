@@ -26,4 +26,3 @@ public record AzKustoClusterPrincipalAssignmentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

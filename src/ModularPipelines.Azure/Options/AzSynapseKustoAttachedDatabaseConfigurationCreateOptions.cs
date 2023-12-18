@@ -31,4 +31,3 @@ public record AzSynapseKustoAttachedDatabaseConfigurationCreateOptions(
     [CommandSwitch("--table-level-sharing-properties")]
     public string? TableLevelSharingProperties { get; set; }
 }
-

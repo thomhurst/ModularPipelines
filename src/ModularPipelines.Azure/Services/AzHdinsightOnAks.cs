@@ -39,4 +39,3 @@ public class AzHdinsightOnAks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

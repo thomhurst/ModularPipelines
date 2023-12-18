@@ -43,4 +43,3 @@ public class AzDeploymentOperation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

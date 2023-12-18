@@ -23,4 +23,3 @@ public record AzStorageAccountEncryptionScopeUpdateOptions(
     [CommandSwitch("--state")]
     public string? State { get; set; }
 }
-

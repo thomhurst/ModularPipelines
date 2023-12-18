@@ -38,4 +38,3 @@ public record AzAdpAccountUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -50,4 +50,3 @@ public record AzDatamigrationSqlVmWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

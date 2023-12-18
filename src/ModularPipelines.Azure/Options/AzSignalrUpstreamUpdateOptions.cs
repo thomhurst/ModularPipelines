@@ -22,4 +22,3 @@ public record AzSignalrUpstreamUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

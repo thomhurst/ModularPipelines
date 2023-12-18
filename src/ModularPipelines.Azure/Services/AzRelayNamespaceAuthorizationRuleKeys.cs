@@ -27,4 +27,3 @@ public class AzRelayNamespaceAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

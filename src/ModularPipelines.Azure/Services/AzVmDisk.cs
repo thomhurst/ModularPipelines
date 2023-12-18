@@ -27,4 +27,3 @@ public class AzVmDisk
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

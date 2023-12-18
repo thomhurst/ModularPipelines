@@ -47,4 +47,3 @@ public record AzPaloAltoCloudngfwLocalRulestackCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

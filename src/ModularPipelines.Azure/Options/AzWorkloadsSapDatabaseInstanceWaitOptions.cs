@@ -44,4 +44,3 @@ public record AzWorkloadsSapDatabaseInstanceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

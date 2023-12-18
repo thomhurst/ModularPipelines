@@ -21,4 +21,3 @@ public record AzServicebusNamespacePrivateEndpointConnectionCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

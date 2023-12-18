@@ -53,4 +53,3 @@ public record AzSpringCloudConnectionCreateMysqlFlexibleOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

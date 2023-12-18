@@ -15,4 +15,3 @@ public record AzSpringApplicationConfigurationServiceUnbindOptions(
     [CommandSwitch("--generation")]
     public string? Generation { get; set; }
 }
-

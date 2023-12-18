@@ -17,4 +17,3 @@ public class AzStorageFileExists
 
     public AzStorageFileExistsStoragePreview StoragePreview { get; }
 }
-

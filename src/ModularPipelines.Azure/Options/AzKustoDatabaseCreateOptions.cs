@@ -21,4 +21,3 @@ public record AzKustoDatabaseCreateOptions(
     [CommandSwitch("--soft-delete-period")]
     public string? SoftDeletePeriod { get; set; }
 }
-

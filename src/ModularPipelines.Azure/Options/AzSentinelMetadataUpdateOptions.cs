@@ -95,4 +95,3 @@ public record AzSentinelMetadataUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

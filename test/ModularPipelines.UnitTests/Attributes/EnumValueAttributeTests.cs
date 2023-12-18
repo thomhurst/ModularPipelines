@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Attributes;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.UnitTests.Attributes;

@@ -47,4 +47,3 @@ public class AzNetworkLbProbe
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbProbeWaitOptions(), token);
     }
 }
-

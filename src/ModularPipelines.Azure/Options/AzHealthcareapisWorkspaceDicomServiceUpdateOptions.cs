@@ -35,4 +35,3 @@ public record AzHealthcareapisWorkspaceDicomServiceUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

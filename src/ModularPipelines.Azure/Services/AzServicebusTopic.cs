@@ -50,4 +50,3 @@ public class AzServicebusTopic
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicUpdateOptions(), token);
     }
 }
-

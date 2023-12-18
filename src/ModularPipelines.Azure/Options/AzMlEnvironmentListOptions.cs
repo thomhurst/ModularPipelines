@@ -28,4 +28,3 @@ public record AzMlEnvironmentListOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

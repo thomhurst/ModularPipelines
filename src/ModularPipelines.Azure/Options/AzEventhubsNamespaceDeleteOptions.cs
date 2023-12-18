@@ -22,4 +22,3 @@ public record AzEventhubsNamespaceDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

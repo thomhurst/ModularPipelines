@@ -44,4 +44,3 @@ public record AzIotHubModuleIdentityCreateOptions(
     [CommandSwitch("--valid-days")]
     public string? ValidDays { get; set; }
 }
-

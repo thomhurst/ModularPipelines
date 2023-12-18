@@ -28,4 +28,3 @@ public record AzReservationsReservationOrderReturnOptions(
     [CommandSwitch("--session-id")]
     public string? SessionId { get; set; }
 }
-

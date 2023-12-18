@@ -19,4 +19,3 @@ public record AzNetworkFrontDoorRulesEngineRuleDeleteOptions(
     [CommandSwitch("--priority")]
     public string? Priority { get; set; }
 }
-

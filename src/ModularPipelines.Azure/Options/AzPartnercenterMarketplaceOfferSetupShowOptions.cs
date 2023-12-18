@@ -34,4 +34,3 @@ public record AzPartnercenterMarketplaceOfferSetupShowOptions(
     [CommandSwitch("--trial-uri")]
     public string? TrialUri { get; set; }
 }
-

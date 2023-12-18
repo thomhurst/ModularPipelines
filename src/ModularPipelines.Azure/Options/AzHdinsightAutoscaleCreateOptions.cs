@@ -36,4 +36,3 @@ public record AzHdinsightAutoscaleCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

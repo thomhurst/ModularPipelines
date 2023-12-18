@@ -24,4 +24,3 @@ public record AzAppserviceKubeCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzVmAutoShutdownOptions(
     [CommandSwitch("--webhook")]
     public string? Webhook { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzMlComputeListUsageOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

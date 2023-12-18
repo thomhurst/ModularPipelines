@@ -50,4 +50,3 @@ public class AzSfManagedService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

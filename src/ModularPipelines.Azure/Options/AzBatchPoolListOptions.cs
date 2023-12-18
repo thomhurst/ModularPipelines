@@ -28,4 +28,3 @@ public record AzBatchPoolListOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzDnsResolverListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

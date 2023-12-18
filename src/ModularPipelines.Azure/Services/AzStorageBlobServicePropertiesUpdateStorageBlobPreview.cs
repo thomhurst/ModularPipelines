@@ -22,4 +22,3 @@ public class AzStorageBlobServicePropertiesUpdateStorageBlobPreview
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions(), token);
     }
 }
-

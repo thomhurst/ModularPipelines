@@ -32,4 +32,3 @@ public record AzVmwareVmRestrictMovementOptions : AzOptions
     [CommandSwitch("--virtual-machine")]
     public string? VirtualMachine { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzVmssRunCommand
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

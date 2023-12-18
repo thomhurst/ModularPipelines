@@ -49,4 +49,3 @@ public class AzImportExport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

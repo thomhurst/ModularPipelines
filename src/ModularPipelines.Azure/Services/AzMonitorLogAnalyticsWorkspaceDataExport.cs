@@ -42,4 +42,3 @@ public class AzMonitorLogAnalyticsWorkspaceDataExport
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions(), token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzAksSnapshotShowAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

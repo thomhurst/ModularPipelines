@@ -22,4 +22,3 @@ public class AzStorageDirectoryMetadataUpdateStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

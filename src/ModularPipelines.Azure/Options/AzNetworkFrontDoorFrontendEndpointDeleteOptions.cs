@@ -27,4 +27,3 @@ public record AzNetworkFrontDoorFrontendEndpointDeleteOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

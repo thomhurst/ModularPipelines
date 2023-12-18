@@ -17,4 +17,3 @@ public record AzSynapseDataFlowDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

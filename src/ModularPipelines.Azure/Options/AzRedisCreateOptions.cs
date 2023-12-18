@@ -53,4 +53,3 @@ public record AzRedisCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

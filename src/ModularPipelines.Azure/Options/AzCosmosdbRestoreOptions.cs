@@ -32,4 +32,3 @@ public record AzCosmosdbRestoreOptions(
     [CommandSwitch("--tables-to-restore")]
     public string? TablesToRestore { get; set; }
 }
-

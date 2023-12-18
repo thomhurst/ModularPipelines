@@ -19,4 +19,3 @@ public record AzAcrCacheCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

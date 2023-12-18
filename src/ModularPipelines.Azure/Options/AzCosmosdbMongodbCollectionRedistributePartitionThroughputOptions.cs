@@ -22,4 +22,3 @@ public record AzCosmosdbMongodbCollectionRedistributePartitionThroughputOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

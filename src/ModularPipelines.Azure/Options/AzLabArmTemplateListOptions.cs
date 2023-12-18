@@ -24,4 +24,3 @@ public record AzLabArmTemplateListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

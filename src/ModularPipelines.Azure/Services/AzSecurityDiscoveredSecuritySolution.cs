@@ -27,4 +27,3 @@ public class AzSecurityDiscoveredSecuritySolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

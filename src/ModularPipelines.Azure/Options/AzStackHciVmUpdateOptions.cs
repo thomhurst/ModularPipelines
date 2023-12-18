@@ -59,4 +59,3 @@ public record AzStackHciVmUpdateOptions : AzOptions
     [CommandSwitch("--vhds")]
     public string? Vhds { get; set; }
 }
-

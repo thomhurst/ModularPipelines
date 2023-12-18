@@ -29,4 +29,3 @@ public record AzSpringDevToolUpdateOptions(
     [CommandSwitch("--scopes")]
     public string? Scopes { get; set; }
 }
-

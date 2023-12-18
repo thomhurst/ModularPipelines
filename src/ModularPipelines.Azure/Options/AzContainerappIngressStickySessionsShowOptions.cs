@@ -20,4 +20,3 @@ public record AzContainerappIngressStickySessionsShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzNetworkPerimeterProfileCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzNotificationHubNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubNamespaceAuthorizationRuleShowOptions(), token);
     }
 }
-

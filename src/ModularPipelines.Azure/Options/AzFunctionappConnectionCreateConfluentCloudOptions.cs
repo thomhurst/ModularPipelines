@@ -39,4 +39,3 @@ public record AzFunctionappConnectionCreateConfluentCloudOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

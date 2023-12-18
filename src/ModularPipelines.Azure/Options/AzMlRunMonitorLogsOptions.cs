@@ -28,4 +28,3 @@ public record AzMlRunMonitorLogsOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

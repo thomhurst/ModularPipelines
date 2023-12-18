@@ -94,4 +94,3 @@ public record AzMysqlFlexibleServerUpdateOptions(
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

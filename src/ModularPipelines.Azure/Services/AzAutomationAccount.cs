@@ -42,4 +42,3 @@ public class AzAutomationAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountUpdateOptions(), token);
     }
 }
-

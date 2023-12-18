@@ -15,4 +15,3 @@ public record AzNetworkExpressRouteAuthCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

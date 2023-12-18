@@ -31,4 +31,3 @@ public class AzServicebusGeorecoveryAliasAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusGeorecoveryAliasAuthorizationRuleShowOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzVmwareHcxEnterpriseSiteDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

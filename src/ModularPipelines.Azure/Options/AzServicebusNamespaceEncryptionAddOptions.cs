@@ -15,4 +15,3 @@ public record AzServicebusNamespaceEncryptionAddOptions(
     [BooleanCommandSwitch("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzAroWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -56,4 +56,3 @@ public record AzNetworkP2sVpnGatewayUpdateOptions(
     [CommandSwitch("--vpn-server-config")]
     public string? VpnServerConfig { get; set; }
 }
-

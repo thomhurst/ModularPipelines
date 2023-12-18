@@ -20,4 +20,3 @@ public record AzSpringCloudConnectionListOptions : AzOptions
     [CommandSwitch("--source-id")]
     public string? SourceId { get; set; }
 }
-

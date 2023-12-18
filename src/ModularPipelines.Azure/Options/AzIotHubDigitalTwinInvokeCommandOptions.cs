@@ -32,4 +32,3 @@ public record AzIotHubDigitalTwinInvokeCommandOptions(
     [CommandSwitch("--response-timeout")]
     public string? ResponseTimeout { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzDatashareSynchronizationSettingCreateOptions(
     [CommandSwitch("--scheduled-synchronization-setting")]
     public string? ScheduledSynchronizationSetting { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzSqlServerIpv6FirewallRuleCreateOptions(
     [CommandSwitch("--start-ipv6-address")]
     public string? StartIpv6Address { get; set; }
 }
-

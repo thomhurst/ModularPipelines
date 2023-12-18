@@ -32,4 +32,3 @@ public class AzPolicyAssignmentNonComplianceMessage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

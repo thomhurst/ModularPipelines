@@ -27,4 +27,3 @@ public class AzHealthcareapisWorkspacePrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspacePrivateLinkResourceShowOptions(), token);
     }
 }
-

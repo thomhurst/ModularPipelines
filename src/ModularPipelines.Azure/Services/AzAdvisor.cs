@@ -20,4 +20,3 @@ public class AzAdvisor
 
     public AzAdvisorRecommendation Recommendation { get; }
 }
-

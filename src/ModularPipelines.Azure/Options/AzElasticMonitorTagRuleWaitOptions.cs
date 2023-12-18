@@ -44,4 +44,3 @@ public record AzElasticMonitorTagRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

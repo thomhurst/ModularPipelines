@@ -32,4 +32,3 @@ public class AzSecuritySetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

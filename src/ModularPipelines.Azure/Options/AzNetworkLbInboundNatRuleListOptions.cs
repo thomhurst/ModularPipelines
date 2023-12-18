@@ -56,4 +56,3 @@ public record AzNetworkLbInboundNatRuleListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

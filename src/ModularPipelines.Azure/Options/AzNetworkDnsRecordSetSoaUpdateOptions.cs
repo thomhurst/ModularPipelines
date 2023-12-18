@@ -35,4 +35,3 @@ public record AzNetworkDnsRecordSetSoaUpdateOptions(
     [CommandSwitch("--serial-number")]
     public string? SerialNumber { get; set; }
 }
-

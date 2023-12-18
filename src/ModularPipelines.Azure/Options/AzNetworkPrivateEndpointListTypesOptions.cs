@@ -14,4 +14,3 @@ public record AzNetworkPrivateEndpointListTypesOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

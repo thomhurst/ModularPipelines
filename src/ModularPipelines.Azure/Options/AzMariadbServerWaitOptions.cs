@@ -32,4 +32,3 @@ public record AzMariadbServerWaitOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

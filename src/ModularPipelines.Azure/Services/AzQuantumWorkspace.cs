@@ -52,4 +52,3 @@ public class AzQuantumWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceShowOptions(), token);
     }
 }
-

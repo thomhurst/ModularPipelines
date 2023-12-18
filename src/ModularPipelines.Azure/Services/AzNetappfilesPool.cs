@@ -47,4 +47,3 @@ public class AzNetappfilesPool
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolWaitOptions(), token);
     }
 }
-

@@ -62,4 +62,3 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

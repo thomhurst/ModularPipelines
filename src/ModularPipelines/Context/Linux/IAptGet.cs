@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Models;
+using ModularPipelines.Models;
 using ModularPipelines.Options.Linux.AptGet;
 
 namespace ModularPipelines.Context.Linux;

@@ -22,4 +22,3 @@ public record AzMonitorAppInsightsComponentUpdateTagsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

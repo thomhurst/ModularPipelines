@@ -38,4 +38,3 @@ public record AzStorageBlobImmutabilityPolicySetOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

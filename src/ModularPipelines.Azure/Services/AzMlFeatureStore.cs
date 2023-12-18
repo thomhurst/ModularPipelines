@@ -47,4 +47,3 @@ public class AzMlFeatureStore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzCdnWafPolicySetOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

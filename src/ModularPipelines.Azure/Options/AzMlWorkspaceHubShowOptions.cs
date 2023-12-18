@@ -47,4 +47,3 @@ public record AzMlWorkspaceHubShowOptions(
     [BooleanCommandSwitch("--update-dependent-resources")]
     public bool? UpdateDependentResources { get; set; }
 }
-

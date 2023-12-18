@@ -20,4 +20,3 @@ public record AzAmsStreamingPolicyListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzQuantumJobWaitOptions(
     [CommandSwitch("--max-poll-wait-secs")]
     public string? MaxPollWaitSecs { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzSfManagedServiceLoadMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

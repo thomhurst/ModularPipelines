@@ -14,4 +14,3 @@ public record AzOrbitalSpacecraftContactListOptions(
     [CommandSwitch("--skiptoken")]
     public string? Skiptoken { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzAdGroupOwner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

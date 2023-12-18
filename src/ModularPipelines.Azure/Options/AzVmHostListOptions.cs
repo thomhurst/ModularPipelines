@@ -17,4 +17,3 @@ public record AzVmHostListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

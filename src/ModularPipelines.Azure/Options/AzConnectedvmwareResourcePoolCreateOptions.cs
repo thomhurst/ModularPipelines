@@ -21,4 +21,3 @@ public record AzConnectedvmwareResourcePoolCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

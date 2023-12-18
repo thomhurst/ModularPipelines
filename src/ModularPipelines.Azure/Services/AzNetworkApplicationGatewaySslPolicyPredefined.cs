@@ -27,4 +27,3 @@ public class AzNetworkApplicationGatewaySslPolicyPredefined
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

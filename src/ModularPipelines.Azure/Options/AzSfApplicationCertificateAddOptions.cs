@@ -32,4 +32,3 @@ public record AzSfApplicationCertificateAddOptions(
     [CommandSwitch("--vault-rg")]
     public string? VaultRg { get; set; }
 }
-

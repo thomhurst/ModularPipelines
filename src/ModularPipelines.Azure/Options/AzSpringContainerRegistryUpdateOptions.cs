@@ -26,4 +26,3 @@ public record AzSpringContainerRegistryUpdateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

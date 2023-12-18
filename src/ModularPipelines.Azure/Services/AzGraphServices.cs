@@ -16,4 +16,3 @@ public class AzGraphServices
 
     public AzGraphServicesAccount Account { get; }
 }
-

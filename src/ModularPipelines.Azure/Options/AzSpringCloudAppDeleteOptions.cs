@@ -75,4 +75,3 @@ public record AzSpringCloudAppDeleteOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

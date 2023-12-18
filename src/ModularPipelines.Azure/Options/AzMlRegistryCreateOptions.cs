@@ -31,4 +31,3 @@ public record AzMlRegistryCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

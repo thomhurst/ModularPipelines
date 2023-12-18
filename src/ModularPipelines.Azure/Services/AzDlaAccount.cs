@@ -58,4 +58,3 @@ public class AzDlaAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountUpdateOptions(), token);
     }
 }
-

@@ -29,4 +29,3 @@ public record AzVmUnmanagedDiskAttachOptions(
     [CommandSwitch("--vhd-uri")]
     public string? VhdUri { get; set; }
 }
-

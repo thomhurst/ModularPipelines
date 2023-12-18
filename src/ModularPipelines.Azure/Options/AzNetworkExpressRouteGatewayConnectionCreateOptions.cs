@@ -45,4 +45,3 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions(
     [CommandSwitch("--routing-weight")]
     public string? RoutingWeight { get; set; }
 }
-

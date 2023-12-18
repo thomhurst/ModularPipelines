@@ -22,4 +22,3 @@ public class AzFunctionappDeploymentSourceConfigZipAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

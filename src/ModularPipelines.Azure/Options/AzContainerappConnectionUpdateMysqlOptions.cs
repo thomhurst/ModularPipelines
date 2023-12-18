@@ -44,4 +44,3 @@ public record AzContainerappConnectionUpdateMysqlOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

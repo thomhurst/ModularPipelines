@@ -14,4 +14,3 @@ public record AzBotTelegramShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

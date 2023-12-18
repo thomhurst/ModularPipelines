@@ -15,4 +15,3 @@ public record AzStreamAnalyticsFunctionInspectOptions(
     [CommandSwitch("--ml-properties")]
     public string? MlProperties { get; set; }
 }
-

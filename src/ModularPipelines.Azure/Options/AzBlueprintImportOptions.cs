@@ -20,4 +20,3 @@ public record AzBlueprintImportOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

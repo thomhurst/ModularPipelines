@@ -42,4 +42,3 @@ public class AzStorageSharePolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

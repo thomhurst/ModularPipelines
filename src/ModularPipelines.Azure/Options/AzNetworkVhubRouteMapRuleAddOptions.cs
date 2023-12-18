@@ -30,4 +30,3 @@ public record AzNetworkVhubRouteMapRuleAddOptions(
     [CommandSwitch("--rule-index")]
     public string? RuleIndex { get; set; }
 }
-

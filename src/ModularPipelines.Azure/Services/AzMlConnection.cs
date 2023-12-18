@@ -42,4 +42,3 @@ public class AzMlConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

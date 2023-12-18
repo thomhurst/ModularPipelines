@@ -32,4 +32,3 @@ public class AzBillingRoleAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

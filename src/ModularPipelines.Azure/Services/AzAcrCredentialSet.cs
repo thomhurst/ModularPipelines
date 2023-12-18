@@ -42,4 +42,3 @@ public class AzAcrCredentialSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

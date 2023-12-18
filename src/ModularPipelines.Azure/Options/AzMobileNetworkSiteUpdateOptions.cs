@@ -41,4 +41,3 @@ public record AzMobileNetworkSiteUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

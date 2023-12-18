@@ -42,4 +42,3 @@ public class AzBotAuthsetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

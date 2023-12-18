@@ -23,4 +23,3 @@ public record AzMysqlServerReplicaStopOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

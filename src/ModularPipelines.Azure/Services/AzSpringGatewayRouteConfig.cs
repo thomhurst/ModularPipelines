@@ -42,4 +42,3 @@ public class AzSpringGatewayRouteConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

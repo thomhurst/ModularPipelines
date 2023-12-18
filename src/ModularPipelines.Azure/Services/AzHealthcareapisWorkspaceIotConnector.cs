@@ -51,4 +51,3 @@ public class AzHealthcareapisWorkspaceIotConnector
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorWaitOptions(), token);
     }
 }
-

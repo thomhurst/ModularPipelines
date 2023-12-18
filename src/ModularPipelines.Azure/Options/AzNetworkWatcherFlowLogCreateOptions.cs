@@ -58,4 +58,3 @@ public record AzNetworkWatcherFlowLogCreateOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

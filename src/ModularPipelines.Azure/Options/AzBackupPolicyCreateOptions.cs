@@ -17,4 +17,3 @@ public record AzBackupPolicyCreateOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

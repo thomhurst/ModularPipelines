@@ -47,4 +47,3 @@ public class AzPortalDashboard
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

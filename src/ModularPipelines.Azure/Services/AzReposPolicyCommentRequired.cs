@@ -27,4 +27,3 @@ public class AzReposPolicyCommentRequired
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

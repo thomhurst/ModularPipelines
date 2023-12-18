@@ -36,4 +36,3 @@ public record AzDatamigrationSqlDbCreateOptions(
     [CommandSwitch("--target-sql-connection")]
     public string? TargetSqlConnection { get; set; }
 }
-

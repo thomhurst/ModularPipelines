@@ -36,4 +36,3 @@ public class AzSsh
         return await _command.ExecuteCommandLineTool(options ?? new AzSshVmOptions(), token);
     }
 }
-

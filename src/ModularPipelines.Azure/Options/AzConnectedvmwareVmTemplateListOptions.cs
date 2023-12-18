@@ -11,4 +11,3 @@ public record AzConnectedvmwareVmTemplateListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

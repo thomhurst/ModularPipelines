@@ -22,4 +22,3 @@ public record AzBotKikCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

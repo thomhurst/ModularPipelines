@@ -47,4 +47,3 @@ public class AzScvmmVmTemplate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

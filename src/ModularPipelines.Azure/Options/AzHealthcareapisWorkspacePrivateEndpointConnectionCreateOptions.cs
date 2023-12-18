@@ -18,4 +18,3 @@ public record AzHealthcareapisWorkspacePrivateEndpointConnectionCreateOptions(
     [CommandSwitch("--private-link-service-connection-state")]
     public string? PrivateLinkServiceConnectionState { get; set; }
 }
-

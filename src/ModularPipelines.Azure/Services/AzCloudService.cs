@@ -98,4 +98,3 @@ public class AzCloudService
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceWaitOptions(), token);
     }
 }
-

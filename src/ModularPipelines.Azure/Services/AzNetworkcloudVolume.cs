@@ -47,4 +47,3 @@ public class AzNetworkcloudVolume
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeWaitOptions(), token);
     }
 }
-

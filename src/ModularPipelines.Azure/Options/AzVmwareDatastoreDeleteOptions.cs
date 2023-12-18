@@ -27,4 +27,3 @@ public record AzVmwareDatastoreDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -16,4 +16,3 @@ public class AzCostmanagement
 
     public AzCostmanagementExport Export { get; }
 }
-

@@ -20,4 +20,3 @@ public record AzFluidRelayContainerListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -57,4 +57,3 @@ public class AzDataboxJob
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobUpdateOptions(), token);
     }
 }
-

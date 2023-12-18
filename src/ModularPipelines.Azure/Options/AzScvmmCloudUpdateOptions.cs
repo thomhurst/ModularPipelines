@@ -26,4 +26,3 @@ public record AzScvmmCloudUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

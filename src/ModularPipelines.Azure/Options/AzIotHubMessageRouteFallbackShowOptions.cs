@@ -13,4 +13,3 @@ public record AzIotHubMessageRouteFallbackShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

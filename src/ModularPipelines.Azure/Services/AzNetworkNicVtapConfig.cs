@@ -37,4 +37,3 @@ public class AzNetworkNicVtapConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigShowOptions(), token);
     }
 }
-

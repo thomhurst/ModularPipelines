@@ -35,4 +35,3 @@ public class AzStorageDirectoryMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

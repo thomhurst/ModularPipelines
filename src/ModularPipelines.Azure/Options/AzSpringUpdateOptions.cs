@@ -38,4 +38,3 @@ public record AzSpringUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

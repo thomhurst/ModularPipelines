@@ -26,4 +26,3 @@ public record AzStorageCorsListOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

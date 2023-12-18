@@ -32,4 +32,3 @@ public class AzIotOpsAssetDataPoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

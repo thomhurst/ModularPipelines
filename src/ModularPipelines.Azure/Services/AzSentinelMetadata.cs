@@ -42,4 +42,3 @@ public class AzSentinelMetadata
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataUpdateOptions(), token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzDesktopvirtualizationWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceUpdateOptions(), token);
     }
 }
-

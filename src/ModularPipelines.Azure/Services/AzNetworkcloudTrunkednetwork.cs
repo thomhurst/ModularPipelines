@@ -47,4 +47,3 @@ public class AzNetworkcloudTrunkednetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudTrunkednetworkWaitOptions(), token);
     }
 }
-

@@ -19,4 +19,3 @@ public record AzAfdLogAnalyticRankingListOptions(
     [CommandSwitch("--custom-domains")]
     public string? CustomDomains { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzPostgresServerVnetRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -287,4 +287,3 @@ public record AzAksUpdateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

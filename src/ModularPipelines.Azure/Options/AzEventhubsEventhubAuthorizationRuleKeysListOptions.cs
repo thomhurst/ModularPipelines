@@ -22,4 +22,3 @@ public record AzEventhubsEventhubAuthorizationRuleKeysListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

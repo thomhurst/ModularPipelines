@@ -18,4 +18,3 @@ public record AzIotDuAccountPrivateEndpointConnectionSetOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

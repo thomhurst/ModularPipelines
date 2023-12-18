@@ -20,4 +20,3 @@ public record AzSphereDeviceRecoverOptions(
     [CommandSwitch("--images")]
     public string? Images { get; set; }
 }
-

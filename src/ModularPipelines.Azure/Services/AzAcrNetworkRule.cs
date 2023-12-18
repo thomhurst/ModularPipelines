@@ -32,4 +32,3 @@ public class AzAcrNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

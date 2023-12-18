@@ -19,4 +19,3 @@ public record AzSentinelIncidentCommentCreateOptions(
     [CommandSwitch("--message")]
     public string? Message { get; set; }
 }
-

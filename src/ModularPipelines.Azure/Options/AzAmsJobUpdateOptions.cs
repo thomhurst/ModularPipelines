@@ -44,4 +44,3 @@ public record AzAmsJobUpdateOptions : AzOptions
     [CommandSwitch("--transform-name")]
     public string? TransformName { get; set; }
 }
-

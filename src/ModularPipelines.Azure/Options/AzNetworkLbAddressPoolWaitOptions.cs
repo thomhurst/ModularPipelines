@@ -44,4 +44,3 @@ public record AzNetworkLbAddressPoolWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

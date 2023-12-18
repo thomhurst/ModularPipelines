@@ -21,4 +21,3 @@ public record AzSentinelSettingCreateOptions(
     [CommandSwitch("--ueba")]
     public string? Ueba { get; set; }
 }
-

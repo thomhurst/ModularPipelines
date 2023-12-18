@@ -58,4 +58,3 @@ public record AzSfClusterCreateOptions(
     [CommandSwitch("--vm-user-name")]
     public string? VmUserName { get; set; }
 }
-

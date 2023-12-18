@@ -14,4 +14,3 @@ public record AzSpringApplicationConfigurationServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

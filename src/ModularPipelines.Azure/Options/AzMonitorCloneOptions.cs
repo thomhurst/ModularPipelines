@@ -17,4 +17,3 @@ public record AzMonitorCloneOptions(
     [CommandSwitch("--types")]
     public string? Types { get; set; }
 }
-

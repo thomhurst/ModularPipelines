@@ -23,4 +23,3 @@ public record AzCloudServiceUpdateDomainWalkUpdateDomainOptions : AzOptions
     [CommandSwitch("--update-domain")]
     public string? UpdateDomain { get; set; }
 }
-

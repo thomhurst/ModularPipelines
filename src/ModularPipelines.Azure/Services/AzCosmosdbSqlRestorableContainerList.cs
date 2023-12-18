@@ -17,4 +17,3 @@ public class AzCosmosdbSqlRestorableContainerList
 
     public AzCosmosdbSqlRestorableContainerListCosmosdbPreview CosmosdbPreview { get; }
 }
-

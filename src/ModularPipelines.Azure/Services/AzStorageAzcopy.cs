@@ -26,4 +26,3 @@ public class AzStorageAzcopy
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAzcopyRunCommandOptions(), token);
     }
 }
-

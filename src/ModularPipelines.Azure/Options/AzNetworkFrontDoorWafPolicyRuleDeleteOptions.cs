@@ -23,4 +23,3 @@ public record AzNetworkFrontDoorWafPolicyRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

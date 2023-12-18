@@ -38,4 +38,3 @@ public record AzDataboxedgeDeviceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

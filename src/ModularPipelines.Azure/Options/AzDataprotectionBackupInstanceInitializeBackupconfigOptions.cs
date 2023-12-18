@@ -34,4 +34,3 @@ public record AzDataprotectionBackupInstanceInitializeBackupconfigOptions(
     [BooleanCommandSwitch("--snapshot-volumes")]
     public bool? SnapshotVolumes { get; set; }
 }
-

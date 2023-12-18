@@ -29,4 +29,3 @@ public record AzDnsResolverForwardingRulesetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

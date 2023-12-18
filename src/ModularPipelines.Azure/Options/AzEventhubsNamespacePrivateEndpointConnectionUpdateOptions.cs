@@ -44,4 +44,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions : AzOpt
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzEventgridNamespaceCaCertificate
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceCaCertificateWaitOptions(), token);
     }
 }
-

@@ -37,4 +37,3 @@ public class AzSearchPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

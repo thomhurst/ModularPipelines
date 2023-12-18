@@ -21,4 +21,3 @@ public record AzAmsLiveOutputDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

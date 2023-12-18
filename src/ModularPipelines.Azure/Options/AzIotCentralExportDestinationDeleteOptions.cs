@@ -20,4 +20,3 @@ public record AzIotCentralExportDestinationDeleteOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

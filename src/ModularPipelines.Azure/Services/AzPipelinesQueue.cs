@@ -27,4 +27,3 @@ public class AzPipelinesQueue
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

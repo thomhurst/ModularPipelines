@@ -29,4 +29,3 @@ public record AzKustoClusterDeleteKustoExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

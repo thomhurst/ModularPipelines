@@ -17,4 +17,3 @@ public record AzDevopsExtensionDisableOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

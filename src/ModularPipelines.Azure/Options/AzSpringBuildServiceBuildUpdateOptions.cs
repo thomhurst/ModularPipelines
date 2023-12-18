@@ -44,4 +44,3 @@ public record AzSpringBuildServiceBuildUpdateOptions(
     [CommandSwitch("--source-path")]
     public string? SourcePath { get; set; }
 }
-

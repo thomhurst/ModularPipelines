@@ -21,4 +21,3 @@ public record AzMonitorDataCollectionRuleCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

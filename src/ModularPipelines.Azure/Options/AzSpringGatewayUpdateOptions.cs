@@ -113,4 +113,3 @@ public record AzSpringGatewayUpdateOptions(
     [CommandSwitch("--server-url")]
     public string? ServerUrl { get; set; }
 }
-

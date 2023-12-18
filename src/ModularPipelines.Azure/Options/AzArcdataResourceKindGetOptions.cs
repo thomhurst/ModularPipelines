@@ -13,4 +13,3 @@ public record AzArcdataResourceKindGetOptions(
     [CommandSwitch("--dest")]
     public string? Dest { get; set; }
 }
-

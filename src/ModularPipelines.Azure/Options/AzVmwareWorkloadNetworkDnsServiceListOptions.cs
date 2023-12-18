@@ -17,4 +17,3 @@ public record AzVmwareWorkloadNetworkDnsServiceListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

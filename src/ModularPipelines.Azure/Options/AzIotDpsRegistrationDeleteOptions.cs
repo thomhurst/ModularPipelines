@@ -25,4 +25,3 @@ public record AzIotDpsRegistrationDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzNetworkcloudBaremetalmachineRunCommandOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzConnectedvmwareResourcePoolShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

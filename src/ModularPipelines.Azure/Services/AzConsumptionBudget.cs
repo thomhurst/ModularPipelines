@@ -62,4 +62,3 @@ public class AzConsumptionBudget
         return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetUpdateWithRgOptions(), token);
     }
 }
-

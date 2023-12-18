@@ -19,4 +19,3 @@ public record AzCosmosdbMongodbCollectionRetrievePartitionThroughputOptions(
     [CommandSwitch("--physical-partition-ids")]
     public string? PhysicalPartitionIds { get; set; }
 }
-

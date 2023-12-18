@@ -37,4 +37,3 @@ public record AzConnectionUpdateAppconfigOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzNetworkNsgRuleListOptions(
     [BooleanCommandSwitch("--include-default")]
     public bool? IncludeDefault { get; set; }
 }
-

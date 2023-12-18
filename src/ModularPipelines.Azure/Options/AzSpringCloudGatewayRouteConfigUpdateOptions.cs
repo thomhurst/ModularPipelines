@@ -21,4 +21,3 @@ public record AzSpringCloudGatewayRouteConfigUpdateOptions(
     [CommandSwitch("--routes-json")]
     public string? RoutesJson { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzServicebusTopicSubscriptionRule
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleUpdateOptions(), token);
     }
 }
-

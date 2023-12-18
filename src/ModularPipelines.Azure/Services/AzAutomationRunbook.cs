@@ -67,4 +67,3 @@ public class AzAutomationRunbook
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomationRunbookWaitOptions(), token);
     }
 }
-

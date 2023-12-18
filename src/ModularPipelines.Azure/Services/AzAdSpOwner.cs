@@ -22,4 +22,3 @@ public class AzAdSpOwner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

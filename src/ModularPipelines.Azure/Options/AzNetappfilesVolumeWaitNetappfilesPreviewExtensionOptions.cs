@@ -47,4 +47,3 @@ public record AzNetappfilesVolumeWaitNetappfilesPreviewExtensionOptions : AzOpti
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

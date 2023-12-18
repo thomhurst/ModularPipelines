@@ -27,4 +27,3 @@ public record AzDynatraceMonitorSsoConfigCreateOptions(
     [CommandSwitch("--single-sign-on-url")]
     public string? SingleSignOnUrl { get; set; }
 }
-

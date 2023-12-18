@@ -22,4 +22,3 @@ public class AzStorageAccountPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

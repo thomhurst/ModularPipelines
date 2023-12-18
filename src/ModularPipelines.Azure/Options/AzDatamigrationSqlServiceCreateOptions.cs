@@ -20,4 +20,3 @@ public record AzDatamigrationSqlServiceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

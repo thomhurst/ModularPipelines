@@ -35,4 +35,3 @@ public record AzNetworkcloudVirtualmachineConsoleUpdateOptions : AzOptions
     [CommandSwitch("--virtual-machine-name")]
     public string? VirtualMachineName { get; set; }
 }
-

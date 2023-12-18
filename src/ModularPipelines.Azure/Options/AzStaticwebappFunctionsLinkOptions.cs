@@ -18,4 +18,3 @@ public record AzStaticwebappFunctionsLinkOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

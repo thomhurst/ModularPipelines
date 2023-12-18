@@ -44,4 +44,3 @@ public record AzVmwareGlobalReachConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

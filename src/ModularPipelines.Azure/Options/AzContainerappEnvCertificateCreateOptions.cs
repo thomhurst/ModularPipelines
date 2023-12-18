@@ -16,4 +16,3 @@ public record AzContainerappEnvCertificateCreateOptions(
     [CommandSwitch("--certificate-name")]
     public string? CertificateName { get; set; }
 }
-

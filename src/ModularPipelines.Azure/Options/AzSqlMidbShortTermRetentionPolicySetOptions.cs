@@ -31,4 +31,3 @@ public record AzSqlMidbShortTermRetentionPolicySetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

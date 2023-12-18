@@ -20,4 +20,3 @@ public record AzAzurestackhciNetworkinterfaceShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

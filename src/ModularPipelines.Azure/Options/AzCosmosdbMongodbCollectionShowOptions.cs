@@ -19,4 +19,3 @@ public record AzCosmosdbMongodbCollectionShowOptions(
     [CommandSwitch("--idx")]
     public string? Idx { get; set; }
 }
-

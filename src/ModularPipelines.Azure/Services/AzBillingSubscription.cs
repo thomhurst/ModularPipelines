@@ -47,4 +47,3 @@ public class AzBillingSubscription
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -57,4 +57,3 @@ public class AzEventhubsNamespacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

@@ -25,4 +25,3 @@ public record AzPaloAltoCloudngfwLocalRulestackFqdnlistCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

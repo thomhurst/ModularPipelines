@@ -42,4 +42,3 @@ public class AzStorageContainerImmutabilityPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

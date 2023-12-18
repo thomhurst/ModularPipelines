@@ -36,4 +36,3 @@ public class AzAcrArtifactStreaming
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

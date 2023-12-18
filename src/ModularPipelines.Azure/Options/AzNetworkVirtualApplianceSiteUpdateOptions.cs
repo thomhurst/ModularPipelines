@@ -50,4 +50,3 @@ public record AzNetworkVirtualApplianceSiteUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

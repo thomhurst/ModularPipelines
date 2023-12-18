@@ -17,4 +17,3 @@ public record AzContainerappAddOnMariadbDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

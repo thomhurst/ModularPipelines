@@ -52,4 +52,3 @@ public class AzNetworkDnsZone
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

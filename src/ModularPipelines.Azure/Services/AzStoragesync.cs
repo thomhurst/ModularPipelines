@@ -44,4 +44,3 @@ public class AzStoragesync
         return await _command.ExecuteCommandLineTool(options ?? new AzStoragesyncShowOptions(), token);
     }
 }
-

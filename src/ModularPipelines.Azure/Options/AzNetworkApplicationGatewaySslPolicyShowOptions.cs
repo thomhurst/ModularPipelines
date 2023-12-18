@@ -38,4 +38,3 @@ public record AzNetworkApplicationGatewaySslPolicyShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

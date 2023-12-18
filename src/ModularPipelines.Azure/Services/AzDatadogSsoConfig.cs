@@ -42,4 +42,3 @@ public class AzDatadogSsoConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigWaitOptions(), token);
     }
 }
-

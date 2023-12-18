@@ -20,4 +20,3 @@ public record AzSentinelOnboardingStateListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

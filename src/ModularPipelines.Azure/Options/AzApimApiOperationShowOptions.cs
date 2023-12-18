@@ -40,4 +40,3 @@ public record AzApimApiOperationShowOptions(
     [CommandSwitch("--url-template")]
     public string? UrlTemplate { get; set; }
 }
-

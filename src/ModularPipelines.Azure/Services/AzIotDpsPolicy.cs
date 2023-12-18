@@ -42,4 +42,3 @@ public class AzIotDpsPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

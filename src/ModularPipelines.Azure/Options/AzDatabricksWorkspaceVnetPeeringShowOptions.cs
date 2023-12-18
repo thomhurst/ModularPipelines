@@ -23,4 +23,3 @@ public record AzDatabricksWorkspaceVnetPeeringShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

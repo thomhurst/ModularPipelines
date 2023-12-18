@@ -58,4 +58,3 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

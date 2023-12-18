@@ -32,4 +32,3 @@ public class AzStorageLogging
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

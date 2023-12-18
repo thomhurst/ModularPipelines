@@ -26,4 +26,3 @@ public record AzAfdLogAnalyticMetricListOptions(
     [CommandSwitch("--group-by")]
     public string? GroupBy { get; set; }
 }
-

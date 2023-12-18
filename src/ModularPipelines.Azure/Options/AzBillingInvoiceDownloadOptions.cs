@@ -23,4 +23,3 @@ public record AzBillingInvoiceDownloadOptions(
     [CommandSwitch("--invoice-name")]
     public string? InvoiceName { get; set; }
 }
-

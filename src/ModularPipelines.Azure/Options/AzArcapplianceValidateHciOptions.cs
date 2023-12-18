@@ -25,4 +25,3 @@ public record AzArcapplianceValidateHciOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

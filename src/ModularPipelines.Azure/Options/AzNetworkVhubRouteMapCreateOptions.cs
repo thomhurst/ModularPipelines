@@ -24,4 +24,3 @@ public record AzNetworkVhubRouteMapCreateOptions(
     [CommandSwitch("--rules")]
     public string? Rules { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzAfdSecretListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

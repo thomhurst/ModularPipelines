@@ -45,4 +45,3 @@ public record AzNetworkFrontDoorRulesEngineRuleCreateOptions(
     [CommandSwitch("--transforms")]
     public string? Transforms { get; set; }
 }
-

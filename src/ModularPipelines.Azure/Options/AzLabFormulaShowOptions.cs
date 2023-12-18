@@ -15,4 +15,3 @@ public record AzLabFormulaShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

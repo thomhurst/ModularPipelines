@@ -41,4 +41,3 @@ public record AzAppservicePlanCreateOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

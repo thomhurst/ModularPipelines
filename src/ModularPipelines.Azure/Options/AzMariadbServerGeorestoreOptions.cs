@@ -35,4 +35,3 @@ public record AzMariadbServerGeorestoreOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

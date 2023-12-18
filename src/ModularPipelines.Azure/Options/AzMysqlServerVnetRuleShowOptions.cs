@@ -25,4 +25,3 @@ public record AzMysqlServerVnetRuleShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

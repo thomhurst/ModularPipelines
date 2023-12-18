@@ -17,4 +17,3 @@ public class AzStorageFileCopyCancel
 
     public AzStorageFileCopyCancelStoragePreview StoragePreview { get; }
 }
-

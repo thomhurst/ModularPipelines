@@ -44,4 +44,3 @@ public record AzAutomationRunbookWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzVmEncryption
         return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionShowOptions(), token);
     }
 }
-

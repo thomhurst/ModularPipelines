@@ -24,4 +24,3 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzIotHubRoutingEndpointDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

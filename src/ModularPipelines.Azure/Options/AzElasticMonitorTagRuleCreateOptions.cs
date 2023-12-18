@@ -15,4 +15,3 @@ public record AzElasticMonitorTagRuleCreateOptions(
     [CommandSwitch("--log-rules")]
     public string? LogRules { get; set; }
 }
-

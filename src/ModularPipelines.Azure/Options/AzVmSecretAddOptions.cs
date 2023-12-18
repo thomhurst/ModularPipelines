@@ -26,4 +26,3 @@ public record AzVmSecretAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

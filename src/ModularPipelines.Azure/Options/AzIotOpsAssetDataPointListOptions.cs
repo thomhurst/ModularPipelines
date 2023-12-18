@@ -17,4 +17,3 @@ public record AzIotOpsAssetDataPointListOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

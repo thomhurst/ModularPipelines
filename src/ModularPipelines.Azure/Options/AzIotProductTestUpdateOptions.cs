@@ -34,4 +34,3 @@ public record AzIotProductTestUpdateOptions(
     [CommandSwitch("--models")]
     public string? Models { get; set; }
 }
-

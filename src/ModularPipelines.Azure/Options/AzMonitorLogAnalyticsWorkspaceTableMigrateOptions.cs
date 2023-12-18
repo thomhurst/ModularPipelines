@@ -21,4 +21,3 @@ public record AzMonitorLogAnalyticsWorkspaceTableMigrateOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

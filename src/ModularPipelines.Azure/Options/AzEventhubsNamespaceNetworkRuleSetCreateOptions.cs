@@ -26,4 +26,3 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions(
     [CommandSwitch("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }
-

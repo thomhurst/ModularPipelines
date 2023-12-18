@@ -26,4 +26,3 @@ public record AzWebappConfigSslImportOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

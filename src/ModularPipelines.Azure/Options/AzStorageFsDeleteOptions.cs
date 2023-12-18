@@ -34,4 +34,3 @@ public record AzStorageFsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzSentinelAlertRuleCreateOptions(
     [CommandSwitch("--threat-intelligence")]
     public string? ThreatIntelligence { get; set; }
 }
-

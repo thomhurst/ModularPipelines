@@ -41,4 +41,3 @@ public record AzNetworkPrivateDnsRecordSetCnameUpdateOptions : AzOptions
     [CommandSwitch("--zone-name")]
     public string? ZoneName { get; set; }
 }
-

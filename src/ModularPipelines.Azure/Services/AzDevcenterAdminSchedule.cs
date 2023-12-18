@@ -47,4 +47,3 @@ public class AzDevcenterAdminSchedule
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleWaitOptions(), token);
     }
 }
-

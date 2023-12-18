@@ -31,4 +31,3 @@ public record AzStaticwebappUpdateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

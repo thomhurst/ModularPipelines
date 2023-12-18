@@ -24,4 +24,3 @@ public class AzStackHci
 
     public AzStackHciExtension Extension { get; }
 }
-

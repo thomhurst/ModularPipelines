@@ -18,4 +18,3 @@ public record AzCosmosdbMongodbDatabaseThroughputShowOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

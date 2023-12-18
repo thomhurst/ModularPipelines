@@ -22,4 +22,3 @@ public record AzSpringCloudBuildServiceBuilderBuildpackBindingSetOptions(
     [CommandSwitch("--secrets")]
     public string? Secrets { get; set; }
 }
-

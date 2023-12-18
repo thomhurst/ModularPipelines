@@ -26,4 +26,3 @@ public record AzApicApiShowOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

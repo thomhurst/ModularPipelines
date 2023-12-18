@@ -32,4 +32,3 @@ public class AzGrafanaApiKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

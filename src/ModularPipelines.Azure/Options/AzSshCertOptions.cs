@@ -16,4 +16,3 @@ public record AzSshCertOptions(
     [CommandSwitch("--ssh-client-folder")]
     public string? SshClientFolder { get; set; }
 }
-

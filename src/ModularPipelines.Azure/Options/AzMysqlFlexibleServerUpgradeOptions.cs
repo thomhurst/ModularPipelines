@@ -25,4 +25,3 @@ public record AzMysqlFlexibleServerUpgradeOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

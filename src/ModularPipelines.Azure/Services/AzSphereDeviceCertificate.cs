@@ -42,4 +42,3 @@ public class AzSphereDeviceCertificate
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCertificateShowQuotaOptions(), token);
     }
 }
-

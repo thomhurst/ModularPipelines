@@ -19,4 +19,3 @@ public record AzWebappDeletedListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

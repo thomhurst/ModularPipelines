@@ -27,4 +27,3 @@ public class AzFunctionappDeploymentGithubActions
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

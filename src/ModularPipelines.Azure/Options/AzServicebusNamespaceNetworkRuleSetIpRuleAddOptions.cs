@@ -14,4 +14,3 @@ public record AzServicebusNamespaceNetworkRuleSetIpRuleAddOptions(
     [CommandSwitch("--ip-rule")]
     public string? IpRule { get; set; }
 }
-

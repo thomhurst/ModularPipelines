@@ -67,4 +67,3 @@ public class AzMlEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

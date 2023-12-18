@@ -27,4 +27,3 @@ public class AzReposPolicyWorkItemLinking
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

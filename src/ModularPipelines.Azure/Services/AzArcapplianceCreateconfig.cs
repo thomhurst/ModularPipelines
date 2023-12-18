@@ -32,4 +32,3 @@ public class AzArcapplianceCreateconfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

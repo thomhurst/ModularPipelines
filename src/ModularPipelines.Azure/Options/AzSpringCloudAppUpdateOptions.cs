@@ -54,4 +54,3 @@ public record AzSpringCloudAppUpdateOptions(
     [CommandSwitch("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzAksGetVersions
 
     public AzAksGetVersionsAksPreview AksPreview { get; }
 }
-

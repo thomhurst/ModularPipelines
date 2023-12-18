@@ -18,4 +18,3 @@ public record AzLoadTestServerMetricRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

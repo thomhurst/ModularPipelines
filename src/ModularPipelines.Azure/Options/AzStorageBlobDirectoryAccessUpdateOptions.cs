@@ -56,4 +56,3 @@ public record AzStorageBlobDirectoryAccessUpdateOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

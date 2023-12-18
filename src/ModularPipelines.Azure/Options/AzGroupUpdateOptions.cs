@@ -19,4 +19,3 @@ public record AzGroupUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

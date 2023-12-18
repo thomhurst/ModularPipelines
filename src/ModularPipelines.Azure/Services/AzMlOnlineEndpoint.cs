@@ -57,4 +57,3 @@ public class AzMlOnlineEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

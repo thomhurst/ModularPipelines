@@ -22,4 +22,3 @@ public class AzWebappUpdateAppserviceKube
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpdateAppserviceKubeExtensionOptions(), token);
     }
 }
-

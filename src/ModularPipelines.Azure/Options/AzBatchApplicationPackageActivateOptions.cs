@@ -17,4 +17,3 @@ public record AzBatchApplicationPackageActivateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

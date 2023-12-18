@@ -26,4 +26,3 @@ public record AzConfluentOrganizationDeleteOptions : AzOptions
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

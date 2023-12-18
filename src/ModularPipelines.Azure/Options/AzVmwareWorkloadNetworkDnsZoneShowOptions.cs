@@ -23,4 +23,3 @@ public record AzVmwareWorkloadNetworkDnsZoneShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

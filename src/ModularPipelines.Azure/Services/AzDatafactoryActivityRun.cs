@@ -22,4 +22,3 @@ public class AzDatafactoryActivityRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

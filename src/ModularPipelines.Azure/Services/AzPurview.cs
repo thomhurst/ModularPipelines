@@ -20,4 +20,3 @@ public class AzPurview
 
     public AzPurviewDefaultAccount DefaultAccount { get; }
 }
-

@@ -19,4 +19,3 @@ public record AzKeyvaultPurgeOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

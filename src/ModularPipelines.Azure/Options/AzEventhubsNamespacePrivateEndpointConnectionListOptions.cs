@@ -17,4 +17,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -73,4 +73,3 @@ public record AzMlModelRegisterOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzContainerappEnvCertificateUploadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

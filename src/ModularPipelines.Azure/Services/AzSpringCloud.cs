@@ -99,4 +99,3 @@ public class AzSpringCloud
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

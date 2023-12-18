@@ -41,4 +41,3 @@ public record AzStorageDirectoryDeleteStoragePreviewExtensionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

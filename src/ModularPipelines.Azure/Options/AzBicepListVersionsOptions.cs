@@ -17,4 +17,3 @@ public record AzBicepListVersionsOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

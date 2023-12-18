@@ -43,4 +43,3 @@ public record AzConnectionCreatePostgresFlexibleOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

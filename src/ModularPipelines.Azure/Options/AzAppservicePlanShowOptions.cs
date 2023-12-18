@@ -20,4 +20,3 @@ public record AzAppservicePlanShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

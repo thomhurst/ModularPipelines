@@ -37,4 +37,3 @@ public class AzCdnWafPolicyCustomRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

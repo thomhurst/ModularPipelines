@@ -32,4 +32,3 @@ public class AzDataprotectionBackupInstanceDeletedBackupInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeletedBackupInstanceUndeleteOptions(), token);
     }
 }
-

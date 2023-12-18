@@ -20,4 +20,3 @@ public record AzLogicappConfigAppsettingsSetOptions(
     [CommandSwitch("--slot-settings")]
     public string? SlotSettings { get; set; }
 }
-

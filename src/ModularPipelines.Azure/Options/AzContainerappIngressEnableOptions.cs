@@ -32,4 +32,3 @@ public record AzContainerappIngressEnableOptions(
     [CommandSwitch("--transport")]
     public string? Transport { get; set; }
 }
-

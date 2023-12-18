@@ -15,4 +15,3 @@ public record AzMonitorAutoscaleRuleDeleteOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

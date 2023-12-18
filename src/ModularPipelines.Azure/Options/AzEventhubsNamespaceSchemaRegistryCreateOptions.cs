@@ -21,4 +21,3 @@ public record AzEventhubsNamespaceSchemaRegistryCreateOptions(
     [CommandSwitch("--schema-type")]
     public string? SchemaType { get; set; }
 }
-

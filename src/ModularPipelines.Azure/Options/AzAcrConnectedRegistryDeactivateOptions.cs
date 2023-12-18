@@ -17,4 +17,3 @@ public record AzAcrConnectedRegistryDeactivateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

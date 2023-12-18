@@ -32,4 +32,3 @@ public class AzNetworkVpnConnectionSharedKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

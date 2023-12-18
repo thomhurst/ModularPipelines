@@ -57,4 +57,3 @@ public class AzNetworkAnalyticsDataProduct
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAnalyticsDataProductWaitOptions(), token);
     }
 }
-

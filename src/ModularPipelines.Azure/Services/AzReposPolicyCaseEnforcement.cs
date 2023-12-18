@@ -27,4 +27,3 @@ public class AzReposPolicyCaseEnforcement
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzStorageBlobDelete
 
     public AzStorageBlobDeleteStorageBlobPreview StorageBlobPreview { get; }
 }
-

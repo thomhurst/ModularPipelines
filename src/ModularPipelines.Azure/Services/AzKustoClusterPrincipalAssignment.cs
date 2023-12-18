@@ -47,4 +47,3 @@ public class AzKustoClusterPrincipalAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterPrincipalAssignmentWaitOptions(), token);
     }
 }
-

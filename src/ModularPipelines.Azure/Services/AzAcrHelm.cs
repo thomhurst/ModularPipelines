@@ -46,4 +46,3 @@ public class AzAcrHelm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

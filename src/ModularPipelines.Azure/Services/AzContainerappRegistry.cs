@@ -37,4 +37,3 @@ public class AzContainerappRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

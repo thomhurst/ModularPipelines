@@ -21,4 +21,3 @@ public class AzBoardsArea
 
     public AzBoardsAreaTeam Team { get; }
 }
-

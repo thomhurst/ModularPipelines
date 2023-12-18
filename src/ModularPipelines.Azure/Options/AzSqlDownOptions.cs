@@ -25,4 +25,3 @@ public record AzSqlDownOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

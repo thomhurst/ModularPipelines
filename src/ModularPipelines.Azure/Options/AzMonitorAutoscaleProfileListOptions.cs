@@ -17,4 +17,3 @@ public record AzMonitorAutoscaleProfileListOptions(
     [CommandSwitch("--search-query")]
     public string? SearchQuery { get; set; }
 }
-

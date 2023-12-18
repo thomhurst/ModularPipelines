@@ -23,4 +23,3 @@ public record AzNetworkcloudVolumeUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

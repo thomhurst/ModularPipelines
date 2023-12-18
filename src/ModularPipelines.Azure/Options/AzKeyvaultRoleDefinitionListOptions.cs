@@ -16,4 +16,3 @@ public record AzKeyvaultRoleDefinitionListOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

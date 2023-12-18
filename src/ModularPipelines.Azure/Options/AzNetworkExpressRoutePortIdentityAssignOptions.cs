@@ -15,4 +15,3 @@ public record AzNetworkExpressRoutePortIdentityAssignOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

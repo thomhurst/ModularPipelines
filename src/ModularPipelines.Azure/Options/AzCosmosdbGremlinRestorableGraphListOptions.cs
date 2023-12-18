@@ -18,4 +18,3 @@ public record AzCosmosdbGremlinRestorableGraphListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

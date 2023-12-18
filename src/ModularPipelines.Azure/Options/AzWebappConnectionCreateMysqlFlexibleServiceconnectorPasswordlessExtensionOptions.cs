@@ -65,4 +65,3 @@ public record AzWebappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessE
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzIotHubState
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubStateMigrateOptions(), token);
     }
 }
-

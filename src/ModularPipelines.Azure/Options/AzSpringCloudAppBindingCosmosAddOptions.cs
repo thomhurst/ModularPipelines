@@ -24,4 +24,3 @@ public record AzSpringCloudAppBindingCosmosAddOptions(
     [CommandSwitch("--key-space")]
     public string? KeySpace { get; set; }
 }
-

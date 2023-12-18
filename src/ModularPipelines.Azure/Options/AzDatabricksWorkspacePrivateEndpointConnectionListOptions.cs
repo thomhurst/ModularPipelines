@@ -20,4 +20,3 @@ public record AzDatabricksWorkspacePrivateEndpointConnectionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

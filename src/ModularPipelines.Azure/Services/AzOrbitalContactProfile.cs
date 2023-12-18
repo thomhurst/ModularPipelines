@@ -47,4 +47,3 @@ public class AzOrbitalContactProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileWaitOptions(), token);
     }
 }
-

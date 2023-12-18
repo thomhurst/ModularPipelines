@@ -14,4 +14,3 @@ public record AzNetworkVnetGatewayNatRuleListOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

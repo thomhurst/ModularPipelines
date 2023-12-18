@@ -26,4 +26,3 @@ public record AzHealthcareapisPrivateEndpointConnectionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

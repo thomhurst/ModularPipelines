@@ -17,4 +17,3 @@ public record AzBillingRoleAssignmentShowOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

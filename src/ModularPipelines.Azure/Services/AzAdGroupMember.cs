@@ -37,4 +37,3 @@ public class AzAdGroupMember
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

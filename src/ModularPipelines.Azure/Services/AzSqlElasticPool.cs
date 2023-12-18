@@ -56,4 +56,3 @@ public class AzSqlElasticPool
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolUpdateOptions(), token);
     }
 }
-

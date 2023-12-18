@@ -51,4 +51,3 @@ public class AzCosmosdbGremlinDatabase
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

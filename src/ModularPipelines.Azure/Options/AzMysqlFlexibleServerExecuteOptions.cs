@@ -21,4 +21,3 @@ public record AzMysqlFlexibleServerExecuteOptions(
     [CommandSwitch("--querytext")]
     public string? Querytext { get; set; }
 }
-

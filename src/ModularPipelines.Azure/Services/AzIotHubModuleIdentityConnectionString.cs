@@ -22,4 +22,3 @@ public class AzIotHubModuleIdentityConnectionString
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzLogzMonitorUpdateVmOptions : AzOptions
     [CommandSwitch("--vm-resource-ids")]
     public string? VmResourceIds { get; set; }
 }
-

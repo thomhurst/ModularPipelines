@@ -24,4 +24,3 @@ public record AzEventgridNamespaceTopicCreateOptions(
     [CommandSwitch("--publisher-type")]
     public string? PublisherType { get; set; }
 }
-

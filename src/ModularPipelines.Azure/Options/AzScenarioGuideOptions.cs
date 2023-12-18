@@ -20,4 +20,3 @@ public record AzScenarioGuideOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? SearchKeyword { get; set; }
 }
-

@@ -46,4 +46,3 @@ public class AzNetworkExpressRoutePeeringConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionWaitOptions(), token);
     }
 }
-

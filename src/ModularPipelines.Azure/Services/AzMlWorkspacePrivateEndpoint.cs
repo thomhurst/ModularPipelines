@@ -32,4 +32,3 @@ public class AzMlWorkspacePrivateEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointListOptions(), token);
     }
 }
-

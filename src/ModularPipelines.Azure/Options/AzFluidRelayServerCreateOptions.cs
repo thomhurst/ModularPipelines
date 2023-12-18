@@ -32,4 +32,3 @@ public record AzFluidRelayServerCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

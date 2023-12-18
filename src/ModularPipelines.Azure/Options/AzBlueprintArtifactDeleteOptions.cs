@@ -20,4 +20,3 @@ public record AzBlueprintArtifactDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

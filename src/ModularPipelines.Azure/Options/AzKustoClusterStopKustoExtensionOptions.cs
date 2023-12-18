@@ -23,4 +23,3 @@ public record AzKustoClusterStopKustoExtensionOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

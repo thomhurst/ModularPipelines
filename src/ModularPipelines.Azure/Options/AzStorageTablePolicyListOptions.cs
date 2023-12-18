@@ -25,4 +25,3 @@ public record AzStorageTablePolicyListOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

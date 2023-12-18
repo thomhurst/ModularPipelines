@@ -38,4 +38,3 @@ public record AzDlaCatalogPackageListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzApimApiVersionsetCreateOptions(
     [CommandSwitch("--version-set-id")]
     public string? VersionSetId { get; set; }
 }
-

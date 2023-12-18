@@ -42,4 +42,3 @@ public class AzStackHciVmNetworkLnet
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkLnetUpdateOptions(), token);
     }
 }
-

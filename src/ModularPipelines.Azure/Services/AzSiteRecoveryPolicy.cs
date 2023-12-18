@@ -42,4 +42,3 @@ public class AzSiteRecoveryPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyUpdateOptions(), token);
     }
 }
-

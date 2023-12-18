@@ -70,4 +70,3 @@ public class AzSqlMiArc
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiArcUpgradeOptions(), token);
     }
 }
-

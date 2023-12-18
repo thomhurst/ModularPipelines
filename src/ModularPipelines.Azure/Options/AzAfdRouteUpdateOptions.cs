@@ -71,4 +71,3 @@ public record AzAfdRouteUpdateOptions : AzOptions
     [CommandSwitch("--supported-protocols")]
     public string? SupportedProtocols { get; set; }
 }
-

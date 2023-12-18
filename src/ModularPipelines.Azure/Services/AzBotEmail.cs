@@ -32,4 +32,3 @@ public class AzBotEmail
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

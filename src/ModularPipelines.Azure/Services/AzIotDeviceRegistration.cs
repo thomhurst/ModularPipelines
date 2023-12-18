@@ -22,4 +22,3 @@ public class AzIotDeviceRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

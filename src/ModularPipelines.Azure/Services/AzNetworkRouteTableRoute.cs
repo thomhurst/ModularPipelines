@@ -47,4 +47,3 @@ public class AzNetworkRouteTableRoute
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteTableRouteWaitOptions(), token);
     }
 }
-

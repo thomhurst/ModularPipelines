@@ -131,4 +131,3 @@ public class AzElasticMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorWaitOptions(), token);
     }
 }
-

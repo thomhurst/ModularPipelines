@@ -30,4 +30,3 @@ public record AzKustoAttachedDatabaseConfigurationCreateOptions(
     [CommandSwitch("--table-level")]
     public string? TableLevel { get; set; }
 }
-

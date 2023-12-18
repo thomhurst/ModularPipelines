@@ -18,4 +18,3 @@ public record AzAutomationScheduleShowOptions(
     [BooleanCommandSwitch("--is-enabled")]
     public bool? IsEnabled { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzLabDeleteOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

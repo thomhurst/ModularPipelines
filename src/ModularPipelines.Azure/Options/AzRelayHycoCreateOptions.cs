@@ -18,4 +18,3 @@ public record AzRelayHycoCreateOptions(
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzIotHubRouteTestOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

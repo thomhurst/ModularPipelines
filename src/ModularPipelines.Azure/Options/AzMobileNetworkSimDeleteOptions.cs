@@ -26,4 +26,3 @@ public record AzMobileNetworkSimDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

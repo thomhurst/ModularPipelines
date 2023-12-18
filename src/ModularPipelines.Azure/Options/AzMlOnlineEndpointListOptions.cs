@@ -14,4 +14,3 @@ public record AzMlOnlineEndpointListOptions(
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 }
-

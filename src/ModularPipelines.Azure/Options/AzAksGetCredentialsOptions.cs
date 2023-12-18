@@ -29,4 +29,3 @@ public record AzAksGetCredentialsOptions(
     [BooleanCommandSwitch("--public-fqdn")]
     public bool? PublicFqdn { get; set; }
 }
-

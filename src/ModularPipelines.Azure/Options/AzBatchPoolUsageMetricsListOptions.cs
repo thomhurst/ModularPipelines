@@ -26,4 +26,3 @@ public record AzBatchPoolUsageMetricsListOptions : AzOptions
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

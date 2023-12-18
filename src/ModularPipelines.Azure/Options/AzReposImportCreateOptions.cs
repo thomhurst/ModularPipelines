@@ -31,4 +31,3 @@ public record AzReposImportCreateOptions(
     [CommandSwitch("--user-name")]
     public string? UserName { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzDtNetworkPrivateLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

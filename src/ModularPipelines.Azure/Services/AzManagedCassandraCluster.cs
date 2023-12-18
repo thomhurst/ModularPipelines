@@ -90,4 +90,3 @@ public class AzManagedCassandraCluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

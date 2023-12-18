@@ -32,4 +32,3 @@ public class AzDatafactoryTriggerRun
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerRunRerunOptions(), token);
     }
 }
-

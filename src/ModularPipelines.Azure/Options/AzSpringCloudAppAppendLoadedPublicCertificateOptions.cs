@@ -20,4 +20,3 @@ public record AzSpringCloudAppAppendLoadedPublicCertificateOptions(
     [BooleanCommandSwitch("--read-only")]
     public bool? ReadOnly { get; set; }
 }
-

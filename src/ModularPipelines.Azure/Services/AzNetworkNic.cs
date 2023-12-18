@@ -65,4 +65,3 @@ public class AzNetworkNic
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicWaitOptions(), token);
     }
 }
-

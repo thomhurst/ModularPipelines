@@ -32,4 +32,3 @@ public record AzElasticMonitorCreateOrUpdateExternalUserOptions(
     [CommandSwitch("--user-name")]
     public string? UserName { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzRelayHycoAuthorizationRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

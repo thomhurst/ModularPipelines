@@ -22,4 +22,3 @@ public record AzArcapplianceUpgradeVmwareOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

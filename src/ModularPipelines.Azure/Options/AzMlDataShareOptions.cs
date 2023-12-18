@@ -19,4 +19,3 @@ public record AzMlDataShareOptions(
     [CommandSwitch("--label")]
     public string? Label { get; set; }
 }
-

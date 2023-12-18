@@ -29,4 +29,3 @@ public record AzDatafactoryPipelineRunCancelOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

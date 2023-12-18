@@ -17,4 +17,3 @@ public record AzApimDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -63,4 +63,3 @@ public class AzAccountManagementGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

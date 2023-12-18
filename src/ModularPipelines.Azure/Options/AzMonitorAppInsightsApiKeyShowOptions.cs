@@ -14,4 +14,3 @@ public record AzMonitorAppInsightsApiKeyShowOptions(
     [CommandSwitch("--api-key")]
     public string? ApiKey { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzMonitorDataCollectionRuleWindowsEventLogListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

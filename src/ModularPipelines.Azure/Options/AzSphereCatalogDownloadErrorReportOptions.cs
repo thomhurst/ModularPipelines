@@ -14,4 +14,3 @@ public record AzSphereCatalogDownloadErrorReportOptions(
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }
 }
-

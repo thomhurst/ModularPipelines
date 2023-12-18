@@ -25,4 +25,3 @@ public record AzSynapseIntegrationRuntimeNodeShowOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

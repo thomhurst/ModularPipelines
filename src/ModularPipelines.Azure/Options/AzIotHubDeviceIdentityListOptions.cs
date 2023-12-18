@@ -27,4 +27,3 @@ public record AzIotHubDeviceIdentityListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

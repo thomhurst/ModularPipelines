@@ -88,4 +88,3 @@ public record AzBatchJobScheduleSetOptions(
     [CommandSwitch("--uses-task-dependencies")]
     public string? UsesTaskDependencies { get; set; }
 }
-

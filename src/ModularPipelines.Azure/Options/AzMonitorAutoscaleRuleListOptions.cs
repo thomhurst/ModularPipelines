@@ -14,4 +14,3 @@ public record AzMonitorAutoscaleRuleListOptions(
     [CommandSwitch("--profile-name")]
     public string? ProfileName { get; set; }
 }
-

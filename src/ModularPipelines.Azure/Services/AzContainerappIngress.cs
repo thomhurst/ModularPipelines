@@ -53,4 +53,3 @@ public class AzContainerappIngress
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressUpdateOptions(), token);
     }
 }
-

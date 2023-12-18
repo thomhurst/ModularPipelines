@@ -17,4 +17,3 @@ public class AzStorageFileUpdate
 
     public AzStorageFileUpdateStoragePreview StoragePreview { get; }
 }
-

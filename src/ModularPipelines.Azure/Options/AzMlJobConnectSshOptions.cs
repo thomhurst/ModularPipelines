@@ -18,4 +18,3 @@ public record AzMlJobConnectSshOptions(
     [CommandSwitch("--private-key-file-path")]
     public string? PrivateKeyFilePath { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzBatchAccountOutboundEndpointsOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzArcapplianceLogsHciOptions : AzOptions
     [CommandSwitch("--out-dir")]
     public string? OutDir { get; set; }
 }
-

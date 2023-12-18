@@ -20,4 +20,3 @@ public record AzDevopsServiceEndpointGithubCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

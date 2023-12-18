@@ -33,4 +33,3 @@ public record AzBlueprintArtifactTemplateCreateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

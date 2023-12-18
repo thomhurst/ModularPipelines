@@ -23,4 +23,3 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

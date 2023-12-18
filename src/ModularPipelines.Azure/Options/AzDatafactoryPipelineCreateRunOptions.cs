@@ -27,4 +27,3 @@ public record AzDatafactoryPipelineCreateRunOptions(
     [BooleanCommandSwitch("--start-from-failure")]
     public bool? StartFromFailure { get; set; }
 }
-

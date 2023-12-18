@@ -14,4 +14,3 @@ public record AzServicebusNamespaceNetworkRuleSetIpRuleRemoveOptions(
     [CommandSwitch("--ip-rule")]
     public string? IpRule { get; set; }
 }
-

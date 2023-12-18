@@ -15,4 +15,3 @@ public record AzSpringAppGetRemoteDebuggingConfigOptions(
     [CommandSwitch("--deployment")]
     public string? Deployment { get; set; }
 }
-

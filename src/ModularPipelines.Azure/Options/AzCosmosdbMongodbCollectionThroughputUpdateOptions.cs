@@ -19,4 +19,3 @@ public record AzCosmosdbMongodbCollectionThroughputUpdateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

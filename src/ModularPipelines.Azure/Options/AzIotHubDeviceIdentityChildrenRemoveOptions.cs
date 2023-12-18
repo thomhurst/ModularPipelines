@@ -28,4 +28,3 @@ public record AzIotHubDeviceIdentityChildrenRemoveOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

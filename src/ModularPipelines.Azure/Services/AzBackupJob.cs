@@ -37,4 +37,3 @@ public class AzBackupJob
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobWaitOptions(), token);
     }
 }
-

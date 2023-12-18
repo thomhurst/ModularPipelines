@@ -20,4 +20,3 @@ public record AzConnectedk8sTroubleshootOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

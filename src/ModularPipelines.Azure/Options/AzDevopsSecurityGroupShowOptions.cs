@@ -16,4 +16,3 @@ public record AzDevopsSecurityGroupShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

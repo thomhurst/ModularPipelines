@@ -42,4 +42,3 @@ public class AzMlRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

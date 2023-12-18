@@ -13,4 +13,3 @@ public record AzAccountSubscriptionListLocationOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

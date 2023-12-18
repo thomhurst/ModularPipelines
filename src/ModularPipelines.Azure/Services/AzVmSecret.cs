@@ -37,4 +37,3 @@ public class AzVmSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

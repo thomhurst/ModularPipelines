@@ -81,4 +81,3 @@ public class AzNewRelicMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorWaitOptions(), token);
     }
 }
-

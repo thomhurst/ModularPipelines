@@ -32,4 +32,3 @@ public class AzSqlMiOp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

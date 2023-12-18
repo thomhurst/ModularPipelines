@@ -27,4 +27,3 @@ public class AzVmMonitorMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

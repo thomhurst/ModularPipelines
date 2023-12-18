@@ -61,4 +61,3 @@ public class AzNetworkVhubRouteMap
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapWaitOptions(), token);
     }
 }
-

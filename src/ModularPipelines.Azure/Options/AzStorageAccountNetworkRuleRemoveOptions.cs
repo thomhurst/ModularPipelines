@@ -28,4 +28,3 @@ public record AzStorageAccountNetworkRuleRemoveOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzServicebusNamespaceIdentityAssignOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

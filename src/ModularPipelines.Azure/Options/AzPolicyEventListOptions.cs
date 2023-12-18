@@ -56,4 +56,3 @@ public record AzPolicyEventListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

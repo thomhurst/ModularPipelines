@@ -26,4 +26,3 @@ public record AzContainerappGithubActionDeleteOptions : AzOptions
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

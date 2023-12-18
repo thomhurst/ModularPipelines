@@ -20,4 +20,3 @@ public record AzFunctionappConfigHostnameGetExternalIpOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

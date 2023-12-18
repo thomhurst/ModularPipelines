@@ -19,4 +19,3 @@ public record AzSpringAppDeploymentShowOptions(
     [CommandSwitch("--duration")]
     public string? Duration { get; set; }
 }
-

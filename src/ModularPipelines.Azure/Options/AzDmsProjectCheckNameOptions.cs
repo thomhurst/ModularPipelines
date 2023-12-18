@@ -15,4 +15,3 @@ public record AzDmsProjectCheckNameOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

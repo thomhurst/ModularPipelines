@@ -47,4 +47,3 @@ public class AzGrafanaDataSource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

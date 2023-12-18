@@ -42,4 +42,3 @@ public class AzTsiReferenceDataSet
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetUpdateOptions(), token);
     }
 }
-

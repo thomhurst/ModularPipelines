@@ -22,4 +22,3 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedStorageCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

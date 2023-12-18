@@ -26,4 +26,3 @@ public record AzMlDatasetUnregisterOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

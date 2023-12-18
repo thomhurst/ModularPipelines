@@ -34,4 +34,3 @@ public record AzAdSpCreateForRbacOptions(
     [CommandSwitch("--years")]
     public string? Years { get; set; }
 }
-

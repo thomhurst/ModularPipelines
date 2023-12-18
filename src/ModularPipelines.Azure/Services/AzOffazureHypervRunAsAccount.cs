@@ -27,4 +27,3 @@ public class AzOffazureHypervRunAsAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervRunAsAccountShowOptions(), token);
     }
 }
-

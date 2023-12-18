@@ -42,4 +42,3 @@ public class AzWebappScan
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

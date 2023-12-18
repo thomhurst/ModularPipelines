@@ -32,4 +32,3 @@ public record AzNetworkVnetGatewayVpnClientIpsecPolicySetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

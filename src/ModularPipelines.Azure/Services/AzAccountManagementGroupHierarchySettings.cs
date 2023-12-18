@@ -37,4 +37,3 @@ public class AzAccountManagementGroupHierarchySettings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

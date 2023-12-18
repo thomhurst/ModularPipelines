@@ -47,4 +47,3 @@ public class AzSpringStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -37,4 +37,3 @@ public class AzAksarcVnet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

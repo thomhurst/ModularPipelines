@@ -49,4 +49,3 @@ public record AzNetworkApplicationGatewayRewriteRuleListRequestHeadersOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

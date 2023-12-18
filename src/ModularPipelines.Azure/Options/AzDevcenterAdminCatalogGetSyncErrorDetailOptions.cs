@@ -20,4 +20,3 @@ public record AzDevcenterAdminCatalogGetSyncErrorDetailOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

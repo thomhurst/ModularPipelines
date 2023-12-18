@@ -22,4 +22,3 @@ public class AzHpcCacheUsageModel
         return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheUsageModelListOptions(), token);
     }
 }
-

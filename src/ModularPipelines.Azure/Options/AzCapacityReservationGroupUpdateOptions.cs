@@ -14,4 +14,3 @@ public record AzCapacityReservationGroupUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

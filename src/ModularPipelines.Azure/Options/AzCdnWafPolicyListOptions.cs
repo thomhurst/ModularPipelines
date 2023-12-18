@@ -40,4 +40,3 @@ public record AzCdnWafPolicyListOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

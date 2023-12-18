@@ -38,4 +38,3 @@ public record AzPartnercenterMarketplaceOfferPlanTechnicalConfigurationPackageAd
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

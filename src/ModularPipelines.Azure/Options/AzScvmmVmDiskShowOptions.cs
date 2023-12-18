@@ -39,4 +39,3 @@ public record AzScvmmVmDiskShowOptions(
     [CommandSwitch("--vhd-type")]
     public string? VhdType { get; set; }
 }
-

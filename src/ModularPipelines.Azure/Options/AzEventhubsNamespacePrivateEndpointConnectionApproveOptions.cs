@@ -18,4 +18,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionApproveOptions(
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 }
-

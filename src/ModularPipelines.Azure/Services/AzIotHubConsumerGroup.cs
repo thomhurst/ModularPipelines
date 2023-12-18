@@ -37,4 +37,3 @@ public class AzIotHubConsumerGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupShowOptions(), token);
     }
 }
-

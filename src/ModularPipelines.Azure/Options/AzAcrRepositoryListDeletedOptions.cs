@@ -19,4 +19,3 @@ public record AzAcrRepositoryListDeletedOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

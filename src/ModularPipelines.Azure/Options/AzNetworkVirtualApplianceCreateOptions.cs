@@ -53,4 +53,3 @@ public record AzNetworkVirtualApplianceCreateOptions(
     [CommandSwitch("--vhub")]
     public string? Vhub { get; set; }
 }
-

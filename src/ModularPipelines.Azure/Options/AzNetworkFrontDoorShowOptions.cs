@@ -20,4 +20,3 @@ public record AzNetworkFrontDoorShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

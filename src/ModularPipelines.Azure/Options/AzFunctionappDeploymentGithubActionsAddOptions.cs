@@ -46,4 +46,3 @@ public record AzFunctionappDeploymentGithubActionsAddOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

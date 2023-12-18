@@ -44,4 +44,3 @@ public record AzDataboxedgeBandwidthScheduleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzSupportTicketsShowOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

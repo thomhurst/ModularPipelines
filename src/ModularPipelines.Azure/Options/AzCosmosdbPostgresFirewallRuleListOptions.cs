@@ -20,4 +20,3 @@ public record AzCosmosdbPostgresFirewallRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

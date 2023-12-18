@@ -37,4 +37,3 @@ public class AzIotCentralApiToken
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

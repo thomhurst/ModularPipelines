@@ -32,4 +32,3 @@ public record AzSelfHelpDiagnosticWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

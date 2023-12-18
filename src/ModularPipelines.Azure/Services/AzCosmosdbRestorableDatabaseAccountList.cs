@@ -17,4 +17,3 @@ public class AzCosmosdbRestorableDatabaseAccountList
 
     public AzCosmosdbRestorableDatabaseAccountListCosmosdbPreview CosmosdbPreview { get; }
 }
-

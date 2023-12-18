@@ -19,4 +19,3 @@ public record AzPostgresFlexibleServerAdAdminCreateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

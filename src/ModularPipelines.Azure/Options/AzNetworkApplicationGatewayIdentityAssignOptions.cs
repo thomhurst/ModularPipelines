@@ -15,4 +15,3 @@ public record AzNetworkApplicationGatewayIdentityAssignOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

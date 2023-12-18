@@ -16,4 +16,3 @@ public record AzServicebusTopicAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

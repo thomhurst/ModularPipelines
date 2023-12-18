@@ -22,4 +22,3 @@ public class AzHdinsightOnAksClusterSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

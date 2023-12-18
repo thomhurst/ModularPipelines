@@ -32,4 +32,3 @@ public class AzVmIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzVmIdentityShowOptions(), token);
     }
 }
-

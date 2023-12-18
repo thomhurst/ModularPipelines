@@ -13,4 +13,3 @@ public record AzMeshGenerateArmtemplateOptions(
     [CommandSwitch("--parameters")]
     public string[]? Parameters { get; set; }
 }
-

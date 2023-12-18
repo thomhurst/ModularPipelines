@@ -23,4 +23,3 @@ public record AzFluidRelayContainerDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

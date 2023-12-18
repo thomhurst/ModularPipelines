@@ -23,4 +23,3 @@ public record AzDatafactoryDataFlowListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

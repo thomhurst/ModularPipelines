@@ -20,4 +20,3 @@ public record AzNetworkfabricIpcommunityShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

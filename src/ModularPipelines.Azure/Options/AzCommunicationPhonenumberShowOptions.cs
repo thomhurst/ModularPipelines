@@ -13,4 +13,3 @@ public record AzCommunicationPhonenumberShowOptions(
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
 }
-

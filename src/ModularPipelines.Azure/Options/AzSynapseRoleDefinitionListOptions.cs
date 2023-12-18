@@ -13,4 +13,3 @@ public record AzSynapseRoleDefinitionListOptions(
     [BooleanCommandSwitch("--is-built-in")]
     public bool? IsBuiltIn { get; set; }
 }
-

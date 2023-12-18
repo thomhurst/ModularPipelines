@@ -18,4 +18,3 @@ public record AzPortalDashboardCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

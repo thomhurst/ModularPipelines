@@ -28,4 +28,3 @@ public record AzScvmmVirtualNetworkCreateOptions(
     [CommandSwitch("--vmmserver")]
     public string? Vmmserver { get; set; }
 }
-

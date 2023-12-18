@@ -20,4 +20,3 @@ public record AzPostgresFlexibleServerDbCreateOptions(
     [CommandSwitch("--database-name")]
     public string? DatabaseName { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzAccountAcceptOwnershipStatusOptions(
     [CommandSwitch("--owner-upn")]
     public string? OwnerUpn { get; set; }
 }
-

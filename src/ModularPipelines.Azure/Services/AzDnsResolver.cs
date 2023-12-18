@@ -71,4 +71,3 @@ public class AzDnsResolver
         return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverWaitOptions(), token);
     }
 }
-

@@ -37,4 +37,3 @@ public class AzNetworkFrontDoorBackendPoolBackend
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

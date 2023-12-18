@@ -22,4 +22,3 @@ public record AzCosmosdbKeysRegenerateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

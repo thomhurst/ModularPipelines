@@ -16,4 +16,3 @@ public record AzPartnercenterMarketplaceOfferPackageBuildOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

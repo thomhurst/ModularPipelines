@@ -20,4 +20,3 @@ public record AzVmssDeallocateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzMysqlFlexibleServerDbDeleteOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

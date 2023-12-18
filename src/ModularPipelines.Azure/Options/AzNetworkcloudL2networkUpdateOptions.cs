@@ -23,4 +23,3 @@ public record AzNetworkcloudL2networkUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

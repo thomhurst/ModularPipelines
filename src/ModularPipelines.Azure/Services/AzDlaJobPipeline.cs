@@ -27,4 +27,3 @@ public class AzDlaJobPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

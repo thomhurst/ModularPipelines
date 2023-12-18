@@ -27,4 +27,3 @@ public class AzMonitorAppInsightsMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

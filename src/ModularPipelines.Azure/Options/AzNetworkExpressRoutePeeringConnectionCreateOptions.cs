@@ -28,4 +28,3 @@ public record AzNetworkExpressRoutePeeringConnectionCreateOptions(
     [CommandSwitch("--source-circuit")]
     public string? SourceCircuit { get; set; }
 }
-

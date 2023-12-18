@@ -25,4 +25,3 @@ public record AzSqlMidbLtrBackupDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

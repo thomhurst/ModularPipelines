@@ -13,4 +13,3 @@ public record AzAppconfigShowDeletedOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

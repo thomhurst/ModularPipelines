@@ -42,4 +42,3 @@ public class AzGroupLock
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockUpdateOptions(), token);
     }
 }
-

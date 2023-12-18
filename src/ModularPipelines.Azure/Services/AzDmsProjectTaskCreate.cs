@@ -17,4 +17,3 @@ public class AzDmsProjectTaskCreate
 
     public AzDmsProjectTaskCreateDmsPreview DmsPreview { get; }
 }
-

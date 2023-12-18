@@ -35,4 +35,3 @@ public record AzSpringApiPortalUpdateOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

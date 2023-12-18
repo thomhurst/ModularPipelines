@@ -21,4 +21,3 @@ public record AzAcrPipelineRunCreateOptions(
     [BooleanCommandSwitch("--force-redeploy")]
     public bool? ForceRedeploy { get; set; }
 }
-

@@ -62,4 +62,3 @@ public class AzBlockchainMember
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

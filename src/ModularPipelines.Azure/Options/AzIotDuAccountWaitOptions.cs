@@ -34,4 +34,3 @@ public record AzIotDuAccountWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

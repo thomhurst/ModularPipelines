@@ -32,4 +32,3 @@ public record AzMysqlFlexibleServerAdAdminShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

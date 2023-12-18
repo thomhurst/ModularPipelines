@@ -27,4 +27,3 @@ public class AzDlaCatalogExternalDataSource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

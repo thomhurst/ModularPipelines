@@ -14,4 +14,3 @@ public record AzContainerappRevisionListOptions(
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 }
-

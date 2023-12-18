@@ -27,4 +27,3 @@ public record AzSqlVmGroupAgListenerCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

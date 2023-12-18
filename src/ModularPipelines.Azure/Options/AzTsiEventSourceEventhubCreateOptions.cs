@@ -28,4 +28,3 @@ public record AzTsiEventSourceEventhubCreateOptions(
     [CommandSwitch("--timestamp-property-name")]
     public string? TimestampPropertyName { get; set; }
 }
-

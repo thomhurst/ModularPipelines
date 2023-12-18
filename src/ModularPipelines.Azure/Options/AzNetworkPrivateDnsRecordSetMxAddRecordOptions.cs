@@ -20,4 +20,3 @@ public record AzNetworkPrivateDnsRecordSetMxAddRecordOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

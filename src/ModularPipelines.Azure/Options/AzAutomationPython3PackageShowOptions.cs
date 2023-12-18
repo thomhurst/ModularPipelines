@@ -23,4 +23,3 @@ public record AzAutomationPython3PackageShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

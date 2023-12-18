@@ -16,4 +16,3 @@ public record AzEventgridDomainTopicEventSubscriptionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

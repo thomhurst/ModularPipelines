@@ -27,4 +27,3 @@ public class AzAcrTokenCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

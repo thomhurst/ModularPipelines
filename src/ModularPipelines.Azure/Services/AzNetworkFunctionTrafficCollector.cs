@@ -51,4 +51,3 @@ public class AzNetworkFunctionTrafficCollector
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorWaitOptions(), token);
     }
 }
-

@@ -21,4 +21,3 @@ public record AzPostgresFlexibleServerExecuteOptions(
     [CommandSwitch("--querytext")]
     public string? Querytext { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzKustoDatabaseDelete
 
     public AzKustoDatabaseDeleteKusto Kusto { get; }
 }
-

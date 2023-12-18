@@ -77,4 +77,3 @@ public class AzStorageFs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

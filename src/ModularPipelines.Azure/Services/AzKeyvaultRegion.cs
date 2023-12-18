@@ -37,4 +37,3 @@ public class AzKeyvaultRegion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

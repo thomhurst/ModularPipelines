@@ -63,4 +63,3 @@ public class AzFleet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

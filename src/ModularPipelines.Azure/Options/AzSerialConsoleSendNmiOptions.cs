@@ -14,4 +14,3 @@ public record AzSerialConsoleSendNmiOptions(
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
 }
-

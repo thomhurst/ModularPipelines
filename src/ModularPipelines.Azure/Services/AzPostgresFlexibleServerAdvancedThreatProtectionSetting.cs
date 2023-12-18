@@ -27,4 +27,3 @@ public class AzPostgresFlexibleServerAdvancedThreatProtectionSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

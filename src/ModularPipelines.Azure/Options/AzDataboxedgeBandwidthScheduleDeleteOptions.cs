@@ -26,4 +26,3 @@ public record AzDataboxedgeBandwidthScheduleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

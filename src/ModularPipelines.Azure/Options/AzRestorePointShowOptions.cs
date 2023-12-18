@@ -15,4 +15,3 @@ public record AzRestorePointShowOptions(
     [CommandSwitch("--instance-view")]
     public string? InstanceView { get; set; }
 }
-

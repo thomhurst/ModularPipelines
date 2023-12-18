@@ -14,4 +14,3 @@ public record AzFunctionappConfigHostnameListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

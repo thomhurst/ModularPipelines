@@ -18,4 +18,3 @@ public record AzAcrConnectedRegistryInstallRenewCredentialsOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

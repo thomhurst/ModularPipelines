@@ -25,4 +25,3 @@ public record AzBackupProtectionEnableForAzurewlOptions(
     [BooleanCommandSwitch("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 }
-

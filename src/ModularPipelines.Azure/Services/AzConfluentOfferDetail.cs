@@ -22,4 +22,3 @@ public class AzConfluentOfferDetail
         return await _command.ExecuteCommandLineTool(options ?? new AzConfluentOfferDetailShowOptions(), token);
     }
 }
-

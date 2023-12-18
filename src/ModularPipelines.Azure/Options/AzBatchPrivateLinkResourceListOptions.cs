@@ -14,4 +14,3 @@ public record AzBatchPrivateLinkResourceListOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

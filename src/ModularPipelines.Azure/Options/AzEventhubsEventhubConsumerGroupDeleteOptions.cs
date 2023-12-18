@@ -21,4 +21,3 @@ public record AzEventhubsEventhubConsumerGroupDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

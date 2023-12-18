@@ -27,4 +27,3 @@ public class AzContainerappAddOnMariadb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

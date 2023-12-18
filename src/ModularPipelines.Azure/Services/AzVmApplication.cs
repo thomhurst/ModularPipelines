@@ -27,4 +27,3 @@ public class AzVmApplication
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

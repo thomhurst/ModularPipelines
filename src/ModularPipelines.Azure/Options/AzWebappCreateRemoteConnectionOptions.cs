@@ -29,4 +29,3 @@ public record AzWebappCreateRemoteConnectionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

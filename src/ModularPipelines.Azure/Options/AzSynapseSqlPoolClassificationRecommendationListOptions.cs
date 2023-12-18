@@ -21,4 +21,3 @@ public record AzSynapseSqlPoolClassificationRecommendationListOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

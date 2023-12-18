@@ -67,4 +67,3 @@ public class AzReservationsReservation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

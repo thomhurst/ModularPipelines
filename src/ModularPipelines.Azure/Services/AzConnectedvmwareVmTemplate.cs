@@ -37,4 +37,3 @@ public class AzConnectedvmwareVmTemplate
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateShowOptions(), token);
     }
 }
-

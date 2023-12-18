@@ -32,4 +32,3 @@ public record AzNetworkVwanCreateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

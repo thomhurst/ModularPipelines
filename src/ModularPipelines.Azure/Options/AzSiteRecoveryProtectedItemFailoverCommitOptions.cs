@@ -25,4 +25,3 @@ public record AzSiteRecoveryProtectedItemFailoverCommitOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzScvmmVmGuestAgent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

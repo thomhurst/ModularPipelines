@@ -47,4 +47,3 @@ public record AzDevopsFeedbackOptions : AzOptions
     [CommandSwitch("--route-parameters")]
     public string? RouteParameters { get; set; }
 }
-

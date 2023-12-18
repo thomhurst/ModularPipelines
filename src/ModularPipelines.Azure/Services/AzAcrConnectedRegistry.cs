@@ -70,4 +70,3 @@ public class AzAcrConnectedRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzAksNodepoolScale
 
     public AzAksNodepoolScaleAksPreview AksPreview { get; }
 }
-

@@ -22,4 +22,3 @@ public class AzMonitorLogAnalyticsWorkspaceTableRestore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

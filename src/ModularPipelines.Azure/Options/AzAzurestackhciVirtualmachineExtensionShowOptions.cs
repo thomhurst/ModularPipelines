@@ -22,4 +22,3 @@ public record AzAzurestackhciVirtualmachineExtensionShowOptions(
     [CommandSwitch("--virtualmachine-name")]
     public string? VirtualmachineName { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzAfdEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointUpdateOptions(), token);
     }
 }
-

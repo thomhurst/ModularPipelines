@@ -68,4 +68,3 @@ public record AzNetworkFrontDoorRoutingRuleCreateOptions(
     [CommandSwitch("--rules-engine")]
     public string? RulesEngine { get; set; }
 }
-

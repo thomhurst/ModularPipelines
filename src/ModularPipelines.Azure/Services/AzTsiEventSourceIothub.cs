@@ -27,4 +27,3 @@ public class AzTsiEventSourceIothub
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceIothubUpdateOptions(), token);
     }
 }
-

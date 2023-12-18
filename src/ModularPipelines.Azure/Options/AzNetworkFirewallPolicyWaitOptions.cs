@@ -44,4 +44,3 @@ public record AzNetworkFirewallPolicyWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzLabCustomImage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

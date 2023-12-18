@@ -51,4 +51,3 @@ public class AzNetworkManagerGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupWaitOptions(), token);
     }
 }
-

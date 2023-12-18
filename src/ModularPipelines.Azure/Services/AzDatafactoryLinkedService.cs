@@ -42,4 +42,3 @@ public class AzDatafactoryLinkedService
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceUpdateOptions(), token);
     }
 }
-

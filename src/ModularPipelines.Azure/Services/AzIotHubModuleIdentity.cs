@@ -51,4 +51,3 @@ public class AzIotHubModuleIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

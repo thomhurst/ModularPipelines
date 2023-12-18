@@ -15,4 +15,3 @@ public record AzStreamAnalyticsInputDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

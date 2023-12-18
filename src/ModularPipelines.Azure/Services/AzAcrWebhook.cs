@@ -57,4 +57,3 @@ public class AzAcrWebhook
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

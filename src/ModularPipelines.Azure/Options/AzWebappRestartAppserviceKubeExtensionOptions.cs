@@ -25,4 +25,3 @@ public record AzWebappRestartAppserviceKubeExtensionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

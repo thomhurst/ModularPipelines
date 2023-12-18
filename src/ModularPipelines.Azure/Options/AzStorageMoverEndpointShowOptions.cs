@@ -18,4 +18,3 @@ public record AzStorageMoverEndpointShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

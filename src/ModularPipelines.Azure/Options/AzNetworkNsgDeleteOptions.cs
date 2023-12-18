@@ -23,4 +23,3 @@ public record AzNetworkNsgDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

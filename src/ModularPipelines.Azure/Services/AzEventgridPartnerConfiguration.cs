@@ -52,4 +52,3 @@ public class AzEventgridPartnerConfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -16,4 +16,3 @@ public record AzSqlStgListOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

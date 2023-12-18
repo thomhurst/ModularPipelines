@@ -23,4 +23,3 @@ public record AzAzurestackhciStoragepathCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

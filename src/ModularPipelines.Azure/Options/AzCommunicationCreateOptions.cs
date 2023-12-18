@@ -30,4 +30,3 @@ public record AzCommunicationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

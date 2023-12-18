@@ -27,4 +27,3 @@ public class AzServicebusNamespaceEncryption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

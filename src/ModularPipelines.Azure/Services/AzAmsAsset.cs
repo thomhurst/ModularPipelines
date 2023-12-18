@@ -57,4 +57,3 @@ public class AzAmsAsset
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetUpdateOptions(), token);
     }
 }
-

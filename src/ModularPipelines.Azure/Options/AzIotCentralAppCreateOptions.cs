@@ -30,4 +30,3 @@ public record AzIotCentralAppCreateOptions(
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 }
-

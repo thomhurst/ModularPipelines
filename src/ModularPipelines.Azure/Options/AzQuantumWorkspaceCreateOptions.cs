@@ -25,4 +25,3 @@ public record AzQuantumWorkspaceCreateOptions(
     [BooleanCommandSwitch("--skip-role-assignment")]
     public bool? SkipRoleAssignment { get; set; }
 }
-

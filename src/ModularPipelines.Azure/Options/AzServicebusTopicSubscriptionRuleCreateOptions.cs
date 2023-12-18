@@ -65,4 +65,3 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions(
     [CommandSwitch("--to")]
     public string? To { get; set; }
 }
-

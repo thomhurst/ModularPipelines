@@ -20,4 +20,3 @@ public record AzIotCentralDiagnosticsValidatePropertiesOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

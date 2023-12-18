@@ -42,4 +42,3 @@ public class AzConnectedvmwareVmNic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

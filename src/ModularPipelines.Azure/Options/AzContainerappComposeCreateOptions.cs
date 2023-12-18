@@ -35,4 +35,3 @@ public record AzContainerappComposeCreateOptions(
     [CommandSwitch("--transport-mapping")]
     public string? TransportMapping { get; set; }
 }
-

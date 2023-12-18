@@ -23,4 +23,3 @@ public record AzPostgresDownOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

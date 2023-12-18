@@ -25,4 +25,3 @@ public record AzBackupVaultResourceGuardMappingUpdateOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

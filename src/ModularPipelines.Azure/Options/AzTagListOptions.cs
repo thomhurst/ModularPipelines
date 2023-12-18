@@ -14,4 +14,3 @@ public record AzTagListOptions(
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }
 }
-

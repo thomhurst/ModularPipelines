@@ -28,4 +28,3 @@ public record AzStorageMoverJobDefinitionCreateOptions(
     [CommandSwitch("--target-subpath")]
     public string? TargetSubpath { get; set; }
 }
-

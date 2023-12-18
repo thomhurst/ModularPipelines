@@ -15,4 +15,3 @@ public record AzAutomanageConfigurationProfileAssignmentVmCreateOptions(
     [CommandSwitch("--configuration-profile")]
     public string? ConfigurationProfile { get; set; }
 }
-

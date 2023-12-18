@@ -23,4 +23,3 @@ public record AzConnectedmachinePrivateLinkScopeUpdateTagOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

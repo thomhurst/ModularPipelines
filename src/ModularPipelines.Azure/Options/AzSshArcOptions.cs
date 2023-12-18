@@ -49,4 +49,3 @@ public record AzSshArcOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? SshArgs { get; set; }
 }
-

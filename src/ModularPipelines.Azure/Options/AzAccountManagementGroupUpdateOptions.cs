@@ -28,4 +28,3 @@ public record AzAccountManagementGroupUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

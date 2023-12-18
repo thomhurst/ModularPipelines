@@ -24,4 +24,3 @@ public record AzSigImageDefinitionUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

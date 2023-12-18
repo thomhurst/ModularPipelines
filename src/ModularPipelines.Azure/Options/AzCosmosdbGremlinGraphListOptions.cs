@@ -21,4 +21,3 @@ public record AzCosmosdbGremlinGraphListOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

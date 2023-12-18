@@ -21,4 +21,3 @@ public class AzDtJob
 
     public AzDtJobImport Import { get; }
 }
-

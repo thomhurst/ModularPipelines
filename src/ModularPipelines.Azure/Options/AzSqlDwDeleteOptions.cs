@@ -29,4 +29,3 @@ public record AzSqlDwDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

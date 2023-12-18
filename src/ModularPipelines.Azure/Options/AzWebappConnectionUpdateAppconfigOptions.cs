@@ -49,4 +49,3 @@ public record AzWebappConnectionUpdateAppconfigOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

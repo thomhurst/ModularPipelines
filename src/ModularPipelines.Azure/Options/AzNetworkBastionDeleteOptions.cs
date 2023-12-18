@@ -25,4 +25,3 @@ public record AzNetworkBastionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

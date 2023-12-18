@@ -17,4 +17,3 @@ public class AzManagedCassandraClusterUpdate
 
     public AzManagedCassandraClusterUpdateCosmosdbPreview CosmosdbPreview { get; }
 }
-

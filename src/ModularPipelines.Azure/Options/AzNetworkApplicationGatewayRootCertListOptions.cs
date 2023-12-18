@@ -32,4 +32,3 @@ public record AzNetworkApplicationGatewayRootCertListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzWebappDeployment
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentListPublishingProfilesOptions(), token);
     }
 }
-

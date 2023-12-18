@@ -14,4 +14,3 @@ public record AzSpringCloudAppBindingRemoveOptions(
 ) : AzOptions
 {
 }
-

@@ -49,4 +49,3 @@ public class AzCdnWafPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnWafPolicyShowOptions(), token);
     }
 }
-

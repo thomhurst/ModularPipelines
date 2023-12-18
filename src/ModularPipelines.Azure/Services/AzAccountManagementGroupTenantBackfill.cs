@@ -27,4 +27,3 @@ public class AzAccountManagementGroupTenantBackfill
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupTenantBackfillStartOptions(), token);
     }
 }
-

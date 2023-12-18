@@ -16,4 +16,3 @@ public record AzKeyvaultSettingListOptions(
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 }
-

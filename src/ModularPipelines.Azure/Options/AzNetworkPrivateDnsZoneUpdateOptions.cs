@@ -41,4 +41,3 @@ public record AzNetworkPrivateDnsZoneUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

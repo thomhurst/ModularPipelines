@@ -22,4 +22,3 @@ public class AzKustoClusterStopKusto
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterStopKustoExtensionOptions(), token);
     }
 }
-

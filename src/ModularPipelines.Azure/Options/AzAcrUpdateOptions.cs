@@ -52,4 +52,3 @@ public record AzAcrUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -68,4 +68,3 @@ public record AzDatafactoryPipelineUpdateOptions : AzOptions
     [CommandSwitch("--variables")]
     public string? Variables { get; set; }
 }
-

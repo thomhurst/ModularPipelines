@@ -32,4 +32,3 @@ public record AzStorageEntityReplaceOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

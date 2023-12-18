@@ -31,4 +31,3 @@ public record AzSqlMidbDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

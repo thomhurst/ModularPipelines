@@ -52,4 +52,3 @@ public class AzCosmosdbSqlRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

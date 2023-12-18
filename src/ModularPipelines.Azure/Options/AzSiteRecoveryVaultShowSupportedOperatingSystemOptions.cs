@@ -23,4 +23,3 @@ public record AzSiteRecoveryVaultShowSupportedOperatingSystemOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

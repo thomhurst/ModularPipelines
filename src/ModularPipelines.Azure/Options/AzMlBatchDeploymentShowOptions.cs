@@ -31,4 +31,3 @@ public record AzMlBatchDeploymentShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

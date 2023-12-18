@@ -28,4 +28,3 @@ public record AzKustoDatabaseRemovePrincipalOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

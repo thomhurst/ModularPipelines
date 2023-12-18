@@ -21,4 +21,3 @@ public record AzHybridaksNodepoolScaleOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzMonitorAppInsightsComponentLinkedStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

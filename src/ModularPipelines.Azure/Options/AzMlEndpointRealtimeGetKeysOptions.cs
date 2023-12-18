@@ -25,4 +25,3 @@ public record AzMlEndpointRealtimeGetKeysOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

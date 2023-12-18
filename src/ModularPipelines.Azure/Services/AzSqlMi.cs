@@ -105,4 +105,3 @@ public class AzSqlMi
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiUpdateOptions(), token);
     }
 }
-

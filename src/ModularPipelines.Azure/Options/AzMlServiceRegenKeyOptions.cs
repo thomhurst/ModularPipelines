@@ -29,4 +29,3 @@ public record AzMlServiceRegenKeyOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

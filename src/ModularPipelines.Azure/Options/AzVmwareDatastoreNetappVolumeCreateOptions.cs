@@ -17,4 +17,3 @@ public record AzVmwareDatastoreNetappVolumeCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

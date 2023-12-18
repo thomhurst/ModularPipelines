@@ -27,4 +27,3 @@ public class AzStorageAccountHnsMigration
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountHnsMigrationStopOptions(), token);
     }
 }
-

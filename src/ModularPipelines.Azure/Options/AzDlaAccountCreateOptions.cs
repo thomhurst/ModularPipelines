@@ -32,4 +32,3 @@ public record AzDlaAccountCreateOptions(
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

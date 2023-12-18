@@ -38,4 +38,3 @@ public record AzConnectionUpdateCosmosCassandraOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

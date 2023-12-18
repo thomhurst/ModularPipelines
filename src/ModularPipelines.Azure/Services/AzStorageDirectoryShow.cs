@@ -17,4 +17,3 @@ public class AzStorageDirectoryShow
 
     public AzStorageDirectoryShowStoragePreview StoragePreview { get; }
 }
-

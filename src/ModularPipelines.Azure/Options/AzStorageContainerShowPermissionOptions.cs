@@ -34,4 +34,3 @@ public record AzStorageContainerShowPermissionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

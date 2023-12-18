@@ -23,4 +23,3 @@ public record AzAzurestackhciGalleryimageUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

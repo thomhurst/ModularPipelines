@@ -28,4 +28,3 @@ public record AzAcrArtifactStreamingOperationCancelOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

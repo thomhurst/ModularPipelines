@@ -28,4 +28,3 @@ public record AzDnsResolverInboundEndpointCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

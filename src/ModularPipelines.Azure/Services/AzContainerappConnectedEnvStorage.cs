@@ -37,4 +37,3 @@ public class AzContainerappConnectedEnvStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzDatashareEmailRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzNetworkManagerGroupUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

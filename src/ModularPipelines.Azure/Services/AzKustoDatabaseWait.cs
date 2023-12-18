@@ -17,4 +17,3 @@ public class AzKustoDatabaseWait
 
     public AzKustoDatabaseWaitKusto Kusto { get; }
 }
-

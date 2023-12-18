@@ -47,4 +47,3 @@ public class AzMonitorAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountWaitOptions(), token);
     }
 }
-

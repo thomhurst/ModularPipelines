@@ -20,4 +20,3 @@ public record AzCsvmwareVmDiskAddOptions(
     [CommandSwitch("--size")]
     public string? Size { get; set; }
 }
-

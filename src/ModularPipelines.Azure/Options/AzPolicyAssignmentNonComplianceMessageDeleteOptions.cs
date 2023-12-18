@@ -20,4 +20,3 @@ public record AzPolicyAssignmentNonComplianceMessageDeleteOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

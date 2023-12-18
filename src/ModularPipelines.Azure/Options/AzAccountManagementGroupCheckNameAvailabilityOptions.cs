@@ -19,4 +19,3 @@ public record AzAccountManagementGroupCheckNameAvailabilityOptions(
     [CommandSwitch("--parent")]
     public string? Parent { get; set; }
 }
-

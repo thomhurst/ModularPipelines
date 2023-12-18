@@ -22,4 +22,3 @@ public record AzSynapseKustoDataConnectionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

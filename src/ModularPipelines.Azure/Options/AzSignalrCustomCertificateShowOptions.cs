@@ -33,4 +33,3 @@ public record AzSignalrCustomCertificateShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

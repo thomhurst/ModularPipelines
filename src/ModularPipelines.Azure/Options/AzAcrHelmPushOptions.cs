@@ -25,4 +25,3 @@ public record AzAcrHelmPushOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? ChartPackage { get; set; }
 }
-

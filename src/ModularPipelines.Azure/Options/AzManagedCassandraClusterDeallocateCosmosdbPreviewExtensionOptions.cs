@@ -20,4 +20,3 @@ public record AzManagedCassandraClusterDeallocateCosmosdbPreviewExtensionOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzCdnOriginGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupUpdateOptions(), token);
     }
 }
-

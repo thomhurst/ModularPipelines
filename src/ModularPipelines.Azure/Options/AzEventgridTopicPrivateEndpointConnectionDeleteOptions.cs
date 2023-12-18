@@ -20,4 +20,3 @@ public record AzEventgridTopicPrivateEndpointConnectionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

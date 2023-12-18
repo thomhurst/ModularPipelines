@@ -22,4 +22,3 @@ public record AzWebpubsubListSkusOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

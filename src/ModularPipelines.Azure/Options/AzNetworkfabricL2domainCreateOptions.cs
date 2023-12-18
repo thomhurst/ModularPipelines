@@ -28,4 +28,3 @@ public record AzNetworkfabricL2domainCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzNewRelicAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

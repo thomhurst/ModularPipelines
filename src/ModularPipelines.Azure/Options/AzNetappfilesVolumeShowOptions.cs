@@ -26,4 +26,3 @@ public record AzNetappfilesVolumeShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

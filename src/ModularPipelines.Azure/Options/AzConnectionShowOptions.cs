@@ -20,4 +20,3 @@ public record AzConnectionShowOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

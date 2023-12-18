@@ -61,4 +61,3 @@ public record AzDatafactoryDatasetUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzAksApproutingEnableOptions(
     [BooleanCommandSwitch("--enable-kv")]
     public bool? EnableKv { get; set; }
 }
-

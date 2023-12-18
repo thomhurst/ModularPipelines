@@ -22,4 +22,3 @@ public class AzMlExperiment
         return await _command.ExecuteCommandLineTool(options ?? new AzMlExperimentListOptions(), token);
     }
 }
-

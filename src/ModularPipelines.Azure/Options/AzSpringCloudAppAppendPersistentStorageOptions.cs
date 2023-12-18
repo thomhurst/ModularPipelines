@@ -22,4 +22,3 @@ public record AzSpringCloudAppAppendPersistentStorageOptions(
     [BooleanCommandSwitch("--read-only")]
     public bool? ReadOnly { get; set; }
 }
-

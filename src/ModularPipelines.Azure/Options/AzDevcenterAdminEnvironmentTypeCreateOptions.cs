@@ -18,4 +18,3 @@ public record AzDevcenterAdminEnvironmentTypeCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

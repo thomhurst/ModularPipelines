@@ -43,4 +43,3 @@ public record AzNetworkPrivateLinkServiceConnectionUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

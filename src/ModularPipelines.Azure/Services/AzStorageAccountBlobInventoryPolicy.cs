@@ -37,4 +37,3 @@ public class AzStorageAccountBlobInventoryPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

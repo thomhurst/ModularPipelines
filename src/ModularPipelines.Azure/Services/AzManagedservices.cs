@@ -20,4 +20,3 @@ public class AzManagedservices
 
     public AzManagedservicesDefinition Definition { get; }
 }
-

@@ -62,4 +62,3 @@ public record AzPostgresFlexibleServerGeoRestoreOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

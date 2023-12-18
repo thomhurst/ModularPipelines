@@ -32,4 +32,3 @@ public class AzNetworkPrivateLinkServiceConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionWaitOptions(), token);
     }
 }
-

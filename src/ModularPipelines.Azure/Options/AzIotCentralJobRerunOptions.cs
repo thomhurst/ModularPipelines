@@ -21,4 +21,3 @@ public record AzIotCentralJobRerunOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

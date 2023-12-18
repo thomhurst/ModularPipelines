@@ -22,4 +22,3 @@ public class AzPolicyEvent
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEventListOptions(), token);
     }
 }
-

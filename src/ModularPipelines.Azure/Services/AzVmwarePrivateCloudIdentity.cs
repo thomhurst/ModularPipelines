@@ -32,4 +32,3 @@ public class AzVmwarePrivateCloudIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

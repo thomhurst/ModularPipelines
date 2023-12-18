@@ -28,4 +28,3 @@ public record AzSqlDbShowDeletedOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

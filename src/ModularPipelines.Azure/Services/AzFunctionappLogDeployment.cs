@@ -27,4 +27,3 @@ public class AzFunctionappLogDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

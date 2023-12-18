@@ -20,4 +20,3 @@ public record AzNetworkcloudL2networkShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

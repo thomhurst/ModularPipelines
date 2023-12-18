@@ -25,4 +25,3 @@ public record AzKeyvaultCertificateIssuerListOptions(
     [CommandSwitch("--provider-name")]
     public string? ProviderName { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzNetappfilesSnapshotRestoreFilesOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

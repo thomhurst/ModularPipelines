@@ -37,4 +37,3 @@ public class AzVmwareAddonArc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

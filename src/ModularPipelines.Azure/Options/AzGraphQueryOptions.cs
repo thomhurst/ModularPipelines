@@ -28,4 +28,3 @@ public record AzGraphQueryOptions(
     [CommandSwitch("--subscriptions")]
     public string? Subscriptions { get; set; }
 }
-

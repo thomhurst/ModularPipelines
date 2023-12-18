@@ -16,4 +16,3 @@ public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

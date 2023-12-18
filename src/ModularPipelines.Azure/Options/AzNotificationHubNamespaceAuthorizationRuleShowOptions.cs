@@ -23,4 +23,3 @@ public record AzNotificationHubNamespaceAuthorizationRuleShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzFunctionappDeploymentSlotListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -62,4 +62,3 @@ public class AzSphereDeviceWifi
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiShowStatusOptions(), token);
     }
 }
-

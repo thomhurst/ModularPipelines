@@ -22,4 +22,3 @@ public class AzNetappfilesVolumeListNetappfilesPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

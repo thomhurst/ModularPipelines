@@ -27,4 +27,3 @@ public record AzSynapseSqlPoolClassificationDeleteOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

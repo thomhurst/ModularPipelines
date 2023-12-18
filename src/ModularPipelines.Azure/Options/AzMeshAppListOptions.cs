@@ -17,4 +17,3 @@ public record AzMeshAppListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

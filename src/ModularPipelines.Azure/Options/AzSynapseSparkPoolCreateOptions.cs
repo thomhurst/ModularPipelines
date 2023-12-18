@@ -57,4 +57,3 @@ public record AzSynapseSparkPoolCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

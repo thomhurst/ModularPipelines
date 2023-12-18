@@ -25,4 +25,3 @@ public record AzReposRefDeleteOptions(
     [CommandSwitch("--repository")]
     public string? Repository { get; set; }
 }
-

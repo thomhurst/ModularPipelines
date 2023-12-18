@@ -63,4 +63,3 @@ public class AzDatabricksWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceWaitOptions(), token);
     }
 }
-

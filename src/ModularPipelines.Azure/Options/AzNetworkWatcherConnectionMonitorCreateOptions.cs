@@ -104,4 +104,3 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     [CommandSwitch("--workspace-ids")]
     public string? WorkspaceIds { get; set; }
 }
-

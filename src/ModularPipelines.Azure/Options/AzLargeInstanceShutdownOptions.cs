@@ -23,4 +23,3 @@ public record AzLargeInstanceShutdownOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

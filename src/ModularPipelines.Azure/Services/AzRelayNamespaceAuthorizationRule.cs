@@ -46,4 +46,3 @@ public class AzRelayNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleUpdateOptions(), token);
     }
 }
-

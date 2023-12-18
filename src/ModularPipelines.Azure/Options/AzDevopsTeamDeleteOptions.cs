@@ -22,4 +22,3 @@ public record AzDevopsTeamDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

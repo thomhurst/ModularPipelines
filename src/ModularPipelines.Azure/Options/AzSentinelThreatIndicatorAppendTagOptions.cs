@@ -15,4 +15,3 @@ public record AzSentinelThreatIndicatorAppendTagOptions(
     [CommandSwitch("--intelligence-tags")]
     public string? IntelligenceTags { get; set; }
 }
-

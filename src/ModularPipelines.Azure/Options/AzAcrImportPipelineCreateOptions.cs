@@ -23,4 +23,3 @@ public record AzAcrImportPipelineCreateOptions(
     [BooleanCommandSwitch("--source-trigger-enabled")]
     public bool? SourceTriggerEnabled { get; set; }
 }
-

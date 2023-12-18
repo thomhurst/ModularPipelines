@@ -41,4 +41,3 @@ public record AzDatadogSsoConfigUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

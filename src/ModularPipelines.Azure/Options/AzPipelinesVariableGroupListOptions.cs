@@ -34,4 +34,3 @@ public record AzPipelinesVariableGroupListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

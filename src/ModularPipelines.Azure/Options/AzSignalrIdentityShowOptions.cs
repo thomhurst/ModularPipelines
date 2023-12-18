@@ -20,4 +20,3 @@ public record AzSignalrIdentityShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

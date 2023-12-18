@@ -22,4 +22,3 @@ public record AzSynapseManagedPrivateEndpointsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

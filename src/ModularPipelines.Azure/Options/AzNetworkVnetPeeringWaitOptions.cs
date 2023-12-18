@@ -44,4 +44,3 @@ public record AzNetworkVnetPeeringWaitOptions : AzOptions
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

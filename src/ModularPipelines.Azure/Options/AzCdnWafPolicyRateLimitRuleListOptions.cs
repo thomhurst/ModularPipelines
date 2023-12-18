@@ -20,4 +20,3 @@ public record AzCdnWafPolicyRateLimitRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

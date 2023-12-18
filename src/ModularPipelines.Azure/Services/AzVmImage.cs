@@ -51,4 +51,3 @@ public class AzVmImage
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageShowOptions(), token);
     }
 }
-

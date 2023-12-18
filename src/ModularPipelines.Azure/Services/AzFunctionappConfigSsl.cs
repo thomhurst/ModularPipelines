@@ -57,4 +57,3 @@ public class AzFunctionappConfigSsl
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

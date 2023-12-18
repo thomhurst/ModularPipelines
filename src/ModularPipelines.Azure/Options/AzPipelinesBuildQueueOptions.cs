@@ -40,4 +40,3 @@ public record AzPipelinesBuildQueueOptions(
     [CommandSwitch("--variables")]
     public string? Variables { get; set; }
 }
-

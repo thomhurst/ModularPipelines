@@ -22,4 +22,3 @@ public record AzDlaAccountFirewallShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzSqlDwCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

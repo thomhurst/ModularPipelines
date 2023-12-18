@@ -30,4 +30,3 @@ public record AzOrbitalSpacecraftDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

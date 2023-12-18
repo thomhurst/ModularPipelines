@@ -26,4 +26,3 @@ public record AzSfManagedServiceLoadMetricsDeleteOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

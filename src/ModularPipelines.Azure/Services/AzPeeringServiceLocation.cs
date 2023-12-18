@@ -22,4 +22,3 @@ public class AzPeeringServiceLocation
         return await _command.ExecuteCommandLineTool(options ?? new AzPeeringServiceLocationListOptions(), token);
     }
 }
-

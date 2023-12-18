@@ -43,4 +43,3 @@ public record AzAppconfigKvListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

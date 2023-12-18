@@ -42,4 +42,3 @@ public class AzContainerappAddOn
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

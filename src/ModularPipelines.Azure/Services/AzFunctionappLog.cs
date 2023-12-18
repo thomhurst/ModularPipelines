@@ -17,4 +17,3 @@ public class AzFunctionappLog
 
     public AzFunctionappLogDeployment Deployment { get; }
 }
-

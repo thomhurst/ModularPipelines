@@ -37,4 +37,3 @@ public class AzSapmonitorProviderInstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

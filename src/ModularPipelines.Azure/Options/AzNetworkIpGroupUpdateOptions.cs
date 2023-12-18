@@ -29,4 +29,3 @@ public record AzNetworkIpGroupUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

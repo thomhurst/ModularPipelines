@@ -15,4 +15,3 @@ public record AzStorageMoverEndpointUpdateForStorageSmbFileShareOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

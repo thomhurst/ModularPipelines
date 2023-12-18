@@ -37,4 +37,3 @@ public class AzAcrTaskCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

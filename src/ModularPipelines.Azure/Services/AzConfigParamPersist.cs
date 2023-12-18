@@ -37,4 +37,3 @@ public class AzConfigParamPersist
         return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistShowOptions(), token);
     }
 }
-

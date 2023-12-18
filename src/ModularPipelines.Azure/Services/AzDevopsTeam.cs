@@ -47,4 +47,3 @@ public class AzDevopsTeam
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

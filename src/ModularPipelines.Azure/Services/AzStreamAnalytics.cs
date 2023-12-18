@@ -44,4 +44,3 @@ public class AzStreamAnalytics
 
     public AzStreamAnalyticsTransformation Transformation { get; }
 }
-

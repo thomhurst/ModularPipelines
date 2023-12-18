@@ -42,4 +42,3 @@ public class AzMonitorDataCollectionRuleWindowsEventLog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -68,4 +68,3 @@ public record AzConnectedmachineExtensionUpdateOptions : AzOptions
     [CommandSwitch("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewaySslProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySslProfileWaitOptions(), token);
     }
 }
-

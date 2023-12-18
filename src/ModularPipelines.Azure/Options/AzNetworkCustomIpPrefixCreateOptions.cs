@@ -44,4 +44,3 @@ public record AzNetworkCustomIpPrefixCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions : AzOption
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

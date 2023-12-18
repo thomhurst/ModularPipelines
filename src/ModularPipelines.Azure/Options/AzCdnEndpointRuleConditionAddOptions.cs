@@ -39,4 +39,3 @@ public record AzCdnEndpointRuleConditionAddOptions(
     [CommandSwitch("--transform")]
     public string? Transform { get; set; }
 }
-

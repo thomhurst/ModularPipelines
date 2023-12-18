@@ -47,4 +47,3 @@ public record AzVmMonitorMetricsTailOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

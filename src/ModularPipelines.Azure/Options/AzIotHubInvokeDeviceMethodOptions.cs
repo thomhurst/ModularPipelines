@@ -29,4 +29,3 @@ public record AzIotHubInvokeDeviceMethodOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

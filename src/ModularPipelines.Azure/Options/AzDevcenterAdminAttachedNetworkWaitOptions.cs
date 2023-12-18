@@ -44,4 +44,3 @@ public record AzDevcenterAdminAttachedNetworkWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

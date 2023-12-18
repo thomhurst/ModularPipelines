@@ -23,4 +23,3 @@ public record AzAutomanageConfigurationProfileVersionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

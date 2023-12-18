@@ -37,4 +37,3 @@ public class AzVmwareAddonSrm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

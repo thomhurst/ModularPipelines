@@ -17,4 +17,3 @@ public record AzNetworkPrivateDnsRecordSetListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

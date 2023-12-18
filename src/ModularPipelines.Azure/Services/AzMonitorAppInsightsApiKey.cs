@@ -32,4 +32,3 @@ public class AzMonitorAppInsightsApiKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

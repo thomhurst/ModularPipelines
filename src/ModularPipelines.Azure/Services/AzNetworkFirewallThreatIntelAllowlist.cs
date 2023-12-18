@@ -37,4 +37,3 @@ public class AzNetworkFirewallThreatIntelAllowlist
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

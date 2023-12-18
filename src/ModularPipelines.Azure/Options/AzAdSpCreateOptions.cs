@@ -34,4 +34,3 @@ public record AzAdSpCreateOptions(
     [CommandSwitch("--years")]
     public string? Years { get; set; }
 }
-

@@ -49,4 +49,3 @@ public record AzNetappfilesVolumeQuotaRuleWaitOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

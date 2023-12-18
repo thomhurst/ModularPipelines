@@ -27,4 +27,3 @@ public class AzSecurityAtpStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

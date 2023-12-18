@@ -31,4 +31,3 @@ public record AzDatamigrationLoginMigrationOptions(
     [CommandSwitch("--tgt-sql-connection-str")]
     public string? TgtSqlConnectionStr { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzAfdOriginGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginGroupUpdateOptions(), token);
     }
 }
-

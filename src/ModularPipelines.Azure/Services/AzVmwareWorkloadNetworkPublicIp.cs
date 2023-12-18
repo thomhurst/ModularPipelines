@@ -42,4 +42,3 @@ public class AzVmwareWorkloadNetworkPublicIp
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpWaitOptions(), token);
     }
 }
-

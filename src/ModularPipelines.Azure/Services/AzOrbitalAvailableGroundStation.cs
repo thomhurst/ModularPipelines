@@ -27,4 +27,3 @@ public class AzOrbitalAvailableGroundStation
         return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalAvailableGroundStationShowOptions(), token);
     }
 }
-

@@ -28,4 +28,3 @@ public record AzDevopsSecurityGroupListOptions(
     [CommandSwitch("--subject-types")]
     public string? SubjectTypes { get; set; }
 }
-

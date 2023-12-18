@@ -41,4 +41,3 @@ public record AzLogicWorkflowCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzAfdOriginGroupListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

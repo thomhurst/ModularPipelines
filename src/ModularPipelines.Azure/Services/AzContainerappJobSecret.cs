@@ -37,4 +37,3 @@ public class AzContainerappJobSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

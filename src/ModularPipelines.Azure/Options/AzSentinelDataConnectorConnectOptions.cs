@@ -42,4 +42,3 @@ public record AzSentinelDataConnectorConnectOptions(
     [CommandSwitch("--user-name")]
     public string? UserName { get; set; }
 }
-

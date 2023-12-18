@@ -14,4 +14,3 @@ public record AzCosmosdbKeysListOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

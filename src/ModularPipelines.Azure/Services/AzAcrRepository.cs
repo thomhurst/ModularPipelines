@@ -57,4 +57,3 @@ public class AzAcrRepository
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

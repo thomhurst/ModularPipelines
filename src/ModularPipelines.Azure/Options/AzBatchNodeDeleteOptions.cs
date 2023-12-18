@@ -43,4 +43,3 @@ public record AzBatchNodeDeleteOptions(
     [CommandSwitch("--resize-timeout")]
     public string? ResizeTimeout { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     [CommandSwitch("--values")]
     public string? Values { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzDataprotectionBackupPolicyListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

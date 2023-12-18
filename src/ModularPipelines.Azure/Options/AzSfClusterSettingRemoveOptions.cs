@@ -20,4 +20,3 @@ public record AzSfClusterSettingRemoveOptions(
     [CommandSwitch("--settings-section")]
     public string? SettingsSection { get; set; }
 }
-

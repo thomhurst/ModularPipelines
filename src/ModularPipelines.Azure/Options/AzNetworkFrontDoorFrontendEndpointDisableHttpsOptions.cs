@@ -27,4 +27,3 @@ public record AzNetworkFrontDoorFrontendEndpointDisableHttpsOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

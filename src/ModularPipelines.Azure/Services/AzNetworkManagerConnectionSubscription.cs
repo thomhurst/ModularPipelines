@@ -42,4 +42,3 @@ public class AzNetworkManagerConnectionSubscription
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectionSubscriptionUpdateOptions(), token);
     }
 }
-

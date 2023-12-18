@@ -28,4 +28,3 @@ public record AzBoardsWorkItemShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

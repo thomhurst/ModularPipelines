@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewayAuthCert
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayAuthCertWaitOptions(), token);
     }
 }
-

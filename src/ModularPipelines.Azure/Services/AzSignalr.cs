@@ -78,4 +78,3 @@ public class AzSignalr
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpdateOptions(), token);
     }
 }
-

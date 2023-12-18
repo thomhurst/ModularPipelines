@@ -26,4 +26,3 @@ public record AzContainerappEnvLogsShowOptions : AzOptions
     [CommandSwitch("--tail")]
     public string? Tail { get; set; }
 }
-

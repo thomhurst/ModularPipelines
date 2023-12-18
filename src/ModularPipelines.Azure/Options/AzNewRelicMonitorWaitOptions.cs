@@ -41,4 +41,3 @@ public record AzNewRelicMonitorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

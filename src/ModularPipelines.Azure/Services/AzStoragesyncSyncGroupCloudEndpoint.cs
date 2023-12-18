@@ -42,4 +42,3 @@ public class AzStoragesyncSyncGroupCloudEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

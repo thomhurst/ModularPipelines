@@ -25,4 +25,3 @@ public record AzKeyvaultNetworkRuleRemoveOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

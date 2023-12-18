@@ -22,4 +22,3 @@ public record AzAccountGetAccessTokenOptions(
     [CommandSwitch("--tenant")]
     public string? Tenant { get; set; }
 }
-

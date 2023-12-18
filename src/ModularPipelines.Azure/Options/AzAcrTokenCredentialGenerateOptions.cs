@@ -26,4 +26,3 @@ public record AzAcrTokenCredentialGenerateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzWebappConfigSslBindAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

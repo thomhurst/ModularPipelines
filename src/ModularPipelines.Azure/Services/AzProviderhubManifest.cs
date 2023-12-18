@@ -27,4 +27,3 @@ public class AzProviderhubManifest
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubManifestGenerateOptions(), token);
     }
 }
-

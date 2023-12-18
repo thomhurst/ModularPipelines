@@ -29,4 +29,3 @@ public record AzIotDuUpdateInitV5Options(
     [CommandSwitch("--related-file")]
     public string? RelatedFile { get; set; }
 }
-

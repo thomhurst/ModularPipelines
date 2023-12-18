@@ -42,4 +42,3 @@ public class AzSphereDeviceApp
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceAppStopOptions(), token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzSecuritySubAssessmentListOptions(
     [CommandSwitch("--assessed-resource-id")]
     public string? AssessedResourceId { get; set; }
 }
-

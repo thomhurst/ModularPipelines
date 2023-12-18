@@ -22,4 +22,3 @@ public class AzAksUseDevSpacesDevSpaces
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

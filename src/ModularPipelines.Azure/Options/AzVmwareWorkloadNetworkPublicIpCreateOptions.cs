@@ -21,4 +21,3 @@ public record AzVmwareWorkloadNetworkPublicIpCreateOptions(
     [CommandSwitch("--number-of-public-ips")]
     public string? NumberOfPublicIps { get; set; }
 }
-

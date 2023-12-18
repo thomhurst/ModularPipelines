@@ -26,4 +26,3 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions(
     [BooleanCommandSwitch("--use-existing-snapshot")]
     public bool? UseExistingSnapshot { get; set; }
 }
-

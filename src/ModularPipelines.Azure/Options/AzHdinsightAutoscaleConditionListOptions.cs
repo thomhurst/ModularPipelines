@@ -23,4 +23,3 @@ public record AzHdinsightAutoscaleConditionListOptions(
     [CommandSwitch("--workernode-count")]
     public int? WorkernodeCount { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzSphereDeviceNetworkListFirewallRulesOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

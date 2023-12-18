@@ -13,4 +13,3 @@ public record AzFindOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? CliTerm { get; set; }
 }
-

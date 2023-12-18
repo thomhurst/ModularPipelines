@@ -34,4 +34,3 @@ public record AzApimApiSchemaWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

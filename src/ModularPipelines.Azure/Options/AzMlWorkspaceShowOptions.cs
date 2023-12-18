@@ -14,4 +14,3 @@ public record AzMlWorkspaceShowOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

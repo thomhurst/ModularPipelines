@@ -23,4 +23,3 @@ public record AzDatamigrationSqlServiceDeleteNodeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

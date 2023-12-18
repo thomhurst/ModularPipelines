@@ -37,4 +37,3 @@ public class AzMysqlFlexibleServerDb
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDbShowOptions(), token);
     }
 }
-

@@ -19,4 +19,3 @@ public record AzNetworkFrontDoorWafPolicyDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

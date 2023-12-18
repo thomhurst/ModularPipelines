@@ -42,4 +42,3 @@ public class AzVmwareCloudLink
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkUpdateOptions(), token);
     }
 }
-

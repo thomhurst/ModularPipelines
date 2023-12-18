@@ -34,4 +34,3 @@ public record AzBackupProtectionResumeOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzNetworkVirtualApplianceSiteCreateOptions(
     [BooleanCommandSwitch("--optimize")]
     public bool? Optimize { get; set; }
 }
-

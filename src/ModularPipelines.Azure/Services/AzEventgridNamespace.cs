@@ -81,4 +81,3 @@ public class AzEventgridNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceWaitOptions(), token);
     }
 }
-

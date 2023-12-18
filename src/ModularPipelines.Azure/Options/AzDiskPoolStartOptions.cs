@@ -23,4 +23,3 @@ public record AzDiskPoolStartOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

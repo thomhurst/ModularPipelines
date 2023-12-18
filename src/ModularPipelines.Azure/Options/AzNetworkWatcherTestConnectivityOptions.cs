@@ -40,4 +40,3 @@ public record AzNetworkWatcherTestConnectivityOptions(
     [CommandSwitch("--valid-status-codes")]
     public string? ValidStatusCodes { get; set; }
 }
-

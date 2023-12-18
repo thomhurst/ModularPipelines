@@ -24,4 +24,3 @@ public record AzBackupProtectableItemListOptions(
     [CommandSwitch("--server-name")]
     public string? ServerName { get; set; }
 }
-

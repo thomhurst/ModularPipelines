@@ -50,4 +50,3 @@ public record AzContainerappJobStartOptions : AzOptions
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzPostgresFlexibleServerAdAdmin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -35,4 +35,3 @@ public record AzDlsFsUploadOptions(
     [CommandSwitch("--thread-count")]
     public int? ThreadCount { get; set; }
 }
-

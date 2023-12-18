@@ -19,4 +19,3 @@ public record AzNetworkcloudKubernetesclusterListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

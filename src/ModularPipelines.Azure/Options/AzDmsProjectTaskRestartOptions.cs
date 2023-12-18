@@ -16,4 +16,3 @@ public record AzDmsProjectTaskRestartOptions(
     [CommandSwitch("--object-name")]
     public string? ObjectName { get; set; }
 }
-

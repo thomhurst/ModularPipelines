@@ -26,4 +26,3 @@ public record AzNetworkcloudVirtualmachineConsoleCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

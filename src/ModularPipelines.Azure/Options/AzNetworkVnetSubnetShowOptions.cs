@@ -26,4 +26,3 @@ public record AzNetworkVnetSubnetShowOptions : AzOptions
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

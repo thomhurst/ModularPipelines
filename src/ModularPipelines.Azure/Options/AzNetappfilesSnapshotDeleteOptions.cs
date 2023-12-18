@@ -25,4 +25,3 @@ public record AzNetappfilesSnapshotDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

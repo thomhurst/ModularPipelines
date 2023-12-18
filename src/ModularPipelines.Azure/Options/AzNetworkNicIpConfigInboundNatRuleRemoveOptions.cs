@@ -19,4 +19,3 @@ public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

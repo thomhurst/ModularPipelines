@@ -36,4 +36,3 @@ public class AzAd
 
     public AzAdUser User { get; }
 }
-

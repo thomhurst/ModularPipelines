@@ -22,4 +22,3 @@ public class AzMariadbServerPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateLinkResourceListOptions(), token);
     }
 }
-

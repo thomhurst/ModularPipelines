@@ -24,4 +24,3 @@ public record AzNetworkManagerGroupStaticMemberDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

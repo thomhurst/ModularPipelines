@@ -25,4 +25,3 @@ public record AzMlComputetargetDeleteOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzNetworkcloudVirtualmachineConsoleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzAccountSubscriptionEnableOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

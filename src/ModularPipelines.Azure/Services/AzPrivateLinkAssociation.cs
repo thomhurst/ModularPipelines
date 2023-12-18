@@ -37,4 +37,3 @@ public class AzPrivateLinkAssociation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

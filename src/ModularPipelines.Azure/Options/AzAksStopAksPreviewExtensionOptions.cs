@@ -14,4 +14,3 @@ public record AzAksStopAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

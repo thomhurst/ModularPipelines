@@ -16,4 +16,3 @@ public record AzApimListOptions(
 ) : AzOptions
 {
 }
-

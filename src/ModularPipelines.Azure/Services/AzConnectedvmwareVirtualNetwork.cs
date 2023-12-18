@@ -37,4 +37,3 @@ public class AzConnectedvmwareVirtualNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkShowOptions(), token);
     }
 }
-

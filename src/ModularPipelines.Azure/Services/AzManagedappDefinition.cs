@@ -42,4 +42,3 @@ public class AzManagedappDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

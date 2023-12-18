@@ -80,4 +80,3 @@ public record AzAzurestackhciVirtualmachineCreateOptions(
     [CommandSwitch("--windows-configuration")]
     public string? WindowsConfiguration { get; set; }
 }
-

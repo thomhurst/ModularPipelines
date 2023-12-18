@@ -16,4 +16,3 @@ public record AzLabSecretSetOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

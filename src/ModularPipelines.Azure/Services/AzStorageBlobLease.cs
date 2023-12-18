@@ -42,4 +42,3 @@ public class AzStorageBlobLease
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

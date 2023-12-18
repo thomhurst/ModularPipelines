@@ -29,4 +29,3 @@ public record AzApimApiSchemaCreateOptions(
     [CommandSwitch("--schema-path")]
     public string? SchemaPath { get; set; }
 }
-

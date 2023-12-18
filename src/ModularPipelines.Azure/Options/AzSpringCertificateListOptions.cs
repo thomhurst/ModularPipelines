@@ -14,4 +14,3 @@ public record AzSpringCertificateListOptions(
     [CommandSwitch("--certificate-type")]
     public string? CertificateType { get; set; }
 }
-

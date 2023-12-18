@@ -28,4 +28,3 @@ public record AzDevcenterAdminDevboxDefinitionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

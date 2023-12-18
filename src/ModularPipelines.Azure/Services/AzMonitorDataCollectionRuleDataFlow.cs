@@ -27,4 +27,3 @@ public class AzMonitorDataCollectionRuleDataFlow
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

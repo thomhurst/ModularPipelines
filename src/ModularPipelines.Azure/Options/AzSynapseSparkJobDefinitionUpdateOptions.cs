@@ -18,4 +18,3 @@ public record AzSynapseSparkJobDefinitionUpdateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

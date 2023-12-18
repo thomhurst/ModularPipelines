@@ -50,4 +50,3 @@ public record AzNetworkExpressRouteGatewayUpdateOptions : AzOptions
     [CommandSwitch("--virtual-hub")]
     public string? VirtualHub { get; set; }
 }
-

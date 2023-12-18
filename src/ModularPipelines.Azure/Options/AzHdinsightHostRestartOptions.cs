@@ -15,4 +15,3 @@ public record AzHdinsightHostRestartOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

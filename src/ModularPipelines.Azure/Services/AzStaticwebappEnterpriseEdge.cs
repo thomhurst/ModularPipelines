@@ -32,4 +32,3 @@ public class AzStaticwebappEnterpriseEdge
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

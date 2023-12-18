@@ -17,4 +17,3 @@ public record AzElasticMonitorListUpgradableVersionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzMapsMap
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsMapListOperationOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewayAddressPool
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayAddressPoolWaitOptions(), token);
     }
 }
-

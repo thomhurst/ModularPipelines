@@ -20,4 +20,3 @@ public record AzMysqlFlexibleServerDbCreateOptions(
     [CommandSwitch("--database-name")]
     public string? DatabaseName { get; set; }
 }
-

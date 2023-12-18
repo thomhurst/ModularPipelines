@@ -32,4 +32,3 @@ public class AzNetworkVpnSiteLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

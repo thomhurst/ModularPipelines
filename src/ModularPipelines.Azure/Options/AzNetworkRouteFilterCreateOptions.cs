@@ -20,4 +20,3 @@ public record AzNetworkRouteFilterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzStorageFileGenerateSasStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

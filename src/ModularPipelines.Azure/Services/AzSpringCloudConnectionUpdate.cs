@@ -132,4 +132,3 @@ public class AzSpringCloudConnectionUpdate
         return await _command.ExecuteCommandLineTool(options ?? new AzSpringCloudConnectionUpdateWebpubsubOptions(), token);
     }
 }
-

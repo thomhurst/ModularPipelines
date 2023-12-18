@@ -14,4 +14,3 @@ public record AzPeeringServicePrefixListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

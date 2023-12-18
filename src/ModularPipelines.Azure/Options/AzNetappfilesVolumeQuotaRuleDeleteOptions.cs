@@ -34,4 +34,3 @@ public record AzNetappfilesVolumeQuotaRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

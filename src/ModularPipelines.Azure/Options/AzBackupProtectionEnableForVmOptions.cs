@@ -22,4 +22,3 @@ public record AzBackupProtectionEnableForVmOptions(
     [BooleanCommandSwitch("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 }
-

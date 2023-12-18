@@ -31,4 +31,3 @@ public record AzSphereDeviceWifiAddOptions(
     [BooleanCommandSwitch("--targeted-scan")]
     public bool? TargetedScan { get; set; }
 }
-

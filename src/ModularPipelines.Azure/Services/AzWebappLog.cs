@@ -41,4 +41,3 @@ public class AzWebappLog
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogTailOptions(), token);
     }
 }
-

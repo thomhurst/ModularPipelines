@@ -49,4 +49,3 @@ public record AzDatamigrationGetSkuRecommendationOptions(
     [CommandSwitch("--target-sql-instance")]
     public string? TargetSqlInstance { get; set; }
 }
-

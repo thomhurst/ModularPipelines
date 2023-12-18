@@ -62,4 +62,3 @@ public record AzContainerappConnectionCreateKeyvaultOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

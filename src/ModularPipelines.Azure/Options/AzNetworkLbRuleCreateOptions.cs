@@ -42,4 +42,3 @@ public record AzNetworkLbRuleCreateOptions(
     [CommandSwitch("--probe")]
     public string? Probe { get; set; }
 }
-

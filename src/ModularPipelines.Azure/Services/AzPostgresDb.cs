@@ -37,4 +37,3 @@ public class AzPostgresDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzPowerbiEmbeddedCapacityWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

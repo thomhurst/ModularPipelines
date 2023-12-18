@@ -37,4 +37,3 @@ public record AzNetworkfabricExternalnetworkCreateOptions(
     [CommandSwitch("--option-b-properties")]
     public string? OptionBProperties { get; set; }
 }
-

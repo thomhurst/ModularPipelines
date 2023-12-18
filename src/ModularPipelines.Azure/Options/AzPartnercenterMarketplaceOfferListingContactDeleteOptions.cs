@@ -26,4 +26,3 @@ public record AzPartnercenterMarketplaceOfferListingContactDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

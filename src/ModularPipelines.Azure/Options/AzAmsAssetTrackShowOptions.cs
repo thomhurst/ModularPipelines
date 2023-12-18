@@ -23,4 +23,3 @@ public record AzAmsAssetTrackShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

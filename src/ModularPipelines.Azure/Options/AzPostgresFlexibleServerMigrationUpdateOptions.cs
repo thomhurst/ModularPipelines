@@ -31,4 +31,3 @@ public record AzPostgresFlexibleServerMigrationUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

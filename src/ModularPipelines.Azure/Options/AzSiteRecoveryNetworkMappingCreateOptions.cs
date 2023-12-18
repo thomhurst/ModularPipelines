@@ -24,4 +24,3 @@ public record AzSiteRecoveryNetworkMappingCreateOptions(
     [CommandSwitch("--recovery-fabric-name")]
     public string? RecoveryFabricName { get; set; }
 }
-

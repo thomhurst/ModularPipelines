@@ -32,4 +32,3 @@ public class AzDatafactoryPipelineRun
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineRunShowOptions(), token);
     }
 }
-

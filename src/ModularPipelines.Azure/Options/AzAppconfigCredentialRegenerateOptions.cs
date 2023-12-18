@@ -14,4 +14,3 @@ public record AzAppconfigCredentialRegenerateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

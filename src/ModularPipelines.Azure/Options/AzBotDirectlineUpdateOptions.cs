@@ -29,4 +29,3 @@ public record AzBotDirectlineUpdateOptions(
     [CommandSwitch("--trusted-origins")]
     public string? TrustedOrigins { get; set; }
 }
-

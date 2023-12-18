@@ -32,4 +32,3 @@ public record AzSynapseWorkspaceWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

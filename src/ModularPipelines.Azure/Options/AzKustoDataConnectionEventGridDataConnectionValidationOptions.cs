@@ -65,4 +65,3 @@ public record AzKustoDataConnectionEventGridDataConnectionValidationOptions : Az
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

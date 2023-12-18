@@ -74,4 +74,3 @@ public record AzAmsLiveEventCreateOptions(
     [BooleanCommandSwitch("--use-static-hostname")]
     public bool? UseStaticHostname { get; set; }
 }
-

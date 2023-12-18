@@ -18,4 +18,3 @@ public record AzAmsJobListOptions(
     [CommandSwitch("--orderby")]
     public string? Orderby { get; set; }
 }
-

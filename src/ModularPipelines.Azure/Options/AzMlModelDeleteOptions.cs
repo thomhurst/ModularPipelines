@@ -25,4 +25,3 @@ public record AzMlModelDeleteOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

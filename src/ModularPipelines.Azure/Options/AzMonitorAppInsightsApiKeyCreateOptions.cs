@@ -18,4 +18,3 @@ public record AzMonitorAppInsightsApiKeyCreateOptions(
     [CommandSwitch("--write-properties")]
     public string? WriteProperties { get; set; }
 }
-

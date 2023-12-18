@@ -29,4 +29,3 @@ public record AzDatamigrationSqlManagedInstanceShowOptions : AzOptions
     [CommandSwitch("--target-db-name")]
     public string? TargetDbName { get; set; }
 }
-

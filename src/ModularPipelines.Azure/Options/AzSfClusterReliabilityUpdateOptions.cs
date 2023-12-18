@@ -15,4 +15,3 @@ public record AzSfClusterReliabilityUpdateOptions(
     [BooleanCommandSwitch("--auto-add-node")]
     public bool? AutoAddNode { get; set; }
 }
-

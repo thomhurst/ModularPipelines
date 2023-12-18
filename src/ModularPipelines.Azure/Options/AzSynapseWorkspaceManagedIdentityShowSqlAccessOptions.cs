@@ -20,4 +20,3 @@ public record AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

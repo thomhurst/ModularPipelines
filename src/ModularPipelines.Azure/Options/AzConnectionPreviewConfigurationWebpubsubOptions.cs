@@ -20,4 +20,3 @@ public record AzConnectionPreviewConfigurationWebpubsubOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

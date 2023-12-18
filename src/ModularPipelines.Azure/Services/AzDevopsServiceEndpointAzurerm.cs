@@ -22,4 +22,3 @@ public class AzDevopsServiceEndpointAzurerm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

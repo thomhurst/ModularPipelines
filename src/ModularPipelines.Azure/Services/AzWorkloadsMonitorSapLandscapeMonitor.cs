@@ -42,4 +42,3 @@ public class AzWorkloadsMonitorSapLandscapeMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorSapLandscapeMonitorUpdateOptions(), token);
     }
 }
-

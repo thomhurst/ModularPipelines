@@ -35,4 +35,3 @@ public record AzAmsAccountSpResetCredentialsOptions : AzOptions
     [CommandSwitch("--years")]
     public string? Years { get; set; }
 }
-

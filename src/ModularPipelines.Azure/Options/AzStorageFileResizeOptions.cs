@@ -39,4 +39,3 @@ public record AzStorageFileResizeOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

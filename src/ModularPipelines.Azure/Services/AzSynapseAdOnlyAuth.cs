@@ -32,4 +32,3 @@ public class AzSynapseAdOnlyAuth
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzIotHubIdentityAssignOptions : AzOptions
     [CommandSwitch("--user")]
     public string? User { get; set; }
 }
-

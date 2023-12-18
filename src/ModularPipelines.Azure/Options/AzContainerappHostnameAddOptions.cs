@@ -25,4 +25,3 @@ public record AzContainerappHostnameAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

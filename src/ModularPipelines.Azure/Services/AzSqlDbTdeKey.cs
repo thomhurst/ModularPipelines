@@ -27,4 +27,3 @@ public class AzSqlDbTdeKey
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeKeyRevertOptions(), token);
     }
 }
-

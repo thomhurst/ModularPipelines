@@ -44,4 +44,3 @@ public record AzDnsResolverInboundEndpointWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

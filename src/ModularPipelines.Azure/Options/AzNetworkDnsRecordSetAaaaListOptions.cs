@@ -17,4 +17,3 @@ public record AzNetworkDnsRecordSetAaaaListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

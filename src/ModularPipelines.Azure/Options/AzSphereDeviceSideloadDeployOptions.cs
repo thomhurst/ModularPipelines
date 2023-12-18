@@ -19,4 +19,3 @@ public record AzSphereDeviceSideloadDeployOptions(
     [BooleanCommandSwitch("--manual-start")]
     public bool? ManualStart { get; set; }
 }
-

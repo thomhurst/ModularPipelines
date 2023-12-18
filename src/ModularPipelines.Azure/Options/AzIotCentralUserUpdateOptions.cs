@@ -32,4 +32,3 @@ public record AzIotCentralUserUpdateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

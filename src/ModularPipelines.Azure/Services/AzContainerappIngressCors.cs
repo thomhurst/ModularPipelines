@@ -37,4 +37,3 @@ public class AzContainerappIngressCors
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsUpdateOptions(), token);
     }
 }
-

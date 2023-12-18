@@ -25,4 +25,3 @@ public record AzPostgresServerVnetRuleShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzCosmosdbListCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

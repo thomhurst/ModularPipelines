@@ -19,4 +19,3 @@ public record AzNetworkWatcherFlowLogShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

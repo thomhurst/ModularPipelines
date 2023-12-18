@@ -52,4 +52,3 @@ public class AzApicMetadataSchema
         return await _command.ExecuteCommandLineTool(options ?? new AzApicMetadataSchemaUpdateOptions(), token);
     }
 }
-

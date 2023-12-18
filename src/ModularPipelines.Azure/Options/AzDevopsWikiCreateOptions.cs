@@ -34,4 +34,3 @@ public record AzDevopsWikiCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

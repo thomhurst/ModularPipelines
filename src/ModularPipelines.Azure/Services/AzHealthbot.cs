@@ -46,4 +46,3 @@ public class AzHealthbot
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotWaitOptions(), token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzPipelinesReleaseDefinition
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseDefinitionShowOptions(), token);
     }
 }
-

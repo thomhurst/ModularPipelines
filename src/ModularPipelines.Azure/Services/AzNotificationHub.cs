@@ -63,4 +63,3 @@ public class AzNotificationHub
         return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubUpdateOptions(), token);
     }
 }
-

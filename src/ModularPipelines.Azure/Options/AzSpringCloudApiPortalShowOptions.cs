@@ -32,4 +32,3 @@ public record AzSpringCloudApiPortalShowOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

@@ -40,4 +40,3 @@ public record AzApimCheckNameOptions(
     [CommandSwitch("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }
-

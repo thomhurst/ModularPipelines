@@ -44,4 +44,3 @@ public record AzMonitorPrivateLinkScopePrivateEndpointConnectionRejectOptions : 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

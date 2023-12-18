@@ -88,4 +88,3 @@ public record AzSqlDbReplicaCreateOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

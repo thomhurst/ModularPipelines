@@ -41,4 +41,3 @@ public record AzQumuloStorageFileSystemWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

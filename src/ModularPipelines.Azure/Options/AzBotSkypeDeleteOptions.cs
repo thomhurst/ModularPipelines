@@ -14,4 +14,3 @@ public record AzBotSkypeDeleteOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzVmwarePrivateCloudListAdminCredentialsOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

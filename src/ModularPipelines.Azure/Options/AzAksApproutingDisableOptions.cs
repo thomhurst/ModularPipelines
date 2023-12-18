@@ -14,4 +14,3 @@ public record AzAksApproutingDisableOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

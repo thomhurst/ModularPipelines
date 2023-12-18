@@ -116,4 +116,3 @@ public record AzWebappAuthClassicUpdateOptions : AzOptions
     [CommandSwitch("--twitter-consumer-secret-setting-name")]
     public string? TwitterConsumerSecretSettingName { get; set; }
 }
-

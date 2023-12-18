@@ -23,4 +23,3 @@ public record AzMlWorkspacePrivateEndpointDeleteOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

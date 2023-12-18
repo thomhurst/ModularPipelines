@@ -38,4 +38,3 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

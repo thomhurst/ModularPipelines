@@ -27,4 +27,3 @@ public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

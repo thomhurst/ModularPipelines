@@ -52,4 +52,3 @@ public class AzDevcenterAdminPool
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminPoolWaitOptions(), token);
     }
 }
-

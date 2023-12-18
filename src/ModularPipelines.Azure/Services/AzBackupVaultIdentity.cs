@@ -32,4 +32,3 @@ public class AzBackupVaultIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityShowOptions(), token);
     }
 }
-

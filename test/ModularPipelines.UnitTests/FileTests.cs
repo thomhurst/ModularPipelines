@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.UnitTests.Attributes;

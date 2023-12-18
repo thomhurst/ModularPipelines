@@ -29,4 +29,3 @@ public record AzImageBuilderOutputVersioningSetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

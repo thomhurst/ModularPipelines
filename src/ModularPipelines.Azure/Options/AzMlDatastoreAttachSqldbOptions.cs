@@ -63,4 +63,3 @@ public record AzMlDatastoreAttachSqldbOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

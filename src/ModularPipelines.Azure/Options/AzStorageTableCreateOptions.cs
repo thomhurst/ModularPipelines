@@ -31,4 +31,3 @@ public record AzStorageTableCreateOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzApicApiRegisterOptions(
     [CommandSwitch("--environment-name")]
     public string? EnvironmentName { get; set; }
 }
-

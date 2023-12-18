@@ -32,4 +32,3 @@ public record AzBackupProtectionUndeleteOptions : AzOptions
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

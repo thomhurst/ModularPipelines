@@ -42,4 +42,3 @@ public class AzNetworkCrossRegionLbRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

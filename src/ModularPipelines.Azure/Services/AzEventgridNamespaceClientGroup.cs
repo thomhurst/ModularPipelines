@@ -47,4 +47,3 @@ public class AzEventgridNamespaceClientGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupWaitOptions(), token);
     }
 }
-

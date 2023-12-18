@@ -47,4 +47,3 @@ public class AzStorageMoverProject
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverProjectWaitOptions(), token);
     }
 }
-

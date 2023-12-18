@@ -20,4 +20,3 @@ public record AzVmAemDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzNetworkPrivateEndpointAsgRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzSecurityAlert
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

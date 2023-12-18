@@ -42,4 +42,3 @@ public class AzDevcenterAdminProjectEnvironmentType
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeUpdateOptions(), token);
     }
 }
-

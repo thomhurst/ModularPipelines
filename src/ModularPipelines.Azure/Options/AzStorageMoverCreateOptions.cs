@@ -20,4 +20,3 @@ public record AzStorageMoverCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

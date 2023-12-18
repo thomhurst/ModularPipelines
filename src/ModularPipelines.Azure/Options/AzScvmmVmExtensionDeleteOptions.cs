@@ -26,4 +26,3 @@ public record AzScvmmVmExtensionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

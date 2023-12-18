@@ -28,4 +28,3 @@ public record AzNetworkApplicationGatewayClientCertUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

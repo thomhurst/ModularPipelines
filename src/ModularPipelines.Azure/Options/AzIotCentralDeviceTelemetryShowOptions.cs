@@ -27,4 +27,3 @@ public record AzIotCentralDeviceTelemetryShowOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

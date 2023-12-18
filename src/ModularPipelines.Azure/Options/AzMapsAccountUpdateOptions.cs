@@ -40,4 +40,3 @@ public record AzMapsAccountUpdateOptions(
     [CommandSwitch("--user-identities")]
     public string? UserIdentities { get; set; }
 }
-

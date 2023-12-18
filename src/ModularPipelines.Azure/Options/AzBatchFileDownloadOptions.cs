@@ -29,4 +29,3 @@ public record AzBatchFileDownloadOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

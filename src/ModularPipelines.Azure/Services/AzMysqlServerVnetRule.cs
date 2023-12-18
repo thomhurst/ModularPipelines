@@ -42,4 +42,3 @@ public class AzMysqlServerVnetRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

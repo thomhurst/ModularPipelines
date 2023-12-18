@@ -17,4 +17,3 @@ public record AzCustomProvidersResourceProviderDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

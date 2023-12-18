@@ -44,4 +44,3 @@ public record AzNetworkCustomIpPrefixWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

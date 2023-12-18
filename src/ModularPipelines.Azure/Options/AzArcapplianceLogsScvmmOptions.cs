@@ -20,4 +20,3 @@ public record AzArcapplianceLogsScvmmOptions : AzOptions
     [CommandSwitch("--out-dir")]
     public string? OutDir { get; set; }
 }
-

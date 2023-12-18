@@ -14,4 +14,3 @@ public record AzSphereDeviceNetworkListInterfacesOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

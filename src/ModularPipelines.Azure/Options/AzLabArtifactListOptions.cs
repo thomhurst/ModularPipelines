@@ -24,4 +24,3 @@ public record AzLabArtifactListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

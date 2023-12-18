@@ -44,4 +44,3 @@ public record AzAzurestackhciNetworkinterfaceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

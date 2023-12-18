@@ -42,4 +42,3 @@ public class AzHdinsightAutoscaleCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

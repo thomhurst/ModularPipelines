@@ -39,4 +39,3 @@ public record AzNetworkLbFrontendIpCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

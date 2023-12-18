@@ -26,4 +26,3 @@ public record AzWorkloadsSapApplicationServerInstanceStartOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

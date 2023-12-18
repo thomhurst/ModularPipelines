@@ -29,4 +29,3 @@ public record AzConnectedk8sProxyOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

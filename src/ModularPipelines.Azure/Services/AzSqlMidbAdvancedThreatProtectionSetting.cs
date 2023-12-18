@@ -27,4 +27,3 @@ public class AzSqlMidbAdvancedThreatProtectionSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbAdvancedThreatProtectionSettingUpdateOptions(), token);
     }
 }
-

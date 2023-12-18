@@ -51,4 +51,3 @@ public class AzSiteRecoveryProtectionContainer
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerUpdateOptions(), token);
     }
 }
-

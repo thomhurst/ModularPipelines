@@ -41,4 +41,3 @@ public record AzDlsAccountUpdateOptions : AzOptions
     [CommandSwitch("--trusted-id-provider-state")]
     public string? TrustedIdProviderState { get; set; }
 }
-

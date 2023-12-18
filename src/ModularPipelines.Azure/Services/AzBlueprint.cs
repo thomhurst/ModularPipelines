@@ -72,4 +72,3 @@ public class AzBlueprint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

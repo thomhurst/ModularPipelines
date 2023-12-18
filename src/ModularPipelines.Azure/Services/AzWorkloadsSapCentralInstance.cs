@@ -47,4 +47,3 @@ public class AzWorkloadsSapCentralInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapCentralInstanceWaitOptions(), token);
     }
 }
-

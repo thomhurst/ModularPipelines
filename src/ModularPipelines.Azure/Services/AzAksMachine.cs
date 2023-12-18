@@ -27,4 +27,3 @@ public class AzAksMachine
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

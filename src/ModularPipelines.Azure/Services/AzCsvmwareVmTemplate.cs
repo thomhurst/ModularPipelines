@@ -27,4 +27,3 @@ public class AzCsvmwareVmTemplate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzOrbitalOperationResult
         return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalOperationResultShowOptions(), token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzAcrManifestMetadataListOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? RepoId { get; set; }
 }
-

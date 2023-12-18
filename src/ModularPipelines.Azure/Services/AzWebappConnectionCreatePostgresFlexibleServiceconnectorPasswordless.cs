@@ -22,4 +22,3 @@ public class AzWebappConnectionCreatePostgresFlexibleServiceconnectorPasswordles
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreatePostgresFlexibleServiceconnectorPasswordlessExtensionOptions(), token);
     }
 }
-

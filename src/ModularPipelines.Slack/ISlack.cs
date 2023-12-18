@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Slack.Options;
+using ModularPipelines.Slack.Options;
 
 namespace ModularPipelines.Slack;
 

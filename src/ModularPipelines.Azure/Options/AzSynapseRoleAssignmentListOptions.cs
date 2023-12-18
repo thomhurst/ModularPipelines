@@ -28,4 +28,3 @@ public record AzSynapseRoleAssignmentListOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

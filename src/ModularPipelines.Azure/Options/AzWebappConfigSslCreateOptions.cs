@@ -18,4 +18,3 @@ public record AzWebappConfigSslCreateOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

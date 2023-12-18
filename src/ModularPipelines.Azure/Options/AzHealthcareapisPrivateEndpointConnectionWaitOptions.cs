@@ -44,4 +44,3 @@ public record AzHealthcareapisPrivateEndpointConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

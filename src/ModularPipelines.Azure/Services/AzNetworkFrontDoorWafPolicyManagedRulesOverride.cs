@@ -32,4 +32,3 @@ public class AzNetworkFrontDoorWafPolicyManagedRulesOverride
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

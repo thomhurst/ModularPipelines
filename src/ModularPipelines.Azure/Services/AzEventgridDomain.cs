@@ -82,4 +82,3 @@ public class AzEventgridDomain
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainUpdateOptions(), token);
     }
 }
-

@@ -19,4 +19,3 @@ public record AzEventgridPartnerConfigurationUnauthorizeOptions(
     [CommandSwitch("--partner-registration-immutable-id")]
     public string? PartnerRegistrationImmutableId { get; set; }
 }
-

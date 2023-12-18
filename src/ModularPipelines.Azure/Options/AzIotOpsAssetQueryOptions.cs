@@ -59,4 +59,3 @@ public record AzIotOpsAssetQueryOptions(
     [CommandSwitch("--software-revision")]
     public string? SoftwareRevision { get; set; }
 }
-

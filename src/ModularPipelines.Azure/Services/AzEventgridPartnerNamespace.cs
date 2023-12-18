@@ -65,4 +65,3 @@ public class AzEventgridPartnerNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceShowOptions(), token);
     }
 }
-

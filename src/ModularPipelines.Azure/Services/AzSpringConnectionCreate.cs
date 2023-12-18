@@ -132,4 +132,3 @@ public class AzSpringConnectionCreate
         return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionCreateWebpubsubOptions(), token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzNetworkFrontDoorWafPolicyManagedRulesOverrideListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -43,4 +43,3 @@ public record AzAroValidateOptions(
     [CommandSwitch("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
 }
-

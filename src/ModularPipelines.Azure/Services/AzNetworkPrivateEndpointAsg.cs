@@ -37,4 +37,3 @@ public class AzNetworkPrivateEndpointAsg
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointAsgWaitOptions(), token);
     }
 }
-

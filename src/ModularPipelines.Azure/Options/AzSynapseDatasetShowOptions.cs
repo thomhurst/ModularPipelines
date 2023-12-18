@@ -14,4 +14,3 @@ public record AzSynapseDatasetShowOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

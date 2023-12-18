@@ -32,4 +32,3 @@ public class AzImageBuilderCustomizer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

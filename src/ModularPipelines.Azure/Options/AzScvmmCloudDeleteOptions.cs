@@ -29,4 +29,3 @@ public record AzScvmmCloudDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

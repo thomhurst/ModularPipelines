@@ -16,4 +16,3 @@ public record AzAccountListOptions(
     [BooleanCommandSwitch("--refresh")]
     public bool? Refresh { get; set; }
 }
-

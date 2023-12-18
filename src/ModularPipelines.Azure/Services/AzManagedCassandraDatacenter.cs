@@ -62,4 +62,3 @@ public class AzManagedCassandraDatacenter
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -28,4 +28,3 @@ public record AzDtJobImportCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

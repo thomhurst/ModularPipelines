@@ -17,4 +17,3 @@ public class AzAksMaintenanceconfigurationDelete
 
     public AzAksMaintenanceconfigurationDeleteAksPreview AksPreview { get; }
 }
-

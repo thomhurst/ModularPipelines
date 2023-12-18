@@ -17,4 +17,3 @@ public record AzIotCentralDeviceEdgeModuleListOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

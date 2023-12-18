@@ -31,4 +31,3 @@ public record AzNetappfilesVolumeBreakFileLocksOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

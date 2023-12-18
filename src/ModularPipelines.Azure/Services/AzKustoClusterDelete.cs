@@ -17,4 +17,3 @@ public class AzKustoClusterDelete
 
     public AzKustoClusterDeleteKusto Kusto { get; }
 }
-

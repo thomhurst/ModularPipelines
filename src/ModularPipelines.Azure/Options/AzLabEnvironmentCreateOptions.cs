@@ -22,4 +22,3 @@ public record AzLabEnvironmentCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

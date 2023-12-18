@@ -93,4 +93,3 @@ public class AzStorageShare
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

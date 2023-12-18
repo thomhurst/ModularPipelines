@@ -32,4 +32,3 @@ public record AzHdinsightWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

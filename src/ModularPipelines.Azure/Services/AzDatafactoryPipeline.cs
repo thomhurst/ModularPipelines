@@ -47,4 +47,3 @@ public class AzDatafactoryPipeline
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineUpdateOptions(), token);
     }
 }
-

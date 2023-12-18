@@ -28,4 +28,3 @@ public record AzBicepGenerateParamsOptions(
     [CommandSwitch("--stdout")]
     public string? Stdout { get; set; }
 }
-

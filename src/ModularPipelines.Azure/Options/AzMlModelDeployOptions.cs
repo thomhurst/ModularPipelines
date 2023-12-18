@@ -217,4 +217,3 @@ public record AzMlModelDeployOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

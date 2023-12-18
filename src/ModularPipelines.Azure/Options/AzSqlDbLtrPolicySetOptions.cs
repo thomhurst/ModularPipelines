@@ -35,4 +35,3 @@ public record AzSqlDbLtrPolicySetOptions : AzOptions
     [CommandSwitch("--yearly-retention")]
     public string? YearlyRetention { get; set; }
 }
-

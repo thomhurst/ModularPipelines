@@ -23,4 +23,3 @@ public record AzNetworkRouteTableDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzGrafanaNotificationChannelTestOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

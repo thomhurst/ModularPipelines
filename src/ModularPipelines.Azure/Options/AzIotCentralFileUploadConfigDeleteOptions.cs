@@ -19,4 +19,3 @@ public record AzIotCentralFileUploadConfigDeleteOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzAcrConfigSoftDeleteUpdateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

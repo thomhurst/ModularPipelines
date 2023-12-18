@@ -17,4 +17,3 @@ public record AzBlockchainTransactionNodeListOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

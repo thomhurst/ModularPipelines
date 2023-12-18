@@ -41,4 +41,3 @@ public record AzNetworkDnsDnssecConfigWaitOptions : AzOptions
     [CommandSwitch("--zone-name")]
     public string? ZoneName { get; set; }
 }
-

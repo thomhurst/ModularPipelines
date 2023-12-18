@@ -18,4 +18,3 @@ public record AzAksNodepoolScaleOptions(
     [CommandSwitch("--node-count")]
     public int? NodeCount { get; set; }
 }
-

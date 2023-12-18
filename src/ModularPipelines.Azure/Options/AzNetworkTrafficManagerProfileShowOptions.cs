@@ -20,4 +20,3 @@ public record AzNetworkTrafficManagerProfileShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzDmsProjectTaskCheckNameOptions(
     [CommandSwitch("--task-type")]
     public string? TaskType { get; set; }
 }
-

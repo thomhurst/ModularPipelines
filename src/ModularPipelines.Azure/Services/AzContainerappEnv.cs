@@ -67,4 +67,3 @@ public class AzContainerappEnv
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvUpdateOptions(), token);
     }
 }
-

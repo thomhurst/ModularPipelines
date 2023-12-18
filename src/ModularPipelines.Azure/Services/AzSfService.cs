@@ -37,4 +37,3 @@ public class AzSfService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

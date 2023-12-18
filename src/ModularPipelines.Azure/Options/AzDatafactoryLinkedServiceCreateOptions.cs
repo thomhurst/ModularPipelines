@@ -16,4 +16,3 @@ public record AzDatafactoryLinkedServiceCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

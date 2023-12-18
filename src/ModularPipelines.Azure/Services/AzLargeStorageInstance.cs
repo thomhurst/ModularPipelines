@@ -31,4 +31,3 @@ public class AzLargeStorageInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzLargeStorageInstanceUpdateOptions(), token);
     }
 }
-

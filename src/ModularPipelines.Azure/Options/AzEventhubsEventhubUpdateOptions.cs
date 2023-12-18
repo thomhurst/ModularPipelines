@@ -80,4 +80,3 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     [CommandSwitch("--tombstone-retention-time-in-hours")]
     public string? TombstoneRetentionTimeInHours { get; set; }
 }
-

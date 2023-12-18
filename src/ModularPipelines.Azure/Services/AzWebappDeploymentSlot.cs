@@ -42,4 +42,3 @@ public class AzWebappDeploymentSlot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzBoardsWorkItemRelationAddOptions(
     [CommandSwitch("--target-url")]
     public string? TargetUrl { get; set; }
 }
-

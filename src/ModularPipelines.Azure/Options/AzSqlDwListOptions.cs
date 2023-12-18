@@ -20,4 +20,3 @@ public record AzSqlDwListOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

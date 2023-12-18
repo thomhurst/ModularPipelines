@@ -42,4 +42,3 @@ public class AzPostgresServerAdAdmin
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminWaitOptions(), token);
     }
 }
-

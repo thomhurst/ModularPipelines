@@ -27,4 +27,3 @@ public record AzContainerappEnvDaprComponentResiliencyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

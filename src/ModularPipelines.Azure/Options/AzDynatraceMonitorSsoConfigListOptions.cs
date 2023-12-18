@@ -20,4 +20,3 @@ public record AzDynatraceMonitorSsoConfigListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

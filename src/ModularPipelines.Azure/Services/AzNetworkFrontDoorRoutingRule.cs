@@ -42,4 +42,3 @@ public class AzNetworkFrontDoorRoutingRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

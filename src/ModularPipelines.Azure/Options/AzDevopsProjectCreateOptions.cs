@@ -31,4 +31,3 @@ public record AzDevopsProjectCreateOptions(
     [CommandSwitch("--visibility")]
     public string? Visibility { get; set; }
 }
-

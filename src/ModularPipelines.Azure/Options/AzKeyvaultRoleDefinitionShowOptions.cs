@@ -16,4 +16,3 @@ public record AzKeyvaultRoleDefinitionShowOptions(
     [CommandSwitch("--role-id")]
     public string? RoleId { get; set; }
 }
-

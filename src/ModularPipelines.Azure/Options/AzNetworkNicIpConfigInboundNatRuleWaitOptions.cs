@@ -41,4 +41,3 @@ public record AzNetworkNicIpConfigInboundNatRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

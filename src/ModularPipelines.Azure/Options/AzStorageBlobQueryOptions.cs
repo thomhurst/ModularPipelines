@@ -103,4 +103,3 @@ public record AzStorageBlobQueryOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

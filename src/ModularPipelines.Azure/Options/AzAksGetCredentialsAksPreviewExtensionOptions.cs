@@ -35,4 +35,3 @@ public record AzAksGetCredentialsAksPreviewExtensionOptions(
     [CommandSwitch("--user")]
     public string? User { get; set; }
 }
-

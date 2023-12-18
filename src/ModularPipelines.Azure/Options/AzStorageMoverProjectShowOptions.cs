@@ -23,4 +23,3 @@ public record AzStorageMoverProjectShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

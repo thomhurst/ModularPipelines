@@ -22,4 +22,3 @@ public record AzDataprotectionBackupPolicyCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

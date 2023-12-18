@@ -40,4 +40,3 @@ public class AzManagedapp
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedappShowOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public record AzStackHciClusterUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

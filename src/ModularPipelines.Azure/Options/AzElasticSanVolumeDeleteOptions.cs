@@ -33,4 +33,3 @@ public record AzElasticSanVolumeDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

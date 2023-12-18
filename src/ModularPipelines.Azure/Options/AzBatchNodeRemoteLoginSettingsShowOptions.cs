@@ -20,4 +20,3 @@ public record AzBatchNodeRemoteLoginSettingsShowOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

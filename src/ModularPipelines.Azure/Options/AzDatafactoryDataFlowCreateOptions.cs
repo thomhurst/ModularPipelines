@@ -17,4 +17,3 @@ public record AzDatafactoryDataFlowCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

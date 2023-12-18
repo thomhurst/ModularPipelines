@@ -42,4 +42,3 @@ public class AzDatashareTrigger
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareTriggerWaitOptions(), token);
     }
 }
-

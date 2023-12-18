@@ -20,4 +20,3 @@ public record AzSigShareResetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

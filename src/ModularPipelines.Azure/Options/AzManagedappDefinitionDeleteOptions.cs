@@ -19,4 +19,3 @@ public record AzManagedappDefinitionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

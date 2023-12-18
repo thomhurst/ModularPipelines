@@ -41,4 +41,3 @@ public record AzDeploymentMgWhatIfOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

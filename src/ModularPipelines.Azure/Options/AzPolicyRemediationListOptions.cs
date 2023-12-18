@@ -28,4 +28,3 @@ public record AzPolicyRemediationListOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

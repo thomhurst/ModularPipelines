@@ -13,4 +13,3 @@ public record AzProviderUnregisterOptions(
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 }
-

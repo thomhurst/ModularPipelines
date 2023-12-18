@@ -131,4 +131,3 @@ public record AzNetworkApplicationGatewayCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

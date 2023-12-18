@@ -32,4 +32,3 @@ public class AzNetworkVhubRouteTableRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

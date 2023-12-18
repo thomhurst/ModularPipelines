@@ -14,4 +14,3 @@ public record AzReservationsExchangeOptions : AzOptions
     [CommandSwitch("--session-id")]
     public string? SessionId { get; set; }
 }
-

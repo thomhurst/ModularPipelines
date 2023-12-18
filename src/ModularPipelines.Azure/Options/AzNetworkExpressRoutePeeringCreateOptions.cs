@@ -50,4 +50,3 @@ public record AzNetworkExpressRoutePeeringCreateOptions(
     [CommandSwitch("--vlan-id")]
     public string? VlanId { get; set; }
 }
-

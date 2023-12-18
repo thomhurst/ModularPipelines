@@ -35,4 +35,3 @@ public record AzGrafanaDataSourceQueryOptions(
     [CommandSwitch("--to")]
     public string? To { get; set; }
 }
-

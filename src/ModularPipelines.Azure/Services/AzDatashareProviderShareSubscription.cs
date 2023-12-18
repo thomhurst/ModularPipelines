@@ -47,4 +47,3 @@ public class AzDatashareProviderShareSubscription
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareProviderShareSubscriptionWaitOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzIotCentralJobStopOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

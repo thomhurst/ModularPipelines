@@ -17,4 +17,3 @@ public class AzStorageDirectoryExists
 
     public AzStorageDirectoryExistsStoragePreview StoragePreview { get; }
 }
-

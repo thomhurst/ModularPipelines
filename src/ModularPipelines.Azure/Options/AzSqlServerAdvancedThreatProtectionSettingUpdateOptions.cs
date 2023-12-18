@@ -38,4 +38,3 @@ public record AzSqlServerAdvancedThreatProtectionSettingUpdateOptions : AzOption
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

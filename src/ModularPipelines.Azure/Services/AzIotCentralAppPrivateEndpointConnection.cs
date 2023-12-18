@@ -42,4 +42,3 @@ public class AzIotCentralAppPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

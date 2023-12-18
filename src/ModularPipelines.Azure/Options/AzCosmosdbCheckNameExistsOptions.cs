@@ -17,4 +17,3 @@ public record AzCosmosdbCheckNameExistsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

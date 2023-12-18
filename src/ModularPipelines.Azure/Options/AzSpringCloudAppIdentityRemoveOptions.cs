@@ -18,4 +18,3 @@ public record AzSpringCloudAppIdentityRemoveOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

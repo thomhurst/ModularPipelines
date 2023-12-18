@@ -17,4 +17,3 @@ public class AzCosmosdbMongodbUser
 
     public AzCosmosdbMongodbUserDefinition Definition { get; }
 }
-

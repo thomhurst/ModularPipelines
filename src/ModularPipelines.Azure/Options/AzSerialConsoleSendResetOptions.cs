@@ -14,4 +14,3 @@ public record AzSerialConsoleSendResetOptions(
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
 }
-

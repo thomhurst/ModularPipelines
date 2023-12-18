@@ -17,4 +17,3 @@ public record AzAcrScopeMapDeleteOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

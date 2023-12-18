@@ -32,4 +32,3 @@ public record AzMlDatasetShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

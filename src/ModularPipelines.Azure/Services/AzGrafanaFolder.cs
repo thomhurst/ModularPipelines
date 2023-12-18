@@ -42,4 +42,3 @@ public class AzGrafanaFolder
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

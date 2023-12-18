@@ -16,4 +16,3 @@ public class AzPowerbi
 
     public AzPowerbiEmbeddedCapacity EmbeddedCapacity { get; }
 }
-

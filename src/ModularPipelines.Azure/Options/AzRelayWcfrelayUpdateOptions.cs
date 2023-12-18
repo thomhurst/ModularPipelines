@@ -44,4 +44,3 @@ public record AzRelayWcfrelayUpdateOptions : AzOptions
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }
 }
-

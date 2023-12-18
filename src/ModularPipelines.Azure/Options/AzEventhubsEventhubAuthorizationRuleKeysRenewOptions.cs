@@ -31,4 +31,3 @@ public record AzEventhubsEventhubAuthorizationRuleKeysRenewOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

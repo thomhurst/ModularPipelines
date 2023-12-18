@@ -25,4 +25,3 @@ public record AzStorageAccountBlobInventoryPolicyUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

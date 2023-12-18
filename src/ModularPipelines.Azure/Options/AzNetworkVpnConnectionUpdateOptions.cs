@@ -53,4 +53,3 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     [BooleanCommandSwitch("--use-policy-based-traffic-selectors")]
     public bool? UsePolicyBasedTrafficSelectors { get; set; }
 }
-

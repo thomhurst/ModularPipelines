@@ -17,4 +17,3 @@ public record AzMonitorLogAnalyticsQueryOptions(
     [CommandSwitch("--workspaces")]
     public string? Workspaces { get; set; }
 }
-

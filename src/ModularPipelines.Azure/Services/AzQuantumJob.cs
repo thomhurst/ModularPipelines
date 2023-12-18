@@ -47,4 +47,3 @@ public class AzQuantumJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

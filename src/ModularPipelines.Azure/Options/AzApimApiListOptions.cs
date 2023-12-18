@@ -20,4 +20,3 @@ public record AzApimApiListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

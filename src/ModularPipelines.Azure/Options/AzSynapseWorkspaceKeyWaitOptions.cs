@@ -43,4 +43,3 @@ public record AzSynapseWorkspaceKeyWaitOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

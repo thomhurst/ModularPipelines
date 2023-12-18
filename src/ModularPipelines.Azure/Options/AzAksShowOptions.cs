@@ -14,4 +14,3 @@ public record AzAksShowOptions(
     [CommandSwitch("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 }
-

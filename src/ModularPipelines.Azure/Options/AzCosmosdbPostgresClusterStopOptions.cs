@@ -23,4 +23,3 @@ public record AzCosmosdbPostgresClusterStopOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

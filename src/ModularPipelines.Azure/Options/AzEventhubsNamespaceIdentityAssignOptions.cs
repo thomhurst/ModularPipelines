@@ -17,4 +17,3 @@ public record AzEventhubsNamespaceIdentityAssignOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzEventgridTopicPrivateEndpointConnectionListOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzSecurityIotSolutionShowOptions(
     [CommandSwitch("--iot-hubs")]
     public string? IotHubs { get; set; }
 }
-

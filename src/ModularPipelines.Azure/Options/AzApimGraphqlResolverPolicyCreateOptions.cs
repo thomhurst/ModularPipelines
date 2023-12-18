@@ -17,4 +17,3 @@ public record AzApimGraphqlResolverPolicyCreateOptions(
     [CommandSwitch("--policy-format")]
     public string? PolicyFormat { get; set; }
 }
-

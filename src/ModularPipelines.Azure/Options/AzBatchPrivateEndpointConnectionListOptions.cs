@@ -14,4 +14,3 @@ public record AzBatchPrivateEndpointConnectionListOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

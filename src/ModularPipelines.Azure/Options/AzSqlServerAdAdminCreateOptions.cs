@@ -19,4 +19,3 @@ public record AzSqlServerAdAdminCreateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -81,4 +81,3 @@ public record AzNetworkFrontDoorRoutingRuleShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

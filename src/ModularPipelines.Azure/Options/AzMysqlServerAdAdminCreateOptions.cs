@@ -20,4 +20,3 @@ public record AzMysqlServerAdAdminCreateOptions(
     [CommandSwitch("--object-id")]
     public string? ObjectId { get; set; }
 }
-

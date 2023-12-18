@@ -20,4 +20,3 @@ public record AzAksBrowseOptions(
     [CommandSwitch("--listen-port")]
     public string? ListenPort { get; set; }
 }
-

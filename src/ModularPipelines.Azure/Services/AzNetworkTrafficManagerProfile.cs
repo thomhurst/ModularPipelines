@@ -47,4 +47,3 @@ public class AzNetworkTrafficManagerProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerProfileUpdateOptions(), token);
     }
 }
-

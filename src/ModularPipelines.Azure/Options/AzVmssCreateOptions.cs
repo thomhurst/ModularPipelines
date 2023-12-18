@@ -350,4 +350,3 @@ public record AzVmssCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

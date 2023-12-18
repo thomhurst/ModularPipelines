@@ -14,4 +14,3 @@ public record AzAksCommandResultOptions(
     [CommandSwitch("--command-id")]
     public string? CommandId { get; set; }
 }
-

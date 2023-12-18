@@ -38,4 +38,3 @@ public record AzStorageMoverUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

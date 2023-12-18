@@ -17,4 +17,3 @@ public class AzAksGetCredentials
 
     public AzAksGetCredentialsAksPreview AksPreview { get; }
 }
-

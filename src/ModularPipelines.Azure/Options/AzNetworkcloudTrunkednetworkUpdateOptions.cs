@@ -23,4 +23,3 @@ public record AzNetworkcloudTrunkednetworkUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

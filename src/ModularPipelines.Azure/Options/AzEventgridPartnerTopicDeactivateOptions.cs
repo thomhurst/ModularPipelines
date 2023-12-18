@@ -20,4 +20,3 @@ public record AzEventgridPartnerTopicDeactivateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

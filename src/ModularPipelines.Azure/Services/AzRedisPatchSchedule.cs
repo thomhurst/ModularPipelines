@@ -37,4 +37,3 @@ public class AzRedisPatchSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

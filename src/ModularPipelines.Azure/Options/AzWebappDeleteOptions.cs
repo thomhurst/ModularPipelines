@@ -29,4 +29,3 @@ public record AzWebappDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

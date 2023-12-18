@@ -23,4 +23,3 @@ public record AzVmwareClusterListZonesOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

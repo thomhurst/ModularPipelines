@@ -66,4 +66,3 @@ public record AzNetworkApplicationGatewayHttpSettingsShowOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

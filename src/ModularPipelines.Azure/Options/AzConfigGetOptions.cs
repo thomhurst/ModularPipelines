@@ -14,4 +14,3 @@ public record AzConfigGetOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? KEY { get; set; }
 }
-

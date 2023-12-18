@@ -52,4 +52,3 @@ public class AzArcdataDcConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcConfigShowOptions(), token);
     }
 }
-

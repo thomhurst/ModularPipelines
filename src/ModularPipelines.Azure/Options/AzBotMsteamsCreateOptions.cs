@@ -23,4 +23,3 @@ public record AzBotMsteamsCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

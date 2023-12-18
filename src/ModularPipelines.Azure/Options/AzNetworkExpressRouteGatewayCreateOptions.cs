@@ -29,4 +29,3 @@ public record AzNetworkExpressRouteGatewayCreateOptions(
     [CommandSwitch("--virtual-hub")]
     public string? VirtualHub { get; set; }
 }
-

@@ -38,4 +38,3 @@ public record AzMaintenanceApplyupdateCreateOrUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

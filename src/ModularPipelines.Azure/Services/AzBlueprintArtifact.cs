@@ -44,4 +44,3 @@ public class AzBlueprintArtifact
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

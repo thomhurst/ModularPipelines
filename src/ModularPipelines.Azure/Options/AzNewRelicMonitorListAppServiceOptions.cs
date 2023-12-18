@@ -15,4 +15,3 @@ public record AzNewRelicMonitorListAppServiceOptions(
     [CommandSwitch("--azure-resource-ids")]
     public string? AzureResourceIds { get; set; }
 }
-

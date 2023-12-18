@@ -13,4 +13,3 @@ public record AzProviderShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

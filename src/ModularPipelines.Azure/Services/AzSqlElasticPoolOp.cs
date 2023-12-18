@@ -27,4 +27,3 @@ public class AzSqlElasticPoolOp
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolOpListOptions(), token);
     }
 }
-

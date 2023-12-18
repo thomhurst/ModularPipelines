@@ -17,4 +17,3 @@ public record AzConnectionPreviewConfigurationMysqlFlexibleOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

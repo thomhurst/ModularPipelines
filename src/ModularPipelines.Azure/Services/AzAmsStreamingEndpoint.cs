@@ -71,4 +71,3 @@ public class AzAmsStreamingEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointWaitOptions(), token);
     }
 }
-

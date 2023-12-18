@@ -69,4 +69,3 @@ public record AzLabVmCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

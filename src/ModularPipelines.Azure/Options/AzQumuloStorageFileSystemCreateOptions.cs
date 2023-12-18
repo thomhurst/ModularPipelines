@@ -35,4 +35,3 @@ public record AzQumuloStorageFileSystemCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

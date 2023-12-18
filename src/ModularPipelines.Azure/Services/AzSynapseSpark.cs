@@ -29,4 +29,3 @@ public class AzSynapseSpark
 
     public AzSynapseSparkStatement Statement { get; }
 }
-

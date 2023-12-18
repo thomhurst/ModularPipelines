@@ -47,4 +47,3 @@ public class AzDiskPoolIscsiTarget
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetWaitOptions(), token);
     }
 }
-

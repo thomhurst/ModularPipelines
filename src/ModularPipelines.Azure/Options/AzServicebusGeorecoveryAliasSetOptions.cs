@@ -29,4 +29,3 @@ public record AzServicebusGeorecoveryAliasSetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

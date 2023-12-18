@@ -20,4 +20,3 @@ public record AzSpringApmListEnabledGloballyOptions(
     [CommandSwitch("--secrets")]
     public string? Secrets { get; set; }
 }
-

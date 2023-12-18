@@ -69,4 +69,3 @@ public class AzNetworkVpnConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionWaitOptions(), token);
     }
 }
-

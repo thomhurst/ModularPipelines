@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayRedirectConfigListOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

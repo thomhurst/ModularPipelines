@@ -52,4 +52,3 @@ public record AzAmsTransformOutputAddOptions(
     [CommandSwitch("--video-analysis-mode")]
     public string? VideoAnalysisMode { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzSqlMiLink
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkUpdateOptions(), token);
     }
 }
-

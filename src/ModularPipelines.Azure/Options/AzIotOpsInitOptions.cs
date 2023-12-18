@@ -134,4 +134,3 @@ public record AzIotOpsInitOptions(
     [CommandSwitch("--target")]
     public string? Target { get; set; }
 }
-

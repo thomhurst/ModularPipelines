@@ -35,4 +35,3 @@ public record AzStorageMetricsUpdateOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

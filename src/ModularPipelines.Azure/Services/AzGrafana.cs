@@ -79,4 +79,3 @@ public class AzGrafana
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

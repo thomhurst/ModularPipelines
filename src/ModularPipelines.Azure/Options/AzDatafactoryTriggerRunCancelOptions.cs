@@ -29,4 +29,3 @@ public record AzDatafactoryTriggerRunCancelOptions(
     [CommandSwitch("--trigger-name")]
     public string? TriggerName { get; set; }
 }
-

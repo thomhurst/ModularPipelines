@@ -27,4 +27,3 @@ public class AzConnectedmachinePrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkResourceShowOptions(), token);
     }
 }
-

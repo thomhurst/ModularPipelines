@@ -47,4 +47,3 @@ public class AzNetworkWatcherFlowLog
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogWaitOptions(), token);
     }
 }
-

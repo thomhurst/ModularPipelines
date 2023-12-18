@@ -16,4 +16,3 @@ public class AzPaloAlto
 
     public AzPaloAltoCloudngfw Cloudngfw { get; }
 }
-

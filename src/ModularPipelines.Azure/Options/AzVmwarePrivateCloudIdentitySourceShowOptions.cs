@@ -54,4 +54,3 @@ public record AzVmwarePrivateCloudIdentitySourceShowOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

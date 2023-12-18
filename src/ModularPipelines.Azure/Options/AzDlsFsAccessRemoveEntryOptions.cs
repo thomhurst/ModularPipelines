@@ -20,4 +20,3 @@ public record AzDlsFsAccessRemoveEntryOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

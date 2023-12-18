@@ -32,4 +32,3 @@ public record AzKeyvaultSecretRestoreOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

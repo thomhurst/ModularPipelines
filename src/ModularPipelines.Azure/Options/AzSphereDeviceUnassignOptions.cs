@@ -16,4 +16,3 @@ public record AzSphereDeviceUnassignOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

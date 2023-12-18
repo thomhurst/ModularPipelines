@@ -107,4 +107,3 @@ public record AzAcrTaskCreateOptions(
     [CommandSwitch("--values")]
     public string? Values { get; set; }
 }
-

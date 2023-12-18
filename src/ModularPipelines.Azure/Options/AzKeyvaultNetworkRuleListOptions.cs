@@ -13,4 +13,3 @@ public record AzKeyvaultNetworkRuleListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

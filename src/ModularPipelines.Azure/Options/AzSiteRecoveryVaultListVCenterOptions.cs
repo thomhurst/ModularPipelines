@@ -17,4 +17,3 @@ public record AzSiteRecoveryVaultListVCenterOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

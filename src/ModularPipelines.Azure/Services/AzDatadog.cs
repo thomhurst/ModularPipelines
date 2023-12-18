@@ -28,4 +28,3 @@ public class AzDatadog
 
     public AzDatadogTerms Terms { get; }
 }
-

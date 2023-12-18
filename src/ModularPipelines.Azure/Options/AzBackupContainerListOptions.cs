@@ -15,4 +15,3 @@ public record AzBackupContainerListOptions(
     [CommandSwitch("--use-secondary-region")]
     public string? UseSecondaryRegion { get; set; }
 }
-

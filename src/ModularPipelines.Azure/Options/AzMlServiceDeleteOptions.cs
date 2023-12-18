@@ -25,4 +25,3 @@ public record AzMlServiceDeleteOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

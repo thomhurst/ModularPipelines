@@ -22,4 +22,3 @@ public class AzCosmosdbMongodbRestorableCollectionListCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

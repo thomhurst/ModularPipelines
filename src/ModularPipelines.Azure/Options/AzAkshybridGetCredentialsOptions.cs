@@ -23,4 +23,3 @@ public record AzAkshybridGetCredentialsOptions(
     [BooleanCommandSwitch("--overwrite-existing")]
     public bool? OverwriteExisting { get; set; }
 }
-

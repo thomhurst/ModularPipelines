@@ -18,4 +18,3 @@ public record AzSearchSharedPrivateLinkResourceUpdateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

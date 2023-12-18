@@ -47,4 +47,3 @@ public class AzMonitorLogAnalyticsQueryPackQuery
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryUpdateOptions(), token);
     }
 }
-

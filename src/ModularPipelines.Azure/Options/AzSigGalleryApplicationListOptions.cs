@@ -20,4 +20,3 @@ public record AzSigGalleryApplicationListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

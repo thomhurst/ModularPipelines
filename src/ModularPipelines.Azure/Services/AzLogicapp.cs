@@ -69,4 +69,3 @@ public class AzLogicapp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

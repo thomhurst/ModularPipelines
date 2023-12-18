@@ -51,4 +51,3 @@ public class AzSigGalleryApplication
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

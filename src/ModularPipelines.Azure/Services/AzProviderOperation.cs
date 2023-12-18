@@ -27,4 +27,3 @@ public class AzProviderOperation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public class AzVmAem
         return await _command.ExecuteCommandLineTool(options ?? new AzVmAemVerifyOptions(), token);
     }
 }
-

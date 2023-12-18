@@ -41,4 +41,3 @@ public record AzAppservicePlanCreateAppserviceKubeExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

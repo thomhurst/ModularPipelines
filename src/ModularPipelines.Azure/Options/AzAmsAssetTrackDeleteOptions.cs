@@ -23,4 +23,3 @@ public record AzAmsAssetTrackDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

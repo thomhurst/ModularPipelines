@@ -62,4 +62,3 @@ public record AzContainerappConnectionCreateEventhubOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

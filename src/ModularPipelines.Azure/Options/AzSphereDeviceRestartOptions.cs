@@ -14,4 +14,3 @@ public record AzSphereDeviceRestartOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

@@ -104,4 +104,3 @@ public class AzDatafactoryIntegrationRuntime
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeWaitOptions(), token);
     }
 }
-

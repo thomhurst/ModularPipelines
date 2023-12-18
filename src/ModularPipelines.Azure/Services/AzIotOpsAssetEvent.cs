@@ -32,4 +32,3 @@ public class AzIotOpsAssetEvent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

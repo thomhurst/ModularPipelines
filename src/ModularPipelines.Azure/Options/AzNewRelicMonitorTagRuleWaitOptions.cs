@@ -44,4 +44,3 @@ public record AzNewRelicMonitorTagRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

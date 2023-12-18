@@ -22,4 +22,3 @@ public class AzAppserviceHybridConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

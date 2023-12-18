@@ -26,4 +26,3 @@ public record AzConnectedmachinePrivateLinkScopeDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

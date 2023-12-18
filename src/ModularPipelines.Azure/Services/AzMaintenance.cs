@@ -32,4 +32,3 @@ public class AzMaintenance
 
     public AzMaintenanceUpdate Update { get; }
 }
-

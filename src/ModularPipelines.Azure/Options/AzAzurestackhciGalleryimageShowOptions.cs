@@ -20,4 +20,3 @@ public record AzAzurestackhciGalleryimageShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

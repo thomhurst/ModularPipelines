@@ -46,4 +46,3 @@ public class AzLargeInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceUpdateOptions(), token);
     }
 }
-

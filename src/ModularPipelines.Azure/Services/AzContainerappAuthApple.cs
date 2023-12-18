@@ -27,4 +27,3 @@ public class AzContainerappAuthApple
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthAppleUpdateOptions(), token);
     }
 }
-

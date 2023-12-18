@@ -22,4 +22,3 @@ public class AzCosmosdbMongodbRoleDefinitionCreateCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

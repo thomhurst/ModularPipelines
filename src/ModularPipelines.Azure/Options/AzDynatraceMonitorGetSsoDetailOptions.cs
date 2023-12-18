@@ -14,4 +14,3 @@ public record AzDynatraceMonitorGetSsoDetailOptions(
     [CommandSwitch("--user-principal")]
     public string? UserPrincipal { get; set; }
 }
-

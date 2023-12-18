@@ -14,4 +14,3 @@ public record AzConnectedvmwareVmExtensionListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

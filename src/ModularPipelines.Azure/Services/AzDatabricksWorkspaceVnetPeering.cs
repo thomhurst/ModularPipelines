@@ -47,4 +47,3 @@ public class AzDatabricksWorkspaceVnetPeering
         return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringWaitOptions(), token);
     }
 }
-

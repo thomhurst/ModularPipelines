@@ -57,4 +57,3 @@ public class AzLabVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

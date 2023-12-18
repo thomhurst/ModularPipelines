@@ -44,4 +44,3 @@ public record AzCosmosdbSqlContainerCreateCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--unique-key-policy")]
     public string? UniqueKeyPolicy { get; set; }
 }
-

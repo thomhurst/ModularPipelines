@@ -110,4 +110,3 @@ public record AzContainerappJobCreateOptions(
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzRelayNamespaceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

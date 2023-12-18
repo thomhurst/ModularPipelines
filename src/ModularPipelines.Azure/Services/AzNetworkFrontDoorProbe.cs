@@ -42,4 +42,3 @@ public class AzNetworkFrontDoorProbe
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

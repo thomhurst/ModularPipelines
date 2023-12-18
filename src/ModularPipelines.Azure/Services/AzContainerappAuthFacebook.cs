@@ -27,4 +27,3 @@ public class AzContainerappAuthFacebook
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthFacebookUpdateOptions(), token);
     }
 }
-

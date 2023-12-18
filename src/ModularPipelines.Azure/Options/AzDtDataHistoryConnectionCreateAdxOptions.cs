@@ -57,4 +57,3 @@ public record AzDtDataHistoryConnectionCreateAdxOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

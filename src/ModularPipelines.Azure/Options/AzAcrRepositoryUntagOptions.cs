@@ -20,4 +20,3 @@ public record AzAcrRepositoryUntagOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

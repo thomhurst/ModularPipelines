@@ -14,4 +14,3 @@ public record AzBillingBenefitsSavingsPlanOrderSavingsPlanValidateUpdateOptions(
     [CommandSwitch("--benefits")]
     public string? Benefits { get; set; }
 }
-

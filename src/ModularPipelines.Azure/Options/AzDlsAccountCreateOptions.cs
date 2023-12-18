@@ -40,4 +40,3 @@ public record AzDlsAccountCreateOptions(
     [CommandSwitch("--tier")]
     public string? Tier { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzDevcenterAdminNetworkConnectionShowHealthCheckOptions : AzOption
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

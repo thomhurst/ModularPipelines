@@ -25,4 +25,3 @@ public record AzDtIdentityAssignOptions(
     [CommandSwitch("--scopes")]
     public string? Scopes { get; set; }
 }
-

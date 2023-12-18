@@ -34,4 +34,3 @@ public record AzBatchTaskFileDownloadOptions(
     [CommandSwitch("--start-range")]
     public string? StartRange { get; set; }
 }
-

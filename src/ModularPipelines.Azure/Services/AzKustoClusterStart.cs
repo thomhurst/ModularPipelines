@@ -17,4 +17,3 @@ public class AzKustoClusterStart
 
     public AzKustoClusterStartKusto Kusto { get; }
 }
-

@@ -19,4 +19,3 @@ public record AzCommunicationChatMessageListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

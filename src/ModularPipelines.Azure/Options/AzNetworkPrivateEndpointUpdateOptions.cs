@@ -41,4 +41,3 @@ public record AzNetworkPrivateEndpointUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

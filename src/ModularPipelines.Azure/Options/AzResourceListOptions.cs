@@ -29,4 +29,3 @@ public record AzResourceListOptions(
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzNetworkcloudRackskuListOptions : AzOptions
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

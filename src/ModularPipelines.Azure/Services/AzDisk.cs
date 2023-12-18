@@ -56,4 +56,3 @@ public class AzDisk
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskWaitOptions(), token);
     }
 }
-

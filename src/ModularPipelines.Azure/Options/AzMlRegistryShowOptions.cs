@@ -38,4 +38,3 @@ public record AzMlRegistryShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

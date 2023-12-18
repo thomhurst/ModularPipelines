@@ -20,4 +20,3 @@ public record AzConnectedvmwareVmTemplateShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzPaloAltoCloudngfwFirewallUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

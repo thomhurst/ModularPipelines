@@ -29,4 +29,3 @@ public record AzNetworkExpressRouteListArpTablesOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

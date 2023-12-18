@@ -22,4 +22,3 @@ public class AzAfdLogAnalyticMetric
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

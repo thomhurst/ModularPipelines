@@ -21,4 +21,3 @@ public class AzScenario
         return await _command.ExecuteCommandLineTool(options ?? new AzScenarioGuideOptions(), token);
     }
 }
-

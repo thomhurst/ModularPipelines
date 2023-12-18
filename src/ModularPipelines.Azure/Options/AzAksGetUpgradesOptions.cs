@@ -29,4 +29,3 @@ public record AzAksGetUpgradesOptions(
     [CommandSwitch("--kubelogin-version")]
     public string? KubeloginVersion { get; set; }
 }
-

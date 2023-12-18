@@ -21,4 +21,3 @@ public record AzConnectedmachineExtensionImageListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

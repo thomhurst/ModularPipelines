@@ -14,4 +14,3 @@ public record AzPortalDashboardDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

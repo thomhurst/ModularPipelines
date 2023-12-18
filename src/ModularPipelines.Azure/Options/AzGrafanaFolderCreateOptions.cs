@@ -17,4 +17,3 @@ public record AzGrafanaFolderCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

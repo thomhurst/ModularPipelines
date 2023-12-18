@@ -40,4 +40,3 @@ public record AzSigImageVersionUpdateOptions(
     [CommandSwitch("--target-regions")]
     public string? TargetRegions { get; set; }
 }
-

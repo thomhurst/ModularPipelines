@@ -23,4 +23,3 @@ public record AzAppserviceKubeShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

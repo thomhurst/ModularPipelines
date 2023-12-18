@@ -47,4 +47,3 @@ public class AzIotEdgeDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

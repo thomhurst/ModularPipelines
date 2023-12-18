@@ -24,4 +24,3 @@ public class AzBlockchain
 
     public AzBlockchainTransactionNode TransactionNode { get; }
 }
-

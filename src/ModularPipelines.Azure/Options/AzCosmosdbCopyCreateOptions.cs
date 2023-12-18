@@ -33,4 +33,3 @@ public record AzCosmosdbCopyCreateOptions(
     [CommandSwitch("--src-nosql")]
     public string? SrcNosql { get; set; }
 }
-

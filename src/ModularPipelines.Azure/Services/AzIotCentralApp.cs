@@ -54,4 +54,3 @@ public class AzIotCentralApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

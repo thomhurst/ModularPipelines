@@ -27,4 +27,3 @@ public class AzReposPolicyApproverCount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

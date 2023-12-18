@@ -25,4 +25,3 @@ public record AzDataprotectionResourceGuardDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

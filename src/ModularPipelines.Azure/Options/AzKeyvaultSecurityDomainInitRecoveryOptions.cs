@@ -16,4 +16,3 @@ public record AzKeyvaultSecurityDomainInitRecoveryOptions(
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzStreamAnalyticsJobScaleOptions(
     [CommandSwitch("--streaming-units")]
     public string? StreamingUnits { get; set; }
 }
-

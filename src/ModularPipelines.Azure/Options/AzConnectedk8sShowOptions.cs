@@ -17,4 +17,3 @@ public record AzConnectedk8sShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

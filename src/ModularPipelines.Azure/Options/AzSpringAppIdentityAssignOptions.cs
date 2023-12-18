@@ -24,4 +24,3 @@ public record AzSpringAppIdentityAssignOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

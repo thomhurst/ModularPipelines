@@ -42,4 +42,3 @@ public class AzDnsResolverForwardingRule
         return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleUpdateOptions(), token);
     }
 }
-

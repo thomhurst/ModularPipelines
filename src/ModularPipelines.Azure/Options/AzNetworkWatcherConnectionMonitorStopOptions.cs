@@ -14,4 +14,3 @@ public record AzNetworkWatcherConnectionMonitorStopOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

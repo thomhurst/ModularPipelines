@@ -23,4 +23,3 @@ public record AzMlFeatureStoreEntityRestoreOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

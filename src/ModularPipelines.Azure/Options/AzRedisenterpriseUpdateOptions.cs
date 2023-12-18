@@ -65,4 +65,3 @@ public record AzRedisenterpriseUpdateOptions : AzOptions
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

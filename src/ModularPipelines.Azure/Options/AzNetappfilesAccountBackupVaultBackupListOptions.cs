@@ -21,4 +21,3 @@ public record AzNetappfilesAccountBackupVaultBackupListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

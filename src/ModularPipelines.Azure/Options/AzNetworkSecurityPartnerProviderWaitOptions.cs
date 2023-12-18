@@ -41,4 +41,3 @@ public record AzNetworkSecurityPartnerProviderWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

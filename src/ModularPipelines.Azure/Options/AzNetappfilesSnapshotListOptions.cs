@@ -28,4 +28,3 @@ public record AzNetappfilesSnapshotListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

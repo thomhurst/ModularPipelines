@@ -37,4 +37,3 @@ public class AzSphereCaCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

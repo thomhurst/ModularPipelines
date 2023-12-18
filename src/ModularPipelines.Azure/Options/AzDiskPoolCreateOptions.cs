@@ -37,4 +37,3 @@ public record AzDiskPoolCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

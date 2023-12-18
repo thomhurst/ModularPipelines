@@ -27,4 +27,3 @@ public class AzWebappAuthFacebook
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthFacebookUpdateOptions(), token);
     }
 }
-

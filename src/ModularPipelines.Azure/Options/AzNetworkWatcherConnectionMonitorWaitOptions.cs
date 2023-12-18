@@ -44,4 +44,3 @@ public record AzNetworkWatcherConnectionMonitorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

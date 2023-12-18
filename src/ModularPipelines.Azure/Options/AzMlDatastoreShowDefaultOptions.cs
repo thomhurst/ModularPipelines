@@ -29,4 +29,3 @@ public record AzMlDatastoreShowDefaultOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

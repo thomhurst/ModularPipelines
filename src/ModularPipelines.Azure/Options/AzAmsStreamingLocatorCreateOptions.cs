@@ -35,4 +35,3 @@ public record AzAmsStreamingLocatorCreateOptions(
     [CommandSwitch("--streaming-locator-id")]
     public string? StreamingLocatorId { get; set; }
 }
-

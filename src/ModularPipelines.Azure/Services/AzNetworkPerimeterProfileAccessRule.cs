@@ -42,4 +42,3 @@ public class AzNetworkPerimeterProfileAccessRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterProfileAccessRuleUpdateOptions(), token);
     }
 }
-

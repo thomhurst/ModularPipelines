@@ -38,4 +38,3 @@ public record AzAutomanageConfigurationProfileAssignmentVmUpdateOptions : AzOpti
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzSfManagedApplicationTypeVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzIotHubDeviceIdentityShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

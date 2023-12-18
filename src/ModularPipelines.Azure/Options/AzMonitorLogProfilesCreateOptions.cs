@@ -24,4 +24,3 @@ public record AzMonitorLogProfilesCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

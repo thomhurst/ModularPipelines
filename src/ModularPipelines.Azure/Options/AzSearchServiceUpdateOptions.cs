@@ -65,4 +65,3 @@ public record AzSearchServiceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

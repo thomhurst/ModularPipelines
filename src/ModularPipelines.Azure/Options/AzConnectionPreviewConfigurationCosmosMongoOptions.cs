@@ -20,4 +20,3 @@ public record AzConnectionPreviewConfigurationCosmosMongoOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

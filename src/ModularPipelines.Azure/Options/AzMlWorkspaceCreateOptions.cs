@@ -67,4 +67,3 @@ public record AzMlWorkspaceCreateOptions(
     [CommandSwitch("--workspace-hub")]
     public string? WorkspaceHub { get; set; }
 }
-

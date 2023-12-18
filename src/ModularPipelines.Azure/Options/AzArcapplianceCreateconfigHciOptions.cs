@@ -72,4 +72,3 @@ public record AzArcapplianceCreateconfigHciOptions(
     [CommandSwitch("--working-dir")]
     public string? WorkingDir { get; set; }
 }
-

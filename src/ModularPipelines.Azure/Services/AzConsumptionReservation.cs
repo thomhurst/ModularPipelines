@@ -21,4 +21,3 @@ public class AzConsumptionReservation
 
     public AzConsumptionReservationSummary Summary { get; }
 }
-

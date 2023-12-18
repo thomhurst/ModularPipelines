@@ -28,4 +28,3 @@ public record AzDiskGrantAccessOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

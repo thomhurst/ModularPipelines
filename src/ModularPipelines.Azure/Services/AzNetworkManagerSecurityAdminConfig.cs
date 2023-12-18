@@ -51,4 +51,3 @@ public class AzNetworkManagerSecurityAdminConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigWaitOptions(), token);
     }
 }
-

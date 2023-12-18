@@ -50,4 +50,3 @@ public record AzNetworkPerimeterAssociationUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

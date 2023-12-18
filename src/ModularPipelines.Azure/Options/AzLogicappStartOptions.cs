@@ -14,4 +14,3 @@ public record AzLogicappStartOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzSpatialAnchorsAccountDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

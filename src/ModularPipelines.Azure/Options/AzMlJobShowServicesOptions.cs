@@ -15,4 +15,3 @@ public record AzMlJobShowServicesOptions(
     [CommandSwitch("--node-index")]
     public string? NodeIndex { get; set; }
 }
-

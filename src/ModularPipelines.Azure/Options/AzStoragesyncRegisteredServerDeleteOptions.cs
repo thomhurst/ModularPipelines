@@ -20,4 +20,3 @@ public record AzStoragesyncRegisteredServerDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

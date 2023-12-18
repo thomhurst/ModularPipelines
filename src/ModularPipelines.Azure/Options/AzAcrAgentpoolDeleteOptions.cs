@@ -20,4 +20,3 @@ public record AzAcrAgentpoolDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzDlaCatalogCredentialListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

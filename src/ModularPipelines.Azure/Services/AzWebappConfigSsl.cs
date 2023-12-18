@@ -65,4 +65,3 @@ public class AzWebappConfigSsl
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

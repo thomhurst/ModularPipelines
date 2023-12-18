@@ -15,4 +15,3 @@ public record AzEventhubsNamespaceEncryptionAddOptions(
     [BooleanCommandSwitch("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 }
-

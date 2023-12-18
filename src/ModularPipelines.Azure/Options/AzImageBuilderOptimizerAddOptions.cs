@@ -26,4 +26,3 @@ public record AzImageBuilderOptimizerAddOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzDatafactoryIntegrationRuntimeLinkedIntegrationRuntimeCreateOptio
     [CommandSwitch("--subscription-id")]
     public string? SubscriptionId { get; set; }
 }
-

@@ -1,4 +1,4 @@
-﻿using Azure.Identity;
+using Azure.Identity;
 using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

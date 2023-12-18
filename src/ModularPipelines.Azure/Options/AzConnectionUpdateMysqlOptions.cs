@@ -32,4 +32,3 @@ public record AzConnectionUpdateMysqlOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

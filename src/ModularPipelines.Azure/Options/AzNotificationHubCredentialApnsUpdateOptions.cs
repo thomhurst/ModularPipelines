@@ -33,4 +33,3 @@ public record AzNotificationHubCredentialApnsUpdateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

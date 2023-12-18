@@ -42,4 +42,3 @@ public class AzStorageAccountOrPolicyRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

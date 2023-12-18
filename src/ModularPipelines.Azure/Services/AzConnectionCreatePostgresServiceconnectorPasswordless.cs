@@ -22,4 +22,3 @@ public class AzConnectionCreatePostgresServiceconnectorPasswordless
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

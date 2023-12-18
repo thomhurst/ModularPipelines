@@ -41,4 +41,3 @@ public record AzStorageFsServicePropertiesUpdateOptions : AzOptions
     [BooleanCommandSwitch("--static-website")]
     public bool? StaticWebsite { get; set; }
 }
-

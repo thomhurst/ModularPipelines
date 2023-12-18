@@ -52,4 +52,3 @@ public class AzSynapseKqlScript
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

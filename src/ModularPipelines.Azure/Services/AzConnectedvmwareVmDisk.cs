@@ -42,4 +42,3 @@ public class AzConnectedvmwareVmDisk
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

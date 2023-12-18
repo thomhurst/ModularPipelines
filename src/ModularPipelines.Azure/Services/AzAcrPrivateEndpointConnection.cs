@@ -42,4 +42,3 @@ public class AzAcrPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

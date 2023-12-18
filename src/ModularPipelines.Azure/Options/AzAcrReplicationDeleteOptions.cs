@@ -14,4 +14,3 @@ public record AzAcrReplicationDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

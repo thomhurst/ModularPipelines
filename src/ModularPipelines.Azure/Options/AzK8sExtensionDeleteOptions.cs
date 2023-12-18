@@ -25,4 +25,3 @@ public record AzK8sExtensionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzEventgridPartnerDestination
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationUpdateOptions(), token);
     }
 }
-

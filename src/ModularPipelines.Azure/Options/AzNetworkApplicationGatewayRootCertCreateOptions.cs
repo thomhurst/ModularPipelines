@@ -21,4 +21,3 @@ public record AzNetworkApplicationGatewayRootCertCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

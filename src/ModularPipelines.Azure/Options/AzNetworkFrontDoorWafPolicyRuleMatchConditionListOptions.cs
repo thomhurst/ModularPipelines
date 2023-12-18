@@ -15,4 +15,3 @@ public record AzNetworkFrontDoorWafPolicyRuleMatchConditionListOptions(
     [CommandSwitch("--defer")]
     public string? Defer { get; set; }
 }
-

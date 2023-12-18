@@ -40,4 +40,3 @@ public class AzTsiEnvironment
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentShowOptions(), token);
     }
 }
-

@@ -33,4 +33,3 @@ public record AzSfManagedNodeTypeDeleteOptions(
     [CommandSwitch("--placement-property")]
     public string? PlacementProperty { get; set; }
 }
-

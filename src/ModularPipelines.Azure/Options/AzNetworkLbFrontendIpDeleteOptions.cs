@@ -15,4 +15,3 @@ public record AzNetworkLbFrontendIpDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

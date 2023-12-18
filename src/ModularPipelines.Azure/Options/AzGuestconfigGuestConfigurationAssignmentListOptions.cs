@@ -20,4 +20,3 @@ public record AzGuestconfigGuestConfigurationAssignmentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

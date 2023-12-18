@@ -22,4 +22,3 @@ public class AzKeyvaultRestore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

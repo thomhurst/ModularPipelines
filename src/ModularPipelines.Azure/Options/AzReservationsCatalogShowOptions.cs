@@ -28,4 +28,3 @@ public record AzReservationsCatalogShowOptions(
     [CommandSwitch("--reserved-resource-type")]
     public string? ReservedResourceType { get; set; }
 }
-

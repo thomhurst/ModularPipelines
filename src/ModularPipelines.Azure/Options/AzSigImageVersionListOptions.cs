@@ -18,4 +18,3 @@ public record AzSigImageVersionListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

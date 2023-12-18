@@ -32,4 +32,3 @@ public record AzDevopsWikiPageCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

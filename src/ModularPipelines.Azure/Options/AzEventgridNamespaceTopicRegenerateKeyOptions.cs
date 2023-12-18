@@ -28,4 +28,3 @@ public record AzEventgridNamespaceTopicRegenerateKeyOptions(
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

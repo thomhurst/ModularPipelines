@@ -18,4 +18,3 @@ public record AzFleetMemberDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

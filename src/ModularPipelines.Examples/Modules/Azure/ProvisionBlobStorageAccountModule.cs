@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+using Azure.Core;
 using Azure.ResourceManager.Storage;
 using Azure.ResourceManager.Storage.Models;
 using ModularPipelines.Azure.Extensions;

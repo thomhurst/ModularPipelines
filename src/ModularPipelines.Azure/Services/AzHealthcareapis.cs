@@ -36,4 +36,3 @@ public class AzHealthcareapis
 
     public AzHealthcareapisWorkspace Workspace { get; }
 }
-

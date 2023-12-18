@@ -42,4 +42,3 @@ public record AzConnectedvmwareVmExtensionUpdateOptions(
     [CommandSwitch("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 }
-

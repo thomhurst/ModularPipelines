@@ -28,4 +28,3 @@ public record AzDevcenterAdminAttachedNetworkDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

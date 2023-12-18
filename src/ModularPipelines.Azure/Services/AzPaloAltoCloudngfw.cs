@@ -21,4 +21,3 @@ public class AzPaloAltoCloudngfw
 
     public AzPaloAltoCloudngfwLocalRulestack LocalRulestack { get; }
 }
-

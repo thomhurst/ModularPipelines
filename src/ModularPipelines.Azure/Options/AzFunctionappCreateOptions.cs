@@ -102,4 +102,3 @@ public record AzFunctionappCreateOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

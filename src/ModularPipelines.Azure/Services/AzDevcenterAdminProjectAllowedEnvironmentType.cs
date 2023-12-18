@@ -27,4 +27,3 @@ public class AzDevcenterAdminProjectAllowedEnvironmentType
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectAllowedEnvironmentTypeShowOptions(), token);
     }
 }
-

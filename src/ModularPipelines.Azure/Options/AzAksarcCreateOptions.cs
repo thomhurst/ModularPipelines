@@ -75,4 +75,3 @@ public record AzAksarcCreateOptions(
     [CommandSwitch("--vnet-ids")]
     public string? VnetIds { get; set; }
 }
-

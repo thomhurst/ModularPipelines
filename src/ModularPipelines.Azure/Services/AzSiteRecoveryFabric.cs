@@ -47,4 +47,3 @@ public class AzSiteRecoveryFabric
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricUpdateOptions(), token);
     }
 }
-

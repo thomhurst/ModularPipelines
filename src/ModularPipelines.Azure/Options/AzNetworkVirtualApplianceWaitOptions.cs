@@ -44,4 +44,3 @@ public record AzNetworkVirtualApplianceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

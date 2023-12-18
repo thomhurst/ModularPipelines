@@ -26,4 +26,3 @@ public record AzVmwarePrivateCloudDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;

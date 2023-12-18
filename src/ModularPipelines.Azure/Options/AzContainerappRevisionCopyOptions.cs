@@ -88,4 +88,3 @@ public record AzContainerappRevisionCopyOptions(
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

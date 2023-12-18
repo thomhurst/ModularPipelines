@@ -37,4 +37,3 @@ public class AzMlComputetargetCreate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzBatchNodeScheduling
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

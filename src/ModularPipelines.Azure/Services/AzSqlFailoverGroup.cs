@@ -47,4 +47,3 @@ public class AzSqlFailoverGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

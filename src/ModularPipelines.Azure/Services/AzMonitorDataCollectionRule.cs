@@ -66,4 +66,3 @@ public class AzMonitorDataCollectionRule
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleUpdateOptions(), token);
     }
 }
-

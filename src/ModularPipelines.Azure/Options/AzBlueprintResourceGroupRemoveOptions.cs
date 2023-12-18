@@ -20,4 +20,3 @@ public record AzBlueprintResourceGroupRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

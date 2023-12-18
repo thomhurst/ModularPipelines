@@ -20,4 +20,3 @@ public record AzTsShowOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

@@ -67,4 +67,3 @@ public class AzAmsLiveEvent
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventWaitOptions(), token);
     }
 }
-

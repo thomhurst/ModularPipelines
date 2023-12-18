@@ -52,4 +52,3 @@ public class AzSynapsePipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzEventgridDomainPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

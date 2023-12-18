@@ -16,4 +16,3 @@ public record AzResourceLinkDeleteOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

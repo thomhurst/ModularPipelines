@@ -17,4 +17,3 @@ public record AzVmwareClusterListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

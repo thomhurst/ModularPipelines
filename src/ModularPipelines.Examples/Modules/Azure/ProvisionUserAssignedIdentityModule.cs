@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+using Azure.Core;
 using Azure.ResourceManager.ManagedServiceIdentities;
 using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Scopes;

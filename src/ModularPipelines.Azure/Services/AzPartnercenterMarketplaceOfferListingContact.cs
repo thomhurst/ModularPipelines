@@ -32,4 +32,3 @@ public class AzPartnercenterMarketplaceOfferListingContact
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

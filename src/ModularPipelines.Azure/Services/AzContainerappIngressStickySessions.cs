@@ -27,4 +27,3 @@ public class AzContainerappIngressStickySessions
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressStickySessionsShowOptions(), token);
     }
 }
-

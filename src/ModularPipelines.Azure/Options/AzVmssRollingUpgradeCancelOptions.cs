@@ -23,4 +23,3 @@ public record AzVmssRollingUpgradeCancelOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

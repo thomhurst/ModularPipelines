@@ -27,4 +27,3 @@ public record AzNetworkDnsRecordSetTlsaCreateOptions(
     [CommandSwitch("--ttl")]
     public string? Ttl { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzAppserviceAseUpdateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzVmssListInstancesOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

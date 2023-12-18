@@ -47,4 +47,3 @@ public class AzNetworkLocalGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayWaitOptions(), token);
     }
 }
-

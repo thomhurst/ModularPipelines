@@ -17,4 +17,3 @@ public class AzStorageDirectoryMetadataUpdate
 
     public AzStorageDirectoryMetadataUpdateStoragePreview StoragePreview { get; }
 }
-

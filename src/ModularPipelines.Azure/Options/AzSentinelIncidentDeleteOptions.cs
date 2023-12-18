@@ -23,4 +23,3 @@ public record AzSentinelIncidentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

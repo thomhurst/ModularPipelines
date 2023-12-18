@@ -53,4 +53,3 @@ public record AzVmwarePrivateCloudUpdateOptions : AzOptions
     [CommandSwitch("--vcenter-password")]
     public string? VcenterPassword { get; set; }
 }
-

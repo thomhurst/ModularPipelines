@@ -17,4 +17,3 @@ public class AzAksMaintenanceconfigurationUpdate
 
     public AzAksMaintenanceconfigurationUpdateAksPreview AksPreview { get; }
 }
-

@@ -88,4 +88,3 @@ public record AzProviderhubProviderRegistrationCreateOptions(
     [CommandSwitch("--template-deployment-options")]
     public string? TemplateDeploymentOptions { get; set; }
 }
-

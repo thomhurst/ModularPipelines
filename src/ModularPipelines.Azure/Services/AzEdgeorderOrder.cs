@@ -27,4 +27,3 @@ public class AzEdgeorderOrder
         return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderShowOptions(), token);
     }
 }
-

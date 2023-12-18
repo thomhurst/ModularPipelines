@@ -49,4 +49,3 @@ public record AzStorageShareCloseHandleStoragePreviewExtensionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

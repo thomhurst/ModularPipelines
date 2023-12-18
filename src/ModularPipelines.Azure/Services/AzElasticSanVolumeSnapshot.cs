@@ -42,4 +42,3 @@ public class AzElasticSanVolumeSnapshot
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotWaitOptions(), token);
     }
 }
-

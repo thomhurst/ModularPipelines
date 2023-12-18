@@ -45,4 +45,3 @@ public record AzSpringApplicationConfigurationServiceGitRepoUpdateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

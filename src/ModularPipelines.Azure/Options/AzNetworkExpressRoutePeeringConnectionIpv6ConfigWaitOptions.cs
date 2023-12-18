@@ -47,4 +47,3 @@ public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions : AzOp
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

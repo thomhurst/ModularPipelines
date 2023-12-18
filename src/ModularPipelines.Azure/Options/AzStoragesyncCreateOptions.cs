@@ -17,4 +17,3 @@ public record AzStoragesyncCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

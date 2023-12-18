@@ -22,4 +22,3 @@ public class AzConsumptionReservationSummary
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

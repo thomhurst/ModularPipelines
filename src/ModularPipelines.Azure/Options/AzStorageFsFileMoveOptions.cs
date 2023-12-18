@@ -48,4 +48,3 @@ public record AzStorageFsFileMoveOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

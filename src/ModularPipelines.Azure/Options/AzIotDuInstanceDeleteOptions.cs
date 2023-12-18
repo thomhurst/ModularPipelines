@@ -20,4 +20,3 @@ public record AzIotDuInstanceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

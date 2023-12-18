@@ -24,4 +24,3 @@ public record AzBatchNodeUserDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

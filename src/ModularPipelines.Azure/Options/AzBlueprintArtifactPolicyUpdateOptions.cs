@@ -32,4 +32,3 @@ public record AzBlueprintArtifactPolicyUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

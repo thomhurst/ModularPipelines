@@ -25,4 +25,3 @@ public record AzSigImageVersionUndeleteOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

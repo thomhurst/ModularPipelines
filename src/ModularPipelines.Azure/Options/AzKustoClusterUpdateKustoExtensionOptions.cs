@@ -92,4 +92,3 @@ public record AzKustoClusterUpdateKustoExtensionOptions : AzOptions
     [CommandSwitch("--virtual-network-configuration")]
     public string? VirtualNetworkConfiguration { get; set; }
 }
-

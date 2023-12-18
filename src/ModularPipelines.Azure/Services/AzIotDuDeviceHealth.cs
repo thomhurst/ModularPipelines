@@ -22,4 +22,3 @@ public class AzIotDuDeviceHealth
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

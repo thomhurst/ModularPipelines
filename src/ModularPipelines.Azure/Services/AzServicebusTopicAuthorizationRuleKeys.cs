@@ -27,4 +27,3 @@ public class AzServicebusTopicAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

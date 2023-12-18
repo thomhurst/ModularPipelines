@@ -27,4 +27,3 @@ public class AzBatchAccountKeys
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountKeysRenewOptions(), token);
     }
 }
-

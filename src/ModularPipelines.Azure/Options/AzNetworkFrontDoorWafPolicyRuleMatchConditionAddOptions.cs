@@ -36,4 +36,3 @@ public record AzNetworkFrontDoorWafPolicyRuleMatchConditionAddOptions(
     [CommandSwitch("--transforms")]
     public string? Transforms { get; set; }
 }
-

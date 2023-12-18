@@ -22,4 +22,3 @@ public class AzBatchPoolNodeCounts
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolNodeCountsListOptions(), token);
     }
 }
-

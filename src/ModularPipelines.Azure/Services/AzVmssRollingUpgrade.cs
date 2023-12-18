@@ -32,4 +32,3 @@ public class AzVmssRollingUpgrade
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeStartOptions(), token);
     }
 }
-

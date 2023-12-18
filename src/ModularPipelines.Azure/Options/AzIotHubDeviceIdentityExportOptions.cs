@@ -36,4 +36,3 @@ public record AzIotHubDeviceIdentityExportOptions(
     [CommandSwitch("--sa")]
     public string? Sa { get; set; }
 }
-

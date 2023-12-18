@@ -41,4 +41,3 @@ public class AzK8sconfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

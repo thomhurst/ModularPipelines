@@ -14,4 +14,3 @@ public record AzIotProductRequirementListOptions : AzOptions
     [CommandSwitch("--base-url")]
     public string? BaseUrl { get; set; }
 }
-

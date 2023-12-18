@@ -23,4 +23,3 @@ public record AzWebappDeploymentContainerShowCdUrlOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

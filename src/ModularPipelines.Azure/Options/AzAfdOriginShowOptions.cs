@@ -26,4 +26,3 @@ public record AzAfdOriginShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

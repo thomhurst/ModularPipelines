@@ -27,4 +27,3 @@ public class AzSqlMidbShortTermRetentionPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbShortTermRetentionPolicyShowOptions(), token);
     }
 }
-

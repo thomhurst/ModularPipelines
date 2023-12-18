@@ -27,4 +27,3 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions(
     [CommandSwitch("--next-tier")]
     public string? NextTier { get; set; }
 }
-

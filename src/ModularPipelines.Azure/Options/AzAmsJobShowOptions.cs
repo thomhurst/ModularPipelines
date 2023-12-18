@@ -28,4 +28,3 @@ public record AzAmsJobShowOptions(
     [CommandSwitch("--transform-name")]
     public string? TransformName { get; set; }
 }
-

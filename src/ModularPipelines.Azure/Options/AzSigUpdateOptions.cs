@@ -44,4 +44,3 @@ public record AzSigUpdateOptions(
     [BooleanCommandSwitch("--soft-delete")]
     public bool? SoftDelete { get; set; }
 }
-

@@ -26,4 +26,3 @@ public class AzPaloAltoCloudngfwFirewallStatus
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -21,4 +21,3 @@ public class AzWebappWebjob
 
     public AzWebappWebjobTriggered Triggered { get; }
 }
-

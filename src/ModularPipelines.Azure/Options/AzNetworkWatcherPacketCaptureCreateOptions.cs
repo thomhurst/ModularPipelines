@@ -50,4 +50,3 @@ public record AzNetworkWatcherPacketCaptureCreateOptions(
     [CommandSwitch("--vm")]
     public string? Vm { get; set; }
 }
-

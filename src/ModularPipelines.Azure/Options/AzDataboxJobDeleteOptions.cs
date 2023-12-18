@@ -28,4 +28,3 @@ public record AzDataboxJobDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

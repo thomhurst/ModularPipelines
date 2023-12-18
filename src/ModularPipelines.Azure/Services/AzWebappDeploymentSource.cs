@@ -56,4 +56,3 @@ public class AzWebappDeploymentSource
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSourceUpdateTokenOptions(), token);
     }
 }
-

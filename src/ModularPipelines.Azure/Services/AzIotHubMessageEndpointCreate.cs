@@ -42,4 +42,3 @@ public class AzIotHubMessageEndpointCreate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

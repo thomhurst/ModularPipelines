@@ -22,4 +22,3 @@ public class AzCosmosdbMongodbUserDefinitionListCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

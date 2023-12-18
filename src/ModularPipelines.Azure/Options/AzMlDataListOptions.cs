@@ -26,4 +26,3 @@ public record AzMlDataListOptions(
     [CommandSwitch("--registry-name")]
     public string? RegistryName { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzSiteRecoveryFabricRemoveOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

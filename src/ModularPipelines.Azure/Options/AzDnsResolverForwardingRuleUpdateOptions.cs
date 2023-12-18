@@ -35,4 +35,3 @@ public record AzDnsResolverForwardingRuleUpdateOptions : AzOptions
     [CommandSwitch("--target-dns-servers")]
     public string? TargetDnsServers { get; set; }
 }
-

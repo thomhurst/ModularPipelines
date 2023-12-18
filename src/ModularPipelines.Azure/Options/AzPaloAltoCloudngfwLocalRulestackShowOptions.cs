@@ -20,4 +20,3 @@ public record AzPaloAltoCloudngfwLocalRulestackShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

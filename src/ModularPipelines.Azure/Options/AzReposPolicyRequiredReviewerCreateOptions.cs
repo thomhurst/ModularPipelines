@@ -30,4 +30,3 @@ public record AzReposPolicyRequiredReviewerCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

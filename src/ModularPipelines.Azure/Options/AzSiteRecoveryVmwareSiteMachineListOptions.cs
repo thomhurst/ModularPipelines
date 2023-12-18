@@ -29,4 +29,3 @@ public record AzSiteRecoveryVmwareSiteMachineListOptions(
     [CommandSwitch("--total-record-count")]
     public int? TotalRecordCount { get; set; }
 }
-

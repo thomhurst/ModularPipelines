@@ -23,4 +23,3 @@ public record AzAzurestackhciVirtualharddiskDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

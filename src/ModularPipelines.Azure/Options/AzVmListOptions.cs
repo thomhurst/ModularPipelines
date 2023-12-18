@@ -19,4 +19,3 @@ public record AzVmListOptions(
     [CommandSwitch("--vmss")]
     public string? Vmss { get; set; }
 }
-

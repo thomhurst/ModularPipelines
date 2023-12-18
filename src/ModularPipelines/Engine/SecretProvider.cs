@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 

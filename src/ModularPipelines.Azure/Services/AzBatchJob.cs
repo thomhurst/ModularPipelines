@@ -74,4 +74,3 @@ public class AzBatchJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

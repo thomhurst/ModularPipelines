@@ -16,4 +16,3 @@ public record AzSphereDeviceShowOsVersionOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

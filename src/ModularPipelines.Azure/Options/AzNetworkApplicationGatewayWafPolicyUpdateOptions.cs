@@ -44,4 +44,3 @@ public record AzNetworkApplicationGatewayWafPolicyUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

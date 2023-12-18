@@ -31,4 +31,3 @@ public record AzBillingBenefitsSavingsPlanOrderAliasesShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

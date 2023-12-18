@@ -25,4 +25,3 @@ public record AzKeyvaultCertificateDownloadOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

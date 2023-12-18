@@ -47,4 +47,3 @@ public class AzKeyvaultPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzTsiEnvironmentGen1CreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzPipelinesFolderCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

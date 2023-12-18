@@ -22,4 +22,3 @@ public class AzDmsProjectTaskCancelDmsPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

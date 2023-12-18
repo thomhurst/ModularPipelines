@@ -13,4 +13,3 @@ public record AzSigListSharedOptions(
     [CommandSwitch("--shared-to")]
     public string? SharedTo { get; set; }
 }
-

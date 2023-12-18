@@ -59,4 +59,3 @@ public class AzDtTwin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

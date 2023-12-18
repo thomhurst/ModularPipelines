@@ -23,4 +23,3 @@ public record AzLogzRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

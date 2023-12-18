@@ -37,4 +37,3 @@ public class AzDncDelegatedSubnetService
         return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceWaitOptions(), token);
     }
 }
-

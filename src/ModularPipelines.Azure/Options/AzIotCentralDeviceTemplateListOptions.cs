@@ -22,4 +22,3 @@ public record AzIotCentralDeviceTemplateListOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

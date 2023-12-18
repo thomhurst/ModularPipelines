@@ -15,4 +15,3 @@ public record AzSynapseSparkStatementInvokeOptions(
 ) : AzOptions
 {
 }
-

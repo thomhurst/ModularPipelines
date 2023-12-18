@@ -37,4 +37,3 @@ public class AzIotCentralFileUploadConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

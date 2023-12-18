@@ -25,4 +25,3 @@ public record AzManagedappDefinitionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

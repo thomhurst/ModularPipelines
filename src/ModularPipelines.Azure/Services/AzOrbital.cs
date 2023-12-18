@@ -28,4 +28,3 @@ public class AzOrbital
 
     public AzOrbitalSpacecraft Spacecraft { get; }
 }
-

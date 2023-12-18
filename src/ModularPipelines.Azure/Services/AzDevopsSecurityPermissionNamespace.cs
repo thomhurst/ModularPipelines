@@ -27,4 +27,3 @@ public class AzDevopsSecurityPermissionNamespace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

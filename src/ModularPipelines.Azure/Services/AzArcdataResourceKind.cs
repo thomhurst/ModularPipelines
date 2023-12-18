@@ -27,4 +27,3 @@ public class AzArcdataResourceKind
         return await _command.ExecuteCommandLineTool(options ?? new AzArcdataResourceKindListOptions(), token);
     }
 }
-

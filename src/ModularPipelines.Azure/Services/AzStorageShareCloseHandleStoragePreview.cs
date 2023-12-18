@@ -22,4 +22,3 @@ public class AzStorageShareCloseHandleStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

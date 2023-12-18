@@ -14,4 +14,3 @@ public record AzCognitiveservicesAccountDeploymentShowOptions(
     [CommandSwitch("--deployment-name")]
     public string? DeploymentName { get; set; }
 }
-

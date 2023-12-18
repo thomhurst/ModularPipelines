@@ -35,4 +35,3 @@ public record AzAcrTokenCreateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzBatchPoolUsageMetrics
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolUsageMetricsListOptions(), token);
     }
 }
-

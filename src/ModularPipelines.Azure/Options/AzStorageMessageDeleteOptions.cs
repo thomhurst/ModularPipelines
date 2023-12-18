@@ -33,4 +33,3 @@ public record AzStorageMessageDeleteOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

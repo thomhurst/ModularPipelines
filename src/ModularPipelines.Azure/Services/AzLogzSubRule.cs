@@ -42,4 +42,3 @@ public class AzLogzSubRule
         return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleUpdateOptions(), token);
     }
 }
-

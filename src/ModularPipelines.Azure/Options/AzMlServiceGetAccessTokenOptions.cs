@@ -25,4 +25,3 @@ public record AzMlServiceGetAccessTokenOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

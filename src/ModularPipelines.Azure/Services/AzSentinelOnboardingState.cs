@@ -42,4 +42,3 @@ public class AzSentinelOnboardingState
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateUpdateOptions(), token);
     }
 }
-

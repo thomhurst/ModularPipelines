@@ -21,4 +21,3 @@ public record AzEventgridNamespaceCaCertificateCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzBatchApplicationListOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

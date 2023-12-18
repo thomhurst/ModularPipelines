@@ -57,4 +57,3 @@ public record AzNetworkcloudKubernetesclusterAgentpoolCreateOptions(
     [CommandSwitch("--upgrade-settings")]
     public string? UpgradeSettings { get; set; }
 }
-

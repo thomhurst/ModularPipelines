@@ -60,4 +60,3 @@ public class AzSpringConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionWaitOptions(), token);
     }
 }
-

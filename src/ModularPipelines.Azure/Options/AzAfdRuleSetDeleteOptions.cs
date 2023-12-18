@@ -23,4 +23,3 @@ public record AzAfdRuleSetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

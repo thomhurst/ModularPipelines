@@ -22,4 +22,3 @@ public record AzCloudServiceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

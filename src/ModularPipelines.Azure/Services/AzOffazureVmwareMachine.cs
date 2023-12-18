@@ -27,4 +27,3 @@ public class AzOffazureVmwareMachine
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareMachineShowOptions(), token);
     }
 }
-

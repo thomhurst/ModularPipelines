@@ -47,4 +47,3 @@ public class AzEventgridNamespaceTopicEventSubscription
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceTopicEventSubscriptionWaitOptions(), token);
     }
 }
-

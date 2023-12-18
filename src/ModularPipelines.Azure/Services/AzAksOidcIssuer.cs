@@ -22,4 +22,3 @@ public class AzAksOidcIssuer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

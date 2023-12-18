@@ -13,4 +13,3 @@ public record AzMariadbServerListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

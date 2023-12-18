@@ -42,4 +42,3 @@ public class AzSqlServerVnetRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

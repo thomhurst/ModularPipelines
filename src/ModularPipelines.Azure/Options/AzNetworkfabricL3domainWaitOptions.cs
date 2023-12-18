@@ -41,4 +41,3 @@ public record AzNetworkfabricL3domainWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

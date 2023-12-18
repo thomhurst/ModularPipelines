@@ -25,4 +25,3 @@ public record AzReposPolicyListOptions(
     [CommandSwitch("--repository-id")]
     public string? RepositoryId { get; set; }
 }
-

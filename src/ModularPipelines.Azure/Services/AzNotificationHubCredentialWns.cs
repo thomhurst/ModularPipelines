@@ -22,4 +22,3 @@ public class AzNotificationHubCredentialWns
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

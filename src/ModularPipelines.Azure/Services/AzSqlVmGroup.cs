@@ -46,4 +46,3 @@ public class AzSqlVmGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupUpdateOptions(), token);
     }
 }
-

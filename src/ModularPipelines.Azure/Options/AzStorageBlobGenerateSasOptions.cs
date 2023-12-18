@@ -77,4 +77,3 @@ public record AzStorageBlobGenerateSasOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

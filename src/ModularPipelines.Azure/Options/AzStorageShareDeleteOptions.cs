@@ -37,4 +37,3 @@ public record AzStorageShareDeleteOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

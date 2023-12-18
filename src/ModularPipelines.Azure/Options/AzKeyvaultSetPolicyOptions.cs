@@ -40,4 +40,3 @@ public record AzKeyvaultSetPolicyOptions(
     [CommandSwitch("--upn")]
     public string? Upn { get; set; }
 }
-

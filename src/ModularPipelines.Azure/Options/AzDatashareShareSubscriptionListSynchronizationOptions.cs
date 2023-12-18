@@ -21,4 +21,3 @@ public record AzDatashareShareSubscriptionListSynchronizationOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

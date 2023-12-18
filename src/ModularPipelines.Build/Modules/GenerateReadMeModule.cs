@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;

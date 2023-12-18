@@ -22,4 +22,3 @@ public class AzSqlMiArcEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiArcEndpointListOptions(), token);
     }
 }
-

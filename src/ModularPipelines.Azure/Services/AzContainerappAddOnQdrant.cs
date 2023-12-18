@@ -27,4 +27,3 @@ public class AzContainerappAddOnQdrant
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

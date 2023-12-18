@@ -19,4 +19,3 @@ public record AzFleetMemberCreateOptions(
     [CommandSwitch("--update-group")]
     public string? UpdateGroup { get; set; }
 }
-

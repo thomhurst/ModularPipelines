@@ -37,4 +37,3 @@ public class AzSqlMidbCopy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

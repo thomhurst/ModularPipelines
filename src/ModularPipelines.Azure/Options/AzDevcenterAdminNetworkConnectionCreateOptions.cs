@@ -37,4 +37,3 @@ public record AzDevcenterAdminNetworkConnectionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

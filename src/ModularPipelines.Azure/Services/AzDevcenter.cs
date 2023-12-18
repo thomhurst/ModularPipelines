@@ -20,4 +20,3 @@ public class AzDevcenter
 
     public AzDevcenterDev Dev { get; }
 }
-

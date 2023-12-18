@@ -167,4 +167,3 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssWaitOptions(), token);
     }
 }
-

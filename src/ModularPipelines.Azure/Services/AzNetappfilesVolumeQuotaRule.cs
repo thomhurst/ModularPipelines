@@ -47,4 +47,3 @@ public class AzNetappfilesVolumeQuotaRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

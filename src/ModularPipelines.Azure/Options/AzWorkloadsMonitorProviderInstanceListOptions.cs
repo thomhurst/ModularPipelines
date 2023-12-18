@@ -20,4 +20,3 @@ public record AzWorkloadsMonitorProviderInstanceListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

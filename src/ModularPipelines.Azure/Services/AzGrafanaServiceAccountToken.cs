@@ -32,4 +32,3 @@ public class AzGrafanaServiceAccountToken
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

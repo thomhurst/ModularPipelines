@@ -100,4 +100,3 @@ public class AzVmwarePrivateCloud
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudWaitOptions(), token);
     }
 }
-

@@ -56,4 +56,3 @@ public record AzSynapseKustoAttachedDatabaseConfigurationUpdateOptions : AzOptio
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

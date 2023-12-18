@@ -47,4 +47,3 @@ public record AzIotEdgeDeploymentCreateOptions(
     [CommandSwitch("--target-condition")]
     public string? TargetCondition { get; set; }
 }
-

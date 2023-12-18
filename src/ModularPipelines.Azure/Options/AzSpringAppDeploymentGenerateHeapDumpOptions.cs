@@ -17,4 +17,3 @@ public record AzSpringAppDeploymentGenerateHeapDumpOptions(
     [CommandSwitch("--deployment")]
     public string? Deployment { get; set; }
 }
-

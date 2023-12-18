@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;

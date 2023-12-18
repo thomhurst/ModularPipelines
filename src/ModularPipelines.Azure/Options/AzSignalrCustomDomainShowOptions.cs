@@ -30,4 +30,3 @@ public record AzSignalrCustomDomainShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

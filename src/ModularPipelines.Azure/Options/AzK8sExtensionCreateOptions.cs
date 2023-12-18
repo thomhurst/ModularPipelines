@@ -71,4 +71,3 @@ public record AzK8sExtensionCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

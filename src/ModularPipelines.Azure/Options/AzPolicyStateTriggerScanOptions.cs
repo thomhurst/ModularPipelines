@@ -14,4 +14,3 @@ public record AzPolicyStateTriggerScanOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

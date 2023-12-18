@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Models;
+using ModularPipelines.Models;
 using ModularPipelines.Options.Mac;
 
 namespace ModularPipelines.Context;

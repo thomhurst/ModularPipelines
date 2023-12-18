@@ -126,4 +126,3 @@ public class AzKeyvaultKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

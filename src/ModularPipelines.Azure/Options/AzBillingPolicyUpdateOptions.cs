@@ -25,4 +25,3 @@ public record AzBillingPolicyUpdateOptions(
     [CommandSwitch("--view-charges")]
     public string? ViewCharges { get; set; }
 }
-

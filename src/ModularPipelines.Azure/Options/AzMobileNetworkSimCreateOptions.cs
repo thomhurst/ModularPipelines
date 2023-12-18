@@ -34,4 +34,3 @@ public record AzMobileNetworkSimCreateOptions(
     [CommandSwitch("--static-ip-config")]
     public string? StaticIpConfig { get; set; }
 }
-

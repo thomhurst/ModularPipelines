@@ -25,4 +25,3 @@ public record AzSynapseSqlPoolTdeShowOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

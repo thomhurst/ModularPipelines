@@ -30,4 +30,3 @@ public record AzCosmosdbCopyCancelOptions(
     [CommandSwitch("--src-nosql")]
     public string? SrcNosql { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzBatchJobStopOptions(
     [CommandSwitch("--terminate-reason")]
     public string? TerminateReason { get; set; }
 }
-

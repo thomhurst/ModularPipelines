@@ -20,4 +20,3 @@ public record AzRelayNamespaceAuthorizationRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

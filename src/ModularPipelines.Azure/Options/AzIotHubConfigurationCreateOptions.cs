@@ -41,4 +41,3 @@ public record AzIotHubConfigurationCreateOptions(
     [CommandSwitch("--target-condition")]
     public string? TargetCondition { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzStoragesyncRegisteredServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

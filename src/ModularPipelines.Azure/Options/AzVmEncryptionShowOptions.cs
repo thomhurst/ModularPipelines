@@ -20,4 +20,3 @@ public record AzVmEncryptionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

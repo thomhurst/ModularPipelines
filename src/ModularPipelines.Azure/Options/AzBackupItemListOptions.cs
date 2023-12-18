@@ -23,4 +23,3 @@ public record AzBackupItemListOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

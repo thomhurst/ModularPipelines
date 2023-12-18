@@ -42,4 +42,3 @@ public class AzIotCentralDeviceTemplate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

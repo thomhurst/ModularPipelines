@@ -20,4 +20,3 @@ public record AzCdnProfileCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

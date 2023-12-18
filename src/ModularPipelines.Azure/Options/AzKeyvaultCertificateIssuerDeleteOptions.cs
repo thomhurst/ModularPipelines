@@ -26,4 +26,3 @@ public record AzKeyvaultCertificateIssuerDeleteOptions(
     [CommandSwitch("--provider-name")]
     public string? ProviderName { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzPostgresServerArcDeleteOptions(
     [CommandSwitch("--use-k8s")]
     public string? UseK8s { get; set; }
 }
-

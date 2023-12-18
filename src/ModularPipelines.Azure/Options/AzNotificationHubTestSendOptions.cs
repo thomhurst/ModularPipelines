@@ -25,4 +25,3 @@ public record AzNotificationHubTestSendOptions(
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

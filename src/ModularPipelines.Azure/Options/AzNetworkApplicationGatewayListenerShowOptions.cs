@@ -42,4 +42,3 @@ public record AzNetworkApplicationGatewayListenerShowOptions(
     [CommandSwitch("--ssl-profile-id")]
     public string? SslProfileId { get; set; }
 }
-

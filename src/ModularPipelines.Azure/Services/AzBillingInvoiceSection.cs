@@ -42,4 +42,3 @@ public class AzBillingInvoiceSection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

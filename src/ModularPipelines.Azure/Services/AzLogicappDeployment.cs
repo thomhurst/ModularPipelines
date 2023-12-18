@@ -17,4 +17,3 @@ public class AzLogicappDeployment
 
     public AzLogicappDeploymentSource Source { get; }
 }
-

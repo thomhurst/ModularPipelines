@@ -56,4 +56,3 @@ public class AzContainerappRevision
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

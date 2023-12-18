@@ -61,4 +61,3 @@ public class AzGroupDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

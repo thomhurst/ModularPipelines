@@ -23,4 +23,3 @@ public record AzMonitorDiagnosticSettingsDeleteOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

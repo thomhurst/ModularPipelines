@@ -41,4 +41,3 @@ public record AzNetworkVhubRoutingIntentUpdateOptions : AzOptions
     [CommandSwitch("--vhub")]
     public string? Vhub { get; set; }
 }
-

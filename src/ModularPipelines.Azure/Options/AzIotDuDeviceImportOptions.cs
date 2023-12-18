@@ -17,4 +17,3 @@ public record AzIotDuDeviceImportOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -62,4 +62,3 @@ public class AzAksMaintenanceconfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

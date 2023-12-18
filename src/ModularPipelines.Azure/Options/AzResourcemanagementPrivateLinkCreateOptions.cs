@@ -15,4 +15,3 @@ public record AzResourcemanagementPrivateLinkCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

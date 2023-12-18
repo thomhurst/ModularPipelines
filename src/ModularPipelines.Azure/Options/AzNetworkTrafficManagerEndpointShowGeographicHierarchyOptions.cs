@@ -68,4 +68,3 @@ public record AzNetworkTrafficManagerEndpointShowGeographicHierarchyOptions : Az
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

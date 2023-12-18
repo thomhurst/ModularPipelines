@@ -17,4 +17,3 @@ public class AzKustoClusterWait
 
     public AzKustoClusterWaitKusto Kusto { get; }
 }
-

@@ -22,4 +22,3 @@ public record AzVmListSkusOptions(
     [BooleanCommandSwitch("--zone")]
     public bool? Zone { get; set; }
 }
-

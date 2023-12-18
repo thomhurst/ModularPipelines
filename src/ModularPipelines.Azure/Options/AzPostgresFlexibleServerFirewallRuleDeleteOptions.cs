@@ -23,4 +23,3 @@ public record AzPostgresFlexibleServerFirewallRuleDeleteOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

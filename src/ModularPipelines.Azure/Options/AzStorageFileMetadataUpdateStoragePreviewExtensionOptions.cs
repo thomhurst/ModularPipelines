@@ -38,4 +38,3 @@ public record AzStorageFileMetadataUpdateStoragePreviewExtensionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzWebpubsubReplica
         return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaShowOptions(), token);
     }
 }
-

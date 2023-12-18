@@ -17,4 +17,3 @@ public record AzCosmosdbSqlTriggerDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

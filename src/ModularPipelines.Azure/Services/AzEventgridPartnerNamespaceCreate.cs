@@ -17,4 +17,3 @@ public class AzEventgridPartnerNamespaceCreate
 
     public AzEventgridPartnerNamespaceCreateEventgrid Eventgrid { get; }
 }
-

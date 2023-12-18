@@ -31,4 +31,3 @@ public record AzAfdEndpointPurgeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

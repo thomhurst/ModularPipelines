@@ -24,4 +24,3 @@ public record AzWebappDeploymentSlotCreateOptions(
     [CommandSwitch("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 }
-

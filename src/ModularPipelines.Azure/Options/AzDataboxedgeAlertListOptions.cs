@@ -20,4 +20,3 @@ public record AzDataboxedgeAlertListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

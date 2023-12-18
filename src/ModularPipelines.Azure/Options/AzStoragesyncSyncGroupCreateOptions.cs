@@ -14,4 +14,3 @@ public record AzStoragesyncSyncGroupCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

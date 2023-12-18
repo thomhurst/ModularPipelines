@@ -40,4 +40,3 @@ public class AzNetappfiles
 
     public AzNetappfilesVolumeGroup VolumeGroup { get; }
 }
-

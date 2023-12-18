@@ -42,4 +42,3 @@ public class AzQuantum
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

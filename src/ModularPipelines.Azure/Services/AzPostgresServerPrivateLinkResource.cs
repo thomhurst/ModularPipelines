@@ -22,4 +22,3 @@ public class AzPostgresServerPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateLinkResourceListOptions(), token);
     }
 }
-

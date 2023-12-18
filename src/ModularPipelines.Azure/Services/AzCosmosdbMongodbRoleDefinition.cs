@@ -71,4 +71,3 @@ public class AzCosmosdbMongodbRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzStorageSharePolicyShowOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

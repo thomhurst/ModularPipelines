@@ -52,4 +52,3 @@ public record AzStorageTableGenerateSasOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

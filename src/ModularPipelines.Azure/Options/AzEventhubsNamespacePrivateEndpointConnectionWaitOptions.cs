@@ -44,4 +44,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionWaitOptions : AzOptio
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

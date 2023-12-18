@@ -16,4 +16,3 @@ public record AzMonitorAutoscaleRuleCopyOptions(
     [CommandSwitch("--source-schedule")]
     public string? SourceSchedule { get; set; }
 }
-

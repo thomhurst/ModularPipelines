@@ -28,4 +28,3 @@ public record AzKeyvaultPrivateEndpointConnectionApproveOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

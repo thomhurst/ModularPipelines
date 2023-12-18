@@ -1,4 +1,4 @@
-﻿using Slack.Webhooks;
+using Slack.Webhooks;
 
 namespace ModularPipelines.Slack.Options;
 

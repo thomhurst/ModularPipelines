@@ -24,4 +24,3 @@ public record AzAmsAssetCreateOptions(
     [CommandSwitch("--storage-account")]
     public int? StorageAccount { get; set; }
 }
-

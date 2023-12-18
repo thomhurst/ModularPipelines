@@ -22,4 +22,3 @@ public record AzKeyvaultKeyRotationPolicyShowOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

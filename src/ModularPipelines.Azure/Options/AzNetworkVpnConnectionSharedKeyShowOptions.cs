@@ -22,4 +22,3 @@ public record AzNetworkVpnConnectionSharedKeyShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

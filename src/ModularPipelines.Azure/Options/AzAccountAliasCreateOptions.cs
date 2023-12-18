@@ -28,4 +28,3 @@ public record AzAccountAliasCreateOptions(
     [CommandSwitch("--workload")]
     public string? Workload { get; set; }
 }
-

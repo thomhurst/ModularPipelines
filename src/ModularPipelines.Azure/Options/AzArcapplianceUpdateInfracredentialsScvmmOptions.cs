@@ -22,4 +22,3 @@ public record AzArcapplianceUpdateInfracredentialsScvmmOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

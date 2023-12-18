@@ -132,4 +132,3 @@ public class AzNetappfilesVolume
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeWaitOptions(), token);
     }
 }
-

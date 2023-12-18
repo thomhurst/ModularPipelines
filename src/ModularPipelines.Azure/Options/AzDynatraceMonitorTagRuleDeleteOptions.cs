@@ -26,4 +26,3 @@ public record AzDynatraceMonitorTagRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

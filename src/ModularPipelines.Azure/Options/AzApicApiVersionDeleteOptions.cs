@@ -27,4 +27,3 @@ public record AzApicApiVersionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

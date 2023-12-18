@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;

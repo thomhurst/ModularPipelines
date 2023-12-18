@@ -37,4 +37,3 @@ public record AzNetworkBastionSshOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

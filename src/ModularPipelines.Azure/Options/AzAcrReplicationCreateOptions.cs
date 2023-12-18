@@ -26,4 +26,3 @@ public record AzAcrReplicationCreateOptions(
     [CommandSwitch("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }
-

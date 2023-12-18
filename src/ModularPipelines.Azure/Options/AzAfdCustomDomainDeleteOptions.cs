@@ -23,4 +23,3 @@ public record AzAfdCustomDomainDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

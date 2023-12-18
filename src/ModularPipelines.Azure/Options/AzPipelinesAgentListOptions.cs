@@ -31,4 +31,3 @@ public record AzPipelinesAgentListOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzExtensionUpdateOptions(
     [CommandSwitch("--pip-proxy")]
     public string? PipProxy { get; set; }
 }
-

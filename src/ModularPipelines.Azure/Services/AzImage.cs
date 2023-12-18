@@ -55,4 +55,3 @@ public class AzImage
         return await _command.ExecuteCommandLineTool(options ?? new AzImageWaitOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzSentinelDataConnectorListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzHealthcareapisWorkspaceDicomServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

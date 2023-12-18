@@ -47,4 +47,3 @@ public class AzSecurityAlertsSuppressionRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

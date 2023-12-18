@@ -32,4 +32,3 @@ public record AzConnectedvmwareVmDiskListOptions(
     [CommandSwitch("--unit-number")]
     public string? UnitNumber { get; set; }
 }
-

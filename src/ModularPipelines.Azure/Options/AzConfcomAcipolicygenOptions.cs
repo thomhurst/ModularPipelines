@@ -58,4 +58,3 @@ public record AzConfcomAcipolicygenOptions(
     [BooleanCommandSwitch("--validate-sidecar")]
     public bool? ValidateSidecar { get; set; }
 }
-

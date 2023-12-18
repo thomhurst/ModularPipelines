@@ -27,4 +27,3 @@ public class AzIotOpsMq
         return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsMqStatsOptions(), token);
     }
 }
-

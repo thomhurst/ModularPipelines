@@ -42,4 +42,3 @@ public class AzMonitorDataCollectionEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionEndpointUpdateOptions(), token);
     }
 }
-

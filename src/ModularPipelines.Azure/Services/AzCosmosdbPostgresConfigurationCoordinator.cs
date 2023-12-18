@@ -32,4 +32,3 @@ public class AzCosmosdbPostgresConfigurationCoordinator
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorWaitOptions(), token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzReposPolicyRequiredReviewer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

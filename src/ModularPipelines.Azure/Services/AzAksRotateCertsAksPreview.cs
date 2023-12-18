@@ -22,4 +22,3 @@ public class AzAksRotateCertsAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzServicebusQueueAuthorizationRuleUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

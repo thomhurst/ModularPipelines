@@ -31,4 +31,3 @@ public record AzMonitorAppInsightsQueryOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

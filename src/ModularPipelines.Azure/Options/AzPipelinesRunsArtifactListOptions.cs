@@ -19,4 +19,3 @@ public record AzPipelinesRunsArtifactListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

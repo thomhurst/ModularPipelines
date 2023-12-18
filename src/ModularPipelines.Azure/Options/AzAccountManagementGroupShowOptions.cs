@@ -19,4 +19,3 @@ public record AzAccountManagementGroupShowOptions(
     [BooleanCommandSwitch("--recurse")]
     public bool? Recurse { get; set; }
 }
-

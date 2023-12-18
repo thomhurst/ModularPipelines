@@ -22,4 +22,3 @@ public record AzPipelinesQueueShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

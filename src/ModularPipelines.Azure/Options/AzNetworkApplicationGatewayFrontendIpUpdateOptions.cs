@@ -36,4 +36,3 @@ public record AzNetworkApplicationGatewayFrontendIpUpdateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

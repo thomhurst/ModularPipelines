@@ -494,4 +494,3 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

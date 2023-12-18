@@ -15,4 +15,3 @@ public record AzDataprotectionBackupInstanceCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

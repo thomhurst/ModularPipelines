@@ -37,4 +37,3 @@ public record AzNetworkBastionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

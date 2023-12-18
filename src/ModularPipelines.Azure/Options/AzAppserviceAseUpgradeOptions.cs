@@ -19,4 +19,3 @@ public record AzAppserviceAseUpgradeOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

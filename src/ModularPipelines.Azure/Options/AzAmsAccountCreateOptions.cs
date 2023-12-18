@@ -33,4 +33,3 @@ public record AzAmsAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

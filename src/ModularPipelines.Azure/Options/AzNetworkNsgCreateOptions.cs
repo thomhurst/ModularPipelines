@@ -20,4 +20,3 @@ public record AzNetworkNsgCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzNetworkFirewallNatRuleCollectionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

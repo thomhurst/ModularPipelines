@@ -41,4 +41,3 @@ public class AzBoardsWorkItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

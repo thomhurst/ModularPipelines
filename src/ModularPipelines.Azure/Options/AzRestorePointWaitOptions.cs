@@ -36,4 +36,3 @@ public record AzRestorePointWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

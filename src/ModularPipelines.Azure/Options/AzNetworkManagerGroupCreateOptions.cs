@@ -18,4 +18,3 @@ public record AzNetworkManagerGroupCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

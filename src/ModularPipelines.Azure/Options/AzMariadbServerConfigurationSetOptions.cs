@@ -26,4 +26,3 @@ public record AzMariadbServerConfigurationSetOptions : AzOptions
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

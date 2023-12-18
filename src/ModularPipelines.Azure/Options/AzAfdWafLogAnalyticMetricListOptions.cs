@@ -24,4 +24,3 @@ public record AzAfdWafLogAnalyticMetricListOptions(
     [CommandSwitch("--rule-types")]
     public string? RuleTypes { get; set; }
 }
-

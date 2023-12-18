@@ -42,4 +42,3 @@ public class AzPostgresServerVnetRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

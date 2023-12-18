@@ -101,4 +101,3 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     [CommandSwitch("--vpn-type")]
     public string? VpnType { get; set; }
 }
-

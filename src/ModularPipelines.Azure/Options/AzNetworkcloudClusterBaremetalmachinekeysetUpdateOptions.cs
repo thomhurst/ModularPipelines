@@ -38,4 +38,3 @@ public record AzNetworkcloudClusterBaremetalmachinekeysetUpdateOptions : AzOptio
     [CommandSwitch("--user-list")]
     public string? UserList { get; set; }
 }
-

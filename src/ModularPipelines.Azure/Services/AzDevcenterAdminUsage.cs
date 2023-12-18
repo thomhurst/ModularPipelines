@@ -22,4 +22,3 @@ public class AzDevcenterAdminUsage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

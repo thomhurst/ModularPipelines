@@ -37,4 +37,3 @@ public class AzDatashareInvitation
         return await _command.ExecuteCommandLineTool(options ?? new AzDatashareInvitationShowOptions(), token);
     }
 }
-

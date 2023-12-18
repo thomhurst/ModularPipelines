@@ -82,4 +82,3 @@ public class AzPipelines
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

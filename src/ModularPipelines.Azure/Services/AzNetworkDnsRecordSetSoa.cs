@@ -27,4 +27,3 @@ public class AzNetworkDnsRecordSetSoa
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

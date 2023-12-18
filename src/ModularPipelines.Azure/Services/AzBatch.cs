@@ -60,4 +60,3 @@ public class AzBatch
 
     public AzBatchTask Task { get; }
 }
-

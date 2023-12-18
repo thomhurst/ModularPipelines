@@ -70,4 +70,3 @@ public record AzBackupRecoveryconfigShowOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

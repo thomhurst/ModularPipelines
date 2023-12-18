@@ -22,4 +22,3 @@ public class AzConnectionCreateMysqlFlexibleServiceconnectorPasswordless
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

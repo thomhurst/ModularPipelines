@@ -32,4 +32,3 @@ public class AzPostgresServerReplica
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerReplicaStopOptions(), token);
     }
 }
-

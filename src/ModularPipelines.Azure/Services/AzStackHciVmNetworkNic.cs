@@ -42,4 +42,3 @@ public class AzStackHciVmNetworkNic
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicUpdateOptions(), token);
     }
 }
-

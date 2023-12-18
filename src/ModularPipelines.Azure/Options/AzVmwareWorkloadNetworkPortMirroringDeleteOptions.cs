@@ -26,4 +26,3 @@ public record AzVmwareWorkloadNetworkPortMirroringDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

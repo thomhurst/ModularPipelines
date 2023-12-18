@@ -113,4 +113,3 @@ public class AzPaloAltoCloudngfwLocalRulestack
         return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackWaitOptions(), token);
     }
 }
-

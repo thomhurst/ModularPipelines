@@ -61,4 +61,3 @@ public record AzIotHubDeviceIdentityUpdateOptions(
     [CommandSwitch("--star")]
     public string? Star { get; set; }
 }
-

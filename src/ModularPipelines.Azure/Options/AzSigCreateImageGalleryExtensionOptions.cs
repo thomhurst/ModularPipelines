@@ -38,4 +38,3 @@ public record AzSigCreateImageGalleryExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

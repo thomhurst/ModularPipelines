@@ -16,4 +16,3 @@ public record AzDevcenterAdminUsageListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

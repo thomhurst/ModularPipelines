@@ -20,4 +20,3 @@ public record AzMlComputetargetAttachKubernetesOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

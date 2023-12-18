@@ -37,4 +37,3 @@ public class AzBillingBenefits
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsValidatePurchaseOptions(), token);
     }
 }
-

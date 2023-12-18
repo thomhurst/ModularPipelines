@@ -99,4 +99,3 @@ public record AzIotOpsAssetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

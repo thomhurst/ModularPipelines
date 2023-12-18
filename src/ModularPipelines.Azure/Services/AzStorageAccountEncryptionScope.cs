@@ -37,4 +37,3 @@ public class AzStorageAccountEncryptionScope
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

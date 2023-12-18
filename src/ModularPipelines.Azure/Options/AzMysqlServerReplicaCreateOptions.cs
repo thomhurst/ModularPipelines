@@ -21,4 +21,3 @@ public record AzMysqlServerReplicaCreateOptions(
     [CommandSwitch("--sku-name")]
     public string? SkuName { get; set; }
 }
-

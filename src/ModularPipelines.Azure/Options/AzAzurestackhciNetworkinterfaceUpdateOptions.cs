@@ -23,4 +23,3 @@ public record AzAzurestackhciNetworkinterfaceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

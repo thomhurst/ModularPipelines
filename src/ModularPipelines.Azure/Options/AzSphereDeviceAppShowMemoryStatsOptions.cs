@@ -11,4 +11,3 @@ public record AzSphereDeviceAppShowMemoryStatsOptions : AzOptions
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

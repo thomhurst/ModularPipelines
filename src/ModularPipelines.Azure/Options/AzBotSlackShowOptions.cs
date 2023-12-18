@@ -14,4 +14,3 @@ public record AzBotSlackShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

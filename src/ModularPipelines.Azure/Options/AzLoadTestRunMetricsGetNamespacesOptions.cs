@@ -14,4 +14,3 @@ public record AzLoadTestRunMetricsGetNamespacesOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

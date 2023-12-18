@@ -22,4 +22,3 @@ public class AzContainerappConnectionCreatePostgresServiceconnectorPasswordless
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions(), token);
     }
 }
-

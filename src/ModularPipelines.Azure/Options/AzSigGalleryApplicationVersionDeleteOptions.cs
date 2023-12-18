@@ -27,4 +27,3 @@ public record AzSigGalleryApplicationVersionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

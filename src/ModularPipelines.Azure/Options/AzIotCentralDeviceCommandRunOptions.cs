@@ -31,4 +31,3 @@ public record AzIotCentralDeviceCommandRunOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

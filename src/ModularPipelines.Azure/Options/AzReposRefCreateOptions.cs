@@ -23,4 +23,3 @@ public record AzReposRefCreateOptions(
     [CommandSwitch("--repository")]
     public string? Repository { get; set; }
 }
-

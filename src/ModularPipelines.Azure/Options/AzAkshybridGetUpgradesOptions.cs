@@ -17,4 +17,3 @@ public record AzAkshybridGetUpgradesOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

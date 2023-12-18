@@ -46,4 +46,3 @@ public class AzTag
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -59,4 +59,3 @@ public class AzAttestation
         return await _command.ExecuteCommandLineTool(options ?? new AzAttestationUpdateOptions(), token);
     }
 }
-

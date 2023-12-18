@@ -20,4 +20,3 @@ public record AzDevopsSecurityGroupMembershipRemoveOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzCognitiveservicesAccountListModelsOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

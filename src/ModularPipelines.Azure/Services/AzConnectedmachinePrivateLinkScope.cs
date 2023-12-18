@@ -52,4 +52,3 @@ public class AzConnectedmachinePrivateLinkScope
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeWaitOptions(), token);
     }
 }
-

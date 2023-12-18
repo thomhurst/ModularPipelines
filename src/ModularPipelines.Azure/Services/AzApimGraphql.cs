@@ -17,4 +17,3 @@ public class AzApimGraphql
 
     public AzApimGraphqlResolver Resolver { get; }
 }
-

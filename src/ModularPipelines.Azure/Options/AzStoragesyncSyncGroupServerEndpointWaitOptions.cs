@@ -34,4 +34,3 @@ public record AzStoragesyncSyncGroupServerEndpointWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

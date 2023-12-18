@@ -18,4 +18,3 @@ public record AzNetworkIpGroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

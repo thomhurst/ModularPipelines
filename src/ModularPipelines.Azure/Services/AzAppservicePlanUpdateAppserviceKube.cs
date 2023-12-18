@@ -22,4 +22,3 @@ public class AzAppservicePlanUpdateAppserviceKube
         return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanUpdateAppserviceKubeExtensionOptions(), token);
     }
 }
-

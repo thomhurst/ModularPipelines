@@ -47,4 +47,3 @@ public class AzCosmosdbPostgresRole
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresRoleWaitOptions(), token);
     }
 }
-

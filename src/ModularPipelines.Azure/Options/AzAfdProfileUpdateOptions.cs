@@ -26,4 +26,3 @@ public record AzAfdProfileUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzEventhubsGeorecoveryAliasCreateOptions(
     [CommandSwitch("--partner-namespace")]
     public string? PartnerNamespace { get; set; }
 }
-

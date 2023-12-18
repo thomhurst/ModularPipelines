@@ -41,4 +41,3 @@ public record AzLogzMonitorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

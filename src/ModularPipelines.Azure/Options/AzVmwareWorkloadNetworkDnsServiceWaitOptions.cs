@@ -44,4 +44,3 @@ public record AzVmwareWorkloadNetworkDnsServiceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

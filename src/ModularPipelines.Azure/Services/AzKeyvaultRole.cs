@@ -21,4 +21,3 @@ public class AzKeyvaultRole
 
     public AzKeyvaultRoleDefinition Definition { get; }
 }
-

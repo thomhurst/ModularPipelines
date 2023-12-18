@@ -26,4 +26,3 @@ public record AzPaloAltoCloudngfwLocalRulestackLocalRuleShowCounterOptions : AzO
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

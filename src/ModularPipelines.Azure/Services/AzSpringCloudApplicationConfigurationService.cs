@@ -41,4 +41,3 @@ public class AzSpringCloudApplicationConfigurationService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

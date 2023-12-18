@@ -47,4 +47,3 @@ public class AzIotHubConfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

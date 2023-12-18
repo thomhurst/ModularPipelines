@@ -38,4 +38,3 @@ public record AzApicServiceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

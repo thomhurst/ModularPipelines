@@ -22,4 +22,3 @@ public record AzNetworkWatcherTroubleshootingShowOptions(
     [CommandSwitch("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }
-

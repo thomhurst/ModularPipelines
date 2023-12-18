@@ -57,4 +57,3 @@ public class AzNetworkPerimeter
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterShowOptions(), token);
     }
 }
-

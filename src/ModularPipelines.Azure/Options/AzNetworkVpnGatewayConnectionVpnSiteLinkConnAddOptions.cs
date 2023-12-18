@@ -58,4 +58,3 @@ public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnAddOptions(
     [CommandSwitch("--vpn-link-connection-mode")]
     public string? VpnLinkConnectionMode { get; set; }
 }
-

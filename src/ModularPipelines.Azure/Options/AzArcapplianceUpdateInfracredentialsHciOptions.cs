@@ -16,4 +16,3 @@ public record AzArcapplianceUpdateInfracredentialsHciOptions(
     [CommandSwitch("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 }
-

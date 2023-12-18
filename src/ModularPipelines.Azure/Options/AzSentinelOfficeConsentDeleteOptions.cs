@@ -23,4 +23,3 @@ public record AzSentinelOfficeConsentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

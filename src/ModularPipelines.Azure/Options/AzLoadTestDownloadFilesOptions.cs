@@ -18,4 +18,3 @@ public record AzLoadTestDownloadFilesOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

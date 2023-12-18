@@ -26,4 +26,3 @@ public record AzResourceMoverMoveCollectionListUnresolvedDependencyOptions(
     [CommandSwitch("--orderby")]
     public string? Orderby { get; set; }
 }
-

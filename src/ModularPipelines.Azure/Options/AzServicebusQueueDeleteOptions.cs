@@ -20,4 +20,3 @@ public record AzServicebusQueueDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

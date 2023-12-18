@@ -29,4 +29,3 @@ public record AzNetworkLbProbeCreateOptions(
     [CommandSwitch("--probe-threshold")]
     public string? ProbeThreshold { get; set; }
 }
-

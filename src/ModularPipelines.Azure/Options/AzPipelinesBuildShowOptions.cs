@@ -22,4 +22,3 @@ public record AzPipelinesBuildShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

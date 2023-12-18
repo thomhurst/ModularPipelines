@@ -22,4 +22,3 @@ public class AzBotWebchat
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

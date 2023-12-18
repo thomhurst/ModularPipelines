@@ -19,4 +19,3 @@ public record AzEventgridPartnerConfigurationShowOptions(
     [CommandSwitch("--partner-registration-immutable-id")]
     public string? PartnerRegistrationImmutableId { get; set; }
 }
-

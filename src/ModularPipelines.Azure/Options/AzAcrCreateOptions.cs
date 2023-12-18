@@ -45,4 +45,3 @@ public record AzAcrCreateOptions(
     [CommandSwitch("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }
-

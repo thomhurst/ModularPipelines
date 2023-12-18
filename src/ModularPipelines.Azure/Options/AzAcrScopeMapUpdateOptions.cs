@@ -29,4 +29,3 @@ public record AzAcrScopeMapUpdateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

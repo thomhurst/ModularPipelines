@@ -24,4 +24,3 @@ public record AzPeeringServiceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

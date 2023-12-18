@@ -22,4 +22,3 @@ public record AzMonitorDataCollectionRulePerformanceCounterShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

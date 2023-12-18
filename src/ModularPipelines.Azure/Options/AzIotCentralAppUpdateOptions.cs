@@ -23,4 +23,3 @@ public record AzIotCentralAppUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzWebappAuthApple
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthAppleUpdateOptions(), token);
     }
 }
-

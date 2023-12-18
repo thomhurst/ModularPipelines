@@ -19,4 +19,3 @@ public record AzCommunicationChatThreadCreateOptions(
     [CommandSwitch("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzMonitorDiagnosticSettingsSubscriptionCreateOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

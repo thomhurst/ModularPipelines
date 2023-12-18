@@ -13,4 +13,3 @@ public record AzSphereDeviceNetworkEnableOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

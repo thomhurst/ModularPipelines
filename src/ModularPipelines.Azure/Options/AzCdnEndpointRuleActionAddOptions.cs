@@ -77,4 +77,3 @@ public record AzCdnEndpointRuleActionAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

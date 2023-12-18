@@ -25,4 +25,3 @@ public record AzIotEdgeDeploymentListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

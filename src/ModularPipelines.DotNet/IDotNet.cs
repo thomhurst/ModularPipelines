@@ -1,4 +1,4 @@
-﻿using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.DotNet;

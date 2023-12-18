@@ -52,4 +52,3 @@ public class AzNetworkRouteFilterRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterRuleWaitOptions(), token);
     }
 }
-

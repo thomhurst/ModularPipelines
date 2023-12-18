@@ -46,4 +46,3 @@ public record AzStorageBlobTagSetOptions(
     [CommandSwitch("--version-id")]
     public string? VersionId { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzAcrIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -37,4 +37,3 @@ public record AzMlEnvironmentUpdateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

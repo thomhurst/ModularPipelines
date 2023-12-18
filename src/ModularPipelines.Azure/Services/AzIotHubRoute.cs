@@ -47,4 +47,3 @@ public class AzIotHubRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

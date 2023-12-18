@@ -22,4 +22,3 @@ public class AzStorageAccountUpdateStoragePreview
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateStoragePreviewExtensionOptions(), token);
     }
 }
-

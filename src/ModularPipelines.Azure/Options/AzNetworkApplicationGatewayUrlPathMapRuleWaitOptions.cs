@@ -41,4 +41,3 @@ public record AzNetworkApplicationGatewayUrlPathMapRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

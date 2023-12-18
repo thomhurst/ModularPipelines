@@ -14,4 +14,3 @@ public record AzSphereDeviceAppShowQuotaOptions : AzOptions
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

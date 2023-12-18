@@ -29,4 +29,3 @@ public record AzEventhubsGeorecoveryAliasSetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzAutomationJob
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomationJobSuspendOptions(), token);
     }
 }
-

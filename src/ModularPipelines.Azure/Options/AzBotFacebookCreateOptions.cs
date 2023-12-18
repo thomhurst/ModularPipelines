@@ -21,4 +21,3 @@ public record AzBotFacebookCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

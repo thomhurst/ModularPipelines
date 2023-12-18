@@ -26,4 +26,3 @@ public record AzVmwareWorkloadNetworkDnsServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzBatchAccountNetworkProfileNetworkRuleAddOptions(
     [CommandSwitch("--profile")]
     public string? Profile { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzSiteRecoveryProtectedItemCreateOptions(
     [CommandSwitch("--provider-details")]
     public string? ProviderDetails { get; set; }
 }
-

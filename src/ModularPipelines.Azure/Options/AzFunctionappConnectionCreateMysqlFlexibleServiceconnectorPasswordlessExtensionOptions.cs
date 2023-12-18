@@ -53,4 +53,3 @@ public record AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPassword
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

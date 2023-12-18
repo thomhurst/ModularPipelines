@@ -25,4 +25,3 @@ public record AzGrafanaBackupOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzAcrPack
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

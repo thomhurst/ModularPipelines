@@ -21,4 +21,3 @@ public record AzDatashareCreateOptions(
     [CommandSwitch("--terms")]
     public string? Terms { get; set; }
 }
-

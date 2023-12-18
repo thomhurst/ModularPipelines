@@ -41,4 +41,3 @@ public record AzEventgridDomainUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzSqlMiAdOnlyAuth
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthGetOptions(), token);
     }
 }
-

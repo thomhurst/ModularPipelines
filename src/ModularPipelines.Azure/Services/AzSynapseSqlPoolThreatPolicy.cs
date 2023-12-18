@@ -27,4 +27,3 @@ public class AzSynapseSqlPoolThreatPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolThreatPolicyUpdateOptions(), token);
     }
 }
-

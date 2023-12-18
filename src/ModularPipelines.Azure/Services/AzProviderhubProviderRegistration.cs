@@ -42,4 +42,3 @@ public class AzProviderhubProviderRegistration
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationShowOptions(), token);
     }
 }
-

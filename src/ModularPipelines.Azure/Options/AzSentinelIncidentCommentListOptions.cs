@@ -24,4 +24,3 @@ public record AzSentinelIncidentCommentListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

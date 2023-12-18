@@ -31,4 +31,3 @@ public class AzSupportServices
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

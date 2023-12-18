@@ -50,4 +50,3 @@ public record AzEventgridNamespaceTopicEventSubscriptionUpdateOptions : AzOption
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

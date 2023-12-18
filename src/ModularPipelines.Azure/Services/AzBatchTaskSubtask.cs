@@ -22,4 +22,3 @@ public class AzBatchTaskSubtask
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

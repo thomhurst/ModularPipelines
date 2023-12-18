@@ -23,4 +23,3 @@ public record AzDevcenterAdminCatalogShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

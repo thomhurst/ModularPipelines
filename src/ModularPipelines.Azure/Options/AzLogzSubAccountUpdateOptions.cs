@@ -29,4 +29,3 @@ public record AzLogzSubAccountUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

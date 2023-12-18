@@ -47,4 +47,3 @@ public class AzDataboxedgeOrder
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderWaitOptions(), token);
     }
 }
-

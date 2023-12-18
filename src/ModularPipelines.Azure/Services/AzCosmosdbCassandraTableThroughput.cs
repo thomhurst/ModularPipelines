@@ -32,4 +32,3 @@ public class AzCosmosdbCassandraTableThroughput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

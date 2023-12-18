@@ -59,4 +59,3 @@ public record AzNetworkLbRuleListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

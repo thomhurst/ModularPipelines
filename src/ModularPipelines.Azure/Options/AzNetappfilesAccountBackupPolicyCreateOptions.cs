@@ -33,4 +33,3 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions(
     [CommandSwitch("--weekly-backups")]
     public string? WeeklyBackups { get; set; }
 }
-

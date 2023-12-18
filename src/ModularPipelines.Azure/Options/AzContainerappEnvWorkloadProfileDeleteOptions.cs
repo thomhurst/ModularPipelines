@@ -21,4 +21,3 @@ public record AzContainerappEnvWorkloadProfileDeleteOptions(
     [CommandSwitch("--workload-profile-type")]
     public string? WorkloadProfileType { get; set; }
 }
-

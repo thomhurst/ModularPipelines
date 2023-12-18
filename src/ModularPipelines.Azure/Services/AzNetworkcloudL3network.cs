@@ -47,4 +47,3 @@ public class AzNetworkcloudL3network
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudL3networkWaitOptions(), token);
     }
 }
-

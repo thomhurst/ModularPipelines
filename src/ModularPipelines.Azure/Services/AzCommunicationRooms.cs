@@ -46,4 +46,3 @@ public class AzCommunicationRooms
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

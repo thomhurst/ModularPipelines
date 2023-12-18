@@ -22,4 +22,3 @@ public class AzEventgridPartnerNamespaceEventChannelDeleteEventgrid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

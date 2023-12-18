@@ -14,4 +14,3 @@ public record AzSphereDeviceRescanAttachedOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

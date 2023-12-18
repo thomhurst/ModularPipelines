@@ -16,4 +16,3 @@ public record AzInteractiveOptions(
     [CommandSwitch("--update")]
     public string? Update { get; set; }
 }
-

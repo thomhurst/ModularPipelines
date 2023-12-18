@@ -46,4 +46,3 @@ public record AzIotDeviceSendD2cMessageOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

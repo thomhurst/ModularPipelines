@@ -83,4 +83,3 @@ public record AzMlComputeCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

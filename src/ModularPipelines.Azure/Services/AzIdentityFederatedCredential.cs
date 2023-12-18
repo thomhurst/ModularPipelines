@@ -42,4 +42,3 @@ public class AzIdentityFederatedCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

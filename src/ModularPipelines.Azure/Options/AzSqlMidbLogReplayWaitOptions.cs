@@ -44,4 +44,3 @@ public record AzSqlMidbLogReplayWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzSynapseDatasetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

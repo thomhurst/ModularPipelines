@@ -34,4 +34,3 @@ public record AzFunctionappDeploymentGithubActionsRemoveOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

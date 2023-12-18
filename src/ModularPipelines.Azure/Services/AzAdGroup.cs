@@ -50,4 +50,3 @@ public class AzAdGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

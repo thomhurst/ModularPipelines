@@ -29,4 +29,3 @@ public record AzVmDeallocateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

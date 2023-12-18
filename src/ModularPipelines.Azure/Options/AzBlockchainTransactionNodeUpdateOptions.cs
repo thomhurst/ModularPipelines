@@ -18,4 +18,3 @@ public record AzBlockchainTransactionNodeUpdateOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

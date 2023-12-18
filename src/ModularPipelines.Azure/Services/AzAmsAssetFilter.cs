@@ -42,4 +42,3 @@ public class AzAmsAssetFilter
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterUpdateOptions(), token);
     }
 }
-

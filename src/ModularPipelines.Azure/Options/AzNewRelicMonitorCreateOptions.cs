@@ -38,4 +38,3 @@ public record AzNewRelicMonitorCreateOptions(
     [CommandSwitch("--user-info")]
     public string? UserInfo { get; set; }
 }
-

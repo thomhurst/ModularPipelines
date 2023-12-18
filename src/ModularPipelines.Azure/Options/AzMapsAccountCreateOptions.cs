@@ -33,4 +33,3 @@ public record AzMapsAccountCreateOptions(
     [CommandSwitch("--user-identities")]
     public string? UserIdentities { get; set; }
 }
-

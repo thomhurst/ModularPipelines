@@ -22,4 +22,3 @@ public record AzIotDeviceC2dMessageAbandonOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -58,4 +58,3 @@ public class AzAppservicePlan
         return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanUpdateOptions(), token);
     }
 }
-

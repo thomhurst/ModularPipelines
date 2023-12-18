@@ -32,4 +32,3 @@ public class AzNetworkVnetGatewayRevokedCert
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertWaitOptions(), token);
     }
 }
-

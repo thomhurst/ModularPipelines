@@ -51,4 +51,3 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions(
     [CommandSwitch("--url-path-map")]
     public string? UrlPathMap { get; set; }
 }
-

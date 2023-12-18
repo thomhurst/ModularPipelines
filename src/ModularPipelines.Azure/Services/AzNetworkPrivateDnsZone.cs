@@ -57,4 +57,3 @@ public class AzNetworkPrivateDnsZone
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneWaitOptions(), token);
     }
 }
-

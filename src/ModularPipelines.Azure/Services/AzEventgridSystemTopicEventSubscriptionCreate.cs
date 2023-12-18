@@ -17,4 +17,3 @@ public class AzEventgridSystemTopicEventSubscriptionCreate
 
     public AzEventgridSystemTopicEventSubscriptionCreateEventgrid Eventgrid { get; }
 }
-

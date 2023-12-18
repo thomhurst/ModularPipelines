@@ -35,4 +35,3 @@ public record AzKeyvaultKeyEncryptOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

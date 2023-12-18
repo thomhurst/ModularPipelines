@@ -67,4 +67,3 @@ public class AzStackHciArcSetting
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciArcSettingWaitOptions(), token);
     }
 }
-

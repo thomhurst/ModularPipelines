@@ -15,4 +15,3 @@ public record AzVmNicAddOptions(
     [CommandSwitch("--primary-nic")]
     public string? PrimaryNic { get; set; }
 }
-

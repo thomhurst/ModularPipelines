@@ -23,4 +23,3 @@ public record AzPostgresFlexibleServerDbDeleteOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

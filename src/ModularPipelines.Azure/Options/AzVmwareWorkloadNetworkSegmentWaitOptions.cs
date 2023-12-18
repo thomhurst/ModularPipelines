@@ -44,4 +44,3 @@ public record AzVmwareWorkloadNetworkSegmentWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

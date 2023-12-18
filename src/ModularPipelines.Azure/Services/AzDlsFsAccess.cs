@@ -52,4 +52,3 @@ public class AzDlsFsAccess
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

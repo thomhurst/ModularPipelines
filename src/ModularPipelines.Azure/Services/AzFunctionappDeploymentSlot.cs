@@ -42,4 +42,3 @@ public class AzFunctionappDeploymentSlot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

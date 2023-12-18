@@ -42,4 +42,3 @@ public class AzSqlMiStartStopSchedule
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleUpdateOptions(), token);
     }
 }
-

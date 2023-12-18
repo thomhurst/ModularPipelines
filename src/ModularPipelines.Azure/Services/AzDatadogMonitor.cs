@@ -82,4 +82,3 @@ public class AzDatadogMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzDatadogMonitorWaitOptions(), token);
     }
 }
-

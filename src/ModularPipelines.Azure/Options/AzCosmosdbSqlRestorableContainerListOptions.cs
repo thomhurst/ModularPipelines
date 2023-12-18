@@ -18,4 +18,3 @@ public record AzCosmosdbSqlRestorableContainerListOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

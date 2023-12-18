@@ -37,4 +37,3 @@ public class AzMariadbServerPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

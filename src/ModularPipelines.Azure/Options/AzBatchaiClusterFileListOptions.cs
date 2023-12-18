@@ -18,4 +18,3 @@ public record AzBatchaiClusterFileListOptions(
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

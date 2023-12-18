@@ -47,4 +47,3 @@ public record AzNetworkVpnServerConfigSetOptions(
     [CommandSwitch("--vpn-client-root-certs")]
     public string? VpnClientRootCerts { get; set; }
 }
-

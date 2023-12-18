@@ -37,4 +37,3 @@ public class AzAmsStreamingPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyShowOptions(), token);
     }
 }
-

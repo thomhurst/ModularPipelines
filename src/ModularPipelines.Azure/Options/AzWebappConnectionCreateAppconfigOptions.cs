@@ -66,4 +66,3 @@ public record AzWebappConnectionCreateAppconfigOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

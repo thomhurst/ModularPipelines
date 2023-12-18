@@ -17,4 +17,3 @@ public record AzAmsTransformListOptions(
     [CommandSwitch("--orderby")]
     public string? Orderby { get; set; }
 }
-

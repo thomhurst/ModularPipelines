@@ -23,4 +23,3 @@ public record AzNetworkPublicIpPrefixShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

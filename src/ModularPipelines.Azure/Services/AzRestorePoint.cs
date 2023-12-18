@@ -40,4 +40,3 @@ public class AzRestorePoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -16,4 +16,3 @@ public record AzAliasExportOptions(
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

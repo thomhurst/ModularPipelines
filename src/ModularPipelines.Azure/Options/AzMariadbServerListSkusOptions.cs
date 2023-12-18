@@ -22,4 +22,3 @@ public record AzMariadbServerListSkusOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

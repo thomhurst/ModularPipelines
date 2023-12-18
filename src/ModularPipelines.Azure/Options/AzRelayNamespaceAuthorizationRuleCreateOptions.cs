@@ -15,4 +15,3 @@ public record AzRelayNamespaceAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

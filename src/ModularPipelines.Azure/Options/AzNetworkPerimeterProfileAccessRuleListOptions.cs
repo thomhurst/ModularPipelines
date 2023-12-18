@@ -18,4 +18,3 @@ public record AzNetworkPerimeterProfileAccessRuleListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

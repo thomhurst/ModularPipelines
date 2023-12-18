@@ -46,4 +46,3 @@ public class AzSpringBuildServiceBuilder
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

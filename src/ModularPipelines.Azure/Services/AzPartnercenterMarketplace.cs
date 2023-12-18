@@ -17,4 +17,3 @@ public class AzPartnercenterMarketplace
 
     public AzPartnercenterMarketplaceOffer Offer { get; }
 }
-

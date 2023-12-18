@@ -29,4 +29,3 @@ public record AzOffazureVmwareSiteCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

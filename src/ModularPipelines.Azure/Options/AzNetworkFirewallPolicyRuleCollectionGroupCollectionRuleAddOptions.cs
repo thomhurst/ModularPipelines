@@ -81,4 +81,3 @@ public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleAddOptions
     [CommandSwitch("--web-categories")]
     public string? WebCategories { get; set; }
 }
-

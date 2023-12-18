@@ -15,4 +15,3 @@ public record AzSpringApmDisableGloballyOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

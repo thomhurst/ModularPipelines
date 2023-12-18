@@ -31,4 +31,3 @@ public record AzArcapplianceDeployHciOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzVmwarePlacementPolicyVm
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyVmUpdateOptions(), token);
     }
 }
-

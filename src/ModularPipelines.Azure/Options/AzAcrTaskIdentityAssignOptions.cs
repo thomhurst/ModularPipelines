@@ -17,4 +17,3 @@ public record AzAcrTaskIdentityAssignOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

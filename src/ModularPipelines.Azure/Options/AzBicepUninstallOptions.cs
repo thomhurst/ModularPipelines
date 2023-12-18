@@ -11,4 +11,3 @@ public record AzBicepUninstallOptions : AzOptions
     [CommandSwitch("--target-platform")]
     public string? TargetPlatform { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzVmwareHcxEnterpriseSiteShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

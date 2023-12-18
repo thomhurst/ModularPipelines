@@ -19,4 +19,3 @@ public record AzPostgresServerVnetRuleCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

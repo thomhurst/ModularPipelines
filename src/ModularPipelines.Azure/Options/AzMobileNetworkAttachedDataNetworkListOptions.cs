@@ -21,4 +21,3 @@ public record AzMobileNetworkAttachedDataNetworkListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

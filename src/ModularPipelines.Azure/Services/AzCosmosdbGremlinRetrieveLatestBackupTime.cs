@@ -17,4 +17,3 @@ public class AzCosmosdbGremlinRetrieveLatestBackupTime
 
     public AzCosmosdbGremlinRetrieveLatestBackupTimeCosmosdbPreview CosmosdbPreview { get; }
 }
-

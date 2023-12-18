@@ -25,4 +25,3 @@ public record AzDatafactoryManagedPrivateEndpointCreateOptions(
     [CommandSwitch("--private-link")]
     public string? PrivateLink { get; set; }
 }
-

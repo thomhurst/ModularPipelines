@@ -22,4 +22,3 @@ public class AzSearchPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

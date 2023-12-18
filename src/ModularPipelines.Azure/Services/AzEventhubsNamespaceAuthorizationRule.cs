@@ -46,4 +46,3 @@ public class AzEventhubsNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleUpdateOptions(), token);
     }
 }
-

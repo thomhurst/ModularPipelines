@@ -47,4 +47,3 @@ public class AzHealthcareapisWorkspaceFhirService
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceFhirServiceWaitOptions(), token);
     }
 }
-

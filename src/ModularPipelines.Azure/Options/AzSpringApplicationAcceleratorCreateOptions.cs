@@ -14,4 +14,3 @@ public record AzSpringApplicationAcceleratorCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzSphereDeviceShowCountOptions(
     [CommandSwitch("--product")]
     public string? Product { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzNetworkcloudTrunkednetworkDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

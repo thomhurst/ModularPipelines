@@ -25,4 +25,3 @@ public record AzNotificationHubNamespaceAuthorizationRuleListKeysOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

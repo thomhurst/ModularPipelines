@@ -27,4 +27,3 @@ public class AzIotCentralRole
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

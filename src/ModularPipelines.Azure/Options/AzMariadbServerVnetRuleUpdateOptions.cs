@@ -43,4 +43,3 @@ public record AzMariadbServerVnetRuleUpdateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzMysqlServerRestartOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

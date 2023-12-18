@@ -32,4 +32,3 @@ public class AzLogicappConfigAppsettings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

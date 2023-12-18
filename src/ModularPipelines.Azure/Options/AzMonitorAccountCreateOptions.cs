@@ -17,4 +17,3 @@ public record AzMonitorAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

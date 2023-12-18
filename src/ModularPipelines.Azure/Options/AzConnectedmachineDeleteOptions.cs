@@ -26,4 +26,3 @@ public record AzConnectedmachineDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

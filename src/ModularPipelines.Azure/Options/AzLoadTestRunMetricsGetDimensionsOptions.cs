@@ -26,4 +26,3 @@ public record AzLoadTestRunMetricsGetDimensionsOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

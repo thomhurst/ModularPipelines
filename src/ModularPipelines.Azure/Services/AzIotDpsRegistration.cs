@@ -32,4 +32,3 @@ public class AzIotDpsRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

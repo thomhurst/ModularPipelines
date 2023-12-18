@@ -42,4 +42,3 @@ public class AzStackHciVmImage
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageUpdateOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzCdnEdgeNode
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeNodeListOptions(), token);
     }
 }
-

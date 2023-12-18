@@ -25,4 +25,3 @@ public record AzBoardsAreaProjectListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

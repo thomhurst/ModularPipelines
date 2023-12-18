@@ -16,4 +16,3 @@ public record AzDevopsAdminBannerRemoveOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

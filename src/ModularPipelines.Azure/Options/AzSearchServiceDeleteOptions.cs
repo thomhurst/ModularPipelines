@@ -22,4 +22,3 @@ public record AzSearchServiceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzBatchPoolCreate
 
     public AzBatchPoolCreateAzureBatchCliExtensions AzureBatchCliExtensions { get; }
 }
-

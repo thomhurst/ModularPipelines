@@ -34,4 +34,3 @@ public record AzApimApiSchemaShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

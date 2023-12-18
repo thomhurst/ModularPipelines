@@ -32,4 +32,3 @@ public class AzKeyvaultCertificatePending
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

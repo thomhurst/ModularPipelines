@@ -27,4 +27,3 @@ public class AzSqlRecoverableMidb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

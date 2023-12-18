@@ -60,4 +60,3 @@ public class AzSpringGateway
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

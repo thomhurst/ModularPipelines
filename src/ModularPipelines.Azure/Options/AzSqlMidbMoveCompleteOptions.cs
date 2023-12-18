@@ -31,4 +31,3 @@ public record AzSqlMidbMoveCompleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzBackupRecoverypointShowLogChainOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

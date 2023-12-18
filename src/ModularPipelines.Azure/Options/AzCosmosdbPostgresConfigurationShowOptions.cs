@@ -23,4 +23,3 @@ public record AzCosmosdbPostgresConfigurationShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

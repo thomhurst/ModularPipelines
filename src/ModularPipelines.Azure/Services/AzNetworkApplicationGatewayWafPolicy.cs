@@ -59,4 +59,3 @@ public class AzNetworkApplicationGatewayWafPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyWaitOptions(), token);
     }
 }
-

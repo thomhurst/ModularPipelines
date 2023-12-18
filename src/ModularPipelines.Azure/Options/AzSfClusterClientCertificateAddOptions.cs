@@ -32,4 +32,3 @@ public record AzSfClusterClientCertificateAddOptions(
     [CommandSwitch("--thumbprint")]
     public string? Thumbprint { get; set; }
 }
-

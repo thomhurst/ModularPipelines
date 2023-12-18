@@ -17,4 +17,3 @@ public class AzEventgridDomainKeyRegenerate
 
     public AzEventgridDomainKeyRegenerateEventgrid Eventgrid { get; }
 }
-

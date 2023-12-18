@@ -44,4 +44,3 @@ public record AzStorageDirectoryDeleteOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzSfManagedServiceCorrelationScheme
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

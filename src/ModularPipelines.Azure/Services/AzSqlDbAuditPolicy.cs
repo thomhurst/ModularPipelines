@@ -32,4 +32,3 @@ public class AzSqlDbAuditPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbAuditPolicyWaitOptions(), token);
     }
 }
-

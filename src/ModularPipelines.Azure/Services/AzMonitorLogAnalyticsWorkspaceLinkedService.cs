@@ -47,4 +47,3 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions(), token);
     }
 }
-

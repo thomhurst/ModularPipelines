@@ -20,4 +20,3 @@ public record AzSiteRecoveryReplicationEligibilityShowDefaultOptions : AzOptions
     [CommandSwitch("--virtual-machine-name")]
     public string? VirtualMachineName { get; set; }
 }
-

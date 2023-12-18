@@ -25,4 +25,3 @@ public record AzMysqlFlexibleServerListSkusOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

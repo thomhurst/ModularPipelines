@@ -60,4 +60,3 @@ public class AzKusto
 
     public AzKustoScript Script { get; }
 }
-

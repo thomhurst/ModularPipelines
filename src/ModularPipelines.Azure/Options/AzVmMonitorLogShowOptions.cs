@@ -25,4 +25,3 @@ public record AzVmMonitorLogShowOptions(
     [CommandSwitch("--timespan")]
     public string? Timespan { get; set; }
 }
-

@@ -20,4 +20,3 @@ public class AzManagedCassandra
 
     public AzManagedCassandraDatacenter Datacenter { get; }
 }
-

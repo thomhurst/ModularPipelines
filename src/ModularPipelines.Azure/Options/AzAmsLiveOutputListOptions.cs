@@ -21,4 +21,3 @@ public record AzAmsLiveOutputListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzCosmosdbPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

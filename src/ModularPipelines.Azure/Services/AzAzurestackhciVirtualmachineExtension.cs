@@ -47,4 +47,3 @@ public class AzAzurestackhciVirtualmachineExtension
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionWaitOptions(), token);
     }
 }
-

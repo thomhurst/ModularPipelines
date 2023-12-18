@@ -26,4 +26,3 @@ public record AzDatafactoryManagedVirtualNetworkShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

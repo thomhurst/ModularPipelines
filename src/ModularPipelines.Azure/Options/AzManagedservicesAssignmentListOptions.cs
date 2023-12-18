@@ -16,4 +16,3 @@ public record AzManagedservicesAssignmentListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

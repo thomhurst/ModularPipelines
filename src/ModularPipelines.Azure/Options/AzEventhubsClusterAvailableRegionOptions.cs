@@ -32,4 +32,3 @@ public record AzEventhubsClusterAvailableRegionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

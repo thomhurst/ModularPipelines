@@ -22,4 +22,3 @@ public class AzEventhubsClusterNamespace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

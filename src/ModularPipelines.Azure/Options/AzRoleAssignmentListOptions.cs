@@ -34,4 +34,3 @@ public record AzRoleAssignmentListOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

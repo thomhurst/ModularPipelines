@@ -85,4 +85,3 @@ public class AzDynatraceMonitor
         return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorWaitOptions(), token);
     }
 }
-

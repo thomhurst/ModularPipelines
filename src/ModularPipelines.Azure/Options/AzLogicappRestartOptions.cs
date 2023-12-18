@@ -14,4 +14,3 @@ public record AzLogicappRestartOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

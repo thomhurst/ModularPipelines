@@ -17,4 +17,3 @@ public record AzDataprotectionBackupVaultListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

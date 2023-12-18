@@ -42,4 +42,3 @@ public class AzStackGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupShowOptions(), token);
     }
 }
-

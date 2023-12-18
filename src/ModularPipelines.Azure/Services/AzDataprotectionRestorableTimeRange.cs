@@ -22,4 +22,3 @@ public class AzDataprotectionRestorableTimeRange
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

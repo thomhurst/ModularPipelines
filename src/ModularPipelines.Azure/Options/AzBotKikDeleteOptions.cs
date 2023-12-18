@@ -14,4 +14,3 @@ public record AzBotKikDeleteOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

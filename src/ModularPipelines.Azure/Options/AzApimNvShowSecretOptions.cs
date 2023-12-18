@@ -36,4 +36,3 @@ public record AzApimNvShowSecretOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzKeyvaultSecretListVersionsOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

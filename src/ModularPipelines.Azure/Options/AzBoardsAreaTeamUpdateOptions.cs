@@ -26,4 +26,3 @@ public record AzBoardsAreaTeamUpdateOptions(
     [BooleanCommandSwitch("--set-as-default")]
     public bool? SetAsDefault { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzSecurityAdaptiveApplicationControlsListOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

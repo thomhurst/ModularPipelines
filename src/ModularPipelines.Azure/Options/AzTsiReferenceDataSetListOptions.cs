@@ -20,4 +20,3 @@ public record AzTsiReferenceDataSetListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

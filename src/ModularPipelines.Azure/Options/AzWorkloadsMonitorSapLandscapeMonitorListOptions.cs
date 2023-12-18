@@ -17,4 +17,3 @@ public record AzWorkloadsMonitorSapLandscapeMonitorListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

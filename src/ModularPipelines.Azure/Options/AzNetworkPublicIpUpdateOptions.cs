@@ -71,4 +71,3 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

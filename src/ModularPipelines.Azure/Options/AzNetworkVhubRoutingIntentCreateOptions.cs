@@ -18,4 +18,3 @@ public record AzNetworkVhubRoutingIntentCreateOptions(
     [CommandSwitch("--routing-policies")]
     public string? RoutingPolicies { get; set; }
 }
-

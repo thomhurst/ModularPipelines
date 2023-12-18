@@ -44,4 +44,3 @@ public class AzIot
 
     public AzIotProduct Product { get; }
 }
-

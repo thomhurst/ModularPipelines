@@ -31,4 +31,3 @@ public record AzMlRunUpdateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

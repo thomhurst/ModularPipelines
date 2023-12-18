@@ -16,4 +16,3 @@ public record AzCommunicationIdentityTokenIssueOptions(
     [CommandSwitch("--user")]
     public string? User { get; set; }
 }
-

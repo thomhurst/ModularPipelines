@@ -25,4 +25,3 @@ public record AzNetworkVnetListEndpointServicesOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

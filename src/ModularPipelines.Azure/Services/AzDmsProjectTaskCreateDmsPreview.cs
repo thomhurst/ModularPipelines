@@ -22,4 +22,3 @@ public class AzDmsProjectTaskCreateDmsPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

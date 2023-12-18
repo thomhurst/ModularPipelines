@@ -59,4 +59,3 @@ public record AzImageBuilderCustomizerAddOptions(
     [CommandSwitch("--update-limit")]
     public string? UpdateLimit { get; set; }
 }
-

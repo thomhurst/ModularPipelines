@@ -32,4 +32,3 @@ public class AzSqlDbStrPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

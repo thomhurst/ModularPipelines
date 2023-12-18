@@ -23,4 +23,3 @@ public record AzDevcenterDevEnvironmentUpdateExpirationDateOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

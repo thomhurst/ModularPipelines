@@ -18,4 +18,3 @@ public record AzAdAppPermissionGrantOptions(
     [CommandSwitch("--principal-id")]
     public string? PrincipalId { get; set; }
 }
-

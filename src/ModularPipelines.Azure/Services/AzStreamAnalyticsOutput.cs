@@ -52,4 +52,3 @@ public class AzStreamAnalyticsOutput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

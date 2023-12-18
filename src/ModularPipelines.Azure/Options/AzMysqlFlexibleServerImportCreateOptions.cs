@@ -103,4 +103,3 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

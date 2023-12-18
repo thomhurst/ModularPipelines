@@ -17,4 +17,3 @@ public record AzNetworkcloudVirtualmachineConsoleListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

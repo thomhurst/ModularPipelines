@@ -37,4 +37,3 @@ public record AzConnectionCreateStorageFileOptions(
     [CommandSwitch("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 }
-

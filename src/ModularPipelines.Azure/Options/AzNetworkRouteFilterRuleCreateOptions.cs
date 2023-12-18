@@ -24,4 +24,3 @@ public record AzNetworkRouteFilterRuleCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

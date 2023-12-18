@@ -14,4 +14,3 @@ public record AzLogicappConfigAppsettingsListOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

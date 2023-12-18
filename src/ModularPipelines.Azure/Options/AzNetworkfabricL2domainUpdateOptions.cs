@@ -32,4 +32,3 @@ public record AzNetworkfabricL2domainUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

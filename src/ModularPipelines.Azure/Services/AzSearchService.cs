@@ -47,4 +47,3 @@ public class AzSearchService
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceWaitOptions(), token);
     }
 }
-

@@ -11,4 +11,3 @@ public record AzMonitorActionGroupListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

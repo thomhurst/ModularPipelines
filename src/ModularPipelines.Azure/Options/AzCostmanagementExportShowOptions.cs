@@ -38,4 +38,3 @@ public record AzCostmanagementExportShowOptions(
     [CommandSwitch("--timeframe")]
     public string? Timeframe { get; set; }
 }
-

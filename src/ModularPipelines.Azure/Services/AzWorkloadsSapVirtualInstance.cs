@@ -57,4 +57,3 @@ public class AzWorkloadsSapVirtualInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceWaitOptions(), token);
     }
 }
-

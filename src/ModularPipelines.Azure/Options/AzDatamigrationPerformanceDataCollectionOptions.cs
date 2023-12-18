@@ -31,4 +31,3 @@ public record AzDatamigrationPerformanceDataCollectionOptions(
     [CommandSwitch("--time")]
     public string? Time { get; set; }
 }
-

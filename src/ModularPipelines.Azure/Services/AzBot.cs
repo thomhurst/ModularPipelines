@@ -100,4 +100,3 @@ public class AzBot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

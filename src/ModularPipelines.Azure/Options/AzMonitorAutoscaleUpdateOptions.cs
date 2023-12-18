@@ -65,4 +65,3 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

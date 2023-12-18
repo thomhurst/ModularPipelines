@@ -32,4 +32,3 @@ public class AzVmssNic
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssNicShowOptions(), token);
     }
 }
-

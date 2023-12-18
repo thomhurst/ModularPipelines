@@ -22,4 +22,3 @@ public class AzDevcenterAdminSku
         return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminSkuListOptions(), token);
     }
 }
-

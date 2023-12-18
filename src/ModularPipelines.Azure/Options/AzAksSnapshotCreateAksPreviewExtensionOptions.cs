@@ -24,4 +24,3 @@ public record AzAksSnapshotCreateAksPreviewExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

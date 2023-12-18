@@ -27,4 +27,3 @@ public class AzWebpubsubNetworkRule
         return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubNetworkRuleUpdateOptions(), token);
     }
 }
-

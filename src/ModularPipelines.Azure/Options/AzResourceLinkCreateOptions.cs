@@ -14,4 +14,3 @@ public record AzResourceLinkCreateOptions(
     [CommandSwitch("--notes")]
     public string? Notes { get; set; }
 }
-

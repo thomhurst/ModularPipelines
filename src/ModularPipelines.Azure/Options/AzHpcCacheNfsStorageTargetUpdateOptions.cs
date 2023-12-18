@@ -21,4 +21,3 @@ public record AzHpcCacheNfsStorageTargetUpdateOptions(
     [CommandSwitch("--nfs3-usage-model")]
     public string? Nfs3UsageModel { get; set; }
 }
-

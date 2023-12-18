@@ -17,4 +17,3 @@ public class AzCosmosdbServiceDelete
 
     public AzCosmosdbServiceDeleteCosmosdbPreview CosmosdbPreview { get; }
 }
-

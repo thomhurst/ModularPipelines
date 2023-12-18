@@ -58,4 +58,3 @@ public record AzFunctionappConfigAccessRestrictionAddOptions(
     [CommandSwitch("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
 }
-

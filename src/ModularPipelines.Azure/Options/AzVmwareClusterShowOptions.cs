@@ -23,4 +23,3 @@ public record AzVmwareClusterShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

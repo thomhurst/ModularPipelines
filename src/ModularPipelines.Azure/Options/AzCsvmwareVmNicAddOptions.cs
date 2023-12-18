@@ -18,4 +18,3 @@ public record AzCsvmwareVmNicAddOptions(
     [BooleanCommandSwitch("--power-on-boot")]
     public bool? PowerOnBoot { get; set; }
 }
-

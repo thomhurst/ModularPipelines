@@ -17,4 +17,3 @@ public class AzNetworkNat
 
     public AzNetworkNatGateway Gateway { get; }
 }
-

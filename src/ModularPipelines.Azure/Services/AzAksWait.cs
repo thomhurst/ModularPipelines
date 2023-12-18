@@ -17,4 +17,3 @@ public class AzAksWait
 
     public AzAksWaitAksPreview AksPreview { get; }
 }
-

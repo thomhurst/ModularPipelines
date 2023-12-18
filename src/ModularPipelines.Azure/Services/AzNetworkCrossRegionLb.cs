@@ -59,4 +59,3 @@ public class AzNetworkCrossRegionLb
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbWaitOptions(), token);
     }
 }
-

@@ -41,4 +41,3 @@ public record AzRedisenterpriseDatabaseWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

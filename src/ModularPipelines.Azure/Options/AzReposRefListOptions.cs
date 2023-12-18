@@ -25,4 +25,3 @@ public record AzReposRefListOptions(
     [CommandSwitch("--repository")]
     public string? Repository { get; set; }
 }
-

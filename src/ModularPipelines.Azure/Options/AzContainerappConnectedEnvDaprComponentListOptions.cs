@@ -12,4 +12,3 @@ public record AzContainerappConnectedEnvDaprComponentListOptions(
 ) : AzOptions
 {
 }
-

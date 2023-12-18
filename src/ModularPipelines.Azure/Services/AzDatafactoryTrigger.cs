@@ -77,4 +77,3 @@ public class AzDatafactoryTrigger
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerWaitOptions(), token);
     }
 }
-

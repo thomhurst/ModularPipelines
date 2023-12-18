@@ -46,4 +46,3 @@ public record AzBatchPoolResizeOptions(
     [CommandSwitch("--target-low-priority-nodes")]
     public string? TargetLowPriorityNodes { get; set; }
 }
-

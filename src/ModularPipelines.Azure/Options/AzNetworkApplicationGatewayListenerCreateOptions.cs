@@ -28,4 +28,3 @@ public record AzNetworkApplicationGatewayListenerCreateOptions(
     [CommandSwitch("--ssl-profile-id")]
     public string? SslProfileId { get; set; }
 }
-

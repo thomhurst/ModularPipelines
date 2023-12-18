@@ -37,4 +37,3 @@ public class AzDatadogTagRule
         return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTagRuleUpdateOptions(), token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzArcdataAdConnector
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

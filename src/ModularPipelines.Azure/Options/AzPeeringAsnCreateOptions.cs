@@ -22,4 +22,3 @@ public record AzPeeringAsnCreateOptions(
     [CommandSwitch("--validation-state")]
     public string? ValidationState { get; set; }
 }
-

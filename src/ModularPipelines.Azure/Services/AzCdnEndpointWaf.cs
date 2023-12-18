@@ -17,4 +17,3 @@ public class AzCdnEndpointWaf
 
     public AzCdnEndpointWafPolicy Policy { get; }
 }
-

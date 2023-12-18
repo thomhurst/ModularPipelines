@@ -25,4 +25,3 @@ public record AzDevopsTeamListMemberOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

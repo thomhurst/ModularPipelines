@@ -31,4 +31,3 @@ public record AzNetappfilesVolumeGetGroupidListForLdapuserOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzAppconfigListDeletedOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzSshkeyCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

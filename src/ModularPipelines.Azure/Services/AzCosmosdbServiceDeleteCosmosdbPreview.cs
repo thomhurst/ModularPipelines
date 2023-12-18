@@ -22,4 +22,3 @@ public class AzCosmosdbServiceDeleteCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

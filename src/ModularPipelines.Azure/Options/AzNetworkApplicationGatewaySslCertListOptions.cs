@@ -35,4 +35,3 @@ public record AzNetworkApplicationGatewaySslCertListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

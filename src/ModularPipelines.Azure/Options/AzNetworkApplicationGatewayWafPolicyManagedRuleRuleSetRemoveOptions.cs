@@ -16,4 +16,3 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetRemoveOption
     [CommandSwitch("--group-name")]
     public string? GroupName { get; set; }
 }
-

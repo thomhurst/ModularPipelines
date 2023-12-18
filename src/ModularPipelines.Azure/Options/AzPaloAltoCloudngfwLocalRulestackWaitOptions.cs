@@ -41,4 +41,3 @@ public record AzPaloAltoCloudngfwLocalRulestackWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

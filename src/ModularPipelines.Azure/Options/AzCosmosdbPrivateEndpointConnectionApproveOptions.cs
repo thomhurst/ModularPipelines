@@ -29,4 +29,3 @@ public record AzCosmosdbPrivateEndpointConnectionApproveOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

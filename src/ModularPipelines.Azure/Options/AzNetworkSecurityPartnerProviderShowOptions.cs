@@ -20,4 +20,3 @@ public record AzNetworkSecurityPartnerProviderShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

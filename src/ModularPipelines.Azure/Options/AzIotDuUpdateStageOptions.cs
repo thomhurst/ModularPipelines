@@ -29,4 +29,3 @@ public record AzIotDuUpdateStageOptions(
     [BooleanCommandSwitch("--then-import")]
     public bool? ThenImport { get; set; }
 }
-

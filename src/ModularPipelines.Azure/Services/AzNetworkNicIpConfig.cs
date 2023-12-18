@@ -55,4 +55,3 @@ public class AzNetworkNicIpConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigWaitOptions(), token);
     }
 }
-

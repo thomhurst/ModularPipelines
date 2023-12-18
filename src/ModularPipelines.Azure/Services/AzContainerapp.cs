@@ -150,4 +150,3 @@ public class AzContainerapp
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappUpdateOptions(), token);
     }
 }
-

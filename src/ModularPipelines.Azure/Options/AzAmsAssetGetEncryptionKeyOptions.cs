@@ -20,4 +20,3 @@ public record AzAmsAssetGetEncryptionKeyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

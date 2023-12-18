@@ -49,4 +49,3 @@ public record AzBatchTaskCreateOptions(
     [CommandSwitch("--task-id")]
     public string? TaskId { get; set; }
 }
-

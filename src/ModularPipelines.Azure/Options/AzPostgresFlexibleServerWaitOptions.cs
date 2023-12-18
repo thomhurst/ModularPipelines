@@ -41,4 +41,3 @@ public record AzPostgresFlexibleServerWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

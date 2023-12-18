@@ -47,4 +47,3 @@ public record AzMobileNetworkAttachedDataNetworkWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

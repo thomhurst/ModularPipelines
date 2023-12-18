@@ -47,4 +47,3 @@ public class AzNetworkCustomIpPrefix
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCustomIpPrefixWaitOptions(), token);
     }
 }
-

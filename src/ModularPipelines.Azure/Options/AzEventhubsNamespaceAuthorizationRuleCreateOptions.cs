@@ -15,4 +15,3 @@ public record AzEventhubsNamespaceAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

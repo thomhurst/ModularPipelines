@@ -42,4 +42,3 @@ public class AzSentinelIncidentComment
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentCommentUpdateOptions(), token);
     }
 }
-

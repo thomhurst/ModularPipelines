@@ -44,4 +44,3 @@ public record AzSiteRecoveryJobExportOptions(
     [CommandSwitch("--timezone-offset")]
     public string? TimezoneOffset { get; set; }
 }
-

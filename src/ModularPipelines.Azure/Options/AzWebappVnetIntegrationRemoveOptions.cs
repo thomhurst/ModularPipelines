@@ -14,4 +14,3 @@ public record AzWebappVnetIntegrationRemoveOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

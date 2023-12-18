@@ -41,4 +41,3 @@ public record AzKustoClusterWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

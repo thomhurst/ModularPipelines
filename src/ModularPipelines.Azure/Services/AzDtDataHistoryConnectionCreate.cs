@@ -22,4 +22,3 @@ public class AzDtDataHistoryConnectionCreate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -28,4 +28,3 @@ public record AzNetworkAnalyticsDataProductRemoveUserRoleOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

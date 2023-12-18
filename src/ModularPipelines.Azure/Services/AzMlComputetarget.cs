@@ -62,4 +62,3 @@ public class AzMlComputetarget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

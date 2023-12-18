@@ -21,4 +21,3 @@ public record AzIotDuDeviceDeploymentListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

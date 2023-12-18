@@ -42,4 +42,3 @@ public class AzDatafactoryDataFlow
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

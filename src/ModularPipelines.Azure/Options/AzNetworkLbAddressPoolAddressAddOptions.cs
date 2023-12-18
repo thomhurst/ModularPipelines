@@ -26,4 +26,3 @@ public record AzNetworkLbAddressPoolAddressAddOptions(
     [CommandSwitch("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }
-

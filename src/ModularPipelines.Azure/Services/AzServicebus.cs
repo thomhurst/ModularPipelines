@@ -32,4 +32,3 @@ public class AzServicebus
 
     public AzServicebusTopic Topic { get; }
 }
-

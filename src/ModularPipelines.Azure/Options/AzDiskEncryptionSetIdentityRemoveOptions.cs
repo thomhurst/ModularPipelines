@@ -29,4 +29,3 @@ public record AzDiskEncryptionSetIdentityRemoveOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

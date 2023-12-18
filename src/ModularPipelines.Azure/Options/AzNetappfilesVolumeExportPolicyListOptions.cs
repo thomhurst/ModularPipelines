@@ -34,4 +34,3 @@ public record AzNetappfilesVolumeExportPolicyListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

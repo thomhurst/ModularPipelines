@@ -27,4 +27,3 @@ public class AzSecurityTask
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzEventgridPartnerNamespaceListEventgridExtensionOptions : AzOptio
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

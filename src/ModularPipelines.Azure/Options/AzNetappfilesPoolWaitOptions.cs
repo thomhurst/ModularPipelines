@@ -44,4 +44,3 @@ public record AzNetappfilesPoolWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

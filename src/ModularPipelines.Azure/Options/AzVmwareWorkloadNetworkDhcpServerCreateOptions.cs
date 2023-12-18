@@ -27,4 +27,3 @@ public record AzVmwareWorkloadNetworkDhcpServerCreateOptions(
     [CommandSwitch("--server-address")]
     public string? ServerAddress { get; set; }
 }
-

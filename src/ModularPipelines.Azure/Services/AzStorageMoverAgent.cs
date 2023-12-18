@@ -42,4 +42,3 @@ public class AzStorageMoverAgent
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverAgentWaitOptions(), token);
     }
 }
-

@@ -29,4 +29,3 @@ public record AzPostgresServerPrivateEndpointConnectionRejectOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

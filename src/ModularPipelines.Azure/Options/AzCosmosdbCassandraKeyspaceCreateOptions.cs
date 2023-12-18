@@ -18,4 +18,3 @@ public record AzCosmosdbCassandraKeyspaceCreateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

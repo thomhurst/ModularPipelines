@@ -22,4 +22,3 @@ public record AzPipelinesReleaseShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

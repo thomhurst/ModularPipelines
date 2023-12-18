@@ -20,4 +20,3 @@ public record AzBatchNodeSchedulingEnableOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzConnectedmachinePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzBoardsIterationTeamListOptions(
     [CommandSwitch("--timeframe")]
     public string? Timeframe { get; set; }
 }
-

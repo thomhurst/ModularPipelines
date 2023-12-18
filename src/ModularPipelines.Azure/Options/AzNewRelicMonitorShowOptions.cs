@@ -22,4 +22,3 @@ public record AzNewRelicMonitorShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

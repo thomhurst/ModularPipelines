@@ -49,4 +49,3 @@ public record AzAmsJobStartOptions(
     [CommandSwitch("--transform-name")]
     public string? TransformName { get; set; }
 }
-

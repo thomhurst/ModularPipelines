@@ -54,4 +54,3 @@ public class AzSfManagedNodeType
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

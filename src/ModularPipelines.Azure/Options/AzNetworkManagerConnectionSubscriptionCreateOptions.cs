@@ -14,4 +14,3 @@ public record AzNetworkManagerConnectionSubscriptionCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

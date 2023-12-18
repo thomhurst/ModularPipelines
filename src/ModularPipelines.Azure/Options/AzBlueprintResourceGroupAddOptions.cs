@@ -37,4 +37,3 @@ public record AzBlueprintResourceGroupAddOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

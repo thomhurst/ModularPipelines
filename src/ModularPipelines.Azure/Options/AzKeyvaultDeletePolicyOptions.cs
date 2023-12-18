@@ -28,4 +28,3 @@ public record AzKeyvaultDeletePolicyOptions(
     [CommandSwitch("--upn")]
     public string? Upn { get; set; }
 }
-

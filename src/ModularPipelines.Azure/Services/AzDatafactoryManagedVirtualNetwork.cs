@@ -37,4 +37,3 @@ public class AzDatafactoryManagedVirtualNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedVirtualNetworkUpdateOptions(), token);
     }
 }
-

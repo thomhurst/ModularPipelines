@@ -16,4 +16,3 @@ public record AzBicepInstallOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

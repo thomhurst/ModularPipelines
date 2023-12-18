@@ -17,4 +17,3 @@ public class AzConnectionCreateSql
 
     public AzConnectionCreateSqlServiceconnectorPasswordless ServiceconnectorPasswordless { get; }
 }
-

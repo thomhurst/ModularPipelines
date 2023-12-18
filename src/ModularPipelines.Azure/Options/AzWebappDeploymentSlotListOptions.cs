@@ -22,4 +22,3 @@ public record AzWebappDeploymentSlotListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

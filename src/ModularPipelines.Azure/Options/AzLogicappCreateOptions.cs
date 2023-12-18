@@ -54,4 +54,3 @@ public record AzLogicappCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

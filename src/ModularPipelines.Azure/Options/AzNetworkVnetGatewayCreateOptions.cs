@@ -90,4 +90,3 @@ public record AzNetworkVnetGatewayCreateOptions(
     [CommandSwitch("--vpn-type")]
     public string? VpnType { get; set; }
 }
-

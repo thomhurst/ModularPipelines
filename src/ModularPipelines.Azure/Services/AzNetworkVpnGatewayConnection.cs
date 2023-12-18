@@ -55,4 +55,3 @@ public class AzNetworkVpnGatewayConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionWaitOptions(), token);
     }
 }
-

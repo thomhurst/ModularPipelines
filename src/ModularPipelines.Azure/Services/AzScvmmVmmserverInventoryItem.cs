@@ -27,4 +27,3 @@ public class AzScvmmVmmserverInventoryItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

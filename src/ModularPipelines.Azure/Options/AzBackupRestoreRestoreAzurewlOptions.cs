@@ -21,4 +21,3 @@ public record AzBackupRestoreRestoreAzurewlOptions(
     [CommandSwitch("--use-secondary-region")]
     public string? UseSecondaryRegion { get; set; }
 }
-

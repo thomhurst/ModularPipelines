@@ -16,4 +16,3 @@ public class AzAlertsManagement
 
     public AzAlertsManagementPrometheusRuleGroup PrometheusRuleGroup { get; }
 }
-

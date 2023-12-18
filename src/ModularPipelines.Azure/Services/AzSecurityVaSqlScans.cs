@@ -27,4 +27,3 @@ public class AzSecurityVaSqlScans
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

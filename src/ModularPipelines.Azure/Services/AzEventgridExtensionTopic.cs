@@ -26,4 +26,3 @@ public class AzEventgridExtensionTopic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

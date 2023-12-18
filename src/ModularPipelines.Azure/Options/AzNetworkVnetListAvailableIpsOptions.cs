@@ -22,4 +22,3 @@ public record AzNetworkVnetListAvailableIpsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

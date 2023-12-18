@@ -19,4 +19,3 @@ public record AzAccountManagementGroupCreateOptions(
     [CommandSwitch("--parent")]
     public string? Parent { get; set; }
 }
-

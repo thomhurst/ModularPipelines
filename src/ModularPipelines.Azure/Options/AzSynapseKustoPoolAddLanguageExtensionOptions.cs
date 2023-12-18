@@ -25,4 +25,3 @@ public record AzSynapseKustoPoolAddLanguageExtensionOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

@@ -68,4 +68,3 @@ public record AzReposPrCreateOptions(
     [CommandSwitch("--work-items")]
     public string? WorkItems { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzDatafactoryUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

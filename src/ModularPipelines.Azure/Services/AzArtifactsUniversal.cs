@@ -27,4 +27,3 @@ public class AzArtifactsUniversal
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -43,4 +43,3 @@ public record AzApimCreateOptions(
     [CommandSwitch("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }
-

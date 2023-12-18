@@ -45,4 +45,3 @@ public class AzAfdRule
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleShowOptions(), token);
     }
 }
-

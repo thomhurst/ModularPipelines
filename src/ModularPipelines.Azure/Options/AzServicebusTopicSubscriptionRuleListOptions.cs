@@ -19,4 +19,3 @@ public record AzServicebusTopicSubscriptionRuleListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

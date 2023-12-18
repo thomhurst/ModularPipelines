@@ -33,4 +33,3 @@ public record AzVmwareWorkloadNetworkDnsServiceCreateOptions(
     [CommandSwitch("--revision")]
     public string? Revision { get; set; }
 }
-

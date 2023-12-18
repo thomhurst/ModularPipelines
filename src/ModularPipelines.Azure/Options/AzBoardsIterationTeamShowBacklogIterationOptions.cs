@@ -19,4 +19,3 @@ public record AzBoardsIterationTeamShowBacklogIterationOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

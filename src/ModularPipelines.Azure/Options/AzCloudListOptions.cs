@@ -13,4 +13,3 @@ public record AzCloudListOptions(
     [BooleanCommandSwitch("--show-all")]
     public bool? ShowAll { get; set; }
 }
-

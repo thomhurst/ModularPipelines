@@ -29,4 +29,3 @@ public record AzSqlMidbLogReplayStopOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

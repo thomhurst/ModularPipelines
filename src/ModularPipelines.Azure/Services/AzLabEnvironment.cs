@@ -37,4 +37,3 @@ public class AzLabEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -31,4 +31,3 @@ public record AzNetappfilesVolumeMigrateBackupOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

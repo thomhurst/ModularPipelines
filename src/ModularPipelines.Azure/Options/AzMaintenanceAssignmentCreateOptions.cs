@@ -41,4 +41,3 @@ public record AzMaintenanceAssignmentCreateOptions(
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }
 }
-

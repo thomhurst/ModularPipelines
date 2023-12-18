@@ -39,4 +39,3 @@ public record AzStorageFileCopyCancelOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

@@ -16,4 +16,3 @@ public class AzCliTranslator
 
     public AzCliTranslatorArm Arm { get; }
 }
-

@@ -29,4 +29,3 @@ public record AzDynatraceMonitorTagRuleUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record AzDataprotectionResourceGuardListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

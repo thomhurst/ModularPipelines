@@ -13,4 +13,3 @@ public record AzServicebusNamespaceExistsOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

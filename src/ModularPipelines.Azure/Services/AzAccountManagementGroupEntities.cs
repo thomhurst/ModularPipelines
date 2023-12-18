@@ -22,4 +22,3 @@ public class AzAccountManagementGroupEntities
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupEntitiesListOptions(), token);
     }
 }
-

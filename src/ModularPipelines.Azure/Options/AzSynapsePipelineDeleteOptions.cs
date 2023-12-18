@@ -17,4 +17,3 @@ public record AzSynapsePipelineDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

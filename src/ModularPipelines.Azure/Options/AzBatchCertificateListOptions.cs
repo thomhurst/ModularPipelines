@@ -25,4 +25,3 @@ public record AzBatchCertificateListOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

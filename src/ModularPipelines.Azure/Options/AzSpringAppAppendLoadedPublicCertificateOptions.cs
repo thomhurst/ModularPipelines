@@ -26,4 +26,3 @@ public record AzSpringAppAppendLoadedPublicCertificateOptions(
     [CommandSwitch("--share-name")]
     public string? ShareName { get; set; }
 }
-

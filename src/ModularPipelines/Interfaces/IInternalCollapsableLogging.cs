@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Interfaces;
+namespace ModularPipelines.Interfaces;
 
 internal interface IInternalCollapsableLogging
 {

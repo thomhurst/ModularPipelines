@@ -19,4 +19,3 @@ public record AzNetworkFrontDoorRulesEngineRuleUpdateOptions(
     [CommandSwitch("--priority")]
     public string? Priority { get; set; }
 }
-

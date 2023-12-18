@@ -56,4 +56,3 @@ public class AzEventhubsCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterWaitOptions(), token);
     }
 }
-

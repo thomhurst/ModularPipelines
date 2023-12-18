@@ -25,4 +25,3 @@ public record AzSqlDbLtrBackupListOptions(
     [CommandSwitch("--server")]
     public string? Server { get; set; }
 }
-

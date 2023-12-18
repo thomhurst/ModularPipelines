@@ -19,4 +19,3 @@ public record AzGrafanaNotificationChannelListOptions(
     [BooleanCommandSwitch("--short")]
     public bool? Short { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzCommunicationSmsSendSmsOptions(
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
 }
-

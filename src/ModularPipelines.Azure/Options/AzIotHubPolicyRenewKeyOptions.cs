@@ -28,4 +28,3 @@ public record AzIotHubPolicyRenewKeyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

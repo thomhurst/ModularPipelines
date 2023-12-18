@@ -17,4 +17,3 @@ public record AzStackHciVmDiskDetachOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

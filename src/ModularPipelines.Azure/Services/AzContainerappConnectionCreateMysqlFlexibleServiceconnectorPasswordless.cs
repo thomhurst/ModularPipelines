@@ -22,4 +22,3 @@ public class AzContainerappConnectionCreateMysqlFlexibleServiceconnectorPassword
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzApicEnvironment
         return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentUpdateOptions(), token);
     }
 }
-

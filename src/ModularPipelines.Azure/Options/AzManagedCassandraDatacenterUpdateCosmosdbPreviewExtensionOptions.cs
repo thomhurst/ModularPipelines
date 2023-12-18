@@ -48,4 +48,3 @@ public record AzManagedCassandraDatacenterUpdateCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--node-count")]
     public int? NodeCount { get; set; }
 }
-

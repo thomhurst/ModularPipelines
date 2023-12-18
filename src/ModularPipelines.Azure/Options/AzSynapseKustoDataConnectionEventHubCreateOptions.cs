@@ -44,4 +44,3 @@ public record AzSynapseKustoDataConnectionEventHubCreateOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

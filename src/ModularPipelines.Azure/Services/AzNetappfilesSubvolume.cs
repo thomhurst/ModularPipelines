@@ -51,4 +51,3 @@ public class AzNetappfilesSubvolume
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSubvolumeWaitOptions(), token);
     }
 }
-

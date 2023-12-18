@@ -66,4 +66,3 @@ public record AzWebappCreateOptions(
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }
 }
-

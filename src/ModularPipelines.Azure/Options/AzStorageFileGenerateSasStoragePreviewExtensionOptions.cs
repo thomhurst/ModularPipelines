@@ -56,4 +56,3 @@ public record AzStorageFileGenerateSasStoragePreviewExtensionOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

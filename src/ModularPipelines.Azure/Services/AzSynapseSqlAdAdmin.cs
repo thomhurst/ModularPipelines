@@ -42,4 +42,3 @@ public class AzSynapseSqlAdAdmin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

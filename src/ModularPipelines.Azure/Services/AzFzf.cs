@@ -36,4 +36,3 @@ public class AzFzf
         return await _command.ExecuteCommandLineTool(options ?? new AzFzfSubscriptionOptions(), token);
     }
 }
-

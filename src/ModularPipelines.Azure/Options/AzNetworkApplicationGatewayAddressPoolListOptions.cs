@@ -29,4 +29,3 @@ public record AzNetworkApplicationGatewayAddressPoolListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

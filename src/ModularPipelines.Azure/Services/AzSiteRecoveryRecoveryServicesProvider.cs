@@ -22,4 +22,3 @@ public class AzSiteRecoveryRecoveryServicesProvider
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

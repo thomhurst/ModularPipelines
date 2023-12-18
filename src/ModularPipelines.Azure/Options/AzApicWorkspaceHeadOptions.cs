@@ -20,4 +20,3 @@ public record AzApicWorkspaceHeadOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

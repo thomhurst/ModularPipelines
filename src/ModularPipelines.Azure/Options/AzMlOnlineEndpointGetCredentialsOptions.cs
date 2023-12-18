@@ -21,4 +21,3 @@ public record AzMlOnlineEndpointGetCredentialsOptions(
     [CommandSwitch("--request-file")]
     public string? RequestFile { get; set; }
 }
-

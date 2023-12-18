@@ -27,4 +27,3 @@ public class AzStorageMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

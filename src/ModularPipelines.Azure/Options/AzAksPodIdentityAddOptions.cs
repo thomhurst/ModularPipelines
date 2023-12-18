@@ -22,4 +22,3 @@ public record AzAksPodIdentityAddOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

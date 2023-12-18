@@ -18,4 +18,3 @@ public record AzSqlServerFirewallRuleCreateOptions(
     [CommandSwitch("--start-ip-address")]
     public string? StartIpAddress { get; set; }
 }
-

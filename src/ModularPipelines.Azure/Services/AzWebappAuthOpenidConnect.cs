@@ -37,4 +37,3 @@ public class AzWebappAuthOpenidConnect
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

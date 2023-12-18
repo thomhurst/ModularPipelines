@@ -26,4 +26,3 @@ public record AzScvmmVirtualNetworkUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

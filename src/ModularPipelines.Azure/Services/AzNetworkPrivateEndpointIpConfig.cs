@@ -37,4 +37,3 @@ public class AzNetworkPrivateEndpointIpConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointIpConfigWaitOptions(), token);
     }
 }
-

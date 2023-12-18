@@ -22,4 +22,3 @@ public class AzSecuritySecureScoreControlDefinitions
         return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlDefinitionsListOptions(), token);
     }
 }
-

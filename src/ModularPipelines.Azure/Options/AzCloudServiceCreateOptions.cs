@@ -50,4 +50,3 @@ public record AzCloudServiceCreateOptions(
     [CommandSwitch("--upgrade-mode")]
     public string? UpgradeMode { get; set; }
 }
-

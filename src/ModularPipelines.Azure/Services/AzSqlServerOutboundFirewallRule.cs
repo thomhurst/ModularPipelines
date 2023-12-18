@@ -37,4 +37,3 @@ public class AzSqlServerOutboundFirewallRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

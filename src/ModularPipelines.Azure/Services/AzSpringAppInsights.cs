@@ -27,4 +27,3 @@ public class AzSpringAppInsights
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -47,4 +47,3 @@ public record AzDevcenterAdminProjectUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

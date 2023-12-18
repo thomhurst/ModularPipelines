@@ -35,4 +35,3 @@ public class AzEventgridDomainKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

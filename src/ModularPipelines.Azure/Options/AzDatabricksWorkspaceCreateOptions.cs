@@ -71,4 +71,3 @@ public record AzDatabricksWorkspaceCreateOptions(
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }
 }
-

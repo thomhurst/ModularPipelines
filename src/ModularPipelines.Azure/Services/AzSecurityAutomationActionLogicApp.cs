@@ -22,4 +22,3 @@ public class AzSecurityAutomationActionLogicApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

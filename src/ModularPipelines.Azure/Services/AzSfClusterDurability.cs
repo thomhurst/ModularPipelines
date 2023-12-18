@@ -22,4 +22,3 @@ public class AzSfClusterDurability
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

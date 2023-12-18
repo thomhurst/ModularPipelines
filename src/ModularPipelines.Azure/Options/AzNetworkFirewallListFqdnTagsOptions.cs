@@ -14,4 +14,3 @@ public record AzNetworkFirewallListFqdnTagsOptions : AzOptions
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

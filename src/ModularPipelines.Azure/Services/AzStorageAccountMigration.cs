@@ -35,4 +35,3 @@ public class AzStorageAccountMigration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzNetworkFirewallManagementIpConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallManagementIpConfigUpdateOptions(), token);
     }
 }
-

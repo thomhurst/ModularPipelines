@@ -41,4 +41,3 @@ public record AzNetworkRouteFilterUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

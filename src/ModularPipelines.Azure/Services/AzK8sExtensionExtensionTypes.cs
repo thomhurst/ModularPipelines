@@ -72,4 +72,3 @@ public class AzK8sExtensionExtensionTypes
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

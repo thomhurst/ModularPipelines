@@ -19,4 +19,3 @@ public record AzConfigureOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

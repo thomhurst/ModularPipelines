@@ -87,4 +87,3 @@ public record AzAmsStreamingPolicyCreateOptions(
     [BooleanCommandSwitch("--no-encryption-protocols")]
     public bool? NoEncryptionProtocols { get; set; }
 }
-

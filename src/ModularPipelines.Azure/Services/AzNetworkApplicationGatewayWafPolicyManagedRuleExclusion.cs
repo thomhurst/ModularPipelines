@@ -36,4 +36,3 @@ public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

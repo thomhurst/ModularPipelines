@@ -15,4 +15,3 @@ public record AzEdgeorderOrderItemCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

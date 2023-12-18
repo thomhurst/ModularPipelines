@@ -16,4 +16,3 @@ public record AzDatafactoryDatasetCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

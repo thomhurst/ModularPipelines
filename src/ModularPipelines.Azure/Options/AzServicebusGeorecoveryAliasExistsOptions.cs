@@ -22,4 +22,3 @@ public record AzServicebusGeorecoveryAliasExistsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

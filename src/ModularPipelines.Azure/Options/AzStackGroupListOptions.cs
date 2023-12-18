@@ -16,4 +16,3 @@ public record AzStackGroupListOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

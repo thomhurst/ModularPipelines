@@ -92,4 +92,3 @@ public record AzAcrTaskUpdateOptions(
     [CommandSwitch("--values")]
     public string? Values { get; set; }
 }
-

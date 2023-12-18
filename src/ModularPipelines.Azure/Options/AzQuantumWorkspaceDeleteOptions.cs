@@ -17,4 +17,3 @@ public record AzQuantumWorkspaceDeleteOptions(
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzK8sExtensionExtensionTypesListVersionsByClusterOptions(
     [BooleanCommandSwitch("--show-latest")]
     public bool? ShowLatest { get; set; }
 }
-

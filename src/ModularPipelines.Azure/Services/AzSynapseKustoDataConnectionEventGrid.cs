@@ -27,4 +27,3 @@ public class AzSynapseKustoDataConnectionEventGrid
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionEventGridUpdateOptions(), token);
     }
 }
-

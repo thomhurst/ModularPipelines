@@ -27,4 +27,3 @@ public class AzWebpubsubKey
         return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubKeyShowOptions(), token);
     }
 }
-

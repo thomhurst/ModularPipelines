@@ -42,4 +42,3 @@ public class AzCustomProvidersResourceProvider
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

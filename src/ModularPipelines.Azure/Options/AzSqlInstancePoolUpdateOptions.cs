@@ -44,4 +44,3 @@ public record AzSqlInstancePoolUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

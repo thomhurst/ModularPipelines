@@ -20,4 +20,3 @@ public record AzSentinelAutomationRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

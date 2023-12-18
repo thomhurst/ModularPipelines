@@ -17,4 +17,3 @@ public class AzMlComputetargetAmlcompute
 
     public AzMlComputetargetAmlcomputeIdentity Identity { get; }
 }
-

@@ -52,4 +52,3 @@ public record AzStorageBlobSetTierStorageBlobPreviewExtensionOptions(
     [CommandSwitch("--version-id")]
     public string? VersionId { get; set; }
 }
-

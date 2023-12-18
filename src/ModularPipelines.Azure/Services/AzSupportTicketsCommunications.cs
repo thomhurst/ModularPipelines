@@ -32,4 +32,3 @@ public class AzSupportTicketsCommunications
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

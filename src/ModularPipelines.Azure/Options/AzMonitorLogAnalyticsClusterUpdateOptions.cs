@@ -62,4 +62,3 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

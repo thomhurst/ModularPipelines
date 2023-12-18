@@ -42,4 +42,3 @@ public class AzBoardsIterationProject
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

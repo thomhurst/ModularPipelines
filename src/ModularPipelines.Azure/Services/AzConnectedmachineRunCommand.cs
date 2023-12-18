@@ -47,4 +47,3 @@ public class AzConnectedmachineRunCommand
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandWaitOptions(), token);
     }
 }
-

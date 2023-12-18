@@ -33,4 +33,3 @@ public record AzFunctionappDeploymentSlotCreateOptions(
     [CommandSwitch("--registry-username")]
     public string? RegistryUsername { get; set; }
 }
-

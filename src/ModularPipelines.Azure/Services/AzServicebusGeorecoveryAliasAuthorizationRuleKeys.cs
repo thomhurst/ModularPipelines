@@ -22,4 +22,3 @@ public class AzServicebusGeorecoveryAliasAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -61,4 +61,3 @@ public record AzSfManagedNodeTypeCreateOptions(
     [CommandSwitch("--vm-size")]
     public string? VmSize { get; set; }
 }
-

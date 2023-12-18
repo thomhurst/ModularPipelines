@@ -21,4 +21,3 @@ public record AzVmssExtensionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzCosmosdbSqlContainerMergeOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzStackHciArcSettingInitializeDisableProcesOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

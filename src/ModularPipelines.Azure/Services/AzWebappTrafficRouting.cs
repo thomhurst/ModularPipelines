@@ -32,4 +32,3 @@ public class AzWebappTrafficRouting
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingShowOptions(), token);
     }
 }
-

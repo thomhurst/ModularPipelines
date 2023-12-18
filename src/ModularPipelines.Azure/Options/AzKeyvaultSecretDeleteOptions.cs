@@ -19,4 +19,3 @@ public record AzKeyvaultSecretDeleteOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

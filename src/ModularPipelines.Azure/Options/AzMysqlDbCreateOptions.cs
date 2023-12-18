@@ -18,4 +18,3 @@ public record AzMysqlDbCreateOptions(
     [CommandSwitch("--collation")]
     public string? Collation { get; set; }
 }
-

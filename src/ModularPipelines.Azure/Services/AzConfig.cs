@@ -35,4 +35,3 @@ public class AzConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzConfigUnsetOptions(), token);
     }
 }
-

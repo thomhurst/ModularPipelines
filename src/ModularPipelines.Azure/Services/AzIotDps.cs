@@ -75,4 +75,3 @@ public class AzIotDps
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsUpdateOptions(), token);
     }
 }
-

@@ -31,4 +31,3 @@ public record AzSqlDbStrPolicySetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

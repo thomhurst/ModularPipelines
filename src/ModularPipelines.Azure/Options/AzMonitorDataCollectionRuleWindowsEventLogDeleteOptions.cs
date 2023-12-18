@@ -22,4 +22,3 @@ public record AzMonitorDataCollectionRuleWindowsEventLogDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

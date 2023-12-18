@@ -26,4 +26,3 @@ public record AzWebappLogDownloadOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

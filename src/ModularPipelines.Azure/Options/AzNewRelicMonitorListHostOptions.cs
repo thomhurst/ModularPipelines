@@ -15,4 +15,3 @@ public record AzNewRelicMonitorListHostOptions(
     [CommandSwitch("--vm-ids")]
     public string? VmIds { get; set; }
 }
-

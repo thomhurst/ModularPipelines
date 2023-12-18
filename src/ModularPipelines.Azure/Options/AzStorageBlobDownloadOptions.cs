@@ -89,4 +89,3 @@ public record AzStorageBlobDownloadOptions(
     [CommandSwitch("--version-id")]
     public string? VersionId { get; set; }
 }
-

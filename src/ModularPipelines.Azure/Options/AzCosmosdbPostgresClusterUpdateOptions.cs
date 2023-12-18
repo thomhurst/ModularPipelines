@@ -71,4 +71,3 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

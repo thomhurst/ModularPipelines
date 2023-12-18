@@ -15,4 +15,3 @@ public record AzDtTwinRelationshipShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

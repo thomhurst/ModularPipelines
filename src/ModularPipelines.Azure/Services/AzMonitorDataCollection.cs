@@ -21,4 +21,3 @@ public class AzMonitorDataCollection
 
     public AzMonitorDataCollectionRule Rule { get; }
 }
-

@@ -22,4 +22,3 @@ public class AzFunctionappDevopsPipeline
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDevopsPipelineCreateOptions(), token);
     }
 }
-

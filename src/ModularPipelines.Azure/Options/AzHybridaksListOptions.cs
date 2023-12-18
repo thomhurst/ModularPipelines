@@ -13,4 +13,3 @@ public record AzHybridaksListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

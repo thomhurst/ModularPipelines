@@ -16,4 +16,3 @@ public record AzAppconfigPurgeOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

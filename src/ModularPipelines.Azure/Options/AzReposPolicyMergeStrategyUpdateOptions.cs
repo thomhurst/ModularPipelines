@@ -46,4 +46,3 @@ public record AzReposPolicyMergeStrategyUpdateOptions(
     [CommandSwitch("--repository-id")]
     public string? RepositoryId { get; set; }
 }
-

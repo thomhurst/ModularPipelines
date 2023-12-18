@@ -27,4 +27,3 @@ public record AzMlScheduleUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -140,4 +140,3 @@ public class AzSqlDb
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbUpdateOptions(), token);
     }
 }
-

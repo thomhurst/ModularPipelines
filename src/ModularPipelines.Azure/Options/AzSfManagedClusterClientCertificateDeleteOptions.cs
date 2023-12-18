@@ -17,4 +17,3 @@ public record AzSfManagedClusterClientCertificateDeleteOptions(
     [CommandSwitch("--thumbprint")]
     public string? Thumbprint { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzSqlMiAdAdminDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzWebappConfigHostnameGetExternalIpOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

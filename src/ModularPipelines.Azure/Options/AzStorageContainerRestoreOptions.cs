@@ -32,4 +32,3 @@ public record AzStorageContainerRestoreOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

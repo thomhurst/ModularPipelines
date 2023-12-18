@@ -22,4 +22,3 @@ public class AzStorageAccountMigrationShowStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -44,4 +44,3 @@ public record AzNetworkWatcherConnectionMonitorEndpointWaitOptions : AzOptions
     [CommandSwitch("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }
-

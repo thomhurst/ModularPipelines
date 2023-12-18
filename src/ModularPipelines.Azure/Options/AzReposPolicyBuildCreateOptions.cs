@@ -33,4 +33,3 @@ public record AzReposPolicyBuildCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

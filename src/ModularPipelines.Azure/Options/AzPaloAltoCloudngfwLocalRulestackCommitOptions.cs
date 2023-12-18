@@ -20,4 +20,3 @@ public record AzPaloAltoCloudngfwLocalRulestackCommitOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzManagedCassandraClusterInvokeCommandOptions(
     [BooleanCommandSwitch("--readwrite")]
     public bool? Readwrite { get; set; }
 }
-

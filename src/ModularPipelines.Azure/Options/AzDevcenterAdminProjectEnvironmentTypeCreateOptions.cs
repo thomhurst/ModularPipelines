@@ -35,4 +35,3 @@ public record AzDevcenterAdminProjectEnvironmentTypeCreateOptions(
     [CommandSwitch("--user-role-assignments")]
     public string? UserRoleAssignments { get; set; }
 }
-

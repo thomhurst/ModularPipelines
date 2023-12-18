@@ -31,4 +31,3 @@ public record AzMeshDeploymentCreateOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

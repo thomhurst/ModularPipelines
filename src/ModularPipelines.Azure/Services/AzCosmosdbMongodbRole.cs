@@ -17,4 +17,3 @@ public class AzCosmosdbMongodbRole
 
     public AzCosmosdbMongodbRoleDefinition Definition { get; }
 }
-

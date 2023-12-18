@@ -51,4 +51,3 @@ public class AzHdinsightAutoscale
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

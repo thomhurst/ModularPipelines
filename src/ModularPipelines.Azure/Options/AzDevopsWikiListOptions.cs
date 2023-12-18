@@ -22,4 +22,3 @@ public record AzDevopsWikiListOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

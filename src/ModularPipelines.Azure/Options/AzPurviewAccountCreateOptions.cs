@@ -26,4 +26,3 @@ public record AzPurviewAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

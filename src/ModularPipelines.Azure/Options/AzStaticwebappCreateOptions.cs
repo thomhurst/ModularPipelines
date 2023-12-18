@@ -47,4 +47,3 @@ public record AzStaticwebappCreateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzAcrConfigContentTrustUpdateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

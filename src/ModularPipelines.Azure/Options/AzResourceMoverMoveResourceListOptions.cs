@@ -20,4 +20,3 @@ public record AzResourceMoverMoveResourceListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

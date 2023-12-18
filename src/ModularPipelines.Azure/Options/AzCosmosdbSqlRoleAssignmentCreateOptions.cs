@@ -25,4 +25,3 @@ public record AzCosmosdbSqlRoleAssignmentCreateOptions(
     [CommandSwitch("--role-definition-name")]
     public string? RoleDefinitionName { get; set; }
 }
-

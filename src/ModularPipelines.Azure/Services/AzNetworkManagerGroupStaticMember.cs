@@ -37,4 +37,3 @@ public class AzNetworkManagerGroupStaticMember
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberShowOptions(), token);
     }
 }
-

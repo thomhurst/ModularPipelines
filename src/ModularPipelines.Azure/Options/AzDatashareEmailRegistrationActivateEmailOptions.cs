@@ -13,4 +13,3 @@ public record AzDatashareEmailRegistrationActivateEmailOptions(
     [CommandSwitch("--activation-code")]
     public string? ActivationCode { get; set; }
 }
-

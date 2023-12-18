@@ -13,4 +13,3 @@ public record AzBillingBenefitsSavingsPlanOrderSavingsPlanListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

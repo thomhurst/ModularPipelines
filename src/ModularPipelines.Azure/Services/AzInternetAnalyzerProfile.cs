@@ -42,4 +42,3 @@ public class AzInternetAnalyzerProfile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

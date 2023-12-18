@@ -22,4 +22,3 @@ public record AzDevcenterAdminDevboxDefinitionListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

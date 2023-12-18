@@ -23,4 +23,3 @@ public record AzSentinelSourceControlDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

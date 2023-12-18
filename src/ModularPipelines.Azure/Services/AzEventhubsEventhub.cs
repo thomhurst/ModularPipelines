@@ -50,4 +50,3 @@ public class AzEventhubsEventhub
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubUpdateOptions(), token);
     }
 }
-

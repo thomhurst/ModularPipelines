@@ -47,4 +47,3 @@ public class AzNetworkfabricIpextendedcommunity
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpextendedcommunityWaitOptions(), token);
     }
 }
-

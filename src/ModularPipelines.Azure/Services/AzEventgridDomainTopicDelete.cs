@@ -17,4 +17,3 @@ public class AzEventgridDomainTopicDelete
 
     public AzEventgridDomainTopicDeleteEventgrid Eventgrid { get; }
 }
-

@@ -42,4 +42,3 @@ public class AzNetworkManagerConnectionManagementGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

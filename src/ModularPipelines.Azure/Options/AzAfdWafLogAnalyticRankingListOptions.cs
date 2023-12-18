@@ -22,4 +22,3 @@ public record AzAfdWafLogAnalyticRankingListOptions(
     [CommandSwitch("--rule-types")]
     public string? RuleTypes { get; set; }
 }
-

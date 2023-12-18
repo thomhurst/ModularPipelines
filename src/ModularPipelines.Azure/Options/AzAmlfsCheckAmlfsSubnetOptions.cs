@@ -23,4 +23,3 @@ public record AzAmlfsCheckAmlfsSubnetOptions(
     [CommandSwitch("--storage-capacity")]
     public string? StorageCapacity { get; set; }
 }
-

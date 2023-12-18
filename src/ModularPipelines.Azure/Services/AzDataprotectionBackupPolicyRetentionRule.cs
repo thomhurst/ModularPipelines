@@ -32,4 +32,3 @@ public class AzDataprotectionBackupPolicyRetentionRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

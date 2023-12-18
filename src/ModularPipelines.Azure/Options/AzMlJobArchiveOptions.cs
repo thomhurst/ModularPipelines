@@ -18,4 +18,3 @@ public record AzMlJobArchiveOptions(
     [CommandSwitch("--private-key-file-path")]
     public string? PrivateKeyFilePath { get; set; }
 }
-

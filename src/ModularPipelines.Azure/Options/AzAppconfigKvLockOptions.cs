@@ -28,4 +28,3 @@ public record AzAppconfigKvLockOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

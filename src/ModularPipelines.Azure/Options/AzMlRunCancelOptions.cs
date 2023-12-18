@@ -28,4 +28,3 @@ public record AzMlRunCancelOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

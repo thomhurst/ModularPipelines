@@ -25,4 +25,3 @@ public record AzPipelinesFolderUpdateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

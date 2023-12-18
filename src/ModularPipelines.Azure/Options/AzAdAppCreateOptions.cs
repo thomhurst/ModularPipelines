@@ -61,4 +61,3 @@ public record AzAdAppCreateOptions(
     [CommandSwitch("--web-redirect-uris")]
     public string? WebRedirectUris { get; set; }
 }
-

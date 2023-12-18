@@ -24,4 +24,3 @@ public record AzMlConnectionShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

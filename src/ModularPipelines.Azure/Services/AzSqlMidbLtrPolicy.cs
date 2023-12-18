@@ -27,4 +27,3 @@ public class AzSqlMidbLtrPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrPolicyShowOptions(), token);
     }
 }
-

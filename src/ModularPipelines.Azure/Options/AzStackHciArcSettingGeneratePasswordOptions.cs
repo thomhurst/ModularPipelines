@@ -20,4 +20,3 @@ public record AzStackHciArcSettingGeneratePasswordOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

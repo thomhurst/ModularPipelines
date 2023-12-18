@@ -22,4 +22,3 @@ public record AzMapsAccountDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

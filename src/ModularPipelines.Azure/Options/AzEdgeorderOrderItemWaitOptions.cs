@@ -35,4 +35,3 @@ public record AzEdgeorderOrderItemWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

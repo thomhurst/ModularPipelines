@@ -37,4 +37,3 @@ public class AzNetworkProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileWaitOptions(), token);
     }
 }
-

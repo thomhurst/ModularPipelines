@@ -38,4 +38,3 @@ public record AzLoadUpdateOptions : AzOptions
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzImageBuilderValidator
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorShowOptions(), token);
     }
 }
-

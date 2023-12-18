@@ -25,4 +25,3 @@ public record AzKeyvaultKeyListVersionsOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

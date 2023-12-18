@@ -29,4 +29,3 @@ public record AzHdinsightOnAksClusterJobRunOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

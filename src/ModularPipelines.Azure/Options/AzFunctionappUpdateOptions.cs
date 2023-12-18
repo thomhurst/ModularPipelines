@@ -41,4 +41,3 @@ public record AzFunctionappUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

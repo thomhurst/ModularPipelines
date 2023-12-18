@@ -42,4 +42,3 @@ public class AzResourceLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

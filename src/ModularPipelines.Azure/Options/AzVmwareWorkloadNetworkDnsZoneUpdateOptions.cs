@@ -56,4 +56,3 @@ public record AzVmwareWorkloadNetworkDnsZoneUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzBlueprintArtifactRole
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

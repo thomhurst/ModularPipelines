@@ -32,4 +32,3 @@ public class AzMariadbServerConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationShowOptions(), token);
     }
 }
-

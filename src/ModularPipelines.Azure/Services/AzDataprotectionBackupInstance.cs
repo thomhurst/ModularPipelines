@@ -115,4 +115,3 @@ public class AzDataprotectionBackupInstance
         return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceWaitOptions(), token);
     }
 }
-

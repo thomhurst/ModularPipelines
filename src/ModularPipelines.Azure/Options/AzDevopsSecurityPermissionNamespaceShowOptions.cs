@@ -16,4 +16,3 @@ public record AzDevopsSecurityPermissionNamespaceShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

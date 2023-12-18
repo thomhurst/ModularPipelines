@@ -17,4 +17,3 @@ public record AzVmwareScriptPackageListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzSynapseManagedPrivateEndpointsCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

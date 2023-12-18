@@ -20,4 +20,3 @@ public class AzAosm
 
     public AzAosmNsd Nsd { get; }
 }
-

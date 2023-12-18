@@ -42,4 +42,3 @@ public class AzContainerappEnvDaprComponentResiliency
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

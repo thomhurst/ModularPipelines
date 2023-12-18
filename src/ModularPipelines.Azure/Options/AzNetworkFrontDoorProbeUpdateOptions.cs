@@ -27,4 +27,3 @@ public record AzNetworkFrontDoorProbeUpdateOptions(
     [CommandSwitch("--protocol")]
     public string? Protocol { get; set; }
 }
-

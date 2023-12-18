@@ -41,4 +41,3 @@ public record AzDiskWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

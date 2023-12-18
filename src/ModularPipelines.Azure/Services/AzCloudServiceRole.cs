@@ -27,4 +27,3 @@ public class AzCloudServiceRole
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceRoleShowOptions(), token);
     }
 }
-

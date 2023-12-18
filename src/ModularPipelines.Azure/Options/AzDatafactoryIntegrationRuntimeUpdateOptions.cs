@@ -29,4 +29,3 @@ public record AzDatafactoryIntegrationRuntimeUpdateOptions : AzOptions
     [CommandSwitch("--update-delay-offset")]
     public string? UpdateDelayOffset { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzKustoClusterPrincipalAssignmentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

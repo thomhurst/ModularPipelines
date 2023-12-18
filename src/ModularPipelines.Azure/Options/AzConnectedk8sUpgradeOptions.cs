@@ -32,4 +32,3 @@ public record AzConnectedk8sUpgradeOptions : AzOptions
     [CommandSwitch("--upgrade-timeout")]
     public string? UpgradeTimeout { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzHealthbotDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

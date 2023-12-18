@@ -14,4 +14,3 @@ public record AzDataboxedgeListNodeOptions(
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

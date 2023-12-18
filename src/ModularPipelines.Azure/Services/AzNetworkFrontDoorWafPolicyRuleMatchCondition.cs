@@ -32,4 +32,3 @@ public class AzNetworkFrontDoorWafPolicyRuleMatchCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzDatafactoryIntegrationRuntimeGetConnectionInfoOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

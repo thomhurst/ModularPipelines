@@ -27,4 +27,3 @@ public class AzNetworkNicIpConfigAddressPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

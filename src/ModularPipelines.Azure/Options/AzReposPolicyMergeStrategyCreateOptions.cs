@@ -37,4 +37,3 @@ public record AzReposPolicyMergeStrategyCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

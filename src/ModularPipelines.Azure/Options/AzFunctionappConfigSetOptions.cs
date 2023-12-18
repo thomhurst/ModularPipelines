@@ -86,4 +86,3 @@ public record AzFunctionappConfigSetOptions : AzOptions
     [BooleanCommandSwitch("--web-sockets-enabled")]
     public bool? WebSocketsEnabled { get; set; }
 }
-

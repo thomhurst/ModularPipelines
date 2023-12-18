@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewaySslCert
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySslCertWaitOptions(), token);
     }
 }
-

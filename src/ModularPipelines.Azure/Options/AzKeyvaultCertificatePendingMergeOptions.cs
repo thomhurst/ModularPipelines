@@ -18,4 +18,3 @@ public record AzKeyvaultCertificatePendingMergeOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

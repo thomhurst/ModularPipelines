@@ -56,4 +56,3 @@ public record AzAmsLiveEventUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzDncController
         return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerWaitOptions(), token);
     }
 }
-

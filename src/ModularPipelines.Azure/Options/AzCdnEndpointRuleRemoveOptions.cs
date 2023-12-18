@@ -29,4 +29,3 @@ public record AzCdnEndpointRuleRemoveOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

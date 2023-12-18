@@ -29,4 +29,3 @@ public record AzSecurityAutomationCreate_or_updateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

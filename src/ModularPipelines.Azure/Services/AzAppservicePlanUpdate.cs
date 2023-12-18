@@ -17,4 +17,3 @@ public class AzAppservicePlanUpdate
 
     public AzAppservicePlanUpdateAppserviceKube AppserviceKube { get; }
 }
-

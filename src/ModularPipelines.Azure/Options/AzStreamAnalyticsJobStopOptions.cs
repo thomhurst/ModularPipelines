@@ -14,4 +14,3 @@ public record AzStreamAnalyticsJobStopOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

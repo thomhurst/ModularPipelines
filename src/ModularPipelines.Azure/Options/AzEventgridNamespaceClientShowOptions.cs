@@ -23,4 +23,3 @@ public record AzEventgridNamespaceClientShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

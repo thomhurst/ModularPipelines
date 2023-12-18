@@ -18,4 +18,3 @@ public record AzSpringAppBindingMysqlAddOptions(
 ) : AzOptions
 {
 }
-

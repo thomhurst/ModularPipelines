@@ -17,4 +17,3 @@ public class AzStorageFileMetadataShow
 
     public AzStorageFileMetadataShowStoragePreview StoragePreview { get; }
 }
-

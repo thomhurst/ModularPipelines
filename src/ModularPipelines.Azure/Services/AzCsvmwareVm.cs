@@ -60,4 +60,3 @@ public class AzCsvmwareVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

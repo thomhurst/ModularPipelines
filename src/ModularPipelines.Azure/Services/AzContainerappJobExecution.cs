@@ -27,4 +27,3 @@ public class AzContainerappJobExecution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

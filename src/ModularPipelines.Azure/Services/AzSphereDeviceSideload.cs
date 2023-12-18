@@ -37,4 +37,3 @@ public class AzSphereDeviceSideload
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceSideloadShowDeploymentTimeoutOptions(), token);
     }
 }
-

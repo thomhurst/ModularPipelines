@@ -54,4 +54,3 @@ public class AzRedisenterprise
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseWaitOptions(), token);
     }
 }
-

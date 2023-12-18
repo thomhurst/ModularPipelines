@@ -43,4 +43,3 @@ public record AzConnectionCreateWebpubsubOptions(
     [CommandSwitch("--webpubsub")]
     public string? Webpubsub { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzResourcemanagementPrivateLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

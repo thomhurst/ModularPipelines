@@ -31,4 +31,3 @@ public record AzBackupContainerReRegisterOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

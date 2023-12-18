@@ -44,4 +44,3 @@ public record AzMobileNetworkSimWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

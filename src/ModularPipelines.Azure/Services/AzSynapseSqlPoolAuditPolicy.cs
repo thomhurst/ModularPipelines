@@ -27,4 +27,3 @@ public class AzSynapseSqlPoolAuditPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyUpdateOptions(), token);
     }
 }
-

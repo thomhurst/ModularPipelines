@@ -22,4 +22,3 @@ public class AzSynapseKustoOperation
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoOperationListOptions(), token);
     }
 }
-

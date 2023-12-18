@@ -47,4 +47,3 @@ public class AzStoragesyncSyncGroupServerEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

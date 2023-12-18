@@ -62,4 +62,3 @@ public record AzContainerappConnectionCreatePostgresFlexibleServiceconnectorPass
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

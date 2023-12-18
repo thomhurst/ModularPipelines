@@ -16,4 +16,3 @@ public record AzSphereCaCertificateDownloadProofOptions(
     [CommandSwitch("--serial-number")]
     public string? SerialNumber { get; set; }
 }
-

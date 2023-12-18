@@ -21,4 +21,3 @@ public record AzScvmmAvsetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

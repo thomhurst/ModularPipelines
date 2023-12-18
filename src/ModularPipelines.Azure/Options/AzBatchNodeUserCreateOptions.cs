@@ -38,4 +38,3 @@ public record AzBatchNodeUserCreateOptions(
     [CommandSwitch("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 }
-

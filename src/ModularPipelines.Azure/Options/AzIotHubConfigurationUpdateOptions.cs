@@ -37,4 +37,3 @@ public record AzIotHubConfigurationUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzNetworkManagerSecurityAdminConfigListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

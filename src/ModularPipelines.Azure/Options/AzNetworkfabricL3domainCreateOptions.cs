@@ -36,4 +36,3 @@ public record AzNetworkfabricL3domainCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

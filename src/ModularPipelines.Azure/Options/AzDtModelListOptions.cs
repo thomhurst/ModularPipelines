@@ -19,4 +19,3 @@ public record AzDtModelListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

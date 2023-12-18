@@ -30,4 +30,3 @@ public record AzStorageLoggingUpdateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

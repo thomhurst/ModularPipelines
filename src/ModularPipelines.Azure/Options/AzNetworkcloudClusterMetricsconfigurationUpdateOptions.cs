@@ -32,4 +32,3 @@ public record AzNetworkcloudClusterMetricsconfigurationUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

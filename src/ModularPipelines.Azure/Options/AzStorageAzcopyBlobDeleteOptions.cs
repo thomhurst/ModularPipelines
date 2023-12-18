@@ -31,4 +31,3 @@ public record AzStorageAzcopyBlobDeleteOptions(
     [CommandSwitch("--target")]
     public string? Target { get; set; }
 }
-

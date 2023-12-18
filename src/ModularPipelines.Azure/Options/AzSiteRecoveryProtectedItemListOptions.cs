@@ -19,4 +19,3 @@ public record AzSiteRecoveryProtectedItemListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzCosmosdbDtsCancelOptions(
     [CommandSwitch("--worker-count")]
     public int? WorkerCount { get; set; }
 }
-

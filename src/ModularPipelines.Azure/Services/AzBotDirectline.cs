@@ -37,4 +37,3 @@ public class AzBotDirectline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

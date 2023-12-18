@@ -16,4 +16,3 @@ public record AzSfManagedNodeTypeNodeReimageOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

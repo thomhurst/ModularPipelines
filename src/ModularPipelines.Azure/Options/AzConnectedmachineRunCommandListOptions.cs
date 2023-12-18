@@ -14,4 +14,3 @@ public record AzConnectedmachineRunCommandListOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

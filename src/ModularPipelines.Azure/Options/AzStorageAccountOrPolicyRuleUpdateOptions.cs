@@ -27,4 +27,3 @@ public record AzStorageAccountOrPolicyRuleUpdateOptions(
     [CommandSwitch("--source-container")]
     public string? SourceContainer { get; set; }
 }
-

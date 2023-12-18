@@ -22,4 +22,3 @@ public class AzNetworkP2sVpnGatewayVpnClient
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

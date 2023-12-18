@@ -24,4 +24,3 @@ public record AzNetworkExpressRoutePeeringConnectionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

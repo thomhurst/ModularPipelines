@@ -31,4 +31,3 @@ public record AzVmssRunCommandInvokeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

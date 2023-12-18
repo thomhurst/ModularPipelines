@@ -145,4 +145,3 @@ public class AzMysqlFlexibleServer
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerWaitOptions(), token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzBatchAccountKeysRenewOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

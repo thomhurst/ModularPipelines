@@ -27,4 +27,3 @@ public class AzSpringAppBindingRedis
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

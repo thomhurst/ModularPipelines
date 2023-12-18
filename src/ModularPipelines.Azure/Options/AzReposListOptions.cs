@@ -19,4 +19,3 @@ public record AzReposListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

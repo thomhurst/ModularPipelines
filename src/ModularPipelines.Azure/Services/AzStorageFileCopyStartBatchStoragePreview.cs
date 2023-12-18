@@ -22,4 +22,3 @@ public class AzStorageFileCopyStartBatchStoragePreview
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileCopyStartBatchStoragePreviewExtensionOptions(), token);
     }
 }
-

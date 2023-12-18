@@ -23,4 +23,3 @@ public record AzWebappConnectionShowOptions : AzOptions
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

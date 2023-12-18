@@ -42,4 +42,3 @@ public class AzPeeringServicePrefix
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

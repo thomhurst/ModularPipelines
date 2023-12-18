@@ -44,4 +44,3 @@ public record AzDynatraceMonitorTagRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

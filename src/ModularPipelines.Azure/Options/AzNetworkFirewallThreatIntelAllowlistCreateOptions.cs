@@ -32,4 +32,3 @@ public record AzNetworkFirewallThreatIntelAllowlistCreateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

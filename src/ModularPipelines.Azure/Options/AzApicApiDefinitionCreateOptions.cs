@@ -23,4 +23,3 @@ public record AzApicApiDefinitionCreateOptions(
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

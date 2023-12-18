@@ -37,4 +37,3 @@ public class AzNetworkVpnConnectionIpsecPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionIpsecPolicyWaitOptions(), token);
     }
 }
-

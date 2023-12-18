@@ -23,4 +23,3 @@ public record AzPostgresServerFirewallRuleCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

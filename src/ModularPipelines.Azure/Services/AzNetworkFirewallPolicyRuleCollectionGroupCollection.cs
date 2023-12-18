@@ -41,4 +41,3 @@ public class AzNetworkFirewallPolicyRuleCollectionGroupCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

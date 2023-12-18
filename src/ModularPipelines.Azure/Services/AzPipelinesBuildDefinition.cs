@@ -27,4 +27,3 @@ public class AzPipelinesBuildDefinition
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildDefinitionShowOptions(), token);
     }
 }
-

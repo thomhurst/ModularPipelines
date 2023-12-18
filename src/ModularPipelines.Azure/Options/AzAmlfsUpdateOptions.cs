@@ -44,4 +44,3 @@ public record AzAmlfsUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

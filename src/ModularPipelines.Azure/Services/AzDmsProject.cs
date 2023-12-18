@@ -50,4 +50,3 @@ public class AzDmsProject
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

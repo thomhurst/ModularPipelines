@@ -31,4 +31,3 @@ public record AzNetworkFrontDoorWafPolicyManagedRulesExclusionAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

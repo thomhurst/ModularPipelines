@@ -37,4 +37,3 @@ public class AzNetworkVnetGatewayNatRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayNatRuleWaitOptions(), token);
     }
 }
-

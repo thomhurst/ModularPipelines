@@ -24,4 +24,3 @@ public record AzIotCentralApiTokenCreateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

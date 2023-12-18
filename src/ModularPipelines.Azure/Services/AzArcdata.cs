@@ -24,4 +24,3 @@ public class AzArcdata
 
     public AzArcdataResourceKind ResourceKind { get; }
 }
-

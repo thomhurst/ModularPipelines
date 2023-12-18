@@ -22,4 +22,3 @@ public class AzAksMaintenanceconfigurationDeleteAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

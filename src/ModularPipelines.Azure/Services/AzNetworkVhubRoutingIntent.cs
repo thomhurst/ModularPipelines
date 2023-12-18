@@ -47,4 +47,3 @@ public class AzNetworkVhubRoutingIntent
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentWaitOptions(), token);
     }
 }
-

@@ -30,4 +30,3 @@ public record AzMonitorLogAnalyticsWorkspaceTableUpdateOptions(
     [CommandSwitch("--total-retention-time")]
     public string? TotalRetentionTime { get; set; }
 }
-

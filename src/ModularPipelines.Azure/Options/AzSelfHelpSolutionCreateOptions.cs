@@ -38,4 +38,3 @@ public record AzSelfHelpSolutionCreateOptions(
     [CommandSwitch("--trigger-criteria")]
     public string? TriggerCriteria { get; set; }
 }
-

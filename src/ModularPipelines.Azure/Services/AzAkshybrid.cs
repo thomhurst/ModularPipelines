@@ -73,4 +73,3 @@ public class AzAkshybrid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

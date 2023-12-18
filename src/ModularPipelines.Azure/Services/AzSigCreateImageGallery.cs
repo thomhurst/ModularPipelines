@@ -22,4 +22,3 @@ public class AzSigCreateImageGallery
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

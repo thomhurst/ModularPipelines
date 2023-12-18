@@ -36,4 +36,3 @@ public record AzEventgridTopicCreateEventgridExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

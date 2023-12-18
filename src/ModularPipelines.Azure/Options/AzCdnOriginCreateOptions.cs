@@ -41,4 +41,3 @@ public record AzCdnOriginCreateOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

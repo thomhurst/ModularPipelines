@@ -14,4 +14,3 @@ public record AzSpringCloudBuildServiceBuilderBuildpackBindingListOptions(
     [CommandSwitch("--builder-name")]
     public string? BuilderName { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
     [CommandSwitch("--timezone-id")]
     public string? TimezoneId { get; set; }
 }
-

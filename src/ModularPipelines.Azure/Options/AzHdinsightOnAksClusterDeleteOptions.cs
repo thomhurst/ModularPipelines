@@ -26,4 +26,3 @@ public record AzHdinsightOnAksClusterDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

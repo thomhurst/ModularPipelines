@@ -44,4 +44,3 @@ public record AzSqlServerWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

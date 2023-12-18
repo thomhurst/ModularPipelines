@@ -22,4 +22,3 @@ public class AzNotificationHubCredentialBaidu
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

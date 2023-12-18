@@ -25,4 +25,3 @@ public record AzSynapseNotebookListOptions(
     [CommandSwitch("--spark-pool-name")]
     public string? SparkPoolName { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzPipelinesBuildTagAddOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

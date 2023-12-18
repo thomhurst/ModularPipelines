@@ -37,4 +37,3 @@ public class AzProviderhubResourceTypeRegistration
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubResourceTypeRegistrationShowOptions(), token);
     }
 }
-

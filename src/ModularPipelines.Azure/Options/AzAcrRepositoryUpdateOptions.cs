@@ -37,4 +37,3 @@ public record AzAcrRepositoryUpdateOptions(
     [BooleanCommandSwitch("--write-enabled")]
     public bool? WriteEnabled { get; set; }
 }
-

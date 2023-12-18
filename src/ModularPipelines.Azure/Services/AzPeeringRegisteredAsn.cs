@@ -42,4 +42,3 @@ public class AzPeeringRegisteredAsn
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

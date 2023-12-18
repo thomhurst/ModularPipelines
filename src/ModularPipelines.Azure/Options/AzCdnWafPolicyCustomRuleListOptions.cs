@@ -20,4 +20,3 @@ public record AzCdnWafPolicyCustomRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

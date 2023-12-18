@@ -37,4 +37,3 @@ public class AzLoadTestRunMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

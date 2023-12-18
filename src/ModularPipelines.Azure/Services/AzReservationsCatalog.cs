@@ -22,4 +22,3 @@ public class AzReservationsCatalog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

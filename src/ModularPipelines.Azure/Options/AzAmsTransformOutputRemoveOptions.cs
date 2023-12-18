@@ -25,4 +25,3 @@ public record AzAmsTransformOutputRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

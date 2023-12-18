@@ -47,4 +47,3 @@ public class AzElasticMonitorTagRule
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleWaitOptions(), token);
     }
 }
-

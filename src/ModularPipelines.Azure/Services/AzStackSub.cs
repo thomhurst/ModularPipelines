@@ -42,4 +42,3 @@ public class AzStackSub
         return await _command.ExecuteCommandLineTool(options ?? new AzStackSubShowOptions(), token);
     }
 }
-

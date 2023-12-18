@@ -25,4 +25,3 @@ public record AzGroupExportOptions(
     [BooleanCommandSwitch("--skip-resource-name-params")]
     public bool? SkipResourceNameParams { get; set; }
 }
-

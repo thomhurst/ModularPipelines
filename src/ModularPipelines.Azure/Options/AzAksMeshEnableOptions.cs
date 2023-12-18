@@ -32,4 +32,3 @@ public record AzAksMeshEnableOptions(
     [CommandSwitch("--root-cert-object-name")]
     public string? RootCertObjectName { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzStackHciVmStoragepath
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathUpdateOptions(), token);
     }
 }
-

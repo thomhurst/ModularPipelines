@@ -22,4 +22,3 @@ public class AzSqlDbArc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

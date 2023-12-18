@@ -18,4 +18,3 @@ public record AzNetappfilesVolumeListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

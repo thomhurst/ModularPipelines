@@ -26,4 +26,3 @@ public record AzNetworkSecurityPartnerProviderCreateOptions(
     [CommandSwitch("--vhub")]
     public string? Vhub { get; set; }
 }
-

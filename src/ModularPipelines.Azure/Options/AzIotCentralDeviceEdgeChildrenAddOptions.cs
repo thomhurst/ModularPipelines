@@ -21,4 +21,3 @@ public record AzIotCentralDeviceEdgeChildrenAddOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

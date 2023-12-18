@@ -37,4 +37,3 @@ public class AzFunctionappConfigHostname
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

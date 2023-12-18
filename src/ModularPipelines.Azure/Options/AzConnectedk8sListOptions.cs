@@ -12,4 +12,3 @@ public record AzConnectedk8sListOptions(
 ) : AzOptions
 {
 }
-

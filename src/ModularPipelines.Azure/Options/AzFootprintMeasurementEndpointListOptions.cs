@@ -20,4 +20,3 @@ public record AzFootprintMeasurementEndpointListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

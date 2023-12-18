@@ -21,4 +21,3 @@ public record AzApicMetadataSchemaCreateOptions(
     [CommandSwitch("--schema")]
     public string? Schema { get; set; }
 }
-

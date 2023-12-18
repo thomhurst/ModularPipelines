@@ -28,4 +28,3 @@ public record AzDlsAccountFirewallUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

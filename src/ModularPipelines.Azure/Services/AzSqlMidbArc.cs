@@ -22,4 +22,3 @@ public class AzSqlMidbArc
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbArcRestoreOptions(), token);
     }
 }
-

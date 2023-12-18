@@ -23,4 +23,3 @@ public record AzStaticwebappUsersUpdateOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

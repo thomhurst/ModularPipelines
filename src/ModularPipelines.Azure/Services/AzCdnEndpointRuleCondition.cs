@@ -32,4 +32,3 @@ public class AzCdnEndpointRuleCondition
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleConditionShowOptions(), token);
     }
 }
-

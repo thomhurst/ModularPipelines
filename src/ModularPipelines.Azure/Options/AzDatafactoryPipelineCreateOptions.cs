@@ -16,4 +16,3 @@ public record AzDatafactoryPipelineCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

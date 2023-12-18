@@ -59,4 +59,3 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions(
     [CommandSwitch("--threshold-round-trip-time")]
     public string? ThresholdRoundTripTime { get; set; }
 }
-

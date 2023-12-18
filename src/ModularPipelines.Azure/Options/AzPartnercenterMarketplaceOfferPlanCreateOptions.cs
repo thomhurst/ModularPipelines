@@ -18,4 +18,3 @@ public record AzPartnercenterMarketplaceOfferPlanCreateOptions(
     [CommandSwitch("--subtype")]
     public string? Subtype { get; set; }
 }
-

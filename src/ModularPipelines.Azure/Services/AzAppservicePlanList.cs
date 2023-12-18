@@ -17,4 +17,3 @@ public class AzAppservicePlanList
 
     public AzAppservicePlanListAppserviceKube AppserviceKube { get; }
 }
-

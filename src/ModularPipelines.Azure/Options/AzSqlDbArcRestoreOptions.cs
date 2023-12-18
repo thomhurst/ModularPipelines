@@ -16,4 +16,3 @@ public record AzSqlDbArcRestoreOptions(
     [CommandSwitch("--time")]
     public string? Time { get; set; }
 }
-

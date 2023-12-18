@@ -19,4 +19,3 @@ public record AzDtTwinRelationshipDeleteAllOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

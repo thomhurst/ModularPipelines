@@ -30,4 +30,3 @@ public record AzElasticSanVolumeGroupCreateOptions(
     [CommandSwitch("--protocol-type")]
     public string? ProtocolType { get; set; }
 }
-

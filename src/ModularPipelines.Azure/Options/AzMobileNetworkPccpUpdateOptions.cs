@@ -65,4 +65,3 @@ public record AzMobileNetworkPccpUpdateOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

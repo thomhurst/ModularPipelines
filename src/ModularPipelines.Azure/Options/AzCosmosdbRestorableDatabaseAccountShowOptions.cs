@@ -14,4 +14,3 @@ public record AzCosmosdbRestorableDatabaseAccountShowOptions : AzOptions
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

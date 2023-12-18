@@ -31,4 +31,3 @@ public class AzAutomanageBestPractice
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

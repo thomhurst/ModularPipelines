@@ -22,4 +22,3 @@ public class AzHealthcareapisOperationResult
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisOperationResultShowOptions(), token);
     }
 }
-

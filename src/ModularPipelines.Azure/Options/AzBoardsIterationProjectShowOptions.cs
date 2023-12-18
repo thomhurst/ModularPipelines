@@ -19,4 +19,3 @@ public record AzBoardsIterationProjectShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

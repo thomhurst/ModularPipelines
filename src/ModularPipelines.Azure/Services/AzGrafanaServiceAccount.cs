@@ -46,4 +46,3 @@ public class AzGrafanaServiceAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

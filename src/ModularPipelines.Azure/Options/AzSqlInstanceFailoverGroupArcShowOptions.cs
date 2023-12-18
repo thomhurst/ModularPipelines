@@ -22,4 +22,3 @@ public record AzSqlInstanceFailoverGroupArcShowOptions(
     [CommandSwitch("--use-k8s")]
     public string? UseK8s { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzBotPublishOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

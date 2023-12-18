@@ -27,4 +27,3 @@ public class AzWebappAuthClassic
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthClassicUpdateOptions(), token);
     }
 }
-

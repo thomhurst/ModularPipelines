@@ -37,4 +37,3 @@ public class AzAcrTaskTimer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

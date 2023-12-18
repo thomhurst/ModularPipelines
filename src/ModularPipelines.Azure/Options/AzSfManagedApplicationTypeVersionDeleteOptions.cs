@@ -19,4 +19,3 @@ public record AzSfManagedApplicationTypeVersionDeleteOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

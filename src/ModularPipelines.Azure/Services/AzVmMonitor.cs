@@ -21,4 +21,3 @@ public class AzVmMonitor
 
     public AzVmMonitorMetrics Metrics { get; }
 }
-

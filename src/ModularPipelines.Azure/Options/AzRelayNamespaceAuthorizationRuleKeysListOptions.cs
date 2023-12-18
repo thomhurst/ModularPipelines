@@ -21,4 +21,3 @@ public record AzRelayNamespaceAuthorizationRuleKeysListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

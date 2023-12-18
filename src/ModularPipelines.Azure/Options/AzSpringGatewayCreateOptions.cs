@@ -14,4 +14,3 @@ public record AzSpringGatewayCreateOptions(
     [CommandSwitch("--instance-count")]
     public int? InstanceCount { get; set; }
 }
-

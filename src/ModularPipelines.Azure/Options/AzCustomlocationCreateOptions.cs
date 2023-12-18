@@ -26,4 +26,3 @@ public record AzCustomlocationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

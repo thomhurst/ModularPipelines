@@ -16,4 +16,3 @@ public record AzDtModelDeleteAllOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

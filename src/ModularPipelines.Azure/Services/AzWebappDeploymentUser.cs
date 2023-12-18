@@ -27,4 +27,3 @@ public class AzWebappDeploymentUser
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentUserShowOptions(), token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzGrafanaServiceAccountTokenCreateOptions(
     [CommandSwitch("--time-to-live")]
     public string? TimeToLive { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzAutomanageConfigurationProfileAssignmentClusterShowOptions : AzO
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

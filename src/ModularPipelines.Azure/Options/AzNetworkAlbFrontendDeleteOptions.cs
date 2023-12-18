@@ -26,4 +26,3 @@ public record AzNetworkAlbFrontendDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzCdnCustomDomainEnableHttpsOptions(
     [CommandSwitch("--user-cert-vault-name")]
     public string? UserCertVaultName { get; set; }
 }
-

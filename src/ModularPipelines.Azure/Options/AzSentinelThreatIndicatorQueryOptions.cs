@@ -50,4 +50,3 @@ public record AzSentinelThreatIndicatorQueryOptions(
     [CommandSwitch("--threat-types")]
     public string? ThreatTypes { get; set; }
 }
-

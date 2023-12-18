@@ -17,4 +17,3 @@ public record AzStorageAccountKeysRenewOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

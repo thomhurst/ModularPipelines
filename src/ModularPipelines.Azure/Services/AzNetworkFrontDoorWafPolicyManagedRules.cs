@@ -40,4 +40,3 @@ public class AzNetworkFrontDoorWafPolicyManagedRules
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

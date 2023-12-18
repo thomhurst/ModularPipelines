@@ -32,4 +32,3 @@ public record AzAksNodepoolSnapshotWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

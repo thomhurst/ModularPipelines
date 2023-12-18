@@ -19,4 +19,3 @@ public record AzSecurityAlertsSuppressionRuleUpdateOptions(
     [CommandSwitch("--expiration-date-utc")]
     public string? ExpirationDateUtc { get; set; }
 }
-

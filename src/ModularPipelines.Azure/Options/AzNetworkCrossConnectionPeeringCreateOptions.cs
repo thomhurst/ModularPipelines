@@ -28,4 +28,3 @@ public record AzNetworkCrossConnectionPeeringCreateOptions(
     [CommandSwitch("--shared-key")]
     public string? SharedKey { get; set; }
 }
-

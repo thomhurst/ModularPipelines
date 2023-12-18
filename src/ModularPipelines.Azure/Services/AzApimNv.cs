@@ -52,4 +52,3 @@ public class AzApimNv
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

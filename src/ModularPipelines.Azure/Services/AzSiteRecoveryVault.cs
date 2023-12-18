@@ -81,4 +81,3 @@ public class AzSiteRecoveryVault
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryVaultShowSupportedOperatingSystemOptions(), token);
     }
 }
-

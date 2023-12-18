@@ -27,4 +27,3 @@ public record AzApimApiOperationCreateOptions(
     [CommandSwitch("--params")]
     public string? Params { get; set; }
 }
-

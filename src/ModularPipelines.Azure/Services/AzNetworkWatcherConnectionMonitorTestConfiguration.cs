@@ -42,4 +42,3 @@ public class AzNetworkWatcherConnectionMonitorTestConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherConnectionMonitorTestConfigurationWaitOptions(), token);
     }
 }
-

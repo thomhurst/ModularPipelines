@@ -11,4 +11,3 @@ public record AzSecurityAutoProvisioningSettingListOptions(
 ) : AzOptions
 {
 }
-

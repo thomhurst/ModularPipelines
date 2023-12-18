@@ -23,4 +23,3 @@ public record AzStorageAccountPrivateEndpointConnectionRejectOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

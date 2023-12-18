@@ -29,4 +29,3 @@ public record AzMysqlServerPrivateEndpointConnectionApproveOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

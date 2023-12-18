@@ -21,4 +21,3 @@ public record AzSpringApmShowOptions(
     [CommandSwitch("--secrets")]
     public string? Secrets { get; set; }
 }
-

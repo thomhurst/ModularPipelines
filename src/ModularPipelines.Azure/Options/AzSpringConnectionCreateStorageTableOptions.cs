@@ -56,4 +56,3 @@ public record AzSpringConnectionCreateStorageTableOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

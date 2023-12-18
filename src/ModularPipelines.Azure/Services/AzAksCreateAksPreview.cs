@@ -22,4 +22,3 @@ public class AzAksCreateAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

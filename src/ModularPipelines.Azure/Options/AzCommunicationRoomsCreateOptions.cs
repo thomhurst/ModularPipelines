@@ -31,4 +31,3 @@ public record AzCommunicationRoomsCreateOptions(
     [CommandSwitch("--valid-until")]
     public string? ValidUntil { get; set; }
 }
-

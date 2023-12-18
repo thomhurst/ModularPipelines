@@ -37,4 +37,3 @@ public class AzFunctionappConfigAccessRestriction
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionShowOptions(), token);
     }
 }
-

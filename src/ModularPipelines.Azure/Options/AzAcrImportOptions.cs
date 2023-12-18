@@ -35,4 +35,3 @@ public record AzAcrImportOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

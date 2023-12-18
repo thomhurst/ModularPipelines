@@ -48,4 +48,3 @@ public record AzDatashareListSynchronizationDetailOptions(
     [CommandSwitch("--synchronization-id")]
     public string? SynchronizationId { get; set; }
 }
-

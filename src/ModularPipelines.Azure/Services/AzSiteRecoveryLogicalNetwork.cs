@@ -27,4 +27,3 @@ public class AzSiteRecoveryLogicalNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryLogicalNetworkShowOptions(), token);
     }
 }
-

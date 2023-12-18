@@ -27,4 +27,3 @@ public record AzCdnWafPolicyManagedRuleSetRuleGroupOverrideDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

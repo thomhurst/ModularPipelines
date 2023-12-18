@@ -40,4 +40,3 @@ public record AzStorageQueueGenerateSasOptions(
     [CommandSwitch("--start")]
     public string? Start { get; set; }
 }
-

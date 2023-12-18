@@ -32,4 +32,3 @@ public class AzSecurityPricing
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

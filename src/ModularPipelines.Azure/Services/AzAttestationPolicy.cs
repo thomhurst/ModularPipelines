@@ -32,4 +32,3 @@ public class AzAttestationPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

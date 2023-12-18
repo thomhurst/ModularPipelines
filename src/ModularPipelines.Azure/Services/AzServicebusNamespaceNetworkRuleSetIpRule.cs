@@ -27,4 +27,3 @@ public class AzServicebusNamespaceNetworkRuleSetIpRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

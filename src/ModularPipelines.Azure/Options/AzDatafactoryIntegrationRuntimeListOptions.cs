@@ -23,4 +23,3 @@ public record AzDatafactoryIntegrationRuntimeListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

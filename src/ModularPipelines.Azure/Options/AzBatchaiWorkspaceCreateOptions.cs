@@ -14,4 +14,3 @@ public record AzBatchaiWorkspaceCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

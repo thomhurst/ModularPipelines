@@ -20,4 +20,3 @@ public record AzAcrConfigRetentionUpdateOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

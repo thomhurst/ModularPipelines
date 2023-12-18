@@ -32,4 +32,3 @@ public class AzGrafanaUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzCosmosdbPostgresFirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleWaitOptions(), token);
     }
 }
-

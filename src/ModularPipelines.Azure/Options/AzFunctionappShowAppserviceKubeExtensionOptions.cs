@@ -23,4 +23,3 @@ public record AzFunctionappShowAppserviceKubeExtensionOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

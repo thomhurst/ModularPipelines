@@ -29,4 +29,3 @@ public record AzSynapseKustoPoolRemoveLanguageExtensionOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

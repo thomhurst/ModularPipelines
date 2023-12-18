@@ -51,4 +51,3 @@ public record AzNetworkCrossRegionLbRuleShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

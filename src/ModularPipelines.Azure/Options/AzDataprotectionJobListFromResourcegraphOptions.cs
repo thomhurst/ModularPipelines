@@ -34,4 +34,3 @@ public record AzDataprotectionJobListFromResourcegraphOptions(
     [CommandSwitch("--vaults")]
     public string? Vaults { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzElasticSanVolumeSnapshotListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

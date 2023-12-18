@@ -59,4 +59,3 @@ public record AzStorageFileUpdateOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

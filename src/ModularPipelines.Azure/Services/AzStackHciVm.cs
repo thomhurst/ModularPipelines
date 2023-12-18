@@ -76,4 +76,3 @@ public class AzStackHciVm
         return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmUpdateOptions(), token);
     }
 }
-

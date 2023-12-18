@@ -46,4 +46,3 @@ public class AzServicebusNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceAuthorizationRuleUpdateOptions(), token);
     }
 }
-

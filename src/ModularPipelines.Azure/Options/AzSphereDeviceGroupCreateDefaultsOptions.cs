@@ -15,4 +15,3 @@ public record AzSphereDeviceGroupCreateDefaultsOptions(
     [CommandSwitch("--device-group")]
     public string? DeviceGroup { get; set; }
 }
-

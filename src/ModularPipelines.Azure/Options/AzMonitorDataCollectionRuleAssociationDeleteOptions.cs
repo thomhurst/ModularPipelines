@@ -14,4 +14,3 @@ public record AzMonitorDataCollectionRuleAssociationDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

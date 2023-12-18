@@ -20,4 +20,3 @@ public record AzOffazureHypervRunAsAccountListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

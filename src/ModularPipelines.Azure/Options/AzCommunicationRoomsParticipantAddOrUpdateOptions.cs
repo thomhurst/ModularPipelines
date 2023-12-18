@@ -22,4 +22,3 @@ public record AzCommunicationRoomsParticipantAddOrUpdateOptions(
     [CommandSwitch("--presenter-participants")]
     public string? PresenterParticipants { get; set; }
 }
-

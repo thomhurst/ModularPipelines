@@ -37,4 +37,3 @@ public class AzNetworkExpressRoutePortIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortIdentityWaitOptions(), token);
     }
 }
-

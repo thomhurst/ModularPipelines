@@ -31,4 +31,3 @@ public record AzNetworkFrontDoorRulesEngineRuleConditionAddOptions(
     [CommandSwitch("--transforms")]
     public string? Transforms { get; set; }
 }
-

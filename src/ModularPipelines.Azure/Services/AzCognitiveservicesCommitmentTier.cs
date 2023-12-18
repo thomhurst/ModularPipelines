@@ -22,4 +22,3 @@ public class AzCognitiveservicesCommitmentTier
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

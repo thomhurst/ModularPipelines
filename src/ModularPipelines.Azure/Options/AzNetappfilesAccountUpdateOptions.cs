@@ -47,4 +47,3 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     [CommandSwitch("--user-assigned-identity")]
     public string? UserAssignedIdentity { get; set; }
 }
-

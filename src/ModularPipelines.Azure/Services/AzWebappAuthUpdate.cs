@@ -17,4 +17,3 @@ public class AzWebappAuthUpdate
 
     public AzWebappAuthUpdateAuthV2 AuthV2 { get; }
 }
-

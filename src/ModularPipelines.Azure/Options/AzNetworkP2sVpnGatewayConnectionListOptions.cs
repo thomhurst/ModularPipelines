@@ -20,4 +20,3 @@ public record AzNetworkP2sVpnGatewayConnectionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

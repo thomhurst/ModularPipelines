@@ -26,4 +26,3 @@ public record AzVmHostDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -38,4 +38,3 @@ public record AzMlDataImportOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

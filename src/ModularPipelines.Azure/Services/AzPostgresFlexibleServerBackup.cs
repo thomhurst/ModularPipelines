@@ -27,4 +27,3 @@ public class AzPostgresFlexibleServerBackup
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerBackupShowOptions(), token);
     }
 }
-

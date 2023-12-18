@@ -28,4 +28,3 @@ public class AzNewRelic
 
     public AzNewRelicPlan Plan { get; }
 }
-

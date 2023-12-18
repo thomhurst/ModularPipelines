@@ -65,4 +65,3 @@ public class AzDlaCatalog
 
     public AzDlaCatalogView View { get; }
 }
-

@@ -73,4 +73,3 @@ public record AzSigImageDefinitionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

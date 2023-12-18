@@ -13,4 +13,3 @@ public record AzSphereDeviceCertificateShowOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzAdpWorkspaceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

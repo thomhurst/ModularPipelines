@@ -19,4 +19,3 @@ public record AzRoleDefinitionCreateOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

@@ -72,4 +72,3 @@ public class AzVmware
 
     public AzVmwareWorkloadNetwork WorkloadNetwork { get; }
 }
-

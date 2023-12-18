@@ -13,4 +13,3 @@ public record AzKeyvaultCheckNameOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

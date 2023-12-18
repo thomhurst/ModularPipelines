@@ -82,4 +82,3 @@ public class AzKeyvaultSecret
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecretShowDeletedOptions(), token);
     }
 }
-

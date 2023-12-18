@@ -13,4 +13,3 @@ public record AzPeeringLocationListOptions(
     [CommandSwitch("--direct-peering-type")]
     public string? DirectPeeringType { get; set; }
 }
-

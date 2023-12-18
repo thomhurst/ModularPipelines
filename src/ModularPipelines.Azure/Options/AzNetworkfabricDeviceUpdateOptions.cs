@@ -35,4 +35,3 @@ public record AzNetworkfabricDeviceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

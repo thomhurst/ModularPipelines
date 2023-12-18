@@ -16,4 +16,3 @@ public class AzCustomProviders
 
     public AzCustomProvidersResourceProvider ResourceProvider { get; }
 }
-

@@ -25,4 +25,3 @@ public record AzMaintenanceAssignmentDeleteResourceGroupOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

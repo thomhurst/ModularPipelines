@@ -16,4 +16,3 @@ public record AzPolicyAssignmentIdentityRemoveOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

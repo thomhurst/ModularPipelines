@@ -37,4 +37,3 @@ public class AzRedisServerLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

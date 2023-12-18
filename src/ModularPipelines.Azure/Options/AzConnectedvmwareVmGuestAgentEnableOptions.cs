@@ -19,4 +19,3 @@ public record AzConnectedvmwareVmGuestAgentEnableOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

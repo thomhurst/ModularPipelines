@@ -23,4 +23,3 @@ public record AzNetworkcloudVirtualmachineRestartOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

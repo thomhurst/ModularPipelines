@@ -26,4 +26,3 @@ public record AzPostgresServerShowConnectionStringOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

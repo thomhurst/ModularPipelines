@@ -65,4 +65,3 @@ public record AzNetworkfabricInternalnetworkUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzReposPolicyMergeStrategy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

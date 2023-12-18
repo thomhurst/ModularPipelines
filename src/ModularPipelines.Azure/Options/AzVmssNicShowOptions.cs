@@ -29,4 +29,3 @@ public record AzVmssNicShowOptions : AzOptions
     [CommandSwitch("--virtual-machine-scale-set-name")]
     public string? VirtualMachineScaleSetName { get; set; }
 }
-

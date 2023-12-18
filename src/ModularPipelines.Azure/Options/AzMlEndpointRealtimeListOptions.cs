@@ -41,4 +41,3 @@ public record AzMlEndpointRealtimeListOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

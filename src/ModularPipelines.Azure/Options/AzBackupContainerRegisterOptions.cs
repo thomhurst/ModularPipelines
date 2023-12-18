@@ -16,4 +16,3 @@ public record AzBackupContainerRegisterOptions(
     [CommandSwitch("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 }
-

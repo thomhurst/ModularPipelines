@@ -56,4 +56,3 @@ public class AzNetworkcloudKubernetescluster
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterWaitOptions(), token);
     }
 }
-

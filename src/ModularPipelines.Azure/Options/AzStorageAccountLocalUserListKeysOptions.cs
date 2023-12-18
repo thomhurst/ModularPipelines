@@ -30,4 +30,3 @@ public record AzStorageAccountLocalUserListKeysOptions(
     [CommandSwitch("--ssh-authorized-key")]
     public string? SshAuthorizedKey { get; set; }
 }
-

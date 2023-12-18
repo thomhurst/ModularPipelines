@@ -42,4 +42,3 @@ public class AzSpringServiceRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzIotDuDeviceModule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

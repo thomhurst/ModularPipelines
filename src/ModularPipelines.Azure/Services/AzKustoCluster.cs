@@ -129,4 +129,3 @@ public class AzKustoCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterWaitOptions(), token);
     }
 }
-

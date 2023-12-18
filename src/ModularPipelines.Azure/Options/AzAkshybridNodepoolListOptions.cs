@@ -23,4 +23,3 @@ public record AzAkshybridNodepoolListOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -45,4 +45,3 @@ public class AzRemoteRenderingAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountUpdateOptions(), token);
     }
 }
-

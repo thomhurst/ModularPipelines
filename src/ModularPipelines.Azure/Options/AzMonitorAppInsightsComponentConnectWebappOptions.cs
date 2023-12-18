@@ -28,4 +28,3 @@ public record AzMonitorAppInsightsComponentConnectWebappOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

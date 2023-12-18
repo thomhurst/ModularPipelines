@@ -16,4 +16,3 @@ public record AzCosmosdbSqlUserDefinedFunctionUpdateOptions(
 ) : AzOptions
 {
 }
-

@@ -15,4 +15,3 @@ public record AzSynapseSparkJobCancelOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

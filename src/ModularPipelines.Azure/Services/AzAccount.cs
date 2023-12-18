@@ -76,4 +76,3 @@ public class AzAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountShowOptions(), token);
     }
 }
-

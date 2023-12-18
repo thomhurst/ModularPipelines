@@ -52,4 +52,3 @@ public record AzDeploymentSubCreateOptions(
     [CommandSwitch("--what-if-result-format")]
     public string? WhatIfResultFormat { get; set; }
 }
-

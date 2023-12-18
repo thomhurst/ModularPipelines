@@ -20,4 +20,3 @@ public record AzPowerbiEmbeddedCapacityShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

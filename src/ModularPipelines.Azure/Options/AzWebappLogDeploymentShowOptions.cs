@@ -17,4 +17,3 @@ public record AzWebappLogDeploymentShowOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

@@ -80,4 +80,3 @@ public class AzWebpubsub
         return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubUpdateOptions(), token);
     }
 }
-

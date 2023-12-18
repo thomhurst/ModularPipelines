@@ -13,4 +13,3 @@ public record AzCognitiveservicesUsageListOptions(
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

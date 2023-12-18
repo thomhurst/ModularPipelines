@@ -20,4 +20,3 @@ public record AzNetworkcloudKubernetesclusterShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

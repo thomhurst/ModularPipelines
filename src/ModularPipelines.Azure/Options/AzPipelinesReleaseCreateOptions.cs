@@ -34,4 +34,3 @@ public record AzPipelinesReleaseCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

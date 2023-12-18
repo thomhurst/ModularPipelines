@@ -37,4 +37,3 @@ public class AzNetworkVnetGatewayAad
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayAadWaitOptions(), token);
     }
 }
-

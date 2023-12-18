@@ -20,4 +20,3 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

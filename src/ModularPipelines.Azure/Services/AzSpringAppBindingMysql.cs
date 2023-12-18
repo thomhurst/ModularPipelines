@@ -27,4 +27,3 @@ public class AzSpringAppBindingMysql
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

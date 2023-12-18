@@ -67,4 +67,3 @@ public class AzLogzSubAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountWaitOptions(), token);
     }
 }
-

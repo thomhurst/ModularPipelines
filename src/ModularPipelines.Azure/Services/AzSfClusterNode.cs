@@ -27,4 +27,3 @@ public class AzSfClusterNode
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

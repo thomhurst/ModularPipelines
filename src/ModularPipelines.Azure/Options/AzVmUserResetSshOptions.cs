@@ -25,4 +25,3 @@ public record AzVmUserResetSshOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

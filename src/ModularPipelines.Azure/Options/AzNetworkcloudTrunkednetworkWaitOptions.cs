@@ -41,4 +41,3 @@ public record AzNetworkcloudTrunkednetworkWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzKustoClusterDeleteKusto
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

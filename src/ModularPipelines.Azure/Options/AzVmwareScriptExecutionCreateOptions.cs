@@ -34,4 +34,3 @@ public record AzVmwareScriptExecutionCreateOptions(
     [CommandSwitch("--script-cmdlet-id")]
     public string? ScriptCmdletId { get; set; }
 }
-

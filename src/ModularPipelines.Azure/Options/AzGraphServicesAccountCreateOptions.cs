@@ -21,4 +21,3 @@ public record AzGraphServicesAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzAmsLiveEventStopOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

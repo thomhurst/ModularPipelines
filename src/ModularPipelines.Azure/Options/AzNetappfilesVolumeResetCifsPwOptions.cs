@@ -23,4 +23,3 @@ public record AzNetappfilesVolumeResetCifsPwOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

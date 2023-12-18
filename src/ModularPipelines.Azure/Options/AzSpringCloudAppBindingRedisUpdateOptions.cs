@@ -16,4 +16,3 @@ public record AzSpringCloudAppBindingRedisUpdateOptions(
     [BooleanCommandSwitch("--disable-ssl")]
     public bool? DisableSsl { get; set; }
 }
-

@@ -46,4 +46,3 @@ public class AzSpringApiPortal
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

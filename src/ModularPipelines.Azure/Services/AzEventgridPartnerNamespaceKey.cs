@@ -35,4 +35,3 @@ public class AzEventgridPartnerNamespaceKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

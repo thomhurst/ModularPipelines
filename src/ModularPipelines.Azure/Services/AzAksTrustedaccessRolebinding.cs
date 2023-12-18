@@ -42,4 +42,3 @@ public class AzAksTrustedaccessRolebinding
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

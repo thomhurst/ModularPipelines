@@ -17,4 +17,3 @@ public record AzKeyvaultCertificateContactAddOptions(
     [CommandSwitch("--phone")]
     public string? Phone { get; set; }
 }
-

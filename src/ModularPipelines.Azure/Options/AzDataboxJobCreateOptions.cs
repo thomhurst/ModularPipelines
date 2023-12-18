@@ -100,4 +100,3 @@ public record AzDataboxJobCreateOptions(
     [CommandSwitch("--transfer-filter-details")]
     public string? TransferFilterDetails { get; set; }
 }
-

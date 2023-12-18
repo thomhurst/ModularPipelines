@@ -32,4 +32,3 @@ public class AzWebappConfigContainer
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigContainerShowOptions(), token);
     }
 }
-

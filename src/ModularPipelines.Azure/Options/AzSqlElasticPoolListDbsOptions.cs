@@ -25,4 +25,3 @@ public record AzSqlElasticPoolListDbsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

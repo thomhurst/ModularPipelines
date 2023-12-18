@@ -47,4 +47,3 @@ public record AzFleetCreateOptions(
     [CommandSwitch("--vm-size")]
     public string? VmSize { get; set; }
 }
-

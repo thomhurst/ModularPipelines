@@ -22,4 +22,3 @@ public class AzFunctionappRestartAppserviceKube
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappRestartAppserviceKubeExtensionOptions(), token);
     }
 }
-

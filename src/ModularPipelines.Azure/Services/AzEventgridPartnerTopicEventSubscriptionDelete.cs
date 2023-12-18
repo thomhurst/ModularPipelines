@@ -17,4 +17,3 @@ public class AzEventgridPartnerTopicEventSubscriptionDelete
 
     public AzEventgridPartnerTopicEventSubscriptionDeleteEventgrid Eventgrid { get; }
 }
-

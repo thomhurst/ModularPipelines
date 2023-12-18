@@ -27,4 +27,3 @@ public class AzTsiEnvironmentGen1
         return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentGen1UpdateOptions(), token);
     }
 }
-

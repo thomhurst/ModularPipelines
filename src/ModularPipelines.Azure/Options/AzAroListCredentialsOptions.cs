@@ -23,4 +23,3 @@ public record AzAroListCredentialsOptions(
     [BooleanCommandSwitch("--refresh-credentials")]
     public bool? RefreshCredentials { get; set; }
 }
-

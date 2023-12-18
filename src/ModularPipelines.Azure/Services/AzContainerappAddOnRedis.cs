@@ -27,4 +27,3 @@ public class AzContainerappAddOnRedis
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

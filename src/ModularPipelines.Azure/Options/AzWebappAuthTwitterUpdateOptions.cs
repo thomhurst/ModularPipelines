@@ -35,4 +35,3 @@ public record AzWebappAuthTwitterUpdateOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

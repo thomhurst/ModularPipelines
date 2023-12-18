@@ -26,4 +26,3 @@ public record AzSiteRecoveryNetworkShowOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

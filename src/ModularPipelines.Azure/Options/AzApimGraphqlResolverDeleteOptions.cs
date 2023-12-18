@@ -19,4 +19,3 @@ public record AzApimGraphqlResolverDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

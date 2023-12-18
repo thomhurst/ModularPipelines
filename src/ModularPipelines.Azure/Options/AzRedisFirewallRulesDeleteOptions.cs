@@ -22,4 +22,3 @@ public record AzRedisFirewallRulesDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

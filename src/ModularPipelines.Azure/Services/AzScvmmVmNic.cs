@@ -47,4 +47,3 @@ public class AzScvmmVmNic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

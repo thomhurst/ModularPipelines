@@ -14,4 +14,3 @@ public record AzBotSmsShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

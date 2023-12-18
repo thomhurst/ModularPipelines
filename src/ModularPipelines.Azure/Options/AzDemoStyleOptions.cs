@@ -11,4 +11,3 @@ public record AzDemoStyleOptions : AzOptions
     [CommandSwitch("--theme")]
     public string? Theme { get; set; }
 }
-

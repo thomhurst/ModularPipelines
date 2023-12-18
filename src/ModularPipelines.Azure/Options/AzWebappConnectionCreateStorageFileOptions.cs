@@ -53,4 +53,3 @@ public record AzWebappConnectionCreateStorageFileOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

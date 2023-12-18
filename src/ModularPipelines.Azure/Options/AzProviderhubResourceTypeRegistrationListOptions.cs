@@ -19,4 +19,3 @@ public record AzProviderhubResourceTypeRegistrationListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

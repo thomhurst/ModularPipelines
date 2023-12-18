@@ -15,4 +15,3 @@ public record AzMlComputeStartOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

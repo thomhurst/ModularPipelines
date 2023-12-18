@@ -29,4 +29,3 @@ public record AzAcrRepositoryShowManifestsOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

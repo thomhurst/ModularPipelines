@@ -22,4 +22,3 @@ public class AzBatchJobTaskCounts
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzQumuloStorage
 
     public AzQumuloStorageFileSystem FileSystem { get; }
 }
-

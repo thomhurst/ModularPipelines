@@ -37,4 +37,3 @@ public class AzMlWorkspaceOutboundRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

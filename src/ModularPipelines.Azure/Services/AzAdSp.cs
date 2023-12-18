@@ -55,4 +55,3 @@ public class AzAdSp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -28,4 +28,3 @@ public record AzDatamigrationSqlVmCutoverOptions(
     [CommandSwitch("--target-db-name")]
     public string? TargetDbName { get; set; }
 }
-

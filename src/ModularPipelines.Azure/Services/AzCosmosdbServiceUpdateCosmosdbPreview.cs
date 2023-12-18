@@ -22,4 +22,3 @@ public class AzCosmosdbServiceUpdateCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

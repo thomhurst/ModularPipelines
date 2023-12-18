@@ -26,4 +26,3 @@ public record AzPostgresFlexibleServerParameterListOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

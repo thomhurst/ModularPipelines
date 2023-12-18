@@ -18,4 +18,3 @@ public record AzVmwareScriptCmdletListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

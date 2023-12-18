@@ -17,4 +17,3 @@ public class AzAksOperationAbort
 
     public AzAksOperationAbortAksPreview AksPreview { get; }
 }
-

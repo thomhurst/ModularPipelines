@@ -65,4 +65,3 @@ public record AzSqlServerMsSupportAuditPolicyUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

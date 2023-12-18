@@ -52,4 +52,3 @@ public class AzAfdCustomDomain
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdCustomDomainWaitOptions(), token);
     }
 }
-

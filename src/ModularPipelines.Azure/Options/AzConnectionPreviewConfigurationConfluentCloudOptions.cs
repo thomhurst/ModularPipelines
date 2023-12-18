@@ -14,4 +14,3 @@ public record AzConnectionPreviewConfigurationConfluentCloudOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzVmssExtensionListOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

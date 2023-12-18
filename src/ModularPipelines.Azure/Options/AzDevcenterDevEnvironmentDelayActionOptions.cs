@@ -22,4 +22,3 @@ public record AzDevcenterDevEnvironmentDelayActionOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

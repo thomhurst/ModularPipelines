@@ -20,4 +20,3 @@ public record AzIdentityFederatedCredentialListOptions(
     [CommandSwitch("--subject")]
     public string? Subject { get; set; }
 }
-

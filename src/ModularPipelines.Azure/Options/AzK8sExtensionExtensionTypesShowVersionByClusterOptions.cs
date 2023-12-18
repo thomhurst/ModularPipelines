@@ -15,4 +15,3 @@ public record AzK8sExtensionExtensionTypesShowVersionByClusterOptions(
 ) : AzOptions
 {
 }
-

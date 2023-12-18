@@ -27,4 +27,3 @@ public class AzSqlDbOp
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbOpListOptions(), token);
     }
 }
-

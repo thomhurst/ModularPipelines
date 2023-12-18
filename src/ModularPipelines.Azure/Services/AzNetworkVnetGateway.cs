@@ -105,4 +105,3 @@ public class AzNetworkVnetGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayWaitOptions(), token);
     }
 }
-

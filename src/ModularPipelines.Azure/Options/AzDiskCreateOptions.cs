@@ -128,4 +128,3 @@ public record AzDiskCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

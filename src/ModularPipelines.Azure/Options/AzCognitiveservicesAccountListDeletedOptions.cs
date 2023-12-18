@@ -17,4 +17,3 @@ public record AzCognitiveservicesAccountListDeletedOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

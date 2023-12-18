@@ -41,4 +41,3 @@ public record AzOrbitalSpacecraftWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

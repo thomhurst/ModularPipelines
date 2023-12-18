@@ -42,4 +42,3 @@ public record AzNetworkApplicationGatewayUrlPathMapUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

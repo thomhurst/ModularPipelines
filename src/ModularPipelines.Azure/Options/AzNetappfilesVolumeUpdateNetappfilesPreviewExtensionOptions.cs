@@ -179,4 +179,3 @@ public record AzNetappfilesVolumeUpdateNetappfilesPreviewExtensionOptions : AzOp
     [CommandSwitch("--volume-type")]
     public string? VolumeType { get; set; }
 }
-

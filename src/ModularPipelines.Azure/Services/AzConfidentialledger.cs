@@ -50,4 +50,3 @@ public class AzConfidentialledger
         return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerWaitOptions(), token);
     }
 }
-

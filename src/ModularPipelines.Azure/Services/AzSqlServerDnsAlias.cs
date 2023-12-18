@@ -42,4 +42,3 @@ public class AzSqlServerDnsAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

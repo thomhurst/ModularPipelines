@@ -27,4 +27,3 @@ public class AzSqlServerConnPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

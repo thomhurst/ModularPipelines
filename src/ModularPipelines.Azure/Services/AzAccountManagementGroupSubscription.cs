@@ -37,4 +37,3 @@ public class AzAccountManagementGroupSubscription
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -30,4 +30,3 @@ public record AzCognitiveservicesAccountPurgeOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

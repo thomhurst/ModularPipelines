@@ -14,4 +14,3 @@ public record AzAmlfsGetSubnetsSizeOptions : AzOptions
     [CommandSwitch("--storage-capacity")]
     public string? StorageCapacity { get; set; }
 }
-

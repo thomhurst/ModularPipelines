@@ -35,4 +35,3 @@ public record AzKeyvaultSecretSetOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

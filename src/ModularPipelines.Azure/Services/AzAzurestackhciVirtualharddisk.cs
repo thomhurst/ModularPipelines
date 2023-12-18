@@ -42,4 +42,3 @@ public class AzAzurestackhciVirtualharddisk
         return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskUpdateOptions(), token);
     }
 }
-

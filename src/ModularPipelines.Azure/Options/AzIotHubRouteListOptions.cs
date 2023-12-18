@@ -25,4 +25,3 @@ public record AzIotHubRouteListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -55,4 +55,3 @@ public record AzKeyvaultUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

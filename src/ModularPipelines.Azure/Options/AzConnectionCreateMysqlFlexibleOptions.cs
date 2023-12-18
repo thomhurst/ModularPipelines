@@ -43,4 +43,3 @@ public record AzConnectionCreateMysqlFlexibleOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

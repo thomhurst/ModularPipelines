@@ -52,4 +52,3 @@ public class AzIotCentralJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

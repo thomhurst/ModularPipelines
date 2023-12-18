@@ -17,4 +17,3 @@ public class AzAksMaintenanceconfigurationAdd
 
     public AzAksMaintenanceconfigurationAddAksPreview AksPreview { get; }
 }
-

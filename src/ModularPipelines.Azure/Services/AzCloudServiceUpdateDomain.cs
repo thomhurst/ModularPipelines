@@ -32,4 +32,3 @@ public class AzCloudServiceUpdateDomain
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceUpdateDomainWalkUpdateDomainOptions(), token);
     }
 }
-

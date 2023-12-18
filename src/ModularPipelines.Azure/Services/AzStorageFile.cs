@@ -142,4 +142,3 @@ public class AzStorageFile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

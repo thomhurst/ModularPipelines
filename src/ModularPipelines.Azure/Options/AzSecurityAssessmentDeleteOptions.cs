@@ -13,4 +13,3 @@ public record AzSecurityAssessmentDeleteOptions(
     [CommandSwitch("--assessed-resource-id")]
     public string? AssessedResourceId { get; set; }
 }
-

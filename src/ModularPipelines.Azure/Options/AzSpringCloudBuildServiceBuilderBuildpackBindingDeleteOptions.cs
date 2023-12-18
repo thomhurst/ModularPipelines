@@ -18,4 +18,3 @@ public record AzSpringCloudBuildServiceBuilderBuildpackBindingDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

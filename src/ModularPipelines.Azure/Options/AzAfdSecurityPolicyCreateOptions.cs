@@ -23,4 +23,3 @@ public record AzAfdSecurityPolicyCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzCsvmwareResourcePool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

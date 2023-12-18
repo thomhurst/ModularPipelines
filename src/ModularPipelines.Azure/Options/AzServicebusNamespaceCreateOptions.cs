@@ -56,4 +56,3 @@ public record AzServicebusNamespaceCreateOptions(
     [BooleanCommandSwitch("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }
-

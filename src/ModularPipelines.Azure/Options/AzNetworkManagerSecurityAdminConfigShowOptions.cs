@@ -23,4 +23,3 @@ public record AzNetworkManagerSecurityAdminConfigShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

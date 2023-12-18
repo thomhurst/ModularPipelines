@@ -14,4 +14,3 @@ public record AzDmsStopOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

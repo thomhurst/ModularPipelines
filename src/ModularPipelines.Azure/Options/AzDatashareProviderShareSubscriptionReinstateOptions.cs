@@ -29,4 +29,3 @@ public record AzDatashareProviderShareSubscriptionReinstateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzMonitorActionGroupTestNotifications
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

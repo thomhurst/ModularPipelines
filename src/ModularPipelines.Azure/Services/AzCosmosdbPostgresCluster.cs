@@ -71,4 +71,3 @@ public class AzCosmosdbPostgresCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterWaitOptions(), token);
     }
 }
-

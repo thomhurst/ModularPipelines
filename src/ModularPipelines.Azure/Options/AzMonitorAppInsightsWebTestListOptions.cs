@@ -14,4 +14,3 @@ public record AzMonitorAppInsightsWebTestListOptions(
     [CommandSwitch("--component-name")]
     public string? ComponentName { get; set; }
 }
-

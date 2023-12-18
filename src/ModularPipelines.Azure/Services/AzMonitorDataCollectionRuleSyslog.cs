@@ -42,4 +42,3 @@ public class AzMonitorDataCollectionRuleSyslog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

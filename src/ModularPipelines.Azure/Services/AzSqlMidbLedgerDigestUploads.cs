@@ -32,4 +32,3 @@ public class AzSqlMidbLedgerDigestUploads
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsShowOptions(), token);
     }
 }
-

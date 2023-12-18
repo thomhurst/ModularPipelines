@@ -49,4 +49,3 @@ public record AzConnectionCreateCosmosGremlinOptions(
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

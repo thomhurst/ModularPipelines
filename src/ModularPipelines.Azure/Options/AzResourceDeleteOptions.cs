@@ -37,4 +37,3 @@ public record AzResourceDeleteOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

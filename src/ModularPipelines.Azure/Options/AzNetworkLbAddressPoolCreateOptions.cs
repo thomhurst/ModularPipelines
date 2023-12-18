@@ -36,4 +36,3 @@ public record AzNetworkLbAddressPoolCreateOptions(
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }
 }
-

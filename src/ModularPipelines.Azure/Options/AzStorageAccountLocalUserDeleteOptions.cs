@@ -30,4 +30,3 @@ public record AzStorageAccountLocalUserDeleteOptions(
     [CommandSwitch("--ssh-authorized-key")]
     public string? SshAuthorizedKey { get; set; }
 }
-

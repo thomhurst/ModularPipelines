@@ -42,4 +42,3 @@ public class AzContainerappResiliency
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

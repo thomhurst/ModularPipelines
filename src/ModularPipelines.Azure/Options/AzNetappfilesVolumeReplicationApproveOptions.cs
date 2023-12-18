@@ -19,4 +19,3 @@ public record AzNetappfilesVolumeReplicationApproveOptions(
     [CommandSwitch("--remote-volume-resource-id")]
     public string? RemoteVolumeResourceId { get; set; }
 }
-

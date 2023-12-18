@@ -22,4 +22,3 @@ public class AzStorageFileDeleteStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

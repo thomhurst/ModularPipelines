@@ -17,4 +17,3 @@ public record AzVmssShowOptions(
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
 }
-

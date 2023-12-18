@@ -31,4 +31,3 @@ public record AzApimApiReleaseUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

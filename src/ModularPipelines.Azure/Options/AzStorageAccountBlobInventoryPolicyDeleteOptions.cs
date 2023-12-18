@@ -16,4 +16,3 @@ public record AzStorageAccountBlobInventoryPolicyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzPolicyDefinitionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

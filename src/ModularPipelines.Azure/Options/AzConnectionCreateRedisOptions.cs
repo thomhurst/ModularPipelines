@@ -40,4 +40,3 @@ public record AzConnectionCreateRedisOptions(
     [CommandSwitch("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 }
-

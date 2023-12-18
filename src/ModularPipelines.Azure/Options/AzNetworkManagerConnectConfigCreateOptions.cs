@@ -26,4 +26,3 @@ public record AzNetworkManagerConnectConfigCreateOptions(
     [BooleanCommandSwitch("--is-global")]
     public bool? IsGlobal { get; set; }
 }
-

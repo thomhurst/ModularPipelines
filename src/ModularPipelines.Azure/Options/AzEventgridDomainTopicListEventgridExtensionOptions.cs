@@ -14,4 +14,3 @@ public record AzEventgridDomainTopicListEventgridExtensionOptions(
     [CommandSwitch("--odata-query")]
     public string? OdataQuery { get; set; }
 }
-

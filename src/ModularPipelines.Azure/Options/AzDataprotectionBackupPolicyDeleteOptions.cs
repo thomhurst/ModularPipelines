@@ -28,4 +28,3 @@ public record AzDataprotectionBackupPolicyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

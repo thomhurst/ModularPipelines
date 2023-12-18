@@ -24,4 +24,3 @@ public record AzSigImageDefinitionShowCommunityOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

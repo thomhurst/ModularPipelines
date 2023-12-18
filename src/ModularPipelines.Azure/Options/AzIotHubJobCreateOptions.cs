@@ -56,4 +56,3 @@ public record AzIotHubJobCreateOptions(
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }
 }
-

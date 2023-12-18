@@ -77,4 +77,3 @@ public record AzNetworkFirewallUpdateOptions : AzOptions
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

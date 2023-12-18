@@ -17,4 +17,3 @@ public record AzNetworkAlbFrontendListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

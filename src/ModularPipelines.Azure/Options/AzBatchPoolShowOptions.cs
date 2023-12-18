@@ -37,4 +37,3 @@ public record AzBatchPoolShowOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

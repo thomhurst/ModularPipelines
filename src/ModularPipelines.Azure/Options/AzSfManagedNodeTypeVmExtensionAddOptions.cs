@@ -31,4 +31,3 @@ public record AzSfManagedNodeTypeVmExtensionAddOptions(
     [CommandSwitch("--setting")]
     public string? Setting { get; set; }
 }
-

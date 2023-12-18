@@ -22,4 +22,3 @@ public class AzBillingBenefitsSavingsPlan
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsSavingsPlanListOptions(), token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzServicebusGeorecoveryAliasCreateOptions(
     [CommandSwitch("--partner-namespace")]
     public string? PartnerNamespace { get; set; }
 }
-

@@ -50,4 +50,3 @@ public record AzSelfHelpSolutionShowOptions(
     [CommandSwitch("--trigger-criteria")]
     public string? TriggerCriteria { get; set; }
 }
-

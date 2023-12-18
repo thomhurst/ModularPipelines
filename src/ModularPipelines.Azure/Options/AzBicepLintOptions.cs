@@ -16,4 +16,3 @@ public record AzBicepLintOptions(
     [BooleanCommandSwitch("--no-restore")]
     public bool? NoRestore { get; set; }
 }
-

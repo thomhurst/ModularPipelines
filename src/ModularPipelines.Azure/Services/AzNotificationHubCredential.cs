@@ -46,4 +46,3 @@ public class AzNotificationHubCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

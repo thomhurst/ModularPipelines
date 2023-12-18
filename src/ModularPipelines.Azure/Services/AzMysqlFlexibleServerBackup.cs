@@ -32,4 +32,3 @@ public class AzMysqlFlexibleServerBackup
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerBackupShowOptions(), token);
     }
 }
-

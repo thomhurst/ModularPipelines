@@ -34,4 +34,3 @@ public record AzSynapseRoleAssignmentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzStorageAccountEncryptionScopeListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

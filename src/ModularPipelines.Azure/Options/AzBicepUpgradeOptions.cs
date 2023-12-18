@@ -11,4 +11,3 @@ public record AzBicepUpgradeOptions : AzOptions
     [CommandSwitch("--target-platform")]
     public string? TargetPlatform { get; set; }
 }
-

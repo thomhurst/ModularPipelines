@@ -27,4 +27,3 @@ public class AzSecurityRegulatoryComplianceStandards
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

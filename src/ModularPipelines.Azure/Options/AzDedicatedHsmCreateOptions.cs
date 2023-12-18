@@ -41,4 +41,3 @@ public record AzDedicatedHsmCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

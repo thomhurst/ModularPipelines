@@ -33,4 +33,3 @@ public record AzCosmosdbSqlRoleDefinitionWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

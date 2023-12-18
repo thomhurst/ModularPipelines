@@ -17,4 +17,3 @@ public record AzElasticSanVolumeGroupListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

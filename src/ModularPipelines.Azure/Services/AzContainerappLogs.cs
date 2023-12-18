@@ -22,4 +22,3 @@ public class AzContainerappLogs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

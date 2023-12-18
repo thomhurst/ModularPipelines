@@ -14,4 +14,3 @@ public record AzBotWebchatShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

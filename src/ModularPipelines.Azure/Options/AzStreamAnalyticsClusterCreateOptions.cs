@@ -29,4 +29,3 @@ public record AzStreamAnalyticsClusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzMlFolder
         return await _command.ExecuteCommandLineTool(options ?? new AzMlFolderAttachOptions(), token);
     }
 }
-

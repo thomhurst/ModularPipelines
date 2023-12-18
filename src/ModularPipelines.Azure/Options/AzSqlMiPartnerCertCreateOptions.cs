@@ -18,4 +18,3 @@ public record AzSqlMiPartnerCertCreateOptions(
     [CommandSwitch("--public-blob")]
     public string? PublicBlob { get; set; }
 }
-

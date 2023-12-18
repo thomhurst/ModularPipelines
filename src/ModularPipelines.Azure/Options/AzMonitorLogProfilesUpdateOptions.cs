@@ -50,4 +50,3 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

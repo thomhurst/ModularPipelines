@@ -23,4 +23,3 @@ public record AzMariadbServerFirewallRuleCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

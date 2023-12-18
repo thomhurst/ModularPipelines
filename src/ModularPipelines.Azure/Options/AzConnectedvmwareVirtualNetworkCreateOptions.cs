@@ -21,4 +21,3 @@ public record AzConnectedvmwareVirtualNetworkCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

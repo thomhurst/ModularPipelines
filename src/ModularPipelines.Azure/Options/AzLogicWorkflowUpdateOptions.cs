@@ -35,4 +35,3 @@ public record AzLogicWorkflowUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

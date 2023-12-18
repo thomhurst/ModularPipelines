@@ -50,4 +50,3 @@ public record AzNetworkfabricFabricUpdateOptions : AzOptions
     [CommandSwitch("--ts-config")]
     public string? TsConfig { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzSphereCatalog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

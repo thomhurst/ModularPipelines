@@ -49,4 +49,3 @@ public record AzReposPrUpdateOptions(
     [BooleanCommandSwitch("--transition-work-items")]
     public bool? TransitionWorkItems { get; set; }
 }
-

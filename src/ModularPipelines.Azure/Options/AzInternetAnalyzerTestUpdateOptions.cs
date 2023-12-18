@@ -36,4 +36,3 @@ public record AzInternetAnalyzerTestUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

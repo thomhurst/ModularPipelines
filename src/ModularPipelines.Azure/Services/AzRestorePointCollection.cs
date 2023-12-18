@@ -52,4 +52,3 @@ public class AzRestorePointCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public class AzIotHubModuleTwin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

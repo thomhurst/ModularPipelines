@@ -32,4 +32,3 @@ public class AzNetworkFirewallPolicyIntrusionDetection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions(), token);
     }
 }
-

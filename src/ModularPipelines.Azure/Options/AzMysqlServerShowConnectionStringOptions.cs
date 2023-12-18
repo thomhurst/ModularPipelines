@@ -28,4 +28,3 @@ public record AzMysqlServerShowConnectionStringOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

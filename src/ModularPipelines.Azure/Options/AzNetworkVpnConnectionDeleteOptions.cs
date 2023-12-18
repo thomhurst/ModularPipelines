@@ -22,4 +22,3 @@ public record AzNetworkVpnConnectionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

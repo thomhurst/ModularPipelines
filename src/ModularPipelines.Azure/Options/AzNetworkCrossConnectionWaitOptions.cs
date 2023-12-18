@@ -41,4 +41,3 @@ public record AzNetworkCrossConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

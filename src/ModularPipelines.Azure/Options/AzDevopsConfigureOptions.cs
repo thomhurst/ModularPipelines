@@ -17,4 +17,3 @@ public record AzDevopsConfigureOptions : AzOptions
     [BooleanCommandSwitch("--use-git-aliases")]
     public bool? UseGitAliases { get; set; }
 }
-

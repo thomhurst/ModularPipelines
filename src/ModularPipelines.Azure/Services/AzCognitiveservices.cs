@@ -37,4 +37,3 @@ public class AzCognitiveservices
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesListOptions(), token);
     }
 }
-

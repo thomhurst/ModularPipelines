@@ -27,4 +27,3 @@ public class AzEventhubsNamespaceIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

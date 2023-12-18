@@ -13,4 +13,3 @@ public record AzDtIdentityShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

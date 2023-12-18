@@ -73,4 +73,3 @@ public class AzNetworkWatcher
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

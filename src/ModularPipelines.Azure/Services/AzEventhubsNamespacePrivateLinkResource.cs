@@ -22,4 +22,3 @@ public class AzEventhubsNamespacePrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzDatashareConsumerSourceDataSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

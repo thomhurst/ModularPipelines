@@ -41,4 +41,3 @@ public record AzMonitorLogAnalyticsWorkspaceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

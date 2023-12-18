@@ -16,4 +16,3 @@ public record AzApimApiOperationDeleteOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

@@ -112,4 +112,3 @@ public class AzMaintenanceAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateSubscriptionOptions(), token);
     }
 }
-

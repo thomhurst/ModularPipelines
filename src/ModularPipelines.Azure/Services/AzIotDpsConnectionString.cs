@@ -22,4 +22,3 @@ public class AzIotDpsConnectionString
         return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsConnectionStringShowOptions(), token);
     }
 }
-

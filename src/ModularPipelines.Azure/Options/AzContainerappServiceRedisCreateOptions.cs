@@ -15,4 +15,3 @@ public record AzContainerappServiceRedisCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

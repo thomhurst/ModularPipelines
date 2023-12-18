@@ -26,4 +26,3 @@ public record AzSynapseKustoPoolPrincipalAssignmentShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

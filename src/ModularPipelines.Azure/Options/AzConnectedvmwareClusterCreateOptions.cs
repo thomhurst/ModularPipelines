@@ -21,4 +21,3 @@ public record AzConnectedvmwareClusterCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

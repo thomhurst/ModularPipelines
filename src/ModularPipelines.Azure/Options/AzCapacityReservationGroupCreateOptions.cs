@@ -20,4 +20,3 @@ public record AzCapacityReservationGroupCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

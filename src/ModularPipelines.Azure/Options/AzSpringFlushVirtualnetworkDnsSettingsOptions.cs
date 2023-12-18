@@ -14,4 +14,3 @@ public record AzSpringFlushVirtualnetworkDnsSettingsOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

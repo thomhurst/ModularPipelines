@@ -25,4 +25,3 @@ public record AzAcrTaskListRunsOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

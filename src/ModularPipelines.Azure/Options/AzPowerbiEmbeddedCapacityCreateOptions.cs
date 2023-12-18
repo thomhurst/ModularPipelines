@@ -27,4 +27,3 @@ public record AzPowerbiEmbeddedCapacityCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

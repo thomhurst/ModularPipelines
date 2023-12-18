@@ -15,4 +15,3 @@ public record AzPartnercenterMarketplaceOfferListingMediaAddOptions(
     [CommandSwitch("--streaming-uri")]
     public string? StreamingUri { get; set; }
 }
-

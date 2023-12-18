@@ -17,4 +17,3 @@ public record AzRedisFirewallRulesListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

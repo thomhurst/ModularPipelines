@@ -14,4 +14,3 @@ public record AzStackSubShowOptions : AzOptions
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

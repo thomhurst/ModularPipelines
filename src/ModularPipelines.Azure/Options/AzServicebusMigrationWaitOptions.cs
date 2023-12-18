@@ -44,4 +44,3 @@ public record AzServicebusMigrationWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

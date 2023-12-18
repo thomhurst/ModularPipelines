@@ -29,4 +29,3 @@ public record AzAksKanalyzeOptions(
     [CommandSwitch("--storage-account")]
     public int? StorageAccount { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzMlScheduleCreateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

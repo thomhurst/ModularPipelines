@@ -18,4 +18,3 @@ public record AzStreamAnalyticsInputTestOptions(
     [CommandSwitch("--properties")]
     public string? Properties { get; set; }
 }
-

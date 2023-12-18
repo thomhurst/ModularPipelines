@@ -23,4 +23,3 @@ public record AzCommunicationChatMessageSendOptions(
     [CommandSwitch("--message-type")]
     public string? MessageType { get; set; }
 }
-

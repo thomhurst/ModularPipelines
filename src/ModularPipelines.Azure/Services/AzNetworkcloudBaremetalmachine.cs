@@ -87,4 +87,3 @@ public class AzNetworkcloudBaremetalmachine
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineWaitOptions(), token);
     }
 }
-

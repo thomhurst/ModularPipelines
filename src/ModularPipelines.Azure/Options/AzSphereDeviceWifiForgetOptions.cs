@@ -13,4 +13,3 @@ public record AzSphereDeviceWifiForgetOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

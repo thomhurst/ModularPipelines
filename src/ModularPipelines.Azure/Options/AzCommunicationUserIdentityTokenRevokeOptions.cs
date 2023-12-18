@@ -16,4 +16,3 @@ public record AzCommunicationUserIdentityTokenRevokeOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

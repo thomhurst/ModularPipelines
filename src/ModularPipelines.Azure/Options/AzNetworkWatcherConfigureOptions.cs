@@ -19,4 +19,3 @@ public record AzNetworkWatcherConfigureOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

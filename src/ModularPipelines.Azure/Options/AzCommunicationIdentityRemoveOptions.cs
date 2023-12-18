@@ -20,4 +20,3 @@ public record AzCommunicationIdentityRemoveOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzPipelinesRunsTag
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

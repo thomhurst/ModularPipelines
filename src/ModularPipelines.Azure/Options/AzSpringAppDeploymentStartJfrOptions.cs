@@ -20,4 +20,3 @@ public record AzSpringAppDeploymentStartJfrOptions(
     [CommandSwitch("--duration")]
     public string? Duration { get; set; }
 }
-

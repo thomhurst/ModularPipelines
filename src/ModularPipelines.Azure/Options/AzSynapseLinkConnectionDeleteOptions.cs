@@ -17,4 +17,3 @@ public record AzSynapseLinkConnectionDeleteOptions(
     [CommandSwitch("--max-segment-count")]
     public int? MaxSegmentCount { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzStorageAccountNetworkRuleListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

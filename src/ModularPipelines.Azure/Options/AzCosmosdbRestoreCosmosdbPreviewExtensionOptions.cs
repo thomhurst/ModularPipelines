@@ -35,4 +35,3 @@ public record AzCosmosdbRestoreCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--tables-to-restore")]
     public string? TablesToRestore { get; set; }
 }
-

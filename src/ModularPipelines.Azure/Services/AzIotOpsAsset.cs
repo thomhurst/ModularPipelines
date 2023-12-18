@@ -55,4 +55,3 @@ public class AzIotOpsAsset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -41,4 +41,3 @@ public class AzNetworkFirewallApplicationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallApplicationRuleShowOptions(), token);
     }
 }
-

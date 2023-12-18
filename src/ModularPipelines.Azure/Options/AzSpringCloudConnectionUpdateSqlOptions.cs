@@ -47,4 +47,3 @@ public record AzSpringCloudConnectionUpdateSqlOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

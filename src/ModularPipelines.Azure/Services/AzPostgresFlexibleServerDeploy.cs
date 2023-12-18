@@ -27,4 +27,3 @@ public class AzPostgresFlexibleServerDeploy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

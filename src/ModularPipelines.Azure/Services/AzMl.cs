@@ -120,4 +120,3 @@ public class AzMl
 
     public AzMlWorkspaceHub WorkspaceHub { get; }
 }
-

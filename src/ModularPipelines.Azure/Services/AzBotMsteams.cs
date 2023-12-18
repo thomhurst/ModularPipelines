@@ -32,4 +32,3 @@ public class AzBotMsteams
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

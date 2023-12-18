@@ -17,4 +17,3 @@ public record AzIotOpsAssetEventRemoveOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

@@ -26,4 +26,3 @@ public class AzSpringCloudConfigServerGit
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

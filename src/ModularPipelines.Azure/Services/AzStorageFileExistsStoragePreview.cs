@@ -22,4 +22,3 @@ public class AzStorageFileExistsStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

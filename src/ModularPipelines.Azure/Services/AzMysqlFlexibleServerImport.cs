@@ -22,4 +22,3 @@ public class AzMysqlFlexibleServerImport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

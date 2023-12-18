@@ -22,4 +22,3 @@ public class AzMysqlServerPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateLinkResourceListOptions(), token);
     }
 }
-

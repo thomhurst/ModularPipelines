@@ -15,4 +15,3 @@ public record AzBotAuthsettingListProvidersOptions(
     [CommandSwitch("--provider-name")]
     public string? ProviderName { get; set; }
 }
-

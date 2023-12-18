@@ -20,4 +20,3 @@ public record AzWebpubsubHubListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

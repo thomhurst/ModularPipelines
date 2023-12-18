@@ -14,4 +14,3 @@ public record AzNetworkP2sVpnGatewayVpnClientGenerateOptions(
     [CommandSwitch("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzNetappfilesPoolListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

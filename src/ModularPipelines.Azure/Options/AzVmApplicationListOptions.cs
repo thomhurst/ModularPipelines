@@ -26,4 +26,3 @@ public record AzVmApplicationListOptions(
     [CommandSwitch("--treat-deployment-as-failure")]
     public string? TreatDeploymentAsFailure { get; set; }
 }
-

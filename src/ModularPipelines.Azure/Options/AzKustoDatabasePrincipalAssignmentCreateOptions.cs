@@ -28,4 +28,3 @@ public record AzKustoDatabasePrincipalAssignmentCreateOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

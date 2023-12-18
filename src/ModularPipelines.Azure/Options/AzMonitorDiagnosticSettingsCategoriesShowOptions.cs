@@ -23,4 +23,3 @@ public record AzMonitorDiagnosticSettingsCategoriesShowOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

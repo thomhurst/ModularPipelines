@@ -21,4 +21,3 @@ public record AzAdpAccountDataPoolCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

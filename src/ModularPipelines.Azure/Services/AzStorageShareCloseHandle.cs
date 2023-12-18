@@ -17,4 +17,3 @@ public class AzStorageShareCloseHandle
 
     public AzStorageShareCloseHandleStoragePreview StoragePreview { get; }
 }
-

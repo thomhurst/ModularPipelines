@@ -17,4 +17,3 @@ public record AzNetworkVirtualApplianceSkuListOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

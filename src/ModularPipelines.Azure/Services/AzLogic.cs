@@ -20,4 +20,3 @@ public class AzLogic
 
     public AzLogicWorkflow Workflow { get; }
 }
-

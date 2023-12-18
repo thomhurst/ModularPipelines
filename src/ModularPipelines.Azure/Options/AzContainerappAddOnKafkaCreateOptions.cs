@@ -15,4 +15,3 @@ public record AzContainerappAddOnKafkaCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

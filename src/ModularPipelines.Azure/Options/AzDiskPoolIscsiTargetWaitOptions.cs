@@ -44,4 +44,3 @@ public record AzDiskPoolIscsiTargetWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

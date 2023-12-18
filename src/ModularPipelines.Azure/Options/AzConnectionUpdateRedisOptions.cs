@@ -32,4 +32,3 @@ public record AzConnectionUpdateRedisOptions : AzOptions
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

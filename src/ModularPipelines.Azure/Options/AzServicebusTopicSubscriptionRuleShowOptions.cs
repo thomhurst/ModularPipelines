@@ -29,4 +29,3 @@ public record AzServicebusTopicSubscriptionRuleShowOptions : AzOptions
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }
 }
-

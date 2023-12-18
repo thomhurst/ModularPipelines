@@ -27,4 +27,3 @@ public class AzBillingRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

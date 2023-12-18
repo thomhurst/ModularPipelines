@@ -53,4 +53,3 @@ public record AzStorageBlobLeaseAcquireOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

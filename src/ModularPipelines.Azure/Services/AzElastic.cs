@@ -25,4 +25,3 @@ public class AzElastic
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticGetOrganizationApiKeyOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzSpringAppBindingMysqlUpdateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

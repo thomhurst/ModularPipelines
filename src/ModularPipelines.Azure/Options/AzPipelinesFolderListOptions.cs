@@ -22,4 +22,3 @@ public record AzPipelinesFolderListOptions(
     [CommandSwitch("--query-order")]
     public string? QueryOrder { get; set; }
 }
-

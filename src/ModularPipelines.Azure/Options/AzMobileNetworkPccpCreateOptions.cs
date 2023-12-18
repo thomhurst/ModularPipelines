@@ -37,4 +37,3 @@ public record AzMobileNetworkPccpCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

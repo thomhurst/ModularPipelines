@@ -20,4 +20,3 @@ public record AzAccountLockUpdateOptions : AzOptions
     [CommandSwitch("--notes")]
     public string? Notes { get; set; }
 }
-

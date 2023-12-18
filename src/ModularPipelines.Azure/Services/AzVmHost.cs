@@ -71,4 +71,3 @@ public class AzVmHost
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostWaitOptions(), token);
     }
 }
-

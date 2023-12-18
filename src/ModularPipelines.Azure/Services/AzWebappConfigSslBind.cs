@@ -17,4 +17,3 @@ public class AzWebappConfigSslBind
 
     public AzWebappConfigSslBindAppserviceKube AppserviceKube { get; }
 }
-

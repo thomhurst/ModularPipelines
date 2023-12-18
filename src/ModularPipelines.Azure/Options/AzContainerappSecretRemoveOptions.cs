@@ -22,4 +22,3 @@ public record AzContainerappSecretRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzMysqlServerVnetRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

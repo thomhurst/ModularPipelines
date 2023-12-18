@@ -21,4 +21,3 @@ public record AzSphereDeviceAssignOptions(
     [CommandSwitch("--product")]
     public string? Product { get; set; }
 }
-

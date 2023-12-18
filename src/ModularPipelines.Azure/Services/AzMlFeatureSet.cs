@@ -72,4 +72,3 @@ public class AzMlFeatureSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

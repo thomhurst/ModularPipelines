@@ -32,4 +32,3 @@ public class AzArcapplianceTroubleshootCommand
         return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandVmwareOptions(), token);
     }
 }
-

@@ -95,4 +95,3 @@ public record AzIotHubUpdateOptions : AzOptions
     [CommandSwitch("--unit")]
     public string? Unit { get; set; }
 }
-

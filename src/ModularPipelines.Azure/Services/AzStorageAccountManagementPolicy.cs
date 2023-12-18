@@ -37,4 +37,3 @@ public class AzStorageAccountManagementPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

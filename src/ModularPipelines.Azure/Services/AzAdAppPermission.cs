@@ -47,4 +47,3 @@ public class AzAdAppPermission
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppPermissionListGrantsOptions(), token);
     }
 }
-

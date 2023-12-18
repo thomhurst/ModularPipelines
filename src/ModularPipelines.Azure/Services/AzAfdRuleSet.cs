@@ -37,4 +37,3 @@ public class AzAfdRuleSet
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleSetShowOptions(), token);
     }
 }
-

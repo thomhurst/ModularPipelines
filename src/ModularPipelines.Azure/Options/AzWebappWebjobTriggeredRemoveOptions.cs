@@ -25,4 +25,3 @@ public record AzWebappWebjobTriggeredRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

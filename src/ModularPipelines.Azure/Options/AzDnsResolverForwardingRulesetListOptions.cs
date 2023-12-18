@@ -14,4 +14,3 @@ public record AzDnsResolverForwardingRulesetListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzContainerappRegistryListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

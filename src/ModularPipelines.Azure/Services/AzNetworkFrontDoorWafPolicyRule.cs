@@ -46,4 +46,3 @@ public class AzNetworkFrontDoorWafPolicyRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleUpdateOptions(), token);
     }
 }
-

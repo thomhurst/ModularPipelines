@@ -15,4 +15,3 @@ public record AzSfClusterUpgradeTypeSetOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

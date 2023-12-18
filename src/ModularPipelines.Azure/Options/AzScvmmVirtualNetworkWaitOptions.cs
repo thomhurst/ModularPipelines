@@ -32,4 +32,3 @@ public record AzScvmmVirtualNetworkWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

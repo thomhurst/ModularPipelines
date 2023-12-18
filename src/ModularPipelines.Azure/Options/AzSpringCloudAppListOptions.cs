@@ -32,4 +32,3 @@ public record AzSpringCloudAppListOptions(
     [CommandSwitch("--since")]
     public string? Since { get; set; }
 }
-

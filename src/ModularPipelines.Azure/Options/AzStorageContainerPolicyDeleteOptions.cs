@@ -32,4 +32,3 @@ public record AzStorageContainerPolicyDeleteOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

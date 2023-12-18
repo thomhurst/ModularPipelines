@@ -30,4 +30,3 @@ public record AzStackHciArcSettingCreateOptions(
     [CommandSwitch("--connectivity-properties")]
     public string? ConnectivityProperties { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzVmwareWorkloadNetworkGateway
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkGatewayShowOptions(), token);
     }
 }
-

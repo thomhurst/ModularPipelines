@@ -16,4 +16,3 @@ public record AzAppserviceListLocationsOptions(
     [BooleanCommandSwitch("--linux-workers-enabled")]
     public bool? LinuxWorkersEnabled { get; set; }
 }
-

@@ -53,4 +53,3 @@ public record AzContainerappConnectionUpdateStorageBlobOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

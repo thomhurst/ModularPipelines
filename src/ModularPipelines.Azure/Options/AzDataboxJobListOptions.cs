@@ -13,4 +13,3 @@ public record AzDataboxJobListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

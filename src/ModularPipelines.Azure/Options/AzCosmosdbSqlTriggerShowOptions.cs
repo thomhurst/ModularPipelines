@@ -23,4 +23,3 @@ public record AzCosmosdbSqlTriggerShowOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzDmsProjectTaskCancelOptions(
     [CommandSwitch("--object-name")]
     public string? ObjectName { get; set; }
 }
-

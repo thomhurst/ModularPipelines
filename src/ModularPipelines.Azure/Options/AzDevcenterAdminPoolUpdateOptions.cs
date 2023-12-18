@@ -62,4 +62,3 @@ public record AzDevcenterAdminPoolUpdateOptions : AzOptions
     [CommandSwitch("--virtual-network-type")]
     public string? VirtualNetworkType { get; set; }
 }
-

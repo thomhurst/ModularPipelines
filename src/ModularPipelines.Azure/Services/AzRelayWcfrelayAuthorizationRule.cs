@@ -46,4 +46,3 @@ public class AzRelayWcfrelayAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

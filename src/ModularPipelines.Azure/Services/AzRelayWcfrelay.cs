@@ -46,4 +46,3 @@ public class AzRelayWcfrelay
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayUpdateOptions(), token);
     }
 }
-

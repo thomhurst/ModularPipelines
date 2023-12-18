@@ -46,4 +46,3 @@ public record AzSigGalleryApplicationVersionCreateOptions(
     [CommandSwitch("--update-command")]
     public string? UpdateCommand { get; set; }
 }
-

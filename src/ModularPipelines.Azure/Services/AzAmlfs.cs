@@ -66,4 +66,3 @@ public class AzAmlfs
         return await _command.ExecuteCommandLineTool(options ?? new AzAmlfsWaitOptions(), token);
     }
 }
-

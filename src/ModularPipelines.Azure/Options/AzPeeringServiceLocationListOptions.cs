@@ -11,4 +11,3 @@ public record AzPeeringServiceLocationListOptions : AzOptions
     [CommandSwitch("--country")]
     public int? Country { get; set; }
 }
-

@@ -62,4 +62,3 @@ public record AzNetworkAnalyticsDataProductCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

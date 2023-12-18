@@ -13,4 +13,3 @@ public record AzSphereDeviceWifiReloadConfigOptions(
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

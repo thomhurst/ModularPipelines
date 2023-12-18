@@ -26,4 +26,3 @@ public record AzConsumptionMarketplaceListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -31,4 +31,3 @@ public record AzBoardsIterationProjectUpdateOptions(
     [CommandSwitch("--start-date")]
     public string? StartDate { get; set; }
 }
-

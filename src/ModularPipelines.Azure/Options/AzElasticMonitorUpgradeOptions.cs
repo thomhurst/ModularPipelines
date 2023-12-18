@@ -23,4 +23,3 @@ public record AzElasticMonitorUpgradeOptions : AzOptions
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

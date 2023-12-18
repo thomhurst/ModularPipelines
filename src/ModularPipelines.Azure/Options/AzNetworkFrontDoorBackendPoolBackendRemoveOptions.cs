@@ -46,4 +46,3 @@ public record AzNetworkFrontDoorBackendPoolBackendRemoveOptions(
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

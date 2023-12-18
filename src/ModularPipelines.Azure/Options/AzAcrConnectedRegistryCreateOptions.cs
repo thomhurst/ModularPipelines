@@ -44,4 +44,3 @@ public record AzAcrConnectedRegistryCreateOptions(
     [CommandSwitch("--sync-window")]
     public string? SyncWindow { get; set; }
 }
-

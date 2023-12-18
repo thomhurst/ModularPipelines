@@ -29,4 +29,3 @@ public class AzAcrConfig
 
     public AzAcrConfigSoftDelete SoftDelete { get; }
 }
-

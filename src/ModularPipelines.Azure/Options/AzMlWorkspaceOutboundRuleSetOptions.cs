@@ -37,4 +37,3 @@ public record AzMlWorkspaceOutboundRuleSetOptions(
     [CommandSwitch("--subresource-target")]
     public string? SubresourceTarget { get; set; }
 }
-

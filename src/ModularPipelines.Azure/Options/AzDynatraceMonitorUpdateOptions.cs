@@ -23,4 +23,3 @@ public record AzDynatraceMonitorUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

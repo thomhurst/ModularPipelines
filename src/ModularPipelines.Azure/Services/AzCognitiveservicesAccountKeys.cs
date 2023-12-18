@@ -27,4 +27,3 @@ public class AzCognitiveservicesAccountKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

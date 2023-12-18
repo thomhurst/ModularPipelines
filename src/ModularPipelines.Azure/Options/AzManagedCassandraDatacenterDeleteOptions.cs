@@ -18,4 +18,3 @@ public record AzManagedCassandraDatacenterDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

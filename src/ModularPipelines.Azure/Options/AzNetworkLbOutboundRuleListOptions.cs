@@ -44,4 +44,3 @@ public record AzNetworkLbOutboundRuleListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

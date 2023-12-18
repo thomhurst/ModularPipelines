@@ -35,4 +35,3 @@ public record AzBatchNodeServiceLogsUploadOptions(
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

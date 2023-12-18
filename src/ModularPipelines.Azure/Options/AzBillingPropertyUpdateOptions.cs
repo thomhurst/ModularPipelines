@@ -11,4 +11,3 @@ public record AzBillingPropertyUpdateOptions : AzOptions
     [CommandSwitch("--cost-center")]
     public string? CostCenter { get; set; }
 }
-

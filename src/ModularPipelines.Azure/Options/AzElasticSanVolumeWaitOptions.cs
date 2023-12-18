@@ -47,4 +47,3 @@ public record AzElasticSanVolumeWaitOptions : AzOptions
     [CommandSwitch("--volume-group")]
     public string? VolumeGroup { get; set; }
 }
-

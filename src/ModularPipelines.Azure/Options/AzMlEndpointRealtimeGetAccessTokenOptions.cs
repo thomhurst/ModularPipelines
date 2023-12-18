@@ -25,4 +25,3 @@ public record AzMlEndpointRealtimeGetAccessTokenOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

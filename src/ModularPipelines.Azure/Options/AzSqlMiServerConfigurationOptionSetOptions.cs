@@ -29,4 +29,3 @@ public record AzSqlMiServerConfigurationOptionSetOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

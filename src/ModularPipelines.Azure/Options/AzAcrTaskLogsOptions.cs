@@ -25,4 +25,3 @@ public record AzAcrTaskLogsOptions(
     [CommandSwitch("--run-id")]
     public string? RunId { get; set; }
 }
-

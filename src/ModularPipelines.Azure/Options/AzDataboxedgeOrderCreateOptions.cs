@@ -33,4 +33,3 @@ public record AzDataboxedgeOrderCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzGroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

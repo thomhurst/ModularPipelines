@@ -17,4 +17,3 @@ public record AzMonitorLogAnalyticsSolutionShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

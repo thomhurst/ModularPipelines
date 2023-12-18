@@ -65,4 +65,3 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     [CommandSwitch("--workload-profile-type")]
     public string? WorkloadProfileType { get; set; }
 }
-

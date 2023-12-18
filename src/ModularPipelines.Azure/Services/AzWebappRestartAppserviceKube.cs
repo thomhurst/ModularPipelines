@@ -22,4 +22,3 @@ public class AzWebappRestartAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -29,4 +29,3 @@ public record AzConnectedvmwareResourcePoolDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

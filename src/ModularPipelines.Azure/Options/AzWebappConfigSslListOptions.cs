@@ -25,4 +25,3 @@ public record AzWebappConfigSslListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

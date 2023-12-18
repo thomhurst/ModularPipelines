@@ -33,4 +33,3 @@ public record AzSearchSharedPrivateLinkResourceWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzIotProductTestTaskDeleteOptions(
     [CommandSwitch("--base-url")]
     public string? BaseUrl { get; set; }
 }
-

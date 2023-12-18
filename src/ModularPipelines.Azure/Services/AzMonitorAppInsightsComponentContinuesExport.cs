@@ -42,4 +42,3 @@ public class AzMonitorAppInsightsComponentContinuesExport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

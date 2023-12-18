@@ -25,4 +25,3 @@ public record AzVmssDiskDetachOptions(
     [CommandSwitch("--vmss-name")]
     public string? VmssName { get; set; }
 }
-

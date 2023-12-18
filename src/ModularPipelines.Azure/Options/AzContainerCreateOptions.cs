@@ -163,4 +163,3 @@ public record AzContainerCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

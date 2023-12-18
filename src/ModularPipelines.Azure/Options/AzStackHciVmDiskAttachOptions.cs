@@ -27,4 +27,3 @@ public record AzStackHciVmDiskAttachOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

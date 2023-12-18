@@ -13,4 +13,3 @@ public record AzCognitiveservicesAccountCommitmentPlanDeleteOptions(
 ) : AzOptions
 {
 }
-

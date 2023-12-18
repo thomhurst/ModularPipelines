@@ -17,4 +17,3 @@ public class AzCosmosdbMongodbRoleDefinitionShow
 
     public AzCosmosdbMongodbRoleDefinitionShowCosmosdbPreview CosmosdbPreview { get; }
 }
-

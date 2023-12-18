@@ -22,4 +22,3 @@ public record AzServicebusTopicAuthorizationRuleKeysListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

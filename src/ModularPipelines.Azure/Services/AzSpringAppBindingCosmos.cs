@@ -27,4 +27,3 @@ public class AzSpringAppBindingCosmos
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

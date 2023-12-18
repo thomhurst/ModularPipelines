@@ -27,4 +27,3 @@ public class AzManagedCassandraClusterBackup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

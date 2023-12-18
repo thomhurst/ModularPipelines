@@ -19,4 +19,3 @@ public record AzMlBatchDeploymentDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

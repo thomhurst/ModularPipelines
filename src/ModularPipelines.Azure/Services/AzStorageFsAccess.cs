@@ -42,4 +42,3 @@ public class AzStorageFsAccess
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

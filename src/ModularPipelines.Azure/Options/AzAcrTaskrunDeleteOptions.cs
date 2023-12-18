@@ -17,4 +17,3 @@ public record AzAcrTaskrunDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

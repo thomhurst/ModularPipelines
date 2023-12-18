@@ -20,4 +20,3 @@ public class AzRole
 
     public AzRoleDefinition Definition { get; }
 }
-

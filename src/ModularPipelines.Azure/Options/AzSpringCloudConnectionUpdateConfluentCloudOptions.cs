@@ -52,4 +52,3 @@ public record AzSpringCloudConnectionUpdateConfluentCloudOptions(
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

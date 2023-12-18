@@ -13,4 +13,3 @@ public record AzIotDuUpdateCalculateHashOptions(
     [CommandSwitch("--hash-algo")]
     public string? HashAlgo { get; set; }
 }
-

@@ -65,4 +65,3 @@ public record AzNetworkFrontDoorRulesEngineRuleActionAddOptions(
     [CommandSwitch("--redirect-type")]
     public string? RedirectType { get; set; }
 }
-

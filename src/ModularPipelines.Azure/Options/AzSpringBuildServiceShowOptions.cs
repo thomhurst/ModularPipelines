@@ -17,4 +17,3 @@ public record AzSpringBuildServiceShowOptions(
     [CommandSwitch("--registry-name")]
     public string? RegistryName { get; set; }
 }
-

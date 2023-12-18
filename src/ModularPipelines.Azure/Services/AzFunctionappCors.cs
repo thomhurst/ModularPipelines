@@ -37,4 +37,3 @@ public class AzFunctionappCors
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsShowOptions(), token);
     }
 }
-

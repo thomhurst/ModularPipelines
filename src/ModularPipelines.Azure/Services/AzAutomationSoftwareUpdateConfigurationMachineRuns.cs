@@ -27,4 +27,3 @@ public class AzAutomationSoftwareUpdateConfigurationMachineRuns
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

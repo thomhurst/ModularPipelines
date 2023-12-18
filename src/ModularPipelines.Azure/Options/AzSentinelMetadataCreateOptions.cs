@@ -72,4 +72,3 @@ public record AzSentinelMetadataCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

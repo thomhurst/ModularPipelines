@@ -32,4 +32,3 @@ public class AzWebpubsubServicePermission
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

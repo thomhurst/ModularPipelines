@@ -24,4 +24,3 @@ public record AzMobileNetworkDataNetworkCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

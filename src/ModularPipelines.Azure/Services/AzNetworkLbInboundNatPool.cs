@@ -47,4 +47,3 @@ public class AzNetworkLbInboundNatPool
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbInboundNatPoolWaitOptions(), token);
     }
 }
-

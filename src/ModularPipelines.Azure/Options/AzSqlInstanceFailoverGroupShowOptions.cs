@@ -33,4 +33,3 @@ public record AzSqlInstanceFailoverGroupShowOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

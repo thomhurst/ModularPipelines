@@ -15,4 +15,3 @@ public record AzNetworkManagerConnectionManagementGroupCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

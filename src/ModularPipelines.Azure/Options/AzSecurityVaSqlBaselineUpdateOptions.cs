@@ -29,4 +29,3 @@ public record AzSecurityVaSqlBaselineUpdateOptions(
     [CommandSwitch("--vm-uuid")]
     public string? VmUuid { get; set; }
 }
-

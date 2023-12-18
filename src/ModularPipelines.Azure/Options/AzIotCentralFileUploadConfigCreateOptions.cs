@@ -27,4 +27,3 @@ public record AzIotCentralFileUploadConfigCreateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

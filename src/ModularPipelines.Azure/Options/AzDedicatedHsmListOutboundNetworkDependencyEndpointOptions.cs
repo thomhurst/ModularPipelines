@@ -17,4 +17,3 @@ public record AzDedicatedHsmListOutboundNetworkDependencyEndpointOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

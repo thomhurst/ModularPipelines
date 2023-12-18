@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;

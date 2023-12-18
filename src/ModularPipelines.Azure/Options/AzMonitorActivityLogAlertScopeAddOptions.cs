@@ -37,4 +37,3 @@ public record AzMonitorActivityLogAlertScopeAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

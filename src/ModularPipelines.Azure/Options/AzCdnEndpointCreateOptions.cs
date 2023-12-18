@@ -43,4 +43,3 @@ public record AzCdnEndpointCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

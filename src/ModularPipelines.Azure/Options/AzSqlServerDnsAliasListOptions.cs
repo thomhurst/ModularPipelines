@@ -23,4 +23,3 @@ public record AzSqlServerDnsAliasListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

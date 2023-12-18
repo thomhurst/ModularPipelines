@@ -42,4 +42,3 @@ public class AzSqlMiArcConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

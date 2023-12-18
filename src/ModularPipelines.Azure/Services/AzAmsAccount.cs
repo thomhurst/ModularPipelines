@@ -67,4 +67,3 @@ public class AzAmsAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountUpdateOptions(), token);
     }
 }
-

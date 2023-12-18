@@ -32,4 +32,3 @@ public class AzNetworkVpnConnectionPacketCapture
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureWaitOptions(), token);
     }
 }
-

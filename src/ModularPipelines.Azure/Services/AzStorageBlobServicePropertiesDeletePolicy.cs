@@ -27,4 +27,3 @@ public class AzStorageBlobServicePropertiesDeletePolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesDeletePolicyUpdateOptions(), token);
     }
 }
-

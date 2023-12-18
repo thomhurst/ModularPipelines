@@ -24,4 +24,3 @@ public record AzSentinelIncidentRelationListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

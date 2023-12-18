@@ -26,4 +26,3 @@ public record AzVmwareCloudLinkDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

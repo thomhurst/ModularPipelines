@@ -14,4 +14,3 @@ public record AzSecurityAdaptive_network_hardeningsListOptions(
 ) : AzOptions
 {
 }
-

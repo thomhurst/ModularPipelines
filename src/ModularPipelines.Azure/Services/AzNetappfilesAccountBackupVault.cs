@@ -51,4 +51,3 @@ public class AzNetappfilesAccountBackupVault
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultWaitOptions(), token);
     }
 }
-

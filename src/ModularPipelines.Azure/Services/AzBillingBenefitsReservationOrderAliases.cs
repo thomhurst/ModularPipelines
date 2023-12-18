@@ -32,4 +32,3 @@ public class AzBillingBenefitsReservationOrderAliases
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

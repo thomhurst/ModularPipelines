@@ -20,4 +20,3 @@ public record AzSignalrReplicaDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

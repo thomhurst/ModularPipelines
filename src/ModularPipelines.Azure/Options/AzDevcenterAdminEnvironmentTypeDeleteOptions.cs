@@ -23,4 +23,3 @@ public record AzDevcenterAdminEnvironmentTypeDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

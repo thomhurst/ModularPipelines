@@ -42,4 +42,3 @@ public class AzSqlMidbLtrBackup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

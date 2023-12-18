@@ -16,4 +16,3 @@ public class AzNetworkAnalytics
 
     public AzNetworkAnalyticsDataProduct DataProduct { get; }
 }
-

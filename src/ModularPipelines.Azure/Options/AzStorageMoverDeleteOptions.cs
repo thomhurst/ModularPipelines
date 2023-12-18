@@ -26,4 +26,3 @@ public record AzStorageMoverDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

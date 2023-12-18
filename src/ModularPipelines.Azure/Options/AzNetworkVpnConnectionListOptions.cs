@@ -13,4 +13,3 @@ public record AzNetworkVpnConnectionListOptions(
     [CommandSwitch("--vnet-gateway")]
     public string? VnetGateway { get; set; }
 }
-

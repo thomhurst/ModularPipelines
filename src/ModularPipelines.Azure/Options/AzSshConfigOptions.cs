@@ -55,4 +55,3 @@ public record AzSshConfigOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzAksMeshDisableEgressGatewayOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

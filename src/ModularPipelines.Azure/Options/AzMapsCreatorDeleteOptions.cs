@@ -23,4 +23,3 @@ public record AzMapsCreatorDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -36,4 +36,3 @@ public class AzBillingInvoice
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

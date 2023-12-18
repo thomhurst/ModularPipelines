@@ -27,4 +27,3 @@ public record AzSpringCertificateAddOptions(
     [CommandSwitch("--vault-uri")]
     public string? VaultUri { get; set; }
 }
-

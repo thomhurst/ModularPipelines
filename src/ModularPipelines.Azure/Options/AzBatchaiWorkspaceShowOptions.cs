@@ -20,4 +20,3 @@ public record AzBatchaiWorkspaceShowOptions : AzOptions
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }
 }
-

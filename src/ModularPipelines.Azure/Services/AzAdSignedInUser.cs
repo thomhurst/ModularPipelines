@@ -27,4 +27,3 @@ public class AzAdSignedInUser
         return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserShowOptions(), token);
     }
 }
-

@@ -32,4 +32,3 @@ public record AzNetworkBastionTunnelOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

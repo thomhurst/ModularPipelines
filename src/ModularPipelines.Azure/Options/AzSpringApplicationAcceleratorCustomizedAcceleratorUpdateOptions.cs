@@ -62,4 +62,3 @@ public record AzSpringApplicationAcceleratorCustomizedAcceleratorUpdateOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

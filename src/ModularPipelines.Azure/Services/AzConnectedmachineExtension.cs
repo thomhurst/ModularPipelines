@@ -51,4 +51,3 @@ public class AzConnectedmachineExtension
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineExtensionWaitOptions(), token);
     }
 }
-

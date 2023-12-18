@@ -44,4 +44,3 @@ public record AzCommunicationEmailSendOptions(
     [CommandSwitch("--to")]
     public string? To { get; set; }
 }
-

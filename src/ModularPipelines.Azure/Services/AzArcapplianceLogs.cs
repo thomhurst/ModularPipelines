@@ -32,4 +32,3 @@ public class AzArcapplianceLogs
         return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceLogsVmwareOptions(), token);
     }
 }
-

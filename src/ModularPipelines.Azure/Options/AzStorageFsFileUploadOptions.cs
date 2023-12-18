@@ -75,4 +75,3 @@ public record AzStorageFsFileUploadOptions(
     [CommandSwitch("--umask")]
     public string? Umask { get; set; }
 }
-

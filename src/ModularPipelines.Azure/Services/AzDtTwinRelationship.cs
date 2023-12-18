@@ -47,4 +47,3 @@ public class AzDtTwinRelationship
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzResourceMoveOptions(
     [CommandSwitch("--destination-subscription-id")]
     public string? DestinationSubscriptionId { get; set; }
 }
-

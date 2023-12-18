@@ -39,4 +39,3 @@ public record AzBatchaiJobCreateOptions(
     [CommandSwitch("--storage-account-name")]
     public int? StorageAccountName { get; set; }
 }
-

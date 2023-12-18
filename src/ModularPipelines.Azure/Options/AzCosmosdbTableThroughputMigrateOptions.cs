@@ -19,4 +19,3 @@ public record AzCosmosdbTableThroughputMigrateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzApimApiRelease
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

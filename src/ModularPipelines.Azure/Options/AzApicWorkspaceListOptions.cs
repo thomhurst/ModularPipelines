@@ -20,4 +20,3 @@ public record AzApicWorkspaceListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzSynapseKusto
 
     public AzSynapseKustoPoolPrincipalAssignment PoolPrincipalAssignment { get; }
 }
-

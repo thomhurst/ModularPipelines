@@ -26,4 +26,3 @@ public record AzLogicIntegrationAccountUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

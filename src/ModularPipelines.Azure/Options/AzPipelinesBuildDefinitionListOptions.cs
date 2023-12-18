@@ -29,4 +29,3 @@ public record AzPipelinesBuildDefinitionListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

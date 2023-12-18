@@ -26,4 +26,3 @@ public record AzMonitorLogAnalyticsWorkspaceTableDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

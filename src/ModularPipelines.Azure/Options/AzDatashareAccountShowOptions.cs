@@ -20,4 +20,3 @@ public record AzDatashareAccountShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

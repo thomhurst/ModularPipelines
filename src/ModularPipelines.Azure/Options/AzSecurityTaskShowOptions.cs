@@ -13,4 +13,3 @@ public record AzSecurityTaskShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzWebappConnectionCreatePostgresFlexible
 
     public AzWebappConnectionCreatePostgresFlexibleServiceconnectorPasswordless ServiceconnectorPasswordless { get; }
 }
-

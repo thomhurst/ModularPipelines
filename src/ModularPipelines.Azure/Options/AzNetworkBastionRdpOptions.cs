@@ -40,4 +40,3 @@ public record AzNetworkBastionRdpOptions(
     [CommandSwitch("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 }
-

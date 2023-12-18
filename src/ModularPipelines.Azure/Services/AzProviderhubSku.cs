@@ -52,4 +52,3 @@ public class AzProviderhubSku
         return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeThirdOptions(), token);
     }
 }
-

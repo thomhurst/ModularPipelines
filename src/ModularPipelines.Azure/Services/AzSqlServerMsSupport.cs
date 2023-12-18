@@ -17,4 +17,3 @@ public class AzSqlServerMsSupport
 
     public AzSqlServerMsSupportAuditPolicy AuditPolicy { get; }
 }
-

@@ -28,4 +28,3 @@ public record AzVmCaptureOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzSpringCloudAppUnsetDeploymentOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

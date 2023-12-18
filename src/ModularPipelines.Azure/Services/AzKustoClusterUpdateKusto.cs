@@ -22,4 +22,3 @@ public class AzKustoClusterUpdateKusto
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterUpdateKustoExtensionOptions(), token);
     }
 }
-

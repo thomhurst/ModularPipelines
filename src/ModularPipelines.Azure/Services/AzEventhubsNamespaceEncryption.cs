@@ -27,4 +27,3 @@ public class AzEventhubsNamespaceEncryption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzManagedCassandraClusterDelete
 
     public AzManagedCassandraClusterDeleteCosmosdbPreview CosmosdbPreview { get; }
 }
-

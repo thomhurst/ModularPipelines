@@ -24,4 +24,3 @@ public record AzNetworkfabricNeighborgroupCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

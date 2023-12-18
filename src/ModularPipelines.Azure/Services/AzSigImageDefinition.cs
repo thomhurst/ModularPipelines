@@ -75,4 +75,3 @@ public class AzSigImageDefinition
         return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionWaitOptions(), token);
     }
 }
-

@@ -38,4 +38,3 @@ public record AzAmsContentKeyPolicyUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

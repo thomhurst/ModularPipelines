@@ -23,4 +23,3 @@ public record AzAutomationJobShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

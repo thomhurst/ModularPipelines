@@ -37,4 +37,3 @@ public class AzMysqlServerKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -89,4 +89,3 @@ public record AzDatabricksWorkspaceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

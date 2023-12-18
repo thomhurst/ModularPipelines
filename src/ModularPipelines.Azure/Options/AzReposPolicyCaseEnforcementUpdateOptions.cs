@@ -28,4 +28,3 @@ public record AzReposPolicyCaseEnforcementUpdateOptions(
     [CommandSwitch("--repository-id")]
     public string? RepositoryId { get; set; }
 }
-

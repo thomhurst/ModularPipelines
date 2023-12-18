@@ -29,4 +29,3 @@ public record AzElasticSanCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

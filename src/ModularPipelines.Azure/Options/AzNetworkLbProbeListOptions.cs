@@ -44,4 +44,3 @@ public record AzNetworkLbProbeListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

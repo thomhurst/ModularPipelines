@@ -17,4 +17,3 @@ public record AzArcapplianceTroubleshootCommandScvmmOptions : AzOptions
     [CommandSwitch("--ip")]
     public string? Ip { get; set; }
 }
-

@@ -107,4 +107,3 @@ public record AzContainerappUpdateOptions : AzOptions
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }
 }
-

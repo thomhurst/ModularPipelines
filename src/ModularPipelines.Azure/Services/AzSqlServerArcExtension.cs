@@ -17,4 +17,3 @@ public class AzSqlServerArcExtension
 
     public AzSqlServerArcExtensionFeatureFlag FeatureFlag { get; }
 }
-

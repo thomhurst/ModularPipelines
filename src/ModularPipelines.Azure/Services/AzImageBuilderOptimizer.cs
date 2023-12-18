@@ -37,4 +37,3 @@ public class AzImageBuilderOptimizer
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerUpdateOptions(), token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzStorageFileCopyStartBatch
 
     public AzStorageFileCopyStartBatchStoragePreview StoragePreview { get; }
 }
-

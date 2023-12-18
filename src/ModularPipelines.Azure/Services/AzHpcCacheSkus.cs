@@ -22,4 +22,3 @@ public class AzHpcCacheSkus
         return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheSkusListOptions(), token);
     }
 }
-

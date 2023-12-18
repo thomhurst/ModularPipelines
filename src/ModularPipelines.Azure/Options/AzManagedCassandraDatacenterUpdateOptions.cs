@@ -30,4 +30,3 @@ public record AzManagedCassandraDatacenterUpdateOptions(
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
 }
-

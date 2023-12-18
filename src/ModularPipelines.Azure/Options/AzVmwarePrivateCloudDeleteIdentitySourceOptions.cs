@@ -17,4 +17,3 @@ public record AzVmwarePrivateCloudDeleteIdentitySourceOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

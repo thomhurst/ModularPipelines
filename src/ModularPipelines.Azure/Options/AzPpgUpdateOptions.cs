@@ -32,4 +32,3 @@ public record AzPpgUpdateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

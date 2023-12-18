@@ -21,4 +21,3 @@ public record AzHealthbotCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

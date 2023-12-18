@@ -39,4 +39,3 @@ public record AzDiskEncryptionSetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

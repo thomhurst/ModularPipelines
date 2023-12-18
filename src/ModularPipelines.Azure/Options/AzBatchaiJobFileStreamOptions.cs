@@ -20,4 +20,3 @@ public record AzBatchaiJobFileStreamOptions(
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

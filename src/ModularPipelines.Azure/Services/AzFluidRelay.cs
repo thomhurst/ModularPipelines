@@ -20,4 +20,3 @@ public class AzFluidRelay
 
     public AzFluidRelayServer Server { get; }
 }
-

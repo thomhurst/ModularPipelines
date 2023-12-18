@@ -52,4 +52,3 @@ public record AzPolicyAssignmentCreateOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

@@ -21,4 +21,3 @@ public class AzStackHciVmNetwork
 
     public AzStackHciVmNetworkNic Nic { get; }
 }
-

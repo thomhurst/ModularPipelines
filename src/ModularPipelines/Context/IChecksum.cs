@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Context;
+namespace ModularPipelines.Context;
 
 public interface IChecksum
 {

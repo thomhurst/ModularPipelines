@@ -27,4 +27,3 @@ public class AzSphereDeviceManufacturingState
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

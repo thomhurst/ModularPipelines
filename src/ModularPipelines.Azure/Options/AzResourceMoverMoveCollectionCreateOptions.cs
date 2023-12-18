@@ -35,4 +35,3 @@ public record AzResourceMoverMoveCollectionCreateOptions(
     [CommandSwitch("--version")]
     public string? Version { get; set; }
 }
-

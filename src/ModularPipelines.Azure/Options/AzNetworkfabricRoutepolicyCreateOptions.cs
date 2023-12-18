@@ -31,4 +31,3 @@ public record AzNetworkfabricRoutepolicyCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

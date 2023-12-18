@@ -26,4 +26,3 @@ public record AzStorageTableStatsOptions : AzOptions
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzPartnercenterMarketplaceOfferPlanTechnicalConfigurationPackage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

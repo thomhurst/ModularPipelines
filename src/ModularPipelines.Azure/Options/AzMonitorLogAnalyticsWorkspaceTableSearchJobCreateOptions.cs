@@ -27,4 +27,3 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
     [CommandSwitch("--total-retention-time")]
     public string? TotalRetentionTime { get; set; }
 }
-

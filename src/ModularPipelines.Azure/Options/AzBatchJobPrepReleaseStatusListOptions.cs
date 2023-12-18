@@ -25,4 +25,3 @@ public record AzBatchJobPrepReleaseStatusListOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

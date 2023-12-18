@@ -43,4 +43,3 @@ public record AzSynapseWorkspaceFirewallRuleWaitOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzSfManagedClusterShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -59,4 +59,3 @@ public class AzElasticSan
         return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanWaitOptions(), token);
     }
 }
-

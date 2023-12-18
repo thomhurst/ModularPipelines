@@ -14,4 +14,3 @@ public record AzEventgridSystemTopicListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

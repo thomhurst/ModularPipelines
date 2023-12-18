@@ -32,4 +32,3 @@ public class AzSearchQueryKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

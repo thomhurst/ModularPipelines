@@ -31,4 +31,3 @@ public record AzStorageTableDeleteOptions(
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzGroupListOptions(
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }
-

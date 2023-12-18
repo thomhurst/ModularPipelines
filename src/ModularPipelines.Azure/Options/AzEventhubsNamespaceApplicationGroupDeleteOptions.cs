@@ -20,4 +20,3 @@ public record AzEventhubsNamespaceApplicationGroupDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

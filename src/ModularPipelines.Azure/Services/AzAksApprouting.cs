@@ -36,4 +36,3 @@ public class AzAksApprouting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -24,4 +24,3 @@ public record AzLabCustomImageDeleteOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzSentinelOnboardingStateCreateOptions(
     [CommandSwitch("--etag")]
     public string? Etag { get; set; }
 }
-

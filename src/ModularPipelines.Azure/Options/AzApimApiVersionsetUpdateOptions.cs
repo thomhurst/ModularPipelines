@@ -42,4 +42,3 @@ public record AzApimApiVersionsetUpdateOptions(
     [CommandSwitch("--versioning-scheme")]
     public string? VersioningScheme { get; set; }
 }
-

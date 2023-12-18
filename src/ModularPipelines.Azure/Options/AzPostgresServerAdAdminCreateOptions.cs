@@ -20,4 +20,3 @@ public record AzPostgresServerAdAdminCreateOptions(
     [CommandSwitch("--object-id")]
     public string? ObjectId { get; set; }
 }
-

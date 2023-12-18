@@ -32,4 +32,3 @@ public class AzLogz
 
     public AzLogzSubRule SubRule { get; }
 }
-

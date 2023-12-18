@@ -14,4 +14,3 @@ public record AzReservationsReservationShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

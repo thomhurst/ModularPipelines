@@ -17,4 +17,3 @@ public record AzLoadTestDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

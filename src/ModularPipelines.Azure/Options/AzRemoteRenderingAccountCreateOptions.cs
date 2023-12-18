@@ -26,4 +26,3 @@ public record AzRemoteRenderingAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

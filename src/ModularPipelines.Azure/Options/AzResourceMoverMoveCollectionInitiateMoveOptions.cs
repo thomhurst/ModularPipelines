@@ -34,4 +34,3 @@ public record AzResourceMoverMoveCollectionInitiateMoveOptions(
     [BooleanCommandSwitch("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }
-

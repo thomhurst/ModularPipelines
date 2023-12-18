@@ -29,4 +29,3 @@ public record AzNetworkNatGatewayCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

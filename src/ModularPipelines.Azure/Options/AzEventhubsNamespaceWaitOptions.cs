@@ -41,4 +41,3 @@ public record AzEventhubsNamespaceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

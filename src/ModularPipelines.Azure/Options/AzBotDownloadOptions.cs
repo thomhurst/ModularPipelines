@@ -14,4 +14,3 @@ public record AzBotDownloadOptions(
     [CommandSwitch("--save-path")]
     public string? SavePath { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzSqlFailoverGroupCreateOptions(
     [CommandSwitch("--partner-resource-group")]
     public string? PartnerResourceGroup { get; set; }
 }
-

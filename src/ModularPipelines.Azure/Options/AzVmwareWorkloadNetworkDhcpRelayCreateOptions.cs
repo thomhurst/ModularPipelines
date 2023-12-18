@@ -24,4 +24,3 @@ public record AzVmwareWorkloadNetworkDhcpRelayCreateOptions(
     [CommandSwitch("--server-addresses")]
     public string? ServerAddresses { get; set; }
 }
-

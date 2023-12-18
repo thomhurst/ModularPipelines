@@ -16,4 +16,3 @@ public record AzFunctionappHybridConnectionRemoveOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

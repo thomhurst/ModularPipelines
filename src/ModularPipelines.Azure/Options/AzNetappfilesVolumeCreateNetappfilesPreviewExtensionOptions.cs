@@ -163,4 +163,3 @@ public record AzNetappfilesVolumeCreateNetappfilesPreviewExtensionOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

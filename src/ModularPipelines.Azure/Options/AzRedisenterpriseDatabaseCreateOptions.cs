@@ -38,4 +38,3 @@ public record AzRedisenterpriseDatabaseCreateOptions(
     [CommandSwitch("--port")]
     public int? Port { get; set; }
 }
-

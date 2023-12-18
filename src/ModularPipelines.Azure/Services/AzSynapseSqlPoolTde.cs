@@ -27,4 +27,3 @@ public class AzSynapseSqlPoolTde
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

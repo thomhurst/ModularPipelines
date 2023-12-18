@@ -24,4 +24,3 @@ public record AzAfdRouteDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

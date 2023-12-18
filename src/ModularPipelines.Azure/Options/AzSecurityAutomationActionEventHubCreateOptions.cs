@@ -14,4 +14,3 @@ public record AzSecurityAutomationActionEventHubCreateOptions(
     [CommandSwitch("--sas-policy-name")]
     public string? SasPolicyName { get; set; }
 }
-

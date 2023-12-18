@@ -25,4 +25,3 @@ public record AzNetworkcloudL2networkCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

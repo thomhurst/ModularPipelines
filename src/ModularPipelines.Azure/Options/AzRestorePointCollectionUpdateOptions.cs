@@ -14,4 +14,3 @@ public record AzRestorePointCollectionUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

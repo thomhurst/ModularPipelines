@@ -20,4 +20,3 @@ public record AzApicServiceCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

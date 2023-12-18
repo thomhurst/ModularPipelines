@@ -27,4 +27,3 @@ public class AzStorageBlobMetadata
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataUpdateOptions(), token);
     }
 }
-

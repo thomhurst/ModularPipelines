@@ -18,4 +18,3 @@ public record AzScvmmVmDiskDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

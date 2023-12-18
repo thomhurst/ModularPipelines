@@ -19,4 +19,3 @@ public record AzAcrHelmListOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

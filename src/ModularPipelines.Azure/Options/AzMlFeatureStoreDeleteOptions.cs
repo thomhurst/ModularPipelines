@@ -20,4 +20,3 @@ public record AzMlFeatureStoreDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

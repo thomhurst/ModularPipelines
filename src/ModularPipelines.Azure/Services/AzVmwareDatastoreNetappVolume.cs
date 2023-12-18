@@ -22,4 +22,3 @@ public class AzVmwareDatastoreNetappVolume
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

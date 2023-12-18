@@ -21,4 +21,3 @@ public record AzNetworkFirewallNetworkRuleDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -77,4 +77,3 @@ public record AzSynapseSqlAuditPolicyShowOptions(
     [BooleanCommandSwitch("--use-secondary-key")]
     public bool? UseSecondaryKey { get; set; }
 }
-

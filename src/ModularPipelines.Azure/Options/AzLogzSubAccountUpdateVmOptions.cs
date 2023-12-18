@@ -29,4 +29,3 @@ public record AzLogzSubAccountUpdateVmOptions : AzOptions
     [CommandSwitch("--vm-resource-ids")]
     public string? VmResourceIds { get; set; }
 }
-

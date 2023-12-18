@@ -17,4 +17,3 @@ public record AzLogicWorkflowIdentityAssignOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

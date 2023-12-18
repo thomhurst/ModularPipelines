@@ -38,4 +38,3 @@ public record AzWebappConfigBackupUpdateOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

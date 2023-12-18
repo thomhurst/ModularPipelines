@@ -22,4 +22,3 @@ public class AzAksOperationAbortAksPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public class AzCosmosdbSqlTrigger
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

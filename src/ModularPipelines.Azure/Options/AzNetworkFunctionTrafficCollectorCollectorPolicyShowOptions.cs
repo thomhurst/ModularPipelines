@@ -23,4 +23,3 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyShowOptions : AzOp
     [CommandSwitch("--traffic-collector-name")]
     public string? TrafficCollectorName { get; set; }
 }
-

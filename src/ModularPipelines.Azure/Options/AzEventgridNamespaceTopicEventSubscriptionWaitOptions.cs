@@ -47,4 +47,3 @@ public record AzEventgridNamespaceTopicEventSubscriptionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

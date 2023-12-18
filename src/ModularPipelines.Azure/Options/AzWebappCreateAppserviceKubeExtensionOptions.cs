@@ -65,4 +65,3 @@ public record AzWebappCreateAppserviceKubeExtensionOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzNetworkCrossRegionLbRuleCreateOptions(
     [CommandSwitch("--probe")]
     public string? Probe { get; set; }
 }
-

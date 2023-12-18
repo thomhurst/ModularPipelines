@@ -28,4 +28,3 @@ public record AzApimNvCreateOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

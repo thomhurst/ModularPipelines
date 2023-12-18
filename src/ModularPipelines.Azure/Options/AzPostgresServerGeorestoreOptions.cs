@@ -35,4 +35,3 @@ public record AzPostgresServerGeorestoreOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

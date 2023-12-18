@@ -13,4 +13,3 @@ public record AzAcrAgentpoolListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

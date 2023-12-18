@@ -23,4 +23,3 @@ public record AzImageBuilderTriggerShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

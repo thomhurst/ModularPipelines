@@ -14,4 +14,3 @@ public record AzSpringContainerRegistryListOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

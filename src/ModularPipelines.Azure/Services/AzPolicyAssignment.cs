@@ -50,4 +50,3 @@ public class AzPolicyAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentUpdateOptions(), token);
     }
 }
-

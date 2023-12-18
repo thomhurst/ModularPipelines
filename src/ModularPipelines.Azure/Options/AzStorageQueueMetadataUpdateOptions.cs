@@ -34,4 +34,3 @@ public record AzStorageQueueMetadataUpdateOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

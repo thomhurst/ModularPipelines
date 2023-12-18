@@ -35,4 +35,3 @@ public record AzCognitiveservicesAccountCreateOptions(
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

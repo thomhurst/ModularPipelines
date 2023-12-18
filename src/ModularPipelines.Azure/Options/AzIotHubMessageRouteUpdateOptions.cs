@@ -26,4 +26,3 @@ public record AzIotHubMessageRouteUpdateOptions(
     [CommandSwitch("--source-type")]
     public string? SourceType { get; set; }
 }
-

@@ -41,4 +41,3 @@ public record AzStorageMoverWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzEventgridDomainKeyRegenerateEventgrid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

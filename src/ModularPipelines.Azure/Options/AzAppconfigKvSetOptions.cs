@@ -37,4 +37,3 @@ public record AzAppconfigKvSetOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Modules;
+namespace ModularPipelines.Modules;
 
 public abstract class SubModuleBase
 {

@@ -41,4 +41,3 @@ public record AzPaloAltoCloudngfwFirewallSaveLogProfileOptions : AzOptions
     [CommandSwitch("--traffic-destination")]
     public string? TrafficDestination { get; set; }
 }
-

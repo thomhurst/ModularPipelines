@@ -42,4 +42,3 @@ public class AzNetworkVnetTap
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapUpdateOptions(), token);
     }
 }
-

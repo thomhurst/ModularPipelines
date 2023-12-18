@@ -14,4 +14,3 @@ public record AzContainerappReplicaListOptions(
     [CommandSwitch("--revision")]
     public string? Revision { get; set; }
 }
-

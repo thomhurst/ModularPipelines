@@ -33,4 +33,3 @@ public record AzSqlMidbLtrBackupWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

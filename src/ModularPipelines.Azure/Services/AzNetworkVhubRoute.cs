@@ -37,4 +37,3 @@ public class AzNetworkVhubRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

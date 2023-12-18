@@ -32,4 +32,3 @@ public class AzCosmosdbSqlContainerThroughput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

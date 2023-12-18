@@ -21,4 +21,3 @@ public class AzCosmosdbSqlRole
 
     public AzCosmosdbSqlRoleDefinition Definition { get; }
 }
-

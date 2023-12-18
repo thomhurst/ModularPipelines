@@ -22,4 +22,3 @@ public class AzEventgridEventSubscriptionListEventgrid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

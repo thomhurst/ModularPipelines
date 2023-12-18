@@ -45,4 +45,3 @@ public class AzCommunicationIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationIdentityWaitOptions(), token);
     }
 }
-

@@ -25,4 +25,3 @@ public record AzEventgridPartnerNamespaceEventChannelCreateEventgridExtensionOpt
     [CommandSwitch("--publisher-filter")]
     public string? PublisherFilter { get; set; }
 }
-

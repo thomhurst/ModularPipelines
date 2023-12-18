@@ -33,4 +33,3 @@ public record AzSignalrCustomCertificateDeleteOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -15,4 +15,3 @@ public record AzVmwareAddonVrCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzBotUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

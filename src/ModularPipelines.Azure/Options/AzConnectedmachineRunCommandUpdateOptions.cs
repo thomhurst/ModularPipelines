@@ -74,4 +74,3 @@ public record AzConnectedmachineRunCommandUpdateOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

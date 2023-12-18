@@ -84,4 +84,3 @@ public class AzEventhubsNamespace
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceWaitOptions(), token);
     }
 }
-

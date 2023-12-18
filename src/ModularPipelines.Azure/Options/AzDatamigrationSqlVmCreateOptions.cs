@@ -39,4 +39,3 @@ public record AzDatamigrationSqlVmCreateOptions(
     [CommandSwitch("--target-location")]
     public string? TargetLocation { get; set; }
 }
-

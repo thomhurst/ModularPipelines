@@ -41,4 +41,3 @@ public record AzNetworkcloudVirtualmachineWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

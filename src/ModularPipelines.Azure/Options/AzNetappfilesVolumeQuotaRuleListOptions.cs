@@ -22,4 +22,3 @@ public record AzNetappfilesVolumeQuotaRuleListOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

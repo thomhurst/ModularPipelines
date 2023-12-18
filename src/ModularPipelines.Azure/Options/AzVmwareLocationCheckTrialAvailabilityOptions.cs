@@ -13,4 +13,3 @@ public record AzVmwareLocationCheckTrialAvailabilityOptions(
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
 }
-

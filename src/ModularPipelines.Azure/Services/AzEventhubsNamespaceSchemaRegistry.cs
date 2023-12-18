@@ -42,4 +42,3 @@ public class AzEventhubsNamespaceSchemaRegistry
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryUpdateOptions(), token);
     }
 }
-

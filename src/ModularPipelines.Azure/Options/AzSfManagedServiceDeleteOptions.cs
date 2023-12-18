@@ -49,4 +49,3 @@ public record AzSfManagedServiceDeleteOptions(
     [CommandSwitch("--target-replica")]
     public string? TargetReplica { get; set; }
 }
-

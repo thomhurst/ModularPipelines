@@ -81,4 +81,3 @@ public record AzNetworkFrontDoorRoutingRuleDeleteOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzEventgridPartnerTopicActivateEventgrid
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicActivateEventgridExtensionOptions(), token);
     }
 }
-

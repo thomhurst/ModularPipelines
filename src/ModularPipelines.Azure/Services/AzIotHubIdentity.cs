@@ -32,4 +32,3 @@ public class AzIotHubIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityShowOptions(), token);
     }
 }
-

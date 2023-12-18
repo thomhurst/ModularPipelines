@@ -14,4 +14,3 @@ public record AzNetworkP2sVpnGatewayDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

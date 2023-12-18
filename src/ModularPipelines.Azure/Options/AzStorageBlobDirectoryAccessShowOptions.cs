@@ -47,4 +47,3 @@ public record AzStorageBlobDirectoryAccessShowOptions(
     [BooleanCommandSwitch("--user-principle-names")]
     public bool? UserPrincipleNames { get; set; }
 }
-

@@ -37,4 +37,3 @@ public class AzSqlMiServerConfigurationOption
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionWaitOptions(), token);
     }
 }
-

@@ -13,4 +13,3 @@ public record AzAppconfigCredentialListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

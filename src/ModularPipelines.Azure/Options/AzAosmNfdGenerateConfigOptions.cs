@@ -13,4 +13,3 @@ public record AzAosmNfdGenerateConfigOptions(
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }
 }
-

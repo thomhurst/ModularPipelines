@@ -14,4 +14,3 @@ public record AzBotSlackDeleteOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

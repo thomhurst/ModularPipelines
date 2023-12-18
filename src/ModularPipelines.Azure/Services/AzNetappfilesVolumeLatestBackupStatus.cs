@@ -17,4 +17,3 @@ public class AzNetappfilesVolumeLatestBackupStatus
 
     public AzNetappfilesVolumeLatestBackupStatusCurrent Current { get; }
 }
-

@@ -27,4 +27,3 @@ public record AzStoragesyncSyncGroupCloudEndpointCreateOptions(
     [CommandSwitch("--storage-account-tenant-id")]
     public int? StorageAccountTenantId { get; set; }
 }
-

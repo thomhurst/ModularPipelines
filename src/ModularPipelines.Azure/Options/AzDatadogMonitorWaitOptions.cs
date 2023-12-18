@@ -41,4 +41,3 @@ public record AzDatadogMonitorWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

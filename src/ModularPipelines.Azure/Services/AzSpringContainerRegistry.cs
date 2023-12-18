@@ -42,4 +42,3 @@ public class AzSpringContainerRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -25,4 +25,3 @@ public record AzPipelinesVariableListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

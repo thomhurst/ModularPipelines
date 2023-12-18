@@ -32,4 +32,3 @@ public record AzNetappfilesVolumeRevertRelocationOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

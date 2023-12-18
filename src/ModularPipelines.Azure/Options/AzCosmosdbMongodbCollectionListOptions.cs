@@ -21,4 +21,3 @@ public record AzCosmosdbMongodbCollectionListOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

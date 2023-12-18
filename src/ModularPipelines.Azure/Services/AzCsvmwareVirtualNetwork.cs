@@ -27,4 +27,3 @@ public class AzCsvmwareVirtualNetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

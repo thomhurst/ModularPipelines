@@ -29,4 +29,3 @@ public record AzNetworkcloudVirtualmachineUpdateOptions : AzOptions
     [CommandSwitch("--vm-image-repository-credentials")]
     public string? VmImageRepositoryCredentials { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzSiteRecoveryProtectionContainerRemoveOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

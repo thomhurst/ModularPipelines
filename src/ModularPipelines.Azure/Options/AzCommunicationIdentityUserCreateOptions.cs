@@ -13,4 +13,3 @@ public record AzCommunicationIdentityUserCreateOptions(
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
 }
-

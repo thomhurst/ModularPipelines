@@ -23,4 +23,3 @@ public record AzMeshNetworkDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

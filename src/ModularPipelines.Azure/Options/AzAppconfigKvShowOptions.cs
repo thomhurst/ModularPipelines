@@ -28,4 +28,3 @@ public record AzAppconfigKvShowOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

@@ -47,4 +47,3 @@ public class AzNetworkAlbAssociation
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationWaitOptions(), token);
     }
 }
-

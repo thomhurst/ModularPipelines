@@ -26,4 +26,3 @@ public record AzAttestationCreateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

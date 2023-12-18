@@ -13,4 +13,3 @@ public record AzNetworkWatcherFlowLogListOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

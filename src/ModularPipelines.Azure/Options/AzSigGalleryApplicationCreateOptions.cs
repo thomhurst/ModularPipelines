@@ -25,4 +25,3 @@ public record AzSigGalleryApplicationCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

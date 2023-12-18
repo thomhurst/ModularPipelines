@@ -24,4 +24,3 @@ public record AzWebpubsubServiceGroupAddConnectionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

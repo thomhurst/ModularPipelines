@@ -24,4 +24,3 @@ public record AzNetworkPerimeterLinkCreateOptions(
     [CommandSwitch("--remote-inbound-profile")]
     public string? RemoteInboundProfile { get; set; }
 }
-

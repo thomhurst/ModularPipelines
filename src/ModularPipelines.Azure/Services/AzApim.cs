@@ -86,4 +86,3 @@ public class AzApim
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

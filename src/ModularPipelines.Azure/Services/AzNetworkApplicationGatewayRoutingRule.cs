@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewayRoutingRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRoutingRuleWaitOptions(), token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzCdnWaf
 
     public AzCdnWafPolicy Policy { get; }
 }
-

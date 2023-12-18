@@ -14,4 +14,3 @@ public record AzRestorePointCollectionListAllOptions(
     [CommandSwitch("--restore-points")]
     public string? RestorePoints { get; set; }
 }
-

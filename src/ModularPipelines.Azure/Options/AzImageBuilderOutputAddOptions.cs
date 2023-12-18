@@ -52,4 +52,3 @@ public record AzImageBuilderOutputAddOptions(
     [CommandSwitch("--vhd-uri")]
     public string? VhdUri { get; set; }
 }
-

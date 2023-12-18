@@ -28,4 +28,3 @@ public record AzMonitorDataCollectionRuleWindowsEventLogUpdateOptions(
     [CommandSwitch("--x-path-queries")]
     public string? XPathQueries { get; set; }
 }
-

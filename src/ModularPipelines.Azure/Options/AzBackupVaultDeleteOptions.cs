@@ -28,4 +28,3 @@ public record AzBackupVaultDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

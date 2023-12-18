@@ -44,4 +44,3 @@ public record AzBatchTaskResetOptions(
     [CommandSwitch("--retention-time")]
     public string? RetentionTime { get; set; }
 }
-

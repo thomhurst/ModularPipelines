@@ -16,4 +16,3 @@ public record AzNetworkDnsRecordSetAaaaRemoveRecordOptions(
     [BooleanCommandSwitch("--keep-empty-record-set")]
     public bool? KeepEmptyRecordSet { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzSfClusterSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

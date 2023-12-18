@@ -75,4 +75,3 @@ public class AzSentinelIncident
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentUpdateOptions(), token);
     }
 }
-

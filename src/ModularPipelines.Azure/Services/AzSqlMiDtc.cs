@@ -32,4 +32,3 @@ public class AzSqlMiDtc
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcWaitOptions(), token);
     }
 }
-

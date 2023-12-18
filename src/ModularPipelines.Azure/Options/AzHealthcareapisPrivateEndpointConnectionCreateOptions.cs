@@ -27,4 +27,3 @@ public record AzHealthcareapisPrivateEndpointConnectionCreateOptions(
     [CommandSwitch("--private-link-service-connection-state-status")]
     public string? PrivateLinkServiceConnectionStateStatus { get; set; }
 }
-

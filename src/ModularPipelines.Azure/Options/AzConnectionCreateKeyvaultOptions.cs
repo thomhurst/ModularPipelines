@@ -40,4 +40,3 @@ public record AzConnectionCreateKeyvaultOptions(
     [CommandSwitch("--vault")]
     public string? Vault { get; set; }
 }
-

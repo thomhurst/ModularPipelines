@@ -172,4 +172,3 @@ public record AzStorageAccountShowUsageOptions(
     [CommandSwitch("--user-identity-id")]
     public string? UserIdentityId { get; set; }
 }
-

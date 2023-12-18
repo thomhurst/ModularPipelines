@@ -89,4 +89,3 @@ public record AzWebappAuthUpdateOptions : AzOptions
     [CommandSwitch("--twitter-consumer-secret")]
     public string? TwitterConsumerSecret { get; set; }
 }
-

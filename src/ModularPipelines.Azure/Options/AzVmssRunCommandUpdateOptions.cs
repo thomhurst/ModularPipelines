@@ -67,4 +67,3 @@ public record AzVmssRunCommandUpdateOptions(
     [CommandSwitch("--vmss-name")]
     public string? VmssName { get; set; }
 }
-

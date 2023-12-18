@@ -20,4 +20,3 @@ public record AzAmsContentKeyPolicyDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

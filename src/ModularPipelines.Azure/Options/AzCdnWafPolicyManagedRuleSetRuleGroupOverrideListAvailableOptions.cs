@@ -23,4 +23,3 @@ public record AzCdnWafPolicyManagedRuleSetRuleGroupOverrideListAvailableOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

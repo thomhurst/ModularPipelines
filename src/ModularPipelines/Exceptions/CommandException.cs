@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+using CliWrap.Buffered;
 
 namespace ModularPipelines.Exceptions;
 

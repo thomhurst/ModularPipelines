@@ -16,4 +16,3 @@ public record AzK8sExtensionShowOptions(
     [CommandSwitch("--cluster-resource-provider")]
     public string? ClusterResourceProvider { get; set; }
 }
-

@@ -24,4 +24,3 @@ public record AzDevcenterAdminScheduleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -33,4 +33,3 @@ public record AzPostgresFlexibleServerAdAdminShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

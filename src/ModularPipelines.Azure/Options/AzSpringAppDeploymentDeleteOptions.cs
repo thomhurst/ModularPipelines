@@ -16,4 +16,3 @@ public record AzSpringAppDeploymentDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

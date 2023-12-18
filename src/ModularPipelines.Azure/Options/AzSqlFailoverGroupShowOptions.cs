@@ -22,4 +22,3 @@ public record AzSqlFailoverGroupShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

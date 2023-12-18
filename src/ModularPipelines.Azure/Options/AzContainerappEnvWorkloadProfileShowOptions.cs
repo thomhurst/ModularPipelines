@@ -18,4 +18,3 @@ public record AzContainerappEnvWorkloadProfileShowOptions(
     [CommandSwitch("--min-nodes")]
     public string? MinNodes { get; set; }
 }
-

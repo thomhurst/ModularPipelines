@@ -87,4 +87,3 @@ public record AzKustoClusterCreateKustoExtensionOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

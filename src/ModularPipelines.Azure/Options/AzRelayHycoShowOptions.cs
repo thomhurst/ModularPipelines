@@ -23,4 +23,3 @@ public record AzRelayHycoShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

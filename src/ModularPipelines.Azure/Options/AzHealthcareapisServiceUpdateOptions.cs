@@ -29,4 +29,3 @@ public record AzHealthcareapisServiceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

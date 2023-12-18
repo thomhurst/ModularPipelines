@@ -27,4 +27,3 @@ public class AzSqlDbThreatPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbThreatPolicyUpdateOptions(), token);
     }
 }
-

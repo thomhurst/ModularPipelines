@@ -15,4 +15,3 @@ public record AzAksCheckAcrOptions(
     [CommandSwitch("--node-name")]
     public string? NodeName { get; set; }
 }
-

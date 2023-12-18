@@ -17,4 +17,3 @@ public class AzNetappfilesVolumeUpdate
 
     public AzNetappfilesVolumeUpdateNetappfilesPreview NetappfilesPreview { get; }
 }
-

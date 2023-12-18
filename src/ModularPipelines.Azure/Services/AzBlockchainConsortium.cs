@@ -22,4 +22,3 @@ public class AzBlockchainConsortium
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

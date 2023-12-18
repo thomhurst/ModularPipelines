@@ -22,4 +22,3 @@ public record AzKeyvaultKeyPurgeOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

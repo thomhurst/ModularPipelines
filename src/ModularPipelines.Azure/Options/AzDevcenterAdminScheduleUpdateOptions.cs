@@ -47,4 +47,3 @@ public record AzDevcenterAdminScheduleUpdateOptions : AzOptions
     [CommandSwitch("--time-zone")]
     public string? TimeZone { get; set; }
 }
-

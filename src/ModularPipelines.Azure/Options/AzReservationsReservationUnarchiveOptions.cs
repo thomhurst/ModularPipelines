@@ -35,4 +35,3 @@ public record AzReservationsReservationUnarchiveOptions(
     [CommandSwitch("--renewal-properties")]
     public string? RenewalProperties { get; set; }
 }
-

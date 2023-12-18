@@ -27,4 +27,3 @@ public record AzKustoClusterPrincipalAssignmentCreateOptions(
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
 }
-

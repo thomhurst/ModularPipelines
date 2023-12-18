@@ -40,4 +40,3 @@ public record AzNetworkApplicationGatewayPrivateLinkIpConfigShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

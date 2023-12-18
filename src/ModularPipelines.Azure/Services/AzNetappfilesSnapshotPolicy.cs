@@ -52,4 +52,3 @@ public class AzNetappfilesSnapshotPolicy
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotPolicyWaitOptions(), token);
     }
 }
-

@@ -20,4 +20,3 @@ public record AzSphereDeviceListAttachedOptions(
     [CommandSwitch("--images")]
     public string? Images { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzSpringAppLog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

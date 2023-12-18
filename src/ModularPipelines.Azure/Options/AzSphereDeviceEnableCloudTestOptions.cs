@@ -20,4 +20,3 @@ public record AzSphereDeviceEnableCloudTestOptions(
     [CommandSwitch("--product")]
     public string? Product { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzScvmmVmCreateCheckpointOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

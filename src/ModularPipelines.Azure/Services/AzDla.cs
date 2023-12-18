@@ -24,4 +24,3 @@ public class AzDla
 
     public AzDlaJob Job { get; }
 }
-

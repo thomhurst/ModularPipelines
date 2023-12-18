@@ -40,4 +40,3 @@ public record AzLoginOptions(
     [CommandSwitch("--username")]
     public string? Username { get; set; }
 }
-

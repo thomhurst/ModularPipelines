@@ -23,4 +23,3 @@ public record AzMonitorAlertProcessingRuleDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

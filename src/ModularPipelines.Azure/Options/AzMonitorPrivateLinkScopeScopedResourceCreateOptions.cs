@@ -18,4 +18,3 @@ public record AzMonitorPrivateLinkScopeScopedResourceCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

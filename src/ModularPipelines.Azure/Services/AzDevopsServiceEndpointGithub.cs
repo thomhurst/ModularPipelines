@@ -22,4 +22,3 @@ public class AzDevopsServiceEndpointGithub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -17,4 +17,3 @@ public class AzNetworkCustomIp
 
     public AzNetworkCustomIpPrefix Prefix { get; }
 }
-

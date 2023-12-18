@@ -27,4 +27,3 @@ public class AzEventhubsNamespaceAuthorizationRuleKeys
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

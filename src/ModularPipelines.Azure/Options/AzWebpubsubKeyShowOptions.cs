@@ -20,4 +20,3 @@ public record AzWebpubsubKeyShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

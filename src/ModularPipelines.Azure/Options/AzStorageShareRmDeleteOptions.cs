@@ -31,4 +31,3 @@ public record AzStorageShareRmDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

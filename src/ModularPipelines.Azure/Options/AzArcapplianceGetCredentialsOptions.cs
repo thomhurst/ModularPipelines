@@ -26,4 +26,3 @@ public record AzArcapplianceGetCredentialsOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

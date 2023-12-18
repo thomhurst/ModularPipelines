@@ -41,4 +41,3 @@ public record AzStackHciClusterWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

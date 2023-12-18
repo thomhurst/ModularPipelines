@@ -23,4 +23,3 @@ public record AzServicebusQueueShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

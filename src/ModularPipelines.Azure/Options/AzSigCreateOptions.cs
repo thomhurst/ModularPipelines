@@ -38,4 +38,3 @@ public record AzSigCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

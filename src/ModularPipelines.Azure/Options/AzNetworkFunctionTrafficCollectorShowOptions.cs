@@ -20,4 +20,3 @@ public record AzNetworkFunctionTrafficCollectorShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzPostgresServerReplicaCreateOptions(
     [CommandSwitch("--sku-name")]
     public string? SkuName { get; set; }
 }
-

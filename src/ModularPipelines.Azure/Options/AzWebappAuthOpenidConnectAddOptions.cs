@@ -43,4 +43,3 @@ public record AzWebappAuthOpenidConnectAddOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

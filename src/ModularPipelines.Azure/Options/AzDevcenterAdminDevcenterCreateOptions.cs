@@ -29,4 +29,3 @@ public record AzDevcenterAdminDevcenterCreateOptions(
     [CommandSwitch("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }
-

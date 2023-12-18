@@ -17,4 +17,3 @@ public record AzDtJobImportDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

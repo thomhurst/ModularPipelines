@@ -32,4 +32,3 @@ public class AzAdAppOwner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

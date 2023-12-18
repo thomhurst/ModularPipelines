@@ -47,4 +47,3 @@ public class AzKustoAttachedDatabaseConfiguration
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationWaitOptions(), token);
     }
 }
-

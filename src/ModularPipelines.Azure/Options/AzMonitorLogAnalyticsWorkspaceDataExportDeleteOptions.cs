@@ -23,4 +23,3 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

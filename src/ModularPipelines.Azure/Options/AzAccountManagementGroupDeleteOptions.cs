@@ -13,4 +13,3 @@ public record AzAccountManagementGroupDeleteOptions(
     [BooleanCommandSwitch("--no-register")]
     public bool? NoRegister { get; set; }
 }
-

@@ -26,4 +26,3 @@ public record AzNetworkApplicationGatewayPrivateLinkAddOptions(
     [CommandSwitch("--subnet-prefix")]
     public string? SubnetPrefix { get; set; }
 }
-

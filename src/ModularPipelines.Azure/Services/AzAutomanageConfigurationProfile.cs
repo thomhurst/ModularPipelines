@@ -46,4 +46,3 @@ public class AzAutomanageConfigurationProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileUpdateOptions(), token);
     }
 }
-

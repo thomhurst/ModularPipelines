@@ -23,4 +23,3 @@ public record AzDevcenterDevDevBoxStartOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

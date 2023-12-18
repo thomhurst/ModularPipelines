@@ -49,4 +49,3 @@ public class AzSynapseKustoDataConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionWaitOptions(), token);
     }
 }
-

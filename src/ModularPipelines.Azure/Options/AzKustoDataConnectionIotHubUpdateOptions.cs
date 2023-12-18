@@ -56,4 +56,3 @@ public record AzKustoDataConnectionIotHubUpdateOptions : AzOptions
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

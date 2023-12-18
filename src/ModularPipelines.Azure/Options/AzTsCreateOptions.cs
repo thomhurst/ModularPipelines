@@ -38,4 +38,3 @@ public record AzTsCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

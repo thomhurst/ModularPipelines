@@ -18,4 +18,3 @@ public record AzEventgridDomainTopicCreateEventgridExtensionOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

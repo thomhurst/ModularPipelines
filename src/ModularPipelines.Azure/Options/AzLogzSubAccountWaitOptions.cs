@@ -44,4 +44,3 @@ public record AzLogzSubAccountWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzSynapseNotebookExportOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

@@ -16,4 +16,3 @@ public record AzSigListCommunityOptions(
     [CommandSwitch("--show-next-marker")]
     public string? ShowNextMarker { get; set; }
 }
-

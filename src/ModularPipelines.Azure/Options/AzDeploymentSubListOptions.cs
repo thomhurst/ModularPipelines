@@ -13,4 +13,3 @@ public record AzDeploymentSubListOptions(
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzTsiEventSourceIothubCreateOptions(
     [CommandSwitch("--timestamp-property-name")]
     public string? TimestampPropertyName { get; set; }
 }
-

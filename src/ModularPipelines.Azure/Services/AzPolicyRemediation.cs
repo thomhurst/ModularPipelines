@@ -46,4 +46,3 @@ public class AzPolicyRemediation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzDataboxedgeBandwidthSchedule
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleWaitOptions(), token);
     }
 }
-

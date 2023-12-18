@@ -28,4 +28,3 @@ public record AzBatchaiJobNodeExecOptions(
     [CommandSwitch("--ssh-private-key")]
     public string? SshPrivateKey { get; set; }
 }
-

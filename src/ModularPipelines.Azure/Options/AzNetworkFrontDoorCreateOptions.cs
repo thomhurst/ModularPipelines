@@ -57,4 +57,3 @@ public record AzNetworkFrontDoorCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

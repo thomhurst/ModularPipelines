@@ -18,4 +18,3 @@ public record AzNetworkApplicationGatewayPrivateLinkIpConfigListOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

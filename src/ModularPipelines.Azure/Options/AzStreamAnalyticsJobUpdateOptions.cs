@@ -71,4 +71,3 @@ public record AzStreamAnalyticsJobUpdateOptions(
     [CommandSwitch("--transformation")]
     public string? Transformation { get; set; }
 }
-

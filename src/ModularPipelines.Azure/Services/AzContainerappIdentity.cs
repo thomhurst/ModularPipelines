@@ -32,4 +32,3 @@ public class AzContainerappIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIdentityShowOptions(), token);
     }
 }
-

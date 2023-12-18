@@ -67,4 +67,3 @@ public class AzAppserviceAse
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

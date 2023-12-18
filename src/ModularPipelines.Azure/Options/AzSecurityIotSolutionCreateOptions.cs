@@ -15,4 +15,3 @@ public record AzSecurityIotSolutionCreateOptions(
 ) : AzOptions
 {
 }
-

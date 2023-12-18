@@ -18,4 +18,3 @@ public record AzDatadogSsoConfigCreateOptions(
     [CommandSwitch("--properties")]
     public string? Properties { get; set; }
 }
-

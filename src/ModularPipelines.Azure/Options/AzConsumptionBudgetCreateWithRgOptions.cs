@@ -40,4 +40,3 @@ public record AzConsumptionBudgetCreateWithRgOptions(
     [CommandSwitch("--time-period")]
     public string? TimePeriod { get; set; }
 }
-

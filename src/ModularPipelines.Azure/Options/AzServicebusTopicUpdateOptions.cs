@@ -68,4 +68,3 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

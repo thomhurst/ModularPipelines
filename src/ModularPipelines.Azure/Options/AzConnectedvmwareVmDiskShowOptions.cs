@@ -30,4 +30,3 @@ public record AzConnectedvmwareVmDiskShowOptions(
     [CommandSwitch("--unit-number")]
     public string? UnitNumber { get; set; }
 }
-

@@ -16,4 +16,3 @@ public class AzResourcemanagement
 
     public AzResourcemanagementPrivateLink PrivateLink { get; }
 }
-

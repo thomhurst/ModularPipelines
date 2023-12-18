@@ -156,4 +156,3 @@ public record AzAksNodepoolAddAksPreviewExtensionOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

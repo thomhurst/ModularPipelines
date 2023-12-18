@@ -51,4 +51,3 @@ public class AzNetworkApplicationGatewayUrlPathMap
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayUrlPathMapWaitOptions(), token);
     }
 }
-

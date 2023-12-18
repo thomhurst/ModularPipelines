@@ -37,4 +37,3 @@ public class AzBoardsAreaTeam
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

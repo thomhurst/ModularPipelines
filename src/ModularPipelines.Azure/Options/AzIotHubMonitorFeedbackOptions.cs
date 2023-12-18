@@ -34,4 +34,3 @@ public record AzIotHubMonitorFeedbackOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

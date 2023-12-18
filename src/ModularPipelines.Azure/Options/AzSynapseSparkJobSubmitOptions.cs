@@ -36,4 +36,3 @@ public record AzSynapseSparkJobSubmitOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

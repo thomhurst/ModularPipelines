@@ -24,4 +24,3 @@ public record AzNetworkManagerGroupStaticMemberListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

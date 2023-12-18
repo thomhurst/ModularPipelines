@@ -29,4 +29,3 @@ public record AzWorkloadsSapCentralInstanceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

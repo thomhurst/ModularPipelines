@@ -34,4 +34,3 @@ public record AzNetappfilesSnapshotUpdateOptions(
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

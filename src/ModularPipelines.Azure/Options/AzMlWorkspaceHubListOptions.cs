@@ -14,4 +14,3 @@ public record AzMlWorkspaceHubListOptions(
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
 }
-

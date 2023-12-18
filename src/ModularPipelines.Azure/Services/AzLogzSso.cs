@@ -42,4 +42,3 @@ public class AzLogzSso
         return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoWaitOptions(), token);
     }
 }
-

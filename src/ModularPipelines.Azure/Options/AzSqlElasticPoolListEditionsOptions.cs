@@ -25,4 +25,3 @@ public record AzSqlElasticPoolListEditionsOptions(
     [CommandSwitch("--vcores")]
     public string? Vcores { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzStreamAnalyticsOutputListOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

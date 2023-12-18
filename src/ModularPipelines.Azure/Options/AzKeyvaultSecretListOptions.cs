@@ -20,4 +20,3 @@ public record AzKeyvaultSecretListOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

@@ -38,4 +38,3 @@ public class AzWebpubsubService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

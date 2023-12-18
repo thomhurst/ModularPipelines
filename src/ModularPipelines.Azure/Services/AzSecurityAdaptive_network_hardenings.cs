@@ -27,4 +27,3 @@ public class AzSecurityAdaptive_network_hardenings
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -32,4 +32,3 @@ public class AzAdSpCredential
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

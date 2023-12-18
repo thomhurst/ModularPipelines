@@ -46,4 +46,3 @@ public class AzCapacityReservation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

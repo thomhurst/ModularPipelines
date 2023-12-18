@@ -27,4 +27,3 @@ public class AzSentinelEntityQueryTemplate
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryTemplateShowOptions(), token);
     }
 }
-

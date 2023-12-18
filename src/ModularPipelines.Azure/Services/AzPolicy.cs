@@ -48,4 +48,3 @@ public class AzPolicy
 
     public AzPolicyState State { get; }
 }
-

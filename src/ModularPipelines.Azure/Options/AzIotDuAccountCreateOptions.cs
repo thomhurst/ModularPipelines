@@ -35,4 +35,3 @@ public record AzIotDuAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

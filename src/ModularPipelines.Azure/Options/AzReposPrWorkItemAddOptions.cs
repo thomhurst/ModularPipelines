@@ -17,4 +17,3 @@ public record AzReposPrWorkItemAddOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

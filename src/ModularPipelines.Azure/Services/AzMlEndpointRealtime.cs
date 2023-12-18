@@ -77,4 +77,3 @@ public class AzMlEndpointRealtime
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

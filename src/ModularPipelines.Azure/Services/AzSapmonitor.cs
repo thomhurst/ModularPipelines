@@ -45,4 +45,3 @@ public class AzSapmonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

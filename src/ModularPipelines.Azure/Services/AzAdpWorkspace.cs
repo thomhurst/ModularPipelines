@@ -47,4 +47,3 @@ public class AzAdpWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceWaitOptions(), token);
     }
 }
-

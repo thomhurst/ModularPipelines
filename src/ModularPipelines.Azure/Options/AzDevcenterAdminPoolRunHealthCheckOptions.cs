@@ -26,4 +26,3 @@ public record AzDevcenterAdminPoolRunHealthCheckOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

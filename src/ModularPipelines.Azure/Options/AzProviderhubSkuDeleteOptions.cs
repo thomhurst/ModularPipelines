@@ -32,4 +32,3 @@ public record AzProviderhubSkuDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

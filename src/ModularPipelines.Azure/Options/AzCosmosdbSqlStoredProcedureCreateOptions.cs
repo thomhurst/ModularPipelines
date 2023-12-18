@@ -18,4 +18,3 @@ public record AzCosmosdbSqlStoredProcedureCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

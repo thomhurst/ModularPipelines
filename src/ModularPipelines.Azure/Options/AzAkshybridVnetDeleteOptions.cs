@@ -17,4 +17,3 @@ public record AzAkshybridVnetDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

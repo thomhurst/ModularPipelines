@@ -22,4 +22,3 @@ public record AzIotDuDeviceDeploymentShowOptions(
     [BooleanCommandSwitch("--status")]
     public bool? Status { get; set; }
 }
-

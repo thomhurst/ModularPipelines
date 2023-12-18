@@ -32,4 +32,3 @@ public class AzRedisIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityShowOptions(), token);
     }
 }
-

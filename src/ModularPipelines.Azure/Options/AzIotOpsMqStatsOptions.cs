@@ -35,4 +35,3 @@ public record AzIotOpsMqStatsOptions : AzOptions
     [BooleanCommandSwitch("--watch")]
     public bool? Watch { get; set; }
 }
-

@@ -46,4 +46,3 @@ public record AzBoardsWorkItemUpdateOptions(
     [CommandSwitch("--title")]
     public string? Title { get; set; }
 }
-

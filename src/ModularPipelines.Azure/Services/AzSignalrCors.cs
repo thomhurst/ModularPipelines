@@ -37,4 +37,3 @@ public class AzSignalrCors
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public class AzPipelinesAgent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

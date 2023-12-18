@@ -14,4 +14,3 @@ public record AzLabGetOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

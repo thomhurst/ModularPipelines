@@ -29,4 +29,3 @@ public record AzProviderhubSkuShowNestedResourceTypeSecondOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

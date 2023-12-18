@@ -16,4 +16,3 @@ public record AzReservationsReservationOrderListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

@@ -54,4 +54,3 @@ public record AzK8sconfigurationCreateOptions(
     [CommandSwitch("--ssh-private-key-file")]
     public string? SshPrivateKeyFile { get; set; }
 }
-

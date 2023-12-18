@@ -56,4 +56,3 @@ public class AzHanainstance
         return await _command.ExecuteCommandLineTool(options ?? new AzHanainstanceUpdateOptions(), token);
     }
 }
-

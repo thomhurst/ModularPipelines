@@ -14,4 +14,3 @@ public record AzStaticwebappBackendsShowOptions(
     [CommandSwitch("--environment-name")]
     public string? EnvironmentName { get; set; }
 }
-

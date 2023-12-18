@@ -22,4 +22,3 @@ public record AzRedisRegenerateKeysOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzSqlMiTdeKeySetOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

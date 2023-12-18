@@ -22,4 +22,3 @@ public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

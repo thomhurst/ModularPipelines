@@ -17,4 +17,3 @@ public record AzContainerappIngressAccessRestrictionListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

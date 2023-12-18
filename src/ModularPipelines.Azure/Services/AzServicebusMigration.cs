@@ -52,4 +52,3 @@ public class AzServicebusMigration
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusMigrationWaitOptions(), token);
     }
 }
-

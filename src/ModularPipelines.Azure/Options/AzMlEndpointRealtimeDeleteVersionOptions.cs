@@ -29,4 +29,3 @@ public record AzMlEndpointRealtimeDeleteVersionOptions(
     [CommandSwitch("-v")]
     public string? V { get; set; }
 }
-

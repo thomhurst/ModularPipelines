@@ -32,4 +32,3 @@ public class AzAmsAccountIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityShowOptions(), token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzSpringStopOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

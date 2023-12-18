@@ -32,4 +32,3 @@ public class AzNetworkNicIpConfigInboundNatRule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigInboundNatRuleWaitOptions(), token);
     }
 }
-

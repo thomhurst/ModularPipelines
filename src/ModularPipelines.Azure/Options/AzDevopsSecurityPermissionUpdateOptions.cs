@@ -27,4 +27,3 @@ public record AzDevopsSecurityPermissionUpdateOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzNetworkApplicationGatewayAddressPoolCreateOptions(
     [CommandSwitch("--servers")]
     public string? Servers { get; set; }
 }
-

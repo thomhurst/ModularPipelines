@@ -18,4 +18,3 @@ public record AzCosmosdbMongodbRestorableCollectionListCosmosdbPreviewExtensionO
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 }
-

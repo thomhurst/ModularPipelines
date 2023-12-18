@@ -27,4 +27,3 @@ public record AzNetworkCrossRegionLbAddressPoolCreateOptions(
     [CommandSwitch("--sync-mode")]
     public string? SyncMode { get; set; }
 }
-

@@ -17,4 +17,3 @@ public record AzMonitorDataCollectionRuleSyslogListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

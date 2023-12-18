@@ -72,4 +72,3 @@ public class AzBatchPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -77,4 +77,3 @@ public class AzStorageMoverEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverEndpointWaitOptions(), token);
     }
 }
-

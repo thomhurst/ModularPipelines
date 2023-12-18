@@ -147,4 +147,3 @@ public record AzVmssUpdateOptions(
     [CommandSwitch("--vm-sku")]
     public string? VmSku { get; set; }
 }
-

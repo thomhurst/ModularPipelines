@@ -19,4 +19,3 @@ public record AzContainerappEnvWorkloadProfileListSupportedOptions(
     [CommandSwitch("--workload-profile-type")]
     public string? WorkloadProfileType { get; set; }
 }
-

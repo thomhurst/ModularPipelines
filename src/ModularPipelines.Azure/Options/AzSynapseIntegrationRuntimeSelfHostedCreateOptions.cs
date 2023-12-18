@@ -21,4 +21,3 @@ public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

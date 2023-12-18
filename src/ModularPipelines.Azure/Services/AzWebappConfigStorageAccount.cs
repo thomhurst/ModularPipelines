@@ -37,4 +37,3 @@ public class AzWebappConfigStorageAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

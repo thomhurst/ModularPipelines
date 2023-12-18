@@ -47,4 +47,3 @@ public class AzNetworkLbAddressPoolAddress
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressWaitOptions(), token);
     }
 }
-

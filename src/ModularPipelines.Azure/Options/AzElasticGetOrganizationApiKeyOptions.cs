@@ -11,4 +11,3 @@ public record AzElasticGetOrganizationApiKeyOptions : AzOptions
     [CommandSwitch("--email-id")]
     public string? EmailId { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzAccountListLocationsOptions(
     [BooleanCommandSwitch("--include-extended-locations")]
     public bool? IncludeExtendedLocations { get; set; }
 }
-

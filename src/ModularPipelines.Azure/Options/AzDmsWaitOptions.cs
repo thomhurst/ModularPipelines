@@ -32,4 +32,3 @@ public record AzDmsWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

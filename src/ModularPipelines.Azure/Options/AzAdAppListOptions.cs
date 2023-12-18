@@ -28,4 +28,3 @@ public record AzAdAppListOptions(
     [CommandSwitch("--show-mine")]
     public string? ShowMine { get; set; }
 }
-

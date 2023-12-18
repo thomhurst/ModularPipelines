@@ -17,4 +17,3 @@ public record AzMonitorLogAnalyticsQueryPackCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

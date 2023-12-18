@@ -32,4 +32,3 @@ public class AzArcapplianceUpdateInfracredentials
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

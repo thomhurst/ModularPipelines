@@ -29,4 +29,3 @@ public record AzConfidentialledgerCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

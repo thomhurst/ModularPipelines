@@ -17,4 +17,3 @@ public class AzStorageDirectoryCreate
 
     public AzStorageDirectoryCreateStoragePreview StoragePreview { get; }
 }
-

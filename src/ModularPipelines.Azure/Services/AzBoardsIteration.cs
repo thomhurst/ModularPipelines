@@ -21,4 +21,3 @@ public class AzBoardsIteration
 
     public AzBoardsIterationTeam Team { get; }
 }
-

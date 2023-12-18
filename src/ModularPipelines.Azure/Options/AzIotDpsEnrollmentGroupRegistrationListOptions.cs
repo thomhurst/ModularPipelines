@@ -22,4 +22,3 @@ public record AzIotDpsEnrollmentGroupRegistrationListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

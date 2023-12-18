@@ -62,4 +62,3 @@ public record AzStorageFileDownloadOptions(
     [CommandSwitch("--validate-content")]
     public string? ValidateContent { get; set; }
 }
-

@@ -61,4 +61,3 @@ public class AzEventhubsGeorecoveryAlias
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasShowOptions(), token);
     }
 }
-

@@ -32,4 +32,3 @@ public class AzIotProductTestTask
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

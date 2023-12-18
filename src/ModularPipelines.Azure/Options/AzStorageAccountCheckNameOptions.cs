@@ -184,4 +184,3 @@ public record AzStorageAccountCheckNameOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

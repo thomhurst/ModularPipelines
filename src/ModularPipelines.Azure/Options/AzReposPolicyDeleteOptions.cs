@@ -22,4 +22,3 @@ public record AzReposPolicyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

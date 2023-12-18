@@ -14,4 +14,3 @@ public record AzDmsListSkusOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

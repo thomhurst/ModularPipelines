@@ -47,4 +47,3 @@ public class AzGuestconfigGuestConfigurationHcrpAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentWaitOptions(), token);
     }
 }
-

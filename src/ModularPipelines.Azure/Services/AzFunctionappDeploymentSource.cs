@@ -56,4 +56,3 @@ public class AzFunctionappDeploymentSource
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceUpdateTokenOptions(), token);
     }
 }
-

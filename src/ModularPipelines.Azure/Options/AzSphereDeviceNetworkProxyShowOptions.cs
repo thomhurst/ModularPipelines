@@ -11,4 +11,3 @@ public record AzSphereDeviceNetworkProxyShowOptions : AzOptions
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

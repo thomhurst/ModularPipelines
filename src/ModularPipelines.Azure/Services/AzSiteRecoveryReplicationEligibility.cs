@@ -27,4 +27,3 @@ public class AzSiteRecoveryReplicationEligibility
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryReplicationEligibilityShowDefaultOptions(), token);
     }
 }
-

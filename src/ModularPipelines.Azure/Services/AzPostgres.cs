@@ -51,4 +51,3 @@ public class AzPostgres
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresUpOptions(), token);
     }
 }
-

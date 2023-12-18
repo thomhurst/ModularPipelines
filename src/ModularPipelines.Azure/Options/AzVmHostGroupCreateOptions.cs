@@ -27,4 +27,3 @@ public record AzVmHostGroupCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

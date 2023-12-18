@@ -20,4 +20,3 @@ public record AzVmssGetInstanceViewOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

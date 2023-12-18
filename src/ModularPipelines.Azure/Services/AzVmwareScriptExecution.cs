@@ -42,4 +42,3 @@ public class AzVmwareScriptExecution
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionWaitOptions(), token);
     }
 }
-

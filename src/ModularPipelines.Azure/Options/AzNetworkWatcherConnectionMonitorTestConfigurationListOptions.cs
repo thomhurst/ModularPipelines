@@ -17,4 +17,3 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationListOptions(
     [CommandSwitch("--test-groups")]
     public string? TestGroups { get; set; }
 }
-

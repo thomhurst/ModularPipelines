@@ -18,4 +18,3 @@ public record AzLogzSubAccountListResourceOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

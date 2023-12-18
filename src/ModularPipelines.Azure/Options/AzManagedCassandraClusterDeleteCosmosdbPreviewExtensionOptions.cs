@@ -17,4 +17,3 @@ public record AzManagedCassandraClusterDeleteCosmosdbPreviewExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzEdgeorderOrderItemDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

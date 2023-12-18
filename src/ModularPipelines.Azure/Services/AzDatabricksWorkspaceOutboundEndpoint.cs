@@ -22,4 +22,3 @@ public class AzDatabricksWorkspaceOutboundEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -80,4 +80,3 @@ public record AzSynapseSqlPoolAuditPolicyUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

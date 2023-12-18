@@ -37,4 +37,3 @@ public record AzMonitorMetricsAlertConditionCreateOptions(
     [CommandSwitch("--threshold")]
     public string? Threshold { get; set; }
 }
-

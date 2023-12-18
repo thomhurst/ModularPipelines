@@ -62,4 +62,3 @@ public record AzNetworkPublicIpCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

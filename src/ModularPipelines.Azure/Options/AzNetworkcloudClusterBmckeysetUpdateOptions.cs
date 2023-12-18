@@ -35,4 +35,3 @@ public record AzNetworkcloudClusterBmckeysetUpdateOptions : AzOptions
     [CommandSwitch("--user-list")]
     public string? UserList { get; set; }
 }
-

@@ -48,4 +48,3 @@ public record AzSpringAppScaleOptions(
     [CommandSwitch("--scale-rule-type")]
     public string? ScaleRuleType { get; set; }
 }
-

@@ -29,4 +29,3 @@ public record AzStorageAzcopyBlobSyncOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

@@ -37,4 +37,3 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

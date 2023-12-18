@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.AmazonWebServices;
+namespace ModularPipelines.AmazonWebServices;
 
 public interface IAmazonProvisioner
 {

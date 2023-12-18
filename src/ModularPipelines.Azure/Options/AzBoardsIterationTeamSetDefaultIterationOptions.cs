@@ -25,4 +25,3 @@ public record AzBoardsIterationTeamSetDefaultIterationOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

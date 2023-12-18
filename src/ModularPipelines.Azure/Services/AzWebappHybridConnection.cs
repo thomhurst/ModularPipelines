@@ -32,4 +32,3 @@ public class AzWebappHybridConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -18,4 +18,3 @@ public record AzHdinsightAzureMonitorEnableOptions(
     [CommandSwitch("--primary-key")]
     public string? PrimaryKey { get; set; }
 }
-

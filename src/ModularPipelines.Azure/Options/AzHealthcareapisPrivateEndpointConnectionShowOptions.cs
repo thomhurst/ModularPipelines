@@ -23,4 +23,3 @@ public record AzHealthcareapisPrivateEndpointConnectionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzWebappAuthMicrosoft
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthMicrosoftUpdateOptions(), token);
     }
 }
-

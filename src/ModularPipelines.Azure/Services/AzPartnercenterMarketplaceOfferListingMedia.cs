@@ -32,4 +32,3 @@ public class AzPartnercenterMarketplaceOfferListingMedia
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

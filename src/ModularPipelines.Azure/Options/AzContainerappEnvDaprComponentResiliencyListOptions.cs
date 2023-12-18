@@ -21,4 +21,3 @@ public record AzContainerappEnvDaprComponentResiliencyListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

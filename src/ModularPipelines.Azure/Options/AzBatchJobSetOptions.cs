@@ -58,4 +58,3 @@ public record AzBatchJobSetOptions(
     [CommandSwitch("--priority")]
     public string? Priority { get; set; }
 }
-

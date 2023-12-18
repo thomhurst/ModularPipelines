@@ -47,4 +47,3 @@ public class AzNetworkfabricTaprule
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricTapruleWaitOptions(), token);
     }
 }
-

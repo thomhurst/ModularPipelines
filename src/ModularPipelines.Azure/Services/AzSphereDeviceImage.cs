@@ -22,4 +22,3 @@ public class AzSphereDeviceImage
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceImageListInstalledOptions(), token);
     }
 }
-

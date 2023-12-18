@@ -18,4 +18,3 @@ public record AzConnectedvmwareVmExtensionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

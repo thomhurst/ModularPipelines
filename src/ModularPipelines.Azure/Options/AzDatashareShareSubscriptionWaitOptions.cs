@@ -44,4 +44,3 @@ public record AzDatashareShareSubscriptionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

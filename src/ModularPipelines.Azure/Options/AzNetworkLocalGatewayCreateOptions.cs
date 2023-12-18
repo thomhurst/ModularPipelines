@@ -35,4 +35,3 @@ public record AzNetworkLocalGatewayCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

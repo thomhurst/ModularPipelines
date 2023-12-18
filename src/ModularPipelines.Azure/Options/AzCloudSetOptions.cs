@@ -13,4 +13,3 @@ public record AzCloudSetOptions(
     [CommandSwitch("--profile")]
     public string? Profile { get; set; }
 }
-

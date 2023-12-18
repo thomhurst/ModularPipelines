@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Modules;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 

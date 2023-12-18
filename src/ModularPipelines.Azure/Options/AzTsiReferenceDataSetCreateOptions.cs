@@ -20,4 +20,3 @@ public record AzTsiReferenceDataSetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

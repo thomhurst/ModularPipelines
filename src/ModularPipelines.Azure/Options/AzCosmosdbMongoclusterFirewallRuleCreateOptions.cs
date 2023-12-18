@@ -17,4 +17,3 @@ public record AzCosmosdbMongoclusterFirewallRuleCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

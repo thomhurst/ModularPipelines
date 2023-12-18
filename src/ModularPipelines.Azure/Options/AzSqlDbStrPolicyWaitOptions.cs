@@ -46,4 +46,3 @@ public record AzSqlDbStrPolicyWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

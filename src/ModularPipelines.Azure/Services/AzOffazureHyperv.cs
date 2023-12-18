@@ -33,4 +33,3 @@ public class AzOffazureHyperv
 
     public AzOffazureHypervSite Site { get; }
 }
-

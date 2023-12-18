@@ -28,4 +28,3 @@ public record AzDlsFsPreviewOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

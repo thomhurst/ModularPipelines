@@ -47,4 +47,3 @@ public record AzAzurestackhciVirtualnetworkCreateOptions(
     [CommandSwitch("--vm-switch-name")]
     public string? VmSwitchName { get; set; }
 }
-

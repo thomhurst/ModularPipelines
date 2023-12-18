@@ -22,4 +22,3 @@ public class AzStreamAnalyticsSubscription
         return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsSubscriptionInspectOptions(), token);
     }
 }
-

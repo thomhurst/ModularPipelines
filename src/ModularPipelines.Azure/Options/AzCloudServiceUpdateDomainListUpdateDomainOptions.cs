@@ -20,4 +20,3 @@ public record AzCloudServiceUpdateDomainListUpdateDomainOptions(
     [CommandSwitch("--update-domain")]
     public string? UpdateDomain { get; set; }
 }
-

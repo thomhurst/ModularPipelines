@@ -47,4 +47,3 @@ public class AzApicWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceUpdateOptions(), token);
     }
 }
-

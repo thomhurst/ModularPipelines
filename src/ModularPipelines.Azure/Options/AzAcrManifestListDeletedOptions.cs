@@ -26,4 +26,3 @@ public record AzAcrManifestListDeletedOptions : AzOptions
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? RepoId { get; set; }
 }
-

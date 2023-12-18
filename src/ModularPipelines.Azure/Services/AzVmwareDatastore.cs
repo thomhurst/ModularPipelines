@@ -50,4 +50,3 @@ public class AzVmwareDatastore
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreWaitOptions(), token);
     }
 }
-

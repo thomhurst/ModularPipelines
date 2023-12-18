@@ -32,4 +32,3 @@ public class AzVmwareWorkloadNetworkDhcpRelay
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpRelayUpdateOptions(), token);
     }
 }
-

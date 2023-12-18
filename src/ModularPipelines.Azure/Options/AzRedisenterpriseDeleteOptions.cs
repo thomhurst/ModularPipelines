@@ -26,4 +26,3 @@ public record AzRedisenterpriseDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

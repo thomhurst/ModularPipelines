@@ -45,4 +45,3 @@ public record AzMlComputeUpdateOptions(
     [CommandSwitch("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }
-

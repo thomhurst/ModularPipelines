@@ -38,4 +38,3 @@ public record AzNetworkApplicationGatewayIdentityShowOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

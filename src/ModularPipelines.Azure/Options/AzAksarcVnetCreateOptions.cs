@@ -30,4 +30,3 @@ public record AzAksarcVnetCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzPipelinesRunsArtifactDownloadOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

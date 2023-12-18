@@ -27,4 +27,3 @@ public record AzDevcenterAdminDevboxDefinitionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

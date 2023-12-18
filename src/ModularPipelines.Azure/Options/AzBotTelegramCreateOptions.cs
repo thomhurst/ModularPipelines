@@ -21,4 +21,3 @@ public record AzBotTelegramCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

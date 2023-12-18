@@ -20,4 +20,3 @@ public record AzVmExtensionImageListNamesOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

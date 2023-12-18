@@ -26,4 +26,3 @@ public record AzGuestconfigGuestConfigurationAssignmentReportShowOptions : AzOpt
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

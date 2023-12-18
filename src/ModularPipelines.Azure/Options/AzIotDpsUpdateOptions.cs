@@ -35,4 +35,3 @@ public record AzIotDpsUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

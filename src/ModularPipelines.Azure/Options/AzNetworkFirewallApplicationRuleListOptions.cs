@@ -21,4 +21,3 @@ public record AzNetworkFirewallApplicationRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

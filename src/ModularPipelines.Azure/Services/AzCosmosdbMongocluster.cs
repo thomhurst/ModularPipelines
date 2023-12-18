@@ -46,4 +46,3 @@ public class AzCosmosdbMongocluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

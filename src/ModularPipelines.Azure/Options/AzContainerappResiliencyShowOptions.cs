@@ -20,4 +20,3 @@ public record AzContainerappResiliencyShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

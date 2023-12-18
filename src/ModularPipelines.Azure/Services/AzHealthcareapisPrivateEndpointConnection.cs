@@ -47,4 +47,3 @@ public class AzHealthcareapisPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionWaitOptions(), token);
     }
 }
-

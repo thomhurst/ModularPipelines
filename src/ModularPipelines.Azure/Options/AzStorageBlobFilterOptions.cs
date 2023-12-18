@@ -31,4 +31,3 @@ public record AzStorageBlobFilterOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

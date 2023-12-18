@@ -32,4 +32,3 @@ public class AzImageBuilderIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityShowOptions(), token);
     }
 }
-

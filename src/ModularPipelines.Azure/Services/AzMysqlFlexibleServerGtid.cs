@@ -22,4 +22,3 @@ public class AzMysqlFlexibleServerGtid
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

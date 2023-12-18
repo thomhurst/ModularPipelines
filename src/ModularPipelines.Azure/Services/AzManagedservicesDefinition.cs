@@ -37,4 +37,3 @@ public class AzManagedservicesDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

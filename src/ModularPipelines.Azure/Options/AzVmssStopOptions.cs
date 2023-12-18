@@ -20,4 +20,3 @@ public record AzVmssStopOptions(
     [BooleanCommandSwitch("--skip-shutdown")]
     public bool? SkipShutdown { get; set; }
 }
-

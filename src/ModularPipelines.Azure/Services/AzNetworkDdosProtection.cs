@@ -47,4 +47,3 @@ public class AzNetworkDdosProtection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDdosProtectionWaitOptions(), token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzAmsAccountMruSetOptions : AzOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

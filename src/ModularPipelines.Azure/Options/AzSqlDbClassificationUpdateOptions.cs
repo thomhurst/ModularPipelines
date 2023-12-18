@@ -33,4 +33,3 @@ public record AzSqlDbClassificationUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

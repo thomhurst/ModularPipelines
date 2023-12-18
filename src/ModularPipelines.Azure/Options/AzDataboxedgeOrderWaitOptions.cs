@@ -41,4 +41,3 @@ public record AzDataboxedgeOrderWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

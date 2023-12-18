@@ -50,4 +50,3 @@ public record AzConsumptionBudgetUpdateOptions : AzOptions
     [CommandSwitch("--time-period")]
     public string? TimePeriod { get; set; }
 }
-

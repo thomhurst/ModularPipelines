@@ -14,4 +14,3 @@ public record AzNetworkTrafficManagerEndpointListOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

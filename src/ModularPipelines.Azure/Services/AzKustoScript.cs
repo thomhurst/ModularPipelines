@@ -47,4 +47,3 @@ public class AzKustoScript
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoScriptWaitOptions(), token);
     }
 }
-

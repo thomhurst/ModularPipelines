@@ -29,4 +29,3 @@ public record AzCustomProvidersResourceProviderCreateOptions(
     [CommandSwitch("--validation")]
     public string? Validation { get; set; }
 }
-

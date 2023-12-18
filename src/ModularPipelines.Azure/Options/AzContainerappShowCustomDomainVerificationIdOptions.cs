@@ -85,4 +85,3 @@ public record AzContainerappShowCustomDomainVerificationIdOptions(
     [CommandSwitch("--workload-profile-name")]
     public string? WorkloadProfileName { get; set; }
 }
-

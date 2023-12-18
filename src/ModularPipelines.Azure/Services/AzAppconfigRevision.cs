@@ -22,4 +22,3 @@ public class AzAppconfigRevision
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigRevisionListOptions(), token);
     }
 }
-

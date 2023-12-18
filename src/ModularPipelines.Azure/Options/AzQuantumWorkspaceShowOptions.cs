@@ -14,4 +14,3 @@ public record AzQuantumWorkspaceShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

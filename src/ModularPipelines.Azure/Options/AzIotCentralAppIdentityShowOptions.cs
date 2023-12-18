@@ -13,4 +13,3 @@ public record AzIotCentralAppIdentityShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

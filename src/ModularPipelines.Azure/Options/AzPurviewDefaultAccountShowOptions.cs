@@ -14,4 +14,3 @@ public record AzPurviewDefaultAccountShowOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

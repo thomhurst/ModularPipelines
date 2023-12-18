@@ -17,4 +17,3 @@ public record AzSpringGatewayRestartOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

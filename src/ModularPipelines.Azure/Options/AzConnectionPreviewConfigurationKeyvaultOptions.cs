@@ -17,4 +17,3 @@ public record AzConnectionPreviewConfigurationKeyvaultOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

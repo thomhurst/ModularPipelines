@@ -33,4 +33,3 @@ public record AzStreamAnalyticsInputWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

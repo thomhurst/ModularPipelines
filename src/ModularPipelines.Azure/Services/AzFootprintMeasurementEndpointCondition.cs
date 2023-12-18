@@ -42,4 +42,3 @@ public class AzFootprintMeasurementEndpointCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

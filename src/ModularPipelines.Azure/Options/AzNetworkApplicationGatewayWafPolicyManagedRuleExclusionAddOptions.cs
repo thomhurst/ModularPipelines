@@ -20,4 +20,3 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions
     [CommandSwitch("--rule-sets")]
     public string? RuleSets { get; set; }
 }
-

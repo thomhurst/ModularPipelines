@@ -17,4 +17,3 @@ public class AzManagedCassandraClusterDeallocate
 
     public AzManagedCassandraClusterDeallocateCosmosdbPreview CosmosdbPreview { get; }
 }
-

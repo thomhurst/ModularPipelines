@@ -24,4 +24,3 @@ public record AzNetworkServiceEndpointPolicyDefinitionCreateOptions(
     [CommandSwitch("--service-resources")]
     public string? ServiceResources { get; set; }
 }
-

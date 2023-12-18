@@ -37,4 +37,3 @@ public class AzAmsAccountStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

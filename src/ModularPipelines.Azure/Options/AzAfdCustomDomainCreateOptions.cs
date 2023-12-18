@@ -24,4 +24,3 @@ public record AzAfdCustomDomainCreateOptions(
     [CommandSwitch("--secret")]
     public string? Secret { get; set; }
 }
-

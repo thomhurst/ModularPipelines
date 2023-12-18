@@ -20,4 +20,3 @@ public record AzDmsProjectTaskCutoverOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -91,4 +91,3 @@ public class AzStaticwebapp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

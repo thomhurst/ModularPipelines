@@ -102,4 +102,3 @@ public class AzCognitiveservicesAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

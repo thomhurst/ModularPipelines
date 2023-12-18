@@ -17,4 +17,3 @@ public class AzKustoClusterStop
 
     public AzKustoClusterStopKusto Kusto { get; }
 }
-

@@ -47,4 +47,3 @@ public class AzApimApiSchema
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

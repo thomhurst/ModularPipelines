@@ -22,4 +22,3 @@ public record AzMlPipelineGetOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

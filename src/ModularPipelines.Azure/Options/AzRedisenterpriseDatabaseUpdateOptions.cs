@@ -44,4 +44,3 @@ public record AzRedisenterpriseDatabaseUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

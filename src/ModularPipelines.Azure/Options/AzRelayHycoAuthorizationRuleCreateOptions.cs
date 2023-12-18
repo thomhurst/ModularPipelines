@@ -16,4 +16,3 @@ public record AzRelayHycoAuthorizationRuleCreateOptions(
     [CommandSwitch("--rights")]
     public string? Rights { get; set; }
 }
-

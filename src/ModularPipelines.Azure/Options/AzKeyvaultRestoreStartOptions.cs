@@ -34,4 +34,3 @@ public record AzKeyvaultRestoreStartOptions(
     [BooleanCommandSwitch("--use-managed-identity")]
     public bool? UseManagedIdentity { get; set; }
 }
-

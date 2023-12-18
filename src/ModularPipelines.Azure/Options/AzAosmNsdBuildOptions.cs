@@ -13,4 +13,3 @@ public record AzAosmNsdBuildOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

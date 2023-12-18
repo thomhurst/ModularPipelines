@@ -25,4 +25,3 @@ public record AzAdSpDeleteOptions(
     [CommandSwitch("--spn")]
     public string? Spn { get; set; }
 }
-

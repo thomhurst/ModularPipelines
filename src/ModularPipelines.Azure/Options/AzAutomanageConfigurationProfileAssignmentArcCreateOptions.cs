@@ -15,4 +15,3 @@ public record AzAutomanageConfigurationProfileAssignmentArcCreateOptions(
     [CommandSwitch("--configuration-profile")]
     public string? ConfigurationProfile { get; set; }
 }
-

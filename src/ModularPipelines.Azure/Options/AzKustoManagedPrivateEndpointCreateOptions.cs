@@ -27,4 +27,3 @@ public record AzKustoManagedPrivateEndpointCreateOptions(
     [CommandSwitch("--request-message")]
     public string? RequestMessage { get; set; }
 }
-

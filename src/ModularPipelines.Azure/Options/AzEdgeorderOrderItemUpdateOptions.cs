@@ -50,4 +50,3 @@ public record AzEdgeorderOrderItemUpdateOptions(
     [CommandSwitch("--transport-preferences")]
     public string? TransportPreferences { get; set; }
 }
-

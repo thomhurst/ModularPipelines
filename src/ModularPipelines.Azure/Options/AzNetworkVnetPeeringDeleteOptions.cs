@@ -23,4 +23,3 @@ public record AzNetworkVnetPeeringDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

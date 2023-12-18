@@ -42,4 +42,3 @@ public class AzMonitorAlertProcessingRule
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleUpdateOptions(), token);
     }
 }
-

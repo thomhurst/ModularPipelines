@@ -62,4 +62,3 @@ public record AzFunctionappConnectionCreateCosmosTableOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

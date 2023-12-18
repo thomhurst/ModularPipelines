@@ -28,4 +28,3 @@ public record AzDatashareShareSubscriptionCancelSynchronizationOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzSpringAppDisableRemoteDebuggingOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

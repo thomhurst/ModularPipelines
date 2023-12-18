@@ -29,4 +29,3 @@ public record AzDatafactoryConfigureFactoryRepoOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

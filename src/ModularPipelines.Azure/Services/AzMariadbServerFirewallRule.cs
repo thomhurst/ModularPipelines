@@ -42,4 +42,3 @@ public class AzMariadbServerFirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleUpdateOptions(), token);
     }
 }
-

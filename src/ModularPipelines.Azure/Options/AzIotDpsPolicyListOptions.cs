@@ -13,4 +13,3 @@ public record AzIotDpsPolicyListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

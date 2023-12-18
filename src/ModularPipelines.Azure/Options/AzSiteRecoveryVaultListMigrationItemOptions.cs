@@ -26,4 +26,3 @@ public record AzSiteRecoveryVaultListMigrationItemOptions(
     [CommandSwitch("--take-token")]
     public string? TakeToken { get; set; }
 }
-

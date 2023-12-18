@@ -22,4 +22,3 @@ public record AzCosmosdbSqlContainerRedistributePartitionThroughputOptions(
     [CommandSwitch("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }
-

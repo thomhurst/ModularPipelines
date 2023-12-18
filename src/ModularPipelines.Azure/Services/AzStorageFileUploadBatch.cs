@@ -17,4 +17,3 @@ public class AzStorageFileUploadBatch
 
     public AzStorageFileUploadBatchStoragePreview StoragePreview { get; }
 }
-

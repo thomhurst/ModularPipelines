@@ -108,4 +108,3 @@ public class AzSynapse
 
     public AzSynapseWorkspacePackage WorkspacePackage { get; }
 }
-

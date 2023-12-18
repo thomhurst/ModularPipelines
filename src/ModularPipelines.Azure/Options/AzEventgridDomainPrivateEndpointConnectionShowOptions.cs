@@ -23,4 +23,3 @@ public record AzEventgridDomainPrivateEndpointConnectionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

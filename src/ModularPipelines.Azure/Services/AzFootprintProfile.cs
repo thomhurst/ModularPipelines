@@ -42,4 +42,3 @@ public class AzFootprintProfile
         return await _command.ExecuteCommandLineTool(options ?? new AzFootprintProfileUpdateOptions(), token);
     }
 }
-

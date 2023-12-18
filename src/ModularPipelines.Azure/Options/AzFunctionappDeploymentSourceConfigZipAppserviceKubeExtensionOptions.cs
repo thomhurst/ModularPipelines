@@ -31,4 +31,3 @@ public record AzFunctionappDeploymentSourceConfigZipAppserviceKubeExtensionOptio
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

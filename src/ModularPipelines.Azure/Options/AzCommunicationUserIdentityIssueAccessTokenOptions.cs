@@ -16,4 +16,3 @@ public record AzCommunicationUserIdentityIssueAccessTokenOptions(
     [CommandSwitch("--userid")]
     public string? Userid { get; set; }
 }
-

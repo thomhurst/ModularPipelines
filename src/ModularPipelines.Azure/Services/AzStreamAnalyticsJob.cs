@@ -62,4 +62,3 @@ public class AzStreamAnalyticsJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

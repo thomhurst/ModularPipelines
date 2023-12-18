@@ -32,4 +32,3 @@ public class AzSphereDeviceNetworkProxy
         return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkProxyShowOptions(), token);
     }
 }
-

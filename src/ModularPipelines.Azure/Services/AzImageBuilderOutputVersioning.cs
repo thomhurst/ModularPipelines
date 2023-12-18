@@ -32,4 +32,3 @@ public class AzImageBuilderOutputVersioning
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

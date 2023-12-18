@@ -32,4 +32,3 @@ public class AzContainerappGithubAction
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappGithubActionShowOptions(), token);
     }
 }
-

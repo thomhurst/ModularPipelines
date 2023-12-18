@@ -43,4 +43,3 @@ public record AzScvmmVmExtensionCreateOptions(
     [CommandSwitch("--type-handler-version")]
     public string? TypeHandlerVersion { get; set; }
 }
-

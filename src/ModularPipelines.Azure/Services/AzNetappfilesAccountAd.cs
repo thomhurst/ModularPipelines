@@ -42,4 +42,3 @@ public class AzNetappfilesAccountAd
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountAdWaitOptions(), token);
     }
 }
-

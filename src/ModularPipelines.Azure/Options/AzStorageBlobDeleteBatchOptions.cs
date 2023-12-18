@@ -55,4 +55,3 @@ public record AzStorageBlobDeleteBatchOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

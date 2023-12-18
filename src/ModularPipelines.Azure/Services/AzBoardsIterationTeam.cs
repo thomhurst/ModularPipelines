@@ -57,4 +57,3 @@ public class AzBoardsIterationTeam
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

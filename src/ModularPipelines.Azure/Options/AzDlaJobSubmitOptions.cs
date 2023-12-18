@@ -53,4 +53,3 @@ public record AzDlaJobSubmitOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

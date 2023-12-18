@@ -38,4 +38,3 @@ public record AzNetworkVpnConnectionIpsecPolicyListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

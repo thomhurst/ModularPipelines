@@ -32,4 +32,3 @@ public record AzVmExtensionImageListVersionsOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

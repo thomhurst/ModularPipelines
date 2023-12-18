@@ -37,4 +37,3 @@ public class AzPipelinesVariableGroupVariable
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -34,4 +34,3 @@ public record AzReposPolicyCommentRequiredUpdateOptions(
     [CommandSwitch("--repository-id")]
     public string? RepositoryId { get; set; }
 }
-

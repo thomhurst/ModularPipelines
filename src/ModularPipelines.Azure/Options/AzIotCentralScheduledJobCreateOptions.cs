@@ -44,4 +44,3 @@ public record AzIotCentralScheduledJobCreateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

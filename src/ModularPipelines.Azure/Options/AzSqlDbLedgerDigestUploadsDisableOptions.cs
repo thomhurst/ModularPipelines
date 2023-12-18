@@ -25,4 +25,3 @@ public record AzSqlDbLedgerDigestUploadsDisableOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

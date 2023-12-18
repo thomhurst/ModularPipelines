@@ -26,4 +26,3 @@ public class AzCosmosdbTableRestorableTable
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

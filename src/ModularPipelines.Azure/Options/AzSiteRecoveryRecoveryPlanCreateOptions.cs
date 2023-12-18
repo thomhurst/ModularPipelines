@@ -24,4 +24,3 @@ public record AzSiteRecoveryRecoveryPlanCreateOptions(
     [CommandSwitch("--provider-input")]
     public string? ProviderInput { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzPipelinesFolderDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

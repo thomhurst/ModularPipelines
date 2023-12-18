@@ -23,4 +23,3 @@ public record AzStorageAccountPrivateEndpointConnectionDeleteOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

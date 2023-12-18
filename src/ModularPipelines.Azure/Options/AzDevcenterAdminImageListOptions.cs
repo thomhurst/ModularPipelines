@@ -20,4 +20,3 @@ public record AzDevcenterAdminImageListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

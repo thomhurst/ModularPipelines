@@ -42,4 +42,3 @@ public class AzVmNic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

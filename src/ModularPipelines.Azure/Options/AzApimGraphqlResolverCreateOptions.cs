@@ -18,4 +18,3 @@ public record AzApimGraphqlResolverCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

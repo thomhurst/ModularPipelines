@@ -23,4 +23,3 @@ public record AzNetworkCrossConnectionShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

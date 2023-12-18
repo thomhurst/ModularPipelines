@@ -15,4 +15,3 @@ public record AzAcrPipelineRunDeleteOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

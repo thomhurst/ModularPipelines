@@ -44,4 +44,3 @@ public record AzKeyvaultKeyRestoreOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

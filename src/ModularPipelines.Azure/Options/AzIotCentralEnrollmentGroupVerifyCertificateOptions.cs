@@ -26,4 +26,3 @@ public record AzIotCentralEnrollmentGroupVerifyCertificateOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

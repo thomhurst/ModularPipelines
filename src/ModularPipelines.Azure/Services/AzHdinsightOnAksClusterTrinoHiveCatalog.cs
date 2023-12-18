@@ -22,4 +22,3 @@ public class AzHdinsightOnAksClusterTrinoHiveCatalog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

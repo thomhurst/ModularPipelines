@@ -14,4 +14,3 @@ public record AzVmwarePrivateCloudIdentityAssignOptions(
     [BooleanCommandSwitch("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 }
-

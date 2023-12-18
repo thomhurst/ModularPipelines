@@ -28,4 +28,3 @@ public record AzMlComputetargetComputeinstanceStopOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

@@ -46,4 +46,3 @@ public class AzRelayHyco
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoUpdateOptions(), token);
     }
 }
-

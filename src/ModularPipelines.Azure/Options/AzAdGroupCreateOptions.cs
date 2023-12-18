@@ -17,4 +17,3 @@ public record AzAdGroupCreateOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzIotDpsEnrollmentListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

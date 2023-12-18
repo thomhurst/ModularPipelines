@@ -17,4 +17,3 @@ public record AzCosmosdbServiceListCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--size")]
     public string? Size { get; set; }
 }
-

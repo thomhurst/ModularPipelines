@@ -56,4 +56,3 @@ public record AzNetappfilesAccountBackupPolicyUpdateOptions : AzOptions
     [CommandSwitch("--weekly-backups")]
     public string? WeeklyBackups { get; set; }
 }
-

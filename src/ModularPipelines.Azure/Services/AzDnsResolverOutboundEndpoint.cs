@@ -47,4 +47,3 @@ public class AzDnsResolverOutboundEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverOutboundEndpointWaitOptions(), token);
     }
 }
-

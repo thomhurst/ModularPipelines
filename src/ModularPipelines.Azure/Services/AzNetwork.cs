@@ -207,4 +207,3 @@ public class AzNetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

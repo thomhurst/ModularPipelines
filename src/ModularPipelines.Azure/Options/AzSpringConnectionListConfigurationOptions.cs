@@ -26,4 +26,3 @@ public record AzSpringConnectionListConfigurationOptions : AzOptions
     [CommandSwitch("--service")]
     public string? Service { get; set; }
 }
-

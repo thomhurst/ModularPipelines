@@ -19,4 +19,3 @@ public record AzDtTwinComponentUpdateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

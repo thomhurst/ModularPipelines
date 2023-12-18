@@ -20,4 +20,3 @@ public record AzMariadbServerLogsListOptions(
     [CommandSwitch("--max-file-size")]
     public string? MaxFileSize { get; set; }
 }
-

@@ -210,4 +210,3 @@ public record AzHdinsightOnAksClusterCreateOptions(
     [BooleanCommandSwitch("--worker-debug-suspend")]
     public bool? WorkerDebugSuspend { get; set; }
 }
-

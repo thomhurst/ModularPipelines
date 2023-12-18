@@ -17,4 +17,3 @@ public record AzAliasCreateOptions(
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

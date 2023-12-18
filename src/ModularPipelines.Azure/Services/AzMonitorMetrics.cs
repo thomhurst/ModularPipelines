@@ -36,4 +36,3 @@ public class AzMonitorMetrics
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

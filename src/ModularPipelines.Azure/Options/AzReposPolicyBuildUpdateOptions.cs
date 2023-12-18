@@ -52,4 +52,3 @@ public record AzReposPolicyBuildUpdateOptions(
     [CommandSwitch("--valid-duration")]
     public string? ValidDuration { get; set; }
 }
-

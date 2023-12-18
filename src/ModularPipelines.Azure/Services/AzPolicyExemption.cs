@@ -42,4 +42,3 @@ public class AzPolicyExemption
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

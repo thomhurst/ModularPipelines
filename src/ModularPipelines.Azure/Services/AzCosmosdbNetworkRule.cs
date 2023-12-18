@@ -32,4 +32,3 @@ public class AzCosmosdbNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

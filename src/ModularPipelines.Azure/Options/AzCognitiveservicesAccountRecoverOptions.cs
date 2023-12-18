@@ -30,4 +30,3 @@ public record AzCognitiveservicesAccountRecoverOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

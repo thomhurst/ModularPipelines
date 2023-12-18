@@ -20,4 +20,3 @@ public record AzStaticwebappIdentityAssignOptions(
     [CommandSwitch("--scope")]
     public string? Scope { get; set; }
 }
-

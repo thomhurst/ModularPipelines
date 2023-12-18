@@ -32,4 +32,3 @@ public class AzBatchPoolAutoscale
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

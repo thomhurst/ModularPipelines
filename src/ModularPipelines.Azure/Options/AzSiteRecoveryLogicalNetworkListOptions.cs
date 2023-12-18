@@ -18,4 +18,3 @@ public record AzSiteRecoveryLogicalNetworkListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

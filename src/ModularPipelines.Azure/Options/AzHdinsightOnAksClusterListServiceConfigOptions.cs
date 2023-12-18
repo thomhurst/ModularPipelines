@@ -18,4 +18,3 @@ public record AzHdinsightOnAksClusterListServiceConfigOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

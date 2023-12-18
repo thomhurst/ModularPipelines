@@ -22,4 +22,3 @@ public record AzMobileNetworkPcdpCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

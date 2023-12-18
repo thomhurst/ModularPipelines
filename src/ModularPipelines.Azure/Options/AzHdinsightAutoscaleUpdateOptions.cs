@@ -23,4 +23,3 @@ public record AzHdinsightAutoscaleUpdateOptions(
     [CommandSwitch("--timezone")]
     public string? Timezone { get; set; }
 }
-

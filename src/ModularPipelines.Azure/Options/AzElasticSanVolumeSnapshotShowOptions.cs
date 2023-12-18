@@ -26,4 +26,3 @@ public record AzElasticSanVolumeSnapshotShowOptions : AzOptions
     [CommandSwitch("--volume-group")]
     public string? VolumeGroup { get; set; }
 }
-

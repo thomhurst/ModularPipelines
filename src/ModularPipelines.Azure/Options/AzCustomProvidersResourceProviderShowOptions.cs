@@ -14,4 +14,3 @@ public record AzCustomProvidersResourceProviderShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

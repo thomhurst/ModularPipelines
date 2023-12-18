@@ -29,4 +29,3 @@ public record AzScvmmVmTemplateDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

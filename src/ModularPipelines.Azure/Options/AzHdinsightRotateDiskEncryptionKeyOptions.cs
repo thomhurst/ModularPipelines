@@ -17,4 +17,3 @@ public record AzHdinsightRotateDiskEncryptionKeyOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

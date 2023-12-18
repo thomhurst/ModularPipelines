@@ -16,4 +16,3 @@ public record AzQuantumJobCancelOptions(
     [CommandSwitch("--item")]
     public string? Item { get; set; }
 }
-

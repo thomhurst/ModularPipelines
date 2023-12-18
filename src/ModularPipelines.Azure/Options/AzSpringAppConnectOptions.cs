@@ -21,4 +21,3 @@ public record AzSpringAppConnectOptions(
     [CommandSwitch("--shell-cmd")]
     public string? ShellCmd { get; set; }
 }
-

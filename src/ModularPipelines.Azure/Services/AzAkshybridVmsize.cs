@@ -22,4 +22,3 @@ public class AzAkshybridVmsize
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

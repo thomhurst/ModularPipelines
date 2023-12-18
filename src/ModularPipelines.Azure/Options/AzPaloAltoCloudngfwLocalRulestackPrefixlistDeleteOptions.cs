@@ -23,4 +23,3 @@ public record AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

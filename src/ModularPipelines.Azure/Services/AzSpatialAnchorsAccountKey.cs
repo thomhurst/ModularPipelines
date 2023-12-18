@@ -27,4 +27,3 @@ public class AzSpatialAnchorsAccountKey
         return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountKeyShowOptions(), token);
     }
 }
-

@@ -13,4 +13,3 @@ public record AzHdinsightListUsageOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

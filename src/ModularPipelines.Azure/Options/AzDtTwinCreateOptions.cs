@@ -21,4 +21,3 @@ public record AzDtTwinCreateOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzFunctionappApp
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappAppUpOptions(), token);
     }
 }
-

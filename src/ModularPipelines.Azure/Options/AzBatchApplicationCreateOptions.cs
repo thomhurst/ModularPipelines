@@ -15,4 +15,3 @@ public record AzBatchApplicationCreateOptions(
     [CommandSwitch("--parameters")]
     public string[]? Parameters { get; set; }
 }
-

@@ -41,4 +41,3 @@ public class AzPpg
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

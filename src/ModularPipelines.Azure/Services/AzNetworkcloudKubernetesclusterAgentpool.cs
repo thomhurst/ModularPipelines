@@ -47,4 +47,3 @@ public class AzNetworkcloudKubernetesclusterAgentpool
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolWaitOptions(), token);
     }
 }
-

@@ -38,4 +38,3 @@ public record AzContainerappIngressCorsUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

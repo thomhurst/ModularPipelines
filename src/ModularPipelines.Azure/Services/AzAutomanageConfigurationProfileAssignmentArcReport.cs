@@ -27,4 +27,3 @@ public class AzAutomanageConfigurationProfileAssignmentArcReport
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcReportShowOptions(), token);
     }
 }
-

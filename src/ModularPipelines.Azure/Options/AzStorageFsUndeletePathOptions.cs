@@ -33,4 +33,3 @@ public record AzStorageFsUndeletePathOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

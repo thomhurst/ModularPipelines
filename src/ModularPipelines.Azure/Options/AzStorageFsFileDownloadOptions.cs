@@ -38,4 +38,3 @@ public record AzStorageFsFileDownloadOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

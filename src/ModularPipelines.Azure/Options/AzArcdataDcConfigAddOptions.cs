@@ -21,4 +21,3 @@ public record AzArcdataDcConfigAddOptions(
     [CommandSwitch("--target")]
     public string? Target { get; set; }
 }
-

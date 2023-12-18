@@ -49,4 +49,3 @@ public record AzDatashareDataSetMappingCreateOptions(
     [CommandSwitch("--synapse-workspace-sql-pool-table-data-set-mapping")]
     public string? SynapseWorkspaceSqlPoolTableDataSetMapping { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzKeyvaultKeyListDeletedOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

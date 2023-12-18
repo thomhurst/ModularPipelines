@@ -50,4 +50,3 @@ public record AzGuestconfigGuestConfigurationAssignmentUpdateOptions : AzOptions
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

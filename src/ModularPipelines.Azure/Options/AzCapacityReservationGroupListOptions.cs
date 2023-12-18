@@ -16,4 +16,3 @@ public record AzCapacityReservationGroupListOptions(
     [CommandSwitch("--vmss-instance")]
     public string? VmssInstance { get; set; }
 }
-

@@ -45,4 +45,3 @@ public class AzEventhubsNamespaceNetworkRuleSet
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetUpdateOptions(), token);
     }
 }
-

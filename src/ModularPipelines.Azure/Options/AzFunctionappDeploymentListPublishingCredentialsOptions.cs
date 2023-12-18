@@ -23,4 +23,3 @@ public record AzFunctionappDeploymentListPublishingCredentialsOptions : AzOption
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

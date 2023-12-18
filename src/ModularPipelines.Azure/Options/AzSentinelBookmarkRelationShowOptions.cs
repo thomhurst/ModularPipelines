@@ -26,4 +26,3 @@ public record AzSentinelBookmarkRelationShowOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

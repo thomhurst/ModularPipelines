@@ -27,4 +27,3 @@ public class AzKeyvaultKeyRotationPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -15,4 +15,3 @@ public record AzGroupLockCreateOptions(
     [CommandSwitch("--notes")]
     public string? Notes { get; set; }
 }
-

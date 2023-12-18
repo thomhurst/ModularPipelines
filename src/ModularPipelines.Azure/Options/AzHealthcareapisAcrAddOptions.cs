@@ -20,4 +20,3 @@ public record AzHealthcareapisAcrAddOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzAksUpgradeAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

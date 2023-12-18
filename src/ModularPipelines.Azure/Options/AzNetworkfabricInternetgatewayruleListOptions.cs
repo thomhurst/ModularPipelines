@@ -11,4 +11,3 @@ public record AzNetworkfabricInternetgatewayruleListOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

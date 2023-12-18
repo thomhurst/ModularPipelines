@@ -124,4 +124,3 @@ public class AzSphereDevice
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

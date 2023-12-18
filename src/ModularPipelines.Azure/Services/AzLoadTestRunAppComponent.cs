@@ -32,4 +32,3 @@ public class AzLoadTestRunAppComponent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

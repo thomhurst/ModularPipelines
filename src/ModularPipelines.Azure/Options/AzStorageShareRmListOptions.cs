@@ -19,4 +19,3 @@ public record AzStorageShareRmListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -41,4 +41,3 @@ public class AzBackupRestore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

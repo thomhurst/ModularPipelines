@@ -52,4 +52,3 @@ public class AzVmRunCommand
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandWaitOptions(), token);
     }
 }
-

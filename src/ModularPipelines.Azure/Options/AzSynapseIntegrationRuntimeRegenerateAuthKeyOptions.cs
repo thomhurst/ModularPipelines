@@ -29,4 +29,3 @@ public record AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

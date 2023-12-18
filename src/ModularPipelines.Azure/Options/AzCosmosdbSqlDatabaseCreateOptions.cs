@@ -18,4 +18,3 @@ public record AzCosmosdbSqlDatabaseCreateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

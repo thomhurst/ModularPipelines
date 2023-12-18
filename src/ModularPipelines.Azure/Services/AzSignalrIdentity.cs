@@ -32,4 +32,3 @@ public class AzSignalrIdentity
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrIdentityShowOptions(), token);
     }
 }
-

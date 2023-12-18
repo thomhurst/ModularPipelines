@@ -22,4 +22,3 @@ public class AzSentinelEnrichmentIpGeodata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

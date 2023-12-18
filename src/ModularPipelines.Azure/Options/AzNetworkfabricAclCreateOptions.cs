@@ -36,4 +36,3 @@ public record AzNetworkfabricAclCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

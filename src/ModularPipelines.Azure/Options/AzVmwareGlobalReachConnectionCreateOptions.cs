@@ -24,4 +24,3 @@ public record AzVmwareGlobalReachConnectionCreateOptions(
     [CommandSwitch("--peer-express-route-circuit")]
     public string? PeerExpressRouteCircuit { get; set; }
 }
-

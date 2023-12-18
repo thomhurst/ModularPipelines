@@ -15,4 +15,3 @@ public record AzSqlInstanceFailoverGroupDeleteOptions(
     [BooleanCommandSwitch("--allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 }
-

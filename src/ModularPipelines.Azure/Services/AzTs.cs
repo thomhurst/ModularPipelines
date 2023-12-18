@@ -46,4 +46,3 @@ public class AzTs
         return await _command.ExecuteCommandLineTool(options ?? new AzTsUpdateOptions(), token);
     }
 }
-

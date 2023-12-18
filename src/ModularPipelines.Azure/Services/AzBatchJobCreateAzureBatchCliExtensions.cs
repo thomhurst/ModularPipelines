@@ -22,4 +22,3 @@ public class AzBatchJobCreateAzureBatchCliExtensions
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

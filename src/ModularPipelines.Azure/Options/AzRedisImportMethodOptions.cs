@@ -28,4 +28,3 @@ public record AzRedisImportMethodOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

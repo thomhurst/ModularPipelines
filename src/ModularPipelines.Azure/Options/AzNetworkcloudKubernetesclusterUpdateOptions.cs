@@ -41,4 +41,3 @@ public record AzNetworkcloudKubernetesclusterUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzIotOpsSupport
         return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsSupportCreateBundleOptions(), token);
     }
 }
-

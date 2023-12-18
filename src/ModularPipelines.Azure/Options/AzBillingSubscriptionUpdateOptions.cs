@@ -19,4 +19,3 @@ public record AzBillingSubscriptionUpdateOptions(
     [CommandSwitch("--subscription-billing-status")]
     public string? SubscriptionBillingStatus { get; set; }
 }
-

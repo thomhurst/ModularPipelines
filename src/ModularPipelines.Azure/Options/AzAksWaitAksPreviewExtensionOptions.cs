@@ -32,4 +32,3 @@ public record AzAksWaitAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

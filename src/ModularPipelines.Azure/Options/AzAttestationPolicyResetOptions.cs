@@ -22,4 +22,3 @@ public record AzAttestationPolicyResetOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

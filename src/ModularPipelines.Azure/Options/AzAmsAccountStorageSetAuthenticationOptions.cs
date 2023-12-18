@@ -31,4 +31,3 @@ public record AzAmsAccountStorageSetAuthenticationOptions(
     [CommandSwitch("--user-assigned")]
     public string? UserAssigned { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzIotHubDeviceIdentityParent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

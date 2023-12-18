@@ -47,4 +47,3 @@ public class AzVmwareWorkloadNetworkSegment
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentWaitOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzMobileNetworkSlice
         return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSliceWaitOptions(), token);
     }
 }
-

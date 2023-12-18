@@ -72,4 +72,3 @@ public class AzBackupProtection
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionUpdateForVmOptions(), token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzDevopsSecurityPermissionListOptions(
     [CommandSwitch("--token")]
     public string? Token { get; set; }
 }
-

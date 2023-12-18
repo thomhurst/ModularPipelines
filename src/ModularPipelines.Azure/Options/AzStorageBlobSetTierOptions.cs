@@ -46,4 +46,3 @@ public record AzStorageBlobSetTierOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

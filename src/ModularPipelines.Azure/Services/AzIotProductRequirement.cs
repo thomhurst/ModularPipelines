@@ -22,4 +22,3 @@ public class AzIotProductRequirement
         return await _command.ExecuteCommandLineTool(options ?? new AzIotProductRequirementListOptions(), token);
     }
 }
-

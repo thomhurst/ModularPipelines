@@ -27,4 +27,3 @@ public class AzDlaCatalogTable
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

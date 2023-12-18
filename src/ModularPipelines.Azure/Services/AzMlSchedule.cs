@@ -52,4 +52,3 @@ public class AzMlSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

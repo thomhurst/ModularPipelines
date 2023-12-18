@@ -20,4 +20,3 @@ public record AzNetworkApplicationGatewayIdentityRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

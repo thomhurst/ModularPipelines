@@ -19,4 +19,3 @@ public record AzNetworkPrivateEndpointDnsZoneGroupAddOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

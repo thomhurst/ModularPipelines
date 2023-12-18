@@ -56,4 +56,3 @@ public record AzSpringConnectionUpdateCosmosSqlOptions : AzOptions
     [CommandSwitch("--vault-id")]
     public string? VaultId { get; set; }
 }
-

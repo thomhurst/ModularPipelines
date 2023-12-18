@@ -47,4 +47,3 @@ public class AzAdUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

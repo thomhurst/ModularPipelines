@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Git.Models;
+namespace ModularPipelines.Git.Models;
 
 public record GitAuthor
 {

@@ -32,4 +32,3 @@ public class AzArcapplianceDelete
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

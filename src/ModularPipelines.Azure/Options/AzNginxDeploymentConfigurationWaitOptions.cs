@@ -44,4 +44,3 @@ public record AzNginxDeploymentConfigurationWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

@@ -36,4 +36,3 @@ public class AzStorageBlobCopy
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyStartBatchOptions(), token);
     }
 }
-

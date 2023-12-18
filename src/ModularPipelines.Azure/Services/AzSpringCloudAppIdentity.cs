@@ -37,4 +37,3 @@ public class AzSpringCloudAppIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

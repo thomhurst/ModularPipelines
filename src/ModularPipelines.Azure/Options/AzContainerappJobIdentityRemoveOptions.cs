@@ -32,4 +32,3 @@ public record AzContainerappJobIdentityRemoveOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

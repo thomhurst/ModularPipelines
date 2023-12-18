@@ -42,4 +42,3 @@ public class AzEventhubsEventhubConsumerGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupUpdateOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzNetworkFrontDoorWafPolicyManagedRuleDefinition
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyManagedRuleDefinitionListOptions(), token);
     }
 }
-

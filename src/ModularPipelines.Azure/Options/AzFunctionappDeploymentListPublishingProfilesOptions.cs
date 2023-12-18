@@ -26,4 +26,3 @@ public record AzFunctionappDeploymentListPublishingProfilesOptions : AzOptions
     [BooleanCommandSwitch("--xml")]
     public bool? Xml { get; set; }
 }
-

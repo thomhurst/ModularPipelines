@@ -18,4 +18,3 @@ public record AzMlDatastoreCreateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

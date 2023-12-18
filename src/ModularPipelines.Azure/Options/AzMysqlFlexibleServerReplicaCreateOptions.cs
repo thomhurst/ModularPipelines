@@ -54,4 +54,3 @@ public record AzMysqlFlexibleServerReplicaCreateOptions(
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }
-

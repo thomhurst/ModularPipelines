@@ -27,4 +27,3 @@ public class AzSecuritySecureScoreControls
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

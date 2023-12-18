@@ -22,4 +22,3 @@ public record AzNetappfilesSubvolumeListOptions(
     [CommandSwitch("--subvolume-name")]
     public string? SubvolumeName { get; set; }
 }
-

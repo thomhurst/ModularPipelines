@@ -22,4 +22,3 @@ public record AzPostgresFlexibleServerMigrationShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzAdUserDeleteOptions(
     [BooleanCommandSwitch("--security-enabled-only")]
     public bool? SecurityEnabledOnly { get; set; }
 }
-

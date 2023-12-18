@@ -23,4 +23,3 @@ public record AzKustoDatabaseDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

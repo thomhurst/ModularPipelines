@@ -50,4 +50,3 @@ public class AzBatchApplication
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

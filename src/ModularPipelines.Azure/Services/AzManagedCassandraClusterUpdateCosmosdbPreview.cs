@@ -22,4 +22,3 @@ public class AzManagedCassandraClusterUpdateCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

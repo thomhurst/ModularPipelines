@@ -22,4 +22,3 @@ public class AzCognitiveservicesUsage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

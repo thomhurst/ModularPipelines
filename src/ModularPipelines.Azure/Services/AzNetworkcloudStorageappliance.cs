@@ -47,4 +47,3 @@ public class AzNetworkcloudStorageappliance
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceWaitOptions(), token);
     }
 }
-

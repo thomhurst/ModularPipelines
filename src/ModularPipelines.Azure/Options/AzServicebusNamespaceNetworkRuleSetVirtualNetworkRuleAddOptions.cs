@@ -14,4 +14,3 @@ public record AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions(
     [CommandSwitch("--subnet")]
     public string? Subnet { get; set; }
 }
-

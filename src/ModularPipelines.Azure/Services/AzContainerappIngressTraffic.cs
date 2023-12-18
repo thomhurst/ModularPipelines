@@ -27,4 +27,3 @@ public class AzContainerappIngressTraffic
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressTrafficShowOptions(), token);
     }
 }
-

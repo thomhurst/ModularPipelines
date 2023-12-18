@@ -22,4 +22,3 @@ public class AzAksarcVmsize
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

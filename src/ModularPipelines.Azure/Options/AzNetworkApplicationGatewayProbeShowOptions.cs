@@ -63,4 +63,3 @@ public record AzNetworkApplicationGatewayProbeShowOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

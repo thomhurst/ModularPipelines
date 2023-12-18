@@ -62,4 +62,3 @@ public class AzPartnercenterMarketplaceOffer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -13,4 +13,3 @@ public record AzAccountManagementGroupListOptions(
     [BooleanCommandSwitch("--no-register")]
     public bool? NoRegister { get; set; }
 }
-

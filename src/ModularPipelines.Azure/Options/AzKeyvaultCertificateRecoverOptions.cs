@@ -19,4 +19,3 @@ public record AzKeyvaultCertificateRecoverOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

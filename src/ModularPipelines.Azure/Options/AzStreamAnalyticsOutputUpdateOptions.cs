@@ -27,4 +27,3 @@ public record AzStreamAnalyticsOutputUpdateOptions(
     [CommandSwitch("--time-window")]
     public string? TimeWindow { get; set; }
 }
-

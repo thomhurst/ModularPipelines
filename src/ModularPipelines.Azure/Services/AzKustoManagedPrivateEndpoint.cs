@@ -47,4 +47,3 @@ public class AzKustoManagedPrivateEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoManagedPrivateEndpointWaitOptions(), token);
     }
 }
-

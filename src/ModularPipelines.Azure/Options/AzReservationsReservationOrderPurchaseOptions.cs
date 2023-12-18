@@ -55,4 +55,3 @@ public record AzReservationsReservationOrderPurchaseOptions(
     [CommandSwitch("--term")]
     public string? Term { get; set; }
 }
-

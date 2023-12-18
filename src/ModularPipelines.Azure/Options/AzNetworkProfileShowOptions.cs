@@ -23,4 +23,3 @@ public record AzNetworkProfileShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

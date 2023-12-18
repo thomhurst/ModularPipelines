@@ -23,4 +23,3 @@ public record AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

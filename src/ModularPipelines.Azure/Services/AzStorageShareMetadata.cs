@@ -27,4 +27,3 @@ public class AzStorageShareMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

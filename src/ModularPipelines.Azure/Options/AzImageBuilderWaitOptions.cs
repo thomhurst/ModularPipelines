@@ -41,4 +41,3 @@ public record AzImageBuilderWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

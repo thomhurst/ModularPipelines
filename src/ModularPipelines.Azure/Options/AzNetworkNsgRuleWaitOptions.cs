@@ -44,4 +44,3 @@ public record AzNetworkNsgRuleWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

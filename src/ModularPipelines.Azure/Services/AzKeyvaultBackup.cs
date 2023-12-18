@@ -22,4 +22,3 @@ public class AzKeyvaultBackup
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultBackupStartOptions(), token);
     }
 }
-

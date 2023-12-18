@@ -32,4 +32,3 @@ public class AzReposPrWorkItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

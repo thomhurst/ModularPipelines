@@ -21,4 +21,3 @@ public record AzBatchNodeRemoteDesktopDownloadOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

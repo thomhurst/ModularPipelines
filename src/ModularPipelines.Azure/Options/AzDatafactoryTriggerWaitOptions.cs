@@ -47,4 +47,3 @@ public record AzDatafactoryTriggerWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

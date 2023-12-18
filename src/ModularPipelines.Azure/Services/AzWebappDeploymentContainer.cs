@@ -27,4 +27,3 @@ public class AzWebappDeploymentContainer
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerShowCdUrlOptions(), token);
     }
 }
-

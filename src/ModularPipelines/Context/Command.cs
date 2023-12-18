@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using CliWrap;
 using CliWrap.Buffered;

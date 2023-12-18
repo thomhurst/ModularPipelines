@@ -47,4 +47,3 @@ public class AzNetworkVhubConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubConnectionWaitOptions(), token);
     }
 }
-

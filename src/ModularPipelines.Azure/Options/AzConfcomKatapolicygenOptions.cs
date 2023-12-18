@@ -25,4 +25,3 @@ public record AzConfcomKatapolicygenOptions(
     [BooleanCommandSwitch("--use-cached-files")]
     public bool? UseCachedFiles { get; set; }
 }
-

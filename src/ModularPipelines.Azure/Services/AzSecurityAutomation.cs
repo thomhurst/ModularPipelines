@@ -42,4 +42,3 @@ public class AzSecurityAutomation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

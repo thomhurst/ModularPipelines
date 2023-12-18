@@ -26,4 +26,3 @@ public record AzNetworkcloudTrunkednetworkCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

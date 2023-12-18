@@ -29,4 +29,3 @@ public record AzBackupRestoreFilesUnmountRpOptions : AzOptions
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet;

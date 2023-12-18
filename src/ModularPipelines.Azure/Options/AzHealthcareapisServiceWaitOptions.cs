@@ -41,4 +41,3 @@ public record AzHealthcareapisServiceWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

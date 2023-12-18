@@ -23,4 +23,3 @@ public record AzKustoPrivateEndpointConnectionShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -173,4 +173,3 @@ public record AzStorageAccountUpdateStoragePreviewExtensionOptions : AzOptions
     [CommandSwitch("--user-identity-id")]
     public string? UserIdentityId { get; set; }
 }
-

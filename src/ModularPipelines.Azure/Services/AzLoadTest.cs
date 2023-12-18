@@ -59,4 +59,3 @@ public class AzLoadTest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -53,4 +53,3 @@ public record AzElasticSanUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

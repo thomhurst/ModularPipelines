@@ -27,4 +27,3 @@ public class AzOffazureVmwareRunAsAccount
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareRunAsAccountShowOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public record AzStorageShareRmExistsOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

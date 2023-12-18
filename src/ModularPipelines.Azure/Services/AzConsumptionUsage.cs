@@ -22,4 +22,3 @@ public class AzConsumptionUsage
         return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionUsageListOptions(), token);
     }
 }
-

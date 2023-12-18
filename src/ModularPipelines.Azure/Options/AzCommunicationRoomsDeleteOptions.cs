@@ -16,4 +16,3 @@ public record AzCommunicationRoomsDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

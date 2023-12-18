@@ -22,4 +22,3 @@ public record AzIotDeviceC2dMessageRejectOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

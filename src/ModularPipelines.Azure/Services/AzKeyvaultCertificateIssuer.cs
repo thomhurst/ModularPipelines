@@ -46,4 +46,3 @@ public class AzKeyvaultCertificateIssuer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

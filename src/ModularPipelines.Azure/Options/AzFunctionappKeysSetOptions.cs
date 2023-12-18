@@ -19,4 +19,3 @@ public record AzFunctionappKeysSetOptions(
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 }
-

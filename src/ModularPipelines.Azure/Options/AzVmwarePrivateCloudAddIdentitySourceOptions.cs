@@ -25,4 +25,3 @@ public record AzVmwarePrivateCloudAddIdentitySourceOptions(
     [CommandSwitch("--ssl")]
     public string? Ssl { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzKustoDatabaseWaitKusto
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseWaitKustoExtensionOptions(), token);
     }
 }
-

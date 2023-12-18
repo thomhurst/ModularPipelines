@@ -21,4 +21,3 @@ public record AzServicebusTopicSubscriptionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public class AzBotFacebook
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

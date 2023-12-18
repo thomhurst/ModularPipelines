@@ -26,4 +26,3 @@ public record AzBoardsQueryOptions : AzOptions
     [CommandSwitch("--wiql")]
     public string? Wiql { get; set; }
 }
-

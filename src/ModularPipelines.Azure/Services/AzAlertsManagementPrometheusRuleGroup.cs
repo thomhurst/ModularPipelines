@@ -42,4 +42,3 @@ public class AzAlertsManagementPrometheusRuleGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzAlertsManagementPrometheusRuleGroupUpdateOptions(), token);
     }
 }
-

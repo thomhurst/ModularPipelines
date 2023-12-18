@@ -32,4 +32,3 @@ public class AzVmwareVm
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareVmShowOptions(), token);
     }
 }
-

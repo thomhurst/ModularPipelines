@@ -56,4 +56,3 @@ public record AzKustoDataConnectionIotHubDataConnectionValidationOptions : AzOpt
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

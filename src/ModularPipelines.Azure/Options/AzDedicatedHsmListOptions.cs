@@ -14,4 +14,3 @@ public record AzDedicatedHsmListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -52,4 +52,3 @@ public record AzBillingBenefitsReservationOrderAliasesCreateOptions(
     [CommandSwitch("--term")]
     public string? Term { get; set; }
 }
-

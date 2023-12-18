@@ -62,4 +62,3 @@ public record AzNetworkCrossConnectionPeeringUpdateOptions : AzOptions
     [CommandSwitch("--vlan-id")]
     public string? VlanId { get; set; }
 }
-

@@ -27,4 +27,3 @@ public record AzNetworkfabricFabricCommitConfigurationOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzMlOnlineDeploymentGetLogsOptions(
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 }
-

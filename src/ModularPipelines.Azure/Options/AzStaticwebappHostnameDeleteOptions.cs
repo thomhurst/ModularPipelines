@@ -20,4 +20,3 @@ public record AzStaticwebappHostnameDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

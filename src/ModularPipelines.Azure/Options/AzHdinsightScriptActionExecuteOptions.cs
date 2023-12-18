@@ -20,4 +20,3 @@ public record AzHdinsightScriptActionExecuteOptions(
     [CommandSwitch("--script-parameters")]
     public string? ScriptParameters { get; set; }
 }
-

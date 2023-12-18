@@ -17,4 +17,3 @@ public class AzDevopsAdmin
 
     public AzDevopsAdminBanner Banner { get; }
 }
-

@@ -17,4 +17,3 @@ public class AzStorageAccountMigrationShow
 
     public AzStorageAccountMigrationShowStoragePreview StoragePreview { get; }
 }
-

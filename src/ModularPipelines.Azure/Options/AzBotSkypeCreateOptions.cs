@@ -41,4 +41,3 @@ public record AzBotSkypeCreateOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

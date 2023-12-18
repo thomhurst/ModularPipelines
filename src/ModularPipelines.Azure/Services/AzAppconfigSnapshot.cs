@@ -42,4 +42,3 @@ public class AzAppconfigSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewayFrontendIp
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayFrontendIpWaitOptions(), token);
     }
 }
-

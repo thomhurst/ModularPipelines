@@ -42,4 +42,3 @@ public class AzWebpubsubHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

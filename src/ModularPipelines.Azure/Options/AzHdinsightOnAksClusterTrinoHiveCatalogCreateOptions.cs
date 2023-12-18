@@ -16,4 +16,3 @@ public record AzHdinsightOnAksClusterTrinoHiveCatalogCreateOptions(
     [CommandSwitch("--metastore-warehouse-dir")]
     public string? MetastoreWarehouseDir { get; set; }
 }
-

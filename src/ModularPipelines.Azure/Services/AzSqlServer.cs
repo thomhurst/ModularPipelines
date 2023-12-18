@@ -109,4 +109,3 @@ public class AzSqlServer
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerWaitOptions(), token);
     }
 }
-

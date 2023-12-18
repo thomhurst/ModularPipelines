@@ -40,4 +40,3 @@ public class AzAzurestackhci
 
     public AzAzurestackhciVirtualnetwork Virtualnetwork { get; }
 }
-

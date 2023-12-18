@@ -31,4 +31,3 @@ public record AzArcapplianceDeleteVmwareOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

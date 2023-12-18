@@ -18,4 +18,3 @@ public record AzAkshybridNodepoolDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

@@ -27,4 +27,3 @@ public class AzMonitorPrivateLinkScopePrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateLinkResourceShowOptions(), token);
     }
 }
-

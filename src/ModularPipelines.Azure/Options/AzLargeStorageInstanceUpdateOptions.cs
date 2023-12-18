@@ -23,4 +23,3 @@ public record AzLargeStorageInstanceUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

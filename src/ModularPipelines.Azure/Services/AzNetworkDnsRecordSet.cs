@@ -70,4 +70,3 @@ public class AzNetworkDnsRecordSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

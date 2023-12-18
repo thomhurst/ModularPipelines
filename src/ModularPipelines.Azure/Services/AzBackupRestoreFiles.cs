@@ -27,4 +27,3 @@ public class AzBackupRestoreFiles
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreFilesUnmountRpOptions(), token);
     }
 }
-

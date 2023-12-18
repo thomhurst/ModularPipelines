@@ -17,4 +17,3 @@ public class AzStorageContainerGenerateSas
 
     public AzStorageContainerGenerateSasStorageBlobPreview StorageBlobPreview { get; }
 }
-

@@ -21,4 +21,3 @@ public record AzStreamAnalyticsPrivateEndpointCreateOptions(
     [CommandSwitch("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 }
-

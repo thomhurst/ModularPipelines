@@ -18,4 +18,3 @@ public record AzDmsProjectCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

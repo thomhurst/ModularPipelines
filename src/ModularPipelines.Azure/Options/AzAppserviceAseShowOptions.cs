@@ -13,4 +13,3 @@ public record AzAppserviceAseShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

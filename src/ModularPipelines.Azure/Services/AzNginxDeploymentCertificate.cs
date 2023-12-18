@@ -47,4 +47,3 @@ public class AzNginxDeploymentCertificate
         return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateWaitOptions(), token);
     }
 }
-

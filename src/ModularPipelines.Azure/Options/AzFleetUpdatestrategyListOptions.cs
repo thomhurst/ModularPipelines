@@ -32,4 +32,3 @@ public record AzFleetUpdatestrategyListOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

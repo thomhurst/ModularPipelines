@@ -19,4 +19,3 @@ public record AzNetworkNicIpConfigAddressPoolRemoveOptions(
     [CommandSwitch("--lb-name")]
     public string? LbName { get; set; }
 }
-

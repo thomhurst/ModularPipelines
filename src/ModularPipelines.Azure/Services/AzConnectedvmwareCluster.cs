@@ -37,4 +37,3 @@ public class AzConnectedvmwareCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareClusterShowOptions(), token);
     }
 }
-

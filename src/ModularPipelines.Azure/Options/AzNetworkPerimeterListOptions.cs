@@ -17,4 +17,3 @@ public record AzNetworkPerimeterListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -20,4 +20,3 @@ public record AzDatashareAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzDevcenterAdminAttachedNetworkListOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

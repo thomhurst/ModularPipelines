@@ -32,4 +32,3 @@ public record AzCsvmwareVmCreateOptions(
     [CommandSwitch("--ram")]
     public string? Ram { get; set; }
 }
-

@@ -46,4 +46,3 @@ public record AzKeyvaultUpdateHsmOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

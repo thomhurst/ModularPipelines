@@ -37,4 +37,3 @@ public class AzWebappWebjobContinuous
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

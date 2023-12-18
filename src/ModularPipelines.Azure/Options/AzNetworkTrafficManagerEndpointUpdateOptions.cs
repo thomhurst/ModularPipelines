@@ -68,4 +68,3 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }
 }
-

@@ -42,4 +42,3 @@ public class AzNetworkApplicationGatewayPrivateLinkIpConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayPrivateLinkIpConfigWaitOptions(), token);
     }
 }
-

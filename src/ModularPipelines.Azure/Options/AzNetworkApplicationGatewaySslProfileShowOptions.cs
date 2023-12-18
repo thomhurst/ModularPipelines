@@ -48,4 +48,3 @@ public record AzNetworkApplicationGatewaySslProfileShowOptions(
     [CommandSwitch("--trusted-client-cert")]
     public string? TrustedClientCert { get; set; }
 }
-

@@ -17,4 +17,3 @@ public class AzFunctionappCreate
 
     public AzFunctionappCreateAppserviceKube AppserviceKube { get; }
 }
-

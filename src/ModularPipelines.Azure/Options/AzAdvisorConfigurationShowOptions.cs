@@ -11,4 +11,3 @@ public record AzAdvisorConfigurationShowOptions : AzOptions
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

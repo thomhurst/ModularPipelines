@@ -47,4 +47,3 @@ public class AzNetworkfabricIpprefix
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixWaitOptions(), token);
     }
 }
-

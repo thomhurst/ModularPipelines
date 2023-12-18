@@ -22,4 +22,3 @@ public record AzProviderhubDefaultRolloutDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

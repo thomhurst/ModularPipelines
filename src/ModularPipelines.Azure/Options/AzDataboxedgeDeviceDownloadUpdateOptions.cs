@@ -23,4 +23,3 @@ public record AzDataboxedgeDeviceDownloadUpdateOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzConnectedmachineExtensionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

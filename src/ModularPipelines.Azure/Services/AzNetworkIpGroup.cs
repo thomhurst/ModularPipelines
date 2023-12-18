@@ -42,4 +42,3 @@ public class AzNetworkIpGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

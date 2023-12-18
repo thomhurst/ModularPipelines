@@ -15,4 +15,3 @@ public record AzDatafactoryManagedVirtualNetworkCreateOptions(
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
 }
-

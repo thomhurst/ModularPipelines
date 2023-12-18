@@ -27,4 +27,3 @@ public class AzStorageMoverJobRun
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobRunShowOptions(), token);
     }
 }
-

@@ -22,4 +22,3 @@ public class AzRedisenterpriseOperationStatus
         return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseOperationStatusShowOptions(), token);
     }
 }
-

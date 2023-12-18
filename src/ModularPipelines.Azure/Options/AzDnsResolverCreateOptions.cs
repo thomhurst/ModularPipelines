@@ -27,4 +27,3 @@ public record AzDnsResolverCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

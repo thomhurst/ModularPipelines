@@ -47,4 +47,3 @@ public class AzAmsJob
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobUpdateOptions(), token);
     }
 }
-

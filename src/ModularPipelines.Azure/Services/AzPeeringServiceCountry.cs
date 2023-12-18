@@ -22,4 +22,3 @@ public class AzPeeringServiceCountry
         return await _command.ExecuteCommandLineTool(options ?? new AzPeeringServiceCountryListOptions(), token);
     }
 }
-

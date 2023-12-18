@@ -22,4 +22,3 @@ public record AzApimApiReleaseCreateOptions(
     [CommandSwitch("--release-id")]
     public string? ReleaseId { get; set; }
 }
-

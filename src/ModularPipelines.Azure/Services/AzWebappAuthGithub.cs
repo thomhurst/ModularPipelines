@@ -27,4 +27,3 @@ public class AzWebappAuthGithub
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGithubUpdateOptions(), token);
     }
 }
-

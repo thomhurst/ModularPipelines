@@ -22,4 +22,3 @@ public record AzNotificationHubNamespaceAuthorizationRuleCreateOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

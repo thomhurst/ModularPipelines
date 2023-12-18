@@ -31,4 +31,3 @@ public record AzPipelinesReleaseListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -13,4 +13,3 @@ public record AzSigListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

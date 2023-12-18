@@ -52,4 +52,3 @@ public class AzStorageContainerRm
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmUpdateOptions(), token);
     }
 }
-

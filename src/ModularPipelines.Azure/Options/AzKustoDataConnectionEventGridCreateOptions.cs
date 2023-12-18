@@ -52,4 +52,3 @@ public record AzKustoDataConnectionEventGridCreateOptions(
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }
 }
-

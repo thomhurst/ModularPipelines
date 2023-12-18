@@ -22,4 +22,3 @@ public class AzKeyvaultPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateLinkResourceListOptions(), token);
     }
 }
-

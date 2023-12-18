@@ -14,4 +14,3 @@ public record AzBotKikShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

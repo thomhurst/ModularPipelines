@@ -16,4 +16,3 @@ public record AzMlPipelinePipelineRunsListOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

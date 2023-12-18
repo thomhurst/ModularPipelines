@@ -96,4 +96,3 @@ public record AzAfdRuleCreateOptions(
     [CommandSwitch("--transforms")]
     public string? Transforms { get; set; }
 }
-

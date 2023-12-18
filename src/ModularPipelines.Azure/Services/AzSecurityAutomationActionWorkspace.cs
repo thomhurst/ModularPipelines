@@ -22,4 +22,3 @@ public class AzSecurityAutomationActionWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

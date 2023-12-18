@@ -41,4 +41,3 @@ public record AzMonitorActivityLogListOptions : AzOptions
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

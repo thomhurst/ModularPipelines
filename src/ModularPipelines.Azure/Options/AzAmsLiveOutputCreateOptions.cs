@@ -27,4 +27,3 @@ public record AzAmsLiveOutputCreateOptions(
     [CommandSwitch("--output-snap-time")]
     public string? OutputSnapTime { get; set; }
 }
-

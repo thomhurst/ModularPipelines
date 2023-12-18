@@ -38,4 +38,3 @@ public record AzNetworkFirewallNatRuleCreateOptions(
     [CommandSwitch("--translated-fqdn")]
     public string? TranslatedFqdn { get; set; }
 }
-

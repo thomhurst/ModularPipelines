@@ -41,4 +41,3 @@ public class AzAutomanageConfigurationProfileAssignmentVm
         return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentVmUpdateOptions(), token);
     }
 }
-

@@ -47,4 +47,3 @@ public class AzVmHostGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupUpdateOptions(), token);
     }
 }
-

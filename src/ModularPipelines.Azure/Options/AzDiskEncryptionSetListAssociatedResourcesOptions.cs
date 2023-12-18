@@ -17,4 +17,3 @@ public record AzDiskEncryptionSetListAssociatedResourcesOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

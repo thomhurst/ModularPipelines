@@ -15,4 +15,3 @@ public record AzKeyvaultCertificateGetDefaultPolicyOptions(
     [BooleanCommandSwitch("--scaffold")]
     public bool? Scaffold { get; set; }
 }
-

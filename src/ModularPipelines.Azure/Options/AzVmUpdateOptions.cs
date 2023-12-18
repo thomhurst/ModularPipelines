@@ -101,4 +101,3 @@ public record AzVmUpdateOptions : AzOptions
     [CommandSwitch("--write-accelerator")]
     public string? WriteAccelerator { get; set; }
 }
-

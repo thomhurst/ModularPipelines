@@ -41,4 +41,3 @@ public record AzNetworkDdosProtectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

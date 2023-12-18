@@ -14,4 +14,3 @@ public record AzBotFacebookShowOptions(
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }
 }
-

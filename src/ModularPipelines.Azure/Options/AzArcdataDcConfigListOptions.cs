@@ -15,4 +15,3 @@ public record AzArcdataDcConfigListOptions(
     [CommandSwitch("--config-profile")]
     public string? ConfigProfile { get; set; }
 }
-

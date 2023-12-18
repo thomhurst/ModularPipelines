@@ -14,4 +14,3 @@ public record AzAksTrustedaccessRolebindingUpdateOptions(
 ) : AzOptions
 {
 }
-

@@ -29,4 +29,3 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions(
     [CommandSwitch("--policy-type")]
     public string? PolicyType { get; set; }
 }
-

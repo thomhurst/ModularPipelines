@@ -20,4 +20,3 @@ public record AzWebappConnectionListOptions : AzOptions
     [CommandSwitch("--source-id")]
     public string? SourceId { get; set; }
 }
-

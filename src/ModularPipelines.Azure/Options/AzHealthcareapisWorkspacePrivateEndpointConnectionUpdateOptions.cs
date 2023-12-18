@@ -41,4 +41,3 @@ public record AzHealthcareapisWorkspacePrivateEndpointConnectionUpdateOptions : 
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

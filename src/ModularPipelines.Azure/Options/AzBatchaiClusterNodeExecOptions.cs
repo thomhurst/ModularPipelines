@@ -27,4 +27,3 @@ public record AzBatchaiClusterNodeExecOptions(
     [CommandSwitch("--ssh-private-key")]
     public string? SshPrivateKey { get; set; }
 }
-

@@ -53,4 +53,3 @@ public class AzSphere
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

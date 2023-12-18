@@ -13,4 +13,3 @@ public record AzReposPrCheckoutOptions(
     [CommandSwitch("--remote-name")]
     public string? RemoteName { get; set; }
 }
-

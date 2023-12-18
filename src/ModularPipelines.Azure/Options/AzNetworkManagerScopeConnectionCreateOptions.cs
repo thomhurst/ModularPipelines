@@ -17,4 +17,3 @@ public record AzNetworkManagerScopeConnectionCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

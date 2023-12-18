@@ -23,4 +23,3 @@ public record AzBackupPolicyGetDefaultForVmOptions(
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }
 }
-

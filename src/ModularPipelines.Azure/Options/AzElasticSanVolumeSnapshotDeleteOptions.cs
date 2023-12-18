@@ -27,4 +27,3 @@ public record AzElasticSanVolumeSnapshotDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

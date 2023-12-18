@@ -20,4 +20,3 @@ public record AzMlFeatureStoreEntityShowOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

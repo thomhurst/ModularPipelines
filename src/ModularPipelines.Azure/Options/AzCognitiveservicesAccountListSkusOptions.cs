@@ -17,4 +17,3 @@ public record AzCognitiveservicesAccountListSkusOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 }
-

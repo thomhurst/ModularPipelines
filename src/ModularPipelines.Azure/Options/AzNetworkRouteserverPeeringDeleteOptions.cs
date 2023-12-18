@@ -26,4 +26,3 @@ public record AzNetworkRouteserverPeeringDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

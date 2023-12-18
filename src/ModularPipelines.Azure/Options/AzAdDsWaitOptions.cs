@@ -38,4 +38,3 @@ public record AzAdDsWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

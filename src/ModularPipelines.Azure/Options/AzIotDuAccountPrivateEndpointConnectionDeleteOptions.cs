@@ -17,4 +17,3 @@ public record AzIotDuAccountPrivateEndpointConnectionDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

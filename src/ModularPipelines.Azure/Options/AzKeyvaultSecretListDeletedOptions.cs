@@ -17,4 +17,3 @@ public record AzKeyvaultSecretListDeletedOptions(
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
 }
-

@@ -25,4 +25,3 @@ public record AzIotHubMessageEndpointDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

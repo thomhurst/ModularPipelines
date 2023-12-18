@@ -17,4 +17,3 @@ public class AzSpringCloudApplicationConfigurationServiceGit
 
     public AzSpringCloudApplicationConfigurationServiceGitRepo Repo { get; }
 }
-

@@ -15,4 +15,3 @@ public record AzPeeringRegisteredPrefixCreateOptions(
     [CommandSwitch("--prefix")]
     public string? Prefix { get; set; }
 }
-

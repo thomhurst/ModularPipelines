@@ -20,4 +20,3 @@ public record AzDevopsUserAddOptions(
     [BooleanCommandSwitch("--send-email-invite")]
     public bool? SendEmailInvite { get; set; }
 }
-

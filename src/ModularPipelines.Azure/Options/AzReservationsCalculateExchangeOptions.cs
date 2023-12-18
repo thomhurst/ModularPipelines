@@ -20,4 +20,3 @@ public record AzReservationsCalculateExchangeOptions : AzOptions
     [CommandSwitch("--sp-to-purchase")]
     public string? SpToPurchase { get; set; }
 }
-

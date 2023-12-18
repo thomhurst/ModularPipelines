@@ -23,4 +23,3 @@ public record AzSiteRecoveryVaultListProtectedItemOptions(
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }
 }
-

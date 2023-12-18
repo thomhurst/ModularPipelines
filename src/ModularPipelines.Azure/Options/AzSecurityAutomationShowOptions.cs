@@ -26,4 +26,3 @@ public record AzSecurityAutomationShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

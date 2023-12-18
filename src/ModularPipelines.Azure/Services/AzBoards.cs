@@ -33,4 +33,3 @@ public class AzBoards
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsQueryOptions(), token);
     }
 }
-

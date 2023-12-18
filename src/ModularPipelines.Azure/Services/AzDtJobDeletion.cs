@@ -32,4 +32,3 @@ public class AzDtJobDeletion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

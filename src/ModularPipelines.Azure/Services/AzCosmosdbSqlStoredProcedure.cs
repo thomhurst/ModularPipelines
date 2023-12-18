@@ -42,4 +42,3 @@ public class AzCosmosdbSqlStoredProcedure
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

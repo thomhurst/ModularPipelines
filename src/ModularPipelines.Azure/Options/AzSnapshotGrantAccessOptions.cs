@@ -25,4 +25,3 @@ public record AzSnapshotGrantAccessOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -28,4 +28,3 @@ public record AzArcapplianceDeleteHciOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

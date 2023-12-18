@@ -68,4 +68,3 @@ public record AzContainerappConnectionCreateSqlServiceconnectorPasswordlessExten
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

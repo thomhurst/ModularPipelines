@@ -20,4 +20,3 @@ public record AzLoadTestRunServerMetricAddOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

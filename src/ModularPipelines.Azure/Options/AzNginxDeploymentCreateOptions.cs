@@ -41,4 +41,3 @@ public record AzNginxDeploymentCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

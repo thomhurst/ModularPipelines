@@ -52,4 +52,3 @@ public class AzNetworkPrivateEndpointDnsZoneGroup
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointDnsZoneGroupWaitOptions(), token);
     }
 }
-

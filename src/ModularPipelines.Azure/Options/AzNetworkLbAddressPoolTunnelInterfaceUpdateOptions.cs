@@ -40,4 +40,3 @@ public record AzNetworkLbAddressPoolTunnelInterfaceUpdateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

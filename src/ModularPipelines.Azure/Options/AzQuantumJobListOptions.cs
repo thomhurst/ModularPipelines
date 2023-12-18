@@ -15,4 +15,3 @@ public record AzQuantumJobListOptions(
     [CommandSwitch("--item")]
     public string? Item { get; set; }
 }
-

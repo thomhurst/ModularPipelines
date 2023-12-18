@@ -42,4 +42,3 @@ public class AzSqlServerFirewallRule
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerFirewallRuleUpdateOptions(), token);
     }
 }
-

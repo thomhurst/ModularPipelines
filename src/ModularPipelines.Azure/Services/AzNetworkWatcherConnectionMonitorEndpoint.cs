@@ -42,4 +42,3 @@ public class AzNetworkWatcherConnectionMonitorEndpoint
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherConnectionMonitorEndpointWaitOptions(), token);
     }
 }
-

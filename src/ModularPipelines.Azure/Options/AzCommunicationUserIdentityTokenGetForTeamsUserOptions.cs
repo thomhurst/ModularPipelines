@@ -15,4 +15,3 @@ public record AzCommunicationUserIdentityTokenGetForTeamsUserOptions(
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
 }
-

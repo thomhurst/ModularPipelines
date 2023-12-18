@@ -86,4 +86,3 @@ public class AzBicep
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepVersionOptions(), token);
     }
 }
-

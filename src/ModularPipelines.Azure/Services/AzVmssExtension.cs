@@ -46,4 +46,3 @@ public class AzVmssExtension
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionUpgradeOptions(), token);
     }
 }
-

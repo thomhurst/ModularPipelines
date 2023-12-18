@@ -47,4 +47,3 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

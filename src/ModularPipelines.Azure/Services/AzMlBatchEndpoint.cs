@@ -52,4 +52,3 @@ public class AzMlBatchEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

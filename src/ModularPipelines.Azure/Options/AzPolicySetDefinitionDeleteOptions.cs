@@ -16,4 +16,3 @@ public record AzPolicySetDefinitionDeleteOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -32,4 +32,3 @@ public record AzConsumptionUsageListOptions : AzOptions
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

@@ -34,4 +34,3 @@ public record AzDeploymentTenantValidateOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

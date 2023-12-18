@@ -23,4 +23,3 @@ public record AzVmwareWorkloadNetworkGatewayShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

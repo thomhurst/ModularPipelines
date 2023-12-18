@@ -71,4 +71,3 @@ public record AzSnapshotCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

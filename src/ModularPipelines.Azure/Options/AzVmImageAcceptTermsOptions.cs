@@ -20,4 +20,3 @@ public record AzVmImageAcceptTermsOptions(
     [CommandSwitch("--urn")]
     public string? Urn { get; set; }
 }
-

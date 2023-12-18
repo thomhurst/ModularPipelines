@@ -22,4 +22,3 @@ public class AzStorageAccountCreateStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

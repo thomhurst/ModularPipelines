@@ -13,4 +13,3 @@ public record AzDataprotectionBackupPolicyTriggerCreateScheduleOptions(
 ) : AzOptions
 {
 }
-

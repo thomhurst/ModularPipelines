@@ -14,4 +14,3 @@ public record AzStaticwebappEnterpriseEdgeEnableOptions(
     [BooleanCommandSwitch("--no-register")]
     public bool? NoRegister { get; set; }
 }
-

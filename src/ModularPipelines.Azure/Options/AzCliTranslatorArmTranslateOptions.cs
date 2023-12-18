@@ -15,4 +15,3 @@ public record AzCliTranslatorArmTranslateOptions(
     [CommandSwitch("--target-subscription")]
     public string? TargetSubscription { get; set; }
 }
-

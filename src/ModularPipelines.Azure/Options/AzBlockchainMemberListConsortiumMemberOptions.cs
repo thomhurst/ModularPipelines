@@ -14,4 +14,3 @@ public record AzBlockchainMemberListConsortiumMemberOptions(
     [CommandSwitch("--key-name")]
     public string? KeyName { get; set; }
 }
-

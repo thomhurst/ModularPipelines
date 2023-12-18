@@ -22,4 +22,3 @@ public record AzMlDataArchiveOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

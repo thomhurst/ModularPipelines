@@ -44,4 +44,3 @@ public record AzIotCentralEnrollmentGroupUpdateOptions(
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }
-

@@ -54,4 +54,3 @@ public class AzLoad
         return await _command.ExecuteCommandLineTool(options ?? new AzLoadWaitOptions(), token);
     }
 }
-

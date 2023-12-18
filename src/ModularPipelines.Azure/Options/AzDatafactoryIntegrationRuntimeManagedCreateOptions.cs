@@ -24,4 +24,3 @@ public record AzDatafactoryIntegrationRuntimeManagedCreateOptions(
     [CommandSwitch("--ssis-properties")]
     public string? SsisProperties { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzPartnercenterMarketplaceOfferListingMediaDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

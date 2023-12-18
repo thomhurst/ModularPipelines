@@ -35,4 +35,3 @@ public record AzNetworkFrontDoorWafPolicyCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -68,4 +68,3 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

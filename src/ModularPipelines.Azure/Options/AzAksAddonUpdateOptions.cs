@@ -57,4 +57,3 @@ public record AzAksAddonUpdateOptions(
     [CommandSwitch("--workspace-resource-id")]
     public string? WorkspaceResourceId { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzManagedCassandraDatacenterShowCosmosdbPreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

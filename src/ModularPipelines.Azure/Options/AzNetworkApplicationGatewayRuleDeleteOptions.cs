@@ -15,4 +15,3 @@ public record AzNetworkApplicationGatewayRuleDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

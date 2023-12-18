@@ -17,4 +17,3 @@ public record AzSpringTestEndpointEnableOptions(
     [CommandSwitch("--deployment")]
     public string? Deployment { get; set; }
 }
-

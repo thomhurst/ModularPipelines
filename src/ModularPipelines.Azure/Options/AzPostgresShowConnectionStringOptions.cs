@@ -20,4 +20,3 @@ public record AzPostgresShowConnectionStringOptions : AzOptions
     [CommandSwitch("--server-name")]
     public string? ServerName { get; set; }
 }
-

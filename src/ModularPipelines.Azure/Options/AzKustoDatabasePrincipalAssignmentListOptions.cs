@@ -21,4 +21,3 @@ public record AzKustoDatabasePrincipalAssignmentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

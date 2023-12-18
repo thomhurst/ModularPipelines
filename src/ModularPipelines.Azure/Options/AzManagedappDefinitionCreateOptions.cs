@@ -33,4 +33,3 @@ public record AzManagedappDefinitionCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

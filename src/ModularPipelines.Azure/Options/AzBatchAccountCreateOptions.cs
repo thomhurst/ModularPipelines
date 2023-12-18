@@ -39,4 +39,3 @@ public record AzBatchAccountCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

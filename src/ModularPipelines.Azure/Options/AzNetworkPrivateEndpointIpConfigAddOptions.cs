@@ -24,4 +24,3 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions(
     [CommandSwitch("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 }
-

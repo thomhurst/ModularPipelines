@@ -22,4 +22,3 @@ public class AzWebappAuthShowAuthV2
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthShowAuthV2ExtensionOptions(), token);
     }
 }
-

@@ -17,4 +17,3 @@ public record AzContainerappServiceQdrantDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

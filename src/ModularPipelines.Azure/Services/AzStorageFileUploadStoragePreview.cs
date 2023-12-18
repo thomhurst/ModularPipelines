@@ -22,4 +22,3 @@ public class AzStorageFileUploadStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

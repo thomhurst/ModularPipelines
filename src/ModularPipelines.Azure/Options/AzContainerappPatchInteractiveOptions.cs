@@ -17,4 +17,3 @@ public record AzContainerappPatchInteractiveOptions : AzOptions
     [BooleanCommandSwitch("--show-all")]
     public bool? ShowAll { get; set; }
 }
-

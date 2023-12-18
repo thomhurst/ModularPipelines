@@ -52,4 +52,3 @@ public class AzStorageAccountLocalUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

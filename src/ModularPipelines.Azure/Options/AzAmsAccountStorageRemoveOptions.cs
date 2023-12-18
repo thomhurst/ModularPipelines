@@ -25,4 +25,3 @@ public record AzAmsAccountStorageRemoveOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

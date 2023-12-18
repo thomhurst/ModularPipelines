@@ -17,4 +17,3 @@ public class AzBatchJobCreate
 
     public AzBatchJobCreateAzureBatchCliExtensions AzureBatchCliExtensions { get; }
 }
-

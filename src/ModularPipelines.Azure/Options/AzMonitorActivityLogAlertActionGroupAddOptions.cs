@@ -43,4 +43,3 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions(
     [CommandSwitch("--webhook-properties")]
     public string? WebhookProperties { get; set; }
 }
-

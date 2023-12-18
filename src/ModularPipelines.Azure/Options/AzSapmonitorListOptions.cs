@@ -26,4 +26,3 @@ public record AzSapmonitorListOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

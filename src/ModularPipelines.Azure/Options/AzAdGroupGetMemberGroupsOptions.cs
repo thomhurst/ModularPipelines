@@ -13,4 +13,3 @@ public record AzAdGroupGetMemberGroupsOptions(
     [BooleanCommandSwitch("--security-enabled-only")]
     public bool? SecurityEnabledOnly { get; set; }
 }
-

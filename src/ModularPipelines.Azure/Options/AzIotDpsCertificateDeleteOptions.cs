@@ -15,4 +15,3 @@ public record AzIotDpsCertificateDeleteOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

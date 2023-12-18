@@ -20,4 +20,3 @@ public record AzBatchPoolAutoscaleEvaluateOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 }
-

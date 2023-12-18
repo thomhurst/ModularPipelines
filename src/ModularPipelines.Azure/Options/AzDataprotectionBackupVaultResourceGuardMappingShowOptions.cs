@@ -23,4 +23,3 @@ public record AzDataprotectionBackupVaultResourceGuardMappingShowOptions : AzOpt
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

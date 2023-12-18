@@ -37,4 +37,3 @@ public class AzDatafactoryIntegrationRuntimeNode
         return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeUpdateOptions(), token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzResourceMoverMoveResourceDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

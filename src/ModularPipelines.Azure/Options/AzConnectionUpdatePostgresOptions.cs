@@ -35,4 +35,3 @@ public record AzConnectionUpdatePostgresOptions : AzOptions
     [CommandSwitch("--user-account")]
     public int? UserAccount { get; set; }
 }
-

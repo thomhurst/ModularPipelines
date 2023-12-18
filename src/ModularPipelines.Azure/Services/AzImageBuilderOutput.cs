@@ -36,4 +36,3 @@ public class AzImageBuilderOutput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

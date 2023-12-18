@@ -38,4 +38,3 @@ public record AzContainerappAuthGoogleUpdateOptions : AzOptions
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

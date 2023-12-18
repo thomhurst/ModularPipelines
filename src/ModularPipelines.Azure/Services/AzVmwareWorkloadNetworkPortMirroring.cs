@@ -47,4 +47,3 @@ public class AzVmwareWorkloadNetworkPortMirroring
         return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringWaitOptions(), token);
     }
 }
-

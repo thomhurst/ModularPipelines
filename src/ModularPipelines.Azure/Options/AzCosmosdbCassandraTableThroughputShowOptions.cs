@@ -19,4 +19,3 @@ public record AzCosmosdbCassandraTableThroughputShowOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

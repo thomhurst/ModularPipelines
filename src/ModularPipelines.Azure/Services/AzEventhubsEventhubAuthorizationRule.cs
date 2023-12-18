@@ -46,4 +46,3 @@ public class AzEventhubsEventhubAuthorizationRule
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleUpdateOptions(), token);
     }
 }
-

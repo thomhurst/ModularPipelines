@@ -15,4 +15,3 @@ public record AzVmDiskDetachOptions(
     [BooleanCommandSwitch("--force-detach")]
     public bool? ForceDetach { get; set; }
 }
-

@@ -14,4 +14,3 @@ public record AzLoadTestShowOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

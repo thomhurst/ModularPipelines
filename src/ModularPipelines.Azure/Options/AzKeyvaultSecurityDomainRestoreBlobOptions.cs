@@ -16,4 +16,3 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions(
     [CommandSwitch("--passwords")]
     public string? Passwords { get; set; }
 }
-

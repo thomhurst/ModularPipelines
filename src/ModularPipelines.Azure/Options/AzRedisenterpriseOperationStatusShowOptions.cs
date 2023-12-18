@@ -20,4 +20,3 @@ public record AzRedisenterpriseOperationStatusShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

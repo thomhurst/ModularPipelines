@@ -31,4 +31,3 @@ public record AzSqlMidbMoveListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

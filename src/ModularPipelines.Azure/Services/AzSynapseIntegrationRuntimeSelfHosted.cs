@@ -22,4 +22,3 @@ public class AzSynapseIntegrationRuntimeSelfHosted
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

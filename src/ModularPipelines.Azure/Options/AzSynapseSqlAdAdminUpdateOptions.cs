@@ -32,4 +32,3 @@ public record AzSynapseSqlAdAdminUpdateOptions(
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 }
-

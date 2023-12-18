@@ -57,4 +57,3 @@ public class AzRepos
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

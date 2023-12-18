@@ -27,4 +27,3 @@ public class AzMeshService
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshServiceShowOptions(), token);
     }
 }
-

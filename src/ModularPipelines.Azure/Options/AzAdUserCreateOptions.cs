@@ -21,4 +21,3 @@ public record AzAdUserCreateOptions(
     [CommandSwitch("--mail-nickname")]
     public string? MailNickname { get; set; }
 }
-

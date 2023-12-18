@@ -42,4 +42,3 @@ public class AzWebpubsubServiceGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

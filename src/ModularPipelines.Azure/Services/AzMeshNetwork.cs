@@ -32,4 +32,3 @@ public class AzMeshNetwork
         return await _command.ExecuteCommandLineTool(options ?? new AzMeshNetworkShowOptions(), token);
     }
 }
-

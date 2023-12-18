@@ -15,4 +15,3 @@ public record AzSpringCertificateShowOptions(
     [BooleanCommandSwitch("--enable-auto-sync")]
     public bool? EnableAutoSync { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzReservationsListOptions : AzOptions
     [CommandSwitch("--selected-state")]
     public string? SelectedState { get; set; }
 }
-

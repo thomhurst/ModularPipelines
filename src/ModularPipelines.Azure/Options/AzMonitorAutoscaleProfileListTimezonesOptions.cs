@@ -18,4 +18,3 @@ public record AzMonitorAutoscaleProfileListTimezonesOptions(
     [CommandSwitch("--search-query")]
     public string? SearchQuery { get; set; }
 }
-

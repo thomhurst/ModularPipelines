@@ -62,4 +62,3 @@ public record AzDesktopvirtualizationHostpoolCreateOptions(
     [CommandSwitch("--vm-template")]
     public string? VmTemplate { get; set; }
 }
-

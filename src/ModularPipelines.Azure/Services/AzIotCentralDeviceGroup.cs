@@ -42,4 +42,3 @@ public class AzIotCentralDeviceGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

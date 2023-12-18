@@ -17,4 +17,3 @@ public record AzHdinsightAutoscaleConditionCreateOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

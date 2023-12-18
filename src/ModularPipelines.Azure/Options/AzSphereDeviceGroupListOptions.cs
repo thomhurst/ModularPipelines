@@ -17,4 +17,3 @@ public record AzSphereDeviceGroupListOptions(
     [CommandSwitch("--product")]
     public string? Product { get; set; }
 }
-

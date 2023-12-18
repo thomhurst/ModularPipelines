@@ -27,4 +27,3 @@ public class AzOffazureHypervCluster
         return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervClusterShowOptions(), token);
     }
 }
-

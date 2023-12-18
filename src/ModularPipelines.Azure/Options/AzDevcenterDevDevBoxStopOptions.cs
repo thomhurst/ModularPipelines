@@ -26,4 +26,3 @@ public record AzDevcenterDevDevBoxStopOptions(
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }
 }
-

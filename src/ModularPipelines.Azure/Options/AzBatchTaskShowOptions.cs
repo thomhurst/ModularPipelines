@@ -38,4 +38,3 @@ public record AzBatchTaskShowOptions(
     [CommandSwitch("--select")]
     public string? Select { get; set; }
 }
-

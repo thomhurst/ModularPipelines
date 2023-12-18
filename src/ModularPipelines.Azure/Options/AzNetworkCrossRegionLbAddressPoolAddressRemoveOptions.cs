@@ -16,4 +16,3 @@ public record AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

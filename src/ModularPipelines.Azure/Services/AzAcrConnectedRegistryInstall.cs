@@ -27,4 +27,3 @@ public class AzAcrConnectedRegistryInstall
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -23,4 +23,3 @@ public record AzConfluentOrganizationUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

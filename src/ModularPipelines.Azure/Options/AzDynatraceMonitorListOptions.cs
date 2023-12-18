@@ -19,4 +19,3 @@ public record AzDynatraceMonitorListOptions(
     [CommandSwitch("--user-principal")]
     public string? UserPrincipal { get; set; }
 }
-

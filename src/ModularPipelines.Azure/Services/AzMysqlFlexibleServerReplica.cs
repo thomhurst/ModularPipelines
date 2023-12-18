@@ -32,4 +32,3 @@ public class AzMysqlFlexibleServerReplica
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerReplicaStopReplicationOptions(), token);
     }
 }
-

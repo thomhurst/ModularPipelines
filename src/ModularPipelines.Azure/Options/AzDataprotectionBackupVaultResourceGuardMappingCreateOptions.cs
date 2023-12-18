@@ -17,4 +17,3 @@ public record AzDataprotectionBackupVaultResourceGuardMappingCreateOptions(
     [CommandSwitch("--resource-guard-id")]
     public string? ResourceGuardId { get; set; }
 }
-

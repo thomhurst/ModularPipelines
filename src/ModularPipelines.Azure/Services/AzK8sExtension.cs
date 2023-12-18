@@ -45,4 +45,3 @@ public class AzK8sExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -13,4 +13,3 @@ public record AzAroGetVersionsOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

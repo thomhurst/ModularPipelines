@@ -26,4 +26,3 @@ public record AzSiteRecoveryProtectionContainerMappingCreateOptions(
     [CommandSwitch("--target-container")]
     public string? TargetContainer { get; set; }
 }
-

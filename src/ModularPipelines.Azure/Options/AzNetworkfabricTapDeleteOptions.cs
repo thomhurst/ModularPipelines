@@ -23,4 +23,3 @@ public record AzNetworkfabricTapDeleteOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;

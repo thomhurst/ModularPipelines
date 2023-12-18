@@ -21,4 +21,3 @@ public record AzAutomanageConfigurationProfileAssignmentVmReportListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -22,4 +22,3 @@ public record AzCosmosdbFailoverPriorityChangeOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -21,4 +21,3 @@ public record AzSynapseKustoDatabaseListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

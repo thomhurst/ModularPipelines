@@ -23,4 +23,3 @@ public record AzLabVnetListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

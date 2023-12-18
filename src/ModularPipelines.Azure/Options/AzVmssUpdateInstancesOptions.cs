@@ -15,4 +15,3 @@ public record AzVmssUpdateInstancesOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

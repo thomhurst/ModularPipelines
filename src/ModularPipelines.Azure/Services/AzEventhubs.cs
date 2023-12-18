@@ -28,4 +28,3 @@ public class AzEventhubs
 
     public AzEventhubsNamespace Namespace { get; }
 }
-

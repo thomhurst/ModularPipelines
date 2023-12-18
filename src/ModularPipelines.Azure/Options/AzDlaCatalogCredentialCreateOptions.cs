@@ -17,4 +17,3 @@ public record AzDlaCatalogCredentialCreateOptions(
     [CommandSwitch("--password")]
     public string? Password { get; set; }
 }
-

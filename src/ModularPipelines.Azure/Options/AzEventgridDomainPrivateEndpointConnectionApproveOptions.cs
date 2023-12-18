@@ -15,4 +15,3 @@ public record AzEventgridDomainPrivateEndpointConnectionApproveOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 }
-

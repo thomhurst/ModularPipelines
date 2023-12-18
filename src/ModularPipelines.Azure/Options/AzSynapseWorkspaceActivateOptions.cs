@@ -28,4 +28,3 @@ public record AzSynapseWorkspaceActivateOptions(
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzBatchNodeReimageOptions(
     [CommandSwitch("--node-reimage-option")]
     public string? NodeReimageOption { get; set; }
 }
-

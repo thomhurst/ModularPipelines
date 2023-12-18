@@ -19,4 +19,3 @@ public record AzNetworkNicVtapConfigCreateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

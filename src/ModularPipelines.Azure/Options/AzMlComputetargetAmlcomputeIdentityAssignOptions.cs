@@ -26,4 +26,3 @@ public record AzMlComputetargetAmlcomputeIdentityAssignOptions(
     [BooleanCommandSwitch("-v")]
     public bool? V { get; set; }
 }
-

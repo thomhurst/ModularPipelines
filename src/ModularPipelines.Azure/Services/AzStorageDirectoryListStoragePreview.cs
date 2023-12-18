@@ -22,4 +22,3 @@ public class AzStorageDirectoryListStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

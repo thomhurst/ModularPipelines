@@ -28,4 +28,3 @@ public record AzIotDpsComputeDeviceKeyOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

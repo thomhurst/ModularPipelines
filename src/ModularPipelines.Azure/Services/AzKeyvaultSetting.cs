@@ -32,4 +32,3 @@ public class AzKeyvaultSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

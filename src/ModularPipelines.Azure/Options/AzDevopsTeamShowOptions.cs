@@ -19,4 +19,3 @@ public record AzDevopsTeamShowOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

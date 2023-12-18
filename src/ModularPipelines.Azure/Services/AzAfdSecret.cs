@@ -42,4 +42,3 @@ public class AzAfdSecret
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecretUpdateOptions(), token);
     }
 }
-

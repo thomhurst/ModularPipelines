@@ -52,4 +52,3 @@ public class AzNetworkPrivateDnsRecordSetPtr
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetPtrUpdateOptions(), token);
     }
 }
-

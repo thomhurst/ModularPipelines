@@ -73,4 +73,3 @@ public class AzConnectedvmwareVm
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmUpdateOptions(), token);
     }
 }
-

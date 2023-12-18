@@ -32,4 +32,3 @@ public record AzDatadogMonitorCreateOptions(
     [CommandSwitch("--user-info")]
     public string? UserInfo { get; set; }
 }
-

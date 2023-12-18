@@ -15,4 +15,3 @@ public record AzCosmosdbMongodbUserDefinitionCreateCosmosdbPreviewExtensionOptio
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

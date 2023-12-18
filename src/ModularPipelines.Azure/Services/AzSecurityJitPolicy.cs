@@ -27,4 +27,3 @@ public class AzSecurityJitPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -14,4 +14,3 @@ public record AzBatchAccountKeysListOptions(
     [CommandSwitch("--key-name")]
     public string? KeyName { get; set; }
 }
-

@@ -61,4 +61,3 @@ public class AzSentinelThreatIndicator
         return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorUpdateOptions(), token);
     }
 }
-

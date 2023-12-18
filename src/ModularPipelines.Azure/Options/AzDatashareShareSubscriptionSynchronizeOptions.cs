@@ -29,4 +29,3 @@ public record AzDatashareShareSubscriptionSynchronizeOptions : AzOptions
     [CommandSwitch("--synchronization-mode")]
     public string? SynchronizationMode { get; set; }
 }
-

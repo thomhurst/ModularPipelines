@@ -88,4 +88,3 @@ public class AzSynapseSqlPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

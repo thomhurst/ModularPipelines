@@ -41,4 +41,3 @@ public record AzNetworkAlbFrontendUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

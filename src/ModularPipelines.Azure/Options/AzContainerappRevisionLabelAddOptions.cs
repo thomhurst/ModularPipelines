@@ -18,4 +18,3 @@ public record AzContainerappRevisionLabelAddOptions(
     [BooleanCommandSwitch("--no-prompt")]
     public bool? NoPrompt { get; set; }
 }
-

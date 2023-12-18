@@ -17,4 +17,3 @@ public record AzIdentityCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

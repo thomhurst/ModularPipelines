@@ -14,4 +14,3 @@ public record AzNetworkIpGroupShowOptions(
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
 }
-

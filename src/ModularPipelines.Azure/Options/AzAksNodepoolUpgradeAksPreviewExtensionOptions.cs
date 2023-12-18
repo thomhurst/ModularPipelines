@@ -39,4 +39,3 @@ public record AzAksNodepoolUpgradeAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

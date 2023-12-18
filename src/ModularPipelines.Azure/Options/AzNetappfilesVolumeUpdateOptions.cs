@@ -74,4 +74,3 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     [CommandSwitch("--usage-threshold")]
     public string? UsageThreshold { get; set; }
 }
-

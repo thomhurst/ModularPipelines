@@ -44,4 +44,3 @@ public class AzPeering
 
     public AzPeeringService Service { get; }
 }
-

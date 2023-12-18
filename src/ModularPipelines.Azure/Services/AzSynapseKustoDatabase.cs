@@ -47,4 +47,3 @@ public class AzSynapseKustoDatabase
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseWaitOptions(), token);
     }
 }
-

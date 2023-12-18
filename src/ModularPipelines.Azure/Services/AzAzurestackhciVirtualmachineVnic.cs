@@ -27,4 +27,3 @@ public class AzAzurestackhciVirtualmachineVnic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

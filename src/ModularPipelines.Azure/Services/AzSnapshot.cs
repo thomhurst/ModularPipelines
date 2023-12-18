@@ -56,4 +56,3 @@ public class AzSnapshot
         return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotWaitOptions(), token);
     }
 }
-

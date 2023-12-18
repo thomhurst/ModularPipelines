@@ -50,4 +50,3 @@ public record AzNetappfilesSnapshotWaitOptions : AzOptions
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }
 }
-

@@ -44,4 +44,3 @@ public record AzNetworkcloudKubernetesclusterAgentpoolWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

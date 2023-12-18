@@ -13,4 +13,3 @@ public record AzBicepDecompileOptions(
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }
-

@@ -18,4 +18,3 @@ public record AzBlockchainTransactionNodeDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

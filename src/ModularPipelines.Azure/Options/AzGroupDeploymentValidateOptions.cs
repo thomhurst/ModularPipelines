@@ -31,4 +31,3 @@ public record AzGroupDeploymentValidateOptions(
     [CommandSwitch("--template-uri")]
     public string? TemplateUri { get; set; }
 }
-

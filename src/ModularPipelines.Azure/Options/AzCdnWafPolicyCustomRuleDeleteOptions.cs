@@ -25,4 +25,3 @@ public record AzCdnWafPolicyCustomRuleDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

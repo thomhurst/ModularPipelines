@@ -17,4 +17,3 @@ public record AzIotDuDeviceDeploymentRetryOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzSelfHelpDiscoverySolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

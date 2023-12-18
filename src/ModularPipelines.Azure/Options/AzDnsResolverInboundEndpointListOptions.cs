@@ -14,4 +14,3 @@ public record AzDnsResolverInboundEndpointListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

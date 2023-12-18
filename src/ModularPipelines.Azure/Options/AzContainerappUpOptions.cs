@@ -85,4 +85,3 @@ public record AzContainerappUpOptions(
     [CommandSwitch("--workload-profile-name")]
     public string? WorkloadProfileName { get; set; }
 }
-

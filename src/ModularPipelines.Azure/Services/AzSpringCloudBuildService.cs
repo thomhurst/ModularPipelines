@@ -17,4 +17,3 @@ public class AzSpringCloudBuildService
 
     public AzSpringCloudBuildServiceBuilder Builder { get; }
 }
-

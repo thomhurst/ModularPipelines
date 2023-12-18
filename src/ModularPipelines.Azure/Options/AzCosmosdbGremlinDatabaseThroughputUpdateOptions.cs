@@ -18,4 +18,3 @@ public record AzCosmosdbGremlinDatabaseThroughputUpdateOptions(
     [CommandSwitch("--throughput")]
     public string? Throughput { get; set; }
 }
-

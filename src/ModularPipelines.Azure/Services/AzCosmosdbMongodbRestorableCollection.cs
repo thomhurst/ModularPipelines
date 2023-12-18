@@ -26,4 +26,3 @@ public class AzCosmosdbMongodbRestorableCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -21,4 +21,3 @@ public record AzConsumptionReservationDetailListOptions(
     [CommandSwitch("--reservation-id")]
     public string? ReservationId { get; set; }
 }
-

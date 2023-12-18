@@ -64,4 +64,3 @@ public record AzVmRunCommandUpdateOptions(
     [CommandSwitch("--vm-name")]
     public string? VmName { get; set; }
 }
-

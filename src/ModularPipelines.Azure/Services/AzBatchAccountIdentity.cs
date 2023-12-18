@@ -32,4 +32,3 @@ public class AzBatchAccountIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

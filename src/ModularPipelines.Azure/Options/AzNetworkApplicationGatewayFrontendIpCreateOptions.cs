@@ -27,4 +27,3 @@ public record AzNetworkApplicationGatewayFrontendIpCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

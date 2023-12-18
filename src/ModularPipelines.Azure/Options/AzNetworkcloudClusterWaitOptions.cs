@@ -41,4 +41,3 @@ public record AzNetworkcloudClusterWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

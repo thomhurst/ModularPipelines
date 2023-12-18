@@ -13,4 +13,3 @@ public record AzFeedbackOptions(
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? CliTerm { get; set; }
 }
-

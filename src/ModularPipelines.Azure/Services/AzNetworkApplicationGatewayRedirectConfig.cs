@@ -47,4 +47,3 @@ public class AzNetworkApplicationGatewayRedirectConfig
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRedirectConfigWaitOptions(), token);
     }
 }
-

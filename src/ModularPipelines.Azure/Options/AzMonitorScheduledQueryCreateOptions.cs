@@ -58,4 +58,3 @@ public record AzMonitorScheduledQueryCreateOptions(
     [CommandSwitch("--window-size")]
     public string? WindowSize { get; set; }
 }
-

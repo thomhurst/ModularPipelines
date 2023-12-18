@@ -32,4 +32,3 @@ public class AzSelfHelpDiagnostic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

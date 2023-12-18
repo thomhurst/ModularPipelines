@@ -47,4 +47,3 @@ public class AzKustoDatabasePrincipalAssignment
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabasePrincipalAssignmentWaitOptions(), token);
     }
 }
-

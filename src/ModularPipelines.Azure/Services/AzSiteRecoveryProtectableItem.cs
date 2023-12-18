@@ -27,4 +27,3 @@ public class AzSiteRecoveryProtectableItem
         return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectableItemShowOptions(), token);
     }
 }
-

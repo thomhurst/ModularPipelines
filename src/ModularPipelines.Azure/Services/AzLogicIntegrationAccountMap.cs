@@ -42,4 +42,3 @@ public class AzLogicIntegrationAccountMap
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapUpdateOptions(), token);
     }
 }
-

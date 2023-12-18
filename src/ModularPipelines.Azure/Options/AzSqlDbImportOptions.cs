@@ -35,4 +35,3 @@ public record AzSqlDbImportOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

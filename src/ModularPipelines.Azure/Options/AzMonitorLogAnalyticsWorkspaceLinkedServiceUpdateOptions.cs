@@ -47,4 +47,3 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions : AzOptio
     [CommandSwitch("--write-access-resource-id")]
     public string? WriteAccessResourceId { get; set; }
 }
-

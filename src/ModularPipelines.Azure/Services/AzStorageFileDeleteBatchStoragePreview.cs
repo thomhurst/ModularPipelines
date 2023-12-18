@@ -22,4 +22,3 @@ public class AzStorageFileDeleteBatchStoragePreview
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

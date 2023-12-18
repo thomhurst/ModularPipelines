@@ -14,4 +14,3 @@ public record AzHpcCacheUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

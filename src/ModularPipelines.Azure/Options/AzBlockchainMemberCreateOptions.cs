@@ -41,4 +41,3 @@ public record AzBlockchainMemberCreateOptions(
     [CommandSwitch("--validator-nodes-sku")]
     public string? ValidatorNodesSku { get; set; }
 }
-

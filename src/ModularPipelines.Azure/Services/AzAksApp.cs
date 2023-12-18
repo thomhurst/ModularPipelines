@@ -22,4 +22,3 @@ public class AzAksApp
         return await _command.ExecuteCommandLineTool(options ?? new AzAksAppUpOptions(), token);
     }
 }
-

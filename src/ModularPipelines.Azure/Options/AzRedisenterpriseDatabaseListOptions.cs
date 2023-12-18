@@ -17,4 +17,3 @@ public record AzRedisenterpriseDatabaseListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -21,4 +21,3 @@ public class AzIotProduct
 
     public AzIotProductTest Test { get; }
 }
-

@@ -40,4 +40,3 @@ public class AzAutomation
 
     public AzAutomationSoftwareUpdateConfiguration SoftwareUpdateConfiguration { get; }
 }
-

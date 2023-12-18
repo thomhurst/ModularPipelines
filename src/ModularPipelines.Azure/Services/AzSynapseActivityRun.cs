@@ -22,4 +22,3 @@ public class AzSynapseActivityRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -26,4 +26,3 @@ public record AzDataprotectionBackupInstanceSuspendBackupOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

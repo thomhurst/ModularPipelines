@@ -23,4 +23,3 @@ public record AzPostgresServerRestartOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

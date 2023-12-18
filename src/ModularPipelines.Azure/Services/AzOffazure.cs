@@ -20,4 +20,3 @@ public class AzOffazure
 
     public AzOffazureVmware Vmware { get; }
 }
-

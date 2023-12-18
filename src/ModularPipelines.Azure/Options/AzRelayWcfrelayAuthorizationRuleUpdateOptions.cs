@@ -40,4 +40,3 @@ public record AzRelayWcfrelayAuthorizationRuleUpdateOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

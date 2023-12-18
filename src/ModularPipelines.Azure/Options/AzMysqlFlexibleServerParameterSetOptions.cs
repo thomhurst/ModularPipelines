@@ -31,4 +31,3 @@ public record AzMysqlFlexibleServerParameterSetOptions(
     [CommandSwitch("--value")]
     public string? Value { get; set; }
 }
-

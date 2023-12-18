@@ -47,4 +47,3 @@ public class AzAppserviceKube
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -27,4 +27,3 @@ public record AzSynapseKustoDatabaseDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

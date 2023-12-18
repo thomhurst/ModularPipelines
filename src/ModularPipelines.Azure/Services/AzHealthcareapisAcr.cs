@@ -37,4 +37,3 @@ public class AzHealthcareapisAcr
         return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisAcrResetOptions(), token);
     }
 }
-

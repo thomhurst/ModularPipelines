@@ -51,4 +51,3 @@ public record AzStorageBlobDirectoryMoveOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

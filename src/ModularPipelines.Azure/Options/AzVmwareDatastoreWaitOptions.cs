@@ -47,4 +47,3 @@ public record AzVmwareDatastoreWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

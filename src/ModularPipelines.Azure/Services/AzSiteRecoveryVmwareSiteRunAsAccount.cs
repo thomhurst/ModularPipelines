@@ -22,4 +22,3 @@ public class AzSiteRecoveryVmwareSiteRunAsAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

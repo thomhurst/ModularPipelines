@@ -16,4 +16,3 @@ public record AzQuotaUsageListOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

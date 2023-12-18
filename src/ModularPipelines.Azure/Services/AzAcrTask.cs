@@ -84,4 +84,3 @@ public class AzAcrTask
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

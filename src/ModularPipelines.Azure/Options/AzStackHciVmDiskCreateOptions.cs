@@ -42,4 +42,3 @@ public record AzStackHciVmDiskCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

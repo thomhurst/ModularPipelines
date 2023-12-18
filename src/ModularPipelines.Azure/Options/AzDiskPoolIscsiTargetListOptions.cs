@@ -20,4 +20,3 @@ public record AzDiskPoolIscsiTargetListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

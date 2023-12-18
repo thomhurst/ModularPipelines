@@ -25,4 +25,3 @@ public class AzCommunicationChat
 
     public AzCommunicationChatThread Thread { get; }
 }
-

@@ -14,4 +14,3 @@ public record AzSphereDeviceAppStopOptions : AzOptions
     [CommandSwitch("--device")]
     public string? Device { get; set; }
 }
-

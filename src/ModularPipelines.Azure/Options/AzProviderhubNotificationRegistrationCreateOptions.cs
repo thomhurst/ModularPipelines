@@ -23,4 +23,3 @@ public record AzProviderhubNotificationRegistrationCreateOptions(
     [CommandSwitch("--notification-mode")]
     public string? NotificationMode { get; set; }
 }
-

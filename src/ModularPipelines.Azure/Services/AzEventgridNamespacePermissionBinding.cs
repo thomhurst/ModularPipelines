@@ -47,4 +47,3 @@ public class AzEventgridNamespacePermissionBinding
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingWaitOptions(), token);
     }
 }
-

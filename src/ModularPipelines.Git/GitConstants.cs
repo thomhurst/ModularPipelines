@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Git;
+namespace ModularPipelines.Git;
 
 internal static class GitConstants
 {

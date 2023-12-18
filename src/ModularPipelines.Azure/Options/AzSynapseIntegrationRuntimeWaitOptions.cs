@@ -36,4 +36,3 @@ public record AzSynapseIntegrationRuntimeWaitOptions(
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

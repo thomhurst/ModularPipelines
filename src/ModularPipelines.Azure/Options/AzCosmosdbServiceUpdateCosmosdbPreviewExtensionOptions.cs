@@ -20,4 +20,3 @@ public record AzCosmosdbServiceUpdateCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--size")]
     public string? Size { get; set; }
 }
-

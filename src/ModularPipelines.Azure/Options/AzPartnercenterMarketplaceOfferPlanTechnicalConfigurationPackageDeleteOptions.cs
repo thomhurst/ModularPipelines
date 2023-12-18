@@ -20,4 +20,3 @@ public record AzPartnercenterMarketplaceOfferPlanTechnicalConfigurationPackageDe
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }
-

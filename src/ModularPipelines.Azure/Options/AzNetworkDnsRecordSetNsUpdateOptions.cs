@@ -47,4 +47,3 @@ public record AzNetworkDnsRecordSetNsUpdateOptions : AzOptions
     [CommandSwitch("--zone-name")]
     public string? ZoneName { get; set; }
 }
-

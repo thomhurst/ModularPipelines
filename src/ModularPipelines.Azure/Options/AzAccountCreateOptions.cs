@@ -23,4 +23,3 @@ public record AzAccountCreateOptions(
     [CommandSwitch("--owner-upn")]
     public string? OwnerUpn { get; set; }
 }
-

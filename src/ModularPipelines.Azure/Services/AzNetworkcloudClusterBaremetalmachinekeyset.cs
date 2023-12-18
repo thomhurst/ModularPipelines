@@ -47,4 +47,3 @@ public class AzNetworkcloudClusterBaremetalmachinekeyset
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetWaitOptions(), token);
     }
 }
-

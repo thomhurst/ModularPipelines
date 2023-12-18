@@ -42,4 +42,3 @@ public class AzSpringCloudGatewayCustomDomain
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

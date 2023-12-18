@@ -24,4 +24,3 @@ public record AzIotHubCertificateVerifyOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

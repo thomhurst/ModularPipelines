@@ -49,4 +49,3 @@ public record AzGrafanaUpdateOptions(
     [CommandSwitch("--user")]
     public string? User { get; set; }
 }
-

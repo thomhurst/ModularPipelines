@@ -36,4 +36,3 @@ public record AzDataprotectionBackupInstanceRestoreInitializeForItemRecoveryOpti
     [CommandSwitch("--to-prefix-pattern")]
     public string? ToPrefixPattern { get; set; }
 }
-

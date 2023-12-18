@@ -17,4 +17,3 @@ public class AzCosmosdbRestore
 
     public AzCosmosdbRestoreCosmosdbPreview CosmosdbPreview { get; }
 }
-

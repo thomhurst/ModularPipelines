@@ -59,4 +59,3 @@ public record AzHdinsightApplicationCreateOptions(
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }
-

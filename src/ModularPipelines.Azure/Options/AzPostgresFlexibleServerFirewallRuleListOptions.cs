@@ -20,4 +20,3 @@ public record AzPostgresFlexibleServerFirewallRuleListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

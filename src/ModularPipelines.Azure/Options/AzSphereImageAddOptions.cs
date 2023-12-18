@@ -15,4 +15,3 @@ public record AzSphereImageAddOptions(
     [CommandSwitch("--regional-data-boundary")]
     public string? RegionalDataBoundary { get; set; }
 }
-

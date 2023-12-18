@@ -34,4 +34,3 @@ public record AzStorageFsListOptions(
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 }
-

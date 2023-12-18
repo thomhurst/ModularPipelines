@@ -13,4 +13,3 @@ public record AzSynapseTriggerListOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 }
-

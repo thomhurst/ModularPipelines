@@ -35,4 +35,3 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     [BooleanCommandSwitch("--use-legacy")]
     public bool? UseLegacy { get; set; }
 }
-

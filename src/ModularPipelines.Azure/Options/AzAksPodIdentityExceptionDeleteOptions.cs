@@ -16,4 +16,3 @@ public record AzAksPodIdentityExceptionDeleteOptions(
     [CommandSwitch("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 }
-

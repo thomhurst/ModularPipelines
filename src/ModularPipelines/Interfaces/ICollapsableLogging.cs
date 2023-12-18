@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Interfaces;
+namespace ModularPipelines.Interfaces;
 
 /// <summary>
 /// For writing collapsable/grouped logs in supported build agents

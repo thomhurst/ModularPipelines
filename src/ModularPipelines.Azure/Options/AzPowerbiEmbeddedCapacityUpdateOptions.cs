@@ -35,4 +35,3 @@ public record AzPowerbiEmbeddedCapacityUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

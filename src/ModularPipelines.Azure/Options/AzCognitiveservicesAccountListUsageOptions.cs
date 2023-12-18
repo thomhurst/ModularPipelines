@@ -29,4 +29,3 @@ public record AzCognitiveservicesAccountListUsageOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

@@ -22,4 +22,3 @@ public class AzIotDuAccountPrivateLinkResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

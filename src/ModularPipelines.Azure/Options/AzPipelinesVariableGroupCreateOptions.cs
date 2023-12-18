@@ -26,4 +26,3 @@ public record AzPipelinesVariableGroupCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzBlockchainMemberShowOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

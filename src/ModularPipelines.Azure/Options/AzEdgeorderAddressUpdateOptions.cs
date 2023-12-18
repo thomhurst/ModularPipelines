@@ -32,4 +32,3 @@ public record AzEdgeorderAddressUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

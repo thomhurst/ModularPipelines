@@ -20,4 +20,3 @@ public record AzAksDraftUpdateOptions : AzOptions
     [CommandSwitch("--path")]
     public string? Path { get; set; }
 }
-

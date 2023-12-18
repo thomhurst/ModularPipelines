@@ -17,4 +17,3 @@ public record AzTagCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

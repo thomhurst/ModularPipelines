@@ -42,4 +42,3 @@ public class AzAccountLock
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockUpdateOptions(), token);
     }
 }
-

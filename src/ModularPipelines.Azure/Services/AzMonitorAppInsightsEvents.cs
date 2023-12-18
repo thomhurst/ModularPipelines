@@ -22,4 +22,3 @@ public class AzMonitorAppInsightsEvents
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

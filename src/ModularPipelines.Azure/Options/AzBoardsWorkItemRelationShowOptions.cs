@@ -16,4 +16,3 @@ public record AzBoardsWorkItemRelationShowOptions(
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 }
-

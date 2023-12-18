@@ -37,4 +37,3 @@ public class AzContainerappEnvCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

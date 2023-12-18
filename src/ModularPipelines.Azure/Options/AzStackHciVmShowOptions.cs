@@ -20,4 +20,3 @@ public record AzStackHciVmShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

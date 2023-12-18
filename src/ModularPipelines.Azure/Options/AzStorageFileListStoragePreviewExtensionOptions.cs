@@ -52,4 +52,3 @@ public record AzStorageFileListStoragePreviewExtensionOptions(
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }
-

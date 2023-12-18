@@ -14,4 +14,3 @@ public record AzGroupDeploymentOperationListOptions(
     [CommandSwitch("--top")]
     public string? Top { get; set; }
 }
-

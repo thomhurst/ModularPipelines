@@ -25,4 +25,3 @@ public record AzKeyvaultPrivateEndpointConnectionDeleteOptions(
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }
 }
-

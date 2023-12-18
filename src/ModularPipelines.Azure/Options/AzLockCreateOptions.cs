@@ -29,4 +29,3 @@ public record AzLockCreateOptions(
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }
 }
-

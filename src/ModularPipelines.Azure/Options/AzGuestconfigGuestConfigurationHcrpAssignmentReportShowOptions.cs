@@ -26,4 +26,3 @@ public record AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions : A
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

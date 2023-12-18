@@ -22,4 +22,3 @@ public class AzBatchPoolSupportedImages
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolSupportedImagesListOptions(), token);
     }
 }
-

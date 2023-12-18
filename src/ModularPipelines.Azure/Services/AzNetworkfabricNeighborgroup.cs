@@ -47,4 +47,3 @@ public class AzNetworkfabricNeighborgroup
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupWaitOptions(), token);
     }
 }
-

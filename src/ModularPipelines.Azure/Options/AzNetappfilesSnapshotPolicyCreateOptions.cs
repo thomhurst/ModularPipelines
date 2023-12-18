@@ -60,4 +60,3 @@ public record AzNetappfilesSnapshotPolicyCreateOptions(
     [CommandSwitch("--weekly-snapshots")]
     public string? WeeklySnapshots { get; set; }
 }
-

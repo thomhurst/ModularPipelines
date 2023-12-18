@@ -14,4 +14,3 @@ public record AzDeploymentMgExportOptions(
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 }
-

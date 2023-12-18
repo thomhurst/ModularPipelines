@@ -38,4 +38,3 @@ public record AzIotHubMessageEndpointCreateServicebusQueueOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }
-

@@ -132,4 +132,3 @@ public class AzMlPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

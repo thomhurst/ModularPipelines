@@ -23,4 +23,3 @@ public record AzBlueprintVersionArtifactListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

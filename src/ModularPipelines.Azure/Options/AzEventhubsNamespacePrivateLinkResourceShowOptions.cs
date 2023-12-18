@@ -17,4 +17,3 @@ public record AzEventhubsNamespacePrivateLinkResourceShowOptions(
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
 }
-

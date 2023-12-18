@@ -60,4 +60,3 @@ public record AzManagedCassandraDatacenterCreateCosmosdbPreviewExtensionOptions(
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
 }
-

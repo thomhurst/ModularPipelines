@@ -37,4 +37,3 @@ public class AzMysqlDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

@@ -42,4 +42,3 @@ public record AzPostgresServerArcRestoreOptions(
     [CommandSwitch("--volume-size-logs")]
     public string? VolumeSizeLogs { get; set; }
 }
-

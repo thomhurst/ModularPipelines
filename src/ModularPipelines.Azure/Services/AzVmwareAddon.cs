@@ -38,4 +38,3 @@ public class AzVmwareAddon
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

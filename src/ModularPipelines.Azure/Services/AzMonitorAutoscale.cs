@@ -55,4 +55,3 @@ public class AzMonitorAutoscale
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleUpdateOptions(), token);
     }
 }
-

@@ -71,4 +71,3 @@ public class AzCosmosdbMongodbCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

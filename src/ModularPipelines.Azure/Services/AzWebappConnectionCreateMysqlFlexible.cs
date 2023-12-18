@@ -17,4 +17,3 @@ public class AzWebappConnectionCreateMysqlFlexible
 
     public AzWebappConnectionCreateMysqlFlexibleServiceconnectorPasswordless ServiceconnectorPasswordless { get; }
 }
-

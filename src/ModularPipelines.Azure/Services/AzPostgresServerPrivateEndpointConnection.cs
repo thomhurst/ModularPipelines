@@ -37,4 +37,3 @@ public class AzPostgresServerPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionShowOptions(), token);
     }
 }
-

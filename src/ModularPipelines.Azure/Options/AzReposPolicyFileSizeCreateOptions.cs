@@ -23,4 +23,3 @@ public record AzReposPolicyFileSizeCreateOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

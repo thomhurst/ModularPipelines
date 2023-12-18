@@ -23,4 +23,3 @@ public record AzSpringCloudUpdateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

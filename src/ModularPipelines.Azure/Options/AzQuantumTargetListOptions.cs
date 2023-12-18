@@ -15,4 +15,3 @@ public record AzQuantumTargetListOptions(
     [CommandSwitch("--target-id")]
     public string? TargetId { get; set; }
 }
-

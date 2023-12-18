@@ -47,4 +47,3 @@ public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationWaitOptions : 
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }
-

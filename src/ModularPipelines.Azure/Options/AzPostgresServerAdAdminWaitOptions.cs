@@ -41,4 +41,3 @@ public record AzPostgresServerAdAdminWaitOptions : AzOptions
     [BooleanCommandSwitch("--updated")]
     public bool? Updated { get; set; }
 }
-

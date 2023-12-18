@@ -20,4 +20,3 @@ public record AzBoardsIterationTeamListWorkItemsOptions(
     [CommandSwitch("--project")]
     public string? Project { get; set; }
 }
-

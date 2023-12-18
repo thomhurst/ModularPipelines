@@ -25,4 +25,3 @@ public record AzMaintenanceAssignmentListOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

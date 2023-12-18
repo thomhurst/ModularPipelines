@@ -44,4 +44,3 @@ public record AzNetworkExpressRouteCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

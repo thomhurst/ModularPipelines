@@ -14,4 +14,3 @@ public record AzUpgradeOptions : AzOptions
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;
 }
-

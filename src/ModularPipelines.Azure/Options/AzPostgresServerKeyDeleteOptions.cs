@@ -25,4 +25,3 @@ public record AzPostgresServerKeyDeleteOptions(
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
 }
-

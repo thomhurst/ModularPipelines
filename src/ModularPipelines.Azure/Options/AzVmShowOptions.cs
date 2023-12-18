@@ -26,4 +26,3 @@ public record AzVmShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

@@ -23,4 +23,3 @@ public record AzSqlDbAdvancedThreatProtectionSettingShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

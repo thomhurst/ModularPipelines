@@ -172,4 +172,3 @@ public record AzNetappfilesVolumeCreateOptions(
     [CommandSwitch("--zones")]
     public string? Zones { get; set; }
 }
-

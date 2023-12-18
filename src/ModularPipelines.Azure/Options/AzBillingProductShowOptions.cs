@@ -20,4 +20,3 @@ public record AzBillingProductShowOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 }
-

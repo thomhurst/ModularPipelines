@@ -17,4 +17,3 @@ public record AzNetworkDnsZoneShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

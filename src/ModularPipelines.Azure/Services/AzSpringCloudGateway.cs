@@ -40,4 +40,3 @@ public class AzSpringCloudGateway
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

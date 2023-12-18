@@ -22,4 +22,3 @@ public record AzAppconfigSnapshotRecoverOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }
-

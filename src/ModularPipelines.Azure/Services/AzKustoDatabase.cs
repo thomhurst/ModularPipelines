@@ -86,4 +86,3 @@ public class AzKustoDatabase
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseWaitOptions(), token);
     }
 }
-

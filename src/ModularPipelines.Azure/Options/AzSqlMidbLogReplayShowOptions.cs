@@ -26,4 +26,3 @@ public record AzSqlMidbLogReplayShowOptions(
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

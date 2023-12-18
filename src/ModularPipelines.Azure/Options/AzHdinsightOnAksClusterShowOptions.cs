@@ -23,4 +23,3 @@ public record AzHdinsightOnAksClusterShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 }
-

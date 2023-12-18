@@ -37,4 +37,3 @@ public class AzDlaAccountDataLakeStore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

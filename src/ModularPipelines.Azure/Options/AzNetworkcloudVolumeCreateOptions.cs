@@ -22,4 +22,3 @@ public record AzNetworkcloudVolumeCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

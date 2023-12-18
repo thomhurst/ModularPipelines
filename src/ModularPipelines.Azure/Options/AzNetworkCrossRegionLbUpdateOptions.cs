@@ -41,4 +41,3 @@ public record AzNetworkCrossRegionLbUpdateOptions : AzOptions
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 }
-

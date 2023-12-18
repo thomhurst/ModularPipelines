@@ -32,4 +32,3 @@ public class AzFunctionappVnetIntegration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-

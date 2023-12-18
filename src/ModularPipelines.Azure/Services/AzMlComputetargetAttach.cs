@@ -32,4 +32,3 @@ public class AzMlComputetargetAttach
         return await _command.ExecuteCommandLineTool(options, token);
     }
 }
-
