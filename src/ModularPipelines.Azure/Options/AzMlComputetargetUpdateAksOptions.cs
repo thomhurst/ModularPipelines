@@ -33,8 +33,8 @@ public record AzMlComputetargetUpdateAksOptions(
     [CommandSwitch("--ssl-cname")]
     public string? SslCname { get; set; }
 
-    [CommandSwitch("--ssl-disable")]
-    public string? SslDisable { get; set; }
+    [BooleanCommandSwitch("--ssl-disable")]
+    public bool? SslDisable { get; set; }
 
     [CommandSwitch("--ssl-key-file")]
     public string? SslKeyFile { get; set; }

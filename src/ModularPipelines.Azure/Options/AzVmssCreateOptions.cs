@@ -88,8 +88,8 @@ public record AzVmssCreateOptions(
     [BooleanCommandSwitch("--disable-integrity-monitoring-autoupgrade")]
     public bool? DisableIntegrityMonitoringAutoupgrade { get; set; }
 
-    [CommandSwitch("--disable-overprovision")]
-    public string? DisableOverprovision { get; set; }
+    [BooleanCommandSwitch("--disable-overprovision")]
+    public bool? DisableOverprovision { get; set; }
 
     [CommandSwitch("--disk-controller-type")]
     public string? DiskControllerType { get; set; }

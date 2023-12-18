@@ -94,8 +94,8 @@ public record AzAksCreateOptions(
     [BooleanCommandSwitch("--disable-public-fqdn")]
     public bool? DisablePublicFqdn { get; set; }
 
-    [CommandSwitch("--disable-rbac")]
-    public string? DisableRbac { get; set; }
+    [BooleanCommandSwitch("--disable-rbac")]
+    public bool? DisableRbac { get; set; }
 
     [BooleanCommandSwitch("--disable-snapshot-controller")]
     public bool? DisableSnapshotController { get; set; }
@@ -112,8 +112,8 @@ public record AzAksCreateOptions(
     [BooleanCommandSwitch("--enable-aad")]
     public bool? EnableAad { get; set; }
 
-    [CommandSwitch("--enable-addons")]
-    public string? EnableAddons { get; set; }
+    [BooleanCommandSwitch("--enable-addons")]
+    public bool? EnableAddons { get; set; }
 
     [BooleanCommandSwitch("--enable-ahub")]
     public bool? EnableAhub { get; set; }
@@ -127,8 +127,8 @@ public record AzAksCreateOptions(
     [BooleanCommandSwitch("--enable-azure-rbac")]
     public bool? EnableAzureRbac { get; set; }
 
-    [CommandSwitch("--enable-blob-driver")]
-    public string? EnableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--enable-blob-driver")]
+    public bool? EnableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }

@@ -36,8 +36,8 @@ public record AzPaloAltoCloudngfwLocalRulestackLocalRuleCreateOptions(
     [CommandSwitch("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--enable-logging")]
-    public string? EnableLogging { get; set; }
+    [BooleanCommandSwitch("--enable-logging")]
+    public bool? EnableLogging { get; set; }
 
     [CommandSwitch("--etag")]
     public string? Etag { get; set; }

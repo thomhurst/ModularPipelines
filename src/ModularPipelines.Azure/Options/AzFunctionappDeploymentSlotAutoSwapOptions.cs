@@ -15,8 +15,8 @@ public record AzFunctionappDeploymentSlotAutoSwapOptions(
     [CommandSwitch("--auto-swap-slot")]
     public string? AutoSwapSlot { get; set; }
 
-    [CommandSwitch("--disable")]
-    public string? Disable { get; set; }
+    [BooleanCommandSwitch("--disable")]
+    public bool? Disable { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

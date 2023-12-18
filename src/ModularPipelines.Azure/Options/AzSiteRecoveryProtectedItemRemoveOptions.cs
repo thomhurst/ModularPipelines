@@ -10,8 +10,8 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("site-recovery", "protected-item", "remove")]
 public record AzSiteRecoveryProtectedItemRemoveOptions : AzOptions
 {
-    [CommandSwitch("--disable-protection-reason")]
-    public string? DisableProtectionReason { get; set; }
+    [BooleanCommandSwitch("--disable-protection-reason")]
+    public bool? DisableProtectionReason { get; set; }
 
     [CommandSwitch("--fabric-name")]
     public string? FabricName { get; set; }

@@ -22,6 +22,6 @@ public record AzBatchNodeSchedulingDisableOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--node-disable-scheduling-option")]
-    public string? NodeDisableSchedulingOption { get; set; }
+    [BooleanCommandSwitch("--node-disable-scheduling-option")]
+    public bool? NodeDisableSchedulingOption { get; set; }
 }

@@ -12,8 +12,8 @@ public record AzPolicyAssignmentListOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--disable-scope-strict-match")]
-    public string? DisableScopeStrictMatch { get; set; }
+    [BooleanCommandSwitch("--disable-scope-strict-match")]
+    public bool? DisableScopeStrictMatch { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

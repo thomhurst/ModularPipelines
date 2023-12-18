@@ -22,8 +22,8 @@ public record AzMlComputeCreateOptions(
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-node-public-ip")]
-    public string? EnableNodePublicIp { get; set; }
+    [BooleanCommandSwitch("--enable-node-public-ip")]
+    public bool? EnableNodePublicIp { get; set; }
 
     [CommandSwitch("--file")]
     public string? File { get; set; }

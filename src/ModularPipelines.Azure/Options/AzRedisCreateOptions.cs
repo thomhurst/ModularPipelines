@@ -16,8 +16,8 @@ public record AzRedisCreateOptions(
 [property: CommandSwitch("--vm-size")] string VmSize
 ) : AzOptions
 {
-    [CommandSwitch("--enable-non-ssl-port")]
-    public string? EnableNonSslPort { get; set; }
+    [BooleanCommandSwitch("--enable-non-ssl-port")]
+    public bool? EnableNonSslPort { get; set; }
 
     [CommandSwitch("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }

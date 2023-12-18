@@ -39,8 +39,8 @@ public record AzBatchPoolCreateOptions(
     [CommandSwitch("--disk-encryption-targets")]
     public string? DiskEncryptionTargets { get; set; }
 
-    [CommandSwitch("--enable-inter-node-communication")]
-    public string? EnableInterNodeCommunication { get; set; }
+    [BooleanCommandSwitch("--enable-inter-node-communication")]
+    public bool? EnableInterNodeCommunication { get; set; }
 
     [CommandSwitch("--id")]
     public string? Id { get; set; }

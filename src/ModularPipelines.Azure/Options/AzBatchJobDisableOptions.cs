@@ -21,8 +21,8 @@ public record AzBatchJobDisableOptions(
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--disable-tasks")]
-    public string? DisableTasks { get; set; }
+    [BooleanCommandSwitch("--disable-tasks")]
+    public bool? DisableTasks { get; set; }
 
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }

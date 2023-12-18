@@ -19,8 +19,8 @@ public record AzNetworkAnalyticsDataProductCreateOptions(
     [CommandSwitch("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--key-encryption-enable")]
-    public string? KeyEncryptionEnable { get; set; }
+    [BooleanCommandSwitch("--key-encryption-enable")]
+    public bool? KeyEncryptionEnable { get; set; }
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }

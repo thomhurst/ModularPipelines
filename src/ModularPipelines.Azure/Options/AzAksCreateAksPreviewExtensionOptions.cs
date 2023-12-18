@@ -106,8 +106,8 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--disable-public-fqdn")]
     public bool? DisablePublicFqdn { get; set; }
 
-    [CommandSwitch("--disable-rbac")]
-    public string? DisableRbac { get; set; }
+    [BooleanCommandSwitch("--disable-rbac")]
+    public bool? DisableRbac { get; set; }
 
     [BooleanCommandSwitch("--disable-snapshot-controller")]
     public bool? DisableSnapshotController { get; set; }
@@ -130,8 +130,8 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-aad")]
     public bool? EnableAad { get; set; }
 
-    [CommandSwitch("--enable-addons")]
-    public string? EnableAddons { get; set; }
+    [BooleanCommandSwitch("--enable-addons")]
+    public bool? EnableAddons { get; set; }
 
     [BooleanCommandSwitch("--enable-ahub")]
     public bool? EnableAhub { get; set; }
@@ -142,11 +142,11 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-app-routing")]
     public bool? EnableAppRouting { get; set; }
 
-    [CommandSwitch("--enable-asm")]
-    public string? EnableAsm { get; set; }
+    [BooleanCommandSwitch("--enable-asm")]
+    public bool? EnableAsm { get; set; }
 
-    [CommandSwitch("--enable-azure-container-storage")]
-    public string? EnableAzureContainerStorage { get; set; }
+    [BooleanCommandSwitch("--enable-azure-container-storage")]
+    public bool? EnableAzureContainerStorage { get; set; }
 
     [BooleanCommandSwitch("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
@@ -157,8 +157,8 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-azure-rbac")]
     public bool? EnableAzureRbac { get; set; }
 
-    [CommandSwitch("--enable-blob-driver")]
-    public string? EnableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--enable-blob-driver")]
+    public bool? EnableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
@@ -193,8 +193,8 @@ public record AzAksCreateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
-    [CommandSwitch("--enable-network-observability")]
-    public string? EnableNetworkObservability { get; set; }
+    [BooleanCommandSwitch("--enable-network-observability")]
+    public bool? EnableNetworkObservability { get; set; }
 
     [BooleanCommandSwitch("--enable-node-public-ip")]
     public bool? EnableNodePublicIp { get; set; }

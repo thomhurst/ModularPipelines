@@ -70,8 +70,8 @@ public record AzStorageAccountUpdateStoragePreviewExtensionOptions : AzOptions
     [BooleanCommandSwitch("--enable-files-adds")]
     public bool? EnableFilesAdds { get; set; }
 
-    [CommandSwitch("--enable-large-file-share")]
-    public string? EnableLargeFileShare { get; set; }
+    [BooleanCommandSwitch("--enable-large-file-share")]
+    public bool? EnableLargeFileShare { get; set; }
 
     [BooleanCommandSwitch("--enable-local-user")]
     public bool? EnableLocalUser { get; set; }

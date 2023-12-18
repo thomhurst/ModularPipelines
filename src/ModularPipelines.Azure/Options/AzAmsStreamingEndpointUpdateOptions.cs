@@ -34,8 +34,8 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--disable-cdn")]
-    public string? DisableCdn { get; set; }
+    [BooleanCommandSwitch("--disable-cdn")]
+    public bool? DisableCdn { get; set; }
 
     [BooleanCommandSwitch("--force-string")]
     public bool? ForceString { get; set; }

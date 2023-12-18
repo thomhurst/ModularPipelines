@@ -85,8 +85,8 @@ public record AzAksUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--disable-azure-rbac")]
     public bool? DisableAzureRbac { get; set; }
 
-    [CommandSwitch("--disable-blob-driver")]
-    public string? DisableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--disable-blob-driver")]
+    public bool? DisableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--disable-cluster-autoscaler")]
     public bool? DisableClusterAutoscaler { get; set; }
@@ -118,8 +118,8 @@ public record AzAksUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--disable-local-accounts")]
     public bool? DisableLocalAccounts { get; set; }
 
-    [CommandSwitch("--disable-network-observability")]
-    public string? DisableNetworkObservability { get; set; }
+    [BooleanCommandSwitch("--disable-network-observability")]
+    public bool? DisableNetworkObservability { get; set; }
 
     [BooleanCommandSwitch("--disable-node-restriction")]
     public bool? DisableNodeRestriction { get; set; }
@@ -160,8 +160,8 @@ public record AzAksUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-apiserver-vnet-integration")]
     public bool? EnableApiserverVnetIntegration { get; set; }
 
-    [CommandSwitch("--enable-azure-container-storage")]
-    public string? EnableAzureContainerStorage { get; set; }
+    [BooleanCommandSwitch("--enable-azure-container-storage")]
+    public bool? EnableAzureContainerStorage { get; set; }
 
     [BooleanCommandSwitch("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
@@ -172,8 +172,8 @@ public record AzAksUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-azure-rbac")]
     public bool? EnableAzureRbac { get; set; }
 
-    [CommandSwitch("--enable-blob-driver")]
-    public string? EnableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--enable-blob-driver")]
+    public bool? EnableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
@@ -208,8 +208,8 @@ public record AzAksUpdateAksPreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
-    [CommandSwitch("--enable-network-observability")]
-    public string? EnableNetworkObservability { get; set; }
+    [BooleanCommandSwitch("--enable-network-observability")]
+    public bool? EnableNetworkObservability { get; set; }
 
     [BooleanCommandSwitch("--enable-node-restriction")]
     public bool? EnableNodeRestriction { get; set; }

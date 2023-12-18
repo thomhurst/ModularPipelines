@@ -70,8 +70,8 @@ public record AzAksUpdateOptions(
     [BooleanCommandSwitch("--disable-azure-rbac")]
     public bool? DisableAzureRbac { get; set; }
 
-    [CommandSwitch("--disable-blob-driver")]
-    public string? DisableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--disable-blob-driver")]
+    public bool? DisableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--disable-cluster-autoscaler")]
     public bool? DisableClusterAutoscaler { get; set; }
@@ -130,8 +130,8 @@ public record AzAksUpdateOptions(
     [BooleanCommandSwitch("--enable-azure-rbac")]
     public bool? EnableAzureRbac { get; set; }
 
-    [CommandSwitch("--enable-blob-driver")]
-    public string? EnableBlobDriver { get; set; }
+    [BooleanCommandSwitch("--enable-blob-driver")]
+    public bool? EnableBlobDriver { get; set; }
 
     [BooleanCommandSwitch("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }

@@ -85,8 +85,8 @@ public record AzStorageAccountCreateStoragePreviewExtensionOptions(
     [BooleanCommandSwitch("--enable-hierarchical-namespace")]
     public bool? EnableHierarchicalNamespace { get; set; }
 
-    [CommandSwitch("--enable-large-file-share")]
-    public string? EnableLargeFileShare { get; set; }
+    [BooleanCommandSwitch("--enable-large-file-share")]
+    public bool? EnableLargeFileShare { get; set; }
 
     [BooleanCommandSwitch("--enable-local-user")]
     public bool? EnableLocalUser { get; set; }

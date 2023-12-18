@@ -54,8 +54,8 @@ public record AzNetappfilesVolumeCreateOptions(
     [BooleanCommandSwitch("--delete-base-snapshot")]
     public bool? DeleteBaseSnapshot { get; set; }
 
-    [CommandSwitch("--enable-subvolumes")]
-    public string? EnableSubvolumes { get; set; }
+    [BooleanCommandSwitch("--enable-subvolumes")]
+    public bool? EnableSubvolumes { get; set; }
 
     [CommandSwitch("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
