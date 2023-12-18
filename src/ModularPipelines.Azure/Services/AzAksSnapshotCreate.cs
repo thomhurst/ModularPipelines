@@ -1,0 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("aks", "snapshot")]
+public class AzAksSnapshotCreate
+{
+    public AzAksSnapshotCreate(
+        AzAksSnapshotCreateAksPreview aksPreview
+    )
+    {
+        AksPreview = aksPreview;
+    }
+
+    public AzAksSnapshotCreateAksPreview AksPreview { get; }
+}
+

@@ -1,0 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("disk-access", "list")]
+public record AzDiskAccessListOptions : AzOptions
+{
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+}
+

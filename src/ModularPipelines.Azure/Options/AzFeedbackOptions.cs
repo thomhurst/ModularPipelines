@@ -1,0 +1,16 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("feedback")]
+public record AzFeedbackOptions(
+[property: CommandSwitch("--uri")] string Uri
+) : AzOptions
+{
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? CliTerm { get; set; }
+}
+

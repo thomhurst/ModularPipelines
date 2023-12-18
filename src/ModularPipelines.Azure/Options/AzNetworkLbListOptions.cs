@@ -1,0 +1,23 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("network", "lb", "list")]
+public record AzNetworkLbListOptions(
+[property: CommandSwitch("--backend-pool-name")] string BackendPoolName,
+[property: CommandSwitch("--request")] string Request
+) : AzOptions
+{
+    [CommandSwitch("--max-items")]
+    public string? MaxItems { get; set; }
+
+    [CommandSwitch("--next-token")]
+    public string? NextToken { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+}
+
