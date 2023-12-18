@@ -30,14 +30,14 @@ public class AzEdgeorderOrderItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEdgeorderOrderItemDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEdgeorderOrderItemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzEdgeorderOrderItemListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzEdgeorderOrderItemListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemListOptions(), token);
     }
 
     public async Task<CommandResult> Return(AzEdgeorderOrderItemReturnOptions options, CancellationToken token = default)
@@ -45,14 +45,14 @@ public class AzEdgeorderOrderItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzEdgeorderOrderItemShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzEdgeorderOrderItemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzEdgeorderOrderItemUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzEdgeorderOrderItemUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzEdgeorderOrderItemWaitOptions options, CancellationToken token = default)

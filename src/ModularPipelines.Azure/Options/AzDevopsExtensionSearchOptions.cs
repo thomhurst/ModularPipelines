@@ -12,9 +12,4 @@ public record AzDevopsExtensionSearchOptions(
 [property: CommandSwitch("--search-query")] string SearchQuery
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
-    public bool? Detect { get; set; }
-
-    [CommandSwitch("--org")]
-    public string? Org { get; set; }
 }

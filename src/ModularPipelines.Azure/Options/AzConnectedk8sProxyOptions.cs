@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connectedk8s", "proxy")]
-public record AzConnectedk8sProxyOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzConnectedk8sProxyOptions : AzOptions
 {
     [CommandSwitch("--file")]
     public string? File { get; set; }
@@ -22,8 +19,14 @@ public record AzConnectedk8sProxyOptions(
     [CommandSwitch("--kube-context")]
     public string? KubeContext { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--port")]
     public int? Port { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

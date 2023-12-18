@@ -28,14 +28,14 @@ public class AzDiskPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDiskPoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDiskPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDiskPoolListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDiskPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolListOptions(), token);
     }
 
     public async Task<CommandResult> ListOutboundNetworkDependencyEndpoint(AzDiskPoolListOutboundNetworkDependencyEndpointOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzAutomationPython3Package
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAutomationPython3PackageDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAutomationPython3PackageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAutomationPython3PackageListOptions options, CancellationToken token = default)

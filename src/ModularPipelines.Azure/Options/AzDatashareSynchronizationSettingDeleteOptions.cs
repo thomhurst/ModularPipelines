@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datashare", "synchronization-setting", "delete")]
-public record AzDatashareSynchronizationSettingDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-name")] string ShareName
-) : AzOptions
+public record AzDatashareSynchronizationSettingDeleteOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -22,6 +21,12 @@ public record AzDatashareSynchronizationSettingDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--share-name")]
+    public string? ShareName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

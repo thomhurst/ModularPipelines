@@ -13,9 +13,4 @@ public record AzPostgresFlexibleServerIdentityListOptions(
 [property: CommandSwitch("--server-name")] string ServerName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

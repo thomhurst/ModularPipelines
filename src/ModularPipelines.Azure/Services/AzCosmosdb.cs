@@ -103,9 +103,9 @@ public class AzCosmosdb
 
     public AzCosmosdbUpdate UpdateCommands { get; }
 
-    public async Task<CommandResult> CheckNameExists(AzCosmosdbCheckNameExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckNameExists(AzCosmosdbCheckNameExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCheckNameExistsOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzCosmosdbCreateOptions options, CancellationToken token = default)
@@ -113,9 +113,9 @@ public class AzCosmosdb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCosmosdbDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCosmosdbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbDeleteOptions(), token);
     }
 
     public async Task<CommandResult> FailoverPriorityChange(AzCosmosdbFailoverPriorityChangeOptions options, CancellationToken token = default)
@@ -123,9 +123,9 @@ public class AzCosmosdb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzCosmosdbListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCosmosdbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzCosmosdbRestoreOptions options, CancellationToken token = default)

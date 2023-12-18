@@ -25,9 +25,9 @@ public class AzBackupPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzBackupPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzBackupPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetDefaultForVm(AzBackupPolicyGetDefaultForVmOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzSentinelSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelSettingDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelSettingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSentinelSettingListOptions options, CancellationToken token = default)

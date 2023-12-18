@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "api", "version", "delete")]
-public record AzApicApiVersionDeleteOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
-) : AzOptions
+public record AzApicApiVersionDeleteOptions : AzOptions
 {
+    [CommandSwitch("--api")]
+    public string? Api { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--service")]
+    public string? Service { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

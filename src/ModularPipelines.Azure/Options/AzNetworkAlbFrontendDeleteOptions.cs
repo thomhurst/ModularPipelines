@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "alb", "frontend", "delete")]
-public record AzNetworkAlbFrontendDeleteOptions(
-[property: CommandSwitch("--alb-name")] string AlbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkAlbFrontendDeleteOptions : AzOptions
 {
+    [CommandSwitch("--alb-name")]
+    public string? AlbName { get; set; }
+
     [CommandSwitch("--frontend-name")]
     public string? FrontendName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkAlbFrontendDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

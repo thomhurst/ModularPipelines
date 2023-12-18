@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "ad-admin", "delete")]
-public record AzSqlMiAdAdminDeleteOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--object-id")] string ObjectId
-) : AzOptions
+public record AzSqlMiAdAdminDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

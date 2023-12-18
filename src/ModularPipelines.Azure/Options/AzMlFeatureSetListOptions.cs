@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "feature-set", "list")]
-public record AzMlFeatureSetListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlFeatureSetListOptions : AzOptions
 {
     [BooleanCommandSwitch("--archived-only")]
     public bool? ArchivedOnly { get; set; }
@@ -24,6 +21,9 @@ public record AzMlFeatureSetListOptions(
 
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

@@ -13,12 +13,4 @@ public record AzAfdRuleSetListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--rule-set-name")]
-    public string? RuleSetName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

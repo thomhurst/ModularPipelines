@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "partner-cert", "delete")]
-public record AzSqlMiPartnerCertDeleteOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiPartnerCertDeleteOptions : AzOptions
 {
     [CommandSwitch("--certificate-name")]
     public string? CertificateName { get; set; }
@@ -19,8 +16,14 @@ public record AzSqlMiPartnerCertDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--instance-name")]
+    public string? InstanceName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

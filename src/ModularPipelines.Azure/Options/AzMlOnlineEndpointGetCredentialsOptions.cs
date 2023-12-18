@@ -14,12 +14,4 @@ public record AzMlOnlineEndpointGetCredentialsOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--deployment-name")]
-    public string? DeploymentName { get; set; }
-
-    [BooleanCommandSwitch("--local")]
-    public bool? Local { get; set; }
-
-    [CommandSwitch("--request-file")]
-    public string? RequestFile { get; set; }
 }

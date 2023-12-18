@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-connection", "show")]
-public record AzNetworkVpnConnectionShowOptions(
-[property: CommandSwitch("--device-family")] string DeviceFamily,
-[property: CommandSwitch("--firmware-version")] string FirmwareVersion,
-[property: CommandSwitch("--vendor")] string Vendor
-) : AzOptions
+public record AzNetworkVpnConnectionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

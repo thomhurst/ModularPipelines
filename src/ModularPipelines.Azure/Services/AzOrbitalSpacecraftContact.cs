@@ -25,9 +25,9 @@ public class AzOrbitalSpacecraftContact
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzOrbitalSpacecraftContactDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzOrbitalSpacecraftContactDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzOrbitalSpacecraftContactListOptions options, CancellationToken token = default)

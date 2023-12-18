@@ -25,9 +25,9 @@ public class AzVmwareHcxEnterpriseSite
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareHcxEnterpriseSiteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareHcxEnterpriseSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareHcxEnterpriseSiteListOptions options, CancellationToken token = default)

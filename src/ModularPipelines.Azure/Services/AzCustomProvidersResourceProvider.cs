@@ -30,9 +30,9 @@ public class AzCustomProvidersResourceProvider
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzCustomProvidersResourceProviderListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCustomProvidersResourceProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCustomProvidersResourceProviderListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzCustomProvidersResourceProviderShowOptions options, CancellationToken token = default)

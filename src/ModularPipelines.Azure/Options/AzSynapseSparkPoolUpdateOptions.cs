@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "spark", "pool", "update")]
-public record AzSynapseSparkPoolUpdateOptions(
-[property: CommandSwitch("--big-data-pool-name")] string BigDataPoolName
-) : AzOptions
+public record AzSynapseSparkPoolUpdateOptions : AzOptions
 {
     [CommandSwitch("--delay")]
     public string? Delay { get; set; }

@@ -13,6 +13,4 @@ public record AzLogzMonitorListPayloadOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--email-address")]
-    public string? EmailAddress { get; set; }
 }

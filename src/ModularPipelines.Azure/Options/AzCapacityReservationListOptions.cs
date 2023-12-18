@@ -13,6 +13,4 @@ public record AzCapacityReservationListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--instance-view")]
-    public string? InstanceView { get; set; }
 }

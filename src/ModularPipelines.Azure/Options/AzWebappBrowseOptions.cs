@@ -8,17 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "browse")]
-public record AzWebappBrowseOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--plan")] string Plan,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzWebappBrowseOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [BooleanCommandSwitch("--logs")]
     public bool? Logs { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }

@@ -18,6 +18,4 @@ public record AzMlDataShareOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--label")]
-    public string? Label { get; set; }
 }

@@ -16,6 +16,4 @@ public record AzBatchApplicationPackageCreateOptions(
 [property: CommandSwitch("--version-name")] string VersionName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

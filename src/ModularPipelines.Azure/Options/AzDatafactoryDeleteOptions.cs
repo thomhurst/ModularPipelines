@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "delete")]
-public record AzDatafactoryDeleteOptions(
-[property: CommandSwitch("--git-hub-access-code")] string GitHubAccessCode,
-[property: CommandSwitch("--git-hub-access-token-base-url")] string GitHubAccessTokenBaseUrl
-) : AzOptions
+public record AzDatafactoryDeleteOptions : AzOptions
 {
     [CommandSwitch("--factory-name")]
     public string? FactoryName { get; set; }

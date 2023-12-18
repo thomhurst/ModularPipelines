@@ -29,14 +29,14 @@ public class AzAmsStreamingEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsStreamingEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsStreamingEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetSkus(AzAmsStreamingEndpointGetSkusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSkus(AzAmsStreamingEndpointGetSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointGetSkusOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingEndpointListOptions options, CancellationToken token = default)

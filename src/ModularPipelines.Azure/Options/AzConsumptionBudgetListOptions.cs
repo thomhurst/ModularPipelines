@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("consumption", "budget", "list")]
-public record AzConsumptionBudgetListOptions(
-[property: CommandSwitch("--budget-name")] string BudgetName
-) : AzOptions
+public record AzConsumptionBudgetListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

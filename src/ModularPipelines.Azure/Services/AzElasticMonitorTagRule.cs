@@ -25,9 +25,9 @@ public class AzElasticMonitorTagRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzElasticMonitorTagRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzElasticMonitorTagRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzElasticMonitorTagRuleListOptions options, CancellationToken token = default)

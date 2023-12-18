@@ -29,14 +29,14 @@ public class AzVmHost
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmHostDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmHostDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetInstanceView(AzVmHostGetInstanceViewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetInstanceView(AzVmHostGetInstanceViewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGetInstanceViewOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmHostListOptions options, CancellationToken token = default)

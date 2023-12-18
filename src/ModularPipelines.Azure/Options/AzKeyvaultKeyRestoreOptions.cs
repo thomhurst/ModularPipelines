@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "restore")]
-public record AzKeyvaultKeyRestoreOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--digest")] string Digest
-) : AzOptions
+public record AzKeyvaultKeyRestoreOptions : AzOptions
 {
     [CommandSwitch("--backup-folder")]
     public string? BackupFolder { get; set; }

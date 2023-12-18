@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "run", "submit-pipeline")]
-public record AzMlRunSubmitPipelineOptions(
-[property: CommandSwitch("--run")] string Run
-) : AzOptions
+public record AzMlRunSubmitPipelineOptions : AzOptions
 {
     [CommandSwitch("--datapaths")]
     public string? Datapaths { get; set; }

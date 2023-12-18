@@ -30,9 +30,9 @@ public class AzPolicyDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPolicyDefinitionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPolicyDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyDefinitionListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzPolicyDefinitionShowOptions options, CancellationToken token = default)

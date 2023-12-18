@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("relay", "namespace", "authorization-rule", "delete")]
-public record AzRelayNamespaceAuthorizationRuleDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzRelayNamespaceAuthorizationRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

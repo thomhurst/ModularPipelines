@@ -25,9 +25,9 @@ public class AzLogzRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzLogzRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzLogzRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzLogzRuleListOptions options, CancellationToken token = default)

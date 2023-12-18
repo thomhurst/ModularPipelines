@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "share-rm", "delete")]
-public record AzStorageShareRmDeleteOptions(
-[property: CommandSwitch("--storage-account")] int StorageAccount
-) : AzOptions
+public record AzStorageShareRmDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -26,6 +24,9 @@ public record AzStorageShareRmDeleteOptions(
 
     [CommandSwitch("--snapshot")]
     public string? Snapshot { get; set; }
+
+    [CommandSwitch("--storage-account")]
+    public int? StorageAccount { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

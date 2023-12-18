@@ -20,19 +20,19 @@ public class AzServicebusMigration
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Abort(AzServicebusMigrationAbortOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Abort(AzServicebusMigrationAbortOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusMigrationAbortOptions(), token);
     }
 
-    public async Task<CommandResult> Complete(AzServicebusMigrationCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Complete(AzServicebusMigrationCompleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusMigrationCompleteOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusMigrationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusMigrationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusMigrationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzServicebusMigrationListOptions options, CancellationToken token = default)

@@ -20,9 +20,9 @@ public class AzDevcenterAdminEnvironmentDefinition
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetErrorDetail(AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetErrorDetail(AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminEnvironmentDefinitionListOptions options, CancellationToken token = default)

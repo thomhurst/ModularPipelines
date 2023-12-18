@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("alias", "export")]
-public record AzAliasExportOptions(
-[property: CommandSwitch("--source")] string Source
-) : AzOptions
+public record AzAliasExportOptions : AzOptions
 {
     [CommandSwitch("--exclude")]
     public string? Exclude { get; set; }

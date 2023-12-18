@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("billing", "invoice", "download")]
-public record AzBillingInvoiceDownloadOptions(
-[property: CommandSwitch("--period-end-date")] string PeriodEndDate,
-[property: CommandSwitch("--period-start-date")] string PeriodStartDate
-) : AzOptions
+public record AzBillingInvoiceDownloadOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

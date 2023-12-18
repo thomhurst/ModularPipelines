@@ -13,12 +13,4 @@ public record AzAdpAccountDataPoolListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--data-pool-name")]
-    public string? DataPoolName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -13,12 +13,4 @@ public record AzSpringGatewayRouteConfigListOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--app-name")]
-    public string? AppName { get; set; }
-
-    [CommandSwitch("--routes-file")]
-    public string? RoutesFile { get; set; }
-
-    [CommandSwitch("--routes-json")]
-    public string? RoutesJson { get; set; }
 }

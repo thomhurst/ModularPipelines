@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "instance-pool", "list")]
-public record AzSqlInstancePoolListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSqlInstancePoolListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

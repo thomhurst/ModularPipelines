@@ -13,12 +13,4 @@ public record AzMysqlFlexibleServerDbListOptions(
 [property: CommandSwitch("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

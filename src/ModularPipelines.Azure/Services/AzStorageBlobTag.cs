@@ -20,9 +20,9 @@ public class AzStorageBlobTag
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzStorageBlobTagListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStorageBlobTagListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobTagListOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzStorageBlobTagSetOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzAutomanageConfigurationProfileVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAutomanageConfigurationProfileVersionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAutomanageConfigurationProfileVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileVersionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAutomanageConfigurationProfileVersionListOptions options, CancellationToken token = default)

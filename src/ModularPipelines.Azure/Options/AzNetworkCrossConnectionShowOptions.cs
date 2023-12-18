@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "cross-connection", "show")]
-public record AzNetworkCrossConnectionShowOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--peering-name")] string PeeringName
-) : AzOptions
+public record AzNetworkCrossConnectionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

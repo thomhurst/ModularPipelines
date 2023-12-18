@@ -97,14 +97,14 @@ public class AzIotHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzIotHubDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzIotHubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GenerateSasToken(AzIotHubGenerateSasTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateSasToken(AzIotHubGenerateSasTokenOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubGenerateSasTokenOptions(), token);
     }
 
     public async Task<CommandResult> InvokeDeviceMethod(AzIotHubInvokeDeviceMethodOptions options, CancellationToken token = default)
@@ -117,29 +117,29 @@ public class AzIotHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotHubListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotHubListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubListOptions(), token);
     }
 
-    public async Task<CommandResult> ListSkus(AzIotHubListSkusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSkus(AzIotHubListSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubListSkusOptions(), token);
     }
 
-    public async Task<CommandResult> ManualFailover(AzIotHubManualFailoverOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ManualFailover(AzIotHubManualFailoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubManualFailoverOptions(), token);
     }
 
-    public async Task<CommandResult> MonitorEvents(AzIotHubMonitorEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> MonitorEvents(AzIotHubMonitorEventsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubMonitorEventsOptions(), token);
     }
 
-    public async Task<CommandResult> MonitorFeedback(AzIotHubMonitorFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> MonitorFeedback(AzIotHubMonitorFeedbackOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubMonitorFeedbackOptions(), token);
     }
 
     public async Task<CommandResult> Query(AzIotHubQueryOptions options, CancellationToken token = default)

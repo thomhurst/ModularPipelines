@@ -10,12 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("providerhub", "provider-registration", "list")]
 public record AzProviderhubProviderRegistrationListOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--provider-namespace")]
-    public string? ProviderNamespace { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

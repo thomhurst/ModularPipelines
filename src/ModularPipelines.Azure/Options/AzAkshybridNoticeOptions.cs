@@ -12,9 +12,4 @@ public record AzAkshybridNoticeOptions(
 [property: CommandSwitch("--output-filepath")] string OutputFilepath
 ) : AzOptions
 {
-    [CommandSwitch("--aad-admin-group-object-ids")]
-    public string? AadAdminGroupObjectIds { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

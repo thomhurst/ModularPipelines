@@ -23,9 +23,9 @@ public class AzFeature
 
     public AzFeatureRegistration Registration { get; }
 
-    public async Task<CommandResult> List(AzFeatureListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzFeatureListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFeatureListOptions(), token);
     }
 
     public async Task<CommandResult> Register(AzFeatureRegisterOptions options, CancellationToken token = default)

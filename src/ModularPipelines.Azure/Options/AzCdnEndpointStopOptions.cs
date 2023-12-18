@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cdn", "endpoint", "stop")]
-public record AzCdnEndpointStopOptions(
-[property: CommandSwitch("--host-name")] string HostName
-) : AzOptions
+public record AzCdnEndpointStopOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

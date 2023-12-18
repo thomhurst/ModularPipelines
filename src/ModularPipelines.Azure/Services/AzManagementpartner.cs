@@ -29,9 +29,9 @@ public class AzManagementpartner
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzManagementpartnerShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzManagementpartnerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagementpartnerShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzManagementpartnerUpdateOptions options, CancellationToken token = default)

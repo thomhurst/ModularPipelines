@@ -15,12 +15,4 @@ public record AzServicebusTopicAuthorizationRuleKeysListOptions(
 [property: CommandSwitch("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--key-value")]
-    public string? KeyValue { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

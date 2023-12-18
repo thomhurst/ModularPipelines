@@ -20,9 +20,9 @@ public class AzNetworkPrivateDnsRecordSetSoa
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Show(AzNetworkPrivateDnsRecordSetSoaShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkPrivateDnsRecordSetSoaShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSoaShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateDnsRecordSetSoaUpdateOptions options, CancellationToken token = default)

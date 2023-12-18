@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "addon", "vr", "show")]
-public record AzVmwareAddonVrShowOptions(
-[property: CommandSwitch("--vrs-count")] int VrsCount
-) : AzOptions
+public record AzVmwareAddonVrShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

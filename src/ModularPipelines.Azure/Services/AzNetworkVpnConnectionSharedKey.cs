@@ -25,9 +25,9 @@ public class AzNetworkVpnConnectionSharedKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkVpnConnectionSharedKeyShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkVpnConnectionSharedKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVpnConnectionSharedKeyUpdateOptions options, CancellationToken token = default)

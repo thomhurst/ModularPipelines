@@ -13,15 +13,4 @@ public record AzDatafactoryIntegrationRuntimeListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--integration-runtime-name")]
-    public string? IntegrationRuntimeName { get; set; }
-
-    [CommandSwitch("--key-name")]
-    public string? KeyName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

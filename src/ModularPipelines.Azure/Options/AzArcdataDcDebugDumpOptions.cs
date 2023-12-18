@@ -18,6 +18,6 @@ public record AzArcdataDcDebugDumpOptions(
     [CommandSwitch("--target-folder")]
     public string? TargetFolder { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

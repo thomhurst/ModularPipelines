@@ -15,9 +15,4 @@ public record AzSpringAppDeploymentShowOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
-    [CommandSwitch("--duration")]
-    public string? Duration { get; set; }
 }

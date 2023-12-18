@@ -25,9 +25,9 @@ public class AzNetworkcloudKubernetesclusterAgentpool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudKubernetesclusterAgentpoolListOptions options, CancellationToken token = default)

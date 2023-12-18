@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "endpoint", "realtime", "list")]
-public record AzMlEndpointRealtimeListOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMlEndpointRealtimeListOptions : AzOptions
 {
     [CommandSwitch("--compute-type")]
     public string? ComputeType { get; set; }

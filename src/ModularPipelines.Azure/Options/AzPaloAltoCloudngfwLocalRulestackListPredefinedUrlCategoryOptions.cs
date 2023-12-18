@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "list-predefined-url-category")]
-public record AzPaloAltoCloudngfwLocalRulestackListPredefinedUrlCategoryOptions(
-[property: CommandSwitch("--type")] string Type
-) : AzOptions
+public record AzPaloAltoCloudngfwLocalRulestackListPredefinedUrlCategoryOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

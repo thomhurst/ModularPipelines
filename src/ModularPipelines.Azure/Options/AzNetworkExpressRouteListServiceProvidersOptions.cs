@@ -10,15 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("network", "express-route", "list-service-providers")]
 public record AzNetworkExpressRouteListServiceProvidersOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

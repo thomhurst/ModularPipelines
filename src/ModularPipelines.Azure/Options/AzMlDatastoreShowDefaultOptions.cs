@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "datastore", "show-default")]
-public record AzMlDatastoreShowDefaultOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--src-path")] string SrcPath
-) : AzOptions
+public record AzMlDatastoreShowDefaultOptions : AzOptions
 {
     [CommandSwitch("--include-secret")]
     public string? IncludeSecret { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "tag", "list")]
-public record AzStorageBlobTagListOptions(
-[property: CommandSwitch("--tags")] string Tags
-) : AzOptions
+public record AzStorageBlobTagListOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

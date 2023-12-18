@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "op", "list")]
-public record AzSqlMiOpListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSqlMiOpListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

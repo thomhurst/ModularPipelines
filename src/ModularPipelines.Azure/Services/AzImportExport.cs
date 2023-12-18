@@ -37,9 +37,9 @@ public class AzImportExport
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzImportExportListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzImportExportListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImportExportListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzImportExportShowOptions options, CancellationToken token = default)

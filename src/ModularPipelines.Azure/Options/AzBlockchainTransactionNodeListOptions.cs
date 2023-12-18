@@ -13,9 +13,4 @@ public record AzBlockchainTransactionNodeListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--key-name")]
-    public string? KeyName { get; set; }
-
-    [CommandSwitch("--value")]
-    public string? Value { get; set; }
 }

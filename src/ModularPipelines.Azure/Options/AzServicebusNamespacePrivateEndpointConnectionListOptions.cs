@@ -13,12 +13,4 @@ public record AzServicebusNamespacePrivateEndpointConnectionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
-    public string? Description { get; set; }
-
-    [CommandSwitch("--id")]
-    public string? Id { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "flexible-server", "restart")]
-public record AzMysqlFlexibleServerRestartOptions(
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMysqlFlexibleServerRestartOptions : AzOptions
 {
     [CommandSwitch("--failover")]
     public string? Failover { get; set; }

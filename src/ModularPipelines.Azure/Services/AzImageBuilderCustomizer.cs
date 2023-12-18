@@ -25,9 +25,9 @@ public class AzImageBuilderCustomizer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Clear(AzImageBuilderCustomizerClearOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Clear(AzImageBuilderCustomizerClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderCustomizerClearOptions(), token);
     }
 
     public async Task<CommandResult> Remove(AzImageBuilderCustomizerRemoveOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "firewall", "policy", "intrusion-detection", "add")]
-public record AzNetworkFirewallPolicyIntrusionDetectionAddOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkFirewallPolicyIntrusionDetectionAddOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }
@@ -58,11 +55,17 @@ public record AzNetworkFirewallPolicyIntrusionDetectionAddOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--policy-name")]
+    public string? PolicyName { get; set; }
+
     [CommandSwitch("--private-ranges")]
     public string? PrivateRanges { get; set; }
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--rule-description")]
     public string? RuleDescription { get; set; }

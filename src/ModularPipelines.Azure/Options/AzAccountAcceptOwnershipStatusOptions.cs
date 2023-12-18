@@ -12,15 +12,4 @@ public record AzAccountAcceptOwnershipStatusOptions(
 [property: CommandSwitch("--subscription-id")] string SubscriptionId
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
-    public string? DisplayName { get; set; }
-
-    [CommandSwitch("--owner-object-id")]
-    public string? OwnerObjectId { get; set; }
-
-    [CommandSwitch("--owner-spn")]
-    public string? OwnerSpn { get; set; }
-
-    [CommandSwitch("--owner-upn")]
-    public string? OwnerUpn { get; set; }
 }

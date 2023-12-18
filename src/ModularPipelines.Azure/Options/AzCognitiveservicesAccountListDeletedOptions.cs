@@ -8,14 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cognitiveservices", "account", "list-deleted")]
-public record AzCognitiveservicesAccountListDeletedOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountListDeletedOptions : AzOptions
 {
-    [CommandSwitch("--kind")]
-    public string? Kind { get; set; }
-
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
 }

@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sf", "managed-cluster", "list")]
-public record AzSfManagedClusterListOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSfManagedClusterListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

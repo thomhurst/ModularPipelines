@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "namespace", "list")]
-public record AzEventgridNamespaceListOptions(
-[property: CommandSwitch("--key-name")] string KeyName
-) : AzOptions
+public record AzEventgridNamespaceListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

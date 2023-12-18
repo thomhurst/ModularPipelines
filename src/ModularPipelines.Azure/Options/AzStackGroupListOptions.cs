@@ -12,9 +12,4 @@ public record AzStackGroupListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--id")]
-    public string? Id { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

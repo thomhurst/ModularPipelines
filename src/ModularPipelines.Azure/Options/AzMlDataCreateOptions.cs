@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "data", "create")]
-public record AzMlDataCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMlDataCreateOptions : AzOptions
 {
     [CommandSwitch("--datastore")]
     public string? Datastore { get; set; }
@@ -34,6 +31,9 @@ public record AzMlDataCreateOptions(
     [CommandSwitch("--registry-name")]
     public string? RegistryName { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 
@@ -45,4 +45,7 @@ public record AzMlDataCreateOptions(
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 }

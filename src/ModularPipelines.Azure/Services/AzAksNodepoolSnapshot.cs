@@ -50,9 +50,9 @@ public class AzAksNodepoolSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAksNodepoolSnapshotListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAksNodepoolSnapshotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAksNodepoolSnapshotShowOptions options, CancellationToken token = default)

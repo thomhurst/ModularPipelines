@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "application", "summary", "list")]
-public record AzBatchApplicationSummaryListOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
-) : AzOptions
+public record AzBatchApplicationSummaryListOptions : AzOptions
 {
     [CommandSwitch("--account-endpoint")]
     public int? AccountEndpoint { get; set; }

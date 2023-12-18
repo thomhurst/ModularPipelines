@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("configure")]
-public record AzConfigureOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzConfigureOptions : AzOptions
 {
     [CommandSwitch("--defaults")]
     public string? Defaults { get; set; }

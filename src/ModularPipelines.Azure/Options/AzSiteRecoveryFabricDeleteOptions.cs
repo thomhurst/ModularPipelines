@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("site-recovery", "fabric", "delete")]
-public record AzSiteRecoveryFabricDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzSiteRecoveryFabricDeleteOptions : AzOptions
 {
     [CommandSwitch("--fabric-name")]
     public string? FabricName { get; set; }
@@ -22,8 +19,14 @@ public record AzSiteRecoveryFabricDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

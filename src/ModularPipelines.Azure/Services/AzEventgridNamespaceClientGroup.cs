@@ -25,9 +25,9 @@ public class AzEventgridNamespaceClientGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventgridNamespaceClientGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventgridNamespaceClientGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespaceClientGroupListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "vnet-rule", "show")]
-public record AzMariadbServerVnetRuleShowOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzMariadbServerVnetRuleShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

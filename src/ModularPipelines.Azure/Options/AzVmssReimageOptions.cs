@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "reimage")]
-public record AzVmssReimageOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmssReimageOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -19,8 +16,14 @@ public record AzVmssReimageOptions(
     [CommandSwitch("--instance-ids")]
     public string? InstanceIds { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

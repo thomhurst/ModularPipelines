@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "restart")]
-public record AzMysqlServerRestartOptions(
-[property: CommandSwitch("--pitr-time")] string PitrTime,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMysqlServerRestartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

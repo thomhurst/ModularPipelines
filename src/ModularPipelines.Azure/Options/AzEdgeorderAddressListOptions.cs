@@ -8,13 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "address", "list")]
-public record AzEdgeorderAddressListOptions(
-[property: CommandSwitch("--address-name")] string AddressName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEdgeorderAddressListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--skip-token")]
     public string? SkipToken { get; set; }

@@ -24,14 +24,14 @@ public class AzVmExtension
 
     public AzVmExtensionImage Image { get; }
 
-    public async Task<CommandResult> Delete(AzVmExtensionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzVmExtensionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzVmExtensionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionListOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzVmExtensionSetOptions options, CancellationToken token = default)

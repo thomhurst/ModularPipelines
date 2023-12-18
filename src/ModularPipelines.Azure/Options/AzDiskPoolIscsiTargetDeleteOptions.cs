@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("disk-pool", "iscsi-target", "delete")]
-public record AzDiskPoolIscsiTargetDeleteOptions(
-[property: CommandSwitch("--disk-pool-name")] string DiskPoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDiskPoolIscsiTargetDeleteOptions : AzOptions
 {
+    [CommandSwitch("--disk-pool-name")]
+    public string? DiskPoolName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzDiskPoolIscsiTargetDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

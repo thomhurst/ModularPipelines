@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("peering", "peering", "list")]
-public record AzPeeringPeeringListOptions(
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzPeeringPeeringListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

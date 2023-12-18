@@ -29,9 +29,9 @@ public class AzNetworkVpnSite
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVpnSiteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVpnSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Download(AzNetworkVpnSiteDownloadOptions options, CancellationToken token = default)

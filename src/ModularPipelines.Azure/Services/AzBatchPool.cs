@@ -40,9 +40,9 @@ public class AzBatchPool
 
     public AzBatchPoolUsageMetrics UsageMetrics { get; }
 
-    public async Task<CommandResult> Create(AzBatchPoolCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzBatchPoolCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzBatchPoolDeleteOptions options, CancellationToken token = default)
@@ -50,9 +50,9 @@ public class AzBatchPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzBatchPoolListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBatchPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolListOptions(), token);
     }
 
     public async Task<CommandResult> Reset(AzBatchPoolResetOptions options, CancellationToken token = default)

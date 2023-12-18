@@ -20,6 +20,6 @@ public record AzBackupRestoreRestoreAzurewlOptions(
     [CommandSwitch("--rehydration-priority")]
     public string? RehydrationPriority { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 }

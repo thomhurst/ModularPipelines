@@ -13,9 +13,4 @@ public record AzNetworkWatcherConnectionMonitorEndpointListOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--test-groups")]
-    public string? TestGroups { get; set; }
 }

@@ -14,9 +14,4 @@ public record AzHdinsightScriptActionDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--persist-on-success")]
-    public bool? PersistOnSuccess { get; set; }
-
-    [CommandSwitch("--script-parameters")]
-    public string? ScriptParameters { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "restart", "(appservice-kube", "extension)")]
-public record AzWebappRestartAppserviceKubeExtensionOptions(
-[property: CommandSwitch("--instance-count")] int InstanceCount
-) : AzOptions
+public record AzWebappRestartAppserviceKubeExtensionOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -20,9 +20,9 @@ public class AzFluidRelayContainer
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Delete(AzFluidRelayContainerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzFluidRelayContainerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzFluidRelayContainerListOptions options, CancellationToken token = default)

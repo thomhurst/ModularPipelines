@@ -13,12 +13,4 @@ public record AzHealthcareapisWorkspaceIotConnectorListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--iot-connector-name")]
-    public string? IotConnectorName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

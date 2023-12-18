@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("footprint", "measurement-endpoint-condition", "delete")]
-public record AzFootprintMeasurementEndpointConditionDeleteOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzFootprintMeasurementEndpointConditionDeleteOptions : AzOptions
 {
+    [CommandSwitch("--endpoint-name")]
+    public string? EndpointName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--profile-name")]
+    public string? ProfileName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

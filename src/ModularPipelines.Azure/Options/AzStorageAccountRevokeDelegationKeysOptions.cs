@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "revoke-delegation-keys")]
-public record AzStorageAccountRevokeDelegationKeysOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzStorageAccountRevokeDelegationKeysOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

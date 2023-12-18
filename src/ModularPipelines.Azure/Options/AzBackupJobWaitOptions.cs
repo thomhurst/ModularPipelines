@@ -25,8 +25,8 @@ public record AzBackupJobWaitOptions : AzOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }

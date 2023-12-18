@@ -36,9 +36,9 @@ public class AzContainerappConnectionCreate
 
     public AzContainerappConnectionCreateSql SqlCommands { get; }
 
-    public async Task<CommandResult> Appconfig(AzContainerappConnectionCreateAppconfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Appconfig(AzContainerappConnectionCreateAppconfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateAppconfigOptions(), token);
     }
 
     public async Task<CommandResult> ConfluentCloud(AzContainerappConnectionCreateConfluentCloudOptions options, CancellationToken token = default)

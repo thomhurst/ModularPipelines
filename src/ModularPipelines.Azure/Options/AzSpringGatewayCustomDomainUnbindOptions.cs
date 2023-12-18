@@ -14,6 +14,4 @@ public record AzSpringGatewayCustomDomainUnbindOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
-    public string? Certificate { get; set; }
 }

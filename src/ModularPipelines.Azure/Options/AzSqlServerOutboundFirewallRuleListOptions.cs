@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "outbound-firewall-rule", "list")]
-public record AzSqlServerOutboundFirewallRuleListOptions(
-[property: CommandSwitch("--outbound-rule-fqdn")] string OutboundRuleFqdn
-) : AzOptions
+public record AzSqlServerOutboundFirewallRuleListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

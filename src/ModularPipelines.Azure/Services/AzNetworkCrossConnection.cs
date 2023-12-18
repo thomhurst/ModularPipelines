@@ -24,9 +24,9 @@ public class AzNetworkCrossConnection
 
     public AzNetworkCrossConnectionPeering Peering { get; }
 
-    public async Task<CommandResult> List(AzNetworkCrossConnectionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkCrossConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionListOptions(), token);
     }
 
     public async Task<CommandResult> ListArpTables(AzNetworkCrossConnectionListArpTablesOptions options, CancellationToken token = default)
@@ -39,9 +39,9 @@ public class AzNetworkCrossConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkCrossConnectionShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkCrossConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionShowOptions(), token);
     }
 
     public async Task<CommandResult> SummarizeRouteTable(AzNetworkCrossConnectionSummarizeRouteTableOptions options, CancellationToken token = default)

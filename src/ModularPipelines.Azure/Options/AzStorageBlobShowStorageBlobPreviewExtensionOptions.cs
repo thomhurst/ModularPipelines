@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "show", "(storage-blob-preview", "extension)")]
-public record AzStorageBlobShowStorageBlobPreviewExtensionOptions(
-[property: CommandSwitch("--container")] string Container,
-[property: CommandSwitch("--source")] string Source
-) : AzOptions
+public record AzStorageBlobShowStorageBlobPreviewExtensionOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

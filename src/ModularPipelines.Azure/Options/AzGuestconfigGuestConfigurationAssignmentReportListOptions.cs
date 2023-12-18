@@ -14,12 +14,4 @@ public record AzGuestconfigGuestConfigurationAssignmentReportListOptions(
 [property: CommandSwitch("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--report-id")]
-    public string? ReportId { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

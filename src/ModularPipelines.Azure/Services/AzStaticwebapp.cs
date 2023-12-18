@@ -74,9 +74,9 @@ public class AzStaticwebapp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzStaticwebappListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStaticwebappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappListOptions(), token);
     }
 
     public async Task<CommandResult> Reconnect(AzStaticwebappReconnectOptions options, CancellationToken token = default)

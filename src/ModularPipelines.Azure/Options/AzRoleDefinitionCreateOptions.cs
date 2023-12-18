@@ -12,12 +12,4 @@ public record AzRoleDefinitionCreateOptions(
 [property: CommandSwitch("--role-definition")] string RoleDefinition
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--custom-role-only")]
-    public bool? CustomRoleOnly { get; set; }
-
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
 }

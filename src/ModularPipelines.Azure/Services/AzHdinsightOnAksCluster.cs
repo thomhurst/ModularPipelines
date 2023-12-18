@@ -41,9 +41,9 @@ public class AzHdinsightOnAksCluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHdinsightOnAksClusterDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHdinsightOnAksClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHdinsightOnAksClusterListOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzHealthcareapisWorkspaceIotConnectorFhirDestination
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceIotConnectorFhirDestinationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceIotConnectorFhirDestinationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorFhirDestinationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceIotConnectorFhirDestinationListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzHealthcareapisWorkspaceIotConnectorFhirDestination
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzHealthcareapisWorkspaceIotConnectorFhirDestinationUpdateOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "secret", "list")]
-public record AzKeyvaultSecretListOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultSecretListOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }
@@ -21,4 +18,7 @@ public record AzKeyvaultSecretListOptions(
 
     [CommandSwitch("--maxresults")]
     public string? Maxresults { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 }

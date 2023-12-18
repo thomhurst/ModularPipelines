@@ -30,9 +30,9 @@ public class AzSecurityAssessment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSecurityAssessmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAssessmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAssessmentListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAssessmentShowOptions options, CancellationToken token = default)

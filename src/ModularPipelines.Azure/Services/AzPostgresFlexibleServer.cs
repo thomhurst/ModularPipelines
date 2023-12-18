@@ -65,14 +65,14 @@ public class AzPostgresFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzPostgresFlexibleServerCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzPostgresFlexibleServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzPostgresFlexibleServerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPostgresFlexibleServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Execute(AzPostgresFlexibleServerExecuteOptions options, CancellationToken token = default)
@@ -85,9 +85,9 @@ public class AzPostgresFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPostgresFlexibleServerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPostgresFlexibleServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerListOptions(), token);
     }
 
     public async Task<CommandResult> ListSkus(AzPostgresFlexibleServerListSkusOptions options, CancellationToken token = default)
@@ -95,9 +95,9 @@ public class AzPostgresFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Restart(AzPostgresFlexibleServerRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzPostgresFlexibleServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerRestartOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzPostgresFlexibleServerRestoreOptions options, CancellationToken token = default)
@@ -110,29 +110,29 @@ public class AzPostgresFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzPostgresFlexibleServerShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzPostgresFlexibleServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerShowOptions(), token);
     }
 
-    public async Task<CommandResult> ShowConnectionString(AzPostgresFlexibleServerShowConnectionStringOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowConnectionString(AzPostgresFlexibleServerShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerShowConnectionStringOptions(), token);
     }
 
-    public async Task<CommandResult> Start(AzPostgresFlexibleServerStartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Start(AzPostgresFlexibleServerStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerStartOptions(), token);
     }
 
-    public async Task<CommandResult> Stop(AzPostgresFlexibleServerStopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Stop(AzPostgresFlexibleServerStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerStopOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzPostgresFlexibleServerUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzPostgresFlexibleServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Upgrade(AzPostgresFlexibleServerUpgradeOptions options, CancellationToken token = default)

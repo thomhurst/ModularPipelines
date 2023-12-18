@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aro", "list")]
-public record AzAroListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAroListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

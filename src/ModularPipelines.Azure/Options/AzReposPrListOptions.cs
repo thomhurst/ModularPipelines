@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("repos", "pr", "list")]
-public record AzReposPrListOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--vote")] string Vote
-) : AzOptions
+public record AzReposPrListOptions : AzOptions
 {
     [CommandSwitch("--creator")]
     public string? Creator { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "show")]
-public record AzPostgresFlexibleServerShowOptions(
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzPostgresFlexibleServerShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

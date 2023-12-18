@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sentinel", "setting", "delete")]
-public record AzSentinelSettingDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSentinelSettingDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -19,8 +16,14 @@ public record AzSentinelSettingDeleteOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

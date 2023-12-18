@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network-function", "traffic-collector", "collector-policy", "delete")]
-public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--traffic-collector-name")] string TrafficCollectorName
-) : AzOptions
+public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions : AzOptions
 {
     [CommandSwitch("--collector-policy-name")]
     public string? CollectorPolicyName { get; set; }
@@ -22,8 +19,14 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--traffic-collector-name")]
+    public string? TrafficCollectorName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

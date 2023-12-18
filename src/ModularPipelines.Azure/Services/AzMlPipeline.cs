@@ -25,9 +25,9 @@ public class AzMlPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> CloneDraft(AzMlPipelineCloneDraftOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CloneDraft(AzMlPipelineCloneDraftOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlPipelineCloneDraftOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzMlPipelineCreateOptions options, CancellationToken token = default)
@@ -80,14 +80,14 @@ public class AzMlPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlPipelineListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlPipelineListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlPipelineListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDrafts(AzMlPipelineListDraftsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDrafts(AzMlPipelineListDraftsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlPipelineListDraftsOptions(), token);
     }
 
     public async Task<CommandResult> ListSteps(AzMlPipelineListStepsOptions options, CancellationToken token = default)
@@ -125,9 +125,9 @@ public class AzMlPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> UpdateDraft(AzMlPipelineUpdateDraftOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDraft(AzMlPipelineUpdateDraftOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlPipelineUpdateDraftOptions(), token);
     }
 
     public async Task<CommandResult> UpdateSchedule(AzMlPipelineUpdateScheduleOptions options, CancellationToken token = default)

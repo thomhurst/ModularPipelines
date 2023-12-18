@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "ingress", "cors", "disable")]
-public record AzContainerappIngressCorsDisableOptions(
-[property: BooleanCommandSwitch("--allowed-origins")] bool AllowedOrigins
-) : AzOptions
+public record AzContainerappIngressCorsDisableOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

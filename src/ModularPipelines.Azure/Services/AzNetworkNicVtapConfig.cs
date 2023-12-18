@@ -25,9 +25,9 @@ public class AzNetworkNicVtapConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkNicVtapConfigDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkNicVtapConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkNicVtapConfigListOptions options, CancellationToken token = default)

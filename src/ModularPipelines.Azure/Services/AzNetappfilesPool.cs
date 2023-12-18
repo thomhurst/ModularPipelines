@@ -25,9 +25,9 @@ public class AzNetappfilesPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesPoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesPoolListOptions options, CancellationToken token = default)

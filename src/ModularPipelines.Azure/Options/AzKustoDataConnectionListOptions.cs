@@ -14,12 +14,4 @@ public record AzKustoDataConnectionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--data-connection-name")]
-    public string? DataConnectionName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

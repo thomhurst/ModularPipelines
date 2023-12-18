@@ -13,9 +13,4 @@ public record AzTagAddValueOptions(
 [property: CommandSwitch("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--resource-id")]
-    public string? ResourceId { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

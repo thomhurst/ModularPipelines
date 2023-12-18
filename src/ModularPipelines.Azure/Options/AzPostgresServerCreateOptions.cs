@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server", "create")]
-public record AzPostgresServerCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresServerCreateOptions : AzOptions
 {
     [CommandSwitch("--admin-password")]
     public string? AdminPassword { get; set; }
@@ -33,6 +30,9 @@ public record AzPostgresServerCreateOptions(
 
     [CommandSwitch("--infrastructure-encryption")]
     public string? InfrastructureEncryption { get; set; }
+
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
 
     [CommandSwitch("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }

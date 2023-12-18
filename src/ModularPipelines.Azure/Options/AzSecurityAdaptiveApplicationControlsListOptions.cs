@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "adaptive-application-controls", "list")]
-public record AzSecurityAdaptiveApplicationControlsListOptions(
-[property: CommandSwitch("--group-name")] string GroupName
-) : AzOptions
+public record AzSecurityAdaptiveApplicationControlsListOptions : AzOptions
 {
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "user", "list")]
-public record AzDevopsUserListOptions(
-[property: CommandSwitch("--user")] string User
-) : AzOptions
+public record AzDevopsUserListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "list-skus")]
-public record AzIotHubListSkusOptions(
-[property: CommandSwitch("--query-command")] string QueryCommand
-) : AzOptions
+public record AzIotHubListSkusOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

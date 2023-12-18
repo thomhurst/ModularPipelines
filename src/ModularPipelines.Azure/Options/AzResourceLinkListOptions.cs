@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource", "link", "list")]
-public record AzResourceLinkListOptions(
-[property: CommandSwitch("--link")] string Link
-) : AzOptions
+public record AzResourceLinkListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

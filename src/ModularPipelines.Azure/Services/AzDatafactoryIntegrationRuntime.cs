@@ -32,24 +32,24 @@ public class AzDatafactoryIntegrationRuntime
 
     public AzDatafactoryIntegrationRuntimeSelfHosted SelfHosted { get; }
 
-    public async Task<CommandResult> Delete(AzDatafactoryIntegrationRuntimeDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryIntegrationRuntimeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetConnectionInfo(AzDatafactoryIntegrationRuntimeGetConnectionInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnectionInfo(AzDatafactoryIntegrationRuntimeGetConnectionInfoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeGetConnectionInfoOptions(), token);
     }
 
-    public async Task<CommandResult> GetMonitoringData(AzDatafactoryIntegrationRuntimeGetMonitoringDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMonitoringData(AzDatafactoryIntegrationRuntimeGetMonitoringDataOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeGetMonitoringDataOptions(), token);
     }
 
-    public async Task<CommandResult> GetStatus(AzDatafactoryIntegrationRuntimeGetStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetStatus(AzDatafactoryIntegrationRuntimeGetStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeGetStatusOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryIntegrationRuntimeListOptions options, CancellationToken token = default)
@@ -62,9 +62,9 @@ public class AzDatafactoryIntegrationRuntime
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> RegenerateAuthKey(AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegenerateAuthKey(AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions(), token);
     }
 
     public async Task<CommandResult> RemoveLink(AzDatafactoryIntegrationRuntimeRemoveLinkOptions options, CancellationToken token = default)

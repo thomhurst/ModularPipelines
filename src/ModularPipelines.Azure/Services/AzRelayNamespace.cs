@@ -29,9 +29,9 @@ public class AzRelayNamespace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRelayNamespaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRelayNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Exists(AzRelayNamespaceExistsOptions options, CancellationToken token = default)

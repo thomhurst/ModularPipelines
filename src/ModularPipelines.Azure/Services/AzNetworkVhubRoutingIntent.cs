@@ -25,9 +25,9 @@ public class AzNetworkVhubRoutingIntent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVhubRoutingIntentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVhubRoutingIntentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkVhubRoutingIntentListOptions options, CancellationToken token = default)

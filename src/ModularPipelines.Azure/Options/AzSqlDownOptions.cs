@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "down")]
-public record AzSqlDownOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSqlDownOptions : AzOptions
 {
     [CommandSwitch("--delete-group")]
     public string? DeleteGroup { get; set; }

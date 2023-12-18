@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "get-instance-view")]
-public record AzVmGetInstanceViewOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzVmGetInstanceViewOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

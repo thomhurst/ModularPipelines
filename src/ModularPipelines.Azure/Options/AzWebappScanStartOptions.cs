@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "scan", "start")]
-public record AzWebappScanStartOptions(
-[property: CommandSwitch("--scan-id")] string ScanId
-) : AzOptions
+public record AzWebappScanStartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "auto-provisioning-setting", "list")]
-public record AzSecurityAutoProvisioningSettingListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityAutoProvisioningSettingListOptions : AzOptions
 {
 }

@@ -14,6 +14,4 @@ public record AzStackHciVmNicAddOptions(
 [property: CommandSwitch("--vm-name")] string VmName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

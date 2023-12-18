@@ -8,14 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "partner", "destination", "activate")]
-public record AzEventgridPartnerDestinationActivateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEventgridPartnerDestinationActivateOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

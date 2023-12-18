@@ -25,9 +25,9 @@ public class AzSqlMiOp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlMiOpListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlMiOpListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiOpListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiOpShowOptions options, CancellationToken token = default)

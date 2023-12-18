@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("import-export", "location", "list")]
-public record AzImportExportLocationListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzImportExportLocationListOptions : AzOptions
 {
 }

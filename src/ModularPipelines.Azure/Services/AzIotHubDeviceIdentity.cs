@@ -42,19 +42,19 @@ public class AzIotHubDeviceIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Export(AzIotHubDeviceIdentityExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Export(AzIotHubDeviceIdentityExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityExportOptions(), token);
     }
 
-    public async Task<CommandResult> Import(AzIotHubDeviceIdentityImportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Import(AzIotHubDeviceIdentityImportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityImportOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzIotHubDeviceIdentityListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotHubDeviceIdentityListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityListOptions(), token);
     }
 
     public async Task<CommandResult> RenewKey(AzIotHubDeviceIdentityRenewKeyOptions options, CancellationToken token = default)

@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "locations", "list")]
-public record AzCosmosdbLocationsListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzCosmosdbLocationsListOptions : AzOptions
 {
 }

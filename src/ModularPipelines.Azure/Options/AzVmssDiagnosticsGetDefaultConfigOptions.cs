@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "diagnostics", "get-default-config")]
-public record AzVmssDiagnosticsGetDefaultConfigOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--settings")] string Settings,
-[property: CommandSwitch("--vmss-name")] string VmssName
-) : AzOptions
+public record AzVmssDiagnosticsGetDefaultConfigOptions : AzOptions
 {
     [BooleanCommandSwitch("--is-windows-os")]
     public bool? IsWindowsOs { get; set; }

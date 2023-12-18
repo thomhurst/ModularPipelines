@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "key", "list")]
-public record AzSqlMiKeyListOptions(
-[property: CommandSwitch("--kid")] string Kid
-) : AzOptions
+public record AzSqlMiKeyListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

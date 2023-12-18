@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "cluster", "list")]
-public record AzNetworkcloudClusterListOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
-) : AzOptions
+public record AzNetworkcloudClusterListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

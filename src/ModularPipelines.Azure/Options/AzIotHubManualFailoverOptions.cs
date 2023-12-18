@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "manual-failover")]
-public record AzIotHubManualFailoverOptions(
-[property: CommandSwitch("--query-command")] string QueryCommand
-) : AzOptions
+public record AzIotHubManualFailoverOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

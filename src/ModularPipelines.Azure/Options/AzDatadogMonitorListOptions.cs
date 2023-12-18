@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datadog", "monitor", "list")]
-public record AzDatadogMonitorListOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDatadogMonitorListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

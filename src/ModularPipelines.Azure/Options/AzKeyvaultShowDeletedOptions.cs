@@ -8,13 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "show-deleted")]
-public record AzKeyvaultShowDeletedOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzKeyvaultShowDeletedOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 }

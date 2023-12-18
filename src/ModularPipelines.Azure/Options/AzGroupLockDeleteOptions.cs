@@ -8,13 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("group", "lock", "delete")]
-public record AzGroupLockDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzGroupLockDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

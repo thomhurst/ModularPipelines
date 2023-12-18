@@ -13,9 +13,4 @@ public record AzAutomationScheduleListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
-    public string? Description { get; set; }
-
-    [BooleanCommandSwitch("--is-enabled")]
-    public bool? IsEnabled { get; set; }
 }

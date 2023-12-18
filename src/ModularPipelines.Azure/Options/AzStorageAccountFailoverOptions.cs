@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "failover")]
-public record AzStorageAccountFailoverOptions(
-[property: CommandSwitch("--expiry")] string Expiry,
-[property: CommandSwitch("--permissions")] string Permissions,
-[property: CommandSwitch("--resource-types")] string ResourceTypes,
-[property: CommandSwitch("--services")] string Services
-) : AzOptions
+public record AzStorageAccountFailoverOptions : AzOptions
 {
     [CommandSwitch("--failover-type")]
     public string? FailoverType { get; set; }

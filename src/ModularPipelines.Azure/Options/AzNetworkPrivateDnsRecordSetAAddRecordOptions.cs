@@ -15,9 +15,4 @@ public record AzNetworkPrivateDnsRecordSetAAddRecordOptions(
 [property: CommandSwitch("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [CommandSwitch("--metadata")]
-    public string? Metadata { get; set; }
-
-    [CommandSwitch("--ttl")]
-    public string? Ttl { get; set; }
 }

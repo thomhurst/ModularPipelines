@@ -25,9 +25,9 @@ public class AzNetworkAlbFrontend
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkAlbFrontendDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkAlbFrontendDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbFrontendDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkAlbFrontendListOptions options, CancellationToken token = default)

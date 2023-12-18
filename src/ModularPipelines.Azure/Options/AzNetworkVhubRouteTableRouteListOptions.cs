@@ -14,6 +14,4 @@ public record AzNetworkVhubRouteTableRouteListOptions(
 [property: CommandSwitch("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "feature", "filter", "list")]
-public record AzAppconfigFeatureFilterListOptions(
-[property: CommandSwitch("--filter-name")] string FilterName
-) : AzOptions
+public record AzAppconfigFeatureFilterListOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }

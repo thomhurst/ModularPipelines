@@ -14,12 +14,4 @@ public record AzFluidRelayServerRegenerateKeyOptions(
 [property: CommandSwitch("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

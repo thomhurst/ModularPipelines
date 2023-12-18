@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "account", "blob-storage", "list")]
-public record AzDlaAccountBlobStorageListOptions(
-[property: CommandSwitch("--storage-account-name")] int StorageAccountName
-) : AzOptions
+public record AzDlaAccountBlobStorageListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

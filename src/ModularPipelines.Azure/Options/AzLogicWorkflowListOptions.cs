@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("logic", "workflow", "list")]
-public record AzLogicWorkflowListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzLogicWorkflowListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
@@ -21,6 +18,9 @@ public record AzLogicWorkflowListOptions(
 
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--top")]
     public string? Top { get; set; }

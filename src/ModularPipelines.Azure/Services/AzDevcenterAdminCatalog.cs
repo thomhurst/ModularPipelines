@@ -25,14 +25,14 @@ public class AzDevcenterAdminCatalog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminCatalogDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminCatalogDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminCatalogDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetSyncErrorDetail(AzDevcenterAdminCatalogGetSyncErrorDetailOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSyncErrorDetail(AzDevcenterAdminCatalogGetSyncErrorDetailOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminCatalogGetSyncErrorDetailOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminCatalogListOptions options, CancellationToken token = default)

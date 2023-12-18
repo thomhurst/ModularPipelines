@@ -25,9 +25,9 @@ public class AzSiteRecoveryProtectionContainerMapping
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSiteRecoveryProtectionContainerMappingDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSiteRecoveryProtectionContainerMappingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectionContainerMappingListOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "env", "certificate", "delete")]
-public record AzContainerappEnvCertificateDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzContainerappEnvCertificateDeleteOptions : AzOptions
 {
     [CommandSwitch("--certificate")]
     public string? Certificate { get; set; }
@@ -21,6 +18,12 @@ public record AzContainerappEnvCertificateDeleteOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

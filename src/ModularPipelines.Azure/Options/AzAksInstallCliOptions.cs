@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aks", "install-cli")]
-public record AzAksInstallCliOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAksInstallCliOptions : AzOptions
 {
     [CommandSwitch("--base-src-url")]
     public string? BaseSrcUrl { get; set; }

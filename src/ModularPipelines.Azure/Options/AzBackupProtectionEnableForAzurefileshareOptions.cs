@@ -16,12 +16,4 @@ public record AzBackupProtectionEnableForAzurefileshareOptions(
 [property: CommandSwitch("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--disk-list-setting")]
-    public string? DiskListSetting { get; set; }
-
-    [CommandSwitch("--diskslist")]
-    public string? Diskslist { get; set; }
-
-    [BooleanCommandSwitch("--exclude-all-data-disks")]
-    public bool? ExcludeAllDataDisks { get; set; }
 }

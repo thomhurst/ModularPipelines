@@ -14,6 +14,4 @@ public record AzQuantumOfferingsAcceptTermsOptions(
 [property: CommandSwitch("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--autoadd-only")]
-    public bool? AutoaddOnly { get; set; }
 }

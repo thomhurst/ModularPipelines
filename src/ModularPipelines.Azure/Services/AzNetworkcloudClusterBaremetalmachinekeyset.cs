@@ -25,9 +25,9 @@ public class AzNetworkcloudClusterBaremetalmachinekeyset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudClusterBaremetalmachinekeysetListOptions options, CancellationToken token = default)

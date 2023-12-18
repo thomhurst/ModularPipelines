@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "run")]
-public record AzPipelinesRunOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesRunOptions : AzOptions
 {
     [CommandSwitch("--branch")]
     public string? Branch { get; set; }
@@ -23,6 +21,9 @@ public record AzPipelinesRunOptions(
 
     [CommandSwitch("--folder-path")]
     public string? FolderPath { get; set; }
+
+    [CommandSwitch("--id")]
+    public string? Id { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }

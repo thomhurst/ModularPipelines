@@ -13,9 +13,4 @@ public record AzHdinsightMonitorDisableOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-validation-timeout")]
-    public bool? NoValidationTimeout { get; set; }
-
-    [CommandSwitch("--primary-key")]
-    public string? PrimaryKey { get; set; }
 }

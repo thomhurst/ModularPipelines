@@ -24,9 +24,9 @@ public class AzTs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzTsDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzTsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzTsExportOptions options, CancellationToken token = default)

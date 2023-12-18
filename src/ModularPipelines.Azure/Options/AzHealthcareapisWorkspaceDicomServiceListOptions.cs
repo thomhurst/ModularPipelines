@@ -13,12 +13,4 @@ public record AzHealthcareapisWorkspaceDicomServiceListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--dicom-service-name")]
-    public string? DicomServiceName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

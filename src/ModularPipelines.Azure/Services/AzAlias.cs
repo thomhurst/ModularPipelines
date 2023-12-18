@@ -24,9 +24,9 @@ public class AzAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Export(AzAliasExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Export(AzAliasExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAliasExportOptions(), token);
     }
 
     public async Task<CommandResult> Import(AzAliasImportOptions options, CancellationToken token = default)
@@ -34,9 +34,9 @@ public class AzAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAliasListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAliasListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAliasListOptions(), token);
     }
 
     public async Task<CommandResult> Remove(AzAliasRemoveOptions options, CancellationToken token = default)

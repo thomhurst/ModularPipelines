@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("image", "builder", "output", "add")]
-public record AzImageBuilderOutputAddOptions(
-[property: CommandSwitch("--output-name")] string OutputName
-) : AzOptions
+public record AzImageBuilderOutputAddOptions : AzOptions
 {
     [CommandSwitch("--artifact-tags")]
     public string? ArtifactTags { get; set; }
@@ -41,6 +39,9 @@ public record AzImageBuilderOutputAddOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--output-name")]
+    public string? OutputName { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

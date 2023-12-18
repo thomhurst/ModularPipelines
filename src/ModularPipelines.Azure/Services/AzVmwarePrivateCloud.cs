@@ -33,9 +33,9 @@ public class AzVmwarePrivateCloud
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwarePrivateCloudDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwarePrivateCloudDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudDeleteOptions(), token);
     }
 
     public async Task<CommandResult> DisableCmkEncryption(AzVmwarePrivateCloudDisableCmkEncryptionOptions options, CancellationToken token = default)
@@ -48,14 +48,14 @@ public class AzVmwarePrivateCloud
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzVmwarePrivateCloudListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzVmwarePrivateCloudListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudListOptions(), token);
     }
 
-    public async Task<CommandResult> ListAdminCredentials(AzVmwarePrivateCloudListAdminCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAdminCredentials(AzVmwarePrivateCloudListAdminCredentialsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudListAdminCredentialsOptions(), token);
     }
 
     public async Task<CommandResult> RotateNsxtPassword(AzVmwarePrivateCloudRotateNsxtPasswordOptions? options = default, CancellationToken token = default)

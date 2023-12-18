@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "service-endpoint", "policy-definition", "delete")]
-public record AzNetworkServiceEndpointPolicyDefinitionDeleteOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkServiceEndpointPolicyDefinitionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,12 @@ public record AzNetworkServiceEndpointPolicyDefinitionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--policy-name")]
+    public string? PolicyName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

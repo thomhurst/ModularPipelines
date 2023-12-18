@@ -40,9 +40,9 @@ public class AzStorageMoverEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStorageMoverEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStorageMoverEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStorageMoverEndpointListOptions options, CancellationToken token = default)
@@ -50,9 +50,9 @@ public class AzStorageMoverEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzStorageMoverEndpointShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzStorageMoverEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverEndpointShowOptions(), token);
     }
 
     public async Task<CommandResult> UpdateForNfs(AzStorageMoverEndpointUpdateForNfsOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("stack-hci-vm", "disk", "delete")]
-public record AzStackHciVmDiskDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
-) : AzOptions
+public record AzStackHciVmDiskDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,9 @@ public record AzStackHciVmDiskDeleteOptions(
 
     [CommandSwitch("--polling-interval")]
     public string? PollingInterval { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

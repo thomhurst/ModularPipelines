@@ -25,9 +25,9 @@ public class AzApicMetadataSchema
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicMetadataSchemaDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicMetadataSchemaDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicMetadataSchemaDeleteOptions(), token);
     }
 
     public async Task<CommandResult> ExportMetadataSchema(AzApicMetadataSchemaExportMetadataSchemaOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzApicMetadataSchema
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Head(AzApicMetadataSchemaHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicMetadataSchemaHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicMetadataSchemaHeadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicMetadataSchemaListOptions options, CancellationToken token = default)

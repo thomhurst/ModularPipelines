@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource", "list")]
-public record AzResourceListOptions(
-[property: CommandSwitch("--destination-group")] string DestinationGroup,
-[property: CommandSwitch("--ids")] string Ids
-) : AzOptions
+public record AzResourceListOptions : AzOptions
 {
     [CommandSwitch("--location")]
     public string? Location { get; set; }

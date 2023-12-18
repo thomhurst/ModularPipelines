@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maps", "account", "delete")]
-public record AzMapsAccountDeleteOptions(
-[property: CommandSwitch("--sku")] string Sku
-) : AzOptions
+public record AzMapsAccountDeleteOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

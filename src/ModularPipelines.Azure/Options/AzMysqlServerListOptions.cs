@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "list")]
-public record AzMysqlServerListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzMysqlServerListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

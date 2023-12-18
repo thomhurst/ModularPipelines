@@ -30,9 +30,9 @@ public class AzArcdataAdConnector
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzArcdataAdConnectorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzArcdataAdConnectorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataAdConnectorListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzArcdataAdConnectorShowOptions options, CancellationToken token = default)

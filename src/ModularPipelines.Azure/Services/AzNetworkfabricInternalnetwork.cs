@@ -25,9 +25,9 @@ public class AzNetworkfabricInternalnetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkfabricInternalnetworkDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkfabricInternalnetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternalnetworkDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricInternalnetworkListOptions options, CancellationToken token = default)

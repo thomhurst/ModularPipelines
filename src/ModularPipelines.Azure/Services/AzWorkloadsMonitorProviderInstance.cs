@@ -25,9 +25,9 @@ public class AzWorkloadsMonitorProviderInstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzWorkloadsMonitorProviderInstanceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWorkloadsMonitorProviderInstanceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzWorkloadsMonitorProviderInstanceListOptions options, CancellationToken token = default)

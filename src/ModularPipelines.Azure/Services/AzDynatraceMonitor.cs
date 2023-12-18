@@ -33,9 +33,9 @@ public class AzDynatraceMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDynatraceMonitorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDynatraceMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetSsoDetail(AzDynatraceMonitorGetSsoDetailOptions options, CancellationToken token = default)

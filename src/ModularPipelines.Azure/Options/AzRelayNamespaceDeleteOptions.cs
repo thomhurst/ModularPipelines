@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("relay", "namespace", "delete")]
-public record AzRelayNamespaceDeleteOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzRelayNamespaceDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }

@@ -13,6 +13,4 @@ public record AzSphereCatalogCreateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--output-file")]
-    public string? OutputFile { get; set; }
 }

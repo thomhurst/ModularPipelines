@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("billing-benefits", "savings-plan-order", "list")]
-public record AzBillingBenefitsSavingsPlanOrderListOptions(
-[property: CommandSwitch("--savings-plan-order-id")] string SavingsPlanOrderId
-) : AzOptions
+public record AzBillingBenefitsSavingsPlanOrderListOptions : AzOptions
 {
-    [CommandSwitch("--expand")]
-    public string? Expand { get; set; }
 }

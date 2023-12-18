@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "action-group", "delete")]
-public record AzMonitorActionGroupDeleteOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMonitorActionGroupDeleteOptions : AzOptions
 {
     [CommandSwitch("--action-group-name")]
     public string? ActionGroupName { get; set; }

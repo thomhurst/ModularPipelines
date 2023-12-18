@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource-mover", "move-collection", "commit")]
-public record AzResourceMoverMoveCollectionCommitOptions(
-[property: CommandSwitch("--move-collection-name")] string MoveCollectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzResourceMoverMoveCollectionCommitOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -19,11 +16,17 @@ public record AzResourceMoverMoveCollectionCommitOptions(
     [CommandSwitch("--input-type")]
     public string? InputType { get; set; }
 
+    [CommandSwitch("--move-collection-name")]
+    public string? MoveCollectionName { get; set; }
+
     [CommandSwitch("--move-resources")]
     public string? MoveResources { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

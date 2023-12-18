@@ -20,9 +20,9 @@ public class AzNetworkApplicationGatewayWafConfig
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ListRuleSets(AzNetworkApplicationGatewayWafConfigListRuleSetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRuleSets(AzNetworkApplicationGatewayWafConfigListRuleSetsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigListRuleSetsOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzNetworkApplicationGatewayWafConfigSetOptions options, CancellationToken token = default)

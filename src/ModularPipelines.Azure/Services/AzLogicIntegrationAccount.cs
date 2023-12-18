@@ -29,9 +29,9 @@ public class AzLogicIntegrationAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzLogicIntegrationAccountDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzLogicIntegrationAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Import(AzLogicIntegrationAccountImportOptions options, CancellationToken token = default)
@@ -39,14 +39,14 @@ public class AzLogicIntegrationAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzLogicIntegrationAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzLogicIntegrationAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzLogicIntegrationAccountShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzLogicIntegrationAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzLogicIntegrationAccountUpdateOptions options, CancellationToken token = default)

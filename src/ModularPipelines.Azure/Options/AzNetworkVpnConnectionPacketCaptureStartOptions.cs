@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-connection", "packet-capture", "start")]
-public record AzNetworkVpnConnectionPacketCaptureStartOptions(
-[property: CommandSwitch("--sas-url")] string SasUrl
-) : AzOptions
+public record AzNetworkVpnConnectionPacketCaptureStartOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

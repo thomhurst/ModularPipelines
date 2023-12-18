@@ -41,9 +41,9 @@ public class AzNotificationHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNotificationHubDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNotificationHubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNotificationHubListOptions options, CancellationToken token = default)
@@ -51,9 +51,9 @@ public class AzNotificationHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNotificationHubShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNotificationHubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubShowOptions(), token);
     }
 
     public async Task<CommandResult> TestSend(AzNotificationHubTestSendOptions options, CancellationToken token = default)

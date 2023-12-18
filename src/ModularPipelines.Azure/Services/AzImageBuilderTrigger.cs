@@ -25,9 +25,9 @@ public class AzImageBuilderTrigger
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzImageBuilderTriggerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzImageBuilderTriggerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzImageBuilderTriggerListOptions options, CancellationToken token = default)

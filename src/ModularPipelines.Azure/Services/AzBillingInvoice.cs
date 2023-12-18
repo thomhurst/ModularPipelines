@@ -24,9 +24,9 @@ public class AzBillingInvoice
 
     public AzBillingInvoiceSection Section { get; }
 
-    public async Task<CommandResult> Download(AzBillingInvoiceDownloadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Download(AzBillingInvoiceDownloadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceDownloadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzBillingInvoiceListOptions options, CancellationToken token = default)

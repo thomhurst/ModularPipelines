@@ -16,15 +16,4 @@ public record AzSpringAppAppendLoadedPublicCertificateOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-sub-path")]
-    public bool? EnableSubPath { get; set; }
-
-    [CommandSwitch("--mount-options")]
-    public string? MountOptions { get; set; }
-
-    [BooleanCommandSwitch("--read-only")]
-    public bool? ReadOnly { get; set; }
-
-    [CommandSwitch("--share-name")]
-    public string? ShareName { get; set; }
 }

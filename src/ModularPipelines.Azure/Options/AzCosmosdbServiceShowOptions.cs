@@ -14,9 +14,4 @@ public record AzCosmosdbServiceShowOptions(
 [property: CommandSwitch("--resource-group-name")] string ResourceGroupName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--size")]
-    public string? Size { get; set; }
 }

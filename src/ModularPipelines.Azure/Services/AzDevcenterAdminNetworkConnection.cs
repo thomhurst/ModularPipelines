@@ -25,14 +25,14 @@ public class AzDevcenterAdminNetworkConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminNetworkConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminNetworkConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminNetworkConnectionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDevcenterAdminNetworkConnectionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevcenterAdminNetworkConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminNetworkConnectionListOptions(), token);
     }
 
     public async Task<CommandResult> ListHealthCheck(AzDevcenterAdminNetworkConnectionListHealthCheckOptions options, CancellationToken token = default)

@@ -32,9 +32,9 @@ public class AzKustoDataConnection
 
     public AzKustoDataConnectionIotHub IotHub { get; }
 
-    public async Task<CommandResult> Delete(AzKustoDataConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKustoDataConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzKustoDataConnectionListOptions options, CancellationToken token = default)

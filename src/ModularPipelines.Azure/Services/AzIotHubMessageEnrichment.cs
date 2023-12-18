@@ -30,9 +30,9 @@ public class AzIotHubMessageEnrichment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotHubMessageEnrichmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotHubMessageEnrichmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubMessageEnrichmentListOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzIotHubMessageEnrichmentUpdateOptions options, CancellationToken token = default)

@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("advisor", "configuration", "list")]
 public record AzAdvisorConfigurationListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
 }

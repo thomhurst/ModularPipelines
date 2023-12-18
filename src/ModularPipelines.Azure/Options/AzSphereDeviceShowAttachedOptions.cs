@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "show-attached")]
-public record AzSphereDeviceShowAttachedOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSphereDeviceShowAttachedOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

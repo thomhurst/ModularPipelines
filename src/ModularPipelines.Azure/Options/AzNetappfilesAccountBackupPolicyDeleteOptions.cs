@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "account", "backup-policy", "delete")]
-public record AzNetappfilesAccountBackupPolicyDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetappfilesAccountBackupPolicyDeleteOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--backup-policy-name")]
     public string? BackupPolicyName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetappfilesAccountBackupPolicyDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

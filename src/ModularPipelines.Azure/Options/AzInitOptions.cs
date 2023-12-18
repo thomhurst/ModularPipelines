@@ -8,13 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("init")]
-public record AzInitOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzInitOptions : AzOptions
 {
-    [CommandSwitch("--style")]
-    public string? Style { get; set; }
-
-    [CommandSwitch("--update")]
-    public string? Update { get; set; }
 }

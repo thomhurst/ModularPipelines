@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage-mover", "job-definition", "delete")]
-public record AzStorageMoverJobDefinitionDeleteOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
-) : AzOptions
+public record AzStorageMoverJobDefinitionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -22,6 +18,15 @@ public record AzStorageMoverJobDefinitionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--project-name")]
+    public string? ProjectName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--storage-mover-name")]
+    public string? StorageMoverName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

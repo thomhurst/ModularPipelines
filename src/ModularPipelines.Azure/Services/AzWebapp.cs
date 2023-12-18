@@ -91,9 +91,9 @@ public class AzWebapp
 
     public AzWebappWebjob Webjob { get; }
 
-    public async Task<CommandResult> Browse(AzWebappBrowseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Browse(AzWebappBrowseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappBrowseOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzWebappCreateOptions options, CancellationToken token = default)
@@ -101,24 +101,24 @@ public class AzWebapp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> CreateRemoteConnection(AzWebappCreateRemoteConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRemoteConnection(AzWebappCreateRemoteConnectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappCreateRemoteConnectionOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzWebappDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWebappDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Deploy(AzWebappDeployOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Deploy(AzWebappDeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeployOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzWebappListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzWebappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListOptions(), token);
     }
 
     public async Task<CommandResult> ListInstances(AzWebappListInstancesOptions options, CancellationToken token = default)
@@ -126,14 +126,14 @@ public class AzWebapp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListRuntimes(AzWebappListRuntimesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRuntimes(AzWebappListRuntimesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListRuntimesOptions(), token);
     }
 
-    public async Task<CommandResult> Restart(AzWebappRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzWebappRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappRestartOptions(), token);
     }
 
     public async Task<CommandResult> Scale(AzWebappScaleOptions options, CancellationToken token = default)

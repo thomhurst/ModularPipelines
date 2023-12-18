@@ -37,9 +37,9 @@ public class AzNetworkFrontDoorWafPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkFrontDoorWafPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkFrontDoorWafPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkFrontDoorWafPolicyListOptions options, CancellationToken token = default)

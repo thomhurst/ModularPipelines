@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "classification", "list")]
-public record AzSqlDbClassificationListOptions(
-[property: CommandSwitch("--column")] string Column,
-[property: CommandSwitch("--schema")] string Schema,
-[property: CommandSwitch("--table")] string Table
-) : AzOptions
+public record AzSqlDbClassificationListOptions : AzOptions
 {
     [CommandSwitch("--count")]
     public int? Count { get; set; }

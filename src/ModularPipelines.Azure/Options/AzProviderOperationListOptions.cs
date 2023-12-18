@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("provider", "operation", "list")]
-public record AzProviderOperationListOptions(
-[property: CommandSwitch("--namespace")] string Namespace
-) : AzOptions
+public record AzProviderOperationListOptions : AzOptions
 {
 }

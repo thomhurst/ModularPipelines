@@ -43,14 +43,14 @@ public class AzNetworkApplicationGatewayRewriteRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListRequestHeaders(AzNetworkApplicationGatewayRewriteRuleListRequestHeadersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRequestHeaders(AzNetworkApplicationGatewayRewriteRuleListRequestHeadersOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleListRequestHeadersOptions(), token);
     }
 
-    public async Task<CommandResult> ListResponseHeaders(AzNetworkApplicationGatewayRewriteRuleListResponseHeadersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResponseHeaders(AzNetworkApplicationGatewayRewriteRuleListResponseHeadersOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleListResponseHeadersOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewayRewriteRuleShowOptions options, CancellationToken token = default)

@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "alert", "list")]
-public record AzSecurityAlertListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityAlertListOptions : AzOptions
 {
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
+
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "computetarget", "list")]
-public record AzMlComputetargetListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMlComputetargetListOptions : AzOptions
 {
     [CommandSwitch("--path")]
     public string? Path { get; set; }

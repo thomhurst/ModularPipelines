@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "admin", "banner", "list")]
-public record AzDevopsAdminBannerListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzDevopsAdminBannerListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "list-deleted")]
-public record AzKeyvaultListDeletedOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzKeyvaultListDeletedOptions : AzOptions
 {
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }

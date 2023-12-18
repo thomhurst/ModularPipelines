@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "get-access-token")]
-public record AzAccountGetAccessTokenOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAccountGetAccessTokenOptions : AzOptions
 {
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--resource")]
     public string? Resource { get; set; }
 

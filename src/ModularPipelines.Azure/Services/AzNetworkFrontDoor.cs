@@ -63,14 +63,14 @@ public class AzNetworkFrontDoor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkFrontDoorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkFrontDoorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkFrontDoorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkFrontDoorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorListOptions(), token);
     }
 
     public async Task<CommandResult> PurgeEndpoint(AzNetworkFrontDoorPurgeEndpointOptions options, CancellationToken token = default)

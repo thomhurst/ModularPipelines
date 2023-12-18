@@ -13,6 +13,4 @@ public record AzDeploymentMgExportOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
 }

@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "log-analytics", "workspace", "list-deleted-workspaces")]
-public record AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

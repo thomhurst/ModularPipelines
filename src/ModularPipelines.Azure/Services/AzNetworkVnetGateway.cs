@@ -53,14 +53,14 @@ public class AzNetworkVnetGateway
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVnetGatewayDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVnetGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> DisconnectVpnConnections(AzNetworkVnetGatewayDisconnectVpnConnectionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisconnectVpnConnections(AzNetworkVnetGatewayDisconnectVpnConnectionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDisconnectVpnConnectionsOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkVnetGatewayListOptions options, CancellationToken token = default)

@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("feature", "list")]
-public record AzFeatureListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace")] string Namespace
-) : AzOptions
+public record AzFeatureListOptions : AzOptions
 {
+    [CommandSwitch("--namespace")]
+    public string? Namespace { get; set; }
 }

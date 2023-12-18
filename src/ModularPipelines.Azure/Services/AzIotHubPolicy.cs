@@ -25,14 +25,14 @@ public class AzIotHubPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzIotHubPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzIotHubPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzIotHubPolicyListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotHubPolicyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyListOptions(), token);
     }
 
     public async Task<CommandResult> RenewKey(AzIotHubPolicyRenewKeyOptions options, CancellationToken token = default)

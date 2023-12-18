@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "autoscale", "show")]
-public record AzMonitorAutoscaleShowOptions(
-[property: CommandSwitch("--aggregation")] string Aggregation,
-[property: CommandSwitch("--interval")] int Interval,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--metric-namespace")] string MetricNamespace,
-[property: CommandSwitch("--timespan")] string Timespan
-) : AzOptions
+public record AzMonitorAutoscaleShowOptions : AzOptions
 {
     [CommandSwitch("--autoscale-name")]
     public string? AutoscaleName { get; set; }

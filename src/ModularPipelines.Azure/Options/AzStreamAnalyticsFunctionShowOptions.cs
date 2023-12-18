@@ -14,9 +14,4 @@ public record AzStreamAnalyticsFunctionShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--properties")]
-    public string? Properties { get; set; }
 }

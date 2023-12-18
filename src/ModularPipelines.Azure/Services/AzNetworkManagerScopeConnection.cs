@@ -25,9 +25,9 @@ public class AzNetworkManagerScopeConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkManagerScopeConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkManagerScopeConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerScopeConnectionListOptions options, CancellationToken token = default)

@@ -8,12 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("quantum", "target", "clear")]
-public record AzQuantumTargetClearOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzQuantumTargetClearOptions : AzOptions
 {
-    [CommandSwitch("--target-id")]
-    public string? TargetId { get; set; }
 }

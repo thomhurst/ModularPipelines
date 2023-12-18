@@ -20,9 +20,9 @@ public class AzCommunicationPhonenumber
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzCommunicationPhonenumberListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCommunicationPhonenumberListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationPhonenumberListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzCommunicationPhonenumberShowOptions options, CancellationToken token = default)

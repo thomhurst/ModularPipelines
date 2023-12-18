@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("datadog", "terms", "list")]
 public record AzDatadogTermsListOptions : AzOptions
 {
-    [CommandSwitch("--properties")]
-    public string? Properties { get; set; }
 }

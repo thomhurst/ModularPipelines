@@ -13,12 +13,4 @@ public record AzWorkloadsSapDatabaseInstanceListOptions(
 [property: CommandSwitch("--sap-virtual-instance-name")] string SapVirtualInstanceName
 ) : AzOptions
 {
-    [CommandSwitch("--database-instance-name")]
-    public string? DatabaseInstanceName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

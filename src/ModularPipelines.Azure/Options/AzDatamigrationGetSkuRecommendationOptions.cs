@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datamigration", "get-sku-recommendation")]
-public record AzDatamigrationGetSkuRecommendationOptions(
-[property: CommandSwitch("--auth-key")] string AuthKey
-) : AzOptions
+public record AzDatamigrationGetSkuRecommendationOptions : AzOptions
 {
     [CommandSwitch("--config-file-path")]
     public string? ConfigFilePath { get; set; }

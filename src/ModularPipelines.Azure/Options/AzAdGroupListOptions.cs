@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ad", "group", "list")]
-public record AzAdGroupListOptions(
-[property: CommandSwitch("--group")] string Group
-) : AzOptions
+public record AzAdGroupListOptions : AzOptions
 {
     [CommandSwitch("--display-name")]
     public string? DisplayName { get; set; }

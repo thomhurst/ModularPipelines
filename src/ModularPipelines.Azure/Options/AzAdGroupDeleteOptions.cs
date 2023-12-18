@@ -12,6 +12,4 @@ public record AzAdGroupDeleteOptions(
 [property: CommandSwitch("--group")] string Group
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--security-enabled-only")]
-    public bool? SecurityEnabledOnly { get; set; }
 }

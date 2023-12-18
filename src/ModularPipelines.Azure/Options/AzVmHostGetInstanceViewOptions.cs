@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "host", "get-instance-view")]
-public record AzVmHostGetInstanceViewOptions(
-[property: CommandSwitch("--host-group")] string HostGroup,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmHostGetInstanceViewOptions : AzOptions
 {
+    [CommandSwitch("--host-group")]
+    public string? HostGroup { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

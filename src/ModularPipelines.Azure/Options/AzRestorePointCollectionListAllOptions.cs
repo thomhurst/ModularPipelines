@@ -8,11 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("restore-point", "collection", "list-all")]
-public record AzRestorePointCollectionListAllOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzRestorePointCollectionListAllOptions : AzOptions
 {
-    [CommandSwitch("--restore-points")]
-    public string? RestorePoints { get; set; }
 }

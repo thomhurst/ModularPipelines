@@ -19,19 +19,19 @@ public class AzExtension
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Add(AzExtensionAddOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Add(AzExtensionAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzExtensionAddOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzExtensionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzExtensionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzExtensionListOptions(), token);
     }
 
-    public async Task<CommandResult> ListAvailable(AzExtensionListAvailableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAvailable(AzExtensionListAvailableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzExtensionListAvailableOptions(), token);
     }
 
     public async Task<CommandResult> ListVersions(AzExtensionListVersionsOptions options, CancellationToken token = default)

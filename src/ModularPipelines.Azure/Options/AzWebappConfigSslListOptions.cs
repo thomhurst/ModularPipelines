@@ -12,18 +12,4 @@ public record AzWebappConfigSslListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--hostname")]
-    public string? Hostname { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--slot")]
-    public string? Slot { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

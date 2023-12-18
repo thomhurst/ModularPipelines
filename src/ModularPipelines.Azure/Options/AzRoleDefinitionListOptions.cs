@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("role", "definition", "list")]
-public record AzRoleDefinitionListOptions(
-[property: CommandSwitch("--role-definition")] string RoleDefinition
-) : AzOptions
+public record AzRoleDefinitionListOptions : AzOptions
 {
     [BooleanCommandSwitch("--custom-role-only")]
     public bool? CustomRoleOnly { get; set; }

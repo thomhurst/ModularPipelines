@@ -36,14 +36,14 @@ public class AzCloudService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCloudServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCloudServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> DeleteInstance(AzCloudServiceDeleteInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteInstance(AzCloudServiceDeleteInstanceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceDeleteInstanceOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCloudServiceListOptions options, CancellationToken token = default)

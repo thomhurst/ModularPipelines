@@ -8,26 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "application-gateway", "ssl-policy", "list-options")]
-public record AzNetworkApplicationGatewaySslPolicyListOptionsOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewaySslPolicyListOptionsOptions : AzOptions
 {
-    [CommandSwitch("--cipher-suites")]
-    public string? CipherSuites { get; set; }
-
-    [BooleanCommandSwitch("--disabled-ssl-protocols")]
-    public bool? DisabledSslProtocols { get; set; }
-
-    [CommandSwitch("--min-protocol-version")]
-    public string? MinProtocolVersion { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--policy-type")]
-    public string? PolicyType { get; set; }
 }

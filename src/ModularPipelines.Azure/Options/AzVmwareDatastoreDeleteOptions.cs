@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "datastore", "delete")]
-public record AzVmwareDatastoreDeleteOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmwareDatastoreDeleteOptions : AzOptions
 {
+    [CommandSwitch("--cluster")]
+    public string? Cluster { get; set; }
+
     [CommandSwitch("--datastore-name")]
     public string? DatastoreName { get; set; }
 
@@ -22,6 +21,12 @@ public record AzVmwareDatastoreDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--private-cloud")]
+    public string? PrivateCloud { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

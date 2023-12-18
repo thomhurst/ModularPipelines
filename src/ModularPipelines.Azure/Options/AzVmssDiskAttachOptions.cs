@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "disk", "attach")]
-public record AzVmssDiskAttachOptions(
-[property: CommandSwitch("--lun")] string Lun
-) : AzOptions
+public record AzVmssDiskAttachOptions : AzOptions
 {
     [CommandSwitch("--caching")]
     public string? Caching { get; set; }
@@ -23,6 +21,9 @@ public record AzVmssDiskAttachOptions(
 
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
+
+    [CommandSwitch("--lun")]
+    public string? Lun { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

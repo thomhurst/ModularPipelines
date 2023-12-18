@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "delete")]
-public record AzSqlDbDeleteOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--storage-key")] string StorageKey,
-[property: CommandSwitch("--storage-key-type")] string StorageKeyType,
-[property: CommandSwitch("--storage-uri")] string StorageUri
-) : AzOptions
+public record AzSqlDbDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

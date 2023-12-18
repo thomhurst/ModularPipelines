@@ -895,44 +895,44 @@ public class Az
 
     public AzWorkloads Workloads { get; }
 
-    public async Task<CommandResult> Configure(AzConfigureOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Configure(AzConfigureOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigureOptions(), token);
     }
 
-    public async Task<CommandResult> Feedback(AzFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Feedback(AzFeedbackOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFeedbackOptions(), token);
     }
 
-    public async Task<CommandResult> Find(AzFindOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Find(AzFindOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFindOptions(), token);
     }
 
-    public async Task<CommandResult> Init(AzInitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Init(AzInitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzInitOptions(), token);
     }
 
-    public async Task<CommandResult> Interactive(AzInteractiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Interactive(AzInteractiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzInteractiveOptions(), token);
     }
 
-    public async Task<CommandResult> Login(AzLoginOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Login(AzLoginOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), token);
     }
 
-    public async Task<CommandResult> Logout(AzLogoutOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Logout(AzLogoutOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), token);
     }
 
-    public async Task<CommandResult> Next(AzNextOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Next(AzNextOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNextOptions(), token);
     }
 
     public async Task<CommandResult> Rest(AzRestOptions options, CancellationToken token = default)

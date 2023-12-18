@@ -12,6 +12,4 @@ public record AzAroGetVersionsOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
 }

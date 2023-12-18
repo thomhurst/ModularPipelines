@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "topic", "authorization-rule", "delete")]
-public record AzServicebusTopicAuthorizationRuleDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--topic-name")] string TopicName
-) : AzOptions
+public record AzServicebusTopicAuthorizationRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--authorization-rule-name")]
     public string? AuthorizationRuleName { get; set; }
@@ -20,6 +16,15 @@ public record AzServicebusTopicAuthorizationRuleDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--topic-name")]
+    public string? TopicName { get; set; }
 }

@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "private-endpoint-connection", "delete")]
-public record AzKeyvaultPrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultPrivateEndpointConnectionDeleteOptions : AzOptions
 {
+    [CommandSwitch("--hsm-name")]
+    public string? HsmName { get; set; }
+
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 

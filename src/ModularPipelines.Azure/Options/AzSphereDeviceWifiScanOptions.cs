@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "wifi", "scan")]
-public record AzSphereDeviceWifiScanOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzSphereDeviceWifiScanOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

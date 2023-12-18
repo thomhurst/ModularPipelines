@@ -25,19 +25,19 @@ public class AzAmsAsset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsAssetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsAssetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetEncryptionKey(AzAmsAssetGetEncryptionKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEncryptionKey(AzAmsAssetGetEncryptionKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetGetEncryptionKeyOptions(), token);
     }
 
-    public async Task<CommandResult> GetSasUrls(AzAmsAssetGetSasUrlsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSasUrls(AzAmsAssetGetSasUrlsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetGetSasUrlsOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsAssetListOptions options, CancellationToken token = default)

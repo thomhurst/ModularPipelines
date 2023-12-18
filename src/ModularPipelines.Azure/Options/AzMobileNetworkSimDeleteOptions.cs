@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mobile-network", "sim", "delete")]
-public record AzMobileNetworkSimDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sim-group-name")] string SimGroupName
-) : AzOptions
+public record AzMobileNetworkSimDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,12 @@ public record AzMobileNetworkSimDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--sim-group-name")]
+    public string? SimGroupName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

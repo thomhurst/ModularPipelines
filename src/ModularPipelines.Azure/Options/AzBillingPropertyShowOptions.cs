@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("billing", "property", "show")]
 public record AzBillingPropertyShowOptions : AzOptions
 {
-    [CommandSwitch("--cost-center")]
-    public string? CostCenter { get; set; }
 }

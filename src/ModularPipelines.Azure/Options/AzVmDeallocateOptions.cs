@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "deallocate")]
-public record AzVmDeallocateOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzVmDeallocateOptions : AzOptions
 {
     [BooleanCommandSwitch("--hibernate")]
     public bool? Hibernate { get; set; }

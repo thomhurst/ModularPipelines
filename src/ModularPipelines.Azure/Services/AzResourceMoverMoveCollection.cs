@@ -20,14 +20,14 @@ public class AzResourceMoverMoveCollection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BulkRemove(AzResourceMoverMoveCollectionBulkRemoveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BulkRemove(AzResourceMoverMoveCollectionBulkRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionBulkRemoveOptions(), token);
     }
 
-    public async Task<CommandResult> Commit(AzResourceMoverMoveCollectionCommitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Commit(AzResourceMoverMoveCollectionCommitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionCommitOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzResourceMoverMoveCollectionCreateOptions options, CancellationToken token = default)
@@ -35,24 +35,24 @@ public class AzResourceMoverMoveCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzResourceMoverMoveCollectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzResourceMoverMoveCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Discard(AzResourceMoverMoveCollectionDiscardOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Discard(AzResourceMoverMoveCollectionDiscardOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionDiscardOptions(), token);
     }
 
-    public async Task<CommandResult> InitiateMove(AzResourceMoverMoveCollectionInitiateMoveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InitiateMove(AzResourceMoverMoveCollectionInitiateMoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionInitiateMoveOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzResourceMoverMoveCollectionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzResourceMoverMoveCollectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceMoverMoveCollectionListOptions(), token);
     }
 
     public async Task<CommandResult> ListRequiredFor(AzResourceMoverMoveCollectionListRequiredForOptions options, CancellationToken token = default)

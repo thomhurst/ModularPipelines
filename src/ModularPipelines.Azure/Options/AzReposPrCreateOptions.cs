@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("repos", "pr", "create")]
-public record AzReposPrCreateOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--vote")] string Vote
-) : AzOptions
+public record AzReposPrCreateOptions : AzOptions
 {
     [BooleanCommandSwitch("--auto-complete")]
     public bool? AutoComplete { get; set; }

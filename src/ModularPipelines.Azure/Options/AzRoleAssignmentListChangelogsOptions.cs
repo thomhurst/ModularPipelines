@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("role", "assignment", "list-changelogs")]
-public record AzRoleAssignmentListChangelogsOptions(
-[property: CommandSwitch("--role-assignment")] string RoleAssignment
-) : AzOptions
+public record AzRoleAssignmentListChangelogsOptions : AzOptions
 {
     [CommandSwitch("--end-time")]
     public string? EndTime { get; set; }

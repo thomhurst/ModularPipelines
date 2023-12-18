@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "network", "show-diagnostics")]
-public record AzSphereDeviceNetworkShowDiagnosticsOptions(
-[property: CommandSwitch("--hardware-address")] string HardwareAddress,
-[property: CommandSwitch("--interface")] string Interface
-) : AzOptions
+public record AzSphereDeviceNetworkShowDiagnosticsOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

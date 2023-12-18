@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("container", "delete")]
-public record AzContainerDeleteOptions(
-[property: CommandSwitch("--exec-command")] string ExecCommand
-) : AzOptions
+public record AzContainerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

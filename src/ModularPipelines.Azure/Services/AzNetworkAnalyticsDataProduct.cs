@@ -30,19 +30,19 @@ public class AzNetworkAnalyticsDataProduct
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkAnalyticsDataProductDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkAnalyticsDataProductDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAnalyticsDataProductDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkAnalyticsDataProductListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkAnalyticsDataProductListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAnalyticsDataProductListOptions(), token);
     }
 
-    public async Task<CommandResult> ListRolesAssignment(AzNetworkAnalyticsDataProductListRolesAssignmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRolesAssignment(AzNetworkAnalyticsDataProductListRolesAssignmentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAnalyticsDataProductListRolesAssignmentOptions(), token);
     }
 
     public async Task<CommandResult> RemoveUserRole(AzNetworkAnalyticsDataProductRemoveUserRoleOptions options, CancellationToken token = default)

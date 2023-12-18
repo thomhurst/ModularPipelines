@@ -30,9 +30,9 @@ public class AzAkshybridVnet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAkshybridVnetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAkshybridVnetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAkshybridVnetListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAkshybridVnetShowOptions options, CancellationToken token = default)

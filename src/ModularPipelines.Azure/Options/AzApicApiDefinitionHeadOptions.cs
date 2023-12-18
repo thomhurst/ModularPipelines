@@ -8,21 +8,28 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "api", "definition", "head")]
-public record AzApicApiDefinitionHeadOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzApicApiDefinitionHeadOptions : AzOptions
 {
+    [CommandSwitch("--api")]
+    public string? Api { get; set; }
+
     [CommandSwitch("--definition")]
     public string? Definition { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--service")]
+    public string? Service { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }

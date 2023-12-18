@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "spark", "pool", "show")]
-public record AzSynapseSparkPoolShowOptions(
-[property: CommandSwitch("--big-data-pool-name")] string BigDataPoolName
-) : AzOptions
+public record AzSynapseSparkPoolShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

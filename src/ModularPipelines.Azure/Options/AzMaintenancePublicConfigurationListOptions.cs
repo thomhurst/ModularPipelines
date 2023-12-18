@@ -10,12 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("maintenance", "public-configuration", "list")]
 public record AzMaintenancePublicConfigurationListOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "dataset", "archive")]
-public record AzMlDatasetArchiveOptions(
-[property: CommandSwitch("--deprecate-by-id")] string DeprecateById
-) : AzOptions
+public record AzMlDatasetArchiveOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }

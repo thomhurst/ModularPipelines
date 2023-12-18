@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ts", "delete")]
-public record AzTsDeleteOptions(
-[property: CommandSwitch("--output-folder")] string OutputFolder
-) : AzOptions
+public record AzTsDeleteOptions : AzOptions
 {
     [CommandSwitch("--name")]
     public string? Name { get; set; }

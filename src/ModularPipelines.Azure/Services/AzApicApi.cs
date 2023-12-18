@@ -37,14 +37,14 @@ public class AzApicApi
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicApiDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicApiDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Head(AzApicApiHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicApiHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiHeadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicApiListOptions options, CancellationToken token = default)

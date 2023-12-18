@@ -25,9 +25,9 @@ public class AzNginxDeploymentCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNginxDeploymentCertificateDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNginxDeploymentCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNginxDeploymentCertificateListOptions options, CancellationToken token = default)

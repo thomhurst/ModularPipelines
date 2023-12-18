@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("scvmm", "vm", "update")]
-public record AzScvmmVmUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--virtual-machine-name")] string VirtualMachineName
-) : AzOptions
+public record AzScvmmVmUpdateOptions : AzOptions
 {
     [CommandSwitch("--availability-sets")]
     public string? AvailabilitySets { get; set; }
@@ -39,6 +36,9 @@ public record AzScvmmVmUpdateOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

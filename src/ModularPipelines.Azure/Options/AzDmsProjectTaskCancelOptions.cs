@@ -15,6 +15,4 @@ public record AzDmsProjectTaskCancelOptions(
 [property: CommandSwitch("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--object-name")]
-    public string? ObjectName { get; set; }
 }

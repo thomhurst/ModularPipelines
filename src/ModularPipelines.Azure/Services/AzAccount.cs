@@ -44,9 +44,9 @@ public class AzAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Clear(AzAccountClearOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Clear(AzAccountClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountClearOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzAccountCreateOptions options, CancellationToken token = default)
@@ -54,19 +54,19 @@ public class AzAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> GetAccessToken(AzAccountGetAccessTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccessToken(AzAccountGetAccessTokenOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountGetAccessTokenOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListOptions(), token);
     }
 
-    public async Task<CommandResult> ListLocations(AzAccountListLocationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListLocations(AzAccountListLocationsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListLocationsOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzAccountSetOptions options, CancellationToken token = default)

@@ -10,9 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("survey")]
 public record AzSurveyOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
-
-    [CommandSwitch("--yes")]
-    public bool? Yes { get; set; } = true;
 }

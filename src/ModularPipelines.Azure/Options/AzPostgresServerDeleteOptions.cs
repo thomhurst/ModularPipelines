@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server", "delete")]
-public record AzPostgresServerDeleteOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresServerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

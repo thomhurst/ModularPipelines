@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("providerhub", "sku", "delete")]
-public record AzProviderhubSkuDeleteOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace,
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzProviderhubSkuDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -24,6 +21,12 @@ public record AzProviderhubSkuDeleteOptions(
 
     [CommandSwitch("--nested-resource-type-third")]
     public string? NestedResourceTypeThird { get; set; }
+
+    [CommandSwitch("--provider-namespace")]
+    public string? ProviderNamespace { get; set; }
+
+    [CommandSwitch("--resource-type")]
+    public string? ResourceType { get; set; }
 
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }

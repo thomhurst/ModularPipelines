@@ -13,15 +13,4 @@ public record AzBackupPolicyGetDefaultForVmOptions(
 [property: CommandSwitch("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
-    public string? BackupManagementType { get; set; }
-
-    [CommandSwitch("--move-to-archive-tier")]
-    public string? MoveToArchiveTier { get; set; }
-
-    [CommandSwitch("--policy-sub-type")]
-    public string? PolicySubType { get; set; }
-
-    [CommandSwitch("--workload-type")]
-    public string? WorkloadType { get; set; }
 }

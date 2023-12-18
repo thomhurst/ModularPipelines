@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "integration-runtime", "regenerate-auth-key")]
-public record AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions(
-[property: CommandSwitch("--linked-factory-name")] string LinkedFactoryName
-) : AzOptions
+public record AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions
 {
     [CommandSwitch("--factory-name")]
     public string? FactoryName { get; set; }

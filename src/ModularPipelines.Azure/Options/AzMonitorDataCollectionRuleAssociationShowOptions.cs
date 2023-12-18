@@ -13,12 +13,4 @@ public record AzMonitorDataCollectionRuleAssociationShowOptions(
 [property: CommandSwitch("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
-    public string? Description { get; set; }
-
-    [CommandSwitch("--endpoint-id")]
-    public string? EndpointId { get; set; }
-
-    [CommandSwitch("--rule-id")]
-    public string? RuleId { get; set; }
 }

@@ -25,9 +25,9 @@ public class AzNetworkLocalGateway
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkLocalGatewayDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkLocalGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkLocalGatewayListOptions options, CancellationToken token = default)

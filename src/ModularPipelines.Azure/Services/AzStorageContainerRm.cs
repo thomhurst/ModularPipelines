@@ -25,14 +25,14 @@ public class AzStorageContainerRm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStorageContainerRmDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStorageContainerRmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Exists(AzStorageContainerRmExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Exists(AzStorageContainerRmExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmExistsOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStorageContainerRmListOptions options, CancellationToken token = default)

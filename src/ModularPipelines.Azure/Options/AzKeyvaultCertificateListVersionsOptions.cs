@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "certificate", "list-versions")]
-public record AzKeyvaultCertificateListVersionsOptions(
-[property: CommandSwitch("--file")] string File
-) : AzOptions
+public record AzKeyvaultCertificateListVersionsOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }

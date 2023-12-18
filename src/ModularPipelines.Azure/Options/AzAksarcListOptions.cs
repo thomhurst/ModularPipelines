@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aksarc", "list")]
-public record AzAksarcListOptions(
-[property: CommandSwitch("--output-filepath")] string OutputFilepath
-) : AzOptions
+public record AzAksarcListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

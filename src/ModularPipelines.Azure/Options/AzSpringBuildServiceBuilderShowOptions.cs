@@ -14,12 +14,4 @@ public record AzSpringBuildServiceBuilderShowOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--builder-file")]
-    public string? BuilderFile { get; set; }
-
-    [CommandSwitch("--builder-json")]
-    public string? BuilderJson { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

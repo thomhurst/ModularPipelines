@@ -29,9 +29,9 @@ public class AzHealthcareapisWorkspaceIotConnector
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceIotConnectorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceIotConnectorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceIotConnectorListOptions options, CancellationToken token = default)

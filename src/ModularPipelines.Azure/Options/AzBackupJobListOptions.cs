@@ -28,6 +28,6 @@ public record AzBackupJobListOptions(
     [CommandSwitch("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 }

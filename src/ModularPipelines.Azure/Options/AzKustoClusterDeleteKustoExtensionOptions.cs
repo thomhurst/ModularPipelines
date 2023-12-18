@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "cluster", "delete", "(kusto", "extension)")]
-public record AzKustoClusterDeleteKustoExtensionOptions(
-[property: BooleanCommandSwitch("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
-[property: CommandSwitch("--cluster-resource-id")] string ClusterResourceId
-) : AzOptions
+public record AzKustoClusterDeleteKustoExtensionOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("reservations", "reservation-order", "list")]
-public record AzReservationsReservationOrderListOptions(
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
-) : AzOptions
+public record AzReservationsReservationOrderListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

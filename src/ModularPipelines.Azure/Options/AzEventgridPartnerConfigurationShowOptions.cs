@@ -12,12 +12,4 @@ public record AzEventgridPartnerConfigurationShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--auth-exp-date")]
-    public string? AuthExpDate { get; set; }
-
-    [CommandSwitch("--partner-name")]
-    public string? PartnerName { get; set; }
-
-    [CommandSwitch("--partner-registration-immutable-id")]
-    public string? PartnerRegistrationImmutableId { get; set; }
 }

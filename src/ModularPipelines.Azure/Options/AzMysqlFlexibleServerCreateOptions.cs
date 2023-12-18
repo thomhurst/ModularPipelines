@@ -8,14 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "flexible-server", "create")]
-public record AzMysqlFlexibleServerCreateOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMysqlFlexibleServerCreateOptions : AzOptions
 {
     [CommandSwitch("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
+
+    [CommandSwitch("--admin-password")]
+    public string? AdminPassword { get; set; }
+
+    [CommandSwitch("--admin-user")]
+    public string? AdminUser { get; set; }
 
     [CommandSwitch("--auto-scale-iops")]
     public string? AutoScaleIops { get; set; }
@@ -49,6 +51,9 @@ public record AzMysqlFlexibleServerCreateOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--private-dns-zone")]
     public string? PrivateDnsZone { get; set; }

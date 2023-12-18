@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redisenterprise", "database", "flush")]
-public record AzRedisenterpriseDatabaseFlushOptions(
-[property: CommandSwitch("--unlink-ids")] string UnlinkIds
-) : AzOptions
+public record AzRedisenterpriseDatabaseFlushOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

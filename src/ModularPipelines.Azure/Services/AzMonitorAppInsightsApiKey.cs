@@ -25,9 +25,9 @@ public class AzMonitorAppInsightsApiKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorAppInsightsApiKeyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorAppInsightsApiKeyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsApiKeyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsApiKeyShowOptions options, CancellationToken token = default)

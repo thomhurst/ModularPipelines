@@ -52,14 +52,14 @@ public class AzPostgresServer
 
     public AzPostgresServerVnetRule VnetRule { get; }
 
-    public async Task<CommandResult> Create(AzPostgresServerCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzPostgresServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzPostgresServerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPostgresServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Georestore(AzPostgresServerGeorestoreOptions options, CancellationToken token = default)
@@ -67,9 +67,9 @@ public class AzPostgresServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPostgresServerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPostgresServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerListOptions(), token);
     }
 
     public async Task<CommandResult> ListSkus(AzPostgresServerListSkusOptions options, CancellationToken token = default)
@@ -77,9 +77,9 @@ public class AzPostgresServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Restart(AzPostgresServerRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzPostgresServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerRestartOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzPostgresServerRestoreOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "set-definition", "list")]
-public record AzPolicySetDefinitionListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPolicySetDefinitionListOptions : AzOptions
 {
     [CommandSwitch("--management-group")]
     public string? ManagementGroup { get; set; }

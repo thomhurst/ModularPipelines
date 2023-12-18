@@ -30,9 +30,9 @@ public class AzMonitorLogAnalyticsSolution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMonitorLogAnalyticsSolutionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMonitorLogAnalyticsSolutionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsSolutionListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsSolutionShowOptions options, CancellationToken token = default)

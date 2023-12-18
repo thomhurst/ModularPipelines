@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("hdinsight-on-aks", "check-name-availability")]
-public record AzHdinsightOnAksCheckNameAvailabilityOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzHdinsightOnAksCheckNameAvailabilityOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }

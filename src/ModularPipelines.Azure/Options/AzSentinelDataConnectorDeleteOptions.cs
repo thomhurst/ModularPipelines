@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sentinel", "data-connector", "delete")]
-public record AzSentinelDataConnectorDeleteOptions(
-[property: CommandSwitch("--data-connector-id")] string DataConnectorId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSentinelDataConnectorDeleteOptions : AzOptions
 {
+    [CommandSwitch("--data-connector-id")]
+    public string? DataConnectorId { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

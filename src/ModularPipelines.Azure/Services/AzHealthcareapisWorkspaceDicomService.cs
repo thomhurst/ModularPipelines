@@ -25,9 +25,9 @@ public class AzHealthcareapisWorkspaceDicomService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceDicomServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceDicomServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceDicomServiceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceDicomServiceListOptions options, CancellationToken token = default)

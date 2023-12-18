@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "app-insights", "component", "linked-storage", "show")]
-public record AzMonitorAppInsightsComponentLinkedStorageShowOptions(
-[property: CommandSwitch("--storage-account")] int StorageAccount
-) : AzOptions
+public record AzMonitorAppInsightsComponentLinkedStorageShowOptions : AzOptions
 {
     [CommandSwitch("--app")]
     public string? App { get; set; }

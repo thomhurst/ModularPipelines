@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "job", "create")]
-public record AzBatchJobCreateOptions(
-[property: CommandSwitch("--job-id")] string JobId
-) : AzOptions
+public record AzBatchJobCreateOptions : AzOptions
 {
     [CommandSwitch("--account-endpoint")]
     public int? AccountEndpoint { get; set; }

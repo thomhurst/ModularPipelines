@@ -20,9 +20,9 @@ public class AzProviderOperation
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzProviderOperationListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzProviderOperationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderOperationListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzProviderOperationShowOptions options, CancellationToken token = default)

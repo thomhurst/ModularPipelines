@@ -13,12 +13,4 @@ public record AzKustoAttachedDatabaseConfigurationListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attached-database-configuration-name")]
-    public bool? AttachedDatabaseConfigurationName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

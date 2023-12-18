@@ -20,9 +20,9 @@ public class AzSecurityAlert
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzSecurityAlertListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAlertListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAlertShowOptions options, CancellationToken token = default)

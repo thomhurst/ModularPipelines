@@ -14,9 +14,4 @@ public record AzProviderhubCustomRolloutCreateOptions(
 [property: CommandSwitch("--rollout-name")] string RolloutName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

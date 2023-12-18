@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "asset", "get-sas-urls")]
-public record AzAmsAssetGetSasUrlsOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAmsAssetGetSasUrlsOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--expiry")]
     public string? Expiry { get; set; }
 
@@ -24,6 +24,9 @@ public record AzAmsAssetGetSasUrlsOptions(
 
     [CommandSwitch("--permissions")]
     public string? Permissions { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "ad-connector", "list")]
-public record AzArcdataAdConnectorListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzArcdataAdConnectorListOptions : AzOptions
 {
     [CommandSwitch("--data-controller-name")]
     public string? DataControllerName { get; set; }
@@ -21,6 +19,6 @@ public record AzArcdataAdConnectorListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

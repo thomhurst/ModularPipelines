@@ -13,6 +13,4 @@ public record AzAksPodIdentityExceptionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
-    public string? AksCustomHeaders { get; set; }
 }

@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "pricing", "list")]
-public record AzSecurityPricingListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityPricingListOptions : AzOptions
 {
 }

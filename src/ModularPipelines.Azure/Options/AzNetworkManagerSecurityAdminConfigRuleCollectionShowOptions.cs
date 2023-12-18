@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "security-admin-config", "rule-collection", "show")]
-public record AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions(
-[property: CommandSwitch("--rule-collection-name")] string RuleCollectionName
-) : AzOptions
+public record AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions : AzOptions
 {
     [CommandSwitch("--configuration-name")]
     public string? ConfigurationName { get; set; }
@@ -23,6 +21,9 @@ public record AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions(
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--rule-collection-name")]
+    public string? RuleCollectionName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

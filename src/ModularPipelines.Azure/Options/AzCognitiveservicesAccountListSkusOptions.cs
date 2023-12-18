@@ -8,14 +8,17 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cognitiveservices", "account", "list-skus")]
-public record AzCognitiveservicesAccountListSkusOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCognitiveservicesAccountListSkusOptions : AzOptions
 {
     [CommandSwitch("--kind")]
     public string? Kind { get; set; }
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

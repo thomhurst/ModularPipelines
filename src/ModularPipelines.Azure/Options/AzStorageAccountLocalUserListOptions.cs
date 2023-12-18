@@ -13,21 +13,4 @@ public record AzStorageAccountLocalUserListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--has-shared-key")]
-    public bool? HasSharedKey { get; set; }
-
-    [BooleanCommandSwitch("--has-ssh-key")]
-    public bool? HasSshKey { get; set; }
-
-    [BooleanCommandSwitch("--has-ssh-password")]
-    public bool? HasSshPassword { get; set; }
-
-    [CommandSwitch("--home-directory")]
-    public string? HomeDirectory { get; set; }
-
-    [CommandSwitch("--permission-scope")]
-    public string? PermissionScope { get; set; }
-
-    [CommandSwitch("--ssh-authorized-key")]
-    public string? SshAuthorizedKey { get; set; }
 }

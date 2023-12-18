@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "list")]
-public record AzMariadbServerListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzMariadbServerListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

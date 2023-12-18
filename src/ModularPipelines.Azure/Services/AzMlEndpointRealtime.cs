@@ -50,9 +50,9 @@ public class AzMlEndpointRealtime
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlEndpointRealtimeListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlEndpointRealtimeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlEndpointRealtimeListOptions(), token);
     }
 
     public async Task<CommandResult> RegenKey(AzMlEndpointRealtimeRegenKeyOptions options, CancellationToken token = default)

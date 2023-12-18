@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "list-app-id")]
-public record AzPaloAltoCloudngfwLocalRulestackListAppIdOptions(
-[property: CommandSwitch("--type")] string Type
-) : AzOptions
+public record AzPaloAltoCloudngfwLocalRulestackListAppIdOptions : AzOptions
 {
     [CommandSwitch("--app-id-version")]
     public string? AppIdVersion { get; set; }

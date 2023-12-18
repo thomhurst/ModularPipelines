@@ -57,19 +57,19 @@ public class AzSqlMidb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSqlMidbDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSqlMidbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzSqlMidbListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlMidbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeleted(AzSqlMidbListDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeleted(AzSqlMidbListDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbListDeletedOptions(), token);
     }
 
     public async Task<CommandResult> Recover(AzSqlMidbRecoverOptions options, CancellationToken token = default)

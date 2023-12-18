@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "private-endpoint-connection", "approve")]
-public record AzKeyvaultPrivateEndpointConnectionApproveOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
-) : AzOptions
+public record AzKeyvaultPrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }
+
+    [CommandSwitch("--hsm-name")]
+    public string? HsmName { get; set; }
 
     [CommandSwitch("--id")]
     public string? Id { get; set; }

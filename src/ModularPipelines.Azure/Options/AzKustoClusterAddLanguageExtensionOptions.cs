@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "cluster", "add-language-extension")]
-public record AzKustoClusterAddLanguageExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
-) : AzOptions
+public record AzKustoClusterAddLanguageExtensionOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }
@@ -22,6 +18,9 @@ public record AzKustoClusterAddLanguageExtensionOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

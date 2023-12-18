@@ -15,21 +15,4 @@ public record AzMaintenanceApplyupdateCreateOptions(
 [property: CommandSwitch("--resource-type")] string ResourceType
 ) : AzOptions
 {
-    [CommandSwitch("--apply-update-name")]
-    public string? ApplyUpdateName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--last-update-time")]
-    public string? LastUpdateTime { get; set; }
-
-    [CommandSwitch("--resource-id")]
-    public string? ResourceId { get; set; }
-
-    [CommandSwitch("--status")]
-    public string? Status { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

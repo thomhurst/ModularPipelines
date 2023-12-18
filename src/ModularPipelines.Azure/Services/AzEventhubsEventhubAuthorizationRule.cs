@@ -29,9 +29,9 @@ public class AzEventhubsEventhubAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventhubsEventhubAuthorizationRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventhubsEventhubAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventhubsEventhubAuthorizationRuleListOptions options, CancellationToken token = default)

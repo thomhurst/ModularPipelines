@@ -14,6 +14,4 @@ public record AzSpringServiceRegistryBindOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

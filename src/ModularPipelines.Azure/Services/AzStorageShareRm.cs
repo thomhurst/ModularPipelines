@@ -25,14 +25,14 @@ public class AzStorageShareRm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStorageShareRmDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStorageShareRmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageShareRmDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Exists(AzStorageShareRmExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Exists(AzStorageShareRmExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageShareRmExistsOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStorageShareRmListOptions options, CancellationToken token = default)

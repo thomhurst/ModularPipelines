@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("container", "attach")]
-public record AzContainerAttachOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzContainerAttachOptions : AzOptions
 {
     [CommandSwitch("--container-name")]
     public string? ContainerName { get; set; }
@@ -20,6 +18,9 @@ public record AzContainerAttachOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

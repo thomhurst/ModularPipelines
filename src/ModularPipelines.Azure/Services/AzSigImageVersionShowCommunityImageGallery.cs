@@ -20,8 +20,8 @@ public class AzSigImageVersionShowCommunityImageGallery
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Extension(AzSigImageVersionShowCommunityImageGalleryExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Extension(AzSigImageVersionShowCommunityImageGalleryExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionShowCommunityImageGalleryExtensionOptions(), token);
     }
 }

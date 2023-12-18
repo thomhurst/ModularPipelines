@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("login")]
-public record AzLoginOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzLoginOptions : AzOptions
 {
     [BooleanCommandSwitch("--allow-no-subscriptions")]
     public bool? AllowNoSubscriptions { get; set; }
@@ -33,8 +31,8 @@ public record AzLoginOptions(
     [CommandSwitch("--tenant")]
     public string? Tenant { get; set; }
 
-    [CommandSwitch("--use-cert-sn-issuer")]
-    public string? UseCertSnIssuer { get; set; }
+    [BooleanCommandSwitch("--use-cert-sn-issuer")]
+    public bool? UseCertSnIssuer { get; set; }
 
     [BooleanCommandSwitch("--use-device-code")]
     public bool? UseDeviceCode { get; set; }

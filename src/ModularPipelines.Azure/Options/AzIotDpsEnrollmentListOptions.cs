@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "dps", "enrollment", "list")]
-public record AzIotDpsEnrollmentListOptions(
-[property: CommandSwitch("--eid")] string Eid
-) : AzOptions
+public record AzIotDpsEnrollmentListOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }

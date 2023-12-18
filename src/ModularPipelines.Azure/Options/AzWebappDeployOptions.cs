@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "deploy")]
-public record AzWebappDeployOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzWebappDeployOptions : AzOptions
 {
     [BooleanCommandSwitch("--async")]
     public bool? Async { get; set; }
@@ -24,6 +21,12 @@ public record AzWebappDeployOptions(
 
     [BooleanCommandSwitch("--ignore-stack")]
     public bool? IgnoreStack { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [BooleanCommandSwitch("--restart")]
     public bool? Restart { get; set; }

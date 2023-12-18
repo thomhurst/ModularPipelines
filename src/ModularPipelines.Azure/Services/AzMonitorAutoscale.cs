@@ -33,9 +33,9 @@ public class AzMonitorAutoscale
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorAutoscaleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorAutoscaleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMonitorAutoscaleListOptions options, CancellationToken token = default)
@@ -43,9 +43,9 @@ public class AzMonitorAutoscale
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMonitorAutoscaleShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMonitorAutoscaleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleShowOptions(), token);
     }
 
     public async Task<CommandResult> ShowPredictiveMetric(AzMonitorAutoscaleShowPredictiveMetricOptions options, CancellationToken token = default)

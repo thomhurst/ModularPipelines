@@ -32,9 +32,9 @@ public class AzBatchJob
 
     public AzBatchJobTaskCounts TaskCounts { get; }
 
-    public async Task<CommandResult> Create(AzBatchJobCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzBatchJobCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzBatchJobDeleteOptions options, CancellationToken token = default)
@@ -52,9 +52,9 @@ public class AzBatchJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzBatchJobListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBatchJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobListOptions(), token);
     }
 
     public async Task<CommandResult> Reset(AzBatchJobResetOptions options, CancellationToken token = default)

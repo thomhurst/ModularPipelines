@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("databoxedge", "bandwidth-schedule", "delete")]
-public record AzDataboxedgeBandwidthScheduleDeleteOptions(
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDataboxedgeBandwidthScheduleDeleteOptions : AzOptions
 {
+    [CommandSwitch("--device-name")]
+    public string? DeviceName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzDataboxedgeBandwidthScheduleDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

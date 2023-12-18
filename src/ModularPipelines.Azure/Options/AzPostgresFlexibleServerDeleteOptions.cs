@@ -8,14 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "delete")]
-public record AzPostgresFlexibleServerDeleteOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPostgresFlexibleServerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

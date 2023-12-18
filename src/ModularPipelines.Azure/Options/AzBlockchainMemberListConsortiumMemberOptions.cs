@@ -13,6 +13,4 @@ public record AzBlockchainMemberListConsortiumMemberOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--key-name")]
-    public string? KeyName { get; set; }
 }

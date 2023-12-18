@@ -25,9 +25,9 @@ public class AzPaloAltoCloudngfwLocalRulestackPrefixlist
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackPrefixlistListOptions options, CancellationToken token = default)

@@ -30,9 +30,9 @@ public class AzNetworkDnsRecordSetNs
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkDnsRecordSetNsDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkDnsRecordSetNsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetNsDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkDnsRecordSetNsListOptions options, CancellationToken token = default)

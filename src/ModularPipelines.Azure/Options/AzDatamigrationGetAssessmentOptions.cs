@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datamigration", "get-assessment")]
-public record AzDatamigrationGetAssessmentOptions(
-[property: CommandSwitch("--auth-key")] string AuthKey
-) : AzOptions
+public record AzDatamigrationGetAssessmentOptions : AzOptions
 {
     [CommandSwitch("--config-file-path")]
     public string? ConfigFilePath { get; set; }

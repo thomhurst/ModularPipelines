@@ -25,9 +25,9 @@ public class AzContainerappEnvCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzContainerappEnvCertificateDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzContainerappEnvCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvCertificateDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzContainerappEnvCertificateListOptions options, CancellationToken token = default)

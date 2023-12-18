@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "route-filter", "rule", "delete")]
-public record AzNetworkRouteFilterRuleDeleteOptions(
-[property: CommandSwitch("--filter-name")] string FilterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkRouteFilterRuleDeleteOptions : AzOptions
 {
+    [CommandSwitch("--filter-name")]
+    public string? FilterName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkRouteFilterRuleDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

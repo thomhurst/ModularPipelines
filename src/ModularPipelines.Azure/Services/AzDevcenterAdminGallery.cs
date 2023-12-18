@@ -25,9 +25,9 @@ public class AzDevcenterAdminGallery
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminGalleryDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminGalleryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminGalleryDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminGalleryListOptions options, CancellationToken token = default)

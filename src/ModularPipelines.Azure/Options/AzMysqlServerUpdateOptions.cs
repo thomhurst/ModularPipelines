@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "update")]
-public record AzMysqlServerUpdateOptions(
-[property: CommandSwitch("--target-server-version")] string TargetServerVersion
-) : AzOptions
+public record AzMysqlServerUpdateOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }

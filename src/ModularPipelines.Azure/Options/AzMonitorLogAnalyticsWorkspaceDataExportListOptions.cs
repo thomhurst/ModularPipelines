@@ -13,12 +13,4 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--data-export-name")]
-    public string? DataExportName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

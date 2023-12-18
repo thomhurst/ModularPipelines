@@ -25,14 +25,14 @@ public class AzDataprotectionResourceGuard
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDataprotectionResourceGuardDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDataprotectionResourceGuardDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionResourceGuardDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDataprotectionResourceGuardListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDataprotectionResourceGuardListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionResourceGuardListOptions(), token);
     }
 
     public async Task<CommandResult> ListProtectedOperations(AzDataprotectionResourceGuardListProtectedOperationsOptions options, CancellationToken token = default)

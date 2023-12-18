@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "simulate-eviction")]
-public record AzVmssSimulateEvictionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmssSimulateEvictionOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--instance-id")]
     public string? InstanceId { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

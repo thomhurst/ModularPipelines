@@ -30,9 +30,9 @@ public class AzDlsAccountFirewall
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDlsAccountFirewallListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDlsAccountFirewallListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountFirewallListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDlsAccountFirewallShowOptions options, CancellationToken token = default)

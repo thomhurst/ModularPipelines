@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "resource-guard", "delete")]
-public record AzDataprotectionResourceGuardDeleteOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzDataprotectionResourceGuardDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

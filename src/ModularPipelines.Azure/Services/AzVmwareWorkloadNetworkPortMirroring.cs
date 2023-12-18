@@ -25,9 +25,9 @@ public class AzVmwareWorkloadNetworkPortMirroring
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPortMirroringDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPortMirroringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkPortMirroringListOptions options, CancellationToken token = default)

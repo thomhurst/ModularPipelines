@@ -25,24 +25,24 @@ public class AzNetworkBastion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkBastionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkBastionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkBastionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkBastionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkBastionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkBastionListOptions(), token);
     }
 
-    public async Task<CommandResult> Rdp(AzNetworkBastionRdpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Rdp(AzNetworkBastionRdpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkBastionRdpOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkBastionShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkBastionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkBastionShowOptions(), token);
     }
 
     public async Task<CommandResult> Ssh(AzNetworkBastionSshOptions options, CancellationToken token = default)

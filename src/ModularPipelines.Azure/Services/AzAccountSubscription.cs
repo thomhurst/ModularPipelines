@@ -30,9 +30,9 @@ public class AzAccountSubscription
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAccountSubscriptionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAccountSubscriptionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountSubscriptionListOptions(), token);
     }
 
     public async Task<CommandResult> ListLocation(AzAccountSubscriptionListLocationOptions options, CancellationToken token = default)

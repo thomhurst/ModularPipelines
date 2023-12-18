@@ -41,9 +41,9 @@ public class AzNetworkExpressRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkExpressRouteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkExpressRouteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetStats(AzNetworkExpressRouteGetStatsOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "list")]
-public record AzStorageAccountListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzStorageAccountListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

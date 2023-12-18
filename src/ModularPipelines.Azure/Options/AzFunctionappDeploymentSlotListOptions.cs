@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("functionapp", "deployment", "slot", "list")]
-public record AzFunctionappDeploymentSlotListOptions(
-[property: CommandSwitch("--slot")] string Slot
-) : AzOptions
+public record AzFunctionappDeploymentSlotListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

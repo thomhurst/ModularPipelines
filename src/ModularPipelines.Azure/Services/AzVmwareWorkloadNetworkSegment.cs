@@ -25,9 +25,9 @@ public class AzVmwareWorkloadNetworkSegment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkSegmentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkSegmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkSegmentListOptions options, CancellationToken token = default)

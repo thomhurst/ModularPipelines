@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("reservations", "reservation-order", "calculate")]
-public record AzReservationsReservationOrderCalculateOptions(
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
-) : AzOptions
+public record AzReservationsReservationOrderCalculateOptions : AzOptions
 {
     [CommandSwitch("--applied-scope")]
     public string? AppliedScope { get; set; }

@@ -29,19 +29,19 @@ public class AzSqlElasticPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSqlElasticPoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSqlElasticPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzSqlElasticPoolListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlElasticPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDbs(AzSqlElasticPoolListDbsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDbs(AzSqlElasticPoolListDbsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListDbsOptions(), token);
     }
 
     public async Task<CommandResult> ListEditions(AzSqlElasticPoolListEditionsOptions options, CancellationToken token = default)

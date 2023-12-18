@@ -30,9 +30,9 @@ public class AzMlRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlRunListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlRunListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunListOptions(), token);
     }
 
     public async Task<CommandResult> MonitorLogs(AzMlRunMonitorLogsOptions options, CancellationToken token = default)
@@ -55,14 +55,14 @@ public class AzMlRun
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> SubmitPipeline(AzMlRunSubmitPipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SubmitPipeline(AzMlRunSubmitPipelineOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitPipelineOptions(), token);
     }
 
-    public async Task<CommandResult> SubmitScript(AzMlRunSubmitScriptOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SubmitScript(AzMlRunSubmitScriptOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitScriptOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzMlRunUpdateOptions options, CancellationToken token = default)

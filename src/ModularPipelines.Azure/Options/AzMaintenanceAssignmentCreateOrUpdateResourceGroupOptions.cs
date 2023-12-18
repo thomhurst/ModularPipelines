@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maintenance", "assignment", "create-or-update-resource-group")]
-public record AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions(
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions : AzOptions
 {
     [CommandSwitch("--config-id")]
     public string? ConfigId { get; set; }
@@ -44,6 +39,9 @@ public record AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }

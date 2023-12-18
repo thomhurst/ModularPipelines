@@ -13,6 +13,4 @@ public record AzSpringContainerRegistryListOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

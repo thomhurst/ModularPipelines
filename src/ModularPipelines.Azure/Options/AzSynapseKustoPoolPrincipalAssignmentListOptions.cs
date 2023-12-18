@@ -14,12 +14,4 @@ public record AzSynapseKustoPoolPrincipalAssignmentListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--principal-assignment-name")]
-    public string? PrincipalAssignmentName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

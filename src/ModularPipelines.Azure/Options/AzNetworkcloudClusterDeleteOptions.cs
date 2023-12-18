@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "cluster", "delete")]
-public record AzNetworkcloudClusterDeleteOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
-) : AzOptions
+public record AzNetworkcloudClusterDeleteOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

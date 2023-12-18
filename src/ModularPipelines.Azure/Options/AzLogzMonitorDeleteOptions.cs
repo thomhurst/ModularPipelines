@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("logz", "monitor", "delete")]
-public record AzLogzMonitorDeleteOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzLogzMonitorDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--monitor-name")]
+    public string? MonitorName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

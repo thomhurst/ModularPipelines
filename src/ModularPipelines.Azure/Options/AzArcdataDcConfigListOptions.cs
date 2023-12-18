@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "config", "list")]
-public record AzArcdataDcConfigListOptions(
-[property: CommandSwitch("--patch-file")] string PatchFile,
-[property: CommandSwitch("--path")] string Path
-) : AzOptions
+public record AzArcdataDcConfigListOptions : AzOptions
 {
     [CommandSwitch("--config-profile")]
     public string? ConfigProfile { get; set; }

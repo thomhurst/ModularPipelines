@@ -49,9 +49,9 @@ public class AzMonitorLogAnalyticsWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetSchema(AzMonitorLogAnalyticsWorkspaceGetSchemaOptions options, CancellationToken token = default)
@@ -64,14 +64,14 @@ public class AzMonitorLogAnalyticsWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeletedWorkspaces(AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeletedWorkspaces(AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions(), token);
     }
 
     public async Task<CommandResult> ListManagementGroups(AzMonitorLogAnalyticsWorkspaceListManagementGroupsOptions options, CancellationToken token = default)

@@ -15,12 +15,4 @@ public record AzBackupProtectableItemInitializeOptions(
 [property: CommandSwitch("--workload-type")] string WorkloadType
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
-    public string? BackupManagementType { get; set; }
-
-    [CommandSwitch("--protectable-item-type")]
-    public string? ProtectableItemType { get; set; }
-
-    [CommandSwitch("--server-name")]
-    public string? ServerName { get; set; }
 }

@@ -20,9 +20,9 @@ public class AzEventhubsNamespacePrivateEndpointConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Approve(AzEventhubsNamespacePrivateEndpointConnectionApproveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Approve(AzEventhubsNamespacePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionApproveOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzEventhubsNamespacePrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
@@ -30,9 +30,9 @@ public class AzEventhubsNamespacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespacePrivateEndpointConnectionListOptions options, CancellationToken token = default)

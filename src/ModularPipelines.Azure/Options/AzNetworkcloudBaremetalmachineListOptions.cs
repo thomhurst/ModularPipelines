@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "baremetalmachine", "list")]
-public record AzNetworkcloudBaremetalmachineListOptions(
-[property: CommandSwitch("--limit-time-seconds")] string LimitTimeSeconds,
-[property: CommandSwitch("--script")] string Script
-) : AzOptions
+public record AzNetworkcloudBaremetalmachineListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

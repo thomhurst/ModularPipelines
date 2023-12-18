@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "list-deleted")]
-public record AzKeyvaultKeyListDeletedOptions(
-[property: CommandSwitch("--count")] int Count
-) : AzOptions
+public record AzKeyvaultKeyListDeletedOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }

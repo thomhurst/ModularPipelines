@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "list-deleted")]
-public record AzSqlDbListDeletedOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSqlDbListDeletedOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

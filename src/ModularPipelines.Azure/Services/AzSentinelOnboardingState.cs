@@ -25,9 +25,9 @@ public class AzSentinelOnboardingState
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelOnboardingStateDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelOnboardingStateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSentinelOnboardingStateListOptions options, CancellationToken token = default)

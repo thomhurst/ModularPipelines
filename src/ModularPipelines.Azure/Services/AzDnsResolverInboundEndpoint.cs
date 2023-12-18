@@ -25,9 +25,9 @@ public class AzDnsResolverInboundEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDnsResolverInboundEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDnsResolverInboundEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverInboundEndpointListOptions options, CancellationToken token = default)

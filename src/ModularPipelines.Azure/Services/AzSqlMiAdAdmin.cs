@@ -25,14 +25,14 @@ public class AzSqlMiAdAdmin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSqlMiAdAdminDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSqlMiAdAdminDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzSqlMiAdAdminListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlMiAdAdminListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminListOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiAdAdminUpdateOptions options, CancellationToken token = default)

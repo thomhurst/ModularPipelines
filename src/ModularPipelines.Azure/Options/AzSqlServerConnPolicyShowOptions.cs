@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "conn-policy", "show")]
-public record AzSqlServerConnPolicyShowOptions(
-[property: CommandSwitch("--connection-type")] string ConnectionType
-) : AzOptions
+public record AzSqlServerConnPolicyShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -25,9 +25,9 @@ public class AzNetworkRouteFilterRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkRouteFilterRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkRouteFilterRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkRouteFilterRuleListOptions options, CancellationToken token = default)

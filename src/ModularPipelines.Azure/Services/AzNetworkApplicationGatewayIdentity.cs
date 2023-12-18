@@ -25,9 +25,9 @@ public class AzNetworkApplicationGatewayIdentity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Remove(AzNetworkApplicationGatewayIdentityRemoveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Remove(AzNetworkApplicationGatewayIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayIdentityRemoveOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewayIdentityShowOptions options, CancellationToken token = default)

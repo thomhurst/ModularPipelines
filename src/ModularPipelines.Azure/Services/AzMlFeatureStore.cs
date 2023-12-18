@@ -30,9 +30,9 @@ public class AzMlFeatureStore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlFeatureStoreListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlFeatureStoreListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureStoreListOptions(), token);
     }
 
     public async Task<CommandResult> ProvisionNetwork(AzMlFeatureStoreProvisionNetworkOptions options, CancellationToken token = default)

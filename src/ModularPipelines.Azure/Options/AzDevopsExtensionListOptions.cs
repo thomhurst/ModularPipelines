@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "extension", "list")]
-public record AzDevopsExtensionListOptions(
-[property: CommandSwitch("--search-query")] string SearchQuery
-) : AzOptions
+public record AzDevopsExtensionListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

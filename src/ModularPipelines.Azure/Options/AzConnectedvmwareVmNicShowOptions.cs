@@ -14,15 +14,4 @@ public record AzConnectedvmwareVmNicShowOptions(
 [property: CommandSwitch("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--device-key")]
-    public string? DeviceKey { get; set; }
-
-    [CommandSwitch("--network")]
-    public string? Network { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--power-on-boot")]
-    public string? PowerOnBoot { get; set; }
 }

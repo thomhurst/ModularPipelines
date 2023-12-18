@@ -25,9 +25,9 @@ public class AzKustoScript
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzKustoScriptDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKustoScriptDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoScriptDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzKustoScriptListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("databox", "job", "delete")]
-public record AzDataboxJobDeleteOptions(
-[property: CommandSwitch("--deliver-package-details")] string DeliverPackageDetails
-) : AzOptions
+public record AzDataboxJobDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

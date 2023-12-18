@@ -13,12 +13,4 @@ public record AzMonitorLogAnalyticsWorkspaceTableListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
-
-    [CommandSwitch("--table-name")]
-    public string? TableName { get; set; }
 }

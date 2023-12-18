@@ -33,9 +33,9 @@ public class AzSapmonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSapmonitorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSapmonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSapmonitorListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSapmonitorShowOptions options, CancellationToken token = default)

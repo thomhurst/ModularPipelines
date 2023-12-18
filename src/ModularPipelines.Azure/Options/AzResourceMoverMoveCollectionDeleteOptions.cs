@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource-mover", "move-collection", "delete")]
-public record AzResourceMoverMoveCollectionDeleteOptions(
-[property: CommandSwitch("--source-id")] string SourceId
-) : AzOptions
+public record AzResourceMoverMoveCollectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

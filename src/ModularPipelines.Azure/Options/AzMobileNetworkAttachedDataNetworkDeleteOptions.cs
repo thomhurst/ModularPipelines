@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mobile-network", "attached-data-network", "delete")]
-public record AzMobileNetworkAttachedDataNetworkDeleteOptions(
-[property: CommandSwitch("--pccp-name")] string PccpName,
-[property: CommandSwitch("--pcdp-name")] string PcdpName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzMobileNetworkAttachedDataNetworkDeleteOptions : AzOptions
 {
     [CommandSwitch("--adn-name")]
     public string? AdnName { get; set; }
@@ -22,6 +18,15 @@ public record AzMobileNetworkAttachedDataNetworkDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--pccp-name")]
+    public string? PccpName { get; set; }
+
+    [CommandSwitch("--pcdp-name")]
+    public string? PcdpName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

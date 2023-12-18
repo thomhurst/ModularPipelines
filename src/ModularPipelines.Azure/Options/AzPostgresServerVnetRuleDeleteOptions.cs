@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server", "vnet-rule", "delete")]
-public record AzPostgresServerVnetRuleDeleteOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzPostgresServerVnetRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "delete")]
-public record AzVmssDeleteOptions(
-[property: CommandSwitch("--instance-ids")] string InstanceIds,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmssDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--force-deletion")]
     public bool? ForceDeletion { get; set; }
@@ -20,8 +16,14 @@ public record AzVmssDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -25,9 +25,9 @@ public class AzHealthcareapisWorkspaceFhirService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceFhirServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceFhirServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceFhirServiceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceFhirServiceListOptions options, CancellationToken token = default)

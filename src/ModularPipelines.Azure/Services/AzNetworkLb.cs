@@ -53,14 +53,14 @@ public class AzNetworkLb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkLbDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkLbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkLbListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkLbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbListOptions(), token);
     }
 
     public async Task<CommandResult> ListMapping(AzNetworkLbListMappingOptions options, CancellationToken token = default)

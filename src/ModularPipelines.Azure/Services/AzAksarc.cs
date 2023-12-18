@@ -60,9 +60,9 @@ public class AzAksarc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAksarcListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAksarcListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksarcListOptions(), token);
     }
 
     public async Task<CommandResult> Notice(AzAksarcNoticeOptions options, CancellationToken token = default)

@@ -20,9 +20,9 @@ public class AzWebappScan
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ListResult(AzWebappScanListResultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResult(AzWebappScanListResultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappScanListResultOptions(), token);
     }
 
     public async Task<CommandResult> ShowResult(AzWebappScanShowResultOptions options, CancellationToken token = default)
@@ -30,14 +30,14 @@ public class AzWebappScan
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Start(AzWebappScanStartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Start(AzWebappScanStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappScanStartOptions(), token);
     }
 
-    public async Task<CommandResult> Stop(AzWebappScanStopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Stop(AzWebappScanStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappScanStopOptions(), token);
     }
 
     public async Task<CommandResult> Track(AzWebappScanTrackOptions options, CancellationToken token = default)

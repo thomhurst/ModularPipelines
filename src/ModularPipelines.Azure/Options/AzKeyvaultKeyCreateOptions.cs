@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "create")]
-public record AzKeyvaultKeyCreateOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzKeyvaultKeyCreateOptions : AzOptions
 {
     [CommandSwitch("--curve")]
     public string? Curve { get; set; }

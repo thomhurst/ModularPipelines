@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dns-resolver", "outbound-endpoint", "delete")]
-public record AzDnsResolverOutboundEndpointDeleteOptions(
-[property: CommandSwitch("--dns-resolver-name")] string DnsResolverName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDnsResolverOutboundEndpointDeleteOptions : AzOptions
 {
+    [CommandSwitch("--dns-resolver-name")]
+    public string? DnsResolverName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -24,6 +24,9 @@ public record AzDnsResolverOutboundEndpointDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

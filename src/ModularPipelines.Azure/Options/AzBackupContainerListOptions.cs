@@ -14,6 +14,6 @@ public record AzBackupContainerListOptions(
 [property: CommandSwitch("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 }

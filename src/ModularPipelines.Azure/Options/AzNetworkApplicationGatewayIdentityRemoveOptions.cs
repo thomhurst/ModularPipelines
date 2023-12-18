@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "application-gateway", "identity", "remove")]
-public record AzNetworkApplicationGatewayIdentityRemoveOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkApplicationGatewayIdentityRemoveOptions : AzOptions
 {
+    [CommandSwitch("--gateway-name")]
+    public string? GatewayName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

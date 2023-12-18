@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "project", "list")]
-public record AzDevopsProjectListOptions(
-[property: CommandSwitch("--project")] string Project
-) : AzOptions
+public record AzDevopsProjectListOptions : AzOptions
 {
     [CommandSwitch("--continuation-token")]
     public string? ContinuationToken { get; set; }

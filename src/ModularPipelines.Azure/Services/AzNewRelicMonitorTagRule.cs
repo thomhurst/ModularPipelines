@@ -25,9 +25,9 @@ public class AzNewRelicMonitorTagRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNewRelicMonitorTagRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNewRelicMonitorTagRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNewRelicMonitorTagRuleListOptions options, CancellationToken token = default)

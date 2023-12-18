@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("consumption", "budget", "create-with-rg")]
-public record AzConsumptionBudgetCreateWithRgOptions(
-[property: CommandSwitch("--budget-name")] string BudgetName
-) : AzOptions
+public record AzConsumptionBudgetCreateWithRgOptions : AzOptions
 {
     [CommandSwitch("--amount")]
     public string? Amount { get; set; }
+
+    [CommandSwitch("--budget-name")]
+    public string? BudgetName { get; set; }
 
     [CommandSwitch("--category")]
     public string? Category { get; set; }

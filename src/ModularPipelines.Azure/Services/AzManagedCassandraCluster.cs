@@ -68,9 +68,9 @@ public class AzManagedCassandraCluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzManagedCassandraClusterListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzManagedCassandraClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzManagedCassandraClusterShowOptions options, CancellationToken token = default)

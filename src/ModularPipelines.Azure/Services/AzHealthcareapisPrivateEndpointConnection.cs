@@ -25,9 +25,9 @@ public class AzHealthcareapisPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzHealthcareapisPrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzHealthcareapisPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisPrivateEndpointConnectionListOptions options, CancellationToken token = default)

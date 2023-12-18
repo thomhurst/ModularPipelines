@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("managedapp", "definition", "show")]
-public record AzManagedappDefinitionShowOptions(
-[property: CommandSwitch("--authorizations")] string Authorizations,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--lock-level")] string LockLevel
-) : AzOptions
+public record AzManagedappDefinitionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

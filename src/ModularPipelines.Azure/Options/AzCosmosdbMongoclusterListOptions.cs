@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "mongocluster", "list")]
-public record AzCosmosdbMongoclusterListOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbMongoclusterListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

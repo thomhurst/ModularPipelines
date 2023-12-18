@@ -25,9 +25,9 @@ public class AzGuestconfigGuestConfigurationAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzGuestconfigGuestConfigurationAssignmentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzGuestconfigGuestConfigurationAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzGuestconfigGuestConfigurationAssignmentListOptions options, CancellationToken token = default)

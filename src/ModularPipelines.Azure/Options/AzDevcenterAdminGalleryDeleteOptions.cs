@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devcenter", "admin", "gallery", "delete")]
-public record AzDevcenterAdminGalleryDeleteOptions(
-[property: CommandSwitch("--dev-center")] string DevCenter,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDevcenterAdminGalleryDeleteOptions : AzOptions
 {
+    [CommandSwitch("--dev-center")]
+    public string? DevCenter { get; set; }
+
     [CommandSwitch("--gallery-name")]
     public string? GalleryName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzDevcenterAdminGalleryDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

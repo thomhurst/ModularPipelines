@@ -64,9 +64,9 @@ public class AzApim
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzApimListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzApimListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApimListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzApimRestoreOptions options, CancellationToken token = default)

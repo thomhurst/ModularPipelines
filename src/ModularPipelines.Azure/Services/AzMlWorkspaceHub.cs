@@ -30,9 +30,9 @@ public class AzMlWorkspaceHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlWorkspaceHubListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlWorkspaceHubListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceHubListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMlWorkspaceHubShowOptions options, CancellationToken token = default)

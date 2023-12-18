@@ -25,9 +25,9 @@ public class AzMysqlFlexibleServerParameter
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Set(AzMysqlFlexibleServerParameterSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Set(AzMysqlFlexibleServerParameterSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterSetOptions(), token);
     }
 
     public async Task<CommandResult> SetBatch(AzMysqlFlexibleServerParameterSetBatchOptions options, CancellationToken token = default)

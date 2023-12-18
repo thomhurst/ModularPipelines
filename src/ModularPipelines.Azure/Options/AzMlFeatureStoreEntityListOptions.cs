@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "feature-store-entity", "list")]
-public record AzMlFeatureStoreEntityListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlFeatureStoreEntityListOptions : AzOptions
 {
     [BooleanCommandSwitch("--archived-only")]
     public bool? ArchivedOnly { get; set; }
@@ -24,6 +21,9 @@ public record AzMlFeatureStoreEntityListOptions(
 
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

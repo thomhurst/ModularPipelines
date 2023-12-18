@@ -25,9 +25,9 @@ public class AzDevcenterAdminSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminScheduleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminScheduleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminScheduleListOptions options, CancellationToken token = default)

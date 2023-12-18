@@ -8,9 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("managed-cassandra", "cluster", "list", "(cosmosdb-preview", "extension)")]
-public record AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

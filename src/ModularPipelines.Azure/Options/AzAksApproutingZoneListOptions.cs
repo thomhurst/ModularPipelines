@@ -13,6 +13,4 @@ public record AzAksApproutingZoneListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attach-zones")]
-    public bool? AttachZones { get; set; }
 }

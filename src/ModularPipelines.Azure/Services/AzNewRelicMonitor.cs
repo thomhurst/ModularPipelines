@@ -44,9 +44,9 @@ public class AzNewRelicMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzNewRelicMonitorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNewRelicMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorListOptions(), token);
     }
 
     public async Task<CommandResult> ListAppService(AzNewRelicMonitorListAppServiceOptions options, CancellationToken token = default)
@@ -64,9 +64,9 @@ public class AzNewRelicMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNewRelicMonitorShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNewRelicMonitorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorShowOptions(), token);
     }
 
     public async Task<CommandResult> SwitchBilling(AzNewRelicMonitorSwitchBillingOptions options, CancellationToken token = default)

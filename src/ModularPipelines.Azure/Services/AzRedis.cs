@@ -40,9 +40,9 @@ public class AzRedis
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRedisDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRedisDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzRedisExportOptions options, CancellationToken token = default)
@@ -60,14 +60,14 @@ public class AzRedis
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzRedisListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzRedisListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListOptions(), token);
     }
 
-    public async Task<CommandResult> ListKeys(AzRedisListKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKeys(AzRedisListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListKeysOptions(), token);
     }
 
     public async Task<CommandResult> RegenerateKeys(AzRedisRegenerateKeysOptions options, CancellationToken token = default)

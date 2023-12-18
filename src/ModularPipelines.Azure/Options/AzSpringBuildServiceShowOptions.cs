@@ -13,9 +13,4 @@ public record AzSpringBuildServiceShowOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--registry-name")]
-    public string? RegistryName { get; set; }
 }

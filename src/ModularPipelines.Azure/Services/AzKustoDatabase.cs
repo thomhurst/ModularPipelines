@@ -44,9 +44,9 @@ public class AzKustoDatabase
 
     public AzKustoDatabaseWait Wait { get; }
 
-    public async Task<CommandResult> AddPrincipal(AzKustoDatabaseAddPrincipalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddPrincipal(AzKustoDatabaseAddPrincipalOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseAddPrincipalOptions(), token);
     }
 
     public async Task<CommandResult> ListPrincipal(AzKustoDatabaseListPrincipalOptions options, CancellationToken token = default)
@@ -54,8 +54,8 @@ public class AzKustoDatabase
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> RemovePrincipal(AzKustoDatabaseRemovePrincipalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemovePrincipal(AzKustoDatabaseRemovePrincipalOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseRemovePrincipalOptions(), token);
     }
 }

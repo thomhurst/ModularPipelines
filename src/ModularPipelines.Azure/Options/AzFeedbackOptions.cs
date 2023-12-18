@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("feedback")]
-public record AzFeedbackOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzFeedbackOptions : AzOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? CliTerm { get; set; }
 }

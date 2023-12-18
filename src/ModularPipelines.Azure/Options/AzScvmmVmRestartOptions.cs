@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("scvmm", "vm", "restart")]
-public record AzScvmmVmRestartOptions(
-[property: CommandSwitch("--checkpoint-id")] string CheckpointId
-) : AzOptions
+public record AzScvmmVmRestartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

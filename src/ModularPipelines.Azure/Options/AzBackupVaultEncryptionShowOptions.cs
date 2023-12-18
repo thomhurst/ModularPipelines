@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "vault", "encryption", "show")]
-public record AzBackupVaultEncryptionShowOptions(
-[property: CommandSwitch("--encryption-key-id")] string EncryptionKeyId
-) : AzOptions
+public record AzBackupVaultEncryptionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -14,18 +14,4 @@ public record AzStreamAnalyticsOutputShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--datasource")]
-    public string? Datasource { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--serialization")]
-    public string? Serialization { get; set; }
-
-    [CommandSwitch("--size-window")]
-    public string? SizeWindow { get; set; }
-
-    [CommandSwitch("--time-window")]
-    public string? TimeWindow { get; set; }
 }

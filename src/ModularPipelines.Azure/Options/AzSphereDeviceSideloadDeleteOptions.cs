@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "sideload", "delete")]
-public record AzSphereDeviceSideloadDeleteOptions(
-[property: CommandSwitch("--image-package")] string ImagePackage
-) : AzOptions
+public record AzSphereDeviceSideloadDeleteOptions : AzOptions
 {
     [CommandSwitch("--component-id")]
     public string? ComponentId { get; set; }

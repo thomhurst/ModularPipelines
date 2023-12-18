@@ -14,24 +14,4 @@ public record AzSignalrCustomCertificateShowOptions(
 [property: CommandSwitch("--signalr-name")] string SignalrName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [CommandSwitch("--keyvault-base-uri")]
-    public string? KeyvaultBaseUri { get; set; }
-
-    [CommandSwitch("--keyvault-secret-name")]
-    public string? KeyvaultSecretName { get; set; }
-
-    [CommandSwitch("--keyvault-secret-version")]
-    public string? KeyvaultSecretVersion { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

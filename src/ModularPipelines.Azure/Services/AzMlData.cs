@@ -25,9 +25,9 @@ public class AzMlData
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzMlDataCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMlDataCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlDataCreateOptions(), token);
     }
 
     public async Task<CommandResult> Import(AzMlDataImportOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzMlData
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlDataListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlDataListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlDataListOptions(), token);
     }
 
     public async Task<CommandResult> ListMaterializationStatus(AzMlDataListMaterializationStatusOptions options, CancellationToken token = default)

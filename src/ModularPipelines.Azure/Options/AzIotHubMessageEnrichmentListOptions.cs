@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "message-enrichment", "list")]
-public record AzIotHubMessageEnrichmentListOptions(
-[property: CommandSwitch("--endpoints")] string Endpoints,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzIotHubMessageEnrichmentListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

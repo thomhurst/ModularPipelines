@@ -12,6 +12,4 @@ public record AzAliasRemoveOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

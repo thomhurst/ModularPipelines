@@ -20,9 +20,9 @@ public class AzContainerappConnectedEnvCertificate
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Delete(AzContainerappConnectedEnvCertificateDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzContainerappConnectedEnvCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvCertificateDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzContainerappConnectedEnvCertificateListOptions options, CancellationToken token = default)

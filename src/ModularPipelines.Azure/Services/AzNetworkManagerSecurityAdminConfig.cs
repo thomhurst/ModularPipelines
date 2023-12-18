@@ -29,9 +29,9 @@ public class AzNetworkManagerSecurityAdminConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkManagerSecurityAdminConfigDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkManagerSecurityAdminConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerSecurityAdminConfigListOptions options, CancellationToken token = default)

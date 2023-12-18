@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "assess-patches")]
-public record AzVmAssessPatchesOptions(
-[property: CommandSwitch("--vhd-name-prefix")] string VhdNamePrefix
-) : AzOptions
+public record AzVmAssessPatchesOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

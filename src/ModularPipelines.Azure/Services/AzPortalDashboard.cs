@@ -35,9 +35,9 @@ public class AzPortalDashboard
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPortalDashboardListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPortalDashboardListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPortalDashboardListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzPortalDashboardShowOptions options, CancellationToken token = default)

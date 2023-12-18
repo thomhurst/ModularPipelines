@@ -8,15 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "geo-backup", "list")]
-public record AzSqlDbGeoBackupListOptions(
-[property: CommandSwitch("--dest-database")] string DestDatabase,
-[property: CommandSwitch("--dest-server")] string DestServer,
-[property: CommandSwitch("--geo-backup-id")] string GeoBackupId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSqlDbGeoBackupListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--server")]
     public string? Server { get; set; }

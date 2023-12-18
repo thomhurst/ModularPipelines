@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "fs", "list")]
-public record AzStorageFsListOptions(
-[property: CommandSwitch("--file-system")] string FileSystem
-) : AzOptions
+public record AzStorageFsListOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

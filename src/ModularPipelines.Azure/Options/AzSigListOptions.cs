@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "list")]
-public record AzSigListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSigListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

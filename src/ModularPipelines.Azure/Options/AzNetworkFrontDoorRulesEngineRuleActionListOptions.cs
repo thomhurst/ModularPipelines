@@ -15,6 +15,4 @@ public record AzNetworkFrontDoorRulesEngineRuleActionListOptions(
 [property: CommandSwitch("--rules-engine-name")] string RulesEngineName
 ) : AzOptions
 {
-    [CommandSwitch("--index")]
-    public string? Index { get; set; }
 }

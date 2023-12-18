@@ -20,9 +20,9 @@ public class AzMlDataset
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Archive(AzMlDatasetArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Archive(AzMlDatasetArchiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlDatasetArchiveOptions(), token);
     }
 
     public async Task<CommandResult> Deprecate(AzMlDatasetDeprecateOptions options, CancellationToken token = default)

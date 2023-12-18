@@ -38,9 +38,9 @@ public class AzCsvmwareVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzCsvmwareVmListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCsvmwareVmListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCsvmwareVmListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzCsvmwareVmShowOptions options, CancellationToken token = default)

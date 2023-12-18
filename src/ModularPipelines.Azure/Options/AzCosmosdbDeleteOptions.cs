@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "delete")]
-public record AzCosmosdbDeleteOptions(
-[property: CommandSwitch("--failover-policies")] string FailoverPolicies
-) : AzOptions
+public record AzCosmosdbDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

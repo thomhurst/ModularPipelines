@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "streaming-policy", "delete")]
-public record AzAmsStreamingPolicyDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAmsStreamingPolicyDeleteOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

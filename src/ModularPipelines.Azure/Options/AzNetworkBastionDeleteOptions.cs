@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "bastion", "delete")]
-public record AzNetworkBastionDeleteOptions(
-[property: CommandSwitch("--auth-type")] string AuthType
-) : AzOptions
+public record AzNetworkBastionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

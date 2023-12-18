@@ -13,9 +13,4 @@ public record AzSynapseSparkJobDefinitionShowOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--folder-path")]
-    public string? FolderPath { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

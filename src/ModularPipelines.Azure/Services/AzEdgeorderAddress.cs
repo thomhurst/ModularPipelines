@@ -25,24 +25,24 @@ public class AzEdgeorderAddress
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEdgeorderAddressDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEdgeorderAddressDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzEdgeorderAddressListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzEdgeorderAddressListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzEdgeorderAddressShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzEdgeorderAddressShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzEdgeorderAddressUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzEdgeorderAddressUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzEdgeorderAddressWaitOptions options, CancellationToken token = default)

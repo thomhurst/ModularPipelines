@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("databox", "job", "list-credential")]
-public record AzDataboxJobListCredentialOptions(
-[property: CommandSwitch("--deliver-package-details")] string DeliverPackageDetails
-) : AzOptions
+public record AzDataboxJobListCredentialOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

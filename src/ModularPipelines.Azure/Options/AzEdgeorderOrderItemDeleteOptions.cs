@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "order-item", "delete")]
-public record AzEdgeorderOrderItemDeleteOptions(
-[property: CommandSwitch("--return-reason")] string ReturnReason
-) : AzOptions
+public record AzEdgeorderOrderItemDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

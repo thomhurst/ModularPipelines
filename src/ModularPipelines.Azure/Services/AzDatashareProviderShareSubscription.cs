@@ -20,9 +20,9 @@ public class AzDatashareProviderShareSubscription
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Adjust(AzDatashareProviderShareSubscriptionAdjustOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Adjust(AzDatashareProviderShareSubscriptionAdjustOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareProviderShareSubscriptionAdjustOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatashareProviderShareSubscriptionListOptions options, CancellationToken token = default)

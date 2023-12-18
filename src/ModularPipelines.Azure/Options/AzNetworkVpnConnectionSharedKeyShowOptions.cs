@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-connection", "shared-key", "show")]
-public record AzNetworkVpnConnectionSharedKeyShowOptions(
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzNetworkVpnConnectionSharedKeyShowOptions : AzOptions
 {
     [CommandSwitch("--connection-name")]
     public string? ConnectionName { get; set; }

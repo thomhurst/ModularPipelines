@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "container-rm", "exists")]
-public record AzStorageContainerRmExistsOptions(
-[property: CommandSwitch("--storage-account")] int StorageAccount
-) : AzOptions
+public record AzStorageContainerRmExistsOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -20,6 +18,9 @@ public record AzStorageContainerRmExistsOptions(
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--storage-account")]
+    public int? StorageAccount { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

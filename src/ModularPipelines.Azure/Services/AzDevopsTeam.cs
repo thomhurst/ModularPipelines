@@ -30,9 +30,9 @@ public class AzDevopsTeam
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsTeamListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsTeamListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamListOptions(), token);
     }
 
     public async Task<CommandResult> ListMember(AzDevopsTeamListMemberOptions options, CancellationToken token = default)

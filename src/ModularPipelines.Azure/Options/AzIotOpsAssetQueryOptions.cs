@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "ops", "asset", "query")]
-public record AzIotOpsAssetQueryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzIotOpsAssetQueryOptions : AzOptions
 {
     [CommandSwitch("--asset-type")]
     public string? AssetType { get; set; }
@@ -54,6 +51,9 @@ public record AzIotOpsAssetQueryOptions(
 
     [CommandSwitch("--pc")]
     public string? Pc { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--serial-number")]
     public string? SerialNumber { get; set; }

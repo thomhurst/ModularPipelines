@@ -42,9 +42,9 @@ public class AzHybridaks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzHybridaksListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzHybridaksListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHybridaksListOptions(), token);
     }
 
     public async Task<CommandResult> Notice(AzHybridaksNoticeOptions options, CancellationToken token = default)
@@ -52,9 +52,9 @@ public class AzHybridaks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Proxy(AzHybridaksProxyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Proxy(AzHybridaksProxyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHybridaksProxyOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzHybridaksShowOptions options, CancellationToken token = default)

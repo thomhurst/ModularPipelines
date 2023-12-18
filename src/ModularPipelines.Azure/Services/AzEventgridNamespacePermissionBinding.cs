@@ -25,9 +25,9 @@ public class AzEventgridNamespacePermissionBinding
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventgridNamespacePermissionBindingDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventgridNamespacePermissionBindingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespacePermissionBindingListOptions options, CancellationToken token = default)

@@ -8,11 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("spring", "list-marketplace-plan")]
-public record AzSpringListMarketplacePlanOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
-) : AzOptions
+public record AzSpringListMarketplacePlanOptions : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

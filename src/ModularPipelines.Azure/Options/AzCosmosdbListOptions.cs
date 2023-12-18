@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "list")]
-public record AzCosmosdbListOptions(
-[property: CommandSwitch("--key-kind")] string KeyKind
-) : AzOptions
+public record AzCosmosdbListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

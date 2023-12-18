@@ -13,12 +13,4 @@ public record AzKustoManagedPrivateEndpointListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--managed-private-endpoint-name")]
-    public string? ManagedPrivateEndpointName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -64,9 +64,9 @@ public class AzStorageContainer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzStorageContainerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStorageContainerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzStorageContainerRestoreOptions options, CancellationToken token = default)

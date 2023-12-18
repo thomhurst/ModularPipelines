@@ -13,9 +13,4 @@ public record AzIotOpsAssetEventListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--en")]
-    public string? En { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

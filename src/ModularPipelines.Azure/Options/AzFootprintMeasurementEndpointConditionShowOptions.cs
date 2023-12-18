@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("footprint", "measurement-endpoint-condition", "show")]
-public record AzFootprintMeasurementEndpointConditionShowOptions(
-[property: CommandSwitch("--constant")] string Constant,
-[property: CommandSwitch("--operator")] string Operator,
-[property: CommandSwitch("--variable")] string Variable
-) : AzOptions
+public record AzFootprintMeasurementEndpointConditionShowOptions : AzOptions
 {
     [CommandSwitch("--endpoint-name")]
     public string? EndpointName { get; set; }

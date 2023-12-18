@@ -29,9 +29,9 @@ public class AzRelayHyco
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRelayHycoDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRelayHycoDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzRelayHycoListOptions options, CancellationToken token = default)

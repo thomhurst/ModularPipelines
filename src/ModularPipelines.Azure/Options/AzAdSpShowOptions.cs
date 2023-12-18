@@ -12,15 +12,4 @@ public record AzAdSpShowOptions(
 [property: CommandSwitch("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

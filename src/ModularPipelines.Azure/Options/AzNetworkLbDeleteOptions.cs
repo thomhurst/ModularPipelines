@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "lb", "delete")]
-public record AzNetworkLbDeleteOptions(
-[property: CommandSwitch("--backend-pool-name")] string BackendPoolName,
-[property: CommandSwitch("--request")] string Request
-) : AzOptions
+public record AzNetworkLbDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

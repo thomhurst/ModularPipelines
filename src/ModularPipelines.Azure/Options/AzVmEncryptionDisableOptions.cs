@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "encryption", "disable")]
-public record AzVmEncryptionDisableOptions(
-[property: CommandSwitch("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
-) : AzOptions
+public record AzVmEncryptionDisableOptions : AzOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }

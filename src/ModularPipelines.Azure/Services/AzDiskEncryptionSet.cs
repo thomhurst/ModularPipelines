@@ -28,14 +28,14 @@ public class AzDiskEncryptionSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDiskEncryptionSetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDiskEncryptionSetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDiskEncryptionSetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDiskEncryptionSetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetListOptions(), token);
     }
 
     public async Task<CommandResult> ListAssociatedResources(AzDiskEncryptionSetListAssociatedResourcesOptions options, CancellationToken token = default)

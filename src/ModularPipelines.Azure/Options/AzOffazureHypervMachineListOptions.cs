@@ -13,12 +13,4 @@ public record AzOffazureHypervMachineListOptions(
 [property: CommandSwitch("--site-name")] string SiteName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--machine-name")]
-    public string? MachineName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

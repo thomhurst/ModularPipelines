@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "lb", "list")]
-public record AzNetworkLbListOptions(
-[property: CommandSwitch("--backend-pool-name")] string BackendPoolName,
-[property: CommandSwitch("--request")] string Request
-) : AzOptions
+public record AzNetworkLbListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

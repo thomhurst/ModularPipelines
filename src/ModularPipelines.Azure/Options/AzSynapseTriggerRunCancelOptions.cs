@@ -14,12 +14,4 @@ public record AzSynapseTriggerRunCancelOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
-    public string? ContinuationToken { get; set; }
-
-    [CommandSwitch("--filters")]
-    public string? Filters { get; set; }
-
-    [CommandSwitch("--order-by")]
-    public string? OrderBy { get; set; }
 }

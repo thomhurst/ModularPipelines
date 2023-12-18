@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "get-data-plane-access")]
-public record AzDatafactoryGetDataPlaneAccessOptions(
-[property: CommandSwitch("--git-hub-access-code")] string GitHubAccessCode,
-[property: CommandSwitch("--git-hub-access-token-base-url")] string GitHubAccessTokenBaseUrl
-) : AzOptions
+public record AzDatafactoryGetDataPlaneAccessOptions : AzOptions
 {
     [CommandSwitch("--access-resource-path")]
     public string? AccessResourcePath { get; set; }

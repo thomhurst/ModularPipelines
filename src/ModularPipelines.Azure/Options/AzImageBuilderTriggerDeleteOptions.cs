@@ -8,19 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("image", "builder", "trigger", "delete")]
-public record AzImageBuilderTriggerDeleteOptions(
-[property: CommandSwitch("--image-template-name")] string ImageTemplateName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzImageBuilderTriggerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--image-template-name")]
+    public string? ImageTemplateName { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

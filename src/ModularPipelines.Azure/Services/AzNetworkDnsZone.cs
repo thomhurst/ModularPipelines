@@ -25,9 +25,9 @@ public class AzNetworkDnsZone
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkDnsZoneDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkDnsZoneDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsZoneDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzNetworkDnsZoneExportOptions options, CancellationToken token = default)
@@ -40,14 +40,14 @@ public class AzNetworkDnsZone
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzNetworkDnsZoneListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkDnsZoneListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsZoneListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkDnsZoneShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkDnsZoneShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsZoneShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkDnsZoneUpdateOptions options, CancellationToken token = default)

@@ -29,9 +29,9 @@ public class AzNetappfilesSubvolume
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesSubvolumeDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesSubvolumeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSubvolumeDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesSubvolumeListOptions options, CancellationToken token = default)

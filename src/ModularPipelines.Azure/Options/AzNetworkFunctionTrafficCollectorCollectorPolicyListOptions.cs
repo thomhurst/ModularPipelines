@@ -13,12 +13,4 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyListOptions(
 [property: CommandSwitch("--traffic-collector-name")] string TrafficCollectorName
 ) : AzOptions
 {
-    [CommandSwitch("--collector-policy-name")]
-    public string? CollectorPolicyName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "postgres", "firewall-rule", "delete")]
-public record AzCosmosdbPostgresFirewallRuleDeleteOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCosmosdbPostgresFirewallRuleDeleteOptions : AzOptions
 {
+    [CommandSwitch("--cluster-name")]
+    public string? ClusterName { get; set; }
+
     [CommandSwitch("--firewall-rule-name")]
     public string? FirewallRuleName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzCosmosdbPostgresFirewallRuleDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

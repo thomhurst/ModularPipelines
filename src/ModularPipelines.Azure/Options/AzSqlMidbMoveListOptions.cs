@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "midb", "move", "list")]
-public record AzSqlMidbMoveListOptions(
-[property: CommandSwitch("--dest-mi")] string DestMi
-) : AzOptions
+public record AzSqlMidbMoveListOptions : AzOptions
 {
+    [CommandSwitch("--dest-mi")]
+    public string? DestMi { get; set; }
+
     [CommandSwitch("--dest-resource-group")]
     public string? DestResourceGroup { get; set; }
 

@@ -201,9 +201,9 @@ public class AzAks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> InstallCli(AzAksInstallCliOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InstallCli(AzAksInstallCliOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksInstallCliOptions(), token);
     }
 
     public async Task<CommandResult> Kanalyze(AzAksKanalyzeOptions options, CancellationToken token = default)
@@ -216,9 +216,9 @@ public class AzAks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAksListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAksListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksListOptions(), token);
     }
 
     public async Task<CommandResult> OperationAbort(AzAksOperationAbortOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "streaming-endpoint", "akamai", "add")]
-public record AzAmsStreamingEndpointAkamaiAddOptions(
-[property: CommandSwitch("--identifier")] string Identifier
-) : AzOptions
+public record AzAmsStreamingEndpointAkamaiAddOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
@@ -20,6 +18,9 @@ public record AzAmsStreamingEndpointAkamaiAddOptions(
 
     [CommandSwitch("--expiration")]
     public string? Expiration { get; set; }
+
+    [CommandSwitch("--identifier")]
+    public string? Identifier { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

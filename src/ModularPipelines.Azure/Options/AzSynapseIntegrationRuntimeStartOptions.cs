@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "integration-runtime", "start")]
-public record AzSynapseIntegrationRuntimeStartOptions(
-[property: CommandSwitch("--auto-update")] string AutoUpdate,
-[property: CommandSwitch("--update-delay-offset")] string UpdateDelayOffset
-) : AzOptions
+public record AzSynapseIntegrationRuntimeStartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

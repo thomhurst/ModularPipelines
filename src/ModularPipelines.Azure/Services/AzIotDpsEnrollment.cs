@@ -34,9 +34,9 @@ public class AzIotDpsEnrollment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotDpsEnrollmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotDpsEnrollmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsEnrollmentListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzIotDpsEnrollmentShowOptions options, CancellationToken token = default)

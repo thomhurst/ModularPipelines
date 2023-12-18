@@ -20,9 +20,9 @@ public class AzStackHciVmDisk
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Attach(AzStackHciVmDiskAttachOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Attach(AzStackHciVmDiskAttachOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmDiskAttachOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzStackHciVmDiskCreateOptions options, CancellationToken token = default)
@@ -30,9 +30,9 @@ public class AzStackHciVmDisk
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStackHciVmDiskDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStackHciVmDiskDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmDiskDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Detach(AzStackHciVmDiskDetachOptions options, CancellationToken token = default)

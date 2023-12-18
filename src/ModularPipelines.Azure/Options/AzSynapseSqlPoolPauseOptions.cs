@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "sql", "pool", "pause")]
-public record AzSynapseSqlPoolPauseOptions(
-[property: CommandSwitch("--dest-name")] string DestName
-) : AzOptions
+public record AzSynapseSqlPoolPauseOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

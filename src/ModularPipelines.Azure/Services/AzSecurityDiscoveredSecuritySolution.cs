@@ -20,9 +20,9 @@ public class AzSecurityDiscoveredSecuritySolution
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzSecurityDiscoveredSecuritySolutionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityDiscoveredSecuritySolutionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityDiscoveredSecuritySolutionListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityDiscoveredSecuritySolutionShowOptions options, CancellationToken token = default)

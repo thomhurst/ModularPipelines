@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "import")]
-public record AzKeyvaultKeyImportOptions(
-[property: CommandSwitch("--count")] int Count
-) : AzOptions
+public record AzKeyvaultKeyImportOptions : AzOptions
 {
     [CommandSwitch("--byok-file")]
     public string? ByokFile { get; set; }

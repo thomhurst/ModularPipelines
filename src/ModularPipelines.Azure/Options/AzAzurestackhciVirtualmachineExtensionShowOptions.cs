@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("urestackhci", "virtualmachine", "extension", "show")]
-public record AzAzurestackhciVirtualmachineExtensionShowOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAzurestackhciVirtualmachineExtensionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

@@ -13,6 +13,4 @@ public record AzVmNicListOptions(
 [property: CommandSwitch("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--primary-nic")]
-    public string? PrimaryNic { get; set; }
 }

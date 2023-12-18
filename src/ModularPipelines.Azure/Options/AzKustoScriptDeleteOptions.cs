@@ -8,12 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "script", "delete")]
-public record AzKustoScriptDeleteOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzKustoScriptDeleteOptions : AzOptions
 {
+    [CommandSwitch("--cluster-name")]
+    public string? ClusterName { get; set; }
+
+    [CommandSwitch("--database-name")]
+    public string? DatabaseName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -22,6 +24,9 @@ public record AzKustoScriptDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

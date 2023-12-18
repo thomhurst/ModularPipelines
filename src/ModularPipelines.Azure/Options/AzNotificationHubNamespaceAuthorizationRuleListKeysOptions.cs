@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("notification-hub", "namespace", "authorization-rule", "list-keys")]
-public record AzNotificationHubNamespaceAuthorizationRuleListKeysOptions(
-[property: CommandSwitch("--policy-key")] string PolicyKey
-) : AzOptions
+public record AzNotificationHubNamespaceAuthorizationRuleListKeysOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

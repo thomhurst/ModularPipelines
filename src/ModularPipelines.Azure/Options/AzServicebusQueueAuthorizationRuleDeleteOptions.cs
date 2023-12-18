@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "queue", "authorization-rule", "delete")]
-public record AzServicebusQueueAuthorizationRuleDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--queue-name")] string QueueName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzServicebusQueueAuthorizationRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--authorization-rule-name")]
     public string? AuthorizationRuleName { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--queue-name")]
+    public string? QueueName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

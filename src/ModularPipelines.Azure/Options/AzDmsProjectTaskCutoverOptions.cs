@@ -16,9 +16,4 @@ public record AzDmsProjectTaskCutoverOptions(
 [property: CommandSwitch("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--delete-running-tasks")]
-    public string? DeleteRunningTasks { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

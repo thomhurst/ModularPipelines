@@ -30,9 +30,9 @@ public class AzSecurityAssessmentMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSecurityAssessmentMetadataListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAssessmentMetadataListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAssessmentMetadataListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAssessmentMetadataShowOptions options, CancellationToken token = default)

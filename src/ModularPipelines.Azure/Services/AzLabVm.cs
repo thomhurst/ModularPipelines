@@ -25,9 +25,9 @@ public class AzLabVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Claim(AzLabVmClaimOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Claim(AzLabVmClaimOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLabVmClaimOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzLabVmCreateOptions options, CancellationToken token = default)

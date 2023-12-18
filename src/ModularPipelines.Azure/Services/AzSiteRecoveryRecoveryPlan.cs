@@ -25,9 +25,9 @@ public class AzSiteRecoveryRecoveryPlan
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSiteRecoveryRecoveryPlanDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSiteRecoveryRecoveryPlanDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryRecoveryPlanListOptions options, CancellationToken token = default)

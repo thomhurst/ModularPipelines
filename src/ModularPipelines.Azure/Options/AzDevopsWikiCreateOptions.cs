@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "wiki", "create")]
-public record AzDevopsWikiCreateOptions(
-[property: CommandSwitch("--wiki")] string Wiki
-) : AzOptions
+public record AzDevopsWikiCreateOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

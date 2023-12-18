@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connectedk8s", "delete")]
-public record AzConnectedk8sDeleteOptions(
-[property: CommandSwitch("--features")] string Features
-) : AzOptions
+public record AzConnectedk8sDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }

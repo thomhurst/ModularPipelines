@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "set-attributes")]
-public record AzKeyvaultKeySetAttributesOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--digest")] string Digest
-) : AzOptions
+public record AzKeyvaultKeySetAttributesOptions : AzOptions
 {
     [BooleanCommandSwitch("--enabled")]
     public bool? Enabled { get; set; }

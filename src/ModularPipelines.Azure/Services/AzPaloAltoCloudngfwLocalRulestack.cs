@@ -36,9 +36,9 @@ public class AzPaloAltoCloudngfwLocalRulestack
 
     public AzPaloAltoCloudngfwLocalRulestackPrefixlist Prefixlist { get; }
 
-    public async Task<CommandResult> Commit(AzPaloAltoCloudngfwLocalRulestackCommitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Commit(AzPaloAltoCloudngfwLocalRulestackCommitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCommitOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzPaloAltoCloudngfwLocalRulestackCreateOptions options, CancellationToken token = default)
@@ -46,14 +46,14 @@ public class AzPaloAltoCloudngfwLocalRulestack
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackListOptions(), token);
     }
 
     public async Task<CommandResult> ListAdvancedSecurityObject(AzPaloAltoCloudngfwLocalRulestackListAdvancedSecurityObjectOptions options, CancellationToken token = default)
@@ -61,24 +61,24 @@ public class AzPaloAltoCloudngfwLocalRulestack
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListAppId(AzPaloAltoCloudngfwLocalRulestackListAppIdOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppId(AzPaloAltoCloudngfwLocalRulestackListAppIdOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackListAppIdOptions(), token);
     }
 
-    public async Task<CommandResult> ListCountry(AzPaloAltoCloudngfwLocalRulestackListCountryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCountry(AzPaloAltoCloudngfwLocalRulestackListCountryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackListCountryOptions(), token);
     }
 
-    public async Task<CommandResult> ListFirewall(AzPaloAltoCloudngfwLocalRulestackListFirewallOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFirewall(AzPaloAltoCloudngfwLocalRulestackListFirewallOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackListFirewallOptions(), token);
     }
 
-    public async Task<CommandResult> ListPredefinedUrlCategory(AzPaloAltoCloudngfwLocalRulestackListPredefinedUrlCategoryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPredefinedUrlCategory(AzPaloAltoCloudngfwLocalRulestackListPredefinedUrlCategoryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackListPredefinedUrlCategoryOptions(), token);
     }
 
     public async Task<CommandResult> ListSecurityService(AzPaloAltoCloudngfwLocalRulestackListSecurityServiceOptions options, CancellationToken token = default)

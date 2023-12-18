@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("functionapp", "deployment", "source", "config-local-git")]
-public record AzFunctionappDeploymentSourceConfigLocalGitOptions(
-[property: CommandSwitch("--src")] string Src
-) : AzOptions
+public record AzFunctionappDeploymentSourceConfigLocalGitOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

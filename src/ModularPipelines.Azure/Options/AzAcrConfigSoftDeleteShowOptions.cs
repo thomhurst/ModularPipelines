@@ -12,12 +12,4 @@ public record AzAcrConfigSoftDeleteShowOptions(
 [property: CommandSwitch("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--days")]
-    public int? Days { get; set; }
-
-    [CommandSwitch("--status")]
-    public string? Status { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

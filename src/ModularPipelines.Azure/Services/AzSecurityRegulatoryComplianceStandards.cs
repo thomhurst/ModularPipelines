@@ -20,9 +20,9 @@ public class AzSecurityRegulatoryComplianceStandards
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzSecurityRegulatoryComplianceStandardsListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityRegulatoryComplianceStandardsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityRegulatoryComplianceStandardsListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityRegulatoryComplianceStandardsShowOptions options, CancellationToken token = default)

@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("extension", "add")]
-public record AzExtensionAddOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzExtensionAddOptions : AzOptions
 {
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--pip-extra-index-urls")]
     public string? PipExtraIndexUrls { get; set; }
 

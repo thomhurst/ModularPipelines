@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "download")]
-public record AzStorageBlobDownloadOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--source")] string Source
-) : AzOptions
+public record AzStorageBlobDownloadOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

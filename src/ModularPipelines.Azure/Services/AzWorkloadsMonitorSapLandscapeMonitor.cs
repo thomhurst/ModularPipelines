@@ -25,9 +25,9 @@ public class AzWorkloadsMonitorSapLandscapeMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzWorkloadsMonitorSapLandscapeMonitorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWorkloadsMonitorSapLandscapeMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorSapLandscapeMonitorDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzWorkloadsMonitorSapLandscapeMonitorListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "cluster", "diagnose-virtual-network")]
-public record AzKustoClusterDiagnoseVirtualNetworkOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzKustoClusterDiagnoseVirtualNetworkOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }
@@ -20,6 +18,9 @@ public record AzKustoClusterDiagnoseVirtualNetworkOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -12,6 +12,4 @@ public record AzRestorePointCollectionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--restore-points")]
-    public string? RestorePoints { get; set; }
 }

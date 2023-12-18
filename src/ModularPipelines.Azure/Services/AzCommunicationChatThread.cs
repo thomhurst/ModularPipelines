@@ -30,9 +30,9 @@ public class AzCommunicationChatThread
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzCommunicationChatThreadListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCommunicationChatThreadListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationChatThreadListOptions(), token);
     }
 
     public async Task<CommandResult> UpdateTopic(AzCommunicationChatThreadUpdateTopicOptions options, CancellationToken token = default)

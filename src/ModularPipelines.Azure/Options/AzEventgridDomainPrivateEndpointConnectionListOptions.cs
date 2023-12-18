@@ -13,6 +13,4 @@ public record AzEventgridDomainPrivateEndpointConnectionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
-    public string? Description { get; set; }
 }

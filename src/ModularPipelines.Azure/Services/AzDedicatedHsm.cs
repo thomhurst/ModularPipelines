@@ -24,14 +24,14 @@ public class AzDedicatedHsm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDedicatedHsmDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDedicatedHsmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDedicatedHsmListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDedicatedHsmListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmListOptions(), token);
     }
 
     public async Task<CommandResult> ListOutboundNetworkDependencyEndpoint(AzDedicatedHsmListOutboundNetworkDependencyEndpointOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("next")]
-public record AzNextOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzNextOptions : AzOptions
 {
     [BooleanCommandSwitch("--command")]
     public bool? Command { get; set; }

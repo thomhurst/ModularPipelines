@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "route-table", "route", "delete")]
-public record AzNetworkRouteTableRouteDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-table-name")] string RouteTableName
-) : AzOptions
+public record AzNetworkRouteTableRouteDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,12 @@ public record AzNetworkRouteTableRouteDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--route-table-name")]
+    public string? RouteTableName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

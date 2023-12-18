@@ -13,12 +13,4 @@ public record AzSentinelAlertRuleTemplateListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--alert-rule-template-id")]
-    public string? AlertRuleTemplateId { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

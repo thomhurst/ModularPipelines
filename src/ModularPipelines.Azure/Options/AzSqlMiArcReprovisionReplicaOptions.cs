@@ -18,6 +18,6 @@ public record AzSqlMiArcReprovisionReplicaOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

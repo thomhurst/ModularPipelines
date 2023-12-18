@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("scvmm", "vm", "delete")]
-public record AzScvmmVmDeleteOptions(
-[property: CommandSwitch("--checkpoint-id")] string CheckpointId
-) : AzOptions
+public record AzScvmmVmDeleteOptions : AzOptions
 {
     [CommandSwitch("--delete-from-host")]
     public string? DeleteFromHost { get; set; }

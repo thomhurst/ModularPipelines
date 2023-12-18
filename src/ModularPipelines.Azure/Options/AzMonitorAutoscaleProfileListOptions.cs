@@ -13,9 +13,4 @@ public record AzMonitorAutoscaleProfileListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--offset")]
-    public string? Offset { get; set; }
-
-    [CommandSwitch("--search-query")]
-    public string? SearchQuery { get; set; }
 }

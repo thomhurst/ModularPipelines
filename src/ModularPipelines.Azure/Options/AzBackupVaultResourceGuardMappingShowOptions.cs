@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "vault", "resource-guard-mapping", "show")]
-public record AzBackupVaultResourceGuardMappingShowOptions(
-[property: CommandSwitch("--resource-guard-id")] string ResourceGuardId
-) : AzOptions
+public record AzBackupVaultResourceGuardMappingShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

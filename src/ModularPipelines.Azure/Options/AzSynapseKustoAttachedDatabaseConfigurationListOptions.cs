@@ -14,12 +14,4 @@ public record AzSynapseKustoAttachedDatabaseConfigurationListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attached-database-configuration-name")]
-    public bool? AttachedDatabaseConfigurationName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

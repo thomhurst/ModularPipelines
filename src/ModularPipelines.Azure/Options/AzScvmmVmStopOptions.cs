@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("scvmm", "vm", "stop")]
-public record AzScvmmVmStopOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--virtual-machine-name")] string VirtualMachineName
-) : AzOptions
+public record AzScvmmVmStopOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,9 @@ public record AzScvmmVmStopOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [BooleanCommandSwitch("--skip-shutdown")]
     public bool? SkipShutdown { get; set; }

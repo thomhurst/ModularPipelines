@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("image", "builder", "customizer", "clear")]
-public record AzImageBuilderCustomizerClearOptions(
-[property: CommandSwitch("--customizer-name")] string CustomizerName
-) : AzOptions
+public record AzImageBuilderCustomizerClearOptions : AzOptions
 {
     [CommandSwitch("--defer")]
     public string? Defer { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "cluster", "scan-runtime")]
-public record AzNetworkcloudClusterScanRuntimeOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
-) : AzOptions
+public record AzNetworkcloudClusterScanRuntimeOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

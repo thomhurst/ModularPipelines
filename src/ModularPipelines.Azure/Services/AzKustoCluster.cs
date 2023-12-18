@@ -52,9 +52,9 @@ public class AzKustoCluster
 
     public AzKustoClusterWait Wait { get; }
 
-    public async Task<CommandResult> AddLanguageExtension(AzKustoClusterAddLanguageExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddLanguageExtension(AzKustoClusterAddLanguageExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterAddLanguageExtensionOptions(), token);
     }
 
     public async Task<CommandResult> DetachFollowerDatabase(AzKustoClusterDetachFollowerDatabaseOptions options, CancellationToken token = default)
@@ -62,9 +62,9 @@ public class AzKustoCluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> DiagnoseVirtualNetwork(AzKustoClusterDiagnoseVirtualNetworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DiagnoseVirtualNetwork(AzKustoClusterDiagnoseVirtualNetworkOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterDiagnoseVirtualNetworkOptions(), token);
     }
 
     public async Task<CommandResult> ListFollowerDatabase(AzKustoClusterListFollowerDatabaseOptions options, CancellationToken token = default)

@@ -30,9 +30,9 @@ public class AzBoardsIterationProject
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzBoardsIterationProjectListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBoardsIterationProjectListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzBoardsIterationProjectShowOptions options, CancellationToken token = default)

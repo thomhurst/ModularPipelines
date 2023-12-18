@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "release", "list")]
-public record AzPipelinesReleaseListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesReleaseListOptions : AzOptions
 {
     [CommandSwitch("--definition-id")]
     public string? DefinitionId { get; set; }

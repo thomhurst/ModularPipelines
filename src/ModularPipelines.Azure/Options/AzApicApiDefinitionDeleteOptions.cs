@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "api", "definition", "delete")]
-public record AzApicApiDefinitionDeleteOptions(
-[property: CommandSwitch("--file-name")] string FileName
-) : AzOptions
+public record AzApicApiDefinitionDeleteOptions : AzOptions
 {
     [CommandSwitch("--api")]
     public string? Api { get; set; }

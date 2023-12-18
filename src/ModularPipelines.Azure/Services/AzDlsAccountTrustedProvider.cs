@@ -30,9 +30,9 @@ public class AzDlsAccountTrustedProvider
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDlsAccountTrustedProviderListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDlsAccountTrustedProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountTrustedProviderListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDlsAccountTrustedProviderShowOptions options, CancellationToken token = default)

@@ -14,9 +14,4 @@ public record AzNetworkFrontDoorRulesEngineRuleListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--match-processing-behavior")]
-    public string? MatchProcessingBehavior { get; set; }
-
-    [CommandSwitch("--priority")]
-    public string? Priority { get; set; }
 }

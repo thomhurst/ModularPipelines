@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "application-gateway", "ssl-policy", "predefined", "list")]
-public record AzNetworkApplicationGatewaySslPolicyPredefinedListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzNetworkApplicationGatewaySslPolicyPredefinedListOptions : AzOptions
 {
 }

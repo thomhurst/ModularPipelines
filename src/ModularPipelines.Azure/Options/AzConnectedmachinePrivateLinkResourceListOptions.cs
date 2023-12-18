@@ -13,12 +13,4 @@ public record AzConnectedmachinePrivateLinkResourceListOptions(
 [property: CommandSwitch("--scope-name")] string ScopeName
 ) : AzOptions
 {
-    [CommandSwitch("--group-name")]
-    public string? GroupName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

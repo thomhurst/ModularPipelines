@@ -33,9 +33,9 @@ public class AzDlaJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDlaJobListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDlaJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaJobListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDlaJobShowOptions options, CancellationToken token = default)

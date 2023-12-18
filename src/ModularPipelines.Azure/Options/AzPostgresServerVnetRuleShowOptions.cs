@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server", "vnet-rule", "show")]
-public record AzPostgresServerVnetRuleShowOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzPostgresServerVnetRuleShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

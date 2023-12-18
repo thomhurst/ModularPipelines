@@ -25,9 +25,9 @@ public class AzNetworkcloudClusterBmckeyset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkcloudClusterBmckeysetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkcloudClusterBmckeysetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBmckeysetDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudClusterBmckeysetListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "stop")]
-public record AzPostgresFlexibleServerStopOptions(
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzPostgresFlexibleServerStopOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

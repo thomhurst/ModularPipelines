@@ -25,9 +25,9 @@ public class AzProviderhubSku
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzProviderhubSkuDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzProviderhubSkuDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzProviderhubSkuListOptions options, CancellationToken token = default)

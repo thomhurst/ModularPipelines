@@ -13,21 +13,4 @@ public record AzSignalrCustomDomainListOptions(
 [property: CommandSwitch("--signalr-name")] string SignalrName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [CommandSwitch("--certificate-resource-id")]
-    public string? CertificateResourceId { get; set; }
-
-    [CommandSwitch("--domain-name")]
-    public string? DomainName { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("staticwebapp", "list")]
-public record AzStaticwebappListOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--source")] string Source
-) : AzOptions
+public record AzStaticwebappListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

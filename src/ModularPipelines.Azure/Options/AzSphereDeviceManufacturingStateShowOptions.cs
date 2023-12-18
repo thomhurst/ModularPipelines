@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "manufacturing-state", "show")]
-public record AzSphereDeviceManufacturingStateShowOptions(
-[property: CommandSwitch("--state")] string State
-) : AzOptions
+public record AzSphereDeviceManufacturingStateShowOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

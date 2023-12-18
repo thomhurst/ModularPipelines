@@ -30,9 +30,9 @@ public class AzAccountAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAccountAliasListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAccountAliasListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountAliasListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAccountAliasShowOptions options, CancellationToken token = default)

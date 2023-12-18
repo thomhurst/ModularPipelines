@@ -20,9 +20,9 @@ public class AzSecurityAllowed_connections
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzSecurityAllowed_connectionsListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAllowed_connectionsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAllowed_connectionsListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAllowed_connectionsShowOptions options, CancellationToken token = default)

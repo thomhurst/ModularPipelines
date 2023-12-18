@@ -13,6 +13,4 @@ public record AzLogicappShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--slot")]
-    public string? Slot { get; set; }
 }

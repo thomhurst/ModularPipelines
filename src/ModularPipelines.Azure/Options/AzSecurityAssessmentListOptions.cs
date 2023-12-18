@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "assessment", "list")]
-public record AzSecurityAssessmentListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityAssessmentListOptions : AzOptions
 {
-    [CommandSwitch("--assessed-resource-id")]
-    public string? AssessedResourceId { get; set; }
 }

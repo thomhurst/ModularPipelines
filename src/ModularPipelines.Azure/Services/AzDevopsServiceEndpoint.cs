@@ -38,9 +38,9 @@ public class AzDevopsServiceEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsServiceEndpointListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsServiceEndpointListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDevopsServiceEndpointShowOptions options, CancellationToken token = default)

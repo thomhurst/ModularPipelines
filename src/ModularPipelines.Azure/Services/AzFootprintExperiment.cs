@@ -25,9 +25,9 @@ public class AzFootprintExperiment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzFootprintExperimentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzFootprintExperimentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzFootprintExperimentListOptions options, CancellationToken token = default)

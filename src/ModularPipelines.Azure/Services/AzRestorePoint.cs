@@ -28,9 +28,9 @@ public class AzRestorePoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRestorePointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRestorePointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzRestorePointShowOptions options, CancellationToken token = default)

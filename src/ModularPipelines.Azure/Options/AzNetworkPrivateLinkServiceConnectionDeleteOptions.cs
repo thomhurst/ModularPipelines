@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "private-link-service", "connection", "delete")]
-public record AzNetworkPrivateLinkServiceConnectionDeleteOptions(
-[property: CommandSwitch("--connection-status")] string ConnectionStatus
-) : AzOptions
+public record AzNetworkPrivateLinkServiceConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

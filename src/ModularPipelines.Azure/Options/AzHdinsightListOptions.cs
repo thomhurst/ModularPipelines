@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("hdinsight", "list")]
-public record AzHdinsightListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzHdinsightListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

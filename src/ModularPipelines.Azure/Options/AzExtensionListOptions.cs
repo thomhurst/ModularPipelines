@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("extension", "list")]
-public record AzExtensionListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzExtensionListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--show-details")]
-    public bool? ShowDetails { get; set; }
 }

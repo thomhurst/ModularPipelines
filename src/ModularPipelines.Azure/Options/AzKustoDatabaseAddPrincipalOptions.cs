@@ -8,17 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "database", "add-principal")]
-public record AzKustoDatabaseAddPrincipalOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzKustoDatabaseAddPrincipalOptions : AzOptions
 {
+    [CommandSwitch("--cluster-name")]
+    public string? ClusterName { get; set; }
+
     [CommandSwitch("--database-name")]
     public string? DatabaseName { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

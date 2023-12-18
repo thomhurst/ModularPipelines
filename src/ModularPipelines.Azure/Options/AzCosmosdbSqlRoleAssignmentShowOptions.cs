@@ -14,18 +14,4 @@ public record AzCosmosdbSqlRoleAssignmentShowOptions(
 [property: CommandSwitch("--role-assignment-id")] string RoleAssignmentId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--principal-id")]
-    public string? PrincipalId { get; set; }
-
-    [CommandSwitch("--role-definition-id")]
-    public string? RoleDefinitionId { get; set; }
-
-    [CommandSwitch("--role-definition-name")]
-    public string? RoleDefinitionName { get; set; }
-
-    [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
 }

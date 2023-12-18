@@ -24,9 +24,9 @@ public class AzDevopsSecurityGroup
 
     public AzDevopsSecurityGroupMembership Membership { get; }
 
-    public async Task<CommandResult> Create(AzDevopsSecurityGroupCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzDevopsSecurityGroupCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzDevopsSecurityGroupDeleteOptions options, CancellationToken token = default)
@@ -34,9 +34,9 @@ public class AzDevopsSecurityGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsSecurityGroupListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsSecurityGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDevopsSecurityGroupShowOptions options, CancellationToken token = default)

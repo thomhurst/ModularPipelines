@@ -12,12 +12,4 @@ public record AzContainerappEnvWorkloadProfileListSupportedOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--max-nodes")]
-    public string? MaxNodes { get; set; }
-
-    [CommandSwitch("--min-nodes")]
-    public string? MinNodes { get; set; }
-
-    [CommandSwitch("--workload-profile-type")]
-    public string? WorkloadProfileType { get; set; }
 }

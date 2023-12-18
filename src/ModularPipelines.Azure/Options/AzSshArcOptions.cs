@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ssh", "arc")]
-public record AzSshArcOptions(
-[property: CommandSwitch("--file")] string File
-) : AzOptions
+public record AzSshArcOptions : AzOptions
 {
     [CommandSwitch("--certificate-file")]
     public string? CertificateFile { get; set; }

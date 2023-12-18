@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "key", "list")]
-public record AzSqlServerKeyListOptions(
-[property: CommandSwitch("--kid")] string Kid
-) : AzOptions
+public record AzSqlServerKeyListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

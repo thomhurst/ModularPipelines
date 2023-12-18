@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("consumption", "budget", "delete-with-rg")]
-public record AzConsumptionBudgetDeleteWithRgOptions(
-[property: CommandSwitch("--budget-name")] string BudgetName
-) : AzOptions
+public record AzConsumptionBudgetDeleteWithRgOptions : AzOptions
 {
+    [CommandSwitch("--budget-name")]
+    public string? BudgetName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

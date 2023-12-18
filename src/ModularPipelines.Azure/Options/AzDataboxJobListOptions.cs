@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("databox", "job", "list")]
-public record AzDataboxJobListOptions(
-[property: CommandSwitch("--deliver-package-details")] string DeliverPackageDetails
-) : AzOptions
+public record AzDataboxJobListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

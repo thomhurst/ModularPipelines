@@ -12,9 +12,4 @@ public record AzNotificationHubNamespaceCheckAvailabilityOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

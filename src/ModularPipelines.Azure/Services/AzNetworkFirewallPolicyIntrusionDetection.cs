@@ -20,9 +20,9 @@ public class AzNetworkFirewallPolicyIntrusionDetection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Add(AzNetworkFirewallPolicyIntrusionDetectionAddOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Add(AzNetworkFirewallPolicyIntrusionDetectionAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionAddOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallPolicyIntrusionDetectionListOptions options, CancellationToken token = default)

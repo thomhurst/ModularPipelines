@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "protection", "backup-now")]
-public record AzBackupProtectionBackupNowOptions(
-[property: CommandSwitch("--azure-file-share")] string AzureFileShare,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzBackupProtectionBackupNowOptions : AzOptions
 {
     [CommandSwitch("--backup-management-type")]
     public string? BackupManagementType { get; set; }
@@ -34,11 +28,17 @@ public record AzBackupProtectionBackupNowOptions(
     [CommandSwitch("--item-name")]
     public string? ItemName { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--retain-until")]
     public string? RetainUntil { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }

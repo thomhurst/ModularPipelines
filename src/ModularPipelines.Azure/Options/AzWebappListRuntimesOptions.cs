@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "list-runtimes")]
-public record AzWebappListRuntimesOptions(
-[property: CommandSwitch("--instance-count")] int InstanceCount
-) : AzOptions
+public record AzWebappListRuntimesOptions : AzOptions
 {
     [CommandSwitch("--os")]
     public string? Os { get; set; }

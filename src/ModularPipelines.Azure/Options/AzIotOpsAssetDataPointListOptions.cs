@@ -13,9 +13,4 @@ public record AzIotOpsAssetDataPointListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--data-source")]
-    public string? DataSource { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

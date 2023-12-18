@@ -35,9 +35,9 @@ public class AzMonitorAutoscaleProfile
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListTimezones(AzMonitorAutoscaleProfileListTimezonesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTimezones(AzMonitorAutoscaleProfileListTimezonesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleProfileListTimezonesOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAutoscaleProfileShowOptions options, CancellationToken token = default)

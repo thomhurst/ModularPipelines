@@ -8,14 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("elastic", "monitor", "list")]
-public record AzElasticMonitorListOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzElasticMonitorListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }
 
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

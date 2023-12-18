@@ -19,14 +19,14 @@ public class AzCloud
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzCloudListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCloudListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListOptions(), token);
     }
 
-    public async Task<CommandResult> ListProfiles(AzCloudListProfilesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProfiles(AzCloudListProfilesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListProfilesOptions(), token);
     }
 
     public async Task<CommandResult> Register(AzCloudRegisterOptions options, CancellationToken token = default)
@@ -39,9 +39,9 @@ public class AzCloud
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzCloudShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzCloudShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudShowOptions(), token);
     }
 
     public async Task<CommandResult> Unregister(AzCloudUnregisterOptions options, CancellationToken token = default)

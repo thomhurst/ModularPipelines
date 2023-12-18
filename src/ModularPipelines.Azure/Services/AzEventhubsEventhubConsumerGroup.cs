@@ -25,9 +25,9 @@ public class AzEventhubsEventhubConsumerGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventhubsEventhubConsumerGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventhubsEventhubConsumerGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventhubsEventhubConsumerGroupListOptions options, CancellationToken token = default)

@@ -8,13 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mesh", "secretvalue", "delete")]
-public record AzMeshSecretvalueDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--secret-name")] string SecretName
-) : AzOptions
+public record AzMeshSecretvalueDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--secret-resource-name")]
     public string? SecretResourceName { get; set; }

@@ -13,12 +13,4 @@ public record AzIdentityFederatedCredentialListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--audiences")]
-    public string? Audiences { get; set; }
-
-    [CommandSwitch("--issuer")]
-    public string? Issuer { get; set; }
-
-    [CommandSwitch("--subject")]
-    public string? Subject { get; set; }
 }

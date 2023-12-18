@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "dns-alias", "list")]
-public record AzSqlServerDnsAliasListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--original-server")] string OriginalServer
-) : AzOptions
+public record AzSqlServerDnsAliasListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

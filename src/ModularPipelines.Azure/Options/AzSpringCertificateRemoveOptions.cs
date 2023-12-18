@@ -14,6 +14,4 @@ public record AzSpringCertificateRemoveOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-auto-sync")]
-    public bool? EnableAutoSync { get; set; }
 }

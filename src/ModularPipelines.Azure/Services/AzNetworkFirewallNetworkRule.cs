@@ -29,9 +29,9 @@ public class AzNetworkFirewallNetworkRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkFirewallNetworkRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkFirewallNetworkRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallNetworkRuleListOptions options, CancellationToken token = default)

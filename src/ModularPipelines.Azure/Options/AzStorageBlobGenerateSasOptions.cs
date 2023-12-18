@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "generate-sas")]
-public record AzStorageBlobGenerateSasOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzStorageBlobGenerateSasOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }
@@ -36,6 +33,9 @@ public record AzStorageBlobGenerateSasOptions(
 
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
+
+    [CommandSwitch("--container-name")]
+    public string? ContainerName { get; set; }
 
     [CommandSwitch("--content-disposition")]
     public string? ContentDisposition { get; set; }
@@ -63,6 +63,9 @@ public record AzStorageBlobGenerateSasOptions(
 
     [CommandSwitch("--ip")]
     public string? Ip { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--permissions")]
     public string? Permissions { get; set; }

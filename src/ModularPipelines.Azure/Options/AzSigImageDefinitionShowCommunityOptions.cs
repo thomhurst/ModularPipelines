@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "image-definition", "show-community")]
-public record AzSigImageDefinitionShowCommunityOptions(
-[property: CommandSwitch("--gallery-image-definition")] string GalleryImageDefinition,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSigImageDefinitionShowCommunityOptions : AzOptions
 {
+    [CommandSwitch("--gallery-image-definition")]
+    public string? GalleryImageDefinition { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

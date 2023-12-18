@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "vnet-rule", "delete")]
-public record AzMariadbServerVnetRuleDeleteOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzMariadbServerVnetRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

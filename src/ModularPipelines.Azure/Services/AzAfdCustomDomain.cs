@@ -25,9 +25,9 @@ public class AzAfdCustomDomain
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdCustomDomainDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdCustomDomainDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdCustomDomainDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdCustomDomainListOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzNetappfilesSnapshotPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesSnapshotPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesSnapshotPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesSnapshotPolicyListOptions options, CancellationToken token = default)

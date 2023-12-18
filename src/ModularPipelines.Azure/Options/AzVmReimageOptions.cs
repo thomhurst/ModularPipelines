@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "reimage")]
-public record AzVmReimageOptions(
-[property: CommandSwitch("--size")] string Size
-) : AzOptions
+public record AzVmReimageOptions : AzOptions
 {
     [CommandSwitch("--admin-password")]
     public string? AdminPassword { get; set; }

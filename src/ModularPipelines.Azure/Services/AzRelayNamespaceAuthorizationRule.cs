@@ -29,9 +29,9 @@ public class AzRelayNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRelayNamespaceAuthorizationRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRelayNamespaceAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzRelayNamespaceAuthorizationRuleListOptions options, CancellationToken token = default)

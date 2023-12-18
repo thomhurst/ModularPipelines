@@ -25,9 +25,9 @@ public class AzAutomationRunbook
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAutomationRunbookDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAutomationRunbookDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationRunbookDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAutomationRunbookListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzAutomationRunbook
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Publish(AzAutomationRunbookPublishOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Publish(AzAutomationRunbookPublishOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationRunbookPublishOptions(), token);
     }
 
     public async Task<CommandResult> ReplaceContent(AzAutomationRunbookReplaceContentOptions options, CancellationToken token = default)

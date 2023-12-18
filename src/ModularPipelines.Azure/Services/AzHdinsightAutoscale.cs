@@ -34,9 +34,9 @@ public class AzHdinsightAutoscale
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListTimezones(AzHdinsightAutoscaleListTimezonesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTimezones(AzHdinsightAutoscaleListTimezonesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleListTimezonesOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzHdinsightAutoscaleShowOptions options, CancellationToken token = default)

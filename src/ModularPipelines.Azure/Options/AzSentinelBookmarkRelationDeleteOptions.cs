@@ -8,20 +8,25 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sentinel", "bookmark", "relation", "delete")]
-public record AzSentinelBookmarkRelationDeleteOptions(
-[property: CommandSwitch("--bookmark-id")] string BookmarkId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSentinelBookmarkRelationDeleteOptions : AzOptions
 {
+    [CommandSwitch("--bookmark-id")]
+    public string? BookmarkId { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

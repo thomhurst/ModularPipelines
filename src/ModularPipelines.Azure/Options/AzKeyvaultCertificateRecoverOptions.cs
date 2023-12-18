@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "certificate", "recover")]
-public record AzKeyvaultCertificateRecoverOptions(
-[property: CommandSwitch("--file")] string File
-) : AzOptions
+public record AzKeyvaultCertificateRecoverOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }

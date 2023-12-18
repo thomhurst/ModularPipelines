@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("snapshot", "delete")]
-public record AzSnapshotDeleteOptions(
-[property: CommandSwitch("--duration-in-seconds")] string DurationInSeconds
-) : AzOptions
+public record AzSnapshotDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

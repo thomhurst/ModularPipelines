@@ -30,9 +30,9 @@ public class AzDatafactoryPipeline
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatafactoryPipelineDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryPipelineDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryPipelineListOptions options, CancellationToken token = default)

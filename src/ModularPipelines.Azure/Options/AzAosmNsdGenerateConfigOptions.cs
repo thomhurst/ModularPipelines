@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aosm", "nsd", "generate-config")]
-public record AzAosmNsdGenerateConfigOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
-) : AzOptions
+public record AzAosmNsdGenerateConfigOptions : AzOptions
 {
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }

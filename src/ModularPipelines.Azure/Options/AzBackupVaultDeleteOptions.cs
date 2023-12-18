@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "vault", "delete")]
-public record AzBackupVaultDeleteOptions(
-[property: CommandSwitch("--backup-management-type")] string BackupManagementType
-) : AzOptions
+public record AzBackupVaultDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }

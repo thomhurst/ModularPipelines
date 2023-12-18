@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "delete")]
-public record AzMariadbServerDeleteOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMariadbServerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

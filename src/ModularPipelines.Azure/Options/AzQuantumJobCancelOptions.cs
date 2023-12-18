@@ -15,6 +15,4 @@ public record AzQuantumJobCancelOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--item")]
-    public string? Item { get; set; }
 }

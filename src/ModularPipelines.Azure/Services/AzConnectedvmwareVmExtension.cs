@@ -25,9 +25,9 @@ public class AzConnectedvmwareVmExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzConnectedvmwareVmExtensionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzConnectedvmwareVmExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmExtensionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzConnectedvmwareVmExtensionListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzConnectedvmwareVmExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzConnectedvmwareVmExtensionShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzConnectedvmwareVmExtensionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmExtensionShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzConnectedvmwareVmExtensionUpdateOptions options, CancellationToken token = default)

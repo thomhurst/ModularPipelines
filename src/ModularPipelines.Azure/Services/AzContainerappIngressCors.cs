@@ -20,9 +20,9 @@ public class AzContainerappIngressCors
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Disable(AzContainerappIngressCorsDisableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Disable(AzContainerappIngressCorsDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsDisableOptions(), token);
     }
 
     public async Task<CommandResult> Enable(AzContainerappIngressCorsEnableOptions options, CancellationToken token = default)

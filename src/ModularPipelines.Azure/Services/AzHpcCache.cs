@@ -54,9 +54,9 @@ public class AzHpcCache
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzHpcCacheListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzHpcCacheListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzHpcCacheShowOptions options, CancellationToken token = default)

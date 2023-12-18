@@ -16,9 +16,4 @@ public record AzRedisFirewallRulesCreateOptions(
 [property: CommandSwitch("--start-ip")] string StartIp
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -8,8 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("managementpartner", "show")]
-public record AzManagementpartnerShowOptions(
-[property: CommandSwitch("--partner-id")] string PartnerId
-) : AzOptions
+public record AzManagementpartnerShowOptions : AzOptions
 {
+    [CommandSwitch("--partner-id")]
+    public string? PartnerId { get; set; }
 }

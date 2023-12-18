@@ -77,9 +77,9 @@ public class AzKeyvault
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzKeyvaultDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKeyvaultDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultDeleteOptions(), token);
     }
 
     public async Task<CommandResult> DeletePolicy(AzKeyvaultDeletePolicyOptions options, CancellationToken token = default)
@@ -87,24 +87,24 @@ public class AzKeyvault
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzKeyvaultListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzKeyvaultListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeleted(AzKeyvaultListDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeleted(AzKeyvaultListDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultListDeletedOptions(), token);
     }
 
-    public async Task<CommandResult> Purge(AzKeyvaultPurgeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Purge(AzKeyvaultPurgeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPurgeOptions(), token);
     }
 
-    public async Task<CommandResult> Recover(AzKeyvaultRecoverOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Recover(AzKeyvaultRecoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRecoverOptions(), token);
     }
 
     public async Task<CommandResult> SetPolicy(AzKeyvaultSetPolicyOptions options, CancellationToken token = default)
@@ -112,14 +112,14 @@ public class AzKeyvault
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzKeyvaultShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzKeyvaultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultShowOptions(), token);
     }
 
-    public async Task<CommandResult> ShowDeleted(AzKeyvaultShowDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowDeleted(AzKeyvaultShowDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultShowDeletedOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzKeyvaultUpdateOptions options, CancellationToken token = default)

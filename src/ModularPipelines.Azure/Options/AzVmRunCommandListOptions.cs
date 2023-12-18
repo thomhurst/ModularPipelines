@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "run-command", "list")]
-public record AzVmRunCommandListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzVmRunCommandListOptions : AzOptions
 {
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }

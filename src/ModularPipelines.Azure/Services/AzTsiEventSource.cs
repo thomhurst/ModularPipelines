@@ -28,9 +28,9 @@ public class AzTsiEventSource
 
     public AzTsiEventSourceIothub Iothub { get; }
 
-    public async Task<CommandResult> Delete(AzTsiEventSourceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzTsiEventSourceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzTsiEventSourceListOptions options, CancellationToken token = default)

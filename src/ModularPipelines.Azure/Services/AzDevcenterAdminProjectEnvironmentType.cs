@@ -25,9 +25,9 @@ public class AzDevcenterAdminProjectEnvironmentType
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminProjectEnvironmentTypeDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminProjectEnvironmentTypeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminProjectEnvironmentTypeListOptions options, CancellationToken token = default)

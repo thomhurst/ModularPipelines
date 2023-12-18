@@ -25,9 +25,9 @@ public class AzDynatraceMonitorTagRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDynatraceMonitorTagRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDynatraceMonitorTagRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorTagRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDynatraceMonitorTagRuleListOptions options, CancellationToken token = default)

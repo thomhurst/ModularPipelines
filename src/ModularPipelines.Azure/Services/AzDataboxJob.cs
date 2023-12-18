@@ -30,19 +30,19 @@ public class AzDataboxJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDataboxJobDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDataboxJobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDataboxJobListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDataboxJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListOptions(), token);
     }
 
-    public async Task<CommandResult> ListCredential(AzDataboxJobListCredentialOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCredential(AzDataboxJobListCredentialOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListCredentialOptions(), token);
     }
 
     public async Task<CommandResult> MarkDevicesShipped(AzDataboxJobMarkDevicesShippedOptions options, CancellationToken token = default)

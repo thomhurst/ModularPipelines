@@ -25,9 +25,9 @@ public class AzMobileNetworkSite
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMobileNetworkSiteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMobileNetworkSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSiteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMobileNetworkSiteListOptions options, CancellationToken token = default)

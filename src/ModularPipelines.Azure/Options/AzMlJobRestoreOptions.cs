@@ -14,6 +14,4 @@ public record AzMlJobRestoreOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--web")]
-    public bool? Web { get; set; }
 }

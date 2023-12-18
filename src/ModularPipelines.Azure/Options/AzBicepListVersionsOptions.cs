@@ -8,14 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("bicep", "list-versions")]
-public record AzBicepListVersionsOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--target")] string Target
-) : AzOptions
+public record AzBicepListVersionsOptions : AzOptions
 {
-    [CommandSwitch("--documentationUri")]
-    public string? DocumentationUri { get; set; }
-
-    [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
 }

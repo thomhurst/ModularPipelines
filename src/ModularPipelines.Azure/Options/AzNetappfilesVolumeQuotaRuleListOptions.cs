@@ -15,12 +15,4 @@ public record AzNetappfilesVolumeQuotaRuleListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
-
-    [CommandSwitch("--volume-name")]
-    public string? VolumeName { get; set; }
 }

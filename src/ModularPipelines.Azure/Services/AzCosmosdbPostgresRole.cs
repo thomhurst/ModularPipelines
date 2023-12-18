@@ -25,9 +25,9 @@ public class AzCosmosdbPostgresRole
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCosmosdbPostgresRoleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCosmosdbPostgresRoleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresRoleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCosmosdbPostgresRoleListOptions options, CancellationToken token = default)

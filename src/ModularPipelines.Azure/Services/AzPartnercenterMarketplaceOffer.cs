@@ -50,9 +50,9 @@ public class AzPartnercenterMarketplaceOffer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPartnercenterMarketplaceOfferListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPartnercenterMarketplaceOfferListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPartnercenterMarketplaceOfferListOptions(), token);
     }
 
     public async Task<CommandResult> Publish(AzPartnercenterMarketplaceOfferPublishOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "revision", "copy")]
-public record AzContainerappRevisionCopyOptions(
-[property: CommandSwitch("--revision")] string Revision
-) : AzOptions
+public record AzContainerappRevisionCopyOptions : AzOptions
 {
     [CommandSwitch("--args")]
     public string? Args { get; set; }

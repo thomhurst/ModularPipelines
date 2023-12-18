@@ -20,9 +20,9 @@ public class AzHealthcareapisAcr
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Add(AzHealthcareapisAcrAddOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Add(AzHealthcareapisAcrAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisAcrAddOptions(), token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisAcrListOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzSiteRecoveryNetworkMapping
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSiteRecoveryNetworkMappingDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSiteRecoveryNetworkMappingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryNetworkMappingDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryNetworkMappingListOptions options, CancellationToken token = default)

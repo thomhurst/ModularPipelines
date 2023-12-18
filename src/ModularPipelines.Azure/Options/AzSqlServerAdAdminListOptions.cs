@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "ad-admin", "list")]
-public record AzSqlServerAdAdminListOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--object-id")] string ObjectId
-) : AzOptions
+public record AzSqlServerAdAdminListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

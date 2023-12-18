@@ -25,14 +25,14 @@ public class AzArcdataDcConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Init(AzArcdataDcConfigInitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Init(AzArcdataDcConfigInitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcConfigInitOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzArcdataDcConfigListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzArcdataDcConfigListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcConfigListOptions(), token);
     }
 
     public async Task<CommandResult> Patch(AzArcdataDcConfigPatchOptions options, CancellationToken token = default)

@@ -13,9 +13,4 @@ public record AzQuantumWorkspaceDeleteOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
-
-    [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "list")]
-public record AzAppconfigListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAppconfigListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

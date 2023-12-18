@@ -29,9 +29,9 @@ public class AzFunctionappDeploymentSource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ConfigLocalGit(AzFunctionappDeploymentSourceConfigLocalGitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ConfigLocalGit(AzFunctionappDeploymentSourceConfigLocalGitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceConfigLocalGitOptions(), token);
     }
 
     public async Task<CommandResult> ConfigZip(AzFunctionappDeploymentSourceConfigZipOptions options, CancellationToken token = default)

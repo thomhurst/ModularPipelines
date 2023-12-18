@@ -47,19 +47,19 @@ public class AzMonitorAppInsightsComponent
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorAppInsightsComponentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorAppInsightsComponentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzMonitorAppInsightsComponentShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMonitorAppInsightsComponentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzMonitorAppInsightsComponentUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzMonitorAppInsightsComponentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentUpdateOptions(), token);
     }
 
     public async Task<CommandResult> UpdateTags(AzMonitorAppInsightsComponentUpdateTagsOptions options, CancellationToken token = default)

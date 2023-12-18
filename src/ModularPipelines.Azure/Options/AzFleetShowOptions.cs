@@ -13,15 +13,4 @@ public record AzFleetShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
-    public string? AssignIdentity { get; set; }
-
-    [BooleanCommandSwitch("--enable-managed-identity")]
-    public bool? EnableManagedIdentity { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

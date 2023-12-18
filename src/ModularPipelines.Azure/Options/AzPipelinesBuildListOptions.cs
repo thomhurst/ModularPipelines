@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "build", "list")]
-public record AzPipelinesBuildListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesBuildListOptions : AzOptions
 {
     [CommandSwitch("--branch")]
     public string? Branch { get; set; }

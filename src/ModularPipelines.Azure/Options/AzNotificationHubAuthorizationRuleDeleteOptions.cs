@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("notification-hub", "authorization-rule", "delete")]
-public record AzNotificationHubAuthorizationRuleDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--notification-hub-name")] string NotificationHubName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNotificationHubAuthorizationRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--notification-hub-name")]
+    public string? NotificationHubName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

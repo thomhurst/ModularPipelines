@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "address", "delete")]
-public record AzEdgeorderAddressDeleteOptions(
-[property: CommandSwitch("--address-name")] string AddressName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEdgeorderAddressDeleteOptions : AzOptions
 {
+    [CommandSwitch("--address-name")]
+    public string? AddressName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

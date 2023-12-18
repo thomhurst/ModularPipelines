@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "assessment-metadata", "list")]
-public record AzSecurityAssessmentMetadataListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityAssessmentMetadataListOptions : AzOptions
 {
 }

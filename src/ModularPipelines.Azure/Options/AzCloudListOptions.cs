@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud", "list")]
-public record AzCloudListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzCloudListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--show-all")]
-    public bool? ShowAll { get; set; }
 }

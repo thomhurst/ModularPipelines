@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "connection", "update", "appconfig")]
-public record AzContainerappConnectionUpdateAppconfigOptions(
-[property: CommandSwitch("--connection")] string Connection
-) : AzOptions
+public record AzContainerappConnectionUpdateAppconfigOptions : AzOptions
 {
     [CommandSwitch("--client-type")]
     public string? ClientType { get; set; }
+
+    [CommandSwitch("--connection")]
+    public string? Connection { get; set; }
 
     [CommandSwitch("--container")]
     public string? Container { get; set; }

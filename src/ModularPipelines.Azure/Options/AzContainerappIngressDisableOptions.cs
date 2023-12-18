@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "ingress", "disable")]
-public record AzContainerappIngressDisableOptions(
-[property: CommandSwitch("--target-port")] string TargetPort,
-[property: CommandSwitch("--type")] string Type
-) : AzOptions
+public record AzContainerappIngressDisableOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

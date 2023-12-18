@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "database", "remove-principal")]
-public record AzKustoDatabaseRemovePrincipalOptions(
-[property: CommandSwitch("--soft-delete-period")] string SoftDeletePeriod
-) : AzOptions
+public record AzKustoDatabaseRemovePrincipalOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

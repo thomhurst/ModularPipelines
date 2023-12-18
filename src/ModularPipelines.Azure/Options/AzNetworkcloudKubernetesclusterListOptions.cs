@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "kubernetescluster", "list")]
-public record AzNetworkcloudKubernetesclusterListOptions(
-[property: CommandSwitch("--node-name")] string NodeName
-) : AzOptions
+public record AzNetworkcloudKubernetesclusterListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

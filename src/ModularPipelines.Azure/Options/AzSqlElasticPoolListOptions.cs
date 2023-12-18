@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "elastic-pool", "list")]
-public record AzSqlElasticPoolListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSqlElasticPoolListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

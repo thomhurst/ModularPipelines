@@ -25,14 +25,14 @@ public class AzMlRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMlRegistryDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMlRegistryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRegistryDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzMlRegistryListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlRegistryListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRegistryListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMlRegistryShowOptions options, CancellationToken token = default)

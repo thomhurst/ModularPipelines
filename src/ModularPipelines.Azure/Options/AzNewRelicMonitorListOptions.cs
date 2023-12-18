@@ -8,10 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("new-relic", "monitor", "list")]
-public record AzNewRelicMonitorListOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--user-email")] string UserEmail
-) : AzOptions
+public record AzNewRelicMonitorListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

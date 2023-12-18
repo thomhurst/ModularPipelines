@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redis", "list-keys")]
-public record AzRedisListKeysOptions(
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzRedisListKeysOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

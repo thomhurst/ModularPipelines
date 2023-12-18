@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "variable-group", "list")]
-public record AzPipelinesVariableGroupListOptions(
-[property: CommandSwitch("--group-id")] string GroupId
-) : AzOptions
+public record AzPipelinesVariableGroupListOptions : AzOptions
 {
     [CommandSwitch("--action")]
     public string? Action { get; set; }

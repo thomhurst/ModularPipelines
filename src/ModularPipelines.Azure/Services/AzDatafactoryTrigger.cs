@@ -25,14 +25,14 @@ public class AzDatafactoryTrigger
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatafactoryTriggerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryTriggerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetEventSubscriptionStatus(AzDatafactoryTriggerGetEventSubscriptionStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEventSubscriptionStatus(AzDatafactoryTriggerGetEventSubscriptionStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerGetEventSubscriptionStatusOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryTriggerListOptions options, CancellationToken token = default)

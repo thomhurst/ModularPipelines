@@ -14,9 +14,4 @@ public record AzNetworkFrontDoorWafPolicyManagedRulesOverrideListOptions(
 [property: CommandSwitch("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -13,12 +13,4 @@ public record AzNetworkVhubRouteMapListOptions(
 [property: CommandSwitch("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

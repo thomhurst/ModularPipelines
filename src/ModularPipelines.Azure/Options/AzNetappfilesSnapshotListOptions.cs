@@ -15,18 +15,4 @@ public record AzNetappfilesSnapshotListOptions(
 [property: CommandSwitch("--volume-name")] string VolumeName
 ) : AzOptions
 {
-    [CommandSwitch("--destination-path")]
-    public string? DestinationPath { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

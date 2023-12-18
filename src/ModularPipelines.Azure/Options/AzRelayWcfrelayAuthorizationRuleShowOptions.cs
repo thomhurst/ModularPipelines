@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("relay", "wcfrelay", "authorization-rule", "show")]
-public record AzRelayWcfrelayAuthorizationRuleShowOptions(
-[property: CommandSwitch("--rights")] string Rights
-) : AzOptions
+public record AzRelayWcfrelayAuthorizationRuleShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

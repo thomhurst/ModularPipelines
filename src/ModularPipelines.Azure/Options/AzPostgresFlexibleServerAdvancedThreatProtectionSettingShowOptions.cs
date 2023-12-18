@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "advanced-threat-protection-setting", "show")]
-public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions(
-[property: CommandSwitch("--state")] string State
-) : AzOptions
+public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

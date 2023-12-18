@@ -13,15 +13,4 @@ public record AzAppserviceKubeShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--custom-location")]
-    public string? CustomLocation { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--static-ip")]
-    public string? StaticIp { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

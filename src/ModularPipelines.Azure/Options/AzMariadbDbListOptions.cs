@@ -13,9 +13,4 @@ public record AzMariadbDbListOptions(
 [property: CommandSwitch("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

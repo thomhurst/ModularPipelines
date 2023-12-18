@@ -20,9 +20,9 @@ public class AzEventgridPartnerDestination
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Activate(AzEventgridPartnerDestinationActivateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Activate(AzEventgridPartnerDestinationActivateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationActivateOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzEventgridPartnerDestinationCreateOptions options, CancellationToken token = default)

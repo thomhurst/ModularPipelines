@@ -8,14 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "flexible-server", "delete")]
-public record AzMysqlFlexibleServerDeleteOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMysqlFlexibleServerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

@@ -25,9 +25,9 @@ public class AzDnsResolverForwardingRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDnsResolverForwardingRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDnsResolverForwardingRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverForwardingRuleListOptions options, CancellationToken token = default)

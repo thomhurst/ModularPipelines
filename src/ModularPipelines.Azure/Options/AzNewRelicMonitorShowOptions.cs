@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("new-relic", "monitor", "show")]
-public record AzNewRelicMonitorShowOptions(
-[property: CommandSwitch("--user-email")] string UserEmail
-) : AzOptions
+public record AzNewRelicMonitorShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

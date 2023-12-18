@@ -20,9 +20,9 @@ public class AzNetworkTrafficManagerProfile
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CheckDns(AzNetworkTrafficManagerProfileCheckDnsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckDns(AzNetworkTrafficManagerProfileCheckDnsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerProfileCheckDnsOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzNetworkTrafficManagerProfileCreateOptions options, CancellationToken token = default)

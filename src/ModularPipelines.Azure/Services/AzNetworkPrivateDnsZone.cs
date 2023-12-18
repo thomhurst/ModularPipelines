@@ -25,9 +25,9 @@ public class AzNetworkPrivateDnsZone
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkPrivateDnsZoneDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkPrivateDnsZoneDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzNetworkPrivateDnsZoneExportOptions options, CancellationToken token = default)

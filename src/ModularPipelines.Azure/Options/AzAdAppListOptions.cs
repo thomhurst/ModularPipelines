@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ad", "app", "list")]
-public record AzAdAppListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzAdAppListOptions : AzOptions
 {
     [CommandSwitch("--all")]
     public string? All { get; set; }

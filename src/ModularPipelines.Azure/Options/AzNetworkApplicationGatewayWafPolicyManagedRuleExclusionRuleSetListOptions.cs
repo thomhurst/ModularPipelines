@@ -13,6 +13,4 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetLis
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--group-name")]
-    public string? GroupName { get; set; }
 }

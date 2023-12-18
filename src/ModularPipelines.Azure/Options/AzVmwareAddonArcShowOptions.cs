@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "addon", "arc", "show")]
-public record AzVmwareAddonArcShowOptions(
-[property: CommandSwitch("--vcenter")] string Vcenter
-) : AzOptions
+public record AzVmwareAddonArcShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

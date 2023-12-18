@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("support", "tickets", "list")]
-public record AzSupportTicketsListOptions(
-[property: CommandSwitch("--ticket-name")] string TicketName
-) : AzOptions
+public record AzSupportTicketsListOptions : AzOptions
 {
     [CommandSwitch("--filters")]
     public string? Filters { get; set; }

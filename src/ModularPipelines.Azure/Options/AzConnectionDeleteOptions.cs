@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connection", "delete")]
-public record AzConnectionDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--connection")]
     public string? Connection { get; set; }
@@ -23,6 +21,9 @@ public record AzConnectionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

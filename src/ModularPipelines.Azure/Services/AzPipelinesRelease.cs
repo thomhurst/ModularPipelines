@@ -24,14 +24,14 @@ public class AzPipelinesRelease
 
     public AzPipelinesReleaseDefinition Definition { get; }
 
-    public async Task<CommandResult> Create(AzPipelinesReleaseCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzPipelinesReleaseCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseCreateOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzPipelinesReleaseListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPipelinesReleaseListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesReleaseShowOptions options, CancellationToken token = default)

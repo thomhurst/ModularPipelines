@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("role", "assignment", "delete")]
-public record AzRoleAssignmentDeleteOptions(
-[property: CommandSwitch("--role-assignment")] string RoleAssignment
-) : AzOptions
+public record AzRoleAssignmentDeleteOptions : AzOptions
 {
     [CommandSwitch("--assignee")]
     public string? Assignee { get; set; }

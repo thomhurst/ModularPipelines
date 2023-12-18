@@ -25,14 +25,14 @@ public class AzAmsStreamingLocator
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsStreamingLocatorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsStreamingLocatorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetPaths(AzAmsStreamingLocatorGetPathsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPaths(AzAmsStreamingLocatorGetPathsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorGetPathsOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingLocatorListOptions options, CancellationToken token = default)

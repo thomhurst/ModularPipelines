@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("amlfs", "check-amlfs-subnet")]
-public record AzAmlfsCheckAmlfsSubnetOptions(
-[property: CommandSwitch("--aml-filesystem-name")] string AmlFilesystemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAmlfsCheckAmlfsSubnetOptions : AzOptions
 {
     [CommandSwitch("--filesystem-subnet")]
     public string? FilesystemSubnet { get; set; }

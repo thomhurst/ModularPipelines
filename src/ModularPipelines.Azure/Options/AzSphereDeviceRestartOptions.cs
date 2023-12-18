@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "restart")]
-public record AzSphereDeviceRestartOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSphereDeviceRestartOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

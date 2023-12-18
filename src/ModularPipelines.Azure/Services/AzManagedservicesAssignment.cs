@@ -30,9 +30,9 @@ public class AzManagedservicesAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzManagedservicesAssignmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzManagedservicesAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzManagedservicesAssignmentShowOptions options, CancellationToken token = default)

@@ -14,6 +14,4 @@ public record AzEventgridSystemTopicEventSubscriptionDeleteEventgridExtensionOpt
 [property: CommandSwitch("--system-topic-name")] string SystemTopicName
 ) : AzOptions
 {
-    [CommandSwitch("--odata-query")]
-    public string? OdataQuery { get; set; }
 }

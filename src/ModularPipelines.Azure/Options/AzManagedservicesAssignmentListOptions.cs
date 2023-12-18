@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("managedservices", "assignment", "list")]
-public record AzManagedservicesAssignmentListOptions(
-[property: CommandSwitch("--assignment")] string Assignment
-) : AzOptions
+public record AzManagedservicesAssignmentListOptions : AzOptions
 {
     [BooleanCommandSwitch("--include-definition")]
     public bool? IncludeDefinition { get; set; }

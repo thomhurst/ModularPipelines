@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ad", "sp", "create-for-rbac")]
-public record AzAdSpCreateForRbacOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzAdSpCreateForRbacOptions : AzOptions
 {
     [CommandSwitch("--cert")]
     public string? Cert { get; set; }

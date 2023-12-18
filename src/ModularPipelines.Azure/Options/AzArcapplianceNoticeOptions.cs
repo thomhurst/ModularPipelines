@@ -8,9 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcappliance", "notice")]
-public record AzArcapplianceNoticeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzArcapplianceNoticeOptions : AzOptions
 {
 }

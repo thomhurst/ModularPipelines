@@ -47,24 +47,24 @@ public class AzSynapseWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSynapseWorkspaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSynapseWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzSynapseWorkspaceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSynapseWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzSynapseWorkspaceShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSynapseWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzSynapseWorkspaceUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzSynapseWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseWorkspaceWaitOptions options, CancellationToken token = default)

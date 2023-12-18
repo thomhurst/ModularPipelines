@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datamigration", "performance-data-collection")]
-public record AzDatamigrationPerformanceDataCollectionOptions(
-[property: CommandSwitch("--auth-key")] string AuthKey
-) : AzOptions
+public record AzDatamigrationPerformanceDataCollectionOptions : AzOptions
 {
     [CommandSwitch("--config-file-path")]
     public string? ConfigFilePath { get; set; }

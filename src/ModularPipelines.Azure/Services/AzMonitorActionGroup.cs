@@ -29,9 +29,9 @@ public class AzMonitorActionGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorActionGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorActionGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> EnableReceiver(AzMonitorActionGroupEnableReceiverOptions options, CancellationToken token = default)

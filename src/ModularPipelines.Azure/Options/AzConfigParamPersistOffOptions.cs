@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("config", "param-persist", "off")]
 public record AzConfigParamPersistOffOptions : AzOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? NAME { get; set; }
 }

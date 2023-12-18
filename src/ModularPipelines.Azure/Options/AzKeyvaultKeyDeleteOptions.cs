@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "delete")]
-public record AzKeyvaultKeyDeleteOptions(
-[property: CommandSwitch("--file")] string File
-) : AzOptions
+public record AzKeyvaultKeyDeleteOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }

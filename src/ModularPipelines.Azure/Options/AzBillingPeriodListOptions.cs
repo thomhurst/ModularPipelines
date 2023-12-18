@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("billing", "period", "list")]
-public record AzBillingPeriodListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzBillingPeriodListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

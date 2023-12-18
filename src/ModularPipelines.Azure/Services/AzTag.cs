@@ -24,19 +24,19 @@ public class AzTag
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzTagCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzTagCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTagCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzTagDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzTagDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTagDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzTagListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzTagListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTagListOptions(), token);
     }
 
     public async Task<CommandResult> RemoveValue(AzTagRemoveValueOptions options, CancellationToken token = default)

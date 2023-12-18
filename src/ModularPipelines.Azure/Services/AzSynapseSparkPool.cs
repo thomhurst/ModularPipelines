@@ -25,9 +25,9 @@ public class AzSynapseSparkPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSynapseSparkPoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSynapseSparkPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSynapseSparkPoolListOptions options, CancellationToken token = default)
@@ -35,14 +35,14 @@ public class AzSynapseSparkPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzSynapseSparkPoolShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSynapseSparkPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzSynapseSparkPoolUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzSynapseSparkPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkPoolUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseSparkPoolWaitOptions options, CancellationToken token = default)

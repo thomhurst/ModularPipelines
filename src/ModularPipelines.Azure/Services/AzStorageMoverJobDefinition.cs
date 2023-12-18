@@ -25,9 +25,9 @@ public class AzStorageMoverJobDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStorageMoverJobDefinitionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStorageMoverJobDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStorageMoverJobDefinitionListOptions options, CancellationToken token = default)

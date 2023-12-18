@@ -20,9 +20,9 @@ public class AzSpringConnectionUpdate
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Appconfig(AzSpringConnectionUpdateAppconfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Appconfig(AzSpringConnectionUpdateAppconfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionUpdateAppconfigOptions(), token);
     }
 
     public async Task<CommandResult> ConfluentCloud(AzSpringConnectionUpdateConfluentCloudOptions options, CancellationToken token = default)

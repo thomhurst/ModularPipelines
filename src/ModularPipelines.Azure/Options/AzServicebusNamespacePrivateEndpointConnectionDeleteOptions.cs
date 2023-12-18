@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "namespace", "private-endpoint-connection", "delete")]
-public record AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzServicebusNamespacePrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }
@@ -21,6 +18,12 @@ public record AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

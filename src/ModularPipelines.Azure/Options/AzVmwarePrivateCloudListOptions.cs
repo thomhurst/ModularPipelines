@@ -8,14 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "private-cloud", "list")]
-public record AzVmwarePrivateCloudListOptions(
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmwarePrivateCloudListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }
 
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

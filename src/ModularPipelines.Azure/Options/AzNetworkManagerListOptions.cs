@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "list")]
-public record AzNetworkManagerListOptions(
-[property: CommandSwitch("--commit-type")] string CommitType,
-[property: CommandSwitch("--target-locations")] string TargetLocations
-) : AzOptions
+public record AzNetworkManagerListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "list")]
-public record AzPostgresFlexibleServerListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzPostgresFlexibleServerListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

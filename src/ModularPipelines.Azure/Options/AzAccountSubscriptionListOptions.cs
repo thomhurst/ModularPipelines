@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "subscription", "list")]
-public record AzAccountSubscriptionListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzAccountSubscriptionListOptions : AzOptions
 {
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

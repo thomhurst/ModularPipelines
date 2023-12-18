@@ -20,13 +20,13 @@ public class AzVmwareLocation
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CheckQuotaAvailability(AzVmwareLocationCheckQuotaAvailabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckQuotaAvailability(AzVmwareLocationCheckQuotaAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckQuotaAvailabilityOptions(), token);
     }
 
-    public async Task<CommandResult> CheckTrialAvailability(AzVmwareLocationCheckTrialAvailabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckTrialAvailability(AzVmwareLocationCheckTrialAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckTrialAvailabilityOptions(), token);
     }
 }

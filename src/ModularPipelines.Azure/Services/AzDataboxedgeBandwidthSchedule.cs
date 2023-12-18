@@ -25,9 +25,9 @@ public class AzDataboxedgeBandwidthSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDataboxedgeBandwidthScheduleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDataboxedgeBandwidthScheduleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDataboxedgeBandwidthScheduleListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzDataboxedgeBandwidthSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzDataboxedgeBandwidthScheduleShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzDataboxedgeBandwidthScheduleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzDataboxedgeBandwidthScheduleUpdateOptions options, CancellationToken token = default)

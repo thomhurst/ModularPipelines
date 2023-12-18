@@ -13,6 +13,4 @@ public record AzStaticwebappEnterpriseEdgeDisableOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-register")]
-    public bool? NoRegister { get; set; }
 }

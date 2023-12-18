@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "dataset", "delete")]
-public record AzDatafactoryDatasetDeleteOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDatafactoryDatasetDeleteOptions : AzOptions
 {
     [CommandSwitch("--dataset-name")]
     public string? DatasetName { get; set; }
 
+    [CommandSwitch("--factory-name")]
+    public string? FactoryName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

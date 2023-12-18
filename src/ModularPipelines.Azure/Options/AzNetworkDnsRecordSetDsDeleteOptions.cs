@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "dns", "record-set", "ds", "delete")]
-public record AzNetworkDnsRecordSetDsDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
-) : AzOptions
+public record AzNetworkDnsRecordSetDsDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -22,9 +19,15 @@ public record AzNetworkDnsRecordSetDsDeleteOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }
+
+    [CommandSwitch("--zone-name")]
+    public string? ZoneName { get; set; }
 }

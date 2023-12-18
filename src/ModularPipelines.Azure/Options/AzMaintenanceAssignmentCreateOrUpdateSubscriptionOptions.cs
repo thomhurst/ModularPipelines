@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maintenance", "assignment", "create-or-update-subscription")]
-public record AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions(
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions : AzOptions
 {
     [CommandSwitch("--config-id")]
     public string? ConfigId { get; set; }

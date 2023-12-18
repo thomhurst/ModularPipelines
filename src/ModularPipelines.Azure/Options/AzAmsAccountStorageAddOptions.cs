@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "account", "storage", "add")]
-public record AzAmsAccountStorageAddOptions(
-[property: CommandSwitch("--storage-auth")] string StorageAuth
-) : AzOptions
+public record AzAmsAccountStorageAddOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

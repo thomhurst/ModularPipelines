@@ -40,9 +40,9 @@ public class AzDeploymentTenant
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDeploymentTenantListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDeploymentTenantListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentTenantListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDeploymentTenantShowOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzRedisenterpriseDatabase
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRedisenterpriseDatabaseDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRedisenterpriseDatabaseDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzRedisenterpriseDatabaseExportOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzRedisenterpriseDatabase
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Flush(AzRedisenterpriseDatabaseFlushOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Flush(AzRedisenterpriseDatabaseFlushOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseFlushOptions(), token);
     }
 
     public async Task<CommandResult> ForceUnlink(AzRedisenterpriseDatabaseForceUnlinkOptions options, CancellationToken token = default)
@@ -55,9 +55,9 @@ public class AzRedisenterpriseDatabase
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListKeys(AzRedisenterpriseDatabaseListKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKeys(AzRedisenterpriseDatabaseListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseListKeysOptions(), token);
     }
 
     public async Task<CommandResult> RegenerateKey(AzRedisenterpriseDatabaseRegenerateKeyOptions options, CancellationToken token = default)

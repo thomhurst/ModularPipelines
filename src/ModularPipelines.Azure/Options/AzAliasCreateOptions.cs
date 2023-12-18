@@ -13,9 +13,4 @@ public record AzAliasCreateOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--exclude")]
-    public string? Exclude { get; set; }
-
-    [CommandSwitch("--path")]
-    public string? Path { get; set; }
 }

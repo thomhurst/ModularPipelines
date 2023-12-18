@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("group", "list")]
-public record AzGroupListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzGroupListOptions : AzOptions
 {
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }

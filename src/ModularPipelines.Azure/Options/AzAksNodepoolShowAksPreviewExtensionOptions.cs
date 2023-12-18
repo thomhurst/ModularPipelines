@@ -14,9 +14,4 @@ public record AzAksNodepoolShowAksPreviewExtensionOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
-    public string? AksCustomHeaders { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

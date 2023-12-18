@@ -8,12 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("stack-hci", "extension", "delete")]
-public record AzStackHciExtensionDeleteOptions(
-[property: CommandSwitch("--arc-setting-name")] string ArcSettingName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzStackHciExtensionDeleteOptions : AzOptions
 {
+    [CommandSwitch("--arc-setting-name")]
+    public string? ArcSettingName { get; set; }
+
+    [CommandSwitch("--cluster-name")]
+    public string? ClusterName { get; set; }
+
     [CommandSwitch("--extension-name")]
     public string? ExtensionName { get; set; }
 
@@ -22,6 +24,9 @@ public record AzStackHciExtensionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

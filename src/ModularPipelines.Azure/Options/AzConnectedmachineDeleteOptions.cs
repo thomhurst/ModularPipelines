@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connectedmachine", "delete")]
-public record AzConnectedmachineDeleteOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzConnectedmachineDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

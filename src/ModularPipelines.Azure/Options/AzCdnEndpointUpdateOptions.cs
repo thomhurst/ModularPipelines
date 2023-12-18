@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cdn", "endpoint", "update")]
-public record AzCdnEndpointUpdateOptions(
-[property: CommandSwitch("--host-name")] string HostName
-) : AzOptions
+public record AzCdnEndpointUpdateOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "addon", "hcx", "delete")]
-public record AzVmwareAddonHcxDeleteOptions(
-[property: CommandSwitch("--offer")] string Offer
-) : AzOptions
+public record AzVmwareAddonHcxDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,13 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("afd", "security-policy", "delete")]
-public record AzAfdSecurityPolicyDeleteOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAfdSecurityPolicyDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--profile-name")]
+    public string? ProfileName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--security-policy-name")]
     public string? SecurityPolicyName { get; set; }

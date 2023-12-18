@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("communication", "chat", "thread", "list")]
-public record AzCommunicationChatThreadListOptions(
-[property: CommandSwitch("--thread")] string Thread,
-[property: CommandSwitch("--topic")] string Topic
-) : AzOptions
+public record AzCommunicationChatThreadListOptions : AzOptions
 {
     [CommandSwitch("--access-token")]
     public string? AccessToken { get; set; }

@@ -28,9 +28,9 @@ public class AzPolicyAssignment
 
     public AzPolicyAssignmentNonComplianceMessage NonComplianceMessage { get; }
 
-    public async Task<CommandResult> Create(AzPolicyAssignmentCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzPolicyAssignmentCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzPolicyAssignmentDeleteOptions options, CancellationToken token = default)
@@ -38,9 +38,9 @@ public class AzPolicyAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPolicyAssignmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPolicyAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzPolicyAssignmentShowOptions options, CancellationToken token = default)

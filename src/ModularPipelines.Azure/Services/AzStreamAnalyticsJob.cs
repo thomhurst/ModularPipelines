@@ -30,9 +30,9 @@ public class AzStreamAnalyticsJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzStreamAnalyticsJobListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStreamAnalyticsJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsJobListOptions(), token);
     }
 
     public async Task<CommandResult> Scale(AzStreamAnalyticsJobScaleOptions options, CancellationToken token = default)

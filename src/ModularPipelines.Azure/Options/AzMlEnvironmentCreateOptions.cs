@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "environment", "create")]
-public record AzMlEnvironmentCreateOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMlEnvironmentCreateOptions : AzOptions
 {
     [CommandSwitch("--build-context")]
     public string? BuildContext { get; set; }
@@ -32,6 +30,9 @@ public record AzMlEnvironmentCreateOptions(
 
     [CommandSwitch("--image")]
     public string? Image { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }

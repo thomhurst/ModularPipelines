@@ -25,9 +25,9 @@ public class AzConsumptionBudget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> CreateWithRg(AzConsumptionBudgetCreateWithRgOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWithRg(AzConsumptionBudgetCreateWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetCreateWithRgOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzConsumptionBudgetDeleteOptions options, CancellationToken token = default)
@@ -35,14 +35,14 @@ public class AzConsumptionBudget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> DeleteWithRg(AzConsumptionBudgetDeleteWithRgOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWithRg(AzConsumptionBudgetDeleteWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetDeleteWithRgOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzConsumptionBudgetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzConsumptionBudgetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzConsumptionBudgetShowOptions options, CancellationToken token = default)

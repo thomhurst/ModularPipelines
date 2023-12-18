@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("automanage", "best-practice", "list")]
-public record AzAutomanageBestPracticeListOptions(
-[property: CommandSwitch("--best-practice-name")] string BestPracticeName
-) : AzOptions
+public record AzAutomanageBestPracticeListOptions : AzOptions
 {
 }

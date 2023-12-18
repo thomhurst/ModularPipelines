@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "service-endpoint", "list")]
-public record AzDevopsServiceEndpointListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzDevopsServiceEndpointListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

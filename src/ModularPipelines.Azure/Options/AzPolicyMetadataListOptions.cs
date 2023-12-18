@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "metadata", "list")]
-public record AzPolicyMetadataListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPolicyMetadataListOptions : AzOptions
 {
     [CommandSwitch("--top")]
     public string? Top { get; set; }

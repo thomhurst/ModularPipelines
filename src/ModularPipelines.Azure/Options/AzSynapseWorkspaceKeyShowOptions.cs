@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "workspace", "key", "show")]
-public record AzSynapseWorkspaceKeyShowOptions(
-[property: CommandSwitch("--key-name")] string KeyName
-) : AzOptions
+public record AzSynapseWorkspaceKeyShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

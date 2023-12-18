@@ -24,9 +24,9 @@ public class AzSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSnapshotDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSnapshotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GrantAccess(AzSnapshotGrantAccessOptions options, CancellationToken token = default)

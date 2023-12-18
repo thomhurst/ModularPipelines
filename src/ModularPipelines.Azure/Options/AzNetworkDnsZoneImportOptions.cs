@@ -14,6 +14,4 @@ public record AzNetworkDnsZoneImportOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--top")]
-    public string? Top { get; set; }
 }

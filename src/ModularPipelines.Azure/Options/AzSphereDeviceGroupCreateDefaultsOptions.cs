@@ -14,6 +14,4 @@ public record AzSphereDeviceGroupCreateDefaultsOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--device-group")]
-    public string? DeviceGroup { get; set; }
 }

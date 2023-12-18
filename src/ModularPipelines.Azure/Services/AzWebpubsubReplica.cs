@@ -25,9 +25,9 @@ public class AzWebpubsubReplica
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzWebpubsubReplicaDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWebpubsubReplicaDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzWebpubsubReplicaListOptions options, CancellationToken token = default)

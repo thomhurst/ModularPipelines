@@ -13,18 +13,4 @@ public record AzBatchAccountOutboundEndpointsOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption-key-identifier")]
-    public string? EncryptionKeyIdentifier { get; set; }
-
-    [CommandSwitch("--encryption-key-source")]
-    public string? EncryptionKeySource { get; set; }
-
-    [CommandSwitch("--public-network-access")]
-    public string? PublicNetworkAccess { get; set; }
-
-    [CommandSwitch("--storage-account")]
-    public int? StorageAccount { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

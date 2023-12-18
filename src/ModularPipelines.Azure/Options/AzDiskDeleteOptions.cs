@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("disk", "delete")]
-public record AzDiskDeleteOptions(
-[property: CommandSwitch("--duration-in-seconds")] string DurationInSeconds
-) : AzOptions
+public record AzDiskDeleteOptions : AzOptions
 {
     [CommandSwitch("--disk-name")]
     public string? DiskName { get; set; }

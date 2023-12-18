@@ -25,9 +25,9 @@ public class AzProviderhubNotificationRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzProviderhubNotificationRegistrationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzProviderhubNotificationRegistrationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubNotificationRegistrationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzProviderhubNotificationRegistrationListOptions options, CancellationToken token = default)

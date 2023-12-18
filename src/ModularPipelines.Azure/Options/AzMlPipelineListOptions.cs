@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "pipeline", "list")]
-public record AzMlPipelineListOptions(
-[property: CommandSwitch("--run")] string Run
-) : AzOptions
+public record AzMlPipelineListOptions : AzOptions
 {
     [CommandSwitch("--output-file")]
     public string? OutputFile { get; set; }

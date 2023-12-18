@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("peering", "asn", "list")]
-public record AzPeeringAsnListOptions(
-[property: CommandSwitch("--peer-asn-name")] string PeerAsnName
-) : AzOptions
+public record AzPeeringAsnListOptions : AzOptions
 {
 }

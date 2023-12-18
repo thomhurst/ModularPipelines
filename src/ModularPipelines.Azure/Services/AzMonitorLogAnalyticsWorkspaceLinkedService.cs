@@ -25,9 +25,9 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceLinkedServiceListOptions options, CancellationToken token = default)

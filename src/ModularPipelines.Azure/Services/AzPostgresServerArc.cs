@@ -34,9 +34,9 @@ public class AzPostgresServerArc
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzPostgresServerArcListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPostgresServerArcListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerArcListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzPostgresServerArcRestoreOptions options, CancellationToken token = default)

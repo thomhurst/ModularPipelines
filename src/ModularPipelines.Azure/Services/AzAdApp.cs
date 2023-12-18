@@ -46,9 +46,9 @@ public class AzAdApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAdAppListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAdAppListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdAppListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAdAppShowOptions options, CancellationToken token = default)

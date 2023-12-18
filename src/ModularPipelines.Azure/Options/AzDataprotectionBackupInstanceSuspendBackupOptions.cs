@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "backup-instance", "suspend-backup")]
-public record AzDataprotectionBackupInstanceSuspendBackupOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--operation")] string Operation,
-[property: CommandSwitch("--permissions-scope")] string PermissionsScope,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzDataprotectionBackupInstanceSuspendBackupOptions : AzOptions
 {
     [CommandSwitch("--backup-instance-name")]
     public string? BackupInstanceName { get; set; }
@@ -25,6 +19,12 @@ public record AzDataprotectionBackupInstanceSuspendBackupOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 }

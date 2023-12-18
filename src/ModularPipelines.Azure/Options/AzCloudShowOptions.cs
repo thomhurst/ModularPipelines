@@ -8,8 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud", "show")]
-public record AzCloudShowOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzCloudShowOptions : AzOptions
 {
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 }

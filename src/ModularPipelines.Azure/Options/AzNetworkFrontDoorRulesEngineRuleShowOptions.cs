@@ -15,9 +15,4 @@ public record AzNetworkFrontDoorRulesEngineRuleShowOptions(
 [property: CommandSwitch("--rules-engine-name")] string RulesEngineName
 ) : AzOptions
 {
-    [CommandSwitch("--match-processing-behavior")]
-    public string? MatchProcessingBehavior { get; set; }
-
-    [CommandSwitch("--priority")]
-    public string? Priority { get; set; }
 }

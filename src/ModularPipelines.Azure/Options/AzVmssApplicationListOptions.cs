@@ -13,18 +13,4 @@ public record AzVmssApplicationListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--app-config-overrides")]
-    public string? AppConfigOverrides { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [BooleanCommandSwitch("--order-applications")]
-    public bool? OrderApplications { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
-
-    [CommandSwitch("--treat-deployment-as-failure")]
-    public string? TreatDeploymentAsFailure { get; set; }
 }

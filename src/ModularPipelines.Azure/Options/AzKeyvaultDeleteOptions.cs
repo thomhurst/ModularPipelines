@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "delete")]
-public record AzKeyvaultDeleteOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzKeyvaultDeleteOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }

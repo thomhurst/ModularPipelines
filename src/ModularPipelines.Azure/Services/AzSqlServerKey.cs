@@ -30,9 +30,9 @@ public class AzSqlServerKey
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlServerKeyListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlServerKeyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerKeyListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerKeyShowOptions options, CancellationToken token = default)

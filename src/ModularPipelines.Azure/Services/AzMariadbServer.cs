@@ -44,14 +44,14 @@ public class AzMariadbServer
 
     public AzMariadbServerVnetRule VnetRule { get; }
 
-    public async Task<CommandResult> Create(AzMariadbServerCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMariadbServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzMariadbServerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMariadbServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Georestore(AzMariadbServerGeorestoreOptions options, CancellationToken token = default)
@@ -59,9 +59,9 @@ public class AzMariadbServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMariadbServerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMariadbServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerListOptions(), token);
     }
 
     public async Task<CommandResult> ListSkus(AzMariadbServerListSkusOptions options, CancellationToken token = default)
@@ -69,9 +69,9 @@ public class AzMariadbServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Restart(AzMariadbServerRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzMariadbServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerRestartOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzMariadbServerRestoreOptions options, CancellationToken token = default)

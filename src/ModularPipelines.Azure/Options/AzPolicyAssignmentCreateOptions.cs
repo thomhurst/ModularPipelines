@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "assignment", "create")]
-public record AzPolicyAssignmentCreateOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPolicyAssignmentCreateOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }
@@ -32,6 +30,9 @@ public record AzPolicyAssignmentCreateOptions(
 
     [CommandSwitch("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--not-scopes")]
     public string? NotScopes { get; set; }

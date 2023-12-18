@@ -29,9 +29,9 @@ public class AzNetappfilesSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesSnapshotDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesSnapshotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesSnapshotListOptions options, CancellationToken token = default)
@@ -44,9 +44,9 @@ public class AzNetappfilesSnapshot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNetappfilesSnapshotShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetappfilesSnapshotShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesSnapshotUpdateOptions options, CancellationToken token = default)

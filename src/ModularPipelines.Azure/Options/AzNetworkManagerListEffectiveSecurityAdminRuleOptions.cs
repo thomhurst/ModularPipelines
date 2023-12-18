@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "list-effective-security-admin-rule")]
-public record AzNetworkManagerListEffectiveSecurityAdminRuleOptions(
-[property: CommandSwitch("--commit-type")] string CommitType,
-[property: CommandSwitch("--target-locations")] string TargetLocations
-) : AzOptions
+public record AzNetworkManagerListEffectiveSecurityAdminRuleOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

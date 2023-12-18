@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("automation", "runbook", "publish")]
-public record AzAutomationRunbookPublishOptions(
-[property: CommandSwitch("--content")] string Content
-) : AzOptions
+public record AzAutomationRunbookPublishOptions : AzOptions
 {
     [CommandSwitch("--automation-account-name")]
     public int? AutomationAccountName { get; set; }

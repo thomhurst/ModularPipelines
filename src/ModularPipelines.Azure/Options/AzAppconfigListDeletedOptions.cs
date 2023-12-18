@@ -8,13 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "list-deleted")]
-public record AzAppconfigListDeletedOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAppconfigListDeletedOptions : AzOptions
 {
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

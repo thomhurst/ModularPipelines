@@ -13,9 +13,4 @@ public record AzKeyvaultRoleDefinitionCreateOptions(
 [property: CommandSwitch("--role-definition")] string RoleDefinition
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--role-id")]
-    public string? RoleId { get; set; }
 }

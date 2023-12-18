@@ -10,18 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("cloud-service", "list-all")]
 public record AzCloudServiceListAllOptions : AzOptions
 {
-    [CommandSwitch("--cloud-service-name")]
-    public string? CloudServiceName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -30,9 +30,9 @@ public class AzIotEdgeDeployment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotEdgeDeploymentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotEdgeDeploymentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotEdgeDeploymentListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzIotEdgeDeploymentShowOptions options, CancellationToken token = default)

@@ -20,9 +20,9 @@ public class AzKeyvaultKeyRotationPolicy
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Show(AzKeyvaultKeyRotationPolicyShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzKeyvaultKeyRotationPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRotationPolicyShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzKeyvaultKeyRotationPolicyUpdateOptions options, CancellationToken token = default)

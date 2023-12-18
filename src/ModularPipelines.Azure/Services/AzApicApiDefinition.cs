@@ -25,9 +25,9 @@ public class AzApicApiDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicApiDefinitionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicApiDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> ExportSpecification(AzApicApiDefinitionExportSpecificationOptions options, CancellationToken token = default)
@@ -35,14 +35,14 @@ public class AzApicApiDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Head(AzApicApiDefinitionHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicApiDefinitionHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionHeadOptions(), token);
     }
 
-    public async Task<CommandResult> ImportSpecification(AzApicApiDefinitionImportSpecificationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportSpecification(AzApicApiDefinitionImportSpecificationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionImportSpecificationOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicApiDefinitionListOptions options, CancellationToken token = default)

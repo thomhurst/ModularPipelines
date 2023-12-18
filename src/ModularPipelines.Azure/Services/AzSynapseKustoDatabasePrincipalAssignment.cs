@@ -25,9 +25,9 @@ public class AzSynapseKustoDatabasePrincipalAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSynapseKustoDatabasePrincipalAssignmentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSynapseKustoDatabasePrincipalAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabasePrincipalAssignmentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSynapseKustoDatabasePrincipalAssignmentListOptions options, CancellationToken token = default)

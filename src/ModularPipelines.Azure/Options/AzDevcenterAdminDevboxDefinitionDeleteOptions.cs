@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devcenter", "admin", "devbox-definition", "delete")]
-public record AzDevcenterAdminDevboxDefinitionDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDevcenterAdminDevboxDefinitionDeleteOptions : AzOptions
 {
     [CommandSwitch("--dev-center")]
     public string? DevCenter { get; set; }
@@ -23,6 +21,9 @@ public record AzDevcenterAdminDevboxDefinitionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

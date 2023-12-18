@@ -46,9 +46,9 @@ public class AzFleet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzFleetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzFleetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFleetListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzFleetShowOptions options, CancellationToken token = default)

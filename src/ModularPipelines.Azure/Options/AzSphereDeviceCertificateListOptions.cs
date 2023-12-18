@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "certificate", "list")]
-public record AzSphereDeviceCertificateListOptions(
-[property: CommandSwitch("--certificate")] string Certificate
-) : AzOptions
+public record AzSphereDeviceCertificateListOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

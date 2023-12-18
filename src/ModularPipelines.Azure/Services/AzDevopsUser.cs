@@ -25,9 +25,9 @@ public class AzDevopsUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsUserListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsUserListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserListOptions(), token);
     }
 
     public async Task<CommandResult> Remove(AzDevopsUserRemoveOptions options, CancellationToken token = default)

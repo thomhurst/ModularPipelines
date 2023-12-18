@@ -13,9 +13,4 @@ public record AzArcdataDcConfigAddOptions(
 [property: CommandSwitch("--path")] string Path
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
-
-    [CommandSwitch("--source")]
-    public string? Source { get; set; }
 }

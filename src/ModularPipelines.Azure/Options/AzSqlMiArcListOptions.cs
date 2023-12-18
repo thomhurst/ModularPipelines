@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi-arc", "list")]
-public record AzSqlMiArcListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSqlMiArcListOptions : AzOptions
 {
     [CommandSwitch("--custom-location")]
     public string? CustomLocation { get; set; }
@@ -21,6 +19,6 @@ public record AzSqlMiArcListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

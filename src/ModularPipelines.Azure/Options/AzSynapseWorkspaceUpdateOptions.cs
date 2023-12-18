@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "workspace", "update")]
-public record AzSynapseWorkspaceUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzSynapseWorkspaceUpdateOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
@@ -49,6 +46,9 @@ public record AzSynapseWorkspaceUpdateOptions(
     [CommandSwitch("--repository-type")]
     public string? RepositoryType { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--root-folder")]
     public string? RootFolder { get; set; }
 
@@ -73,6 +73,6 @@ public record AzSynapseWorkspaceUpdateOptions(
     [CommandSwitch("--uami-id-in-encrypt")]
     public string? UamiIdInEncrypt { get; set; }
 
-    [CommandSwitch("--use-sami-in-encrypt")]
-    public string? UseSamiInEncrypt { get; set; }
+    [BooleanCommandSwitch("--use-sami-in-encrypt")]
+    public bool? UseSamiInEncrypt { get; set; }
 }

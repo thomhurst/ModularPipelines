@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datashare", "trigger", "delete")]
-public record AzDatashareTriggerDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-subscription-name")] string ShareSubscriptionName
-) : AzOptions
+public record AzDatashareTriggerDeleteOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -22,6 +21,12 @@ public record AzDatashareTriggerDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--share-subscription-name")]
+    public string? ShareSubscriptionName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

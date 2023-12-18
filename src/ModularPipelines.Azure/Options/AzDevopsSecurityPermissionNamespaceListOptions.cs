@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "security", "permission", "namespace", "list")]
-public record AzDevopsSecurityPermissionNamespaceListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzDevopsSecurityPermissionNamespaceListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

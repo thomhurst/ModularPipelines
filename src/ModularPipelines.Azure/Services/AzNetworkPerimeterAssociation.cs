@@ -25,9 +25,9 @@ public class AzNetworkPerimeterAssociation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkPerimeterAssociationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkPerimeterAssociationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkPerimeterAssociationListOptions options, CancellationToken token = default)

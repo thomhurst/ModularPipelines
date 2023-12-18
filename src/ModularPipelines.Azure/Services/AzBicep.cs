@@ -49,9 +49,9 @@ public class AzBicep
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Install(AzBicepInstallOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Install(AzBicepInstallOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBicepInstallOptions(), token);
     }
 
     public async Task<CommandResult> Lint(AzBicepLintOptions options, CancellationToken token = default)
@@ -59,9 +59,9 @@ public class AzBicep
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListVersions(AzBicepListVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVersions(AzBicepListVersionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBicepListVersionsOptions(), token);
     }
 
     public async Task<CommandResult> Publish(AzBicepPublishOptions options, CancellationToken token = default)

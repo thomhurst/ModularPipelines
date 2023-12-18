@@ -8,9 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "external-security-solution", "list")]
-public record AzSecurityExternalSecuritySolutionListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSecurityExternalSecuritySolutionListOptions : AzOptions
 {
 }

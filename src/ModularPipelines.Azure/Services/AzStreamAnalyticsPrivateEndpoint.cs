@@ -25,9 +25,9 @@ public class AzStreamAnalyticsPrivateEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStreamAnalyticsPrivateEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStreamAnalyticsPrivateEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStreamAnalyticsPrivateEndpointListOptions options, CancellationToken token = default)

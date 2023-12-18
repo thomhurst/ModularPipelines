@@ -20,8 +20,8 @@ public class AzBatchPoolCreateAzureBatchCliExtensions
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Extension(AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Extension(AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions(), token);
     }
 }

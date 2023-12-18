@@ -25,14 +25,14 @@ public class AzStreamAnalyticsCluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStreamAnalyticsClusterDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStreamAnalyticsClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzStreamAnalyticsClusterListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStreamAnalyticsClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterListOptions(), token);
     }
 
     public async Task<CommandResult> ListStreamingJob(AzStreamAnalyticsClusterListStreamingJobOptions options, CancellationToken token = default)

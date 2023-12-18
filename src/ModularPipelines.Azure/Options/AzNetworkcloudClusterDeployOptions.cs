@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "cluster", "deploy")]
-public record AzNetworkcloudClusterDeployOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
-) : AzOptions
+public record AzNetworkcloudClusterDeployOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

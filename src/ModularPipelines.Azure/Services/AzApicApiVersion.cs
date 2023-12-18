@@ -25,14 +25,14 @@ public class AzApicApiVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicApiVersionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicApiVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Head(AzApicApiVersionHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicApiVersionHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionHeadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicApiVersionListOptions options, CancellationToken token = default)

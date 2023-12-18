@@ -61,9 +61,9 @@ public class AzStorageShare
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzStorageShareListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzStorageShareListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageShareListOptions(), token);
     }
 
     public async Task<CommandResult> ListHandle(AzStorageShareListHandleOptions options, CancellationToken token = default)

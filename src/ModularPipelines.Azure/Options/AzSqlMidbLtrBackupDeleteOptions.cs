@@ -8,15 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "midb", "ltr-backup", "delete")]
-public record AzSqlMidbLtrBackupDeleteOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSqlMidbLtrBackupDeleteOptions : AzOptions
 {
     [CommandSwitch("--backup-id")]
     public string? BackupId { get; set; }
 
     [CommandSwitch("--database")]
     public string? Database { get; set; }
+
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
 
     [CommandSwitch("--managed-instance")]
     public string? ManagedInstance { get; set; }

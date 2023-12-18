@@ -20,9 +20,9 @@ public class AzSphereDeviceManufacturingState
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Show(AzSphereDeviceManufacturingStateShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSphereDeviceManufacturingStateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceManufacturingStateShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzSphereDeviceManufacturingStateUpdateOptions options, CancellationToken token = default)

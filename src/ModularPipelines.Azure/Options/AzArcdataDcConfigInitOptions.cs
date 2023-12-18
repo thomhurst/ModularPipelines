@@ -8,13 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "config", "init")]
-public record AzArcdataDcConfigInitOptions(
-[property: CommandSwitch("--patch-file")] string PatchFile,
-[property: CommandSwitch("--path")] string Path
-) : AzOptions
+public record AzArcdataDcConfigInitOptions : AzOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
+
+    [CommandSwitch("--path")]
+    public string? Path { get; set; }
 
     [CommandSwitch("--source")]
     public string? Source { get; set; }

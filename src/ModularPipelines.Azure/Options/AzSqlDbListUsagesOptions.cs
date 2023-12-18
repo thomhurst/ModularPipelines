@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "list-usages")]
-public record AzSqlDbListUsagesOptions(
-[property: CommandSwitch("--new-name")] string NewName
-) : AzOptions
+public record AzSqlDbListUsagesOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

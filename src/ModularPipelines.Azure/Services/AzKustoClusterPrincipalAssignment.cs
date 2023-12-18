@@ -25,9 +25,9 @@ public class AzKustoClusterPrincipalAssignment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzKustoClusterPrincipalAssignmentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKustoClusterPrincipalAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterPrincipalAssignmentDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzKustoClusterPrincipalAssignmentListOptions options, CancellationToken token = default)

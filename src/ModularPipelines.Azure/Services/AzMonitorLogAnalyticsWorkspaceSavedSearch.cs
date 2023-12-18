@@ -25,9 +25,9 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceSavedSearchListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions options, CancellationToken token = default)

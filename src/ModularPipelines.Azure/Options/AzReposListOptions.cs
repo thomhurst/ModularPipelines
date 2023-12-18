@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("repos", "list")]
-public record AzReposListOptions(
-[property: CommandSwitch("--repository")] string Repository
-) : AzOptions
+public record AzReposListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

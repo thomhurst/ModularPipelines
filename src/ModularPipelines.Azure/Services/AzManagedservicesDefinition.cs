@@ -30,9 +30,9 @@ public class AzManagedservicesDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzManagedservicesDefinitionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzManagedservicesDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesDefinitionListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzManagedservicesDefinitionShowOptions options, CancellationToken token = default)

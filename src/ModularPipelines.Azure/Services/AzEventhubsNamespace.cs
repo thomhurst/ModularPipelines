@@ -57,9 +57,9 @@ public class AzEventhubsNamespace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventhubsNamespaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventhubsNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Exists(AzEventhubsNamespaceExistsOptions options, CancellationToken token = default)

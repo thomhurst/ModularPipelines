@@ -13,9 +13,4 @@ public record AzReservationsReservationArchiveOptions(
 [property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
-    public string? MaxItems { get; set; }
-
-    [CommandSwitch("--next-token")]
-    public string? NextToken { get; set; }
 }

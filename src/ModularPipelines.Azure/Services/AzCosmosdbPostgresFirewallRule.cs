@@ -25,9 +25,9 @@ public class AzCosmosdbPostgresFirewallRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCosmosdbPostgresFirewallRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCosmosdbPostgresFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCosmosdbPostgresFirewallRuleListOptions options, CancellationToken token = default)

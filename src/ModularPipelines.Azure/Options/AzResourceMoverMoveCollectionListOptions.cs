@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource-mover", "move-collection", "list")]
-public record AzResourceMoverMoveCollectionListOptions(
-[property: CommandSwitch("--source-id")] string SourceId
-) : AzOptions
+public record AzResourceMoverMoveCollectionListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

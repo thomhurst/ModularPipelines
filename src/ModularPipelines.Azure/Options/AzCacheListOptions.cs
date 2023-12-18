@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cache", "list")]
-public record AzCacheListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzCacheListOptions : AzOptions
 {
 }

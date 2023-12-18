@@ -13,21 +13,4 @@ public record AzSignalrNetworkRuleListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow")]
-    public bool? Allow { get; set; }
-
-    [CommandSwitch("--connection-name")]
-    public string? ConnectionName { get; set; }
-
-    [CommandSwitch("--deny")]
-    public string? Deny { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [BooleanCommandSwitch("--public-network")]
-    public bool? PublicNetwork { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

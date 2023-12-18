@@ -13,18 +13,4 @@ public record AzPostgresFlexibleServerParameterListOptions(
 [property: CommandSwitch("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--source")]
-    public string? Source { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
-
-    [CommandSwitch("--value")]
-    public string? Value { get; set; }
 }

@@ -24,9 +24,9 @@ public class AzServicebusGeorecoveryAlias
 
     public AzServicebusGeorecoveryAliasAuthorizationRule AuthorizationRule { get; }
 
-    public async Task<CommandResult> BreakPair(AzServicebusGeorecoveryAliasBreakPairOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BreakPair(AzServicebusGeorecoveryAliasBreakPairOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusGeorecoveryAliasBreakPairOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzServicebusGeorecoveryAliasCreateOptions options, CancellationToken token = default)
@@ -34,9 +34,9 @@ public class AzServicebusGeorecoveryAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusGeorecoveryAliasDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusGeorecoveryAliasDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusGeorecoveryAliasDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Exists(AzServicebusGeorecoveryAliasExistsOptions options, CancellationToken token = default)
@@ -44,9 +44,9 @@ public class AzServicebusGeorecoveryAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> FailOver(AzServicebusGeorecoveryAliasFailOverOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FailOver(AzServicebusGeorecoveryAliasFailOverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusGeorecoveryAliasFailOverOptions(), token);
     }
 
     public async Task<CommandResult> List(AzServicebusGeorecoveryAliasListOptions options, CancellationToken token = default)

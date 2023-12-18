@@ -30,9 +30,9 @@ public class AzResourcemanagementPrivateLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzResourcemanagementPrivateLinkListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzResourcemanagementPrivateLinkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzResourcemanagementPrivateLinkShowOptions options, CancellationToken token = default)

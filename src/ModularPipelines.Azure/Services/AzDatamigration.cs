@@ -35,24 +35,24 @@ public class AzDatamigration
 
     public AzDatamigrationSqlVm SqlVm { get; }
 
-    public async Task<CommandResult> GetAssessment(AzDatamigrationGetAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssessment(AzDatamigrationGetAssessmentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetAssessmentOptions(), token);
     }
 
-    public async Task<CommandResult> GetSkuRecommendation(AzDatamigrationGetSkuRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSkuRecommendation(AzDatamigrationGetSkuRecommendationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetSkuRecommendationOptions(), token);
     }
 
-    public async Task<CommandResult> LoginMigration(AzDatamigrationLoginMigrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> LoginMigration(AzDatamigrationLoginMigrationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationLoginMigrationOptions(), token);
     }
 
-    public async Task<CommandResult> PerformanceDataCollection(AzDatamigrationPerformanceDataCollectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PerformanceDataCollection(AzDatamigrationPerformanceDataCollectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationPerformanceDataCollectionOptions(), token);
     }
 
     public async Task<CommandResult> RegisterIntegrationRuntime(AzDatamigrationRegisterIntegrationRuntimeOptions options, CancellationToken token = default)

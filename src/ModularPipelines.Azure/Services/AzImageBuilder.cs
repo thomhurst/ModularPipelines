@@ -44,9 +44,9 @@ public class AzImageBuilder
 
     public AzImageBuilderValidator Validator { get; }
 
-    public async Task<CommandResult> Cancel(AzImageBuilderCancelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cancel(AzImageBuilderCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderCancelOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzImageBuilderCreateOptions options, CancellationToken token = default)

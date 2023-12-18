@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server", "restart")]
-public record AzPostgresServerRestartOptions(
-[property: CommandSwitch("--pitr-time")] string PitrTime,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresServerRestartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

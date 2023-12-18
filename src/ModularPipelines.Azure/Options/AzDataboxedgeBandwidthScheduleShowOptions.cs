@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("databoxedge", "bandwidth-schedule", "show")]
-public record AzDataboxedgeBandwidthScheduleShowOptions(
-[property: CommandSwitch("--days")] int Days,
-[property: CommandSwitch("--rate-in-mbps")] string RateInMbps,
-[property: CommandSwitch("--start")] string Start,
-[property: CommandSwitch("--stop")] string Stop
-) : AzOptions
+public record AzDataboxedgeBandwidthScheduleShowOptions : AzOptions
 {
     [CommandSwitch("--device-name")]
     public string? DeviceName { get; set; }

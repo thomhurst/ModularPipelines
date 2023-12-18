@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "partner", "verified-partner", "list")]
-public record AzEventgridPartnerVerifiedPartnerListOptions(
-[property: CommandSwitch("--verified-partner-name")] string VerifiedPartnerName
-) : AzOptions
+public record AzEventgridPartnerVerifiedPartnerListOptions : AzOptions
 {
     [CommandSwitch("--odata-query")]
     public string? OdataQuery { get; set; }

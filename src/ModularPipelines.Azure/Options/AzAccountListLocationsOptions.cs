@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "list-locations")]
-public record AzAccountListLocationsOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAccountListLocationsOptions : AzOptions
 {
     [BooleanCommandSwitch("--include-extended-locations")]
     public bool? IncludeExtendedLocations { get; set; }

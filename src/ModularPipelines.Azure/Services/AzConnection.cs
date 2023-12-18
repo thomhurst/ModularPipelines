@@ -31,14 +31,14 @@ public class AzConnection
 
     public AzConnectionUpdate Update { get; }
 
-    public async Task<CommandResult> Delete(AzConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GenerateConfiguration(AzConnectionGenerateConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateConfiguration(AzConnectionGenerateConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionGenerateConfigurationOptions(), token);
     }
 
     public async Task<CommandResult> List(AzConnectionListOptions options, CancellationToken token = default)

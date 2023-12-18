@@ -29,9 +29,9 @@ public class AzCustomlocation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzCustomlocationListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCustomlocationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCustomlocationListOptions(), token);
     }
 
     public async Task<CommandResult> ListEnabledResourceTypes(AzCustomlocationListEnabledResourceTypesOptions options, CancellationToken token = default)

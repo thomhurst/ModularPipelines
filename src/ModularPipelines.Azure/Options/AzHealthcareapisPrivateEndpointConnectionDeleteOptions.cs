@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("healthcareapis", "private-endpoint-connection", "delete")]
-public record AzHealthcareapisPrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
-) : AzOptions
+public record AzHealthcareapisPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,12 @@ public record AzHealthcareapisPrivateEndpointConnectionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--resource-name")]
+    public string? ResourceName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

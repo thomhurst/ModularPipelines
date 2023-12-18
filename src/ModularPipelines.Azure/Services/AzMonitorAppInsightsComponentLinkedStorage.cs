@@ -25,14 +25,14 @@ public class AzMonitorAppInsightsComponentLinkedStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMonitorAppInsightsComponentLinkedStorageShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMonitorAppInsightsComponentLinkedStorageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentLinkedStorageShowOptions(), token);
     }
 
-    public async Task<CommandResult> Unlink(AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Unlink(AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAppInsightsComponentLinkedStorageUpdateOptions options, CancellationToken token = default)

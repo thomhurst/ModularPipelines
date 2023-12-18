@@ -13,15 +13,4 @@ public record AzDatafactoryTriggerListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
-    public string? ContinuationToken { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--parent-trigger-name")]
-    public string? ParentTriggerName { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

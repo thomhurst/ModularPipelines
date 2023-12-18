@@ -30,9 +30,9 @@ public class AzRoleDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzRoleDefinitionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzRoleDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionListOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzRoleDefinitionUpdateOptions options, CancellationToken token = default)

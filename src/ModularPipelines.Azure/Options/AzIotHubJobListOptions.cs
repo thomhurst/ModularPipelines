@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "job", "list")]
-public record AzIotHubJobListOptions(
-[property: CommandSwitch("--job-id")] string JobId
-) : AzOptions
+public record AzIotHubJobListOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }

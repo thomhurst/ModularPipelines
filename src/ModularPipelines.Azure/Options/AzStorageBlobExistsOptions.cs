@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "exists")]
-public record AzStorageBlobExistsOptions(
-[property: CommandSwitch("--tag-filter")] string TagFilter
-) : AzOptions
+public record AzStorageBlobExistsOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

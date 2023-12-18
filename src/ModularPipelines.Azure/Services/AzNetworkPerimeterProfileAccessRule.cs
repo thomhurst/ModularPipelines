@@ -25,9 +25,9 @@ public class AzNetworkPerimeterProfileAccessRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkPerimeterProfileAccessRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkPerimeterProfileAccessRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterProfileAccessRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkPerimeterProfileAccessRuleListOptions options, CancellationToken token = default)

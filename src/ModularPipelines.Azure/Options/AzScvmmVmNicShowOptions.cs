@@ -14,24 +14,4 @@ public record AzScvmmVmNicShowOptions(
 [property: CommandSwitch("--vm-name")] string VmName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disconnect")]
-    public bool? Disconnect { get; set; }
-
-    [CommandSwitch("--ipv4-address-type")]
-    public string? Ipv4AddressType { get; set; }
-
-    [CommandSwitch("--ipv6-address-type")]
-    public string? Ipv6AddressType { get; set; }
-
-    [CommandSwitch("--mac-address-type")]
-    public string? MacAddressType { get; set; }
-
-    [CommandSwitch("--network")]
-    public string? Network { get; set; }
-
-    [CommandSwitch("--nic-id")]
-    public string? NicId { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

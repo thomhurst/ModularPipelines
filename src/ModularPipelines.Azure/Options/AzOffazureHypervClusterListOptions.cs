@@ -13,12 +13,4 @@ public record AzOffazureHypervClusterListOptions(
 [property: CommandSwitch("--site-name")] string SiteName
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-name")]
-    public string? ClusterName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -33,9 +33,9 @@ public class AzNetworkVpnGatewayConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVpnGatewayConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVpnGatewayConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnGatewayConnectionListOptions options, CancellationToken token = default)

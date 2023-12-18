@@ -20,9 +20,9 @@ public class AzConnectedmachinePrivateEndpointConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Delete(AzConnectedmachinePrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzConnectedmachinePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzConnectedmachinePrivateEndpointConnectionListOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "group", "delete")]
-public record AzNetworkManagerGroupDeleteOptions(
-[property: CommandSwitch("--network-manager-name")] string NetworkManagerName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkManagerGroupDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
@@ -22,8 +19,14 @@ public record AzNetworkManagerGroupDeleteOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--network-manager-name")]
+    public string? NetworkManagerName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

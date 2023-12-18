@@ -32,9 +32,9 @@ public class AzIotOps
 
     public AzIotOpsSupport Support { get; }
 
-    public async Task<CommandResult> Check(AzIotOpsCheckOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Check(AzIotOpsCheckOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsCheckOptions(), token);
     }
 
     public async Task<CommandResult> Init(AzIotOpsInitOptions options, CancellationToken token = default)

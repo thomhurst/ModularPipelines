@@ -25,9 +25,9 @@ public class AzPaloAltoCloudngfwLocalRulestackCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackCertificateListOptions options, CancellationToken token = default)

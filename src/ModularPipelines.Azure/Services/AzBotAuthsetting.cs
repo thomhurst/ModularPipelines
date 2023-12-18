@@ -35,9 +35,9 @@ public class AzBotAuthsetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListProviders(AzBotAuthsettingListProvidersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProviders(AzBotAuthsettingListProvidersOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBotAuthsettingListProvidersOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzBotAuthsettingShowOptions options, CancellationToken token = default)

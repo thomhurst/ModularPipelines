@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "pool", "list")]
-public record AzBatchPoolListOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolListOptions : AzOptions
 {
     [CommandSwitch("--account-endpoint")]
     public int? AccountEndpoint { get; set; }

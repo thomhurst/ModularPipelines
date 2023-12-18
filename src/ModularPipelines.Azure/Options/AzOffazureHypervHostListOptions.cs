@@ -13,12 +13,4 @@ public record AzOffazureHypervHostListOptions(
 [property: CommandSwitch("--site-name")] string SiteName
 ) : AzOptions
 {
-    [CommandSwitch("--host-name")]
-    public string? HostName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

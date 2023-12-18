@@ -8,10 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("alias", "list")]
-public record AzAliasListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAliasListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

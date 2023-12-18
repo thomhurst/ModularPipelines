@@ -25,9 +25,9 @@ public class AzAmsAssetFilter
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsAssetFilterDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsAssetFilterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsAssetFilterListOptions options, CancellationToken token = default)

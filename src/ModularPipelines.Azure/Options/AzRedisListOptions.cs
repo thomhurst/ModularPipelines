@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redis", "list")]
-public record AzRedisListOptions(
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzRedisListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

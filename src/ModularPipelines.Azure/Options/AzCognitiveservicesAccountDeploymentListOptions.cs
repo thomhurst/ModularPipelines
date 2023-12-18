@@ -13,6 +13,4 @@ public record AzCognitiveservicesAccountDeploymentListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--deployment-name")]
-    public string? DeploymentName { get; set; }
 }

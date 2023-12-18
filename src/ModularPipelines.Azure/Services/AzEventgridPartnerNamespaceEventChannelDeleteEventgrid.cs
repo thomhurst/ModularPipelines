@@ -20,8 +20,8 @@ public class AzEventgridPartnerNamespaceEventChannelDeleteEventgrid
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Extension(AzEventgridPartnerNamespaceEventChannelDeleteEventgridExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Extension(AzEventgridPartnerNamespaceEventChannelDeleteEventgridExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceEventChannelDeleteEventgridExtensionOptions(), token);
     }
 }

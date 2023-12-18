@@ -40,9 +40,9 @@ public class AzDevcenterDevDevBox
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevcenterDevDevBoxListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevcenterDevDevBoxListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterDevDevBoxListOptions(), token);
     }
 
     public async Task<CommandResult> ListAction(AzDevcenterDevDevBoxListActionOptions options, CancellationToken token = default)

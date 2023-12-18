@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "pipeline", "update-draft")]
-public record AzMlPipelineUpdateDraftOptions(
-[property: CommandSwitch("--schedule-id")] string ScheduleId
-) : AzOptions
+public record AzMlPipelineUpdateDraftOptions : AzOptions
 {
     [CommandSwitch("--continue")]
     public string? Continue { get; set; }

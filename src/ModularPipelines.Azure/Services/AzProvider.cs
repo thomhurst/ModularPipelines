@@ -27,9 +27,9 @@ public class AzProvider
 
     public AzProviderPermission Permission { get; }
 
-    public async Task<CommandResult> List(AzProviderListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderListOptions(), token);
     }
 
     public async Task<CommandResult> Register(AzProviderRegisterOptions options, CancellationToken token = default)

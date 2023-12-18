@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "metadata-schema", "delete")]
-public record AzApicMetadataSchemaDeleteOptions(
-[property: CommandSwitch("--file-name")] string FileName
-) : AzOptions
+public record AzApicMetadataSchemaDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

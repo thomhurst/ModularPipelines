@@ -25,19 +25,19 @@ public class AzDatadogMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatadogMonitorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatadogMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogMonitorDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetDefaultKey(AzDatadogMonitorGetDefaultKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDefaultKey(AzDatadogMonitorGetDefaultKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogMonitorGetDefaultKeyOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDatadogMonitorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDatadogMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogMonitorListOptions(), token);
     }
 
     public async Task<CommandResult> ListApiKey(AzDatadogMonitorListApiKeyOptions options, CancellationToken token = default)

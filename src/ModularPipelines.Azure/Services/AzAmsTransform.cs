@@ -29,9 +29,9 @@ public class AzAmsTransform
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsTransformDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsTransformDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsTransformListOptions options, CancellationToken token = default)

@@ -19,14 +19,14 @@ public class AzSsh
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Arc(AzSshArcOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Arc(AzSshArcOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSshArcOptions(), token);
     }
 
-    public async Task<CommandResult> Cert(AzSshCertOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cert(AzSshCertOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSshCertOptions(), token);
     }
 
     public async Task<CommandResult> Config(AzSshConfigOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "kv", "list")]
-public record AzAppconfigKvListOptions(
-[property: CommandSwitch("--key")] string Key
-) : AzOptions
+public record AzAppconfigKvListOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
@@ -29,6 +27,9 @@ public record AzAppconfigKvListOptions(
 
     [CommandSwitch("--fields")]
     public string? Fields { get; set; }
+
+    [CommandSwitch("--key")]
+    public string? Key { get; set; }
 
     [CommandSwitch("--label")]
     public string? Label { get; set; }

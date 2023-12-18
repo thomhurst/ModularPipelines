@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "capability", "select")]
-public record AzSphereDeviceCapabilitySelectOptions(
-[property: CommandSwitch("--capability-file")] string CapabilityFile
-) : AzOptions
+public record AzSphereDeviceCapabilitySelectOptions : AzOptions
 {
+    [CommandSwitch("--capability-file")]
+    public string? CapabilityFile { get; set; }
+
     [BooleanCommandSwitch("--none")]
     public bool? None { get; set; }
 }

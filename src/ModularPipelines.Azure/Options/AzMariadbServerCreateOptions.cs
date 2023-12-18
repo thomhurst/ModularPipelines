@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "create")]
-public record AzMariadbServerCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMariadbServerCreateOptions : AzOptions
 {
     [CommandSwitch("--admin-password")]
     public string? AdminPassword { get; set; }
@@ -33,6 +30,9 @@ public record AzMariadbServerCreateOptions(
 
     [CommandSwitch("--infrastructure-encryption")]
     public string? InfrastructureEncryption { get; set; }
+
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
 
     [CommandSwitch("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "data-flow", "show")]
-public record AzDatafactoryDataFlowShowOptions(
-[property: CommandSwitch("--properties")] string Properties
-) : AzOptions
+public record AzDatafactoryDataFlowShowOptions : AzOptions
 {
     [CommandSwitch("--data-flow-name")]
     public string? DataFlowName { get; set; }

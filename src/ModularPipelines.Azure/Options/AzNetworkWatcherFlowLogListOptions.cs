@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "watcher", "flow-log", "list")]
-public record AzNetworkWatcherFlowLogListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzNetworkWatcherFlowLogListOptions : AzOptions
 {
     [CommandSwitch("--location")]
     public string? Location { get; set; }

@@ -25,24 +25,24 @@ public class AzScvmmAvset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzScvmmAvsetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzScvmmAvsetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmAvsetDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzScvmmAvsetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzScvmmAvsetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmAvsetListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzScvmmAvsetShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzScvmmAvsetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmAvsetShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzScvmmAvsetUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzScvmmAvsetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmAvsetUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmAvsetWaitOptions options, CancellationToken token = default)

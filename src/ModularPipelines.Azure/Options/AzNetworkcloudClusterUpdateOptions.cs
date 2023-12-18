@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "cluster", "update")]
-public record AzNetworkcloudClusterUpdateOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
-) : AzOptions
+public record AzNetworkcloudClusterUpdateOptions : AzOptions
 {
     [CommandSwitch("--aggregator-or-single-rack-definition")]
     public string? AggregatorOrSingleRackDefinition { get; set; }

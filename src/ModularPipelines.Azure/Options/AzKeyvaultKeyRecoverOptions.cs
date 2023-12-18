@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "recover")]
-public record AzKeyvaultKeyRecoverOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--digest")] string Digest
-) : AzOptions
+public record AzKeyvaultKeyRecoverOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }

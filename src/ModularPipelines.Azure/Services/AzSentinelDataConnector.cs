@@ -30,9 +30,9 @@ public class AzSentinelDataConnector
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelDataConnectorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelDataConnectorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Disconnect(AzSentinelDataConnectorDisconnectOptions options, CancellationToken token = default)

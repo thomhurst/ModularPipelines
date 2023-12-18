@@ -37,14 +37,14 @@ public class AzReposPr
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzReposPrCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzReposPrCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrCreateOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzReposPrListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzReposPrListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrListOptions(), token);
     }
 
     public async Task<CommandResult> SetVote(AzReposPrSetVoteOptions options, CancellationToken token = default)

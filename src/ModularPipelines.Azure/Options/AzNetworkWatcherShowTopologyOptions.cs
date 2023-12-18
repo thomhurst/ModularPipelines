@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "watcher", "show-topology")]
-public record AzNetworkWatcherShowTopologyOptions(
-[property: CommandSwitch("--source-resource")] string SourceResource
-) : AzOptions
+public record AzNetworkWatcherShowTopologyOptions : AzOptions
 {
     [CommandSwitch("--location")]
     public string? Location { get; set; }

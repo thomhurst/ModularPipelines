@@ -13,12 +13,4 @@ public record AzCognitiveservicesAccountNetworkRuleListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ip-address")]
-    public string? IpAddress { get; set; }
-
-    [CommandSwitch("--subnet")]
-    public string? Subnet { get; set; }
-
-    [CommandSwitch("--vnet-name")]
-    public string? VnetName { get; set; }
 }

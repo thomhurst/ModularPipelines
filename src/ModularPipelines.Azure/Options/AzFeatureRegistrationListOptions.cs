@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("feature", "registration", "list")]
-public record AzFeatureRegistrationListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
-) : AzOptions
+public record AzFeatureRegistrationListOptions : AzOptions
 {
     [CommandSwitch("--namespace")]
     public string? Namespace { get; set; }

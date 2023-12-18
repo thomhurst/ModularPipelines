@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devcenter", "dev", "project", "list")]
-public record AzDevcenterDevProjectListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzDevcenterDevProjectListOptions : AzOptions
 {
     [CommandSwitch("--dev-center")]
     public string? DevCenter { get; set; }

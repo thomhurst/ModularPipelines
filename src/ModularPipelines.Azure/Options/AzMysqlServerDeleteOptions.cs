@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "delete")]
-public record AzMysqlServerDeleteOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMysqlServerDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

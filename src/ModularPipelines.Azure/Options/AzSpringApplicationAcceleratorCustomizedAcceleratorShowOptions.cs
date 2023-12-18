@@ -14,6 +14,4 @@ public record AzSpringApplicationAcceleratorCustomizedAcceleratorShowOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

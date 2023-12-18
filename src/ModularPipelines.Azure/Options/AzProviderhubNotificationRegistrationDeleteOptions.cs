@@ -8,15 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("providerhub", "notification-registration", "delete")]
-public record AzProviderhubNotificationRegistrationDeleteOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
-) : AzOptions
+public record AzProviderhubNotificationRegistrationDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--provider-namespace")]
+    public string? ProviderNamespace { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

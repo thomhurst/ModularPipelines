@@ -13,9 +13,4 @@ public record AzHdinsightShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

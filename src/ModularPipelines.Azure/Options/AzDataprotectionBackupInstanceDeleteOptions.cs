@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "backup-instance", "delete")]
-public record AzDataprotectionBackupInstanceDeleteOptions(
-[property: CommandSwitch("--datasource-id")] string DatasourceId,
-[property: CommandSwitch("--datasource-location")] string DatasourceLocation,
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--policy-id")] string PolicyId
-) : AzOptions
+public record AzDataprotectionBackupInstanceDeleteOptions : AzOptions
 {
     [CommandSwitch("--backup-instance-name")]
     public string? BackupInstanceName { get; set; }

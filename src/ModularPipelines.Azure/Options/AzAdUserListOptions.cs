@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ad", "user", "list")]
-public record AzAdUserListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzAdUserListOptions : AzOptions
 {
     [CommandSwitch("--display-name")]
     public string? DisplayName { get; set; }

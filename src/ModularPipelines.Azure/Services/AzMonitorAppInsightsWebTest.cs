@@ -30,9 +30,9 @@ public class AzMonitorAppInsightsWebTest
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMonitorAppInsightsWebTestListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMonitorAppInsightsWebTestListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsWebTestListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsWebTestShowOptions options, CancellationToken token = default)

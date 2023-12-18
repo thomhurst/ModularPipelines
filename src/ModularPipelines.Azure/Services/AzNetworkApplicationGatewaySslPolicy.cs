@@ -24,9 +24,9 @@ public class AzNetworkApplicationGatewaySslPolicy
 
     public AzNetworkApplicationGatewaySslPolicyPredefined Predefined { get; }
 
-    public async Task<CommandResult> ListOptions(AzNetworkApplicationGatewaySslPolicyListOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListOptions(AzNetworkApplicationGatewaySslPolicyListOptionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySslPolicyListOptionsOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzNetworkApplicationGatewaySslPolicySetOptions options, CancellationToken token = default)

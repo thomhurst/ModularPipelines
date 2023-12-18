@@ -13,6 +13,4 @@ public record AzPeeringPeeringShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "run-command", "show")]
-public record AzVmRunCommandShowOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzVmRunCommandShowOptions : AzOptions
 {
     [CommandSwitch("--command-id")]
     public string? CommandId { get; set; }
@@ -23,6 +21,9 @@ public record AzVmRunCommandShowOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

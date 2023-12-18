@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "midb", "log-replay", "show")]
-public record AzSqlMidbLogReplayShowOptions(
-[property: CommandSwitch("--ss")] string Ss,
-[property: CommandSwitch("--storage-uri")] string StorageUri
-) : AzOptions
+public record AzSqlMidbLogReplayShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

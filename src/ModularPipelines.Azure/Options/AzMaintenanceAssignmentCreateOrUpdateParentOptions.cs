@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maintenance", "assignment", "create-or-update-parent")]
-public record AzMaintenanceAssignmentCreateOrUpdateParentOptions(
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzMaintenanceAssignmentCreateOrUpdateParentOptions : AzOptions
 {
     [CommandSwitch("--config-id")]
     public string? ConfigId { get; set; }
@@ -45,14 +40,26 @@ public record AzMaintenanceAssignmentCreateOrUpdateParentOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 
+    [CommandSwitch("--provider-name")]
+    public string? ProviderName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }
+
+    [CommandSwitch("--resource-name")]
+    public string? ResourceName { get; set; }
 
     [CommandSwitch("--resource-parent-name")]
     public string? ResourceParentName { get; set; }
 
     [CommandSwitch("--resource-parent-type")]
     public string? ResourceParentType { get; set; }
+
+    [CommandSwitch("--resource-type")]
+    public string? ResourceType { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

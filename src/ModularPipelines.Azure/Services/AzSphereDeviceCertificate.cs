@@ -30,9 +30,9 @@ public class AzSphereDeviceCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSphereDeviceCertificateListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSphereDeviceCertificateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCertificateListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSphereDeviceCertificateShowOptions options, CancellationToken token = default)

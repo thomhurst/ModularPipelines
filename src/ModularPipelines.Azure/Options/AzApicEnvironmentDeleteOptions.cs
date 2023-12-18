@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "environment", "delete")]
-public record AzApicEnvironmentDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
-) : AzOptions
+public record AzApicEnvironmentDeleteOptions : AzOptions
 {
     [CommandSwitch("--environment")]
     public string? Environment { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--service")]
+    public string? Service { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

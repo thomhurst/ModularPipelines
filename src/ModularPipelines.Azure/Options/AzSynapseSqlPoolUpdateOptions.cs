@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "sql", "pool", "update")]
-public record AzSynapseSqlPoolUpdateOptions(
-[property: CommandSwitch("--sql-pool-name")] string SqlPoolName
-) : AzOptions
+public record AzSynapseSqlPoolUpdateOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

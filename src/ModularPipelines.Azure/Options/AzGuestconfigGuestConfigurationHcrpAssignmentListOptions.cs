@@ -13,12 +13,4 @@ public record AzGuestconfigGuestConfigurationHcrpAssignmentListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--guest-configuration-assignment-name")]
-    public string? GuestConfigurationAssignmentName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

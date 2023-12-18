@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "user", "reset-ssh")]
-public record AzVmUserResetSshOptions(
-[property: CommandSwitch("--username")] string Username
-) : AzOptions
+public record AzVmUserResetSshOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

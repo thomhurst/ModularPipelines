@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("bot", "authsetting", "list-providers")]
-public record AzBotAuthsettingListProvidersOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--setting-name")] string SettingName
-) : AzOptions
+public record AzBotAuthsettingListProvidersOptions : AzOptions
 {
     [CommandSwitch("--provider-name")]
     public string? ProviderName { get; set; }

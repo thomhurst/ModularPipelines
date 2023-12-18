@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vhub", "routing-intent", "delete")]
-public record AzNetworkVhubRoutingIntentDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vhub")] string Vhub
-) : AzOptions
+public record AzNetworkVhubRoutingIntentDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -22,8 +19,14 @@ public record AzNetworkVhubRoutingIntentDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vhub")]
+    public string? Vhub { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

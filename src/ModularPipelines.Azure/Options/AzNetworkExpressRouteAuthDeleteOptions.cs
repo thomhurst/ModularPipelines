@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "express-route", "auth", "delete")]
-public record AzNetworkExpressRouteAuthDeleteOptions(
-[property: CommandSwitch("--circuit-name")] string CircuitName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkExpressRouteAuthDeleteOptions : AzOptions
 {
+    [CommandSwitch("--circuit-name")]
+    public string? CircuitName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkExpressRouteAuthDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

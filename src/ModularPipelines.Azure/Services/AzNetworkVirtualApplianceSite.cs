@@ -25,9 +25,9 @@ public class AzNetworkVirtualApplianceSite
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVirtualApplianceSiteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVirtualApplianceSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkVirtualApplianceSiteListOptions options, CancellationToken token = default)

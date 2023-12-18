@@ -25,9 +25,9 @@ public class AzGroupLock
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzGroupLockDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzGroupLockDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzGroupLockListOptions options, CancellationToken token = default)

@@ -29,9 +29,9 @@ public class AzAutomationHrwg
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAutomationHrwgDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAutomationHrwgDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAutomationHrwgListOptions options, CancellationToken token = default)

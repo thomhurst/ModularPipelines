@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "policy", "delete")]
-public record AzIotHubPolicyDeleteOptions(
-[property: CommandSwitch("--renew-key")] string RenewKey
-) : AzOptions
+public record AzIotHubPolicyDeleteOptions : AzOptions
 {
     [CommandSwitch("--hub-name")]
     public string? HubName { get; set; }

@@ -37,9 +37,9 @@ public class AzDataprotectionBackupPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDataprotectionBackupPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDataprotectionBackupPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetDefaultPolicyTemplate(AzDataprotectionBackupPolicyGetDefaultPolicyTemplateOptions options, CancellationToken token = default)

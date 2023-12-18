@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "list")]
-public record AzAccountListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAccountListOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }

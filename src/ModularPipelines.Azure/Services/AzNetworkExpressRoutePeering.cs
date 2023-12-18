@@ -33,9 +33,9 @@ public class AzNetworkExpressRoutePeering
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkExpressRoutePeeringDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkExpressRoutePeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GetStats(AzNetworkExpressRoutePeeringGetStatsOptions options, CancellationToken token = default)

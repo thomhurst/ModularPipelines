@@ -25,9 +25,9 @@ public class AzEventgridDomainPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventgridDomainPrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventgridDomainPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainPrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventgridDomainPrivateEndpointConnectionListOptions options, CancellationToken token = default)

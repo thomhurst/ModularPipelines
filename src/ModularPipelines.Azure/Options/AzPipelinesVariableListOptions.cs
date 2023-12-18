@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "variable", "list")]
-public record AzPipelinesVariableListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPipelinesVariableListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

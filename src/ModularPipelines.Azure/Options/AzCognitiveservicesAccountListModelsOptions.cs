@@ -13,9 +13,4 @@ public record AzCognitiveservicesAccountListModelsOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--kind")]
-    public string? Kind { get; set; }
-
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
 }

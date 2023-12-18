@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "attestation", "list")]
-public record AzPolicyAttestationListOptions(
-[property: CommandSwitch("--attestation-name")] string AttestationName
-) : AzOptions
+public record AzPolicyAttestationListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

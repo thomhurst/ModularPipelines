@@ -13,6 +13,4 @@ public record AzFeatureRegistrationCreateOptions(
 [property: CommandSwitch("--namespace")] string Namespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

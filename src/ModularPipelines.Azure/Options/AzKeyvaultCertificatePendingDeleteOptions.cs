@@ -13,9 +13,4 @@ public record AzKeyvaultCertificatePendingDeleteOptions(
 [property: CommandSwitch("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disabled")]
-    public bool? Disabled { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

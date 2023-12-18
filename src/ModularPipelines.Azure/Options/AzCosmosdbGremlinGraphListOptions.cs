@@ -14,12 +14,4 @@ public record AzCosmosdbGremlinGraphListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
-    public string? AnalyticalStorageTtl { get; set; }
-
-    [CommandSwitch("--idx")]
-    public string? Idx { get; set; }
-
-    [CommandSwitch("--ttl")]
-    public string? Ttl { get; set; }
 }

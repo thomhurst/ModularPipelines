@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "list-deploy-status")]
-public record AzNetworkManagerListDeployStatusOptions(
-[property: CommandSwitch("--commit-type")] string CommitType,
-[property: CommandSwitch("--target-locations")] string TargetLocations
-) : AzOptions
+public record AzNetworkManagerListDeployStatusOptions : AzOptions
 {
     [CommandSwitch("--deployment-types")]
     public string? DeploymentTypes { get; set; }

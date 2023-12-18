@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "order-item", "list")]
-public record AzEdgeorderOrderItemListOptions(
-[property: CommandSwitch("--return-reason")] string ReturnReason
-) : AzOptions
+public record AzEdgeorderOrderItemListOptions : AzOptions
 {
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }

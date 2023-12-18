@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "rotation-policy", "show")]
-public record AzKeyvaultKeyRotationPolicyShowOptions(
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzKeyvaultKeyRotationPolicyShowOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }

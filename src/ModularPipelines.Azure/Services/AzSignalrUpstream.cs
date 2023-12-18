@@ -20,9 +20,9 @@ public class AzSignalrUpstream
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Clear(AzSignalrUpstreamClearOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Clear(AzSignalrUpstreamClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpstreamClearOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSignalrUpstreamListOptions options, CancellationToken token = default)

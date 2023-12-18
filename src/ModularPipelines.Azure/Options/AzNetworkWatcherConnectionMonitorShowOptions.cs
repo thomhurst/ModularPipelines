@@ -13,6 +13,4 @@ public record AzNetworkWatcherConnectionMonitorShowOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

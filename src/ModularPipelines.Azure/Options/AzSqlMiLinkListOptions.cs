@@ -13,12 +13,4 @@ public record AzSqlMiLinkListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--distributed-availability-group-name")]
-    public string? DistributedAvailabilityGroupName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

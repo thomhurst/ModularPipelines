@@ -24,8 +24,8 @@ public record AzBackupRecoverypointShowLogChainOptions(
     [CommandSwitch("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }

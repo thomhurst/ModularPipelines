@@ -8,15 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "show")]
-public record AzPipelinesShowOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesShowOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }
 
     [CommandSwitch("--folder-path")]
     public string? FolderPath { get; set; }
+
+    [CommandSwitch("--id")]
+    public string? Id { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }

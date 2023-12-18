@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "address", "update")]
-public record AzEdgeorderAddressUpdateOptions(
-[property: CommandSwitch("--address-name")] string AddressName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEdgeorderAddressUpdateOptions : AzOptions
 {
+    [CommandSwitch("--address-name")]
+    public string? AddressName { get; set; }
+
     [CommandSwitch("--contact-details")]
     public string? ContactDetails { get; set; }
 
@@ -24,6 +24,9 @@ public record AzEdgeorderAddressUpdateOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--shipping-address")]
     public string? ShippingAddress { get; set; }

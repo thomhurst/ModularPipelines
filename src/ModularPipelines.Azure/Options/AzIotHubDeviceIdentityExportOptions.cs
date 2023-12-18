@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "device-identity", "export")]
-public record AzIotHubDeviceIdentityExportOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzIotHubDeviceIdentityExportOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }
@@ -22,6 +18,9 @@ public record AzIotHubDeviceIdentityExportOptions(
 
     [CommandSwitch("--bcu")]
     public string? Bcu { get; set; }
+
+    [CommandSwitch("--hub-name")]
+    public string? HubName { get; set; }
 
     [CommandSwitch("--identity")]
     public string? Identity { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "list-firewall")]
-public record AzPaloAltoCloudngfwLocalRulestackListFirewallOptions(
-[property: CommandSwitch("--type")] string Type
-) : AzOptions
+public record AzPaloAltoCloudngfwLocalRulestackListFirewallOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

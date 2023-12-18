@@ -91,9 +91,9 @@ public class AzSql
 
     public AzSqlVm Vm { get; }
 
-    public async Task<CommandResult> Down(AzSqlDownOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Down(AzSqlDownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDownOptions(), token);
     }
 
     public async Task<CommandResult> ListUsages(AzSqlListUsagesOptions options, CancellationToken token = default)

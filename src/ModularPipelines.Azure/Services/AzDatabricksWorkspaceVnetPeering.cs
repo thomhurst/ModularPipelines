@@ -25,9 +25,9 @@ public class AzDatabricksWorkspaceVnetPeering
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatabricksWorkspaceVnetPeeringDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatabricksWorkspaceVnetPeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatabricksWorkspaceVnetPeeringListOptions options, CancellationToken token = default)

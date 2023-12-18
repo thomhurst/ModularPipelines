@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("relay", "hyco", "authorization-rule", "show")]
-public record AzRelayHycoAuthorizationRuleShowOptions(
-[property: CommandSwitch("--rights")] string Rights
-) : AzOptions
+public record AzRelayHycoAuthorizationRuleShowOptions : AzOptions
 {
     [CommandSwitch("--hybrid-connection-name")]
     public string? HybridConnectionName { get; set; }

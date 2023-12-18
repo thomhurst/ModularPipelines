@@ -29,9 +29,9 @@ public class AzSupportTickets
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSupportTicketsListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSupportTicketsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSupportTicketsListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSupportTicketsShowOptions options, CancellationToken token = default)

@@ -24,9 +24,9 @@ public class AzDevopsWiki
 
     public AzDevopsWikiPage Page { get; }
 
-    public async Task<CommandResult> Create(AzDevopsWikiCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzDevopsWikiCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzDevopsWikiDeleteOptions options, CancellationToken token = default)
@@ -34,9 +34,9 @@ public class AzDevopsWiki
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsWikiListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsWikiListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDevopsWikiShowOptions options, CancellationToken token = default)

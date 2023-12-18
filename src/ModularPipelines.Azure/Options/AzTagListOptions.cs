@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("tag", "list")]
-public record AzTagListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzTagListOptions : AzOptions
 {
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }

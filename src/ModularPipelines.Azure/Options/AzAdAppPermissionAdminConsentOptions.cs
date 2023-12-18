@@ -12,6 +12,4 @@ public record AzAdAppPermissionAdminConsentOptions(
 [property: CommandSwitch("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--api-permissions")]
-    public string? ApiPermissions { get; set; }
 }

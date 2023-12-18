@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "traffic-routing", "clear")]
-public record AzWebappTrafficRoutingClearOptions(
-[property: CommandSwitch("--distribution")] string Distribution
-) : AzOptions
+public record AzWebappTrafficRoutingClearOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

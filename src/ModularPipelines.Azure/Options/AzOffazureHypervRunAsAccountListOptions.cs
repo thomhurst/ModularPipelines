@@ -13,12 +13,4 @@ public record AzOffazureHypervRunAsAccountListOptions(
 [property: CommandSwitch("--site-name")] string SiteName
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
-    public int? AccountName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "volume", "finalize-relocation")]
-public record AzNetappfilesVolumeFinalizeRelocationOptions(
-[property: CommandSwitch("--username")] string Username
-) : AzOptions
+public record AzNetappfilesVolumeFinalizeRelocationOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

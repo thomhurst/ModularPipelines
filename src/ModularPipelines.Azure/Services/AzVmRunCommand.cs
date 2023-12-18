@@ -35,14 +35,14 @@ public class AzVmRunCommand
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzVmRunCommandListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzVmRunCommandListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzVmRunCommandShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzVmRunCommandShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzVmRunCommandUpdateOptions options, CancellationToken token = default)

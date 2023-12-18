@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("repos", "policy", "list")]
-public record AzReposPolicyListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzReposPolicyListOptions : AzOptions
 {
     [CommandSwitch("--branch")]
     public string? Branch { get; set; }

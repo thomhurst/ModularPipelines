@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "vnet-rule", "show")]
-public record AzMysqlServerVnetRuleShowOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzMysqlServerVnetRuleShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

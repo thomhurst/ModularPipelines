@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "feature", "filter", "delete")]
-public record AzAppconfigFeatureFilterDeleteOptions(
-[property: CommandSwitch("--filter-name")] string FilterName
-) : AzOptions
+public record AzAppconfigFeatureFilterDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
@@ -26,6 +24,9 @@ public record AzAppconfigFeatureFilterDeleteOptions(
 
     [CommandSwitch("--feature")]
     public string? Feature { get; set; }
+
+    [CommandSwitch("--filter-name")]
+    public string? FilterName { get; set; }
 
     [CommandSwitch("--index")]
     public string? Index { get; set; }

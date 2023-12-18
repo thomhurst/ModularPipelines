@@ -20,9 +20,9 @@ public class AzDatafactoryTriggerRun
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Cancel(AzDatafactoryTriggerRunCancelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cancel(AzDatafactoryTriggerRunCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerRunCancelOptions(), token);
     }
 
     public async Task<CommandResult> QueryByFactory(AzDatafactoryTriggerRunQueryByFactoryOptions options, CancellationToken token = default)

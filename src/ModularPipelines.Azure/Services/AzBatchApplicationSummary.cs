@@ -20,9 +20,9 @@ public class AzBatchApplicationSummary
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzBatchApplicationSummaryListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBatchApplicationSummaryListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationSummaryListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzBatchApplicationSummaryShowOptions options, CancellationToken token = default)

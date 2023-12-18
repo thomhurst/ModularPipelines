@@ -8,14 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "protection", "check-vm")]
-public record AzBackupProtectionCheckVmOptions(
-[property: CommandSwitch("--azure-file-share")] string AzureFileShare,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzBackupProtectionCheckVmOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--vm")]
     public string? Vm { get; set; }
 }

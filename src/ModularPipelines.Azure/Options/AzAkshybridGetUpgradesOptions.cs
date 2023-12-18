@@ -13,9 +13,4 @@ public record AzAkshybridGetUpgradesOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-admin-group-object-ids")]
-    public string? AadAdminGroupObjectIds { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

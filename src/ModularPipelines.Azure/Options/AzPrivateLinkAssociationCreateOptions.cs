@@ -15,6 +15,4 @@ public record AzPrivateLinkAssociationCreateOptions(
 [property: CommandSwitch("--public-network-access")] string PublicNetworkAccess
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

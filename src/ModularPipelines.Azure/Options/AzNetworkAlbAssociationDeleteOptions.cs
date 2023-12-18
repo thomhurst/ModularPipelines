@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "alb", "association", "delete")]
-public record AzNetworkAlbAssociationDeleteOptions(
-[property: CommandSwitch("--alb-name")] string AlbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkAlbAssociationDeleteOptions : AzOptions
 {
+    [CommandSwitch("--alb-name")]
+    public string? AlbName { get; set; }
+
     [CommandSwitch("--association-name")]
     public string? AssociationName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkAlbAssociationDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

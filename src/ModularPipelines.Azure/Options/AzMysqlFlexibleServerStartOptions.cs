@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "flexible-server", "start")]
-public record AzMysqlFlexibleServerStartOptions(
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMysqlFlexibleServerStartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

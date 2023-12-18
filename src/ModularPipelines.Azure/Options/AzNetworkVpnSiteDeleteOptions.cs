@@ -8,17 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-site", "delete")]
-public record AzNetworkVpnSiteDeleteOptions(
-[property: CommandSwitch("--request")] string Request,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vwan-name")] string VwanName
-) : AzOptions
+public record AzNetworkVpnSiteDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

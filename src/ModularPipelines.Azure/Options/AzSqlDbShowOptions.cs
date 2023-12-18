@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "show")]
-public record AzSqlDbShowOptions(
-[property: CommandSwitch("--client")] string Client
-) : AzOptions
+public record AzSqlDbShowOptions : AzOptions
 {
     [BooleanCommandSwitch("--expand-keys")]
     public bool? ExpandKeys { get; set; }

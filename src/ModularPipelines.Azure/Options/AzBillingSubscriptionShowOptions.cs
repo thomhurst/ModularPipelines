@@ -12,12 +12,4 @@ public record AzBillingSubscriptionShowOptions(
 [property: CommandSwitch("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--cost-center")]
-    public string? CostCenter { get; set; }
-
-    [CommandSwitch("--sku-id")]
-    public string? SkuId { get; set; }
-
-    [CommandSwitch("--subscription-billing-status")]
-    public string? SubscriptionBillingStatus { get; set; }
 }

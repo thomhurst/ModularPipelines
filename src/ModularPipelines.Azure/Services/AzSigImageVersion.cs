@@ -33,9 +33,9 @@ public class AzSigImageVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSigImageVersionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSigImageVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSigImageVersionListOptions options, CancellationToken token = default)
@@ -43,14 +43,14 @@ public class AzSigImageVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListCommunity(AzSigImageVersionListCommunityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCommunity(AzSigImageVersionListCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionListCommunityOptions(), token);
     }
 
-    public async Task<CommandResult> ListShared(AzSigImageVersionListSharedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListShared(AzSigImageVersionListSharedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionListSharedOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSigImageVersionShowOptions options, CancellationToken token = default)
@@ -58,14 +58,14 @@ public class AzSigImageVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ShowCommunity(AzSigImageVersionShowCommunityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowCommunity(AzSigImageVersionShowCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionShowCommunityOptions(), token);
     }
 
-    public async Task<CommandResult> ShowShared(AzSigImageVersionShowSharedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowShared(AzSigImageVersionShowSharedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageVersionShowSharedOptions(), token);
     }
 
     public async Task<CommandResult> Undelete(AzSigImageVersionUndeleteOptions options, CancellationToken token = default)

@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("acr", "check-health")]
-public record AzAcrCheckHealthOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzAcrCheckHealthOptions : AzOptions
 {
     [BooleanCommandSwitch("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--vnet")]
     public string? Vnet { get; set; }

@@ -30,9 +30,9 @@ public class AzSecurityAlertsSuppressionRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSecurityAlertsSuppressionRuleListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAlertsSuppressionRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAlertsSuppressionRuleShowOptions options, CancellationToken token = default)

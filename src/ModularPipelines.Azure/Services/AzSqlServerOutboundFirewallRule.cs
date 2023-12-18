@@ -30,9 +30,9 @@ public class AzSqlServerOutboundFirewallRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlServerOutboundFirewallRuleListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlServerOutboundFirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerOutboundFirewallRuleListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerOutboundFirewallRuleShowOptions options, CancellationToken token = default)

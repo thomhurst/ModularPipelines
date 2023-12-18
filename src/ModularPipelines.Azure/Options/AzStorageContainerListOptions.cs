@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "container", "list")]
-public record AzStorageContainerListOptions(
-[property: CommandSwitch("--deleted-version")] string DeletedVersion,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzStorageContainerListOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

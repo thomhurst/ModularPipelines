@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redisenterprise", "database", "list-keys")]
-public record AzRedisenterpriseDatabaseListKeysOptions(
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzRedisenterpriseDatabaseListKeysOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

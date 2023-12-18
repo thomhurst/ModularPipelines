@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "group", "static-member", "delete")]
-public record AzNetworkManagerGroupStaticMemberDeleteOptions(
-[property: CommandSwitch("--network-group")] string NetworkGroup,
-[property: CommandSwitch("--network-manager")] string NetworkManager,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkManagerGroupStaticMemberDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--network-group")]
+    public string? NetworkGroup { get; set; }
+
+    [CommandSwitch("--network-manager")]
+    public string? NetworkManager { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

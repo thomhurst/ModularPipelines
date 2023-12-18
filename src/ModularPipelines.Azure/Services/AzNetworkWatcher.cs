@@ -41,9 +41,9 @@ public class AzNetworkWatcher
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzNetworkWatcherListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkWatcherListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherListOptions(), token);
     }
 
     public async Task<CommandResult> RunConfigurationDiagnostic(AzNetworkWatcherRunConfigurationDiagnosticOptions options, CancellationToken token = default)
@@ -61,9 +61,9 @@ public class AzNetworkWatcher
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ShowTopology(AzNetworkWatcherShowTopologyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowTopology(AzNetworkWatcherShowTopologyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowTopologyOptions(), token);
     }
 
     public async Task<CommandResult> TestConnectivity(AzNetworkWatcherTestConnectivityOptions options, CancellationToken token = default)

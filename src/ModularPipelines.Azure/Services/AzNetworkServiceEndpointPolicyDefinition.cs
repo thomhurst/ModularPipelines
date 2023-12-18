@@ -25,9 +25,9 @@ public class AzNetworkServiceEndpointPolicyDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkServiceEndpointPolicyDefinitionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkServiceEndpointPolicyDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDefinitionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkServiceEndpointPolicyDefinitionListOptions options, CancellationToken token = default)

@@ -14,15 +14,4 @@ public record AzSigGalleryApplicationVersionListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
-    public string? Expand { get; set; }
-
-    [CommandSwitch("--gallery-application-version-name")]
-    public string? GalleryApplicationVersionName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

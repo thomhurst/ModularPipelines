@@ -12,9 +12,4 @@ public record AzSecurityAlertsSuppressionRuleDeleteOptions(
 [property: CommandSwitch("--rule-name")] string RuleName
 ) : AzOptions
 {
-    [CommandSwitch("--comment")]
-    public string? Comment { get; set; }
-
-    [CommandSwitch("--expiration-date-utc")]
-    public string? ExpirationDateUtc { get; set; }
 }

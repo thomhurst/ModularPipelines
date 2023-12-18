@@ -20,14 +20,14 @@ public class AzAmsAccountStorage
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Add(AzAmsAccountStorageAddOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Add(AzAmsAccountStorageAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountStorageAddOptions(), token);
     }
 
-    public async Task<CommandResult> Remove(AzAmsAccountStorageRemoveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Remove(AzAmsAccountStorageRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountStorageRemoveOptions(), token);
     }
 
     public async Task<CommandResult> SetAuthentication(AzAmsAccountStorageSetAuthenticationOptions options, CancellationToken token = default)

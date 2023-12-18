@@ -25,9 +25,9 @@ public class AzMysqlFlexibleServerFirewallRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMysqlFlexibleServerFirewallRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMysqlFlexibleServerFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerFirewallRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerFirewallRuleListOptions options, CancellationToken token = default)

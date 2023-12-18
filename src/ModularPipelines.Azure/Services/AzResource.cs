@@ -32,9 +32,9 @@ public class AzResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzResourceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzResourceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> InvokeAction(AzResourceInvokeActionOptions options, CancellationToken token = default)
@@ -42,9 +42,9 @@ public class AzResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzResourceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceListOptions(), token);
     }
 
     public async Task<CommandResult> Move(AzResourceMoveOptions options, CancellationToken token = default)
@@ -57,9 +57,9 @@ public class AzResource
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzResourceShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceShowOptions(), token);
     }
 
     public async Task<CommandResult> Tag(AzResourceTagOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzWebpubsubHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzWebpubsubHubDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWebpubsubHubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubHubDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzWebpubsubHubListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzWebpubsubHub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzWebpubsubHubShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzWebpubsubHubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubHubShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzWebpubsubHubUpdateOptions options, CancellationToken token = default)

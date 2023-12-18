@@ -25,9 +25,9 @@ public class AzDatafactoryLinkedService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatafactoryLinkedServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryLinkedServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryLinkedServiceListOptions options, CancellationToken token = default)

@@ -29,14 +29,14 @@ public class AzOrbitalSpacecraft
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzOrbitalSpacecraftDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzOrbitalSpacecraftDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzOrbitalSpacecraftListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzOrbitalSpacecraftListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftListOptions(), token);
     }
 
     public async Task<CommandResult> ListAvailableContact(AzOrbitalSpacecraftListAvailableContactOptions options, CancellationToken token = default)

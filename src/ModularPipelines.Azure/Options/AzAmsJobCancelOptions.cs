@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "job", "cancel")]
-public record AzAmsJobCancelOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--transform-name")] string TransformName
-) : AzOptions
+public record AzAmsJobCancelOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [BooleanCommandSwitch("--delete")]
     public bool? Delete { get; set; }
 
@@ -23,6 +22,12 @@ public record AzAmsJobCancelOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--transform-name")]
+    public string? TransformName { get; set; }
 }

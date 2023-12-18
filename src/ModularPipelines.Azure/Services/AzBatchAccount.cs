@@ -46,9 +46,9 @@ public class AzBatchAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzBatchAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBatchAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchAccountListOptions(), token);
     }
 
     public async Task<CommandResult> Login(AzBatchAccountLoginOptions options, CancellationToken token = default)

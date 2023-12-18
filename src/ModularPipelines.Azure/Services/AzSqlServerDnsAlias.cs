@@ -30,9 +30,9 @@ public class AzSqlServerDnsAlias
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlServerDnsAliasListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlServerDnsAliasListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerDnsAliasListOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzSqlServerDnsAliasSetOptions options, CancellationToken token = default)

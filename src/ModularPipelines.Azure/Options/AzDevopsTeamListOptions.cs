@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "team", "list")]
-public record AzDevopsTeamListOptions(
-[property: CommandSwitch("--team")] string Team
-) : AzOptions
+public record AzDevopsTeamListOptions : AzOptions
 {
     [BooleanCommandSwitch("--detect")]
     public bool? Detect { get; set; }

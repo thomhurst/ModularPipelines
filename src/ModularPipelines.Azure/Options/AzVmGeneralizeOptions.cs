@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "generalize")]
-public record AzVmGeneralizeOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzVmGeneralizeOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

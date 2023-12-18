@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("automanage", "configuration-profile", "version", "delete")]
-public record AzAutomanageConfigurationProfileVersionDeleteOptions(
-[property: CommandSwitch("--configuration-profile-name")] string ConfigurationProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAutomanageConfigurationProfileVersionDeleteOptions : AzOptions
 {
+    [CommandSwitch("--configuration-profile-name")]
+    public string? ConfigurationProfileName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("role", "assignment", "list")]
-public record AzRoleAssignmentListOptions(
-[property: CommandSwitch("--role-assignment")] string RoleAssignment
-) : AzOptions
+public record AzRoleAssignmentListOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }

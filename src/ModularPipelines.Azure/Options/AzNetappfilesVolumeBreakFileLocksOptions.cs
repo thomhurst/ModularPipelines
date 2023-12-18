@@ -8,24 +8,28 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "volume", "break-file-locks")]
-public record AzNetappfilesVolumeBreakFileLocksOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--usage-threshold")] string UsageThreshold,
-[property: CommandSwitch("--vnet")] string Vnet
-) : AzOptions
+public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--client-ip")]
     public string? ClientIp { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--pool-name")]
+    public string? PoolName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

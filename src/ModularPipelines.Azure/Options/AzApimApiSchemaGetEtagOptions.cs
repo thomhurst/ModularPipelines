@@ -15,12 +15,4 @@ public record AzApimApiSchemaGetEtagOptions(
 [property: CommandSwitch("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--filter-display-name")]
-    public string? FilterDisplayName { get; set; }
-
-    [CommandSwitch("--skip")]
-    public string? Skip { get; set; }
-
-    [CommandSwitch("--top")]
-    public string? Top { get; set; }
 }

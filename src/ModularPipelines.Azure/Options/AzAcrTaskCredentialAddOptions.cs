@@ -20,8 +20,8 @@ public record AzAcrTaskCredentialAddOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--use-identity")]
-    public string? UseIdentity { get; set; }
+    [BooleanCommandSwitch("--use-identity")]
+    public bool? UseIdentity { get; set; }
 
     [CommandSwitch("--username")]
     public string? Username { get; set; }

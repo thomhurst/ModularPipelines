@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "event-subscription", "list")]
-public record AzEventgridEventSubscriptionListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzEventgridEventSubscriptionListOptions : AzOptions
 {
     [CommandSwitch("--location")]
     public string? Location { get; set; }

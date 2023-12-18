@@ -30,14 +30,14 @@ public class AzNetworkWatcherFlowLog
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzNetworkWatcherFlowLogListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkWatcherFlowLogListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkWatcherFlowLogShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkWatcherFlowLogShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkWatcherFlowLogUpdateOptions options, CancellationToken token = default)

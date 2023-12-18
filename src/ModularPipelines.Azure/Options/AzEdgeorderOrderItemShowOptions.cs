@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "order-item", "show")]
-public record AzEdgeorderOrderItemShowOptions(
-[property: CommandSwitch("--order-item-name")] string OrderItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEdgeorderOrderItemShowOptions : AzOptions
 {
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }
@@ -21,6 +18,9 @@ public record AzEdgeorderOrderItemShowOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

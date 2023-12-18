@@ -15,9 +15,4 @@ public record AzSpringAppCustomDomainUnbindOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
-    public string? Certificate { get; set; }
-
-    [BooleanCommandSwitch("--enable-ingress-to-app-tls")]
-    public bool? EnableIngressToAppTls { get; set; }
 }

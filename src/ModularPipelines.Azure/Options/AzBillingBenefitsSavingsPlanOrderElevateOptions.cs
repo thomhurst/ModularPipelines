@@ -12,6 +12,4 @@ public record AzBillingBenefitsSavingsPlanOrderElevateOptions(
 [property: CommandSwitch("--savings-plan-order-id")] string SavingsPlanOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
-    public string? Expand { get; set; }
 }

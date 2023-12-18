@@ -34,9 +34,9 @@ public class AzSentinelThreatIndicator
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelThreatIndicatorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelThreatIndicatorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSentinelThreatIndicatorListOptions options, CancellationToken token = default)

@@ -20,9 +20,9 @@ public class AzSecuritySecureScoreControls
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzSecuritySecureScoreControlsListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecuritySecureScoreControlsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlsListOptions(), token);
     }
 
     public async Task<CommandResult> List_by_score(AzSecuritySecureScoreControlsList_by_scoreOptions options, CancellationToken token = default)

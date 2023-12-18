@@ -25,9 +25,9 @@ public class AzNetworkPrivateDnsLinkVnet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkPrivateDnsLinkVnetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkPrivateDnsLinkVnetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsLinkVnetDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkPrivateDnsLinkVnetListOptions options, CancellationToken token = default)

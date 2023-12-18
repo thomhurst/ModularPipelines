@@ -30,9 +30,9 @@ public class AzSqlMidbMove
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlMidbMoveListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlMidbMoveListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbMoveListOptions(), token);
     }
 
     public async Task<CommandResult> Start(AzSqlMidbMoveStartOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("site-recovery", "job", "export")]
-public record AzSiteRecoveryJobExportOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzSiteRecoveryJobExportOptions : AzOptions
 {
     [CommandSwitch("--affected-object-types")]
     public string? AffectedObjectTypes { get; set; }
@@ -37,6 +34,9 @@ public record AzSiteRecoveryJobExportOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--start-time")]
     public string? StartTime { get; set; }
 
@@ -45,4 +45,7 @@ public record AzSiteRecoveryJobExportOptions(
 
     [CommandSwitch("--timezone-offset")]
     public string? TimezoneOffset { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 }

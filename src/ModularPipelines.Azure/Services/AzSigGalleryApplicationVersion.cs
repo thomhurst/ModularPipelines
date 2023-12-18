@@ -25,9 +25,9 @@ public class AzSigGalleryApplicationVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSigGalleryApplicationVersionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSigGalleryApplicationVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSigGalleryApplicationVersionListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzSigGalleryApplicationVersion
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzSigGalleryApplicationVersionShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSigGalleryApplicationVersionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzSigGalleryApplicationVersionUpdateOptions options, CancellationToken token = default)

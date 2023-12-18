@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "show-shared")]
-public record AzSigShowSharedOptions(
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSigShowSharedOptions : AzOptions
 {
     [CommandSwitch("--gallery-unique-name")]
     public string? GalleryUniqueName { get; set; }

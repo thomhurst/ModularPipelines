@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "snapshot", "show")]
-public record AzNetappfilesSnapshotShowOptions(
-[property: CommandSwitch("--body")] string Body
-) : AzOptions
+public record AzNetappfilesSnapshotShowOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

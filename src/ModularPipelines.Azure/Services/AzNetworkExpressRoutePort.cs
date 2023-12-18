@@ -37,9 +37,9 @@ public class AzNetworkExpressRoutePort
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkExpressRoutePortDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkExpressRoutePortDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GenerateLoa(AzNetworkExpressRoutePortGenerateLoaOptions options, CancellationToken token = default)

@@ -33,9 +33,9 @@ public class AzAfdRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdRuleListOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzAfdEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdEndpointListOptions options, CancellationToken token = default)

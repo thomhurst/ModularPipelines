@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("functionapp", "config", "access-restriction", "remove")]
-public record AzFunctionappConfigAccessRestrictionRemoveOptions(
-[property: BooleanCommandSwitch("--use-same-restrictions-for-scm-site")] bool UseSameRestrictionsForScmSite
-) : AzOptions
+public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
 {
     [CommandSwitch("--action")]
     public string? Action { get; set; }

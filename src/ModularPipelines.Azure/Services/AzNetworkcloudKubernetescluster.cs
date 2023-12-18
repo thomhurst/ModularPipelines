@@ -29,14 +29,14 @@ public class AzNetworkcloudKubernetescluster
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkcloudKubernetesclusterDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkcloudKubernetesclusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkcloudKubernetesclusterListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkcloudKubernetesclusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterListOptions(), token);
     }
 
     public async Task<CommandResult> RestartNode(AzNetworkcloudKubernetesclusterRestartNodeOptions options, CancellationToken token = default)

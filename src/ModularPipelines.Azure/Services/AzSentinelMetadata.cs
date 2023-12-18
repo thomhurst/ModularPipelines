@@ -25,9 +25,9 @@ public class AzSentinelMetadata
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelMetadataDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelMetadataDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSentinelMetadataListOptions options, CancellationToken token = default)

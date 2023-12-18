@@ -29,9 +29,9 @@ public class AzRelayWcfrelayAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRelayWcfrelayAuthorizationRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRelayWcfrelayAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayAuthorizationRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzRelayWcfrelayAuthorizationRuleListOptions options, CancellationToken token = default)
@@ -39,9 +39,9 @@ public class AzRelayWcfrelayAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzRelayWcfrelayAuthorizationRuleShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzRelayWcfrelayAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayAuthorizationRuleShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzRelayWcfrelayAuthorizationRuleUpdateOptions options, CancellationToken token = default)

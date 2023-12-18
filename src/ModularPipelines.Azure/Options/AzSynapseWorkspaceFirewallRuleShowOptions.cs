@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "workspace", "firewall-rule", "show")]
-public record AzSynapseWorkspaceFirewallRuleShowOptions(
-[property: CommandSwitch("--rule-name")] string RuleName
-) : AzOptions
+public record AzSynapseWorkspaceFirewallRuleShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

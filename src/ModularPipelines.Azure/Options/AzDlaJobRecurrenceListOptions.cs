@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "job", "recurrence", "list")]
-public record AzDlaJobRecurrenceListOptions(
-[property: CommandSwitch("--recurrence-identity")] string RecurrenceIdentity
-) : AzOptions
+public record AzDlaJobRecurrenceListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

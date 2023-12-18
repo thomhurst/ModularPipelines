@@ -25,9 +25,9 @@ public class AzDatafactoryManagedPrivateEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatafactoryManagedPrivateEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryManagedPrivateEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryManagedPrivateEndpointListOptions options, CancellationToken token = default)

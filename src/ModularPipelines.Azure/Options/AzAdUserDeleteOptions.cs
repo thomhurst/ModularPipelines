@@ -12,6 +12,4 @@ public record AzAdUserDeleteOptions(
 [property: CommandSwitch("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--security-enabled-only")]
-    public bool? SecurityEnabledOnly { get; set; }
 }

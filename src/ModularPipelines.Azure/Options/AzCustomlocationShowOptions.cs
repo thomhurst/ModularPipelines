@@ -13,12 +13,4 @@ public record AzCustomlocationShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
-    public string? AssignIdentity { get; set; }
-
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

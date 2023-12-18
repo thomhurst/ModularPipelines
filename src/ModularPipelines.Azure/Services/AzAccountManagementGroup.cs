@@ -51,9 +51,9 @@ public class AzAccountManagementGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAccountManagementGroupListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAccountManagementGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAccountManagementGroupShowOptions options, CancellationToken token = default)

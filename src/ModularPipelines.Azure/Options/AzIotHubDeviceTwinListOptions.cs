@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "device-twin", "list")]
-public record AzIotHubDeviceTwinListOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--json")] string Json
-) : AzOptions
+public record AzIotHubDeviceTwinListOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }

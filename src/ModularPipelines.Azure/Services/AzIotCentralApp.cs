@@ -42,9 +42,9 @@ public class AzIotCentralApp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotCentralAppListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotCentralAppListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzIotCentralAppShowOptions options, CancellationToken token = default)

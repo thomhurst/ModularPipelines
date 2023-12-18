@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "front-door", "list")]
-public record AzNetworkFrontDoorListOptions(
-[property: CommandSwitch("--content-paths")] string ContentPaths
-) : AzOptions
+public record AzNetworkFrontDoorListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

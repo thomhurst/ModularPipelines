@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "secure-scores", "list")]
-public record AzSecuritySecureScoresListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecuritySecureScoresListOptions : AzOptions
 {
 }

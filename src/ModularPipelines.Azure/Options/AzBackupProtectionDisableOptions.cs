@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "protection", "disable")]
-public record AzBackupProtectionDisableOptions(
-[property: CommandSwitch("--azure-file-share")] string AzureFileShare,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzBackupProtectionDisableOptions : AzOptions
 {
     [CommandSwitch("--backup-management-type")]
     public string? BackupManagementType { get; set; }
@@ -31,6 +25,9 @@ public record AzBackupProtectionDisableOptions(
     [CommandSwitch("--item-name")]
     public string? ItemName { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [BooleanCommandSwitch("--retain-as-per-policy")]
     public bool? RetainAsPerPolicy { get; set; }
 
@@ -39,6 +36,9 @@ public record AzBackupProtectionDisableOptions(
 
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }

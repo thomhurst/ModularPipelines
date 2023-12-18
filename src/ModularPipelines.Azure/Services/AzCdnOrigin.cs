@@ -25,9 +25,9 @@ public class AzCdnOrigin
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCdnOriginDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCdnOriginDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCdnOriginListOptions options, CancellationToken token = default)

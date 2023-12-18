@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "addon", "srm", "show")]
-public record AzVmwareAddonSrmShowOptions(
-[property: CommandSwitch("--license-key")] string LicenseKey
-) : AzOptions
+public record AzVmwareAddonSrmShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -29,19 +29,19 @@ public class AzMapsAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMapsAccountDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMapsAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzMapsAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMapsAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzMapsAccountShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMapsAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzMapsAccountUpdateOptions options, CancellationToken token = default)

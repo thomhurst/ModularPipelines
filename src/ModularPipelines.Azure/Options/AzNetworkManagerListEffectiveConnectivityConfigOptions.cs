@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "manager", "list-effective-connectivity-config")]
-public record AzNetworkManagerListEffectiveConnectivityConfigOptions(
-[property: CommandSwitch("--commit-type")] string CommitType,
-[property: CommandSwitch("--target-locations")] string TargetLocations
-) : AzOptions
+public record AzNetworkManagerListEffectiveConnectivityConfigOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

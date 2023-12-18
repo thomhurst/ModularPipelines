@@ -25,9 +25,9 @@ public class AzNetworkFirewallIpConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkFirewallIpConfigDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkFirewallIpConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallIpConfigListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vnet", "delete")]
-public record AzNetworkVnetDeleteOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzNetworkVnetDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

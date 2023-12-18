@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "service", "list")]
-public record AzMlServiceListOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzMlServiceListOptions : AzOptions
 {
     [CommandSwitch("--compute-type")]
     public string? ComputeType { get; set; }

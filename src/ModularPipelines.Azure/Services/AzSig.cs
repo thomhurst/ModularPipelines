@@ -48,19 +48,19 @@ public class AzSig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSigDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzSigListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSigListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigListOptions(), token);
     }
 
-    public async Task<CommandResult> ListCommunity(AzSigListCommunityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCommunity(AzSigListCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigListCommunityOptions(), token);
     }
 
     public async Task<CommandResult> ListShared(AzSigListSharedOptions options, CancellationToken token = default)
@@ -68,19 +68,19 @@ public class AzSig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzSigShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShowOptions(), token);
     }
 
-    public async Task<CommandResult> ShowCommunity(AzSigShowCommunityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowCommunity(AzSigShowCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShowCommunityOptions(), token);
     }
 
-    public async Task<CommandResult> ShowShared(AzSigShowSharedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowShared(AzSigShowSharedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShowSharedOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzSigUpdateOptions options, CancellationToken token = default)

@@ -13,9 +13,4 @@ public record AzSynapseLinkConnectionDeleteOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
-    public string? ContinuationToken { get; set; }
-
-    [CommandSwitch("--max-segment-count")]
-    public int? MaxSegmentCount { get; set; }
 }

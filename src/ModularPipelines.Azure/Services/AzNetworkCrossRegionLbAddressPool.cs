@@ -29,9 +29,9 @@ public class AzNetworkCrossRegionLbAddressPool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkCrossRegionLbAddressPoolDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkCrossRegionLbAddressPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkCrossRegionLbAddressPoolListOptions options, CancellationToken token = default)

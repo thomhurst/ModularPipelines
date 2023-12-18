@@ -28,9 +28,9 @@ public class AzStorageAccountMigration
 
     public AzStorageAccountMigrationStart StartCommands { get; }
 
-    public async Task<CommandResult> Show(AzStorageAccountMigrationShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzStorageAccountMigrationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountMigrationShowOptions(), token);
     }
 
     public async Task<CommandResult> Start(AzStorageAccountMigrationStartOptions options, CancellationToken token = default)

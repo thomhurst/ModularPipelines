@@ -20,9 +20,9 @@ public class AzCosmosdbLocations
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzCosmosdbLocationsListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzCosmosdbLocationsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbLocationsListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbLocationsShowOptions options, CancellationToken token = default)

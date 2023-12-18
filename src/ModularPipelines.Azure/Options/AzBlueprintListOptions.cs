@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("blueprint", "list")]
-public record AzBlueprintListOptions(
-[property: CommandSwitch("--blueprint-name")] string BlueprintName,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzBlueprintListOptions : AzOptions
 {
     [CommandSwitch("--management-group")]
     public string? ManagementGroup { get; set; }

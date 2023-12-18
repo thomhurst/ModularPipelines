@@ -25,19 +25,19 @@ public class AzPostgresServerVnetRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPostgresServerVnetRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPostgresServerVnetRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzPostgresServerVnetRuleListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPostgresServerVnetRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzPostgresServerVnetRuleShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzPostgresServerVnetRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzPostgresServerVnetRuleUpdateOptions options, CancellationToken token = default)

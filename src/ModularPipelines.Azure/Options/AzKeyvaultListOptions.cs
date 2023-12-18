@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "list")]
-public record AzKeyvaultListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzKeyvaultListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

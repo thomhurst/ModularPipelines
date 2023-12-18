@@ -20,14 +20,14 @@ public class AzAmsJob
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Cancel(AzAmsJobCancelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cancel(AzAmsJobCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobCancelOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsJobDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsJobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsJobListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzAmsJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzAmsJobShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzAmsJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobShowOptions(), token);
     }
 
     public async Task<CommandResult> Start(AzAmsJobStartOptions options, CancellationToken token = default)

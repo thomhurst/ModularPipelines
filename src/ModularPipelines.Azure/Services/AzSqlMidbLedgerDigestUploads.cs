@@ -20,9 +20,9 @@ public class AzSqlMidbLedgerDigestUploads
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Disable(AzSqlMidbLedgerDigestUploadsDisableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Disable(AzSqlMidbLedgerDigestUploadsDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsDisableOptions(), token);
     }
 
     public async Task<CommandResult> Enable(AzSqlMidbLedgerDigestUploadsEnableOptions options, CancellationToken token = default)

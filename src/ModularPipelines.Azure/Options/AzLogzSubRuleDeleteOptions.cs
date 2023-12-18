@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("logz", "sub-rule", "delete")]
-public record AzLogzSubRuleDeleteOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sub-account-name")] int SubAccountName
-) : AzOptions
+public record AzLogzSubRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--monitor-name")]
+    public string? MonitorName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--rule-set-name")]
     public string? RuleSetName { get; set; }
+
+    [CommandSwitch("--sub-account-name")]
+    public int? SubAccountName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

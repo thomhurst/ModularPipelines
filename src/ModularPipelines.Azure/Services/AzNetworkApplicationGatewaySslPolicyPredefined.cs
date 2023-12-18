@@ -20,9 +20,9 @@ public class AzNetworkApplicationGatewaySslPolicyPredefined
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzNetworkApplicationGatewaySslPolicyPredefinedListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkApplicationGatewaySslPolicyPredefinedListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySslPolicyPredefinedListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions options, CancellationToken token = default)

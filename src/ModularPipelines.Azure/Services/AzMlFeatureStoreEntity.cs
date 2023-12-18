@@ -25,14 +25,14 @@ public class AzMlFeatureStoreEntity
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzMlFeatureStoreEntityCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMlFeatureStoreEntityCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureStoreEntityCreateOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzMlFeatureStoreEntityListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlFeatureStoreEntityListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureStoreEntityListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzMlFeatureStoreEntityRestoreOptions options, CancellationToken token = default)

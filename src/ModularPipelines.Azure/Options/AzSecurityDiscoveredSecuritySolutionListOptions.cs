@@ -8,9 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "discovered-security-solution", "list")]
-public record AzSecurityDiscoveredSecuritySolutionListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSecurityDiscoveredSecuritySolutionListOptions : AzOptions
 {
 }

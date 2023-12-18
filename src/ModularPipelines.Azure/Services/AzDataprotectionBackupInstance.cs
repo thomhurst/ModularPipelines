@@ -38,9 +38,9 @@ public class AzDataprotectionBackupInstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDataprotectionBackupInstanceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDataprotectionBackupInstanceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Initialize(AzDataprotectionBackupInstanceInitializeOptions options, CancellationToken token = default)
@@ -68,29 +68,29 @@ public class AzDataprotectionBackupInstance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ResumeProtection(AzDataprotectionBackupInstanceResumeProtectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResumeProtection(AzDataprotectionBackupInstanceResumeProtectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceResumeProtectionOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzDataprotectionBackupInstanceShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzDataprotectionBackupInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceShowOptions(), token);
     }
 
-    public async Task<CommandResult> StopProtection(AzDataprotectionBackupInstanceStopProtectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopProtection(AzDataprotectionBackupInstanceStopProtectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceStopProtectionOptions(), token);
     }
 
-    public async Task<CommandResult> SuspendBackup(AzDataprotectionBackupInstanceSuspendBackupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SuspendBackup(AzDataprotectionBackupInstanceSuspendBackupOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceSuspendBackupOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzDataprotectionBackupInstanceUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzDataprotectionBackupInstanceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceUpdateOptions(), token);
     }
 
     public async Task<CommandResult> UpdateMsiPermissions(AzDataprotectionBackupInstanceUpdateMsiPermissionsOptions options, CancellationToken token = default)

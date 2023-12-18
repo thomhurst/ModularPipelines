@@ -20,9 +20,9 @@ public class AzPurviewAccount
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddRootCollectionAdmin(AzPurviewAccountAddRootCollectionAdminOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddRootCollectionAdmin(AzPurviewAccountAddRootCollectionAdminOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountAddRootCollectionAdminOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzPurviewAccountCreateOptions options, CancellationToken token = default)
@@ -30,14 +30,14 @@ public class AzPurviewAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPurviewAccountDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPurviewAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzPurviewAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPurviewAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountListOptions(), token);
     }
 
     public async Task<CommandResult> ListKey(AzPurviewAccountListKeyOptions options, CancellationToken token = default)

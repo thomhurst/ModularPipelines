@@ -14,24 +14,4 @@ public record AzSqlInstanceFailoverGroupShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [CommandSwitch("--failover-policy")]
-    public string? FailoverPolicy { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [CommandSwitch("--grace-period")]
-    public string? GracePeriod { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--secondary-type")]
-    public string? SecondaryType { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

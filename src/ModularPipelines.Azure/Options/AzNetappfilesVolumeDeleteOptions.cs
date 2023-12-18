@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "volume", "delete")]
-public record AzNetappfilesVolumeDeleteOptions(
-[property: CommandSwitch("--username")] string Username
-) : AzOptions
+public record AzNetappfilesVolumeDeleteOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

@@ -25,9 +25,9 @@ public class AzRestorePointCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRestorePointCollectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRestorePointCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzRestorePointCollectionListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzRestorePointCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListAll(AzRestorePointCollectionListAllOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAll(AzRestorePointCollectionListAllOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionListAllOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzRestorePointCollectionShowOptions options, CancellationToken token = default)

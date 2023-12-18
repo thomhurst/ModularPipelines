@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("tag", "delete")]
-public record AzTagDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
-) : AzOptions
+public record AzTagDeleteOptions : AzOptions
 {
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--resource-id")]
     public string? ResourceId { get; set; }
 

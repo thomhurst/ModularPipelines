@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "vnet-rule", "list")]
-public record AzSqlServerVnetRuleListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSqlServerVnetRuleListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

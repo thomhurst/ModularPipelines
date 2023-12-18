@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "list-community")]
-public record AzSigListCommunityOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSigListCommunityOptions : AzOptions
 {
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
+
     [CommandSwitch("--marker")]
     public string? Marker { get; set; }
 

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "namespace", "delete")]
-public record AzEventgridNamespaceDeleteOptions(
-[property: CommandSwitch("--key-name")] string KeyName
-) : AzOptions
+public record AzEventgridNamespaceDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

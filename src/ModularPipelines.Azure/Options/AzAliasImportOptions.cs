@@ -12,6 +12,4 @@ public record AzAliasImportOptions(
 [property: CommandSwitch("--source")] string Source
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

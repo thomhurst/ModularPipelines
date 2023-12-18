@@ -25,9 +25,9 @@ public class AzSynapseKustoAttachedDatabaseConfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSynapseKustoAttachedDatabaseConfigurationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSynapseKustoAttachedDatabaseConfigurationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoAttachedDatabaseConfigurationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSynapseKustoAttachedDatabaseConfigurationListOptions options, CancellationToken token = default)

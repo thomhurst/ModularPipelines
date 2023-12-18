@@ -20,9 +20,9 @@ public class AzKeyvaultSetting
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzKeyvaultSettingListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzKeyvaultSettingListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSettingListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzKeyvaultSettingShowOptions options, CancellationToken token = default)

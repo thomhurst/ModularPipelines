@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "exemption", "list")]
-public record AzPolicyExemptionListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPolicyExemptionListOptions : AzOptions
 {
     [BooleanCommandSwitch("--disable-scope-strict-match")]
     public bool? DisableScopeStrictMatch { get; set; }

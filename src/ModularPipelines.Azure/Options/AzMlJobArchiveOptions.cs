@@ -14,9 +14,4 @@ public record AzMlJobArchiveOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--node-index")]
-    public string? NodeIndex { get; set; }
-
-    [CommandSwitch("--private-key-file-path")]
-    public string? PrivateKeyFilePath { get; set; }
 }

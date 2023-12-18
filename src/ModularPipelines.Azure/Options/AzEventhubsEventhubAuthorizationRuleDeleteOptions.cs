@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventhubs", "eventhub", "authorization-rule", "delete")]
-public record AzEventhubsEventhubAuthorizationRuleDeleteOptions(
-[property: CommandSwitch("--eventhub-name")] string EventhubName,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEventhubsEventhubAuthorizationRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--authorization-rule-name")]
     public string? AuthorizationRuleName { get; set; }
 
+    [CommandSwitch("--eventhub-name")]
+    public string? EventhubName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

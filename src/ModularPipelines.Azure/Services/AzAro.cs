@@ -39,9 +39,9 @@ public class AzAro
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAroListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAroListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAroListOptions(), token);
     }
 
     public async Task<CommandResult> ListCredentials(AzAroListCredentialsOptions options, CancellationToken token = default)

@@ -25,9 +25,9 @@ public class AzFootprintMeasurementEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzFootprintMeasurementEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzFootprintMeasurementEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzFootprintMeasurementEndpointListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzFootprintMeasurementEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzFootprintMeasurementEndpointShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzFootprintMeasurementEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzFootprintMeasurementEndpointUpdateOptions options, CancellationToken token = default)

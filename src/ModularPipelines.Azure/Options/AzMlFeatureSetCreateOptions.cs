@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "feature-set", "create")]
-public record AzMlFeatureSetCreateOptions(
-[property: CommandSwitch("--feature-name")] string FeatureName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlFeatureSetCreateOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }
@@ -26,6 +22,9 @@ public record AzMlFeatureSetCreateOptions(
     [CommandSwitch("--materialization-settings")]
     public string? MaterializationSettings { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
@@ -37,4 +36,7 @@ public record AzMlFeatureSetCreateOptions(
 
     [CommandSwitch("--specification")]
     public string? Specification { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 }

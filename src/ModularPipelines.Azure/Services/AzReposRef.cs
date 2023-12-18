@@ -30,9 +30,9 @@ public class AzReposRef
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzReposRefListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzReposRefListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReposRefListOptions(), token);
     }
 
     public async Task<CommandResult> Lock(AzReposRefLockOptions options, CancellationToken token = default)

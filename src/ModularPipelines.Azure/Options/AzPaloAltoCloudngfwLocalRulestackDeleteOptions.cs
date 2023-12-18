@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "delete")]
-public record AzPaloAltoCloudngfwLocalRulestackDeleteOptions(
-[property: CommandSwitch("--type")] string Type
-) : AzOptions
+public record AzPaloAltoCloudngfwLocalRulestackDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

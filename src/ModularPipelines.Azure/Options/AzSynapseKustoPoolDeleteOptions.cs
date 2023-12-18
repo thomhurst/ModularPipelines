@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "kusto", "pool", "delete")]
-public record AzSynapseKustoPoolDeleteOptions(
-[property: CommandSwitch("--adcn")] string Adcn,
-[property: CommandSwitch("--kusto-pool-resource-id")] string KustoPoolResourceId
-) : AzOptions
+public record AzSynapseKustoPoolDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maps", "account", "list")]
-public record AzMapsAccountListOptions(
-[property: CommandSwitch("--sku")] string Sku
-) : AzOptions
+public record AzMapsAccountListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

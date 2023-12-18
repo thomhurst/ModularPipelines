@@ -29,9 +29,9 @@ public class AzContainerappRevision
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Copy(AzContainerappRevisionCopyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Copy(AzContainerappRevisionCopyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappRevisionCopyOptions(), token);
     }
 
     public async Task<CommandResult> Deactivate(AzContainerappRevisionDeactivateOptions options, CancellationToken token = default)

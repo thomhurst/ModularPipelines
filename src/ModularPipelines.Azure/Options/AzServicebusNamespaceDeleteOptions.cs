@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "namespace", "delete")]
-public record AzServicebusNamespaceDeleteOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzServicebusNamespaceDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }

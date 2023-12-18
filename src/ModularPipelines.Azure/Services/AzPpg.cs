@@ -24,19 +24,19 @@ public class AzPpg
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzPpgDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzPpgDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPpgDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzPpgListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPpgListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPpgListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzPpgShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzPpgShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPpgShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzPpgUpdateOptions options, CancellationToken token = default)

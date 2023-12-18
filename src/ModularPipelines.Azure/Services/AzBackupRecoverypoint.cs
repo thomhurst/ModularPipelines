@@ -30,9 +30,9 @@ public class AzBackupRecoverypoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzBackupRecoverypointShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzBackupRecoverypointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointShowOptions(), token);
     }
 
     public async Task<CommandResult> ShowLogChain(AzBackupRecoverypointShowLogChainOptions options, CancellationToken token = default)

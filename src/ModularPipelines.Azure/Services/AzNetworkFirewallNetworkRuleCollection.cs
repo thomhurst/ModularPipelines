@@ -20,9 +20,9 @@ public class AzNetworkFirewallNetworkRuleCollection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Delete(AzNetworkFirewallNetworkRuleCollectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkFirewallNetworkRuleCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleCollectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallNetworkRuleCollectionListOptions options, CancellationToken token = default)

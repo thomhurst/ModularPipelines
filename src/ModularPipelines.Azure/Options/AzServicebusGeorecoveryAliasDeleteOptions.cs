@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "georecovery-alias", "delete")]
-public record AzServicebusGeorecoveryAliasDeleteOptions(
-[property: CommandSwitch("--alias")] string Alias
-) : AzOptions
+public record AzServicebusGeorecoveryAliasDeleteOptions : AzOptions
 {
+    [CommandSwitch("--alias")]
+    public string? Alias { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

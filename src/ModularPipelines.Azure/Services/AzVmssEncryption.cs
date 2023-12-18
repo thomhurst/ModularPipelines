@@ -20,9 +20,9 @@ public class AzVmssEncryption
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Disable(AzVmssEncryptionDisableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Disable(AzVmssEncryptionDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssEncryptionDisableOptions(), token);
     }
 
     public async Task<CommandResult> Enable(AzVmssEncryptionEnableOptions options, CancellationToken token = default)

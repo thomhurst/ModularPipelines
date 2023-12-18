@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "diagnostics", "get-default-config")]
-public record AzVmDiagnosticsGetDefaultConfigOptions(
-[property: CommandSwitch("--settings")] string Settings
-) : AzOptions
+public record AzVmDiagnosticsGetDefaultConfigOptions : AzOptions
 {
     [BooleanCommandSwitch("--is-windows-os")]
     public bool? IsWindowsOs { get; set; }

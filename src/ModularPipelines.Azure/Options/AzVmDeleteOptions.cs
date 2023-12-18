@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "delete")]
-public record AzVmDeleteOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzVmDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--force-deletion")]
     public bool? ForceDeletion { get; set; }

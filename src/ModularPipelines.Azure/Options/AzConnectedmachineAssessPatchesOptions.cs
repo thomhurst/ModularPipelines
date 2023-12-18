@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connectedmachine", "assess-patches")]
-public record AzConnectedmachineAssessPatchesOptions(
-[property: CommandSwitch("--maximum-duration")] string MaximumDuration,
-[property: CommandSwitch("--reboot-setting")] string RebootSetting
-) : AzOptions
+public record AzConnectedmachineAssessPatchesOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

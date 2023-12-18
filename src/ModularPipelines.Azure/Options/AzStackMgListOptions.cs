@@ -12,9 +12,4 @@ public record AzStackMgListOptions(
 [property: CommandSwitch("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--id")]
-    public string? Id { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

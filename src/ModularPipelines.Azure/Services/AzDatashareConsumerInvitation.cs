@@ -20,9 +20,9 @@ public class AzDatashareConsumerInvitation
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ListInvitation(AzDatashareConsumerInvitationListInvitationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListInvitation(AzDatashareConsumerInvitationListInvitationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareConsumerInvitationListInvitationOptions(), token);
     }
 
     public async Task<CommandResult> RejectInvitation(AzDatashareConsumerInvitationRejectInvitationOptions options, CancellationToken token = default)

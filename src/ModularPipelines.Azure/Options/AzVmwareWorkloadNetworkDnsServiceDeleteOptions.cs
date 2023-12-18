@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "workload-network", "dns-service", "delete")]
-public record AzVmwareWorkloadNetworkDnsServiceDeleteOptions(
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmwareWorkloadNetworkDnsServiceDeleteOptions : AzOptions
 {
     [CommandSwitch("--dns-service")]
     public string? DnsService { get; set; }
@@ -21,6 +18,12 @@ public record AzVmwareWorkloadNetworkDnsServiceDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--private-cloud")]
+    public string? PrivateCloud { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

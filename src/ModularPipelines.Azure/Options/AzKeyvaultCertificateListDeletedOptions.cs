@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "certificate", "list-deleted")]
-public record AzKeyvaultCertificateListDeletedOptions(
-[property: CommandSwitch("--file")] string File
-) : AzOptions
+public record AzKeyvaultCertificateListDeletedOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }

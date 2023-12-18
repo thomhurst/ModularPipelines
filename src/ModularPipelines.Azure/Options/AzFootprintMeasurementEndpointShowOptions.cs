@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("footprint", "measurement-endpoint", "show")]
-public record AzFootprintMeasurementEndpointShowOptions(
-[property: CommandSwitch("--endpoint")] string Endpoint,
-[property: CommandSwitch("--measurement-type")] string MeasurementType,
-[property: CommandSwitch("--weight")] string Weight
-) : AzOptions
+public record AzFootprintMeasurementEndpointShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

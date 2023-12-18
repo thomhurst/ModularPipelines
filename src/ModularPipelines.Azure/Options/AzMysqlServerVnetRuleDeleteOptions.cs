@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "vnet-rule", "delete")]
-public record AzMysqlServerVnetRuleDeleteOptions(
-[property: CommandSwitch("--subnet")] string Subnet
-) : AzOptions
+public record AzMysqlServerVnetRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

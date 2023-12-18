@@ -20,9 +20,9 @@ public class AzWebappTrafficRouting
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Clear(AzWebappTrafficRoutingClearOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Clear(AzWebappTrafficRoutingClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingClearOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzWebappTrafficRoutingSetOptions options, CancellationToken token = default)

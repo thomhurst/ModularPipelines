@@ -65,9 +65,9 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmssDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmssDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssDeleteOptions(), token);
     }
 
     public async Task<CommandResult> DeleteInstances(AzVmssDeleteInstancesOptions options, CancellationToken token = default)
@@ -75,9 +75,9 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> GetInstanceView(AzVmssGetInstanceViewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetInstanceView(AzVmssGetInstanceViewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssGetInstanceViewOptions(), token);
     }
 
     public async Task<CommandResult> GetOsUpgradeHistory(AzVmssGetOsUpgradeHistoryOptions options, CancellationToken token = default)
@@ -85,19 +85,19 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzVmssListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzVmssListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssListOptions(), token);
     }
 
-    public async Task<CommandResult> ListInstanceConnectionInfo(AzVmssListInstanceConnectionInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListInstanceConnectionInfo(AzVmssListInstanceConnectionInfoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssListInstanceConnectionInfoOptions(), token);
     }
 
-    public async Task<CommandResult> ListInstancePublicIps(AzVmssListInstancePublicIpsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListInstancePublicIps(AzVmssListInstancePublicIpsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssListInstancePublicIpsOptions(), token);
     }
 
     public async Task<CommandResult> ListInstances(AzVmssListInstancesOptions options, CancellationToken token = default)
@@ -110,14 +110,14 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> PerformMaintenance(AzVmssPerformMaintenanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PerformMaintenance(AzVmssPerformMaintenanceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssPerformMaintenanceOptions(), token);
     }
 
-    public async Task<CommandResult> Reimage(AzVmssReimageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Reimage(AzVmssReimageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssReimageOptions(), token);
     }
 
     public async Task<CommandResult> Restart(AzVmssRestartOptions options, CancellationToken token = default)
@@ -140,9 +140,9 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> SimulateEviction(AzVmssSimulateEvictionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SimulateEviction(AzVmssSimulateEvictionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssSimulateEvictionOptions(), token);
     }
 
     public async Task<CommandResult> Start(AzVmssStartOptions options, CancellationToken token = default)
@@ -155,9 +155,9 @@ public class AzVmss
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Update(AzVmssUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzVmssUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssUpdateOptions(), token);
     }
 
     public async Task<CommandResult> UpdateInstances(AzVmssUpdateInstancesOptions options, CancellationToken token = default)

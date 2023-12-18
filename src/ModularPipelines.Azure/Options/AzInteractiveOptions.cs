@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("interactive")]
-public record AzInteractiveOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzInteractiveOptions : AzOptions
 {
     [CommandSwitch("--style")]
     public string? Style { get; set; }

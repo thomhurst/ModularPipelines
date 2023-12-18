@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vpn-connection", "list-ike-sas")]
-public record AzNetworkVpnConnectionListIkeSasOptions(
-[property: CommandSwitch("--device-family")] string DeviceFamily,
-[property: CommandSwitch("--firmware-version")] string FirmwareVersion,
-[property: CommandSwitch("--vendor")] string Vendor
-) : AzOptions
+public record AzNetworkVpnConnectionListIkeSasOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

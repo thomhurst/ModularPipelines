@@ -74,9 +74,9 @@ public class AzSqlDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSqlDbDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSqlDbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Export(AzSqlDbExportOptions options, CancellationToken token = default)
@@ -89,14 +89,14 @@ public class AzSqlDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlDbListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlDbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeleted(AzSqlDbListDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeleted(AzSqlDbListDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbListDeletedOptions(), token);
     }
 
     public async Task<CommandResult> ListEditions(AzSqlDbListEditionsOptions options, CancellationToken token = default)
@@ -104,9 +104,9 @@ public class AzSqlDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListUsages(AzSqlDbListUsagesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListUsages(AzSqlDbListUsagesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbListUsagesOptions(), token);
     }
 
     public async Task<CommandResult> Rename(AzSqlDbRenameOptions options, CancellationToken token = default)
@@ -119,9 +119,9 @@ public class AzSqlDb
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzSqlDbShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzSqlDbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbShowOptions(), token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzSqlDbShowConnectionStringOptions options, CancellationToken token = default)

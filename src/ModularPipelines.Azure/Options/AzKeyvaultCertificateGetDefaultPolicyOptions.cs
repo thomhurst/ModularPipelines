@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "certificate", "get-default-policy")]
-public record AzKeyvaultCertificateGetDefaultPolicyOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultCertificateGetDefaultPolicyOptions : AzOptions
 {
     [BooleanCommandSwitch("--scaffold")]
     public bool? Scaffold { get; set; }

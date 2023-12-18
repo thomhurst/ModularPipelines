@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource-mover", "move-collection", "initiate-move")]
-public record AzResourceMoverMoveCollectionInitiateMoveOptions(
-[property: CommandSwitch("--source-id")] string SourceId
-) : AzOptions
+public record AzResourceMoverMoveCollectionInitiateMoveOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

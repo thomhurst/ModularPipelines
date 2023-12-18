@@ -20,14 +20,14 @@ public class AzMonitorPrivateLinkScopePrivateEndpointConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Approve(AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Approve(AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMonitorPrivateLinkScopePrivateEndpointConnectionListOptions options, CancellationToken token = default)

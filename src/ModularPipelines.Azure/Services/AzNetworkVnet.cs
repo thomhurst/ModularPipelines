@@ -42,19 +42,19 @@ public class AzNetworkVnet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVnetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVnetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkVnetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkVnetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetListOptions(), token);
     }
 
-    public async Task<CommandResult> ListAvailableIps(AzNetworkVnetListAvailableIpsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAvailableIps(AzNetworkVnetListAvailableIpsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetListAvailableIpsOptions(), token);
     }
 
     public async Task<CommandResult> ListEndpointServices(AzNetworkVnetListEndpointServicesOptions options, CancellationToken token = default)

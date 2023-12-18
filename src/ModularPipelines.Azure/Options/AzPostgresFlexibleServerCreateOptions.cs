@@ -8,17 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "create")]
-public record AzPostgresFlexibleServerCreateOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPostgresFlexibleServerCreateOptions : AzOptions
 {
     [CommandSwitch("--active-directory-auth")]
     public string? ActiveDirectoryAuth { get; set; }
 
     [CommandSwitch("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
+
+    [CommandSwitch("--admin-password")]
+    public string? AdminPassword { get; set; }
+
+    [CommandSwitch("--admin-user")]
+    public string? AdminUser { get; set; }
 
     [CommandSwitch("--backup-identity")]
     public string? BackupIdentity { get; set; }
@@ -46,6 +48,9 @@ public record AzPostgresFlexibleServerCreateOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--password-auth")]
     public string? PasswordAuth { get; set; }

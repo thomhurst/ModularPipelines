@@ -25,14 +25,14 @@ public class AzSiteRecoveryProtectedItem
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSiteRecoveryProtectedItemDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSiteRecoveryProtectedItemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> FailoverCommit(AzSiteRecoveryProtectedItemFailoverCommitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FailoverCommit(AzSiteRecoveryProtectedItemFailoverCommitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemFailoverCommitOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectedItemListOptions options, CancellationToken token = default)

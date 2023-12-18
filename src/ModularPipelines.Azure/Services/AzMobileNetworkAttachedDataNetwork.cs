@@ -25,9 +25,9 @@ public class AzMobileNetworkAttachedDataNetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMobileNetworkAttachedDataNetworkDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMobileNetworkAttachedDataNetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkAttachedDataNetworkDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMobileNetworkAttachedDataNetworkListOptions options, CancellationToken token = default)

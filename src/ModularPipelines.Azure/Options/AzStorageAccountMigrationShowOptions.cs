@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "migration", "show")]
-public record AzStorageAccountMigrationShowOptions(
-[property: CommandSwitch("--sku")] string Sku
-) : AzOptions
+public record AzStorageAccountMigrationShowOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

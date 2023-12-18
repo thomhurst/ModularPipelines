@@ -15,12 +15,4 @@ public record AzCosmosdbSqlContainerMergeOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--evenly-distribute")]
-    public bool? EvenlyDistribute { get; set; }
-
-    [CommandSwitch("--source-partition-info")]
-    public string? SourcePartitionInfo { get; set; }
-
-    [CommandSwitch("--target-partition-info")]
-    public string? TargetPartitionInfo { get; set; }
 }

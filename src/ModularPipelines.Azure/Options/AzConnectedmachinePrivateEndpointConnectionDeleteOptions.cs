@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connectedmachine", "private-endpoint-connection", "delete")]
-public record AzConnectedmachinePrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scope-name")] string ScopeName
-) : AzOptions
+public record AzConnectedmachinePrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -21,6 +18,12 @@ public record AzConnectedmachinePrivateEndpointConnectionDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--scope-name")]
+    public string? ScopeName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

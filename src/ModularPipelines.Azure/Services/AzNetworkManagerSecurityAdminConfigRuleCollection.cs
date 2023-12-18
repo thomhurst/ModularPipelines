@@ -29,9 +29,9 @@ public class AzNetworkManagerSecurityAdminConfigRuleCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkManagerSecurityAdminConfigRuleCollectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkManagerSecurityAdminConfigRuleCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerSecurityAdminConfigRuleCollectionListOptions options, CancellationToken token = default)
@@ -39,9 +39,9 @@ public class AzNetworkManagerSecurityAdminConfigRuleCollection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkManagerSecurityAdminConfigRuleCollectionUpdateOptions options, CancellationToken token = default)

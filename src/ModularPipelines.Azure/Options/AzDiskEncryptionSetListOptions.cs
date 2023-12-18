@@ -8,14 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("disk-encryption-set", "list")]
-public record AzDiskEncryptionSetListOptions(
-[property: CommandSwitch("--disk-encryption-set-name")] string DiskEncryptionSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDiskEncryptionSetListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }
 
     [CommandSwitch("--next-token")]
     public string? NextToken { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

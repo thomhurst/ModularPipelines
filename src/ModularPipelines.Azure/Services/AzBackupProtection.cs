@@ -30,19 +30,19 @@ public class AzBackupProtection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> BackupNow(AzBackupProtectionBackupNowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BackupNow(AzBackupProtectionBackupNowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionBackupNowOptions(), token);
     }
 
-    public async Task<CommandResult> CheckVm(AzBackupProtectionCheckVmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckVm(AzBackupProtectionCheckVmOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionCheckVmOptions(), token);
     }
 
-    public async Task<CommandResult> Disable(AzBackupProtectionDisableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Disable(AzBackupProtectionDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupProtectionDisableOptions(), token);
     }
 
     public async Task<CommandResult> EnableForAzurefileshare(AzBackupProtectionEnableForAzurefileshareOptions options, CancellationToken token = default)

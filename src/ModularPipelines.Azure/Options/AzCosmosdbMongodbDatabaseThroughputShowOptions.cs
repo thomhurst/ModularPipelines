@@ -14,9 +14,4 @@ public record AzCosmosdbMongodbDatabaseThroughputShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-throughput")]
-    public string? MaxThroughput { get; set; }
-
-    [CommandSwitch("--throughput")]
-    public string? Throughput { get; set; }
 }

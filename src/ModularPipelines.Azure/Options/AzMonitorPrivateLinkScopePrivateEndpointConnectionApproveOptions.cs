@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "private-link-scope", "private-endpoint-connection", "approve")]
-public record AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scope-name")] string ScopeName
-) : AzOptions
+public record AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }
@@ -36,6 +33,12 @@ public record AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions(
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--scope-name")]
+    public string? ScopeName { get; set; }
 
     [CommandSwitch("--set")]
     public string? Set { get; set; }

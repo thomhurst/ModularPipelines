@@ -14,9 +14,4 @@ public record AzContainerappEnvWorkloadProfileShowOptions(
 [property: CommandSwitch("--workload-profile-name")] string WorkloadProfileName
 ) : AzOptions
 {
-    [CommandSwitch("--max-nodes")]
-    public string? MaxNodes { get; set; }
-
-    [CommandSwitch("--min-nodes")]
-    public string? MinNodes { get; set; }
 }

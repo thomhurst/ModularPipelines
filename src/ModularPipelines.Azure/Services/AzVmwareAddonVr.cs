@@ -25,14 +25,14 @@ public class AzVmwareAddonVr
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareAddonVrDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareAddonVrDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonVrDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzVmwareAddonVrShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzVmwareAddonVrShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonVrShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzVmwareAddonVrUpdateOptions options, CancellationToken token = default)

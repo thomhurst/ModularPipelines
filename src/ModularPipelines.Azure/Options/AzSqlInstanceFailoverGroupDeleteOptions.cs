@@ -14,6 +14,4 @@ public record AzSqlInstanceFailoverGroupDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-data-loss")]
-    public bool? AllowDataLoss { get; set; }
 }

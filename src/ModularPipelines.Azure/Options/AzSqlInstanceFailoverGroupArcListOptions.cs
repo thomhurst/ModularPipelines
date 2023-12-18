@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "instance-failover-group-arc", "list")]
-public record AzSqlInstanceFailoverGroupArcListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSqlInstanceFailoverGroupArcListOptions : AzOptions
 {
     [CommandSwitch("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
@@ -21,6 +19,6 @@ public record AzSqlInstanceFailoverGroupArcListOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

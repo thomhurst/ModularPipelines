@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("provider", "list")]
-public record AzProviderListOptions(
-[property: CommandSwitch("--namespace")] string Namespace
-) : AzOptions
+public record AzProviderListOptions : AzOptions
 {
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }

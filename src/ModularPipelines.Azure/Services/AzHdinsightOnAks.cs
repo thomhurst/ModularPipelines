@@ -27,9 +27,9 @@ public class AzHdinsightOnAks
 
     public AzHdinsightOnAksClusterpool Clusterpool { get; }
 
-    public async Task<CommandResult> CheckNameAvailability(AzHdinsightOnAksCheckNameAvailabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckNameAvailability(AzHdinsightOnAksCheckNameAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksCheckNameAvailabilityOptions(), token);
     }
 
     public async Task<CommandResult> ListAvailableClusterPoolVersion(AzHdinsightOnAksListAvailableClusterPoolVersionOptions options, CancellationToken token = default)

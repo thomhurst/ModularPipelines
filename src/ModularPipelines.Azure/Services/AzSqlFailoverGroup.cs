@@ -30,9 +30,9 @@ public class AzSqlFailoverGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlFailoverGroupListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlFailoverGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlFailoverGroupListOptions(), token);
     }
 
     public async Task<CommandResult> SetPrimary(AzSqlFailoverGroupSetPrimaryOptions options, CancellationToken token = default)

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "pipeline", "clone-draft")]
-public record AzMlPipelineCloneDraftOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline-yaml")] string PipelineYaml
-) : AzOptions
+public record AzMlPipelineCloneDraftOptions : AzOptions
 {
     [CommandSwitch("--experiment-name")]
     public string? ExperimentName { get; set; }

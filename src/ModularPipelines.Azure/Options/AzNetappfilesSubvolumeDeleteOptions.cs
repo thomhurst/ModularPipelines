@@ -8,24 +8,31 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "subvolume", "delete")]
-public record AzNetappfilesSubvolumeDeleteOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--volume-name")] string VolumeName
-) : AzOptions
+public record AzNetappfilesSubvolumeDeleteOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--pool-name")]
+    public string? PoolName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 
     [CommandSwitch("--subvolume-name")]
     public string? SubvolumeName { get; set; }
+
+    [CommandSwitch("--volume-name")]
+    public string? VolumeName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

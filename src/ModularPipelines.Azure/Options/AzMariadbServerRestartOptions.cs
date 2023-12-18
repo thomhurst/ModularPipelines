@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mariadb", "server", "restart")]
-public record AzMariadbServerRestartOptions(
-[property: CommandSwitch("--pitr-time")] string PitrTime,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzMariadbServerRestartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "express-route", "port", "delete")]
-public record AzNetworkExpressRoutePortDeleteOptions(
-[property: CommandSwitch("--customer-name")] string CustomerName
-) : AzOptions
+public record AzNetworkExpressRoutePortDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

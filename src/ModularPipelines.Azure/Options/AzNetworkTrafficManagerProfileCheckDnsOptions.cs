@@ -8,13 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "traffic-manager", "profile", "check-dns")]
-public record AzNetworkTrafficManagerProfileCheckDnsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--routing-method")] string RoutingMethod,
-[property: CommandSwitch("--unique-dns-name")] string UniqueDnsName
-) : AzOptions
+public record AzNetworkTrafficManagerProfileCheckDnsOptions : AzOptions
 {
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "server", "show-connection-string")]
-public record AzMysqlServerShowConnectionStringOptions(
-[property: CommandSwitch("--target-server-version")] string TargetServerVersion
-) : AzOptions
+public record AzMysqlServerShowConnectionStringOptions : AzOptions
 {
     [CommandSwitch("--admin-password")]
     public string? AdminPassword { get; set; }

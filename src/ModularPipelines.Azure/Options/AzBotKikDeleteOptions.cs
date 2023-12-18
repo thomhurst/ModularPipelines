@@ -13,6 +13,4 @@ public record AzBotKikDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--with-secrets")]
-    public bool? WithSecrets { get; set; }
 }

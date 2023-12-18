@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ams", "job", "show")]
-public record AzAmsJobShowOptions(
-[property: CommandSwitch("--output-assets")] string OutputAssets
-) : AzOptions
+public record AzAmsJobShowOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

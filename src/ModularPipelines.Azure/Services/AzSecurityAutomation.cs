@@ -30,9 +30,9 @@ public class AzSecurityAutomation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSecurityAutomationListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityAutomationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAutomationShowOptions options, CancellationToken token = default)

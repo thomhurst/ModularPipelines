@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "backup-policy", "tag", "create-generic-criteria")]
-public record AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy
-) : AzOptions
+public record AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions : AzOptions
 {
     [CommandSwitch("--days-of-month")]
     public string? DaysOfMonth { get; set; }

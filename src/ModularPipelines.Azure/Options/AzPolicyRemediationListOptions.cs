@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("policy", "remediation", "list")]
-public record AzPolicyRemediationListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzPolicyRemediationListOptions : AzOptions
 {
     [CommandSwitch("--management-group")]
     public string? ManagementGroup { get; set; }

@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("managedservices", "definition", "list")]
-public record AzManagedservicesDefinitionListOptions(
-[property: CommandSwitch("--definition")] string Definition
-) : AzOptions
+public record AzManagedservicesDefinitionListOptions : AzOptions
 {
 }

@@ -14,12 +14,4 @@ public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--fhir-destination-name")]
-    public string? FhirDestinationName { get; set; }
-
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

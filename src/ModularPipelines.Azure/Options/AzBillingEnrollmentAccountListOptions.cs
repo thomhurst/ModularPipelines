@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("billing", "enrollment-account", "list")]
-public record AzBillingEnrollmentAccountListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzBillingEnrollmentAccountListOptions : AzOptions
 {
 }

@@ -25,19 +25,19 @@ public class AzDatamigrationSqlService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatamigrationSqlServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatamigrationSqlServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlServiceDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> DeleteNode(AzDatamigrationSqlServiceDeleteNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteNode(AzDatamigrationSqlServiceDeleteNodeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlServiceDeleteNodeOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDatamigrationSqlServiceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDatamigrationSqlServiceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlServiceListOptions(), token);
     }
 
     public async Task<CommandResult> ListAuthKey(AzDatamigrationSqlServiceListAuthKeyOptions options, CancellationToken token = default)

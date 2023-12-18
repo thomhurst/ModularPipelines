@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "restart")]
-public record AzWebappRestartOptions(
-[property: CommandSwitch("--instance-count")] int InstanceCount
-) : AzOptions
+public record AzWebappRestartOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

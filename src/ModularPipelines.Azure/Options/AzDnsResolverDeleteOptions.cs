@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dns-resolver", "delete")]
-public record AzDnsResolverDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--virtual-network-name")] string VirtualNetworkName
-) : AzOptions
+public record AzDnsResolverDeleteOptions : AzOptions
 {
     [CommandSwitch("--dns-resolver-name")]
     public string? DnsResolverName { get; set; }
@@ -24,6 +21,9 @@ public record AzDnsResolverDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

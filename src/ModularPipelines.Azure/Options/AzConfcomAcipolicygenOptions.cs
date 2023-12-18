@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("confcom", "acipolicygen")]
-public record AzConfcomAcipolicygenOptions(
-[property: CommandSwitch("--yaml")] string Yaml
-) : AzOptions
+public record AzConfcomAcipolicygenOptions : AzOptions
 {
     [BooleanCommandSwitch("--approve-wildcards")]
     public bool? ApproveWildcards { get; set; }

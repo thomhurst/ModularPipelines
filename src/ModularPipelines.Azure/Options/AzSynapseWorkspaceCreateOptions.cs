@@ -77,6 +77,6 @@ public record AzSynapseWorkspaceCreateOptions(
     [CommandSwitch("--uami-id-in-encrypt")]
     public string? UamiIdInEncrypt { get; set; }
 
-    [CommandSwitch("--use-sami-in-encrypt")]
-    public string? UseSamiInEncrypt { get; set; }
+    [BooleanCommandSwitch("--use-sami-in-encrypt")]
+    public bool? UseSamiInEncrypt { get; set; }
 }

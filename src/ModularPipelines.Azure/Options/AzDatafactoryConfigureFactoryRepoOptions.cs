@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "configure-factory-repo")]
-public record AzDatafactoryConfigureFactoryRepoOptions(
-[property: CommandSwitch("--factory-name")] string FactoryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzDatafactoryConfigureFactoryRepoOptions : AzOptions
 {
     [CommandSwitch("--factory-git-hub-configuration")]
     public string? FactoryGitHubConfiguration { get; set; }

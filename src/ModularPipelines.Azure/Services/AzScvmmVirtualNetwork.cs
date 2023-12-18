@@ -25,24 +25,24 @@ public class AzScvmmVirtualNetwork
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzScvmmVirtualNetworkDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzScvmmVirtualNetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzScvmmVirtualNetworkListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzScvmmVirtualNetworkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzScvmmVirtualNetworkShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzScvmmVirtualNetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzScvmmVirtualNetworkUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzScvmmVirtualNetworkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmVirtualNetworkWaitOptions options, CancellationToken token = default)

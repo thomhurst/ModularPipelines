@@ -93,8 +93,8 @@ public record AzPostgresServerArcCreateOptions(
     [CommandSwitch("--storage-class-logs")]
     public string? StorageClassLogs { get; set; }
 
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 
     [CommandSwitch("--volume-size-backups")]
     public string? VolumeSizeBackups { get; set; }

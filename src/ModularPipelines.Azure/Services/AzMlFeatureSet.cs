@@ -25,19 +25,19 @@ public class AzMlFeatureSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Backfill(AzMlFeatureSetBackfillOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Backfill(AzMlFeatureSetBackfillOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureSetBackfillOptions(), token);
     }
 
-    public async Task<CommandResult> Create(AzMlFeatureSetCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMlFeatureSetCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureSetCreateOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzMlFeatureSetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlFeatureSetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFeatureSetListOptions(), token);
     }
 
     public async Task<CommandResult> ListFeatures(AzMlFeatureSetListFeaturesOptions options, CancellationToken token = default)

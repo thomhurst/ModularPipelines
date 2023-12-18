@@ -25,9 +25,9 @@ public class AzMlEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzMlEnvironmentCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMlEnvironmentCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlEnvironmentCreateOptions(), token);
     }
 
     public async Task<CommandResult> Download(AzMlEnvironmentDownloadOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzMlEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlEnvironmentListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlEnvironmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlEnvironmentListOptions(), token);
     }
 
     public async Task<CommandResult> Register(AzMlEnvironmentRegisterOptions options, CancellationToken token = default)

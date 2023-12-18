@@ -14,6 +14,4 @@ public record AzBotAuthsettingDeleteOptions(
 [property: CommandSwitch("--setting-name")] string SettingName
 ) : AzOptions
 {
-    [CommandSwitch("--provider-name")]
-    public string? ProviderName { get; set; }
 }

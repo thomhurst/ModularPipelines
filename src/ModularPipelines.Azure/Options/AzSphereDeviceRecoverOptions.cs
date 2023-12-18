@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "recover")]
-public record AzSphereDeviceRecoverOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSphereDeviceRecoverOptions : AzOptions
 {
     [CommandSwitch("--capability")]
     public string? Capability { get; set; }

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "pipeline-run", "cancel")]
-public record AzDatafactoryPipelineRunCancelOptions(
-[property: CommandSwitch("--last-updated-after")] string LastUpdatedAfter,
-[property: CommandSwitch("--last-updated-before")] string LastUpdatedBefore
-) : AzOptions
+public record AzDatafactoryPipelineRunCancelOptions : AzOptions
 {
     [CommandSwitch("--factory-name")]
     public string? FactoryName { get; set; }

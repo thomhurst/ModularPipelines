@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "perform-maintenance")]
-public record AzVmPerformMaintenanceOptions(
-[property: CommandSwitch("--size")] string Size
-) : AzOptions
+public record AzVmPerformMaintenanceOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

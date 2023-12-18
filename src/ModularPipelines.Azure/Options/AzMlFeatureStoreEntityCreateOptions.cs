@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "feature-store-entity", "create")]
-public record AzMlFeatureStoreEntityCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlFeatureStoreEntityCreateOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }
@@ -22,6 +19,9 @@ public record AzMlFeatureStoreEntityCreateOptions(
     [CommandSwitch("--file")]
     public string? File { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
@@ -30,4 +30,7 @@ public record AzMlFeatureStoreEntityCreateOptions(
 
     [CommandSwitch("--set")]
     public string? Set { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 }

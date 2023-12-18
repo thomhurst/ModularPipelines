@@ -25,9 +25,9 @@ public class AzNetworkCrossConnectionPeering
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkCrossConnectionPeeringDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkCrossConnectionPeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkCrossConnectionPeeringListOptions options, CancellationToken token = default)

@@ -8,13 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "extension", "delete")]
-public record AzVmExtensionDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--publisher")] string Publisher
-) : AzOptions
+public record AzVmExtensionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }

@@ -20,9 +20,9 @@ public class AzStorageMetrics
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Show(AzStorageMetricsShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzStorageMetricsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMetricsShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzStorageMetricsUpdateOptions options, CancellationToken token = default)

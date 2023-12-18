@@ -8,13 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "alerts-suppression-rule", "list")]
-public record AzSecurityAlertsSuppressionRuleListOptions(
-[property: CommandSwitch("--rule-name")] string RuleName
-) : AzOptions
+public record AzSecurityAlertsSuppressionRuleListOptions : AzOptions
 {
-    [CommandSwitch("--comment")]
-    public string? Comment { get; set; }
-
-    [CommandSwitch("--expiration-date-utc")]
-    public string? ExpirationDateUtc { get; set; }
 }

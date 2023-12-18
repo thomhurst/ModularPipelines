@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mobile-network", "pccp", "version", "list")]
-public record AzMobileNetworkPccpVersionListOptions(
-[property: CommandSwitch("--version-name")] string VersionName
-) : AzOptions
+public record AzMobileNetworkPccpVersionListOptions : AzOptions
 {
 }

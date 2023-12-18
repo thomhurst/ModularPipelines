@@ -8,14 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "device-identity", "import")]
-public record AzIotHubDeviceIdentityImportOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzIotHubDeviceIdentityImportOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }
+
+    [CommandSwitch("--hub-name")]
+    public string? HubName { get; set; }
 
     [CommandSwitch("--ibc")]
     public string? Ibc { get; set; }

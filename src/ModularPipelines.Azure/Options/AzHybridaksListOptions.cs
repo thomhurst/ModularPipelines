@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("hybridaks", "list")]
-public record AzHybridaksListOptions(
-[property: CommandSwitch("--output-filepath")] string OutputFilepath
-) : AzOptions
+public record AzHybridaksListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

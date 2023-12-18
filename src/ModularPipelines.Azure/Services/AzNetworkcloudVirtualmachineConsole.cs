@@ -25,9 +25,9 @@ public class AzNetworkcloudVirtualmachineConsole
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkcloudVirtualmachineConsoleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkcloudVirtualmachineConsoleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineConsoleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudVirtualmachineConsoleListOptions options, CancellationToken token = default)

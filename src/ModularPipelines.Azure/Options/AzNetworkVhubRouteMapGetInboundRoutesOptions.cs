@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vhub", "route-map", "get-inbound-routes")]
-public record AzNetworkVhubRouteMapGetInboundRoutesOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vhub-name")] string VhubName
-) : AzOptions
+public record AzNetworkVhubRouteMapGetInboundRoutesOptions : AzOptions
 {
     [CommandSwitch("--connection-type")]
     public string? ConnectionType { get; set; }
@@ -22,9 +19,15 @@ public record AzNetworkVhubRouteMapGetInboundRoutesOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--resource-uri")]
     public string? ResourceUri { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vhub-name")]
+    public string? VhubName { get; set; }
 }

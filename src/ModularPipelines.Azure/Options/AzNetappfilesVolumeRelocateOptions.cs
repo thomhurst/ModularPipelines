@@ -8,22 +8,28 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("netappfiles", "volume", "relocate")]
-public record AzNetappfilesVolumeRelocateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--snapshot-id")] string SnapshotId
-) : AzOptions
+public record AzNetappfilesVolumeRelocateOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--body")]
     public string? Body { get; set; }
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--pool-name")]
+    public string? PoolName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

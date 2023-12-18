@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webpubsub", "delete")]
-public record AzWebpubsubDeleteOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzWebpubsubDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

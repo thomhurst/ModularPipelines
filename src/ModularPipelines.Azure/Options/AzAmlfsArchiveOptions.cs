@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("amlfs", "archive")]
-public record AzAmlfsArchiveOptions(
-[property: CommandSwitch("--aml-filesystem-name")] string AmlFilesystemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzAmlfsArchiveOptions : AzOptions
 {
     [CommandSwitch("--amlfs-name")]
     public string? AmlfsName { get; set; }
@@ -21,6 +18,9 @@ public record AzAmlfsArchiveOptions(
 
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

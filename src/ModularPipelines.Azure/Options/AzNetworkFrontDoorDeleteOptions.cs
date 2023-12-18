@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "front-door", "delete")]
-public record AzNetworkFrontDoorDeleteOptions(
-[property: CommandSwitch("--content-paths")] string ContentPaths
-) : AzOptions
+public record AzNetworkFrontDoorDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

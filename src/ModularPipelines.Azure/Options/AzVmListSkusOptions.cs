@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "list-skus")]
-public record AzVmListSkusOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzVmListSkusOptions : AzOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
+
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
 
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }

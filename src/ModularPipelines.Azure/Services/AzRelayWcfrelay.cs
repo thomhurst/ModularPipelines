@@ -29,9 +29,9 @@ public class AzRelayWcfrelay
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzRelayWcfrelayDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzRelayWcfrelayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzRelayWcfrelayListOptions options, CancellationToken token = default)

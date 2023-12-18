@@ -13,6 +13,4 @@ public record AzSpringApiPortalClearOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--instance-count")]
-    public int? InstanceCount { get; set; }
 }

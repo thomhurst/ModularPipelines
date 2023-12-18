@@ -15,9 +15,4 @@ public record AzSqlServerAdAdminCreateOptions(
 [property: CommandSwitch("--server")] string Server
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

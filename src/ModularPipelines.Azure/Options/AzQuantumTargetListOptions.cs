@@ -14,6 +14,4 @@ public record AzQuantumTargetListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--target-id")]
-    public string? TargetId { get; set; }
 }

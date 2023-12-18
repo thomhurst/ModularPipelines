@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "list-vm-resize-options")]
-public record AzVmListVmResizeOptionsOptions(
-[property: CommandSwitch("--port")] int Port
-) : AzOptions
+public record AzVmListVmResizeOptionsOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

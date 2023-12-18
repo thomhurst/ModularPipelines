@@ -25,9 +25,9 @@ public class AzNetworkVhubBgpconnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkVhubBgpconnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkVhubBgpconnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubBgpconnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkVhubBgpconnectionListOptions options, CancellationToken token = default)

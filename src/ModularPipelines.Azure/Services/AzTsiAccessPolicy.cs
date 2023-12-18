@@ -25,9 +25,9 @@ public class AzTsiAccessPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzTsiAccessPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzTsiAccessPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzTsiAccessPolicyListOptions options, CancellationToken token = default)

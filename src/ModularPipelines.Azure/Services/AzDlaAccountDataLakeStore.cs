@@ -30,9 +30,9 @@ public class AzDlaAccountDataLakeStore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDlaAccountDataLakeStoreListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDlaAccountDataLakeStoreListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountDataLakeStoreListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDlaAccountDataLakeStoreShowOptions options, CancellationToken token = default)

@@ -34,9 +34,9 @@ public class AzNetworkVpnServerConfig
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzNetworkVpnServerConfigListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkVpnServerConfigListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnServerConfigListOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzNetworkVpnServerConfigSetOptions options, CancellationToken token = default)

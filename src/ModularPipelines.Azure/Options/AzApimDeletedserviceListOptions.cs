@@ -8,9 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apim", "deletedservice", "list")]
-public record AzApimDeletedserviceListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--service-name")] string ServiceName
-) : AzOptions
+public record AzApimDeletedserviceListOptions : AzOptions
 {
 }

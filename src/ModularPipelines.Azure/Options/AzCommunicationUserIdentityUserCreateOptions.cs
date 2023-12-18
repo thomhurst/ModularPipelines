@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("communication", "user-identity", "user", "create")]
-public record AzCommunicationUserIdentityUserCreateOptions(
-[property: CommandSwitch("--user")] string User
-) : AzOptions
+public record AzCommunicationUserIdentityUserCreateOptions : AzOptions
 {
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }

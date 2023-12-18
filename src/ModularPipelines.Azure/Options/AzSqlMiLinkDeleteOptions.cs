@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "mi", "link", "delete")]
-public record AzSqlMiLinkDeleteOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSqlMiLinkDeleteOptions : AzOptions
 {
     [CommandSwitch("--distributed-availability-group-name")]
     public string? DistributedAvailabilityGroupName { get; set; }
@@ -19,8 +16,14 @@ public record AzSqlMiLinkDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--instance-name")]
+    public string? InstanceName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -20,9 +20,9 @@ public class AzDevopsSecurityPermissionNamespace
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzDevopsSecurityPermissionNamespaceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsSecurityPermissionNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionNamespaceListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzDevopsSecurityPermissionNamespaceShowOptions options, CancellationToken token = default)

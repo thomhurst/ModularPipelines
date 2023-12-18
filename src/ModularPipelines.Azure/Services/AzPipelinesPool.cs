@@ -20,9 +20,9 @@ public class AzPipelinesPool
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzPipelinesPoolListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzPipelinesPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesPoolListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesPoolShowOptions options, CancellationToken token = default)

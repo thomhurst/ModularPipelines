@@ -25,9 +25,9 @@ public class AzElasticSanVolumeGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzElasticSanVolumeGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzElasticSanVolumeGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeGroupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzElasticSanVolumeGroupListOptions options, CancellationToken token = default)

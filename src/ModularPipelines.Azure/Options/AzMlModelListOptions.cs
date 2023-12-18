@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "model", "list")]
-public record AzMlModelListOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlModelListOptions : AzOptions
 {
     [BooleanCommandSwitch("--archived-only")]
     public bool? ArchivedOnly { get; set; }
@@ -22,6 +18,9 @@ public record AzMlModelListOptions(
 
     [CommandSwitch("--max-results")]
     public string? MaxResults { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--registry-name")]
     public string? RegistryName { get; set; }

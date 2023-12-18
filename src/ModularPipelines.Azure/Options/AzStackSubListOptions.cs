@@ -10,9 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("stack", "sub", "list")]
 public record AzStackSubListOptions : AzOptions
 {
-    [CommandSwitch("--id")]
-    public string? Id { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

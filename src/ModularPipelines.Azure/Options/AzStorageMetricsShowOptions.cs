@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "metrics", "show")]
-public record AzStorageMetricsShowOptions(
-[property: CommandSwitch("--retention")] string Retention,
-[property: CommandSwitch("--services")] string Services
-) : AzOptions
+public record AzStorageMetricsShowOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }
@@ -27,6 +24,9 @@ public record AzStorageMetricsShowOptions(
 
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
+
+    [CommandSwitch("--services")]
+    public string? Services { get; set; }
 
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }

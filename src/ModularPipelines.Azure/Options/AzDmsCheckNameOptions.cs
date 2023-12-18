@@ -13,9 +13,4 @@ public record AzDmsCheckNameOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

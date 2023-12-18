@@ -15,9 +15,4 @@ public record AzCosmosdbGremlinDatabaseThroughputMigrateOptions(
 [property: CommandSwitch("--throughput-type")] string ThroughputType
 ) : AzOptions
 {
-    [CommandSwitch("--max-throughput")]
-    public string? MaxThroughput { get; set; }
-
-    [CommandSwitch("--throughput")]
-    public string? Throughput { get; set; }
 }

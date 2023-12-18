@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource", "show")]
-public record AzResourceShowOptions(
-[property: CommandSwitch("--tags")] string Tags
-) : AzOptions
+public record AzResourceShowOptions : AzOptions
 {
     [CommandSwitch("--api-version")]
     public string? ApiVersion { get; set; }

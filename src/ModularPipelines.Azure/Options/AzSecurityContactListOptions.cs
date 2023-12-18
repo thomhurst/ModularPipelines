@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "contact", "list")]
-public record AzSecurityContactListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityContactListOptions : AzOptions
 {
 }

@@ -30,9 +30,9 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedStorage
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceLinkedStorageListOptions options, CancellationToken token = default)

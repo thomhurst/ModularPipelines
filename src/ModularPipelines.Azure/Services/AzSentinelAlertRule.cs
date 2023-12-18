@@ -33,9 +33,9 @@ public class AzSentinelAlertRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelAlertRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelAlertRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSentinelAlertRuleListOptions options, CancellationToken token = default)

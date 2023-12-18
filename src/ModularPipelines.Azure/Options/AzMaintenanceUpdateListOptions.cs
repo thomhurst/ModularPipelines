@@ -15,15 +15,4 @@ public record AzMaintenanceUpdateListOptions(
 [property: CommandSwitch("--resource-type")] string ResourceType
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--resource-parent-name")]
-    public string? ResourceParentName { get; set; }
-
-    [CommandSwitch("--resource-parent-type")]
-    public string? ResourceParentType { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "run", "submit-script")]
-public record AzMlRunSubmitScriptOptions(
-[property: CommandSwitch("--run")] string Run
-) : AzOptions
+public record AzMlRunSubmitScriptOptions : AzOptions
 {
     [BooleanCommandSwitch("--async")]
     public bool? Async { get; set; }

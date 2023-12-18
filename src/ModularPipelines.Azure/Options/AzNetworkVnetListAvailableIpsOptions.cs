@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vnet", "list-available-ips")]
-public record AzNetworkVnetListAvailableIpsOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzNetworkVnetListAvailableIpsOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

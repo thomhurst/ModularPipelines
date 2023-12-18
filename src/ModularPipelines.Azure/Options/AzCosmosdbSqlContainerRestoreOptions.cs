@@ -16,9 +16,4 @@ public record AzCosmosdbSqlContainerRestoreOptions(
 [property: CommandSwitch("--restore-timestamp")] string RestoreTimestamp
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--all-partitions")]
-    public bool? AllPartitions { get; set; }
-
-    [CommandSwitch("--physical-partition-ids")]
-    public string? PhysicalPartitionIds { get; set; }
 }

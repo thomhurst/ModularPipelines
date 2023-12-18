@@ -20,14 +20,14 @@ public class AzKeyvaultPrivateEndpointConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Approve(AzKeyvaultPrivateEndpointConnectionApproveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Approve(AzKeyvaultPrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionApproveOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzKeyvaultPrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKeyvaultPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzKeyvaultPrivateEndpointConnectionListOptions options, CancellationToken token = default)

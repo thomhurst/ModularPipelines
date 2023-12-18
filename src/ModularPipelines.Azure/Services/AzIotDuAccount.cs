@@ -38,9 +38,9 @@ public class AzIotDuAccount
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotDuAccountListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotDuAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDuAccountListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzIotDuAccountShowOptions options, CancellationToken token = default)

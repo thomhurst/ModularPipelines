@@ -35,9 +35,9 @@ public class AzEventgridPartnerConfiguration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzEventgridPartnerConfigurationListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzEventgridPartnerConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerConfigurationShowOptions options, CancellationToken token = default)

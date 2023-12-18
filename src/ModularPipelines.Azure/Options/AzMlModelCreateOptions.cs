@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "model", "create")]
-public record AzMlModelCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlModelCreateOptions : AzOptions
 {
     [CommandSwitch("--datastore")]
     public string? Datastore { get; set; }
@@ -21,6 +18,9 @@ public record AzMlModelCreateOptions(
 
     [CommandSwitch("--file")]
     public string? File { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
@@ -45,6 +45,9 @@ public record AzMlModelCreateOptions(
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }

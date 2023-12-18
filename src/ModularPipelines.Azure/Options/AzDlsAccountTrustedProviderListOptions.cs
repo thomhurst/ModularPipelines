@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dls", "account", "trusted-provider", "list")]
-public record AzDlsAccountTrustedProviderListOptions(
-[property: CommandSwitch("--trusted-id-provider-name")] string TrustedIdProviderName
-) : AzOptions
+public record AzDlsAccountTrustedProviderListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

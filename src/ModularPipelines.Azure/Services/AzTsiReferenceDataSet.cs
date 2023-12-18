@@ -25,9 +25,9 @@ public class AzTsiReferenceDataSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzTsiReferenceDataSetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzTsiReferenceDataSetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzTsiReferenceDataSetListOptions options, CancellationToken token = default)

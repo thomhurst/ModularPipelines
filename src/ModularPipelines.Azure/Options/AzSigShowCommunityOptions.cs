@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "show-community")]
-public record AzSigShowCommunityOptions(
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSigShowCommunityOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

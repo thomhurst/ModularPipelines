@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "resource-guard", "list")]
-public record AzDataprotectionResourceGuardListOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType
-) : AzOptions
+public record AzDataprotectionResourceGuardListOptions : AzOptions
 {
     [CommandSwitch("--max-items")]
     public string? MaxItems { get; set; }

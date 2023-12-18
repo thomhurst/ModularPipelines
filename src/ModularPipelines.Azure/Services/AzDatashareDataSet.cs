@@ -25,9 +25,9 @@ public class AzDatashareDataSet
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatashareDataSetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatashareDataSetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatashareDataSetListOptions options, CancellationToken token = default)

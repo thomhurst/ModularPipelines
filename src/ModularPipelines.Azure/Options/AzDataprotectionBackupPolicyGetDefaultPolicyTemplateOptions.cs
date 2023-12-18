@@ -12,9 +12,4 @@ public record AzDataprotectionBackupPolicyGetDefaultPolicyTemplateOptions(
 [property: CommandSwitch("--datasource-type")] string DatasourceType
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
-    public string? MaxItems { get; set; }
-
-    [CommandSwitch("--next-token")]
-    public string? NextToken { get; set; }
 }

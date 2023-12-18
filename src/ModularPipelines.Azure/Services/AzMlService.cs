@@ -40,9 +40,9 @@ public class AzMlService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlServiceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlServiceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlServiceListOptions(), token);
     }
 
     public async Task<CommandResult> RegenKey(AzMlServiceRegenKeyOptions options, CancellationToken token = default)

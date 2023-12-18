@@ -8,13 +8,8 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apim", "list")]
-public record AzApimListOptions(
-[property: CommandSwitch("--backup-name")] string BackupName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account-key")] int StorageAccountKey,
-[property: CommandSwitch("--storage-account-name")] int StorageAccountName
-) : AzOptions
+public record AzApimListOptions : AzOptions
 {
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

@@ -25,9 +25,9 @@ public class AzVmwareWorkloadNetworkPublicIp
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPublicIpDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPublicIpDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkPublicIpListOptions options, CancellationToken token = default)

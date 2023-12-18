@@ -12,9 +12,4 @@ public record AzResourceLinkDeleteOptions(
 [property: CommandSwitch("--link")] string Link
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
-
-    [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
 }

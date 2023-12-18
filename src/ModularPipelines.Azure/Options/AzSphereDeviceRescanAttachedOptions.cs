@@ -8,11 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "rescan-attached")]
-public record AzSphereDeviceRescanAttachedOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSphereDeviceRescanAttachedOptions : AzOptions
 {
-    [CommandSwitch("--device")]
-    public string? Device { get; set; }
 }

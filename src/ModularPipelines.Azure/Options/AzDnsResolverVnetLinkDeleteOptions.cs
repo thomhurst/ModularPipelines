@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dns-resolver", "vnet-link", "delete")]
-public record AzDnsResolverVnetLinkDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--ruleset-name")] string RulesetName
-) : AzOptions
+public record AzDnsResolverVnetLinkDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -24,6 +21,12 @@ public record AzDnsResolverVnetLinkDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--ruleset-name")]
+    public string? RulesetName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

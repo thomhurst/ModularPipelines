@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datamigration", "login-migration")]
-public record AzDatamigrationLoginMigrationOptions(
-[property: CommandSwitch("--auth-key")] string AuthKey
-) : AzOptions
+public record AzDatamigrationLoginMigrationOptions : AzOptions
 {
     [CommandSwitch("--aad-domain-name")]
     public string? AadDomainName { get; set; }

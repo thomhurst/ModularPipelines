@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "config", "hostname", "delete")]
-public record AzWebappConfigHostnameDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--webapp-name")] string WebappName
-) : AzOptions
+public record AzWebappConfigHostnameDeleteOptions : AzOptions
 {
     [CommandSwitch("--hostname")]
     public string? Hostname { get; set; }
@@ -19,9 +16,15 @@ public record AzWebappConfigHostnameDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--webapp-name")]
+    public string? WebappName { get; set; }
 }

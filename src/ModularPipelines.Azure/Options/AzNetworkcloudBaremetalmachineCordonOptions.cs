@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "baremetalmachine", "cordon")]
-public record AzNetworkcloudBaremetalmachineCordonOptions(
-[property: CommandSwitch("--limit-time-seconds")] string LimitTimeSeconds,
-[property: CommandSwitch("--script")] string Script
-) : AzOptions
+public record AzNetworkcloudBaremetalmachineCordonOptions : AzOptions
 {
     [CommandSwitch("--bare-metal-machine-name")]
     public string? BareMetalMachineName { get; set; }

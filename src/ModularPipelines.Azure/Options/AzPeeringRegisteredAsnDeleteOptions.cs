@@ -14,6 +14,4 @@ public record AzPeeringRegisteredAsnDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--asn")]
-    public string? Asn { get; set; }
 }

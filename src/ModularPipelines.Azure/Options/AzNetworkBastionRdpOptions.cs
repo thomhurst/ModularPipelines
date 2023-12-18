@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "bastion", "rdp")]
-public record AzNetworkBastionRdpOptions(
-[property: CommandSwitch("--auth-type")] string AuthType
-) : AzOptions
+public record AzNetworkBastionRdpOptions : AzOptions
 {
+    [CommandSwitch("--auth-type")]
+    public string? AuthType { get; set; }
+
     [BooleanCommandSwitch("--configure")]
     public bool? Configure { get; set; }
 

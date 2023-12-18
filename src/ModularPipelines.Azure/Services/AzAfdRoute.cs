@@ -25,9 +25,9 @@ public class AzAfdRoute
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdRouteDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdRouteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdRouteListOptions options, CancellationToken token = default)

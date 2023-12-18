@@ -25,9 +25,9 @@ public class AzNetappfilesAccountBackupPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesAccountBackupPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesAccountBackupPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesAccountBackupPolicyListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "show")]
-public record AzStorageAccountShowOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzStorageAccountShowOptions : AzOptions
 {
     [CommandSwitch("--expand")]
     public string? Expand { get; set; }

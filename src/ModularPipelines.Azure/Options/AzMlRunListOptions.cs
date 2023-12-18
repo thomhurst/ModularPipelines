@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "run", "list")]
-public record AzMlRunListOptions(
-[property: CommandSwitch("--run")] string Run
-) : AzOptions
+public record AzMlRunListOptions : AzOptions
 {
     [CommandSwitch("--compute-target-name")]
     public string? ComputeTargetName { get; set; }

@@ -16,27 +16,4 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionShowOptions(
 [property: CommandSwitch("--variable")] string Variable
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [BooleanCommandSwitch("--ignore-case")]
-    public bool? IgnoreCase { get; set; }
-
-    [BooleanCommandSwitch("--negate")]
-    public bool? Negate { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
-    [CommandSwitch("--pattern")]
-    public string? Pattern { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

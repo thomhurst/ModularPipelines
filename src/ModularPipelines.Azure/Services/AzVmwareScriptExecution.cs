@@ -25,9 +25,9 @@ public class AzVmwareScriptExecution
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareScriptExecutionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareScriptExecutionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareScriptExecutionListOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "catalog", "database", "list")]
-public record AzDlaCatalogDatabaseListOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName
-) : AzOptions
+public record AzDlaCatalogDatabaseListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

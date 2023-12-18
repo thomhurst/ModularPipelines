@@ -12,9 +12,4 @@ public record AzResourceLinkShowOptions(
 [property: CommandSwitch("--link")] string Link
 ) : AzOptions
 {
-    [CommandSwitch("--notes")]
-    public string? Notes { get; set; }
-
-    [CommandSwitch("--target")]
-    public string? Target { get; set; }
 }

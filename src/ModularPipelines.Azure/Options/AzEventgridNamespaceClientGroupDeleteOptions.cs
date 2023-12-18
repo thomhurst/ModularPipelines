@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "namespace", "client-group", "delete")]
-public record AzEventgridNamespaceClientGroupDeleteOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEventgridNamespaceClientGroupDeleteOptions : AzOptions
 {
     [CommandSwitch("--client-group-name")]
     public string? ClientGroupName { get; set; }
@@ -19,8 +16,14 @@ public record AzEventgridNamespaceClientGroupDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

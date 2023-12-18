@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "app-insights", "component", "linked-storage", "unlink")]
-public record AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions(
-[property: CommandSwitch("--storage-account")] int StorageAccount
-) : AzOptions
+public record AzMonitorAppInsightsComponentLinkedStorageUnlinkOptions : AzOptions
 {
     [CommandSwitch("--app")]
     public string? App { get; set; }

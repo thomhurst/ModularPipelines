@@ -29,9 +29,9 @@ public class AzSentinelBookmark
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSentinelBookmarkDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSentinelBookmarkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Expand(AzSentinelBookmarkExpandOptions options, CancellationToken token = default)

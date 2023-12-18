@@ -35,9 +35,9 @@ public class AzDevopsExtension
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzDevopsExtensionListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDevopsExtensionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionListOptions(), token);
     }
 
     public async Task<CommandResult> Search(AzDevopsExtensionSearchOptions options, CancellationToken token = default)

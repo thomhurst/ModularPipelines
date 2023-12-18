@@ -106,14 +106,14 @@ public class AzSpring
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSpringListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSpringListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringListOptions(), token);
     }
 
-    public async Task<CommandResult> ListMarketplacePlan(AzSpringListMarketplacePlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMarketplacePlan(AzSpringListMarketplacePlanOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringListMarketplacePlanOptions(), token);
     }
 
     public async Task<CommandResult> ListSupportServerVersions(AzSpringListSupportServerVersionsOptions options, CancellationToken token = default)

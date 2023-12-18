@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "monitor-events")]
-public record AzIotHubMonitorEventsOptions(
-[property: CommandSwitch("--query-command")] string QueryCommand
-) : AzOptions
+public record AzIotHubMonitorEventsOptions : AzOptions
 {
     [CommandSwitch("--cg")]
     public string? Cg { get; set; }

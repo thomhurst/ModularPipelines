@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "sql", "pool", "show")]
-public record AzSynapseSqlPoolShowOptions(
-[property: CommandSwitch("--client")] string Client
-) : AzOptions
+public record AzSynapseSqlPoolShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

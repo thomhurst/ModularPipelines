@@ -25,14 +25,14 @@ public class AzFluidRelayServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzFluidRelayServerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzFluidRelayServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayServerDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzFluidRelayServerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzFluidRelayServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayServerListOptions(), token);
     }
 
     public async Task<CommandResult> ListKey(AzFluidRelayServerListKeyOptions options, CancellationToken token = default)

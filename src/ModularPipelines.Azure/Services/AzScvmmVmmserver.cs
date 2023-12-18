@@ -29,24 +29,24 @@ public class AzScvmmVmmserver
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzScvmmVmmserverDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzScvmmVmmserverDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmmserverDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzScvmmVmmserverListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzScvmmVmmserverListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmmserverListOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzScvmmVmmserverShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzScvmmVmmserverShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmmserverShowOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzScvmmVmmserverUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzScvmmVmmserverUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmmserverUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmVmmserverWaitOptions options, CancellationToken token = default)

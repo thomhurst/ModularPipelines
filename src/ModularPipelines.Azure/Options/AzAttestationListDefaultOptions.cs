@@ -10,12 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("attestation", "list-default")]
 public record AzAttestationListDefaultOptions : AzOptions
 {
-    [CommandSwitch("--id")]
-    public string? Id { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
 }

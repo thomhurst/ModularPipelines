@@ -14,9 +14,4 @@ public record AzSentinelIncidentListAlertOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--logic-apps-resource-id")]
-    public string? LogicAppsResourceId { get; set; }
-
-    [CommandSwitch("--tenant-id")]
-    public string? TenantId { get; set; }
 }

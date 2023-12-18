@@ -24,9 +24,9 @@ public class AzConnectedk8s
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzConnectedk8sDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzConnectedk8sDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedk8sDeleteOptions(), token);
     }
 
     public async Task<CommandResult> DisableFeatures(AzConnectedk8sDisableFeaturesOptions options, CancellationToken token = default)
@@ -39,19 +39,19 @@ public class AzConnectedk8s
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzConnectedk8sListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzConnectedk8sListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedk8sListOptions(), token);
     }
 
-    public async Task<CommandResult> Proxy(AzConnectedk8sProxyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Proxy(AzConnectedk8sProxyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedk8sProxyOptions(), token);
     }
 
-    public async Task<CommandResult> Show(AzConnectedk8sShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzConnectedk8sShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedk8sShowOptions(), token);
     }
 
     public async Task<CommandResult> Troubleshoot(AzConnectedk8sTroubleshootOptions options, CancellationToken token = default)

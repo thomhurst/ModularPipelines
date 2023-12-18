@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cloud-service", "delete-instance")]
-public record AzCloudServiceDeleteInstanceOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCloudServiceDeleteInstanceOptions : AzOptions
 {
     [CommandSwitch("--cloud-service-name")]
     public string? CloudServiceName { get; set; }
@@ -20,6 +18,9 @@ public record AzCloudServiceDeleteInstanceOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--role-instances")]
     public string? RoleInstances { get; set; }

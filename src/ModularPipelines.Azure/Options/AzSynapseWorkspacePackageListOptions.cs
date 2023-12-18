@@ -12,6 +12,4 @@ public record AzSynapseWorkspacePackageListOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-progress")]
-    public bool? NoProgress { get; set; }
 }

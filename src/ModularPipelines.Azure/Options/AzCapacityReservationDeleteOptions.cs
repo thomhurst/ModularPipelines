@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("capacity", "reservation", "delete")]
-public record AzCapacityReservationDeleteOptions(
-[property: CommandSwitch("--capacity-reservation-group")] string CapacityReservationGroup,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzCapacityReservationDeleteOptions : AzOptions
 {
+    [CommandSwitch("--capacity-reservation-group")]
+    public string? CapacityReservationGroup { get; set; }
+
     [CommandSwitch("--capacity-reservation-name")]
     public string? CapacityReservationName { get; set; }
 
@@ -21,6 +21,9 @@ public record AzCapacityReservationDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

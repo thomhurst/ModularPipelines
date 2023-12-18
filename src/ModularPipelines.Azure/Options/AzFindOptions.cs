@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("find")]
-public record AzFindOptions(
-[property: CommandSwitch("--uri")] string Uri
-) : AzOptions
+public record AzFindOptions : AzOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? CliTerm { get; set; }

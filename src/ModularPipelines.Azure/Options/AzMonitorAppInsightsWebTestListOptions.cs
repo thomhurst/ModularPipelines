@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "app-insights", "web-test", "list")]
-public record AzMonitorAppInsightsWebTestListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAppInsightsWebTestListOptions : AzOptions
 {
     [CommandSwitch("--component-name")]
     public string? ComponentName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

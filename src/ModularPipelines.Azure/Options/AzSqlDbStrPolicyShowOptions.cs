@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "str-policy", "show")]
-public record AzSqlDbStrPolicyShowOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName
-) : AzOptions
+public record AzSqlDbStrPolicyShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

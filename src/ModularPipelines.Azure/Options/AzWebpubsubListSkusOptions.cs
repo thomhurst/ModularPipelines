@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webpubsub", "list-skus")]
-public record AzWebpubsubListSkusOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzWebpubsubListSkusOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

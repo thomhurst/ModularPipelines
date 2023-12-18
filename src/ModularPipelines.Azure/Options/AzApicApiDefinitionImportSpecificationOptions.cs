@@ -8,13 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("apic", "api", "definition", "import-specification")]
-public record AzApicApiDefinitionImportSpecificationOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzApicApiDefinitionImportSpecificationOptions : AzOptions
 {
+    [CommandSwitch("--api")]
+    public string? Api { get; set; }
+
     [CommandSwitch("--definition")]
     public string? Definition { get; set; }
 
@@ -30,6 +28,12 @@ public record AzApicApiDefinitionImportSpecificationOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--service")]
+    public string? Service { get; set; }
+
     [CommandSwitch("--specification")]
     public string? Specification { get; set; }
 
@@ -38,6 +42,9 @@ public record AzApicApiDefinitionImportSpecificationOptions(
 
     [CommandSwitch("--value")]
     public string? Value { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 
     [CommandSwitch("--workspace")]
     public string? Workspace { get; set; }

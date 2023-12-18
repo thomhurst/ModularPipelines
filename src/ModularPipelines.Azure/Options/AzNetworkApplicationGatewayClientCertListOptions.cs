@@ -13,6 +13,4 @@ public record AzNetworkApplicationGatewayClientCertListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

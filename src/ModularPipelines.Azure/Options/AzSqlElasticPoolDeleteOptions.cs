@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "elastic-pool", "delete")]
-public record AzSqlElasticPoolDeleteOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSqlElasticPoolDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

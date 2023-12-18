@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dls", "account", "firewall", "list")]
-public record AzDlsAccountFirewallListOptions(
-[property: CommandSwitch("--firewall-rule-name")] string FirewallRuleName
-) : AzOptions
+public record AzDlsAccountFirewallListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

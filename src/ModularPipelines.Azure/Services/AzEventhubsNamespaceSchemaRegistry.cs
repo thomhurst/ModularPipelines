@@ -25,9 +25,9 @@ public class AzEventhubsNamespaceSchemaRegistry
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventhubsNamespaceSchemaRegistryDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventhubsNamespaceSchemaRegistryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespaceSchemaRegistryListOptions options, CancellationToken token = default)

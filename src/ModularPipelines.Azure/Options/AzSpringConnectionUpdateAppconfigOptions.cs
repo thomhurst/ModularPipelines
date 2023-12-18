@@ -8,15 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("spring", "connection", "update", "appconfig")]
-public record AzSpringConnectionUpdateAppconfigOptions(
-[property: CommandSwitch("--connection")] string Connection
-) : AzOptions
+public record AzSpringConnectionUpdateAppconfigOptions : AzOptions
 {
     [CommandSwitch("--app")]
     public string? App { get; set; }
 
     [CommandSwitch("--client-type")]
     public string? ClientType { get; set; }
+
+    [CommandSwitch("--connection")]
+    public string? Connection { get; set; }
 
     [CommandSwitch("--customized-keys")]
     public string? CustomizedKeys { get; set; }

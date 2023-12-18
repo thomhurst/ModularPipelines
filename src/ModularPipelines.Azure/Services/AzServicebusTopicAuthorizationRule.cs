@@ -29,9 +29,9 @@ public class AzServicebusTopicAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusTopicAuthorizationRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusTopicAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzServicebusTopicAuthorizationRuleListOptions options, CancellationToken token = default)

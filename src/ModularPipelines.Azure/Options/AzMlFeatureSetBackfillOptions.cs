@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "feature-set", "backfill")]
-public record AzMlFeatureSetBackfillOptions(
-[property: CommandSwitch("--feature-name")] string FeatureName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzMlFeatureSetBackfillOptions : AzOptions
 {
     [CommandSwitch("--by-data-status")]
     public string? ByDataStatus { get; set; }
@@ -41,6 +37,9 @@ public record AzMlFeatureSetBackfillOptions(
     [CommandSwitch("--file")]
     public string? File { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
@@ -49,4 +48,7 @@ public record AzMlFeatureSetBackfillOptions(
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
+
+    [CommandSwitch("--version")]
+    public string? Version { get; set; }
 }

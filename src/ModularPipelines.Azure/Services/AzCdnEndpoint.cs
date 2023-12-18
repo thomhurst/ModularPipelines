@@ -33,9 +33,9 @@ public class AzCdnEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCdnEndpointDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCdnEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCdnEndpointListOptions options, CancellationToken token = default)
@@ -53,24 +53,24 @@ public class AzCdnEndpoint
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzCdnEndpointShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzCdnEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointShowOptions(), token);
     }
 
-    public async Task<CommandResult> Start(AzCdnEndpointStartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Start(AzCdnEndpointStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointStartOptions(), token);
     }
 
-    public async Task<CommandResult> Stop(AzCdnEndpointStopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Stop(AzCdnEndpointStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointStopOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzCdnEndpointUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzCdnEndpointUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointUpdateOptions(), token);
     }
 
     public async Task<CommandResult> ValidateCustomDomain(AzCdnEndpointValidateCustomDomainOptions options, CancellationToken token = default)

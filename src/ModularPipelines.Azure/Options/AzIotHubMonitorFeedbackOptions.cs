@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "monitor-feedback")]
-public record AzIotHubMonitorFeedbackOptions(
-[property: CommandSwitch("--query-command")] string QueryCommand
-) : AzOptions
+public record AzIotHubMonitorFeedbackOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }

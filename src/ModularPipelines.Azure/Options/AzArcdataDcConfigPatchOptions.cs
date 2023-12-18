@@ -13,9 +13,4 @@ public record AzArcdataDcConfigPatchOptions(
 [property: CommandSwitch("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--k8s-namespace")]
-    public string? K8sNamespace { get; set; }
-
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
 }

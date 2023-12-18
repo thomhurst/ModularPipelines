@@ -25,9 +25,9 @@ public class AzDatabricksWorkspacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDatabricksWorkspacePrivateEndpointConnectionListOptions options, CancellationToken token = default)

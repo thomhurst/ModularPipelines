@@ -25,9 +25,9 @@ public class AzNetappfilesVolumeBackup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetappfilesVolumeBackupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetappfilesVolumeBackupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBackupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesVolumeBackupListOptions options, CancellationToken token = default)

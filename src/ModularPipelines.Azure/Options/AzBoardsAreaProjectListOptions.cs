@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("boards", "area", "project", "list")]
-public record AzBoardsAreaProjectListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzBoardsAreaProjectListOptions : AzOptions
 {
     [CommandSwitch("--depth")]
     public string? Depth { get; set; }

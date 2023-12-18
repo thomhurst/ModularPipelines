@@ -25,9 +25,9 @@ public class AzVmwareGlobalReachConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareGlobalReachConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareGlobalReachConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareGlobalReachConnectionListOptions options, CancellationToken token = default)

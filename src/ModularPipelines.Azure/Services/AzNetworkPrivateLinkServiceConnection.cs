@@ -20,9 +20,9 @@ public class AzNetworkPrivateLinkServiceConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Delete(AzNetworkPrivateLinkServiceConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkPrivateLinkServiceConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateLinkServiceConnectionUpdateOptions options, CancellationToken token = default)

@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "server-arc", "list")]
-public record AzPostgresServerArcListOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--source-server")] string SourceServer
-) : AzOptions
+public record AzPostgresServerArcListOptions : AzOptions
 {
-    [CommandSwitch("--use-k8s")]
-    public string? UseK8s { get; set; }
+    [CommandSwitch("--k8s-namespace")]
+    public string? K8sNamespace { get; set; }
+
+    [BooleanCommandSwitch("--use-k8s")]
+    public bool? UseK8s { get; set; }
 }

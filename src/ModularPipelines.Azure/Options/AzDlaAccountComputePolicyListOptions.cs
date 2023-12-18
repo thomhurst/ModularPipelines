@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "account", "compute-policy", "list")]
-public record AzDlaAccountComputePolicyListOptions(
-[property: CommandSwitch("--compute-policy-name")] string ComputePolicyName
-) : AzOptions
+public record AzDlaAccountComputePolicyListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

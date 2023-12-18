@@ -25,14 +25,14 @@ public class AzLogzMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzLogzMonitorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzLogzMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzLogzMonitorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzLogzMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorListOptions(), token);
     }
 
     public async Task<CommandResult> ListPayload(AzLogzMonitorListPayloadOptions options, CancellationToken token = default)

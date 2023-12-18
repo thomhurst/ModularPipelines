@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("bicep", "uninstall")]
 public record AzBicepUninstallOptions : AzOptions
 {
-    [CommandSwitch("--target-platform")]
-    public string? TargetPlatform { get; set; }
 }

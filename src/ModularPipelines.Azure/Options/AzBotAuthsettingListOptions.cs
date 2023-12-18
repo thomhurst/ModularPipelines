@@ -13,6 +13,4 @@ public record AzBotAuthsettingListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--provider-name")]
-    public string? ProviderName { get; set; }
 }

@@ -15,12 +15,4 @@ public record AzCosmosdbCassandraTableShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
-    public string? AnalyticalStorageTtl { get; set; }
-
-    [CommandSwitch("--schema")]
-    public string? Schema { get; set; }
-
-    [CommandSwitch("--ttl")]
-    public string? Ttl { get; set; }
 }

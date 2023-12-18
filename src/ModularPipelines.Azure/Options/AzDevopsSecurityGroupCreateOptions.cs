@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "security", "group", "create")]
-public record AzDevopsSecurityGroupCreateOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzDevopsSecurityGroupCreateOptions : AzOptions
 {
     [CommandSwitch("--description")]
     public string? Description { get; set; }

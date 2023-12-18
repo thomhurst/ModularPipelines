@@ -12,6 +12,4 @@ public record AzAccountSubscriptionEnableOptions(
 [property: CommandSwitch("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 }

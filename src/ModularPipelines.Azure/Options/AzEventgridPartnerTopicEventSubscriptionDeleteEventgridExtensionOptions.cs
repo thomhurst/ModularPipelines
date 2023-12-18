@@ -14,6 +14,4 @@ public record AzEventgridPartnerTopicEventSubscriptionDeleteEventgridExtensionOp
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--odata-query")]
-    public string? OdataQuery { get; set; }
 }

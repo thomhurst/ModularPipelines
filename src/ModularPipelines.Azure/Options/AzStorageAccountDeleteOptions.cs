@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "delete")]
-public record AzStorageAccountDeleteOptions(
-[property: CommandSwitch("--expiry")] string Expiry,
-[property: CommandSwitch("--permissions")] string Permissions,
-[property: CommandSwitch("--resource-types")] string ResourceTypes,
-[property: CommandSwitch("--services")] string Services
-) : AzOptions
+public record AzStorageAccountDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

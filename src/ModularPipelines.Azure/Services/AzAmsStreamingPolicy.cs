@@ -25,9 +25,9 @@ public class AzAmsStreamingPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsStreamingPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsStreamingPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingPolicyListOptions options, CancellationToken token = default)

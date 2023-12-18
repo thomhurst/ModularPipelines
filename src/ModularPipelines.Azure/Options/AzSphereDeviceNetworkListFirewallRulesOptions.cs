@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "network", "list-firewall-rules")]
-public record AzSphereDeviceNetworkListFirewallRulesOptions(
-[property: CommandSwitch("--hardware-address")] string HardwareAddress,
-[property: CommandSwitch("--interface")] string Interface
-) : AzOptions
+public record AzSphereDeviceNetworkListFirewallRulesOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

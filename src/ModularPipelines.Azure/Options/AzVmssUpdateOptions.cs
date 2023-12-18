@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmss", "update")]
-public record AzVmssUpdateOptions(
-[property: CommandSwitch("--instance-ids")] string InstanceIds,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzVmssUpdateOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }
@@ -86,6 +82,9 @@ public record AzVmssUpdateOptions(
     [CommandSwitch("--max-unhealthy-upgraded-instance-percent")]
     public string? MaxUnhealthyUpgradedInstancePercent { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
@@ -115,6 +114,9 @@ public record AzVmssUpdateOptions(
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--scale-in-policy")]
     public string? ScaleInPolicy { get; set; }

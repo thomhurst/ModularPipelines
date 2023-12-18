@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "perimeter", "association", "delete")]
-public record AzNetworkPerimeterAssociationDeleteOptions(
-[property: CommandSwitch("--perimeter-name")] string PerimeterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkPerimeterAssociationDeleteOptions : AzOptions
 {
     [CommandSwitch("--association-name")]
     public string? AssociationName { get; set; }
@@ -21,6 +18,12 @@ public record AzNetworkPerimeterAssociationDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--perimeter-name")]
+    public string? PerimeterName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

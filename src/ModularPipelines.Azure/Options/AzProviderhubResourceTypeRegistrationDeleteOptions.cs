@@ -8,12 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("providerhub", "resource-type-registration", "delete")]
-public record AzProviderhubResourceTypeRegistrationDeleteOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
-) : AzOptions
+public record AzProviderhubResourceTypeRegistrationDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--provider-namespace")]
+    public string? ProviderNamespace { get; set; }
 
     [CommandSwitch("--resource-type")]
     public string? ResourceType { get; set; }

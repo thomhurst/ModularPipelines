@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dns-resolver", "forwarding-rule", "delete")]
-public record AzDnsResolverForwardingRuleDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--ruleset-name")] string RulesetName
-) : AzOptions
+public record AzDnsResolverForwardingRuleDeleteOptions : AzOptions
 {
     [CommandSwitch("--forwarding-rule-name")]
     public string? ForwardingRuleName { get; set; }
@@ -21,6 +18,12 @@ public record AzDnsResolverForwardingRuleDeleteOptions(
 
     [CommandSwitch("--if-match")]
     public string? IfMatch { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--ruleset-name")]
+    public string? RulesetName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -25,9 +25,9 @@ public class AzAfdSecret
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdSecretDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdSecretDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecretDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdSecretListOptions options, CancellationToken token = default)

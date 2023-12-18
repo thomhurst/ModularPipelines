@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "delete")]
-public record AzIotHubDeleteOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--method-name")] string MethodName
-) : AzOptions
+public record AzIotHubDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

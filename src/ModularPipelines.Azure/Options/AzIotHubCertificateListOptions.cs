@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "certificate", "list")]
-public record AzIotHubCertificateListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzIotHubCertificateListOptions : AzOptions
 {
     [CommandSwitch("--hub-name")]
     public string? HubName { get; set; }

@@ -14,6 +14,4 @@ public record AzMlDatastoreDeleteOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--max-results")]
-    public string? MaxResults { get; set; }
 }

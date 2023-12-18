@@ -24,9 +24,9 @@ public class AzEventhubsCluster
 
     public AzEventhubsClusterNamespace Namespace { get; }
 
-    public async Task<CommandResult> AvailableRegion(AzEventhubsClusterAvailableRegionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AvailableRegion(AzEventhubsClusterAvailableRegionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterAvailableRegionOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzEventhubsClusterCreateOptions options, CancellationToken token = default)

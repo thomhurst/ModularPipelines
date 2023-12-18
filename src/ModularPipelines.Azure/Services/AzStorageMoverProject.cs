@@ -25,9 +25,9 @@ public class AzStorageMoverProject
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStorageMoverProjectDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStorageMoverProjectDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverProjectDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStorageMoverProjectListOptions options, CancellationToken token = default)

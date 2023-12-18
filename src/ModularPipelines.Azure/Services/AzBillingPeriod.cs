@@ -20,9 +20,9 @@ public class AzBillingPeriod
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzBillingPeriodListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBillingPeriodListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingPeriodListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzBillingPeriodShowOptions options, CancellationToken token = default)

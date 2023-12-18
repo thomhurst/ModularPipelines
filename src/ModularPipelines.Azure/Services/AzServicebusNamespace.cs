@@ -49,9 +49,9 @@ public class AzServicebusNamespace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusNamespaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Exists(AzServicebusNamespaceExistsOptions options, CancellationToken token = default)

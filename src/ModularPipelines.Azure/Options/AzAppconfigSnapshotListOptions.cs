@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("appconfig", "snapshot", "list")]
-public record AzAppconfigSnapshotListOptions(
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
-) : AzOptions
+public record AzAppconfigSnapshotListOptions : AzOptions
 {
     [CommandSwitch("--all")]
     public string? All { get; set; }
@@ -29,6 +27,9 @@ public record AzAppconfigSnapshotListOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--snapshot-name")]
+    public string? SnapshotName { get; set; }
 
     [CommandSwitch("--status")]
     public string? Status { get; set; }

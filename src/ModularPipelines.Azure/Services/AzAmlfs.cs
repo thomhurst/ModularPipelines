@@ -19,19 +19,19 @@ public class AzAmlfs
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Archive(AzAmlfsArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Archive(AzAmlfsArchiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmlfsArchiveOptions(), token);
     }
 
-    public async Task<CommandResult> CancelArchive(AzAmlfsCancelArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelArchive(AzAmlfsCancelArchiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmlfsCancelArchiveOptions(), token);
     }
 
-    public async Task<CommandResult> CheckAmlfsSubnet(AzAmlfsCheckAmlfsSubnetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckAmlfsSubnet(AzAmlfsCheckAmlfsSubnetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmlfsCheckAmlfsSubnetOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzAmlfsCreateOptions options, CancellationToken token = default)

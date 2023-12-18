@@ -67,9 +67,9 @@ public class AzDatafactory
 
     public AzDatafactoryTriggerRun TriggerRun { get; }
 
-    public async Task<CommandResult> ConfigureFactoryRepo(AzDatafactoryConfigureFactoryRepoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ConfigureFactoryRepo(AzDatafactoryConfigureFactoryRepoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryConfigureFactoryRepoOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzDatafactoryCreateOptions options, CancellationToken token = default)
@@ -77,14 +77,14 @@ public class AzDatafactory
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDatafactoryDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDatafactoryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> GetDataPlaneAccess(AzDatafactoryGetDataPlaneAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDataPlaneAccess(AzDatafactoryGetDataPlaneAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryGetDataPlaneAccessOptions(), token);
     }
 
     public async Task<CommandResult> GetGitHubAccessToken(AzDatafactoryGetGitHubAccessTokenOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("blueprint", "assignment", "list")]
-public record AzBlueprintAssignmentListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzBlueprintAssignmentListOptions : AzOptions
 {
     [CommandSwitch("--management-group")]
     public string? ManagementGroup { get; set; }

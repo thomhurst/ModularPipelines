@@ -62,9 +62,9 @@ public class AzGrafana
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzGrafanaListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzGrafanaListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGrafanaListOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzGrafanaRestoreOptions options, CancellationToken token = default)

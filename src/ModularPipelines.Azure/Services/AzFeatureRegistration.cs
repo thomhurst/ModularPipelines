@@ -30,9 +30,9 @@ public class AzFeatureRegistration
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzFeatureRegistrationListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzFeatureRegistrationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFeatureRegistrationListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzFeatureRegistrationShowOptions options, CancellationToken token = default)

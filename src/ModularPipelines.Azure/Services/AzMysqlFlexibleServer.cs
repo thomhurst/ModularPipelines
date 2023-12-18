@@ -73,14 +73,14 @@ public class AzMysqlFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(AzMysqlFlexibleServerCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzMysqlFlexibleServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzMysqlFlexibleServerDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMysqlFlexibleServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDeleteOptions(), token);
     }
 
     public async Task<CommandResult> Execute(AzMysqlFlexibleServerExecuteOptions options, CancellationToken token = default)
@@ -93,9 +93,9 @@ public class AzMysqlFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMysqlFlexibleServerListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMysqlFlexibleServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerListOptions(), token);
     }
 
     public async Task<CommandResult> ListSkus(AzMysqlFlexibleServerListSkusOptions options, CancellationToken token = default)
@@ -103,9 +103,9 @@ public class AzMysqlFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Restart(AzMysqlFlexibleServerRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzMysqlFlexibleServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerRestartOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzMysqlFlexibleServerRestoreOptions options, CancellationToken token = default)
@@ -113,29 +113,29 @@ public class AzMysqlFlexibleServer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMysqlFlexibleServerShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMysqlFlexibleServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerShowOptions(), token);
     }
 
-    public async Task<CommandResult> ShowConnectionString(AzMysqlFlexibleServerShowConnectionStringOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowConnectionString(AzMysqlFlexibleServerShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerShowConnectionStringOptions(), token);
     }
 
-    public async Task<CommandResult> Start(AzMysqlFlexibleServerStartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Start(AzMysqlFlexibleServerStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerStartOptions(), token);
     }
 
-    public async Task<CommandResult> Stop(AzMysqlFlexibleServerStopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Stop(AzMysqlFlexibleServerStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerStopOptions(), token);
     }
 
-    public async Task<CommandResult> Update(AzMysqlFlexibleServerUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzMysqlFlexibleServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerUpdateOptions(), token);
     }
 
     public async Task<CommandResult> Upgrade(AzMysqlFlexibleServerUpgradeOptions options, CancellationToken token = default)

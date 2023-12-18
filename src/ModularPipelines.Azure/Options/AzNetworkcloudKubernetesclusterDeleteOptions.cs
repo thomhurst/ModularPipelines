@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkcloud", "kubernetescluster", "delete")]
-public record AzNetworkcloudKubernetesclusterDeleteOptions(
-[property: CommandSwitch("--node-name")] string NodeName
-) : AzOptions
+public record AzNetworkcloudKubernetesclusterDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

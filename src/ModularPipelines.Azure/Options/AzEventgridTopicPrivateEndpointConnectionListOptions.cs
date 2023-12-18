@@ -13,6 +13,4 @@ public record AzEventgridTopicPrivateEndpointConnectionListOptions(
 [property: CommandSwitch("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
-    public string? Description { get; set; }
 }

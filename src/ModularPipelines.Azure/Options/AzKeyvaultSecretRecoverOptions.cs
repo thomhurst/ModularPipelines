@@ -8,14 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "secret", "recover")]
-public record AzKeyvaultSecretRecoverOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzKeyvaultSecretRecoverOptions : AzOptions
 {
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 }

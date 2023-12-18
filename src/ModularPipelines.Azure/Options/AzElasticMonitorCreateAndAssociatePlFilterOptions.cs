@@ -8,13 +8,13 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("elastic", "monitor", "create-and-associate-pl-filter")]
-public record AzElasticMonitorCreateAndAssociatePlFilterOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzElasticMonitorCreateAndAssociatePlFilterOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--monitor-name")]
+    public string? MonitorName { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
@@ -24,6 +24,9 @@ public record AzElasticMonitorCreateAndAssociatePlFilterOptions(
 
     [CommandSwitch("--private-endpoint-name")]
     public string? PrivateEndpointName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

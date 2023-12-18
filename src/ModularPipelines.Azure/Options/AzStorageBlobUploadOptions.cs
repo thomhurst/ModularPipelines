@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "upload")]
-public record AzStorageBlobUploadOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--source")] string Source
-) : AzOptions
+public record AzStorageBlobUploadOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

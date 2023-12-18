@@ -39,14 +39,14 @@ public class AzConnectedmachine
 
     public AzConnectedmachineRunCommand RunCommand { get; }
 
-    public async Task<CommandResult> AssessPatches(AzConnectedmachineAssessPatchesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssessPatches(AzConnectedmachineAssessPatchesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineAssessPatchesOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzConnectedmachineDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzConnectedmachineDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineDeleteOptions(), token);
     }
 
     public async Task<CommandResult> InstallPatches(AzConnectedmachineInstallPatchesOptions options, CancellationToken token = default)

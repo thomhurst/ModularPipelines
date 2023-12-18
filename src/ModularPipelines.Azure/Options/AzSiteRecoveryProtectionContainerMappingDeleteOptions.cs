@@ -8,13 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("site-recovery", "protection-container", "mapping", "delete")]
-public record AzSiteRecoveryProtectionContainerMappingDeleteOptions(
-[property: CommandSwitch("--fabric-name")] string FabricName,
-[property: CommandSwitch("--protection-container")] string ProtectionContainer,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzSiteRecoveryProtectionContainerMappingDeleteOptions : AzOptions
 {
+    [CommandSwitch("--fabric-name")]
+    public string? FabricName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -24,8 +22,17 @@ public record AzSiteRecoveryProtectionContainerMappingDeleteOptions(
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
+    [CommandSwitch("--protection-container")]
+    public string? ProtectionContainer { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

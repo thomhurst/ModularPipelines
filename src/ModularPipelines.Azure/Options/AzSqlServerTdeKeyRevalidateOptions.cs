@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "server", "tde-key", "revalidate")]
-public record AzSqlServerTdeKeyRevalidateOptions(
-[property: CommandSwitch("--server-key-type")] string ServerKeyType
-) : AzOptions
+public record AzSqlServerTdeKeyRevalidateOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,10 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webpubsub", "hub", "show")]
-public record AzWebpubsubHubShowOptions(
-[property: CommandSwitch("--hub-name")] string HubName
-) : AzOptions
+public record AzWebpubsubHubShowOptions : AzOptions
 {
+    [CommandSwitch("--hub-name")]
+    public string? HubName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

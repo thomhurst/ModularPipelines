@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "virtual-appliance", "site", "delete")]
-public record AzNetworkVirtualApplianceSiteDeleteOptions(
-[property: CommandSwitch("--appliance-name")] string ApplianceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkVirtualApplianceSiteDeleteOptions : AzOptions
 {
+    [CommandSwitch("--appliance-name")]
+    public string? ApplianceName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkVirtualApplianceSiteDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -13,9 +13,4 @@ public record AzSphereImageListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
-    public string? Device { get; set; }
-
-    [BooleanCommandSwitch("--full")]
-    public bool? Full { get; set; }
 }

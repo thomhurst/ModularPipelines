@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datafactory", "dataset", "show")]
-public record AzDatafactoryDatasetShowOptions(
-[property: CommandSwitch("--linked-service-name")] string LinkedServiceName
-) : AzOptions
+public record AzDatafactoryDatasetShowOptions : AzOptions
 {
     [CommandSwitch("--dataset-name")]
     public string? DatasetName { get; set; }

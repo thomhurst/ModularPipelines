@@ -13,12 +13,4 @@ public record AzEventgridTopicPrivateLinkResourceListOptions(
 [property: CommandSwitch("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

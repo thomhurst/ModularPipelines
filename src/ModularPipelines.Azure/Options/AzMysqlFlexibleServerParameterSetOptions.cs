@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("mysql", "flexible-server", "parameter", "set")]
-public record AzMysqlFlexibleServerParameterSetOptions(
-[property: CommandSwitch("--args")] string Args
-) : AzOptions
+public record AzMysqlFlexibleServerParameterSetOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "topic", "private-endpoint-connection", "delete")]
-public record AzEventgridTopicPrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--topic-name")] string TopicName
-) : AzOptions
+public record AzEventgridTopicPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
@@ -19,6 +16,12 @@ public record AzEventgridTopicPrivateEndpointConnectionDeleteOptions(
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
+
+    [CommandSwitch("--topic-name")]
+    public string? TopicName { get; set; }
 }

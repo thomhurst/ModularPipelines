@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("image", "builder", "output", "clear")]
-public record AzImageBuilderOutputClearOptions(
-[property: CommandSwitch("--output-name")] string OutputName
-) : AzOptions
+public record AzImageBuilderOutputClearOptions : AzOptions
 {
     [CommandSwitch("--defer")]
     public string? Defer { get; set; }

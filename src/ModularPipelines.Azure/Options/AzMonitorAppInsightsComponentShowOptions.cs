@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "app-insights", "component", "show")]
-public record AzMonitorAppInsightsComponentShowOptions(
-[property: CommandSwitch("--tags")] string Tags
-) : AzOptions
+public record AzMonitorAppInsightsComponentShowOptions : AzOptions
 {
     [CommandSwitch("--app")]
     public string? App { get; set; }

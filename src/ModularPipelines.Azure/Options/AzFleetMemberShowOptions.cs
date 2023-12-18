@@ -14,6 +14,4 @@ public record AzFleetMemberShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--update-group")]
-    public string? UpdateGroup { get; set; }
 }

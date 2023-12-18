@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "central", "app", "list")]
-public record AzIotCentralAppListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzIotCentralAppListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

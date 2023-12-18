@@ -13,9 +13,4 @@ public record AzSecurityIotSolutionShowOptions(
 [property: CommandSwitch("--solution-name")] string SolutionName
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
-    public string? DisplayName { get; set; }
-
-    [CommandSwitch("--iot-hubs")]
-    public string? IotHubs { get; set; }
 }

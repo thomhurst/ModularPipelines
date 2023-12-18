@@ -8,11 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("monitor", "autoscale", "profile", "list-timezones")]
-public record AzMonitorAutoscaleProfileListTimezonesOptions(
-[property: CommandSwitch("--autoscale-name")] string AutoscaleName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzMonitorAutoscaleProfileListTimezonesOptions : AzOptions
 {
     [CommandSwitch("--offset")]
     public string? Offset { get; set; }

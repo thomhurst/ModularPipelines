@@ -25,9 +25,9 @@ public class AzKustoPrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzKustoPrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzKustoPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoPrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzKustoPrivateEndpointConnectionListOptions options, CancellationToken token = default)

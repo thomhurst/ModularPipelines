@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "share", "list")]
-public record AzStorageShareListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzStorageShareListOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

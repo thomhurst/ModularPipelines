@@ -25,9 +25,9 @@ public class AzNotificationHubNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNotificationHubNamespaceAuthorizationRuleDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNotificationHubNamespaceAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubNamespaceAuthorizationRuleDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNotificationHubNamespaceAuthorizationRuleListOptions options, CancellationToken token = default)
@@ -35,9 +35,9 @@ public class AzNotificationHubNamespaceAuthorizationRule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListKeys(AzNotificationHubNamespaceAuthorizationRuleListKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKeys(AzNotificationHubNamespaceAuthorizationRuleListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubNamespaceAuthorizationRuleListKeysOptions(), token);
     }
 
     public async Task<CommandResult> RegenerateKeys(AzNotificationHubNamespaceAuthorizationRuleRegenerateKeysOptions options, CancellationToken token = default)

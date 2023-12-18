@@ -8,12 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("datashare", "provider-share-subscription", "adjust")]
-public record AzDatashareProviderShareSubscriptionAdjustOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-name")] string ShareName
-) : AzOptions
+public record AzDatashareProviderShareSubscriptionAdjustOptions : AzOptions
 {
+    [CommandSwitch("--account-name")]
+    public int? AccountName { get; set; }
+
     [CommandSwitch("--expiration-date")]
     public string? ExpirationDate { get; set; }
 
@@ -22,6 +21,12 @@ public record AzDatashareProviderShareSubscriptionAdjustOptions(
 
     [CommandSwitch("--provider-share-subscription-id")]
     public string? ProviderShareSubscriptionId { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--share-name")]
+    public string? ShareName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "release", "create")]
-public record AzPipelinesReleaseCreateOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesReleaseCreateOptions : AzOptions
 {
     [CommandSwitch("--artifact-metadata-list")]
     public string? ArtifactMetadataList { get; set; }

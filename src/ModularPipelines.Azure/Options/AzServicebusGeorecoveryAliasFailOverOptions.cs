@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("servicebus", "georecovery-alias", "fail-over")]
-public record AzServicebusGeorecoveryAliasFailOverOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzServicebusGeorecoveryAliasFailOverOptions : AzOptions
 {
     [CommandSwitch("--alias")]
     public string? Alias { get; set; }
@@ -21,6 +18,12 @@ public record AzServicebusGeorecoveryAliasFailOverOptions(
 
     [BooleanCommandSwitch("--is-safe-failover")]
     public bool? IsSafeFailover { get; set; }
+
+    [CommandSwitch("--namespace-name")]
+    public string? NamespaceName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

@@ -8,12 +8,14 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("quantum", "workspace", "list")]
-public record AzQuantumWorkspaceListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzQuantumWorkspaceListOptions : AzOptions
 {
+    [CommandSwitch("--location")]
+    public string? Location { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
 }

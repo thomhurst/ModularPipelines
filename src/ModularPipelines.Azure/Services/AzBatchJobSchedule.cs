@@ -20,9 +20,9 @@ public class AzBatchJobSchedule
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Create(AzBatchJobScheduleCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Create(AzBatchJobScheduleCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleCreateOptions(), token);
     }
 
     public async Task<CommandResult> Delete(AzBatchJobScheduleDeleteOptions options, CancellationToken token = default)
@@ -40,9 +40,9 @@ public class AzBatchJobSchedule
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzBatchJobScheduleListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBatchJobScheduleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobScheduleListOptions(), token);
     }
 
     public async Task<CommandResult> Reset(AzBatchJobScheduleResetOptions options, CancellationToken token = default)

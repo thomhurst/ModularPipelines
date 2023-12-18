@@ -48,19 +48,19 @@ public class AzWebpubsub
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzWebpubsubDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzWebpubsubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzWebpubsubListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzWebpubsubListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListOptions(), token);
     }
 
-    public async Task<CommandResult> ListSkus(AzWebpubsubListSkusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSkus(AzWebpubsubListSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListSkusOptions(), token);
     }
 
     public async Task<CommandResult> ListUsage(AzWebpubsubListUsageOptions options, CancellationToken token = default)

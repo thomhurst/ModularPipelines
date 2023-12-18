@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "account", "show-connection-string")]
-public record AzStorageAccountShowConnectionStringOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzStorageAccountShowConnectionStringOptions : AzOptions
 {
     [CommandSwitch("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "reapply")]
-public record AzVmReapplyOptions(
-[property: CommandSwitch("--size")] string Size
-) : AzOptions
+public record AzVmReapplyOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

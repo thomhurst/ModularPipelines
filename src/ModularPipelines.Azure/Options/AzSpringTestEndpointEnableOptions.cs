@@ -13,9 +13,4 @@ public record AzSpringTestEndpointEnableOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--app")]
-    public string? App { get; set; }
-
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
 }

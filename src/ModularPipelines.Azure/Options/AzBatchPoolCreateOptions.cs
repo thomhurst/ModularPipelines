@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "pool", "create")]
-public record AzBatchPoolCreateOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolCreateOptions : AzOptions
 {
     [BooleanCommandSwitch("--accelerated-networking")]
     public bool? AcceleratedNetworking { get; set; }

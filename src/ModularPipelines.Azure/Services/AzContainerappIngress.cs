@@ -36,9 +36,9 @@ public class AzContainerappIngress
 
     public AzContainerappIngressTraffic Traffic { get; }
 
-    public async Task<CommandResult> Disable(AzContainerappIngressDisableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Disable(AzContainerappIngressDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressDisableOptions(), token);
     }
 
     public async Task<CommandResult> Enable(AzContainerappIngressEnableOptions options, CancellationToken token = default)

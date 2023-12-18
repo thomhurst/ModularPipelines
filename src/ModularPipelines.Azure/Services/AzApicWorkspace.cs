@@ -25,14 +25,14 @@ public class AzApicWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicWorkspaceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Head(AzApicWorkspaceHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicWorkspaceHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceHeadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicWorkspaceListOptions options, CancellationToken token = default)

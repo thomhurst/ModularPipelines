@@ -24,9 +24,9 @@ public class AzAutomanageBestPractice
 
     public AzAutomanageBestPracticeVersion Version { get; }
 
-    public async Task<CommandResult> List(AzAutomanageBestPracticeListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAutomanageBestPracticeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageBestPracticeListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAutomanageBestPracticeShowOptions options, CancellationToken token = default)

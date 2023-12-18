@@ -15,9 +15,4 @@ public record AzSfManagedApplicationTypeVersionDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--package-url")]
-    public string? PackageUrl { get; set; }
-
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

@@ -8,13 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dataprotection", "backup-instance", "update")]
-public record AzDataprotectionBackupInstanceUpdateOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType,
-[property: CommandSwitch("--operation")] string Operation,
-[property: CommandSwitch("--permissions-scope")] string PermissionsScope,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzDataprotectionBackupInstanceUpdateOptions : AzOptions
 {
     [CommandSwitch("--add")]
     public string? Add { get; set; }
@@ -55,6 +49,9 @@ public record AzDataprotectionBackupInstanceUpdateOptions(
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 
@@ -66,4 +63,7 @@ public record AzDataprotectionBackupInstanceUpdateOptions(
 
     [CommandSwitch("--validation-type")]
     public string? ValidationType { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 }

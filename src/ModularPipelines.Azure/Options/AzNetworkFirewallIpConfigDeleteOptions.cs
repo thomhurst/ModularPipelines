@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "firewall", "ip-config", "delete")]
-public record AzNetworkFirewallIpConfigDeleteOptions(
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkFirewallIpConfigDeleteOptions : AzOptions
 {
+    [CommandSwitch("--firewall-name")]
+    public string? FirewallName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

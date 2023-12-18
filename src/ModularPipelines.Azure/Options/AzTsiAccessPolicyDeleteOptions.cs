@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("tsi", "access-policy", "delete")]
-public record AzTsiAccessPolicyDeleteOptions(
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzTsiAccessPolicyDeleteOptions : AzOptions
 {
     [CommandSwitch("--access-policy-name")]
     public string? AccessPolicyName { get; set; }
 
+    [CommandSwitch("--environment-name")]
+    public string? EnvironmentName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

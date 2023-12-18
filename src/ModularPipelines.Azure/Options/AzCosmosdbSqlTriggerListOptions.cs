@@ -15,12 +15,4 @@ public record AzCosmosdbSqlTriggerListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--body")]
-    public string? Body { get; set; }
-
-    [CommandSwitch("--operation")]
-    public string? Operation { get; set; }
-
-    [CommandSwitch("--type")]
-    public string? Type { get; set; }
 }

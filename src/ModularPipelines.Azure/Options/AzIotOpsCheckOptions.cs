@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "ops", "check")]
-public record AzIotOpsCheckOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzIotOpsCheckOptions : AzOptions
 {
     [BooleanCommandSwitch("--as-object")]
     public bool? AsObject { get; set; }

@@ -35,9 +35,9 @@ public class AzFunctionappDeploymentSlot
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzFunctionappDeploymentSlotListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzFunctionappDeploymentSlotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotListOptions(), token);
     }
 
     public async Task<CommandResult> Swap(AzFunctionappDeploymentSlotSwapOptions options, CancellationToken token = default)

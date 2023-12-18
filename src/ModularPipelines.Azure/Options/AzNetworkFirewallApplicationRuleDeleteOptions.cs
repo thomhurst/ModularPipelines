@@ -8,17 +8,22 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "firewall", "application-rule", "delete")]
-public record AzNetworkFirewallApplicationRuleDeleteOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkFirewallApplicationRuleDeleteOptions : AzOptions
 {
+    [CommandSwitch("--collection-name")]
+    public string? CollectionName { get; set; }
+
+    [CommandSwitch("--firewall-name")]
+    public string? FirewallName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

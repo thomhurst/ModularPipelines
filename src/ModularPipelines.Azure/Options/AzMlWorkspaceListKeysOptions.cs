@@ -13,9 +13,4 @@ public record AzMlWorkspaceListKeysOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-spark")]
-    public bool? IncludeSpark { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

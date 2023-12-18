@@ -13,6 +13,4 @@ public record AzLabDeleteOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
-    public string? Expand { get; set; }
 }

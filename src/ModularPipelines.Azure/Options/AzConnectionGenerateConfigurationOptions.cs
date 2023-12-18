@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("connection", "generate-configuration")]
-public record AzConnectionGenerateConfigurationOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzConnectionGenerateConfigurationOptions : AzOptions
 {
     [CommandSwitch("--connection")]
     public string? Connection { get; set; }
@@ -20,4 +18,7 @@ public record AzConnectionGenerateConfigurationOptions(
 
     [CommandSwitch("--location")]
     public string? Location { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 }

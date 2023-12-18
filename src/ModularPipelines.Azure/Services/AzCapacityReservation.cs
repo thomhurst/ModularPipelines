@@ -29,9 +29,9 @@ public class AzCapacityReservation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzCapacityReservationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzCapacityReservationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzCapacityReservationListOptions options, CancellationToken token = default)

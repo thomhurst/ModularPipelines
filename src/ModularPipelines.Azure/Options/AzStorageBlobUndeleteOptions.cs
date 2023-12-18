@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "blob", "undelete")]
-public record AzStorageBlobUndeleteOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzStorageBlobUndeleteOptions : AzOptions
 {
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }
@@ -30,6 +27,12 @@ public record AzStorageBlobUndeleteOptions(
 
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }
+
+    [CommandSwitch("--container-name")]
+    public string? ContainerName { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
 
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }

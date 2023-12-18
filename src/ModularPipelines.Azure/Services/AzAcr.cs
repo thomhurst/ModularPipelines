@@ -120,9 +120,9 @@ public class AzAcr
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> CheckHealth(AzAcrCheckHealthOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckHealth(AzAcrCheckHealthOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAcrCheckHealthOptions(), token);
     }
 
     public async Task<CommandResult> CheckName(AzAcrCheckNameOptions options, CancellationToken token = default)
@@ -145,9 +145,9 @@ public class AzAcr
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAcrListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAcrListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAcrListOptions(), token);
     }
 
     public async Task<CommandResult> Login(AzAcrLoginOptions options, CancellationToken token = default)

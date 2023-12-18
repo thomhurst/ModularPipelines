@@ -41,14 +41,14 @@ public class AzBackupVault
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzBackupVaultDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzBackupVaultDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzBackupVaultListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzBackupVaultListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultListOptions(), token);
     }
 
     public async Task<CommandResult> ListSoftDeletedContainers(AzBackupVaultListSoftDeletedContainersOptions options, CancellationToken token = default)

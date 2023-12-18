@@ -8,9 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "allowed_connections", "list")]
-public record AzSecurityAllowed_connectionsListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSecurityAllowed_connectionsListOptions : AzOptions
 {
 }

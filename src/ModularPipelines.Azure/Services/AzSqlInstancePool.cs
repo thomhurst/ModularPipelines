@@ -30,9 +30,9 @@ public class AzSqlInstancePool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlInstancePoolListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlInstancePoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstancePoolListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSqlInstancePoolShowOptions options, CancellationToken token = default)

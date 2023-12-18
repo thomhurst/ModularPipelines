@@ -25,9 +25,9 @@ public class AzNetworkManagerGroupStaticMember
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkManagerGroupStaticMemberDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkManagerGroupStaticMemberDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerGroupStaticMemberListOptions options, CancellationToken token = default)

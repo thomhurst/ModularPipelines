@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "capability", "show-attached")]
-public record AzSphereDeviceCapabilityShowAttachedOptions(
-[property: CommandSwitch("--capability-file")] string CapabilityFile
-) : AzOptions
+public record AzSphereDeviceCapabilityShowAttachedOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redisenterprise", "database", "delete")]
-public record AzRedisenterpriseDatabaseDeleteOptions(
-[property: CommandSwitch("--sas-uri")] string SasUri
-) : AzOptions
+public record AzRedisenterpriseDatabaseDeleteOptions : AzOptions
 {
     [CommandSwitch("--cluster-name")]
     public string? ClusterName { get; set; }

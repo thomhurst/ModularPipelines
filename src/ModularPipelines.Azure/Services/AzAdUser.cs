@@ -35,9 +35,9 @@ public class AzAdUser
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzAdUserListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAdUserListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdUserListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAdUserShowOptions options, CancellationToken token = default)

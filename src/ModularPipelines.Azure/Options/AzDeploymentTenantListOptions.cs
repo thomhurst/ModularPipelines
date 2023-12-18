@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("deployment", "tenant", "list")]
-public record AzDeploymentTenantListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzDeploymentTenantListOptions : AzOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }

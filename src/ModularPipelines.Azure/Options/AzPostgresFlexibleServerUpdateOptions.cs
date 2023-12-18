@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "update")]
-public record AzPostgresFlexibleServerUpdateOptions(
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzPostgresFlexibleServerUpdateOptions : AzOptions
 {
     [CommandSwitch("--active-directory-auth")]
     public string? ActiveDirectoryAuth { get; set; }

@@ -14,9 +14,4 @@ public record AzBlockchainTransactionNodeShowOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--firewall-rules")]
-    public string? FirewallRules { get; set; }
-
-    [CommandSwitch("--password")]
-    public string? Password { get; set; }
 }

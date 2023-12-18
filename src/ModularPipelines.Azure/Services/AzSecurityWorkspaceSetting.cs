@@ -30,9 +30,9 @@ public class AzSecurityWorkspaceSetting
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSecurityWorkspaceSettingListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSecurityWorkspaceSettingListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityWorkspaceSettingListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzSecurityWorkspaceSettingShowOptions options, CancellationToken token = default)

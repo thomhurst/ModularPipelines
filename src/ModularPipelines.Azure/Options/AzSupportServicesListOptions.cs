@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("support", "services", "list")]
-public record AzSupportServicesListOptions(
-[property: CommandSwitch("--service-name")] string ServiceName
-) : AzOptions
+public record AzSupportServicesListOptions : AzOptions
 {
 }

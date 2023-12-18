@@ -20,9 +20,9 @@ public class AzSqlServerTdeKey
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Revalidate(AzSqlServerTdeKeyRevalidateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Revalidate(AzSqlServerTdeKeyRevalidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeyRevalidateOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzSqlServerTdeKeySetOptions options, CancellationToken token = default)

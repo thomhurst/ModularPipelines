@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "application-gateway", "waf-config", "list-rule-sets")]
-public record AzNetworkApplicationGatewayWafConfigListRuleSetsOptions(
-[property: BooleanCommandSwitch("--enabled")] bool Enabled
-) : AzOptions
+public record AzNetworkApplicationGatewayWafConfigListRuleSetsOptions : AzOptions
 {
     [CommandSwitch("--group")]
     public string? Group { get; set; }

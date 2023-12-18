@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("logic", "integration-account", "map", "delete")]
-public record AzLogicIntegrationAccountMapDeleteOptions(
-[property: CommandSwitch("--integration-account")] int IntegrationAccount,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzLogicIntegrationAccountMapDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--integration-account")]
+    public int? IntegrationAccount { get; set; }
+
     [CommandSwitch("--map-name")]
     public string? MapName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

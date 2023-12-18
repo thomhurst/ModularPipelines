@@ -8,17 +8,16 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "hub", "device-identity", "list")]
-public record AzIotHubDeviceIdentityListOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--key-type")] string KeyType
-) : AzOptions
+public record AzIotHubDeviceIdentityListOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }
 
     [BooleanCommandSwitch("--edge-enabled")]
     public bool? EdgeEnabled { get; set; }
+
+    [CommandSwitch("--hub-name")]
+    public string? HubName { get; set; }
 
     [CommandSwitch("--login")]
     public string? Login { get; set; }

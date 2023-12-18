@@ -30,9 +30,9 @@ public class AzAosmNsd
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> GenerateConfig(AzAosmNsdGenerateConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateConfig(AzAosmNsdGenerateConfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAosmNsdGenerateConfigOptions(), token);
     }
 
     public async Task<CommandResult> Publish(AzAosmNsdPublishOptions options, CancellationToken token = default)

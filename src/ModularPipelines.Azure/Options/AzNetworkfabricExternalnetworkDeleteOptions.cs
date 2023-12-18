@@ -8,16 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("networkfabric", "externalnetwork", "delete")]
-public record AzNetworkfabricExternalnetworkDeleteOptions(
-[property: CommandSwitch("--l3-isolation-domain-name")] string L3IsolationDomainName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkfabricExternalnetworkDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--l3-isolation-domain-name")]
+    public string? L3IsolationDomainName { get; set; }
+
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--resource-name")]
     public string? ResourceName { get; set; }

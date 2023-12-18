@@ -44,14 +44,14 @@ public class AzDnsResolver
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDnsResolverDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDnsResolverDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDnsResolverListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDnsResolverListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverListOptions(), token);
     }
 
     public async Task<CommandResult> ListByVirtualNetwork(AzDnsResolverListByVirtualNetworkOptions options, CancellationToken token = default)

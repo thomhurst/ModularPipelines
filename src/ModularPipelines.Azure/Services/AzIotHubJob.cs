@@ -30,9 +30,9 @@ public class AzIotHubJob
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzIotHubJobListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzIotHubJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubJobListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzIotHubJobShowOptions options, CancellationToken token = default)

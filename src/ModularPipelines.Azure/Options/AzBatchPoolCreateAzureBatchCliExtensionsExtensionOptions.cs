@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("batch", "pool", "create", "(ure-batch-cli-extensions", "extension)")]
-public record AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
-) : AzOptions
+public record AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions : AzOptions
 {
     [CommandSwitch("--account-endpoint")]
     public int? AccountEndpoint { get; set; }

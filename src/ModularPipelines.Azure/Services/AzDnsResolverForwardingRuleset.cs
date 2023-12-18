@@ -25,14 +25,14 @@ public class AzDnsResolverForwardingRuleset
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDnsResolverForwardingRulesetDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDnsResolverForwardingRulesetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzDnsResolverForwardingRulesetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzDnsResolverForwardingRulesetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetListOptions(), token);
     }
 
     public async Task<CommandResult> ListByVirtualNetwork(AzDnsResolverForwardingRulesetListByVirtualNetworkOptions options, CancellationToken token = default)

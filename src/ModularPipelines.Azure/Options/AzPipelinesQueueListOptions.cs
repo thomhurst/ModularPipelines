@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("pipelines", "queue", "list")]
-public record AzPipelinesQueueListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzPipelinesQueueListOptions : AzOptions
 {
     [CommandSwitch("--action")]
     public string? Action { get; set; }

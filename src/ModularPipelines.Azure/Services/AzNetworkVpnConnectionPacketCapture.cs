@@ -20,9 +20,9 @@ public class AzNetworkVpnConnectionPacketCapture
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Start(AzNetworkVpnConnectionPacketCaptureStartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Start(AzNetworkVpnConnectionPacketCaptureStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureStartOptions(), token);
     }
 
     public async Task<CommandResult> Stop(AzNetworkVpnConnectionPacketCaptureStopOptions options, CancellationToken token = default)

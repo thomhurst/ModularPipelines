@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "db", "ledger-digest-uploads", "disable")]
-public record AzSqlDbLedgerDigestUploadsDisableOptions(
-[property: CommandSwitch("--endpoint")] string Endpoint
-) : AzOptions
+public record AzSqlDbLedgerDigestUploadsDisableOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

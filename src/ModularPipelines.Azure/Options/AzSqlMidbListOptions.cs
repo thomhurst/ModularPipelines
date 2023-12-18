@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "midb", "list")]
-public record AzSqlMidbListOptions(
-[property: CommandSwitch("--recoverable-database-id")] string RecoverableDatabaseId
-) : AzOptions
+public record AzSqlMidbListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

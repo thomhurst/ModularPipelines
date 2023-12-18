@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sql", "failover-group", "list")]
-public record AzSqlFailoverGroupListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSqlFailoverGroupListOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

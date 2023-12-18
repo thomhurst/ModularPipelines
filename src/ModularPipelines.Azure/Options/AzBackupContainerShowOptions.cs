@@ -25,8 +25,8 @@ public record AzBackupContainerShowOptions : AzOptions
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
 
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }

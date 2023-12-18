@@ -20,9 +20,9 @@ public class AzVmAvailabilitySet
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Convert(AzVmAvailabilitySetConvertOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Convert(AzVmAvailabilitySetConvertOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAvailabilitySetConvertOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzVmAvailabilitySetCreateOptions options, CancellationToken token = default)

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("keyvault", "key", "list")]
-public record AzKeyvaultKeyListOptions(
-[property: CommandSwitch("--count")] int Count
-) : AzOptions
+public record AzKeyvaultKeyListOptions : AzOptions
 {
     [CommandSwitch("--hsm-name")]
     public string? HsmName { get; set; }

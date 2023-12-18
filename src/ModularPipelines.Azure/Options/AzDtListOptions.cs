@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dt", "list")]
-public record AzDtListOptions(
-[property: CommandSwitch("--dt-name")] string DtName
-) : AzOptions
+public record AzDtListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

@@ -13,6 +13,4 @@ public record AzPeeringRegisteredPrefixListOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--prefix")]
-    public string? Prefix { get; set; }
 }

@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "bastion", "show")]
-public record AzNetworkBastionShowOptions(
-[property: CommandSwitch("--auth-type")] string AuthType
-) : AzOptions
+public record AzNetworkBastionShowOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

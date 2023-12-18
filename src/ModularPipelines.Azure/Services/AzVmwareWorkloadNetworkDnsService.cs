@@ -25,9 +25,9 @@ public class AzVmwareWorkloadNetworkDnsService
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkDnsServiceDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkDnsServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkDnsServiceListOptions options, CancellationToken token = default)

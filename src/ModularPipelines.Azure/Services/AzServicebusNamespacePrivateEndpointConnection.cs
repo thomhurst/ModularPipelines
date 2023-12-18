@@ -20,9 +20,9 @@ public class AzServicebusNamespacePrivateEndpointConnection
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Approve(AzServicebusNamespacePrivateEndpointConnectionApproveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Approve(AzServicebusNamespacePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionApproveOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzServicebusNamespacePrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
@@ -30,9 +30,9 @@ public class AzServicebusNamespacePrivateEndpointConnection
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusNamespacePrivateEndpointConnectionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusNamespacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzServicebusNamespacePrivateEndpointConnectionListOptions options, CancellationToken token = default)

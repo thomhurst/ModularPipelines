@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("redis", "delete")]
-public record AzRedisDeleteOptions(
-[property: CommandSwitch("--container")] string Container,
-[property: CommandSwitch("--prefix")] string Prefix
-) : AzOptions
+public record AzRedisDeleteOptions : AzOptions
 {
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }

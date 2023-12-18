@@ -25,9 +25,9 @@ public class AzSqlMiLink
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzSqlMiLinkDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzSqlMiLinkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSqlMiLinkListOptions options, CancellationToken token = default)

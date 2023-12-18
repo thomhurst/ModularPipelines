@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("communication", "rooms", "list")]
-public record AzCommunicationRoomsListOptions(
-[property: CommandSwitch("--room")] string Room
-) : AzOptions
+public record AzCommunicationRoomsListOptions : AzOptions
 {
     [CommandSwitch("--connection-string")]
     public string? ConnectionString { get; set; }

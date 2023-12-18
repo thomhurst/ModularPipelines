@@ -29,9 +29,9 @@ public class AzEventgridNamespaceTopic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzEventgridNamespaceTopicDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzEventgridNamespaceTopicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceTopicDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespaceTopicListOptions options, CancellationToken token = default)
@@ -39,9 +39,9 @@ public class AzEventgridNamespaceTopic
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListKey(AzEventgridNamespaceTopicListKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKey(AzEventgridNamespaceTopicListKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceTopicListKeyOptions(), token);
     }
 
     public async Task<CommandResult> RegenerateKey(AzEventgridNamespaceTopicRegenerateKeyOptions options, CancellationToken token = default)

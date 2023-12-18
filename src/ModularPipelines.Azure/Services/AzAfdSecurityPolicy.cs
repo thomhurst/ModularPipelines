@@ -25,9 +25,9 @@ public class AzAfdSecurityPolicy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdSecurityPolicyDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdSecurityPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdSecurityPolicyListOptions options, CancellationToken token = default)

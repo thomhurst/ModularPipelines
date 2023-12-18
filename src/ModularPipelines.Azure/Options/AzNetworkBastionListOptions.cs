@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "bastion", "list")]
-public record AzNetworkBastionListOptions(
-[property: CommandSwitch("--auth-type")] string AuthType
-) : AzOptions
+public record AzNetworkBastionListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

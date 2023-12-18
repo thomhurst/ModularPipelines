@@ -10,6 +10,4 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("functionapp", "list-consumption-locations")]
 public record AzFunctionappListConsumptionLocationsOptions : AzOptions
 {
-    [CommandSwitch("--os")]
-    public string? Os { get; set; }
 }

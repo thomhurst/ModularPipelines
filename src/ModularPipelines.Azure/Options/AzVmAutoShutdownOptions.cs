@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vm", "auto-shutdown")]
-public record AzVmAutoShutdownOptions(
-[property: CommandSwitch("--vhd-name-prefix")] string VhdNamePrefix
-) : AzOptions
+public record AzVmAutoShutdownOptions : AzOptions
 {
     [CommandSwitch("--email")]
     public string? Email { get; set; }

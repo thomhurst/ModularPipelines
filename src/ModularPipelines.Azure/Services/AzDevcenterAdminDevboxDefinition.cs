@@ -25,9 +25,9 @@ public class AzDevcenterAdminDevboxDefinition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDevcenterAdminDevboxDefinitionDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDevcenterAdminDevboxDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminDevboxDefinitionListOptions options, CancellationToken token = default)

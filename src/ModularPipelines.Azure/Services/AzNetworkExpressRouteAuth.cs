@@ -25,9 +25,9 @@ public class AzNetworkExpressRouteAuth
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkExpressRouteAuthDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkExpressRouteAuthDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkExpressRouteAuthListOptions options, CancellationToken token = default)

@@ -14,9 +14,4 @@ public record AzMlComputeListNodesOptions(
 [property: CommandSwitch("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
-    public string? Location { get; set; }
-
-    [CommandSwitch("--type")]
-    public string? Type { get; set; }
 }

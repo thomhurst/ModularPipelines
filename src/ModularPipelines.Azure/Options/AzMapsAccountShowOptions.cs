@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("maps", "account", "show")]
-public record AzMapsAccountShowOptions(
-[property: CommandSwitch("--sku")] string Sku
-) : AzOptions
+public record AzMapsAccountShowOptions : AzOptions
 {
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }

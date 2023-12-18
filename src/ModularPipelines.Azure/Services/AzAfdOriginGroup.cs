@@ -25,9 +25,9 @@ public class AzAfdOriginGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAfdOriginGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAfdOriginGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginGroupDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAfdOriginGroupListOptions options, CancellationToken token = default)

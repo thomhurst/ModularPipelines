@@ -8,27 +8,34 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("backup", "recoverypoint", "show")]
-public record AzBackupRecoverypointShowOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--item-name")] string ItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
-) : AzOptions
+public record AzBackupRecoverypointShowOptions : AzOptions
 {
     [CommandSwitch("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
+    [CommandSwitch("--container-name")]
+    public string? ContainerName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--item-name")]
+    public string? ItemName { get; set; }
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
 
-    [CommandSwitch("--use-secondary-region")]
-    public string? UseSecondaryRegion { get; set; }
+    [BooleanCommandSwitch("--use-secondary-region")]
+    public bool? UseSecondaryRegion { get; set; }
+
+    [CommandSwitch("--vault-name")]
+    public string? VaultName { get; set; }
 
     [CommandSwitch("--workload-type")]
     public string? WorkloadType { get; set; }

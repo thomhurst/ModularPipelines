@@ -8,11 +8,11 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "private-endpoint", "dns-zone-group", "delete")]
-public record AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions : AzOptions
 {
+    [CommandSwitch("--endpoint-name")]
+    public string? EndpointName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
@@ -21,6 +21,9 @@ public record AzNetworkPrivateEndpointDnsZoneGroupDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

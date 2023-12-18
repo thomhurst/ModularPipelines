@@ -47,9 +47,9 @@ public class AzKeyvaultCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> GetDefaultPolicy(AzKeyvaultCertificateGetDefaultPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDefaultPolicy(AzKeyvaultCertificateGetDefaultPolicyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateGetDefaultPolicyOptions(), token);
     }
 
     public async Task<CommandResult> Import(AzKeyvaultCertificateImportOptions options, CancellationToken token = default)
@@ -57,29 +57,29 @@ public class AzKeyvaultCertificate
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzKeyvaultCertificateListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzKeyvaultCertificateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeleted(AzKeyvaultCertificateListDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeleted(AzKeyvaultCertificateListDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListDeletedOptions(), token);
     }
 
-    public async Task<CommandResult> ListVersions(AzKeyvaultCertificateListVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVersions(AzKeyvaultCertificateListVersionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateListVersionsOptions(), token);
     }
 
-    public async Task<CommandResult> Purge(AzKeyvaultCertificatePurgeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Purge(AzKeyvaultCertificatePurgeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificatePurgeOptions(), token);
     }
 
-    public async Task<CommandResult> Recover(AzKeyvaultCertificateRecoverOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Recover(AzKeyvaultCertificateRecoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateRecoverOptions(), token);
     }
 
     public async Task<CommandResult> Restore(AzKeyvaultCertificateRestoreOptions options, CancellationToken token = default)

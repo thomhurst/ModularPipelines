@@ -63,9 +63,9 @@ public class AzArcappliance
 
     public AzArcapplianceValidate Validate { get; }
 
-    public async Task<CommandResult> GetCredentials(AzArcapplianceGetCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCredentials(AzArcapplianceGetCredentialsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceGetCredentialsOptions(), token);
     }
 
     public async Task<CommandResult> GetUpgrades(AzArcapplianceGetUpgradesOptions options, CancellationToken token = default)
@@ -73,14 +73,14 @@ public class AzArcappliance
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzArcapplianceListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzArcapplianceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceListOptions(), token);
     }
 
-    public async Task<CommandResult> Notice(AzArcapplianceNoticeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Notice(AzArcapplianceNoticeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceNoticeOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzArcapplianceShowOptions options, CancellationToken token = default)

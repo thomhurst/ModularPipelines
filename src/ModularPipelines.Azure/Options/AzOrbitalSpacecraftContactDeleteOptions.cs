@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("orbital", "spacecraft", "contact", "delete")]
-public record AzOrbitalSpacecraftContactDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--spacecraft-name")] string SpacecraftName
-) : AzOptions
+public record AzOrbitalSpacecraftContactDeleteOptions : AzOptions
 {
     [CommandSwitch("--contact-name")]
     public string? ContactName { get; set; }
@@ -21,6 +18,12 @@ public record AzOrbitalSpacecraftContactDeleteOptions(
 
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--spacecraft-name")]
+    public string? SpacecraftName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

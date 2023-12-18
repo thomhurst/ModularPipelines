@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("postgres", "flexible-server", "show-connection-string")]
-public record AzPostgresFlexibleServerShowConnectionStringOptions(
-[property: CommandSwitch("--version")] string Version
-) : AzOptions
+public record AzPostgresFlexibleServerShowConnectionStringOptions : AzOptions
 {
     [CommandSwitch("--admin-password")]
     public string? AdminPassword { get; set; }

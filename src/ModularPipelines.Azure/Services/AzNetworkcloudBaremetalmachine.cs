@@ -20,34 +20,34 @@ public class AzNetworkcloudBaremetalmachine
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Cordon(AzNetworkcloudBaremetalmachineCordonOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cordon(AzNetworkcloudBaremetalmachineCordonOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineCordonOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzNetworkcloudBaremetalmachineListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzNetworkcloudBaremetalmachineListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineListOptions(), token);
     }
 
-    public async Task<CommandResult> PowerOff(AzNetworkcloudBaremetalmachinePowerOffOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PowerOff(AzNetworkcloudBaremetalmachinePowerOffOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachinePowerOffOptions(), token);
     }
 
-    public async Task<CommandResult> Reimage(AzNetworkcloudBaremetalmachineReimageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Reimage(AzNetworkcloudBaremetalmachineReimageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineReimageOptions(), token);
     }
 
-    public async Task<CommandResult> Replace(AzNetworkcloudBaremetalmachineReplaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Replace(AzNetworkcloudBaremetalmachineReplaceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineReplaceOptions(), token);
     }
 
-    public async Task<CommandResult> Restart(AzNetworkcloudBaremetalmachineRestartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Restart(AzNetworkcloudBaremetalmachineRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudBaremetalmachineRestartOptions(), token);
     }
 
     public async Task<CommandResult> RunCommand(AzNetworkcloudBaremetalmachineRunCommandOptions options, CancellationToken token = default)

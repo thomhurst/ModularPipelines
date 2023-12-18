@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("containerapp", "list")]
-public record AzContainerappListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzContainerappListOptions : AzOptions
 {
     [CommandSwitch("--environment")]
     public string? Environment { get; set; }

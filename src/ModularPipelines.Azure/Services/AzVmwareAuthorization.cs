@@ -25,9 +25,9 @@ public class AzVmwareAuthorization
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzVmwareAuthorizationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmwareAuthorizationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzVmwareAuthorizationListOptions options, CancellationToken token = default)

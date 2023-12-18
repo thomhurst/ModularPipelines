@@ -91,14 +91,14 @@ public class AzVm
 
     public AzVmUser User { get; }
 
-    public async Task<CommandResult> AssessPatches(AzVmAssessPatchesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssessPatches(AzVmAssessPatchesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAssessPatchesOptions(), token);
     }
 
-    public async Task<CommandResult> AutoShutdown(AzVmAutoShutdownOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AutoShutdown(AzVmAutoShutdownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAutoShutdownOptions(), token);
     }
 
     public async Task<CommandResult> Capture(AzVmCaptureOptions options, CancellationToken token = default)
@@ -106,9 +106,9 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Convert(AzVmConvertOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Convert(AzVmConvertOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmConvertOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzVmCreateOptions options, CancellationToken token = default)
@@ -116,24 +116,24 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Deallocate(AzVmDeallocateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Deallocate(AzVmDeallocateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmDeallocateOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzVmDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzVmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Generalize(AzVmGeneralizeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Generalize(AzVmGeneralizeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmGeneralizeOptions(), token);
     }
 
-    public async Task<CommandResult> GetInstanceView(AzVmGetInstanceViewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetInstanceView(AzVmGetInstanceViewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmGetInstanceViewOptions(), token);
     }
 
     public async Task<CommandResult> InstallPatches(AzVmInstallPatchesOptions options, CancellationToken token = default)
@@ -141,24 +141,24 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzVmListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzVmListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmListOptions(), token);
     }
 
-    public async Task<CommandResult> ListIpAddresses(AzVmListIpAddressesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListIpAddresses(AzVmListIpAddressesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmListIpAddressesOptions(), token);
     }
 
-    public async Task<CommandResult> ListSizes(AzVmListSizesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSizes(AzVmListSizesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmListSizesOptions(), token);
     }
 
-    public async Task<CommandResult> ListSkus(AzVmListSkusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSkus(AzVmListSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmListSkusOptions(), token);
     }
 
     public async Task<CommandResult> ListUsage(AzVmListUsageOptions options, CancellationToken token = default)
@@ -166,9 +166,9 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListVmResizeOptions(AzVmListVmResizeOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVmResizeOptions(AzVmListVmResizeOptionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmListVmResizeOptionsOptions(), token);
     }
 
     public async Task<CommandResult> OpenPort(AzVmOpenPortOptions options, CancellationToken token = default)
@@ -176,24 +176,24 @@ public class AzVm
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> PerformMaintenance(AzVmPerformMaintenanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PerformMaintenance(AzVmPerformMaintenanceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmPerformMaintenanceOptions(), token);
     }
 
-    public async Task<CommandResult> Reapply(AzVmReapplyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Reapply(AzVmReapplyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmReapplyOptions(), token);
     }
 
-    public async Task<CommandResult> Redeploy(AzVmRedeployOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Redeploy(AzVmRedeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRedeployOptions(), token);
     }
 
-    public async Task<CommandResult> Reimage(AzVmReimageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Reimage(AzVmReimageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmReimageOptions(), token);
     }
 
     public async Task<CommandResult> Resize(AzVmResizeOptions options, CancellationToken token = default)

@@ -13,6 +13,4 @@ public record AzDataboxedgeListNodeOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
 }

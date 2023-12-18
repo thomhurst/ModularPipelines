@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("iot", "edge", "deployment", "list")]
-public record AzIotEdgeDeploymentListOptions(
-[property: CommandSwitch("--deployment-id")] string DeploymentId
-) : AzOptions
+public record AzIotEdgeDeploymentListOptions : AzOptions
 {
     [CommandSwitch("--auth-type")]
     public string? AuthType { get; set; }

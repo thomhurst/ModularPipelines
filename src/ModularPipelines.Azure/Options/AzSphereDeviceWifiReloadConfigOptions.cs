@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "wifi", "reload-config")]
-public record AzSphereDeviceWifiReloadConfigOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzSphereDeviceWifiReloadConfigOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

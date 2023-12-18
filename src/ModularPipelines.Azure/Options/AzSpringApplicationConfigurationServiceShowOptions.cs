@@ -13,6 +13,4 @@ public record AzSpringApplicationConfigurationServiceShowOptions(
 [property: CommandSwitch("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--generation")]
-    public string? Generation { get; set; }
 }

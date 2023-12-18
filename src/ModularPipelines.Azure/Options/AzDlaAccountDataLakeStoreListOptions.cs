@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "account", "data-lake-store", "list")]
-public record AzDlaAccountDataLakeStoreListOptions(
-[property: CommandSwitch("--data-lake-store-account-name")] int DataLakeStoreAccountName
-) : AzOptions
+public record AzDlaAccountDataLakeStoreListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

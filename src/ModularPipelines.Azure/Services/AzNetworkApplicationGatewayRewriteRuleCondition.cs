@@ -35,9 +35,9 @@ public class AzNetworkApplicationGatewayRewriteRuleCondition
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListServerVariables(AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListServerVariables(AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleConditionListServerVariablesOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewayRewriteRuleConditionShowOptions options, CancellationToken token = default)

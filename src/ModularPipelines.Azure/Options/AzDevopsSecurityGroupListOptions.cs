@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("devops", "security", "group", "list")]
-public record AzDevopsSecurityGroupListOptions(
-[property: CommandSwitch("--id")] string Id
-) : AzOptions
+public record AzDevopsSecurityGroupListOptions : AzOptions
 {
     [CommandSwitch("--continuation-token")]
     public string? ContinuationToken { get; set; }

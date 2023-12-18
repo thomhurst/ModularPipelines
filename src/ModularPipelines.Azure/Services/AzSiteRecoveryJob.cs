@@ -20,14 +20,14 @@ public class AzSiteRecoveryJob
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Cancel(AzSiteRecoveryJobCancelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Cancel(AzSiteRecoveryJobCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobCancelOptions(), token);
     }
 
-    public async Task<CommandResult> Export(AzSiteRecoveryJobExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Export(AzSiteRecoveryJobExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobExportOptions(), token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryJobListOptions options, CancellationToken token = default)

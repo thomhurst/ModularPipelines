@@ -13,18 +13,4 @@ public record AzKeyvaultCertificateIssuerDeleteOptions(
 [property: CommandSwitch("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--account-id")]
-    public int? AccountId { get; set; }
-
-    [BooleanCommandSwitch("--enabled")]
-    public bool? Enabled { get; set; }
-
-    [CommandSwitch("--organization-id")]
-    public string? OrganizationId { get; set; }
-
-    [CommandSwitch("--password")]
-    public string? Password { get; set; }
-
-    [CommandSwitch("--provider-name")]
-    public string? ProviderName { get; set; }
 }

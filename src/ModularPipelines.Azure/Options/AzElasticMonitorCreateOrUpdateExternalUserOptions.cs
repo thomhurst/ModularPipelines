@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("elastic", "monitor", "create-or-update-external-user")]
-public record AzElasticMonitorCreateOrUpdateExternalUserOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzElasticMonitorCreateOrUpdateExternalUserOptions : AzOptions
 {
     [CommandSwitch("--email-id")]
     public string? EmailId { get; set; }
@@ -22,8 +19,14 @@ public record AzElasticMonitorCreateOrUpdateExternalUserOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
+    [CommandSwitch("--monitor-name")]
+    public string? MonitorName { get; set; }
+
     [CommandSwitch("--password")]
     public string? Password { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--roles")]
     public string? Roles { get; set; }

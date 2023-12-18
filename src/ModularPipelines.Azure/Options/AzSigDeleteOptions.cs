@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sig", "delete")]
-public record AzSigDeleteOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzSigDeleteOptions : AzOptions
 {
     [CommandSwitch("--gallery-name")]
     public string? GalleryName { get; set; }

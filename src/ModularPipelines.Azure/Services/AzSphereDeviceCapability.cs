@@ -25,14 +25,14 @@ public class AzSphereDeviceCapability
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Select(AzSphereDeviceCapabilitySelectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Select(AzSphereDeviceCapabilitySelectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilitySelectOptions(), token);
     }
 
-    public async Task<CommandResult> ShowAttached(AzSphereDeviceCapabilityShowAttachedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShowAttached(AzSphereDeviceCapabilityShowAttachedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilityShowAttachedOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzSphereDeviceCapabilityUpdateOptions options, CancellationToken token = default)

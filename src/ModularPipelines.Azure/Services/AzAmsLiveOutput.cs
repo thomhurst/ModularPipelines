@@ -25,9 +25,9 @@ public class AzAmsLiveOutput
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAmsLiveOutputDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAmsLiveOutputDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveOutputDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzAmsLiveOutputListOptions options, CancellationToken token = default)

@@ -30,9 +30,9 @@ public class AzNetworkFirewallThreatIntelAllowlist
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzNetworkFirewallThreatIntelAllowlistShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzNetworkFirewallThreatIntelAllowlistShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallThreatIntelAllowlistShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFirewallThreatIntelAllowlistUpdateOptions options, CancellationToken token = default)

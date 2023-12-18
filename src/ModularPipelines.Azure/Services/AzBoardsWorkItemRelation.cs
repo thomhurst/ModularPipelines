@@ -25,9 +25,9 @@ public class AzBoardsWorkItemRelation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListType(AzBoardsWorkItemRelationListTypeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListType(AzBoardsWorkItemRelationListTypeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemRelationListTypeOptions(), token);
     }
 
     public async Task<CommandResult> Remove(AzBoardsWorkItemRelationRemoveOptions options, CancellationToken token = default)

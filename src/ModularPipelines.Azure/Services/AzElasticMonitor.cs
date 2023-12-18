@@ -24,9 +24,9 @@ public class AzElasticMonitor
 
     public AzElasticMonitorTagRule TagRule { get; }
 
-    public async Task<CommandResult> AssociateTrafficFilter(AzElasticMonitorAssociateTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateTrafficFilter(AzElasticMonitorAssociateTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorAssociateTrafficFilterOptions(), token);
     }
 
     public async Task<CommandResult> Create(AzElasticMonitorCreateOptions options, CancellationToken token = default)
@@ -34,59 +34,59 @@ public class AzElasticMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> CreateAndAssociateIpFilter(AzElasticMonitorCreateAndAssociateIpFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAndAssociateIpFilter(AzElasticMonitorCreateAndAssociateIpFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorCreateAndAssociateIpFilterOptions(), token);
     }
 
-    public async Task<CommandResult> CreateAndAssociatePlFilter(AzElasticMonitorCreateAndAssociatePlFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAndAssociatePlFilter(AzElasticMonitorCreateAndAssociatePlFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorCreateAndAssociatePlFilterOptions(), token);
     }
 
-    public async Task<CommandResult> CreateOrUpdateExternalUser(AzElasticMonitorCreateOrUpdateExternalUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateOrUpdateExternalUser(AzElasticMonitorCreateOrUpdateExternalUserOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorCreateOrUpdateExternalUserOptions(), token);
     }
 
-    public async Task<CommandResult> Delete(AzElasticMonitorDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzElasticMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> DeleteTrafficFilter(AzElasticMonitorDeleteTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTrafficFilter(AzElasticMonitorDeleteTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorDeleteTrafficFilterOptions(), token);
     }
 
-    public async Task<CommandResult> DetachAndDeleteTrafficFilter(AzElasticMonitorDetachAndDeleteTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetachAndDeleteTrafficFilter(AzElasticMonitorDetachAndDeleteTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorDetachAndDeleteTrafficFilterOptions(), token);
     }
 
-    public async Task<CommandResult> DetachTrafficFilter(AzElasticMonitorDetachTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetachTrafficFilter(AzElasticMonitorDetachTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorDetachTrafficFilterOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzElasticMonitorListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzElasticMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorListOptions(), token);
     }
 
-    public async Task<CommandResult> ListAllTrafficFilter(AzElasticMonitorListAllTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAllTrafficFilter(AzElasticMonitorListAllTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorListAllTrafficFilterOptions(), token);
     }
 
-    public async Task<CommandResult> ListAssociatedTrafficFilter(AzElasticMonitorListAssociatedTrafficFilterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssociatedTrafficFilter(AzElasticMonitorListAssociatedTrafficFilterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorListAssociatedTrafficFilterOptions(), token);
     }
 
-    public async Task<CommandResult> ListDeploymentInfo(AzElasticMonitorListDeploymentInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeploymentInfo(AzElasticMonitorListDeploymentInfoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorListDeploymentInfoOptions(), token);
     }
 
     public async Task<CommandResult> ListResource(AzElasticMonitorListResourceOptions options, CancellationToken token = default)
@@ -94,9 +94,9 @@ public class AzElasticMonitor
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListUpgradableVersion(AzElasticMonitorListUpgradableVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListUpgradableVersion(AzElasticMonitorListUpgradableVersionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorListUpgradableVersionOptions(), token);
     }
 
     public async Task<CommandResult> ListVmHost(AzElasticMonitorListVmHostOptions options, CancellationToken token = default)

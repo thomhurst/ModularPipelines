@@ -25,14 +25,14 @@ public class AzAppconfigFeatureFilter
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzAppconfigFeatureFilterDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzAppconfigFeatureFilterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureFilterDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> List(AzAppconfigFeatureFilterListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzAppconfigFeatureFilterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigFeatureFilterListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzAppconfigFeatureFilterShowOptions options, CancellationToken token = default)

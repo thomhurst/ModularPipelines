@@ -30,9 +30,9 @@ public class AzSqlMidbCopy
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzSqlMidbCopyListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzSqlMidbCopyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbCopyListOptions(), token);
     }
 
     public async Task<CommandResult> Start(AzSqlMidbCopyStartOptions options, CancellationToken token = default)

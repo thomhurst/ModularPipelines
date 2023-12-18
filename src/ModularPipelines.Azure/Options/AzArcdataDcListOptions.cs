@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "list")]
-public record AzArcdataDcListOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace
-) : AzOptions
+public record AzArcdataDcListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

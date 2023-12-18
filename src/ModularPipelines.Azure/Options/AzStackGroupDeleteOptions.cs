@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("stack", "group", "delete")]
-public record AzStackGroupDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzStackGroupDeleteOptions : AzOptions
 {
     [BooleanCommandSwitch("--delete-all")]
     public bool? DeleteAll { get; set; }
@@ -26,6 +24,9 @@ public record AzStackGroupDeleteOptions(
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

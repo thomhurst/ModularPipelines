@@ -8,14 +8,19 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage-mover", "endpoint", "show")]
-public record AzStorageMoverEndpointShowOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
-) : AzOptions
+public record AzStorageMoverEndpointShowOptions : AzOptions
 {
+    [CommandSwitch("--endpoint-name")]
+    public string? EndpointName { get; set; }
+
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--storage-mover-name")]
+    public string? StorageMoverName { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }

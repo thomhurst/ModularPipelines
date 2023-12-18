@@ -25,9 +25,9 @@ public class AzWebappConfigAccessRestriction
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Remove(AzWebappConfigAccessRestrictionRemoveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Remove(AzWebappConfigAccessRestrictionRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigAccessRestrictionRemoveOptions(), token);
     }
 
     public async Task<CommandResult> Set(AzWebappConfigAccessRestrictionSetOptions options, CancellationToken token = default)

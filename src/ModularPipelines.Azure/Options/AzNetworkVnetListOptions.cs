@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("network", "vnet", "list")]
-public record AzNetworkVnetListOptions(
-[property: CommandSwitch("--location")] string Location
-) : AzOptions
+public record AzNetworkVnetListOptions : AzOptions
 {
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

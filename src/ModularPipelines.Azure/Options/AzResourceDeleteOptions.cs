@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("resource", "delete")]
-public record AzResourceDeleteOptions(
-[property: CommandSwitch("--action")] string Action
-) : AzOptions
+public record AzResourceDeleteOptions : AzOptions
 {
     [CommandSwitch("--api-version")]
     public string? ApiVersion { get; set; }

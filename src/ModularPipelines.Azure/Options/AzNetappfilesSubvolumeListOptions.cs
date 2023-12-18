@@ -15,12 +15,4 @@ public record AzNetappfilesSubvolumeListOptions(
 [property: CommandSwitch("--volume-name")] string VolumeName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
-
-    [CommandSwitch("--subvolume-name")]
-    public string? SubvolumeName { get; set; }
 }

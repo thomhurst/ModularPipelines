@@ -8,12 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("sphere", "device", "show-os-version")]
-public record AzSphereDeviceShowOsVersionOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--device-group")] string DeviceGroup,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzSphereDeviceShowOsVersionOptions : AzOptions
 {
     [CommandSwitch("--device")]
     public string? Device { get; set; }

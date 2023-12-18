@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("healthcareapis", "workspace", "iot-connector", "fhir-destination", "show")]
-public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions(
-[property: CommandSwitch("--fhir-service-resource-id")] string FhirServiceResourceId,
-[property: CommandSwitch("--resource-identity-resolution-type")] string ResourceIdentityResolutionType
-) : AzOptions
+public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationShowOptions : AzOptions
 {
     [CommandSwitch("--fhir-destination-name")]
     public string? FhirDestinationName { get; set; }

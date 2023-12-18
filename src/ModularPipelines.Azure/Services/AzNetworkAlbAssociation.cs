@@ -25,9 +25,9 @@ public class AzNetworkAlbAssociation
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzNetworkAlbAssociationDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzNetworkAlbAssociationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzNetworkAlbAssociationListOptions options, CancellationToken token = default)

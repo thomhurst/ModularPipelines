@@ -15,21 +15,4 @@ public record AzApimApiReleaseShowOptions(
 [property: CommandSwitch("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
-
-    [CommandSwitch("--if-match")]
-    public string? IfMatch { get; set; }
-
-    [CommandSwitch("--notes")]
-    public string? Notes { get; set; }
-
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
-
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
 }

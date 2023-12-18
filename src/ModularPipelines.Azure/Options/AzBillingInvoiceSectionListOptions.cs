@@ -13,12 +13,4 @@ public record AzBillingInvoiceSectionListOptions(
 [property: CommandSwitch("--profile-name")] string ProfileName
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
-    public string? DisplayName { get; set; }
-
-    [CommandSwitch("--labels")]
-    public string? Labels { get; set; }
-
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
 }

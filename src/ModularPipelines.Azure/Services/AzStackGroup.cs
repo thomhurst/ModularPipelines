@@ -25,14 +25,14 @@ public class AzStackGroup
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzStackGroupDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzStackGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Export(AzStackGroupExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Export(AzStackGroupExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupExportOptions(), token);
     }
 
     public async Task<CommandResult> List(AzStackGroupListOptions options, CancellationToken token = default)

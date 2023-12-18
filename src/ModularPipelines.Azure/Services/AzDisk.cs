@@ -24,9 +24,9 @@ public class AzDisk
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzDiskDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzDiskDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskDeleteOptions(), token);
     }
 
     public async Task<CommandResult> GrantAccess(AzDiskGrantAccessOptions options, CancellationToken token = default)

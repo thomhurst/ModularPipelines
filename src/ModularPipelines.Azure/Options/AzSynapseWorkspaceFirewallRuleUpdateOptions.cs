@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("synapse", "workspace", "firewall-rule", "update")]
-public record AzSynapseWorkspaceFirewallRuleUpdateOptions(
-[property: CommandSwitch("--rule-name")] string RuleName
-) : AzOptions
+public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
 {
     [CommandSwitch("--end-ip-address")]
     public string? EndIpAddress { get; set; }

@@ -8,8 +8,6 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("security", "regulatory-compliance-standards", "list")]
-public record AzSecurityRegulatoryComplianceStandardsListOptions(
-[property: CommandSwitch("--name")] string Name
-) : AzOptions
+public record AzSecurityRegulatoryComplianceStandardsListOptions : AzOptions
 {
 }

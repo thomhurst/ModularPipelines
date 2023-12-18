@@ -55,9 +55,9 @@ public class AzMlComputetarget
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlComputetargetListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlComputetargetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlComputetargetListOptions(), token);
     }
 
     public async Task<CommandResult> Show(AzMlComputetargetShowOptions options, CancellationToken token = default)

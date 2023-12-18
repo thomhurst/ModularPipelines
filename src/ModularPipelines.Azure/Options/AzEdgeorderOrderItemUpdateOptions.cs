@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("edgeorder", "order-item", "update")]
-public record AzEdgeorderOrderItemUpdateOptions(
-[property: CommandSwitch("--order-item-name")] string OrderItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzEdgeorderOrderItemUpdateOptions : AzOptions
 {
     [CommandSwitch("--contact-details")]
     public string? ContactDetails { get; set; }
@@ -39,6 +36,9 @@ public record AzEdgeorderOrderItemUpdateOptions(
 
     [CommandSwitch("--notif-preferences")]
     public string? NotifPreferences { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--shipping-address")]
     public string? ShippingAddress { get; set; }

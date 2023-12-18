@@ -15,6 +15,4 @@ public record AzLabSecretSetOptions(
 [property: CommandSwitch("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
-    public string? Expand { get; set; }
 }

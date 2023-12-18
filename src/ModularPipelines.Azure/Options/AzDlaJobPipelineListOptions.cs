@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("dla", "job", "pipeline", "list")]
-public record AzDlaJobPipelineListOptions(
-[property: CommandSwitch("--pipeline-identity")] string PipelineIdentity
-) : AzOptions
+public record AzDlaJobPipelineListOptions : AzOptions
 {
     [CommandSwitch("--account")]
     public int? Account { get; set; }

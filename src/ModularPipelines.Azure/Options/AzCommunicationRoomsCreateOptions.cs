@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("communication", "rooms", "create")]
-public record AzCommunicationRoomsCreateOptions(
-[property: CommandSwitch("--room")] string Room
-) : AzOptions
+public record AzCommunicationRoomsCreateOptions : AzOptions
 {
     [CommandSwitch("--attendee-participants")]
     public string? AttendeeParticipants { get; set; }

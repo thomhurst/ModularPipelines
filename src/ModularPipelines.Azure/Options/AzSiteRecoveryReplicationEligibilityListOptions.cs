@@ -13,9 +13,4 @@ public record AzSiteRecoveryReplicationEligibilityListOptions(
 [property: CommandSwitch("--virtual-machine-name")] string VirtualMachineName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
-    public string? Ids { get; set; }
-
-    [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
 }

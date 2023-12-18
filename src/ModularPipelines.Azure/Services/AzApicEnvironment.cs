@@ -25,14 +25,14 @@ public class AzApicEnvironment
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzApicEnvironmentDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzApicEnvironmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentDeleteOptions(), token);
     }
 
-    public async Task<CommandResult> Head(AzApicEnvironmentHeadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Head(AzApicEnvironmentHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentHeadOptions(), token);
     }
 
     public async Task<CommandResult> List(AzApicEnvironmentListOptions options, CancellationToken token = default)

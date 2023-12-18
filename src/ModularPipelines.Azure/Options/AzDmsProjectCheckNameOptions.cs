@@ -14,6 +14,4 @@ public record AzDmsProjectCheckNameOptions(
 [property: CommandSwitch("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
-    public string? Tags { get; set; }
 }

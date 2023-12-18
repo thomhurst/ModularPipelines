@@ -29,9 +29,9 @@ public class AzServicebusQueue
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzServicebusQueueDeleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzServicebusQueueDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueDeleteOptions(), token);
     }
 
     public async Task<CommandResult> List(AzServicebusQueueListOptions options, CancellationToken token = default)

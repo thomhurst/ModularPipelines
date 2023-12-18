@@ -8,10 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "data", "list")]
-public record AzMlDataListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
-) : AzOptions
+public record AzMlDataListOptions : AzOptions
 {
     [BooleanCommandSwitch("--archived-only")]
     public bool? ArchivedOnly { get; set; }
@@ -27,4 +24,10 @@ public record AzMlDataListOptions(
 
     [CommandSwitch("--registry-name")]
     public string? RegistryName { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 }

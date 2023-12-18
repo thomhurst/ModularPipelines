@@ -8,14 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("functionapp", "connection", "create", "appconfig")]
-public record AzFunctionappConnectionCreateAppconfigOptions(
-[property: CommandSwitch("--bootstrap-server")] string BootstrapServer,
-[property: CommandSwitch("--kafka-key")] string KafkaKey,
-[property: CommandSwitch("--kafka-secret")] string KafkaSecret,
-[property: CommandSwitch("--schema-key")] string SchemaKey,
-[property: CommandSwitch("--schema-registry")] string SchemaRegistry,
-[property: CommandSwitch("--schema-secret")] string SchemaSecret
-) : AzOptions
+public record AzFunctionappConnectionCreateAppconfigOptions : AzOptions
 {
     [CommandSwitch("--app-config")]
     public string? AppConfig { get; set; }

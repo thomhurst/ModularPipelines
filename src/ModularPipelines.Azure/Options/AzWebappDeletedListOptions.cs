@@ -8,9 +8,7 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "deleted", "list")]
-public record AzWebappDeletedListOptions(
-[property: CommandSwitch("--deleted-id")] string DeletedId
-) : AzOptions
+public record AzWebappDeletedListOptions : AzOptions
 {
     [CommandSwitch("--name")]
     public string? Name { get; set; }
