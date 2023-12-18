@@ -29,7 +29,7 @@ public abstract class TestBase
 
         return results.Modules.OfType<T>().Single();
     }
-    
+
     public async Task<(T, T2)> RunModule<T, T2>()
         where T : ModuleBase
         where T2 : ModuleBase
@@ -48,7 +48,7 @@ public abstract class TestBase
             results.GetServices<ModuleBase>().OfType<T2>().Single()
         );
     }
-    
+
     public async Task<(T, T2, T3)> RunModules<T, T2, T3>()
         where T : ModuleBase
         where T2 : ModuleBase
@@ -68,9 +68,9 @@ public abstract class TestBase
             results.GetServices<ModuleBase>().OfType<T>().Single(),
             results.GetServices<ModuleBase>().OfType<T2>().Single(),
             results.GetServices<ModuleBase>().OfType<T3>().Single()
-        );    
+        );
     }
-    
+
     public async Task<(T, T2, T3, T4)> RunModules<T, T2, T3, T4>()
         where T : ModuleBase
         where T2 : ModuleBase

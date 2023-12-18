@@ -146,7 +146,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         return Context.GetModule<TModule>();
     }
-    
+
     /// <summary>
     /// Creates a generic Retry policy that'll catch any exception and retry
     /// </summary>

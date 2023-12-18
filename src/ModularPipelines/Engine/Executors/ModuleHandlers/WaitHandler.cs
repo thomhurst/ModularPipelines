@@ -52,7 +52,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                 {
                     Context.Logger.LogDebug("{Module} was not registered so not waiting",
                         dependsOnAttribute.Type.Name);
-                        
+
                     return;
                 }
 

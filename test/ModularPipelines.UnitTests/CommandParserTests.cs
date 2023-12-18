@@ -20,7 +20,7 @@ public class CommandParserTests : TestBase
             }, cancellationToken);
         }
     }
-    
+
     [Test]
     public async Task Empty_Options_Parse_As_Expected()
     {
@@ -146,7 +146,7 @@ public class CommandParserTests : TestBase
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
                                                     """));
     }
-    
+
     [Test]
     public async Task Azure_Command_Is_Expected_Command()
     {

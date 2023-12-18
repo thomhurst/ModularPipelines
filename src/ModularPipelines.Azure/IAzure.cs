@@ -7,6 +7,6 @@ public interface IAzure
     IAzureProvisioner Provisioner { get; }
 
     IAzureKeyVault KeyVault { get; }
-    
+
     Az Az { get; }
 }

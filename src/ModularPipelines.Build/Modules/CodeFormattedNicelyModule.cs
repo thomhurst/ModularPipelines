@@ -36,6 +36,13 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
         try
         {
+            await context.DotNet().Format(new DotNetFormatOptions
+            {
+                Arguments = new[] { "whitespace" },
+                WorkingDirectory = context.Git().RootDirectory,
+                VerifyNoChanges = true,
+            }, cancellationToken);
+            
             // The code hasn't been formatted nicely!
             return await context.DotNet().Format(new DotNetFormatOptions
             {
