@@ -12,6 +12,7 @@ using ModularPipelines.Azure.Provisioning.Network;
 using ModularPipelines.Azure.Provisioning.PubSub;
 using ModularPipelines.Azure.Provisioning.Security;
 using ModularPipelines.Azure.Provisioning.Storage;
+using ModularPipelines.Azure.Services;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 
