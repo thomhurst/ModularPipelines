@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Azure.Identity;
+using Azure.ResourceManager;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
 using ModularPipelines.Host;
@@ -14,6 +16,7 @@ public static class TestPipelineHostBuilder
             .SetLogLevel(LogLevel.Warning)
             .ConfigureServices((_, collection) =>
             {
+                collection.AddSingleton(new ArmClient(new DefaultAzureCredential()));
                 collection.Configure<PipelineOptions>(opt =>
                 {
                     opt.DefaultCommandLogging = CommandLogging.Input | CommandLogging.Error;
