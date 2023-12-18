@@ -10,19 +10,15 @@ namespace ModularPipelines.Azure.Services;
 public class AzGroup
 {
     public AzGroup(
-        AzGroupDeployment deployment,
         AzGroupLock @lock,
         ICommand internalCommand
     )
     {
-        Deployment = deployment;
         Lock = @lock;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzGroupDeployment Deployment { get; }
 
     public AzGroupLock Lock { get; }
 

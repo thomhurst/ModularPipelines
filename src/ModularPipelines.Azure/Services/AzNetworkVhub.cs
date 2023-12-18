@@ -13,7 +13,6 @@ public class AzNetworkVhub
     public AzNetworkVhub(
         AzNetworkVhubBgpconnection bgpconnection,
         AzNetworkVhubConnection connection,
-        AzNetworkVhubRoute route,
         AzNetworkVhubRouteMap routeMap,
         AzNetworkVhubRouteTable routeTable,
         AzNetworkVhubRoutingIntent routingIntent,
@@ -22,7 +21,6 @@ public class AzNetworkVhub
     {
         Bgpconnection = bgpconnection;
         Connection = connection;
-        Route = route;
         RouteMap = routeMap;
         RouteTable = routeTable;
         RoutingIntent = routingIntent;
@@ -34,8 +32,6 @@ public class AzNetworkVhub
     public AzNetworkVhubBgpconnection Bgpconnection { get; }
 
     public AzNetworkVhubConnection Connection { get; }
-
-    public AzNetworkVhubRoute Route { get; }
 
     public AzNetworkVhubRouteMap RouteMap { get; }
 

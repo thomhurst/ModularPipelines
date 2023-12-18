@@ -17,7 +17,6 @@ public class AzIotDps
         AzIotDpsEnrollmentGroup enrollmentGroup,
         AzIotDpsLinkedHub linkedHub,
         AzIotDpsPolicy policy,
-        AzIotDpsRegistration registration,
         ICommand internalCommand
     )
     {
@@ -27,7 +26,6 @@ public class AzIotDps
         EnrollmentGroup = enrollmentGroup;
         LinkedHub = linkedHub;
         Policy = policy;
-        Registration = registration;
         _command = internalCommand;
     }
 
@@ -44,8 +42,6 @@ public class AzIotDps
     public AzIotDpsLinkedHub LinkedHub { get; }
 
     public AzIotDpsPolicy Policy { get; }
-
-    public AzIotDpsRegistration Registration { get; }
 
     public async Task<CommandResult> ComputeDeviceKey(AzIotDpsComputeDeviceKeyOptions options, CancellationToken token = default)
     {

@@ -11,33 +11,25 @@ namespace ModularPipelines.Azure.Services;
 public class AzSpringApp
 {
     public AzSpringApp(
-        AzSpringAppBinding binding,
         AzSpringAppCustomDomain customDomain,
         AzSpringAppDeployment deployment,
         AzSpringAppIdentity identity,
-        AzSpringAppLog log,
         ICommand internalCommand
     )
     {
-        Binding = binding;
         CustomDomain = customDomain;
         Deployment = deployment;
         Identity = identity;
-        Log = log;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzSpringAppBinding Binding { get; }
 
     public AzSpringAppCustomDomain CustomDomain { get; }
 
     public AzSpringAppDeployment Deployment { get; }
 
     public AzSpringAppIdentity Identity { get; }
-
-    public AzSpringAppLog Log { get; }
 
     public async Task<CommandResult> AppendLoadedPublicCertificate(AzSpringAppAppendLoadedPublicCertificateOptions options, CancellationToken token = default)
     {

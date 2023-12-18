@@ -28,8 +28,6 @@ public class AzIotHub
         AzIotHubModuleIdentity moduleIdentity,
         AzIotHubModuleTwin moduleTwin,
         AzIotHubPolicy policy,
-        AzIotHubRoute route,
-        AzIotHubRoutingEndpoint routingEndpoint,
         AzIotHubState state,
         ICommand internalCommand
     )
@@ -51,8 +49,6 @@ public class AzIotHub
         ModuleIdentity = moduleIdentity;
         ModuleTwin = moduleTwin;
         Policy = policy;
-        Route = route;
-        RoutingEndpoint = routingEndpoint;
         State = state;
         _command = internalCommand;
     }
@@ -92,10 +88,6 @@ public class AzIotHub
     public AzIotHubModuleTwin ModuleTwin { get; }
 
     public AzIotHubPolicy Policy { get; }
-
-    public AzIotHubRoute Route { get; }
-
-    public AzIotHubRoutingEndpoint RoutingEndpoint { get; }
 
     public AzIotHubState State { get; }
 

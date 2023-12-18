@@ -16,8 +16,7 @@ public class AzIot
         AzIotDu du,
         AzIotEdge edge,
         AzIotHub hub,
-        AzIotOps ops,
-        AzIotProduct product
+        AzIotOps ops
     )
     {
         Central = central;
@@ -27,7 +26,6 @@ public class AzIot
         Edge = edge;
         Hub = hub;
         Ops = ops;
-        Product = product;
     }
 
     public AzIotCentral Central { get; }
@@ -43,6 +41,4 @@ public class AzIot
     public AzIotHub Hub { get; }
 
     public AzIotOps Ops { get; }
-
-    public AzIotProduct Product { get; }
 }

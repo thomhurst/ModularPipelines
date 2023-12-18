@@ -11,10 +11,8 @@ public class AzCosmosdb
 {
     public AzCosmosdb(
         AzCosmosdbCassandra cassandra,
-        AzCosmosdbCollection collection,
         AzCosmosdbCopy copy,
         AzCosmosdbCreate create,
-        AzCosmosdbDatabase database,
         AzCosmosdbDts dts,
         AzCosmosdbGremlin gremlin,
         AzCosmosdbIdentity identity,
@@ -38,10 +36,8 @@ public class AzCosmosdb
     )
     {
         Cassandra = cassandra;
-        Collection = collection;
         Copy = copy;
         CreateCommands = create;
-        Database = database;
         Dts = dts;
         Gremlin = gremlin;
         Identity = identity;
@@ -68,13 +64,9 @@ public class AzCosmosdb
 
     public AzCosmosdbCassandra Cassandra { get; }
 
-    public AzCosmosdbCollection Collection { get; }
-
     public AzCosmosdbCopy Copy { get; }
 
     public AzCosmosdbCreate CreateCommands { get; }
-
-    public AzCosmosdbDatabase Database { get; }
 
     public AzCosmosdbDts Dts { get; }
 

@@ -40,7 +40,6 @@ public class Az
         AzBackup backup,
         AzBaremetalinstance baremetalinstance,
         AzBatch batch,
-        AzBatchai batchai,
         AzBicep bicep,
         AzBilling billing,
         AzBillingBenefits billingBenefits,
@@ -83,7 +82,6 @@ public class Az
         AzDataprotection dataprotection,
         AzDatashare datashare,
         AzDedicatedHsm dedicatedHsm,
-        AzDemo demo,
         AzDeployment deployment,
         AzDeploymentScripts deploymentScripts,
         AzDesktopvirtualization desktopvirtualization,
@@ -209,7 +207,6 @@ public class Az
         AzSpatialAnchorsAccount spatialAnchorsAccount,
         AzSphere sphere,
         AzSpring spring,
-        AzSpringCloud springCloud,
         AzSql sql,
         AzSsh ssh,
         AzSshkey sshkey,
@@ -266,7 +263,6 @@ public class Az
         Backup = backup;
         Baremetalinstance = baremetalinstance;
         Batch = batch;
-        Batchai = batchai;
         Bicep = bicep;
         Billing = billing;
         BillingBenefits = billingBenefits;
@@ -309,7 +305,6 @@ public class Az
         Dataprotection = dataprotection;
         Datashare = datashare;
         DedicatedHsm = dedicatedHsm;
-        Demo = demo;
         Deployment = deployment;
         DeploymentScripts = deploymentScripts;
         Desktopvirtualization = desktopvirtualization;
@@ -435,7 +430,6 @@ public class Az
         SpatialAnchorsAccount = spatialAnchorsAccount;
         Sphere = sphere;
         Spring = spring;
-        SpringCloud = springCloud;
         Sql = sql;
         Ssh = ssh;
         Sshkey = sshkey;
@@ -524,8 +518,6 @@ public class Az
 
     public AzBatch Batch { get; }
 
-    public AzBatchai Batchai { get; }
-
     public AzBicep Bicep { get; }
 
     public AzBilling Billing { get; }
@@ -609,8 +601,6 @@ public class Az
     public AzDatashare Datashare { get; }
 
     public AzDedicatedHsm DedicatedHsm { get; }
-
-    public AzDemo Demo { get; }
 
     public AzDeployment Deployment { get; }
 
@@ -861,8 +851,6 @@ public class Az
     public AzSphere Sphere { get; }
 
     public AzSpring Spring { get; }
-
-    public AzSpringCloud SpringCloud { get; }
 
     public AzSql Sql { get; }
 

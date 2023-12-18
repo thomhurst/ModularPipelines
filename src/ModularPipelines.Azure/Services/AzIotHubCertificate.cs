@@ -11,17 +11,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzIotHubCertificate
 {
     public AzIotHubCertificate(
-        AzIotHubCertificateRootAuthority rootAuthority,
         ICommand internalCommand
     )
     {
-        RootAuthority = rootAuthority;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzIotHubCertificateRootAuthority RootAuthority { get; }
 
     public async Task<CommandResult> Create(AzIotHubCertificateCreateOptions options, CancellationToken token = default)
     {

@@ -14,7 +14,6 @@ public class AzCommunication
         AzCommunicationEmail email,
         AzCommunicationIdentity identity,
         AzCommunicationPhonenumber phonenumber,
-        AzCommunicationPhonenumbers phonenumbers,
         AzCommunicationRooms rooms,
         AzCommunicationSms sms,
         AzCommunicationUserIdentity userIdentity,
@@ -25,7 +24,6 @@ public class AzCommunication
         Email = email;
         Identity = identity;
         Phonenumber = phonenumber;
-        Phonenumbers = phonenumbers;
         Rooms = rooms;
         Sms = sms;
         UserIdentity = userIdentity;
@@ -41,8 +39,6 @@ public class AzCommunication
     public AzCommunicationIdentity Identity { get; }
 
     public AzCommunicationPhonenumber Phonenumber { get; }
-
-    public AzCommunicationPhonenumbers Phonenumbers { get; }
 
     public AzCommunicationRooms Rooms { get; }
 

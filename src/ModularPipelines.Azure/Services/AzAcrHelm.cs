@@ -11,17 +11,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcrHelm
 {
     public AzAcrHelm(
-        AzAcrHelmRepo repo,
         ICommand internalCommand
     )
     {
-        Repo = repo;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzAcrHelmRepo Repo { get; }
 
     public async Task<CommandResult> Delete(AzAcrHelmDeleteOptions options, CancellationToken token = default)
     {

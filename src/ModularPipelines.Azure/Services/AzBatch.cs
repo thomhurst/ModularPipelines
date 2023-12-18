@@ -12,7 +12,6 @@ public class AzBatch
     public AzBatch(
         AzBatchAccount account,
         AzBatchApplication application,
-        AzBatchCertificate certificate,
         AzBatchFile file,
         AzBatchJob job,
         AzBatchJobSchedule jobSchedule,
@@ -26,7 +25,6 @@ public class AzBatch
     {
         Account = account;
         Application = application;
-        Certificate = certificate;
         File = file;
         Job = job;
         JobSchedule = jobSchedule;
@@ -41,8 +39,6 @@ public class AzBatch
     public AzBatchAccount Account { get; }
 
     public AzBatchApplication Application { get; }
-
-    public AzBatchCertificate Certificate { get; }
 
     public AzBatchFile File { get; }
 

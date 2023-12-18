@@ -22,7 +22,6 @@ public class AzSqlDb
         AzSqlDbReplica replica,
         AzSqlDbStrPolicy strPolicy,
         AzSqlDbTde tde,
-        AzSqlDbThreatPolicy threatPolicy,
         ICommand internalCommand
     )
     {
@@ -37,7 +36,6 @@ public class AzSqlDb
         Replica = replica;
         StrPolicy = strPolicy;
         Tde = tde;
-        ThreatPolicy = threatPolicy;
         _command = internalCommand;
     }
 
@@ -64,8 +62,6 @@ public class AzSqlDb
     public AzSqlDbStrPolicy StrPolicy { get; }
 
     public AzSqlDbTde Tde { get; }
-
-    public AzSqlDbThreatPolicy ThreatPolicy { get; }
 
     public async Task<CommandResult> Copy(AzSqlDbCopyOptions options, CancellationToken token = default)
     {
