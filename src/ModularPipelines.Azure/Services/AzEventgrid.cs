@@ -11,7 +11,7 @@ public class AzEventgrid
         AzEventgridDomain domain,
         AzEventgridEventSubscription eventSubscription,
         AzEventgridExtensionTopic extensionTopic,
-        AzEventgridNamespace @Namespace,
+        AzEventgridNamespace @namespace,
         AzEventgridPartner partner,
         AzEventgridSystemTopic systemTopic,
         AzEventgridTopic topic,
@@ -21,7 +21,7 @@ public class AzEventgrid
         Domain = domain;
         EventSubscription = eventSubscription;
         ExtensionTopic = extensionTopic;
-        Namespace = @Namespace;
+        Namespace = @namespace;
         Partner = partner;
         SystemTopic = systemTopic;
         Topic = topic;

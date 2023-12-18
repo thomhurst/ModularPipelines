@@ -10,12 +10,12 @@ public class AzNetworkFrontDoorWafPolicyManagedRules
 {
     public AzNetworkFrontDoorWafPolicyManagedRules(
         AzNetworkFrontDoorWafPolicyManagedRulesExclusion exclusion,
-        AzNetworkFrontDoorWafPolicyManagedRulesOverride @Override,
+        AzNetworkFrontDoorWafPolicyManagedRulesOverride @override,
         ICommand internalCommand
     )
     {
         Exclusion = exclusion;
-        Override = @Override;
+        Override = @override;
         _command = internalCommand;
     }
 

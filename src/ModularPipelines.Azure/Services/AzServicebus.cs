@@ -10,14 +10,14 @@ public class AzServicebus
     public AzServicebus(
         AzServicebusGeorecoveryAlias georecoveryAlias,
         AzServicebusMigration migration,
-        AzServicebusNamespace @Namespace,
+        AzServicebusNamespace @namespace,
         AzServicebusQueue queue,
         AzServicebusTopic topic
     )
     {
         GeorecoveryAlias = georecoveryAlias;
         Migration = migration;
-        Namespace = @Namespace;
+        Namespace = @namespace;
         Queue = queue;
         Topic = topic;
     }

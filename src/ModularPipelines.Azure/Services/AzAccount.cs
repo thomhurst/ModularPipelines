@@ -9,7 +9,7 @@ public class AzAccount
 {
     public AzAccount(
         AzAccountAlias alias,
-        AzAccountLock @Lock,
+        AzAccountLock @lock,
         AzAccountManagementGroup managementGroup,
         AzAccountSubscription subscription,
         AzAccountTenant tenant,
@@ -17,7 +17,7 @@ public class AzAccount
     )
     {
         Alias = alias;
-        Lock = @Lock;
+        Lock = @lock;
         ManagementGroup = managementGroup;
         Subscription = subscription;
         Tenant = tenant;

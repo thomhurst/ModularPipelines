@@ -9,13 +9,13 @@ using ModularPipelines.Options;
 public class AzIotProductTest
 {
     public AzIotProductTest(
-        AzIotProductTestCase @Case,
+        AzIotProductTestCase @case,
         AzIotProductTestRun run,
         AzIotProductTestTask task,
         ICommand internalCommand
     )
     {
-        Case = @Case;
+        Case = @case;
         Run = run;
         Task = task;
         _command = internalCommand;

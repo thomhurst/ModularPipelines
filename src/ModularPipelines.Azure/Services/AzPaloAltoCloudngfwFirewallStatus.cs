@@ -9,11 +9,11 @@ using ModularPipelines.Options;
 public class AzPaloAltoCloudngfwFirewallStatus
 {
     public AzPaloAltoCloudngfwFirewallStatus(
-        AzPaloAltoCloudngfwFirewallStatusDefault @Default,
+        AzPaloAltoCloudngfwFirewallStatusDefault @default,
         ICommand internalCommand
     )
     {
-        Default = @Default;
+        Default = @default;
         _command = internalCommand;
     }
 

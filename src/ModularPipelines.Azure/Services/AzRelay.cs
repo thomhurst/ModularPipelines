@@ -9,12 +9,12 @@ public class AzRelay
 {
     public AzRelay(
         AzRelayHyco hyco,
-        AzRelayNamespace @Namespace,
+        AzRelayNamespace @namespace,
         AzRelayWcfrelay wcfrelay
     )
     {
         Hyco = hyco;
-        Namespace = @Namespace;
+        Namespace = @namespace;
         Wcfrelay = wcfrelay;
     }
 

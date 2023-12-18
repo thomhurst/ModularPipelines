@@ -10,12 +10,12 @@ public class AzIotOpsAsset
 {
     public AzIotOpsAsset(
         AzIotOpsAssetDataPoint dataPoint,
-        AzIotOpsAssetEvent @Event,
+        AzIotOpsAssetEvent @event,
         ICommand internalCommand
     )
     {
         DataPoint = dataPoint;
-        Event = @Event;
+        Event = @event;
         _command = internalCommand;
     }
 

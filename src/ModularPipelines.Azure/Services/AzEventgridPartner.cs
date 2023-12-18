@@ -11,7 +11,7 @@ public class AzEventgridPartner
     public AzEventgridPartner(
         AzEventgridPartnerConfiguration configuration,
         AzEventgridPartnerDestination destination,
-        AzEventgridPartnerNamespace @Namespace,
+        AzEventgridPartnerNamespace @namespace,
         AzEventgridPartnerRegistration registration,
         AzEventgridPartnerTopic topic,
         AzEventgridPartnerVerifiedPartner verifiedPartner
@@ -19,7 +19,7 @@ public class AzEventgridPartner
     {
         Configuration = configuration;
         Destination = destination;
-        Namespace = @Namespace;
+        Namespace = @namespace;
         Registration = registration;
         Topic = topic;
         VerifiedPartner = verifiedPartner;

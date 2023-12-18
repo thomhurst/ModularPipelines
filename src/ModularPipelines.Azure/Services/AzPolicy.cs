@@ -11,7 +11,7 @@ public class AzPolicy
         AzPolicyAssignment assignment,
         AzPolicyAttestation attestation,
         AzPolicyDefinition definition,
-        AzPolicyEvent @Event,
+        AzPolicyEvent @event,
         AzPolicyExemption exemption,
         AzPolicyMetadata metadata,
         AzPolicyRemediation remediation,
@@ -22,7 +22,7 @@ public class AzPolicy
         Assignment = assignment;
         Attestation = attestation;
         Definition = definition;
-        Event = @Event;
+        Event = @event;
         Exemption = exemption;
         Metadata = metadata;
         Remediation = remediation;

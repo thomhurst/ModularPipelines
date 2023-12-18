@@ -11,14 +11,14 @@ public class AzRepos
         AzReposImport import,
         AzReposPolicy policy,
         AzReposPr pr,
-        AzReposRef @Ref,
+        AzReposRef @ref,
         ICommand internalCommand
     )
     {
         Import = import;
         Policy = policy;
         Pr = pr;
-        Ref = @Ref;
+        Ref = @ref;
         _command = internalCommand;
     }
 

@@ -11,13 +11,13 @@ public class AzEventhubs
         AzEventhubsCluster cluster,
         AzEventhubsEventhub eventhub,
         AzEventhubsGeorecoveryAlias georecoveryAlias,
-        AzEventhubsNamespace @Namespace
+        AzEventhubsNamespace @namespace
     )
     {
         Cluster = cluster;
         Eventhub = eventhub;
         GeorecoveryAlias = georecoveryAlias;
-        Namespace = @Namespace;
+        Namespace = @namespace;
     }
 
     public AzEventhubsCluster Cluster { get; }

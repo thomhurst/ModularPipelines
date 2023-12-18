@@ -13,7 +13,7 @@ public class AzNetworkfabric
         AzNetworkfabricDevice device,
         AzNetworkfabricExternalnetwork externalnetwork,
         AzNetworkfabricFabric fabric,
-        AzNetworkfabricInterface @Interface,
+        AzNetworkfabricInterface @interface,
         AzNetworkfabricInternalnetwork internalnetwork,
         AzNetworkfabricInternetgateway internetgateway,
         AzNetworkfabricInternetgatewayrule internetgatewayrule,
@@ -36,7 +36,7 @@ public class AzNetworkfabric
         Device = device;
         Externalnetwork = externalnetwork;
         Fabric = fabric;
-        Interface = @Interface;
+        Interface = @interface;
         Internalnetwork = internalnetwork;
         Internetgateway = internetgateway;
         Internetgatewayrule = internetgatewayrule;

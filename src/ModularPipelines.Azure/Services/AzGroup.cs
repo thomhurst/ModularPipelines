@@ -9,12 +9,12 @@ public class AzGroup
 {
     public AzGroup(
         AzGroupDeployment deployment,
-        AzGroupLock @Lock,
+        AzGroupLock @lock,
         ICommand internalCommand
     )
     {
         Deployment = deployment;
-        Lock = @Lock;
+        Lock = @lock;
         _command = internalCommand;
     }
 

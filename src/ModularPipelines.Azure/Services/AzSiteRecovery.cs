@@ -9,7 +9,7 @@ public class AzSiteRecovery
 {
     public AzSiteRecovery(
         AzSiteRecoveryAlertSetting alertSetting,
-        AzSiteRecoveryEvent @Event,
+        AzSiteRecoveryEvent @event,
         AzSiteRecoveryFabric fabric,
         AzSiteRecoveryJob job,
         AzSiteRecoveryLogicalNetwork logicalNetwork,
@@ -26,7 +26,7 @@ public class AzSiteRecovery
     )
     {
         AlertSetting = alertSetting;
-        Event = @Event;
+        Event = @event;
         Fabric = fabric;
         Job = job;
         LogicalNetwork = logicalNetwork;

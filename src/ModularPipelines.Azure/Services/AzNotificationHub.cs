@@ -10,13 +10,13 @@ public class AzNotificationHub
     public AzNotificationHub(
         AzNotificationHubAuthorizationRule authorizationRule,
         AzNotificationHubCredential credential,
-        AzNotificationHubNamespace @Namespace,
+        AzNotificationHubNamespace @namespace,
         ICommand internalCommand
     )
     {
         AuthorizationRule = authorizationRule;
         Credential = credential;
-        Namespace = @Namespace;
+        Namespace = @namespace;
         _command = internalCommand;
     }
 

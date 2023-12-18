@@ -9,11 +9,11 @@ using ModularPipelines.Options;
 public class AzEventhubsCluster
 {
     public AzEventhubsCluster(
-        AzEventhubsClusterNamespace @Namespace,
+        AzEventhubsClusterNamespace @namespace,
         ICommand internalCommand
     )
     {
-        Namespace = @Namespace;
+        Namespace = @namespace;
         _command = internalCommand;
     }
 

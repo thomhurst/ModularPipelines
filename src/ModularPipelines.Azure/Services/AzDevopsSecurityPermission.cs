@@ -9,11 +9,11 @@ using ModularPipelines.Options;
 public class AzDevopsSecurityPermission
 {
     public AzDevopsSecurityPermission(
-        AzDevopsSecurityPermissionNamespace @Namespace,
+        AzDevopsSecurityPermissionNamespace @namespace,
         ICommand internalCommand
     )
     {
-        Namespace = @Namespace;
+        Namespace = @namespace;
         _command = internalCommand;
     }
 

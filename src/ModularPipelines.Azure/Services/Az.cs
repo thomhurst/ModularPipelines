@@ -136,7 +136,7 @@ public class Az
         AzLargeInstance largeInstance,
         AzLargeStorageInstance largeStorageInstance,
         AzLoad load,
-        AzLock @Lock,
+        AzLock @lock,
         AzLogic logic,
         AzLogicapp logicapp,
         AzLogz logz,
@@ -362,7 +362,7 @@ public class Az
         LargeInstance = largeInstance;
         LargeStorageInstance = largeStorageInstance;
         Load = load;
-        Lock = @Lock;
+        Lock = @lock;
         Logic = logic;
         Logicapp = logicapp;
         Logz = logz;

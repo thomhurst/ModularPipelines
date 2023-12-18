@@ -9,7 +9,7 @@ using ModularPipelines.Options;
 public class AzIotDuDevice
 {
     public AzIotDuDevice(
-        AzIotDuDeviceClass @Class,
+        AzIotDuDeviceClass @class,
         AzIotDuDeviceCompliance compliance,
         AzIotDuDeviceDeployment deployment,
         AzIotDuDeviceGroup group,
@@ -19,7 +19,7 @@ public class AzIotDuDevice
         ICommand internalCommand
     )
     {
-        Class = @Class;
+        Class = @class;
         Compliance = compliance;
         Deployment = deployment;
         Group = group;

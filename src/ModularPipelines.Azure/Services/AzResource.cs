@@ -9,12 +9,12 @@ public class AzResource
 {
     public AzResource(
         AzResourceLink link,
-        AzResourceLock @Lock,
+        AzResourceLock @lock,
         ICommand internalCommand
     )
     {
         Link = link;
-        Lock = @Lock;
+        Lock = @lock;
         _command = internalCommand;
     }
 
