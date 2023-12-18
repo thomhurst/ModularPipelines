@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Build
-        run: dotnet build -c Release --framework net7.0
+        run: dotnet build ModularPipelines.sln -c Release --framework net7.0
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
