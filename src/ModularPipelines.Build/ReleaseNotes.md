@@ -1,1 +1,1 @@
-*   Classes for interacting with the Azure Az CLI
+*   Classes for interacting with the Azure az CLI
