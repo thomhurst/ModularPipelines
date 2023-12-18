@@ -26,7 +26,7 @@ public record AzBlueprintUpdateOptions(
     public string? ManagementGroup { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }

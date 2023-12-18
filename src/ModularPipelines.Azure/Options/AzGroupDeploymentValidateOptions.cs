@@ -20,7 +20,7 @@ public record AzGroupDeploymentValidateOptions(
     public bool? NoPrompt { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--rollback-on-error")]
     public string? RollbackOnError { get; set; }

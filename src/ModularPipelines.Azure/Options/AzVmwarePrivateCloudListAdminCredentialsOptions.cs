@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "private-cloud", "listadmincredentials")]
-public record AzVmwarePrivateCloudListAdminCredentialsOptions(
+public record AzVmwarePrivateCloudListadmincredentialsOptions(
 [property: CommandSwitch("--private-cloud")] string PrivateCloud,
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions

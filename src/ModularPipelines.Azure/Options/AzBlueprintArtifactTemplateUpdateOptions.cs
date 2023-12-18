@@ -24,7 +24,7 @@ public record AzBlueprintArtifactTemplateUpdateOptions(
     public string? ManagementGroup { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--resource-group-art")]
     public string? ResourceGroupArt { get; set; }

@@ -20,7 +20,7 @@ public record AzManagedappCreateOptions(
     public string? ManagedappDefinitionId { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--plan-name")]
     public string? PlanName { get; set; }

@@ -23,7 +23,7 @@ public record AzMlRunSubmitPipelineOptions(
     public string? OutputFile { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--path")]
     public string? Path { get; set; }

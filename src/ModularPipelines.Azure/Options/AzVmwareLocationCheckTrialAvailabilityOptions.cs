@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "location", "checktrialavailability")]
-public record AzVmwareLocationCheckTrialAvailabilityOptions(
+public record AzVmwareLocationChecktrialavailabilityOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {

@@ -21,7 +21,7 @@ public record AzBlueprintCreateOptions(
     public string? ManagementGroup { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--resource-groups")]
     public string? ResourceGroups { get; set; }

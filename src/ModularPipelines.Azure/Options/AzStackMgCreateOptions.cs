@@ -41,7 +41,7 @@ public record AzStackMgCreateOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--query-string")]
     public string? QueryString { get; set; }

@@ -8,7 +8,7 @@ using ModularPipelines.Options;
 [CommandPrecedingArguments("ad", "app", "federated-credential", "create")]
 public record AzAdAppFederatedCredentialCreateOptions(
 [property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--parameters")] string Parameters
+[property: CommandSwitch("--parameters")] string[] Parameters
 ) : AzOptions
 {
 }

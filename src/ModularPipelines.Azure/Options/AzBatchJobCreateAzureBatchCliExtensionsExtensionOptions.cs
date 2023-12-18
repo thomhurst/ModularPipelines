@@ -53,7 +53,7 @@ public record AzBatchJobCreateAzureBatchCliExtensionsExtensionOptions(
     public string? Metadata { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--pool-id")]
     public string? PoolId { get; set; }

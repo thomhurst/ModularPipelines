@@ -23,7 +23,7 @@ public record AzMeshDeploymentCreateOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--template-file")]
     public string? TemplateFile { get; set; }

@@ -23,7 +23,7 @@ public record AzMlPipelineUpdateDraftOptions(
     public string? Name { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--pipeline-draft-id")]
     public string? PipelineDraftId { get; set; }

@@ -37,7 +37,7 @@ public record AzConnectedmachineRunCommandCreateOptions(
     public string? OutputBlobUri { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--password")]
     public string? Password { get; set; }

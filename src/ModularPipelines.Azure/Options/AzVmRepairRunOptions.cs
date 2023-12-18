@@ -18,7 +18,7 @@ public record AzVmRepairRunOptions : AzOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--preview")]
     public string? Preview { get; set; }

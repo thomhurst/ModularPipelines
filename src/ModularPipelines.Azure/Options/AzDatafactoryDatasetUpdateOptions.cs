@@ -41,7 +41,7 @@ public record AzDatafactoryDatasetUpdateOptions(
     public string? IfNoneMatch { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }

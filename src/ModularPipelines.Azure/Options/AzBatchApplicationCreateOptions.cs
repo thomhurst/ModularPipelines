@@ -13,6 +13,6 @@ public record AzBatchApplicationCreateOptions(
 ) : AzOptions
 {
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 }
 

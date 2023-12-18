@@ -24,7 +24,7 @@ public record AzSelfHelpSolutionShowOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--provisioning-state")]
     public string? ProvisioningState { get; set; }

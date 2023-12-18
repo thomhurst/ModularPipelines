@@ -35,7 +35,7 @@ public record AzBlueprintAssignmentCreateOptions(
     public string? ManagementGroup { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--resource-group-value")]
     public string? ResourceGroupValue { get; set; }

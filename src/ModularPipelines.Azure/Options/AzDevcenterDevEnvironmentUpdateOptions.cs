@@ -24,7 +24,7 @@ public record AzDevcenterDevEnvironmentUpdateOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }

@@ -17,7 +17,7 @@ public record AzLabEnvironmentCreateOptions(
     public string? ArtifactSourceName { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }

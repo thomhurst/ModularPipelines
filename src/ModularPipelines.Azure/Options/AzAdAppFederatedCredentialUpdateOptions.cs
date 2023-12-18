@@ -9,7 +9,7 @@ using ModularPipelines.Options;
 public record AzAdAppFederatedCredentialUpdateOptions(
 [property: CommandSwitch("--federated-credential-id")] string FederatedCredentialId,
 [property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--parameters")] string Parameters
+[property: CommandSwitch("--parameters")] string[] Parameters
 ) : AzOptions
 {
 }

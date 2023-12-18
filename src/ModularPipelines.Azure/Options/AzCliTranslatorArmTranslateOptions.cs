@@ -7,7 +7,7 @@ using ModularPipelines.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cli-translator", "arm", "translate")]
 public record AzCliTranslatorArmTranslateOptions(
-[property: CommandSwitch("--parameters")] string Parameters,
+[property: CommandSwitch("--parameters")] string[] Parameters,
 [property: CommandSwitch("--resource-group")] string ResourceGroup,
 [property: CommandSwitch("--template")] string Template
 ) : AzOptions

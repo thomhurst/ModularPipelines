@@ -38,7 +38,7 @@ public record AzConfcomAcipolicygenOptions(
     public bool? OutrawPrettyPrint { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [BooleanCommandSwitch("--print-existing-policy")]
     public bool? PrintExistingPolicy { get; set; }

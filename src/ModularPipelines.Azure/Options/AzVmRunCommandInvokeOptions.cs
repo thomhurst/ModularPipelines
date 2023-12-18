@@ -20,7 +20,7 @@ public record AzVmRunCommandInvokeOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }

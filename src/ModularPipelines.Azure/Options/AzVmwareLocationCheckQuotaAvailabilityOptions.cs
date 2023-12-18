@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("vmware", "location", "checkquotaavailability")]
-public record AzVmwareLocationCheckQuotaAvailabilityOptions(
+public record AzVmwareLocationCheckquotaavailabilityOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {

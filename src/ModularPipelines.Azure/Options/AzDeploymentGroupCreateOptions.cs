@@ -35,7 +35,7 @@ public record AzDeploymentGroupCreateOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--proceed-if-no-change")]
     public string? ProceedIfNoChange { get; set; }

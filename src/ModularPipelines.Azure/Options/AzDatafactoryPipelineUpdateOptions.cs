@@ -48,7 +48,7 @@ public record AzDatafactoryPipelineUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--remove")]
     public string? Remove { get; set; }

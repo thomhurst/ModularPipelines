@@ -12,7 +12,7 @@ public record AzSelfHelpTroubleshooterCreateOptions(
 ) : AzOptions
 {
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--solution-id")]
     public string? SolutionId { get; set; }

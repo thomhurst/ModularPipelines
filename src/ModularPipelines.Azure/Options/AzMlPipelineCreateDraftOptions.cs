@@ -19,7 +19,7 @@ public record AzMlPipelineCreateDraftOptions(
     public string? Description { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--properties")]
     public string? Properties { get; set; }

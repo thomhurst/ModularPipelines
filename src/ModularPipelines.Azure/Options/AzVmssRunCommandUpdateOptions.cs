@@ -35,7 +35,7 @@ public record AzVmssRunCommandUpdateOptions(
     public string? OutputBlobUri { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--protected-parameters")]
     public string? ProtectedParameters { get; set; }

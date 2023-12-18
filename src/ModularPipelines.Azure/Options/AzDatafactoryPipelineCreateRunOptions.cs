@@ -16,7 +16,7 @@ public record AzDatafactoryPipelineCreateRunOptions(
     public bool? IsRecovery { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--reference-pipeline-run-id")]
     public string? ReferencePipelineRunId { get; set; }

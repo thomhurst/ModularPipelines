@@ -59,7 +59,7 @@ public record AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions(
     public string? OsVersion { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--policy")]
     public string? Policy { get; set; }

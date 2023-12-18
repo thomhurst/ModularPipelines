@@ -32,7 +32,7 @@ public record AzPipelinesRunOptions(
     public string? Org { get; set; }
 
     [CommandSwitch("--parameters")]
-    public string? Parameters { get; set; }
+    public string[]? Parameters { get; set; }
 
     [CommandSwitch("--project")]
     public string? Project { get; set; }
