@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -42,11 +43,6 @@ public class AzIotDps
     public AzIotDpsLinkedHub LinkedHub { get; }
 
     public AzIotDpsPolicy Policy { get; }
-
-    public async Task<CommandResult> ComputeDeviceKey(AzIotDpsComputeDeviceKeyOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 
     public async Task<CommandResult> Create(AzIotDpsCreateOptions options, CancellationToken token = default)
     {

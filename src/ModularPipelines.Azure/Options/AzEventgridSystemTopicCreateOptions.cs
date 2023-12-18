@@ -15,9 +15,6 @@ public record AzEventgridSystemTopicCreateOptions(
 [property: CommandSwitch("--topic-type")] string TopicType
 ) : AzOptions
 {
-    [CommandSwitch("--identity")]
-    public string? Identity { get; set; }
-
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 

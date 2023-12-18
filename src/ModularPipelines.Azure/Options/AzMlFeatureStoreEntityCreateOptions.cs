@@ -30,7 +30,4 @@ public record AzMlFeatureStoreEntityCreateOptions(
 
     [CommandSwitch("--set")]
     public string? Set { get; set; }
-
-    [CommandSwitch("--workspace-name")]
-    public string? WorkspaceName { get; set; }
 }

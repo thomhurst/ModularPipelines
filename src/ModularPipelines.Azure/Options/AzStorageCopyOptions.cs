@@ -31,9 +31,6 @@ public record AzStorageCopyOptions : AzOptions
     [CommandSwitch("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--destination-account-name")]
-    public int? DestinationAccountName { get; set; }
-
     [CommandSwitch("--destination-blob")]
     public string? DestinationBlob { get; set; }
 
@@ -42,9 +39,6 @@ public record AzStorageCopyOptions : AzOptions
 
     [CommandSwitch("--destination-file-path")]
     public string? DestinationFilePath { get; set; }
-
-    [CommandSwitch("--destination-local-path")]
-    public string? DestinationLocalPath { get; set; }
 
     [CommandSwitch("--destination-share")]
     public string? DestinationShare { get; set; }
@@ -96,9 +90,6 @@ public record AzStorageCopyOptions : AzOptions
 
     [CommandSwitch("--source-file-path")]
     public string? SourceFilePath { get; set; }
-
-    [CommandSwitch("--source-local-path")]
-    public string? SourceLocalPath { get; set; }
 
     [CommandSwitch("--source-sas")]
     public string? SourceSas { get; set; }

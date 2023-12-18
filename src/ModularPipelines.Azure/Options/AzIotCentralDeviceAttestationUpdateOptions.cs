@@ -14,9 +14,6 @@ public record AzIotCentralDeviceAttestationUpdateOptions(
 [property: CommandSwitch("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

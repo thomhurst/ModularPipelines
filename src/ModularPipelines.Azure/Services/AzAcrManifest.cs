@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -11,17 +12,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzAcrManifest
 {
     public AzAcrManifest(
-        AzAcrManifestMetadata metadata,
         ICommand internalCommand
     )
     {
-        Metadata = metadata;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzAcrManifestMetadata Metadata { get; }
 
     public async Task<CommandResult> Delete(AzAcrManifestDeleteOptions? options = default, CancellationToken token = default)
     {

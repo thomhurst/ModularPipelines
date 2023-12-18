@@ -32,9 +32,6 @@ public record AzDtDataHistoryConnectionCreateAdxOptions(
     [CommandSwitch("--adx-subscription")]
     public string? AdxSubscription { get; set; }
 
-    [CommandSwitch("--adx-table-name")]
-    public string? AdxTableName { get; set; }
-
     [CommandSwitch("--adx-twin-events-table")]
     public string? AdxTwinEventsTable { get; set; }
 

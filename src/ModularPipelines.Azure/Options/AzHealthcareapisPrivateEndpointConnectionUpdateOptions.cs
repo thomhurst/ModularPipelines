@@ -22,15 +22,6 @@ public record AzHealthcareapisPrivateEndpointConnectionUpdateOptions : AzOptions
     [CommandSwitch("--private-link-service-connection-state")]
     public string? PrivateLinkServiceConnectionState { get; set; }
 
-    [CommandSwitch("--private-link-service-connection-state-actions-required")]
-    public string? PrivateLinkServiceConnectionStateActionsRequired { get; set; }
-
-    [CommandSwitch("--private-link-service-connection-state-description")]
-    public string? PrivateLinkServiceConnectionStateDescription { get; set; }
-
-    [CommandSwitch("--private-link-service-connection-state-status")]
-    public string? PrivateLinkServiceConnectionStateStatus { get; set; }
-
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 

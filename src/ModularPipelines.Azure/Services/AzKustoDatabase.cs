@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -20,45 +21,30 @@ public class AzKustoDatabase
         ICommand internalCommand
     )
     {
-        CreateCommands = create;
-        DeleteCommands = delete;
-        ListCommands = list;
-        ShowCommands = show;
-        UpdateCommands = update;
-        WaitCommands = wait;
+        Create = create;
+        Delete = delete;
+        List = list;
+        Show = show;
+        Update = update;
+        Wait = wait;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
 
-    public AzKustoDatabaseCreate CreateCommands { get; }
+    public AzKustoDatabaseCreate Create { get; }
 
-    public AzKustoDatabaseDelete DeleteCommands { get; }
+    public AzKustoDatabaseDelete Delete { get; }
 
-    public AzKustoDatabaseList ListCommands { get; }
+    public AzKustoDatabaseList List { get; }
 
-    public AzKustoDatabaseShow ShowCommands { get; }
+    public AzKustoDatabaseShow Show { get; }
 
-    public AzKustoDatabaseUpdate UpdateCommands { get; }
+    public AzKustoDatabaseUpdate Update { get; }
 
-    public AzKustoDatabaseWait WaitCommands { get; }
+    public AzKustoDatabaseWait Wait { get; }
 
     public async Task<CommandResult> AddPrincipal(AzKustoDatabaseAddPrincipalOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Create(AzKustoDatabaseCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Delete(AzKustoDatabaseDeleteOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> List(AzKustoDatabaseListOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -71,20 +57,5 @@ public class AzKustoDatabase
     public async Task<CommandResult> RemovePrincipal(AzKustoDatabaseRemovePrincipalOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Show(AzKustoDatabaseShowOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Update(AzKustoDatabaseUpdateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Wait(AzKustoDatabaseWaitOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseWaitOptions(), token);
     }
 }

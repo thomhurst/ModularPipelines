@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -29,7 +30,6 @@ public class AzContainerapp
         AzContainerappResiliency resiliency,
         AzContainerappRevision revision,
         AzContainerappSecret secret,
-        AzContainerappService service,
         AzContainerappSsl ssl,
         ICommand internalCommand
     )
@@ -53,7 +53,6 @@ public class AzContainerapp
         Resiliency = resiliency;
         Revision = revision;
         Secret = secret;
-        Service = service;
         Ssl = ssl;
         _command = internalCommand;
     }
@@ -97,8 +96,6 @@ public class AzContainerapp
     public AzContainerappRevision Revision { get; }
 
     public AzContainerappSecret Secret { get; }
-
-    public AzContainerappService Service { get; }
 
     public AzContainerappSsl Ssl { get; }
 

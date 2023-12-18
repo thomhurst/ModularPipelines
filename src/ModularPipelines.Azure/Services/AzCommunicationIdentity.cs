@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -11,21 +12,13 @@ namespace ModularPipelines.Azure.Services;
 public class AzCommunicationIdentity
 {
     public AzCommunicationIdentity(
-        AzCommunicationIdentityToken token,
-        AzCommunicationIdentityUser user,
         ICommand internalCommand
     )
     {
-        Token = token;
-        User = user;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
-
-    public AzCommunicationIdentityToken Token { get; }
-
-    public AzCommunicationIdentityUser User { get; }
 
     public async Task<CommandResult> Assign(AzCommunicationIdentityAssignOptions options, CancellationToken token = default)
     {

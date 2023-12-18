@@ -24,9 +24,6 @@ public record AzVmssExtensionSetOptions(
     [BooleanCommandSwitch("--force-update")]
     public bool? ForceUpdate { get; set; }
 
-    [BooleanCommandSwitch("--no-auto-upgrade")]
-    public bool? NoAutoUpgrade { get; set; }
-
     [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 

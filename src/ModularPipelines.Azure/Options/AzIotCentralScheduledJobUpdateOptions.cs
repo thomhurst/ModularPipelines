@@ -13,9 +13,6 @@ public record AzIotCentralScheduledJobUpdateOptions(
 [property: CommandSwitch("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--batch")]
     public string? Batch { get; set; }
 

@@ -103,9 +103,6 @@ public record AzSqlVmCreateOptions(
     [CommandSwitch("--sql-auth-update-username")]
     public string? SqlAuthUpdateUsername { get; set; }
 
-    [CommandSwitch("--sql-mgmt-type")]
-    public string? SqlMgmtType { get; set; }
-
     [CommandSwitch("--sql-workload-type")]
     public string? SqlWorkloadType { get; set; }
 

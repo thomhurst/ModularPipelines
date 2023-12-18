@@ -22,9 +22,6 @@ public record AzSpringConnectionCreateSignalrOptions : AzOptions
     [CommandSwitch("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 

@@ -14,9 +14,6 @@ public record AzIotCentralUserCreateOptions(
 [property: CommandSwitch("--role")] string Role
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

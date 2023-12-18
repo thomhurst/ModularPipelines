@@ -7,11 +7,17 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "location", "checktrialavailability")]
-public record AzVmwareLocationChecktrialavailabilityOptions(
+[CommandPrecedingArguments("vmware", "location", "check-trial-availability")]
+public record AzVmwareLocationCheckTrialAvailabilityOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
+    [CommandSwitch("--ids")]
+    public string? Ids { get; set; }
+
     [CommandSwitch("--sku")]
     public string? Sku { get; set; }
+
+    [CommandSwitch("--subscription")]
+    public string? Subscription { get; set; }
 }

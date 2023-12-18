@@ -15,9 +15,6 @@ public record AzIotCentralExportDestinationCreateOptions(
 [property: CommandSwitch("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--au")]
     public string? Au { get; set; }
 

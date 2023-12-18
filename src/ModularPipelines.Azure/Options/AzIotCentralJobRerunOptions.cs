@@ -14,9 +14,6 @@ public record AzIotCentralJobRerunOptions(
 [property: CommandSwitch("--rerun-id")] string RerunId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -35,11 +36,6 @@ public class AzContainerappEnvWorkloadProfile
     }
 
     public async Task<CommandResult> ListSupported(AzContainerappEnvWorkloadProfileListSupportedOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Set(AzContainerappEnvWorkloadProfileSetOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

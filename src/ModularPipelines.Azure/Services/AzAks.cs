@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -77,7 +78,7 @@ public class AzAks
         Trustedaccess = trustedaccess;
         UpdateCommands = update;
         UpgradeCommands = upgrade;
-        UseDevSpacesCommands = useDevSpaces;
+        UseDevSpaces = useDevSpaces;
         WaitCommands = wait;
         _command = internalCommand;
     }
@@ -146,7 +147,7 @@ public class AzAks
 
     public AzAksUpgrade UpgradeCommands { get; }
 
-    public AzAksUseDevSpaces UseDevSpacesCommands { get; }
+    public AzAksUseDevSpaces UseDevSpaces { get; }
 
     public AzAksWait WaitCommands { get; }
 
@@ -225,11 +226,6 @@ public class AzAks
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> RemoveDevSpaces(AzAksRemoveDevSpacesOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
     public async Task<CommandResult> RotateCerts(AzAksRotateCertsOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
@@ -266,11 +262,6 @@ public class AzAks
     }
 
     public async Task<CommandResult> Upgrade(AzAksUpgradeOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> UseDevSpaces(AzAksUseDevSpacesOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

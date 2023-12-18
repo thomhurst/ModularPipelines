@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -149,11 +150,6 @@ public class AzIotHub
     public async Task<CommandResult> Show(AzIotHubShowOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubShowOptions(), token);
-    }
-
-    public async Task<CommandResult> ShowConnectionString(AzIotHubShowConnectionStringOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubShowConnectionStringOptions(), token);
     }
 
     public async Task<CommandResult> ShowQuotaMetrics(AzIotHubShowQuotaMetricsOptions? options = default, CancellationToken token = default)

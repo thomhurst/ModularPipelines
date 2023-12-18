@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,7 +20,6 @@ public class AzAcr
         AzAcrCredentialSet credentialSet,
         AzAcrEncryption encryption,
         AzAcrExportPipeline exportPipeline,
-        AzAcrHelm helm,
         AzAcrIdentity identity,
         AzAcrImportPipeline importPipeline,
         AzAcrManifest manifest,
@@ -47,7 +47,6 @@ public class AzAcr
         CredentialSet = credentialSet;
         Encryption = encryption;
         ExportPipeline = exportPipeline;
-        Helm = helm;
         Identity = identity;
         ImportPipeline = importPipeline;
         Manifest = manifest;
@@ -85,8 +84,6 @@ public class AzAcr
     public AzAcrEncryption Encryption { get; }
 
     public AzAcrExportPipeline ExportPipeline { get; }
-
-    public AzAcrHelm Helm { get; }
 
     public AzAcrIdentity Identity { get; }
 

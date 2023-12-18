@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -27,42 +28,12 @@ public class AzVmwarePrivateCloud
 
     public AzVmwarePrivateCloudIdentitySource IdentitySource { get; }
 
-    public async Task<CommandResult> AddCmkEncryption(AzVmwarePrivateCloudAddCmkEncryptionOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> AddIdentitySource(AzVmwarePrivateCloudAddIdentitySourceOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Addidentitysource(AzVmwarePrivateCloudAddidentitysourceOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
     public async Task<CommandResult> Create(AzVmwarePrivateCloudCreateOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Delete(AzVmwarePrivateCloudDeleteOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> DeleteCmkEncryption(AzVmwarePrivateCloudDeleteCmkEncryptionOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> DeleteIdentitySource(AzVmwarePrivateCloudDeleteIdentitySourceOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Deleteidentitysource(AzVmwarePrivateCloudDeleteidentitysourceOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -83,11 +54,6 @@ public class AzVmwarePrivateCloud
     }
 
     public async Task<CommandResult> ListAdminCredentials(AzVmwarePrivateCloudListAdminCredentialsOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Listadmincredentials(AzVmwarePrivateCloudListadmincredentialsOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

@@ -15,9 +15,6 @@ public record AzDeploymentTenantCreateOptions(
     [CommandSwitch("--confirm-with-what-if")]
     public string? ConfirmWithWhatIf { get; set; }
 
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 

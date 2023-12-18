@@ -30,9 +30,6 @@ public record AzArcdataDcUpgradeOptions(
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--target")]
-    public string? Target { get; set; }
-
     [CommandSwitch("--use-k8s")]
     public string? UseK8s { get; set; }
 }

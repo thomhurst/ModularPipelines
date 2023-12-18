@@ -10,9 +10,6 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("eventgrid", "topic", "update")]
 public record AzEventgridTopicUpdateOptions : AzOptions
 {
-    [CommandSwitch("--identity")]
-    public string? Identity { get; set; }
-
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

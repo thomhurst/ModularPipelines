@@ -13,9 +13,6 @@ public record AzIotCentralUserDeleteOptions(
 [property: CommandSwitch("--assignee")] string Assignee
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

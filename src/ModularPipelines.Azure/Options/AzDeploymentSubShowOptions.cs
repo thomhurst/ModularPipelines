@@ -12,9 +12,6 @@ public record AzDeploymentSubShowOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [BooleanCommandSwitch("--no-prompt")]
     public bool? NoPrompt { get; set; }
 

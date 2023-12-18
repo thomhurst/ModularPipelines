@@ -16,9 +16,6 @@ public record AzSpringConnectionListConfigurationOptions : AzOptions
     [CommandSwitch("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [CommandSwitch("--id")]
     public string? Id { get; set; }
 

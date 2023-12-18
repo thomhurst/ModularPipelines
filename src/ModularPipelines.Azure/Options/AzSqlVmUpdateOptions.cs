@@ -130,9 +130,6 @@ public record AzSqlVmUpdateOptions : AzOptions
     [CommandSwitch("--sp-secret")]
     public string? SpSecret { get; set; }
 
-    [CommandSwitch("--sql-mgmt-type")]
-    public string? SqlMgmtType { get; set; }
-
     [CommandSwitch("--sql-workload-type")]
     public string? SqlWorkloadType { get; set; }
 
@@ -153,7 +150,4 @@ public record AzSqlVmUpdateOptions : AzOptions
 
     [CommandSwitch("--workspace-sub")]
     public string? WorkspaceSub { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

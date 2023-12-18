@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -26,11 +27,6 @@ public class AzSynapseIntegrationRuntime
     public AzSynapseIntegrationRuntimeManaged Managed { get; }
 
     public AzSynapseIntegrationRuntimeSelfHosted SelfHosted { get; }
-
-    public async Task<CommandResult> Create(AzSynapseIntegrationRuntimeCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 
     public async Task<CommandResult> Delete(AzSynapseIntegrationRuntimeDeleteOptions options, CancellationToken token = default)
     {

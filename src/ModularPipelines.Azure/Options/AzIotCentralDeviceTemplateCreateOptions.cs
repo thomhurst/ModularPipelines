@@ -14,9 +14,6 @@ public record AzIotCentralDeviceTemplateCreateOptions(
 [property: CommandSwitch("--device-template-id")] string DeviceTemplateId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

@@ -15,9 +15,6 @@ public record AzVmDiagnosticsSetOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-auto-upgrade")]
-    public bool? NoAutoUpgrade { get; set; }
-
     [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 

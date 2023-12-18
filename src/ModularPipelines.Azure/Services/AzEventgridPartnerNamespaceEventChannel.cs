@@ -14,44 +14,20 @@ public class AzEventgridPartnerNamespaceEventChannel
         AzEventgridPartnerNamespaceEventChannelCreate create,
         AzEventgridPartnerNamespaceEventChannelDelete delete,
         AzEventgridPartnerNamespaceEventChannelList list,
-        AzEventgridPartnerNamespaceEventChannelShow show,
-        ICommand internalCommand
+        AzEventgridPartnerNamespaceEventChannelShow show
     )
     {
-        CreateCommands = create;
-        DeleteCommands = delete;
-        ListCommands = list;
-        ShowCommands = show;
-        _command = internalCommand;
+        Create = create;
+        Delete = delete;
+        List = list;
+        Show = show;
     }
 
-    private readonly ICommand _command;
+    public AzEventgridPartnerNamespaceEventChannelCreate Create { get; }
 
-    public AzEventgridPartnerNamespaceEventChannelCreate CreateCommands { get; }
+    public AzEventgridPartnerNamespaceEventChannelDelete Delete { get; }
 
-    public AzEventgridPartnerNamespaceEventChannelDelete DeleteCommands { get; }
+    public AzEventgridPartnerNamespaceEventChannelList List { get; }
 
-    public AzEventgridPartnerNamespaceEventChannelList ListCommands { get; }
-
-    public AzEventgridPartnerNamespaceEventChannelShow ShowCommands { get; }
-
-    public async Task<CommandResult> Create(AzEventgridPartnerNamespaceEventChannelCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Delete(AzEventgridPartnerNamespaceEventChannelDeleteOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> List(AzEventgridPartnerNamespaceEventChannelListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Show(AzEventgridPartnerNamespaceEventChannelShowOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceEventChannelShowOptions(), token);
-    }
+    public AzEventgridPartnerNamespaceEventChannelShow Show { get; }
 }

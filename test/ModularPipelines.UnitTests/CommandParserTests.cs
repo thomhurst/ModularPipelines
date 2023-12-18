@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Extensions;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;

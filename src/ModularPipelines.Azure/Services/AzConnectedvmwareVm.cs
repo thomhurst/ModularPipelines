@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -43,11 +44,6 @@ public class AzConnectedvmwareVm
     public async Task<CommandResult> Delete(AzConnectedvmwareVmDeleteOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmDeleteOptions(), token);
-    }
-
-    public async Task<CommandResult> List(AzConnectedvmwareVmListOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmListOptions(), token);
     }
 
     public async Task<CommandResult> Restart(AzConnectedvmwareVmRestartOptions? options = default, CancellationToken token = default)

@@ -13,9 +13,6 @@ public record AzIotCentralQueryOptions(
 [property: CommandSwitch("--qs")] string Qs
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

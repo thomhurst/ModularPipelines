@@ -14,9 +14,6 @@ public record AzIotCentralDeviceTelemetryShowOptions(
 [property: CommandSwitch("--telemetry-name--tn")] string TelemetryNameTn
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

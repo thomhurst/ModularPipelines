@@ -13,9 +13,6 @@ public record AzIotCentralDeviceComputeDeviceKeyOptions(
 [property: CommandSwitch("--pk")] string Pk
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

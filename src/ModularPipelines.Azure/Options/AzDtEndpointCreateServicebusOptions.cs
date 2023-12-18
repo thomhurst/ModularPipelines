@@ -15,9 +15,6 @@ public record AzDtEndpointCreateServicebusOptions(
 [property: CommandSwitch("--sbt")] string Sbt
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
-    public string? AuthType { get; set; }
-
     [CommandSwitch("--deadletter-sas-uri")]
     public string? DeadletterSasUri { get; set; }
 

@@ -13,9 +13,6 @@ public record AzIotCentralExportDestinationShowOptions(
 [property: CommandSwitch("--dest-id")] string DestId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

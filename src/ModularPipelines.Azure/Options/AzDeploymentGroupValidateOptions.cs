@@ -12,9 +12,6 @@ public record AzDeploymentGroupValidateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [CommandSwitch("--mode")]
     public string? Mode { get; set; }
 

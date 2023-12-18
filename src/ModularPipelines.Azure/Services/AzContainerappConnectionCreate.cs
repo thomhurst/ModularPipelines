@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,7 +20,7 @@ public class AzContainerappConnectionCreate
     )
     {
         MysqlFlexibleCommands = mysqlFlexible;
-        PostgresCommands = postgres;
+        Postgres = postgres;
         PostgresFlexibleCommands = postgresFlexible;
         SqlCommands = sql;
         _command = internalCommand;
@@ -29,7 +30,7 @@ public class AzContainerappConnectionCreate
 
     public AzContainerappConnectionCreateMysqlFlexible MysqlFlexibleCommands { get; }
 
-    public AzContainerappConnectionCreatePostgres PostgresCommands { get; }
+    public AzContainerappConnectionCreatePostgres Postgres { get; }
 
     public AzContainerappConnectionCreatePostgresFlexible PostgresFlexibleCommands { get; }
 
@@ -80,19 +81,9 @@ public class AzContainerappConnectionCreate
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateKeyvaultOptions(), token);
     }
 
-    public async Task<CommandResult> Mysql(AzContainerappConnectionCreateMysqlOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateMysqlOptions(), token);
-    }
-
     public async Task<CommandResult> MysqlFlexible(AzContainerappConnectionCreateMysqlFlexibleOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateMysqlFlexibleOptions(), token);
-    }
-
-    public async Task<CommandResult> Postgres(AzContainerappConnectionCreatePostgresOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreatePostgresOptions(), token);
     }
 
     public async Task<CommandResult> PostgresFlexible(AzContainerappConnectionCreatePostgresFlexibleOptions? options = default, CancellationToken token = default)

@@ -15,9 +15,6 @@ public record AzIotCentralDeviceGroupCreateOptions(
 [property: CommandSwitch("--filter")] string Filter
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

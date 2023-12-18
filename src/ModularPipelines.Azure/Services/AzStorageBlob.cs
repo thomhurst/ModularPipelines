@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -11,10 +12,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzStorageBlob
 {
     public AzStorageBlob(
-        AzStorageBlobAccess access,
         AzStorageBlobCopy copy,
         AzStorageBlobDelete delete,
-        AzStorageBlobDirectory directory,
         AzStorageBlobGenerateSas generateSas,
         AzStorageBlobImmutabilityPolicy immutabilityPolicy,
         AzStorageBlobIncrementalCopy incrementalCopy,
@@ -27,10 +26,8 @@ public class AzStorageBlob
         ICommand internalCommand
     )
     {
-        Access = access;
         Copy = copy;
         DeleteCommands = delete;
-        Directory = directory;
         GenerateSasCommands = generateSas;
         ImmutabilityPolicy = immutabilityPolicy;
         IncrementalCopy = incrementalCopy;
@@ -45,13 +42,9 @@ public class AzStorageBlob
 
     private readonly ICommand _command;
 
-    public AzStorageBlobAccess Access { get; }
-
     public AzStorageBlobCopy Copy { get; }
 
     public AzStorageBlobDelete DeleteCommands { get; }
-
-    public AzStorageBlobDirectory Directory { get; }
 
     public AzStorageBlobGenerateSas GenerateSasCommands { get; }
 
@@ -107,11 +100,6 @@ public class AzStorageBlob
     }
 
     public async Task<CommandResult> List(AzStorageBlobListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Move(AzStorageBlobMoveOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

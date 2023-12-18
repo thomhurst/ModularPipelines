@@ -16,9 +16,6 @@ public record AzWebappUpdateOptions : AzOptions
     [BooleanCommandSwitch("--client-affinity-enabled")]
     public bool? ClientAffinityEnabled { get; set; }
 
-    [BooleanCommandSwitch("--force-dns-registration")]
-    public bool? ForceDnsRegistration { get; set; }
-
     [BooleanCommandSwitch("--force-string")]
     public bool? ForceString { get; set; }
 
@@ -46,18 +43,9 @@ public record AzWebappUpdateOptions : AzOptions
     [CommandSwitch("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--skip-custom-domain-verification")]
-    public bool? SkipCustomDomainVerification { get; set; }
-
-    [BooleanCommandSwitch("--skip-dns-registration")]
-    public bool? SkipDnsRegistration { get; set; }
-
     [CommandSwitch("--slot")]
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
-
-    [BooleanCommandSwitch("--ttl-in-seconds")]
-    public bool? TtlInSeconds { get; set; }
 }

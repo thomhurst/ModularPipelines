@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -129,7 +130,6 @@ public class Az
         AzInternetAnalyzer internetAnalyzer,
         AzIot iot,
         AzK8sExtension k8sExtension,
-        AzK8sconfiguration k8sconfiguration,
         AzKeyvault keyvault,
         AzKusto kusto,
         AzLab lab,
@@ -352,7 +352,6 @@ public class Az
         InternetAnalyzer = internetAnalyzer;
         Iot = iot;
         K8sExtension = k8sExtension;
-        K8sconfiguration = k8sconfiguration;
         Keyvault = keyvault;
         Kusto = kusto;
         Lab = lab;
@@ -696,8 +695,6 @@ public class Az
 
     public AzK8sExtension K8sExtension { get; }
 
-    public AzK8sconfiguration K8sconfiguration { get; }
-
     public AzKeyvault Keyvault { get; }
 
     public AzKusto Kusto { get; }
@@ -941,11 +938,6 @@ public class Az
     public async Task<CommandResult> Rest(AzRestOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> SelfTest(AzSelfTestOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSelfTestOptions(), token);
     }
 
     public async Task<CommandResult> Survey(AzSurveyOptions? options = default, CancellationToken token = default)

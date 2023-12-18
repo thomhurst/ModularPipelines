@@ -25,9 +25,6 @@ public record AzSpringConnectionWaitOptions : AzOptions
     [BooleanCommandSwitch("--deleted")]
     public bool? Deleted { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [BooleanCommandSwitch("--exists")]
     public bool? Exists { get; set; }
 

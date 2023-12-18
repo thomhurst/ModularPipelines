@@ -10,8 +10,7 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("ml", "feature-set", "update")]
 public record AzMlFeatureSetUpdateOptions(
 [property: CommandSwitch("--feature-store-name")] string FeatureStoreName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
     [CommandSwitch("--add")]

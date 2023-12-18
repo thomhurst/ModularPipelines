@@ -26,9 +26,6 @@ public record AzFunctionappCreateOptions(
     [CommandSwitch("--consumption-plan-location")]
     public string? ConsumptionPlanLocation { get; set; }
 
-    [CommandSwitch("--deployment-container-image-name")]
-    public string? DeploymentContainerImageName { get; set; }
-
     [CommandSwitch("--deployment-local-git")]
     public string? DeploymentLocalGit { get; set; }
 
@@ -40,12 +37,6 @@ public record AzFunctionappCreateOptions(
 
     [BooleanCommandSwitch("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
-
-    [CommandSwitch("--docker-registry-server-password")]
-    public string? DockerRegistryServerPassword { get; set; }
-
-    [CommandSwitch("--docker-registry-server-user")]
-    public string? DockerRegistryServerUser { get; set; }
 
     [CommandSwitch("--environment")]
     public string? Environment { get; set; }

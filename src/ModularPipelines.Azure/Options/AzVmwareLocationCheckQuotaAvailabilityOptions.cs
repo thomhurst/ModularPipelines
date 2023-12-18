@@ -7,11 +7,14 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "location", "checkquotaavailability")]
-public record AzVmwareLocationCheckquotaavailabilityOptions(
+[CommandPrecedingArguments("vmware", "location", "check-quota-availability")]
+public record AzVmwareLocationCheckQuotaAvailabilityOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--sku")]
-    public string? Sku { get; set; }
+    [CommandSwitch("--ids")]
+    public string? Ids { get; set; }
+
+    [CommandSwitch("--subscription")]
+    public string? Subscription { get; set; }
 }

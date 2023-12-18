@@ -13,9 +13,6 @@ public record AzIotCentralApiTokenDeleteOptions(
 [property: CommandSwitch("--tkid")] string Tkid
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

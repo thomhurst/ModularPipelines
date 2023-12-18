@@ -13,9 +13,6 @@ public record AzDeploymentMgValidateOptions(
 [property: CommandSwitch("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 

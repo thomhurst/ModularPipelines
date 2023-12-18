@@ -12,9 +12,6 @@ public record AzDeploymentSubValidateOptions(
 [property: CommandSwitch("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 

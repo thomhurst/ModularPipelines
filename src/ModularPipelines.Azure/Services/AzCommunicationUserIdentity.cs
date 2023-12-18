@@ -12,23 +12,14 @@ public class AzCommunicationUserIdentity
 {
     public AzCommunicationUserIdentity(
         AzCommunicationUserIdentityToken token,
-        AzCommunicationUserIdentityUser user,
-        ICommand internalCommand
+        AzCommunicationUserIdentityUser user
     )
     {
         Token = token;
         User = user;
-        _command = internalCommand;
     }
-
-    private readonly ICommand _command;
 
     public AzCommunicationUserIdentityToken Token { get; }
 
     public AzCommunicationUserIdentityUser User { get; }
-
-    public async Task<CommandResult> IssueAccessToken(AzCommunicationUserIdentityIssueAccessTokenOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 }

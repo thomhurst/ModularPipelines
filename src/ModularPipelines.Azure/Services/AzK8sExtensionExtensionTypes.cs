@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,11 +20,6 @@ public class AzK8sExtensionExtensionTypes
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> List(AzK8sExtensionExtensionTypesListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
     public async Task<CommandResult> ListByCluster(AzK8sExtensionExtensionTypesListByClusterOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
@@ -34,22 +30,12 @@ public class AzK8sExtensionExtensionTypes
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> ListVersions(AzK8sExtensionExtensionTypesListVersionsOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
     public async Task<CommandResult> ListVersionsByCluster(AzK8sExtensionExtensionTypesListVersionsByClusterOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> ListVersionsByLocation(AzK8sExtensionExtensionTypesListVersionsByLocationOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Show(AzK8sExtensionExtensionTypesShowOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

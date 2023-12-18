@@ -21,9 +21,6 @@ public record AzAdSpCreateOptions(
     [CommandSwitch("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--json-auth")]
-    public bool? JsonAuth { get; set; }
-
     [CommandSwitch("--keyvault")]
     public string? Keyvault { get; set; }
 

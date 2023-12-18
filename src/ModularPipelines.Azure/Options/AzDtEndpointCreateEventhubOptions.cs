@@ -15,9 +15,6 @@ public record AzDtEndpointCreateEventhubOptions(
 [property: CommandSwitch("--en")] string En
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
-    public string? AuthType { get; set; }
-
     [CommandSwitch("--deadletter-sas-uri")]
     public string? DeadletterSasUri { get; set; }
 

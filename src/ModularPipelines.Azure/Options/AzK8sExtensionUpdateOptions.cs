@@ -33,18 +33,6 @@ public record AzK8sExtensionUpdateOptions(
     [CommandSwitch("--config-protected-file")]
     public string? ConfigProtectedFile { get; set; }
 
-    [CommandSwitch("--config-settings")]
-    public string? ConfigSettings { get; set; }
-
-    [CommandSwitch("--configuration-protected-settings")]
-    public string? ConfigurationProtectedSettings { get; set; }
-
-    [CommandSwitch("--configuration-protected-settings-file")]
-    public string? ConfigurationProtectedSettingsFile { get; set; }
-
-    [CommandSwitch("--configuration-settings-file")]
-    public string? ConfigurationSettingsFile { get; set; }
-
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 

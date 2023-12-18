@@ -49,7 +49,4 @@ public record AzMlFeatureSetBackfillOptions(
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
-
-    [CommandSwitch("--workspace-name")]
-    public string? WorkspaceName { get; set; }
 }

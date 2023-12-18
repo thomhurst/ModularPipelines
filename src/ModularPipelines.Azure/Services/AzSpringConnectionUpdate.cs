@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -64,19 +65,9 @@ public class AzSpringConnectionUpdate
         return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionUpdateKeyvaultOptions(), token);
     }
 
-    public async Task<CommandResult> Mysql(AzSpringConnectionUpdateMysqlOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionUpdateMysqlOptions(), token);
-    }
-
     public async Task<CommandResult> MysqlFlexible(AzSpringConnectionUpdateMysqlFlexibleOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionUpdateMysqlFlexibleOptions(), token);
-    }
-
-    public async Task<CommandResult> Postgres(AzSpringConnectionUpdatePostgresOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionUpdatePostgresOptions(), token);
     }
 
     public async Task<CommandResult> PostgresFlexible(AzSpringConnectionUpdatePostgresFlexibleOptions? options = default, CancellationToken token = default)

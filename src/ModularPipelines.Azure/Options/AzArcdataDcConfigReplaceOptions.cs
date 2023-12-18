@@ -9,7 +9,6 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "config", "replace")]
 public record AzArcdataDcConfigReplaceOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
 [property: CommandSwitch("--json-values")] string JsonValues,
 [property: CommandSwitch("--path")] string Path
 ) : AzOptions

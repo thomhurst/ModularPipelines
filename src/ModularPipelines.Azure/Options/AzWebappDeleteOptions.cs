@@ -16,9 +16,6 @@ public record AzWebappDeleteOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--keep-dns-registration")]
-    public string? KeepDnsRegistration { get; set; }
-
     [CommandSwitch("--keep-empty-plan")]
     public string? KeepEmptyPlan { get; set; }
 

@@ -13,9 +13,6 @@ public record AzIotCentralEnrollmentGroupShowOptions(
 [property: CommandSwitch("--group-id")] string GroupId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

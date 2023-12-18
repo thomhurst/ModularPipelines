@@ -22,9 +22,6 @@ public record AzSpringConnectionCreateKeyvaultOptions : AzOptions
     [CommandSwitch("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [BooleanCommandSwitch("--new")]
     public bool? New { get; set; }
 

@@ -7,8 +7,8 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud", "listadmincredentials")]
-public record AzVmwarePrivateCloudListadmincredentialsOptions(
+[CommandPrecedingArguments("vmware", "private-cloud", "list-admin-credentials")]
+public record AzVmwarePrivateCloudListAdminCredentialsOptions(
 [property: CommandSwitch("--private-cloud")] string PrivateCloud,
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
@@ -16,12 +16,6 @@ public record AzVmwarePrivateCloudListadmincredentialsOptions(
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
-
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
-
-    [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
 }

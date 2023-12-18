@@ -15,9 +15,6 @@ public record AzIotCentralJobCreateOptions(
 [property: CommandSwitch("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--batch")]
     public string? Batch { get; set; }
 

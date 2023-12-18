@@ -22,9 +22,6 @@ public record AzSpringConnectionCreateEventhubOptions : AzOptions
     [CommandSwitch("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [CommandSwitch("--namespace")]
     public string? Namespace { get; set; }
 

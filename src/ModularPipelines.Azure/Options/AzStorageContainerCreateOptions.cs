@@ -42,9 +42,6 @@ public record AzStorageContainerCreateOptions(
     [CommandSwitch("--public-access")]
     public string? PublicAccess { get; set; }
 
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
-
     [CommandSwitch("--sas-token")]
     public string? SasToken { get; set; }
 

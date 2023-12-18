@@ -13,18 +13,14 @@ public class AzCognitiveservices
         AzCognitiveservicesAccount account,
         AzCognitiveservicesCommitmentTier commitmentTier,
         AzCognitiveservicesModel model,
-        AzCognitiveservicesUsage usage,
-        ICommand internalCommand
+        AzCognitiveservicesUsage usage
     )
     {
         Account = account;
         CommitmentTier = commitmentTier;
         Model = model;
         Usage = usage;
-        _command = internalCommand;
     }
-
-    private readonly ICommand _command;
 
     public AzCognitiveservicesAccount Account { get; }
 
@@ -33,9 +29,4 @@ public class AzCognitiveservices
     public AzCognitiveservicesModel Model { get; }
 
     public AzCognitiveservicesUsage Usage { get; }
-
-    public async Task<CommandResult> List(AzCognitiveservicesListOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesListOptions(), token);
-    }
 }

@@ -9,7 +9,6 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "config", "patch")]
 public record AzArcdataDcConfigPatchOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
 [property: CommandSwitch("--patch-file")] string PatchFile,
 [property: CommandSwitch("--path")] string Path
 ) : AzOptions

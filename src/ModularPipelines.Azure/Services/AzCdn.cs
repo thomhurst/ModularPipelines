@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -16,7 +17,6 @@ public class AzCdn
         AzCdnOrigin origin,
         AzCdnOriginGroup originGroup,
         AzCdnProfile profile,
-        AzCdnWaf waf,
         ICommand internalCommand
     )
     {
@@ -26,7 +26,6 @@ public class AzCdn
         Origin = origin;
         OriginGroup = originGroup;
         Profile = profile;
-        Waf = waf;
         _command = internalCommand;
     }
 
@@ -43,8 +42,6 @@ public class AzCdn
     public AzCdnOriginGroup OriginGroup { get; }
 
     public AzCdnProfile Profile { get; }
-
-    public AzCdnWaf Waf { get; }
 
     public async Task<CommandResult> NameExists(AzCdnNameExistsOptions? options = default, CancellationToken token = default)
     {

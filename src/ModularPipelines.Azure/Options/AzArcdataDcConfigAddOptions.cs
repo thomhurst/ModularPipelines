@@ -9,7 +9,6 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("arcdata", "dc", "config", "add")]
 public record AzArcdataDcConfigAddOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
 [property: CommandSwitch("--json-values")] string JsonValues,
 [property: CommandSwitch("--path")] string Path
 ) : AzOptions
@@ -19,7 +18,4 @@ public record AzArcdataDcConfigAddOptions(
 
     [CommandSwitch("--source")]
     public string? Source { get; set; }
-
-    [CommandSwitch("--target")]
-    public string? Target { get; set; }
 }

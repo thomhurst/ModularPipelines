@@ -19,9 +19,6 @@ public record AzEventgridTopicCreateOptions(
     [CommandSwitch("--extended-location-type")]
     public string? ExtendedLocationType { get; set; }
 
-    [CommandSwitch("--identity")]
-    public string? Identity { get; set; }
-
     [CommandSwitch("--inbound-ip-rules")]
     public string? InboundIpRules { get; set; }
 

@@ -14,18 +14,14 @@ public class AzDeploymentOperation
         AzDeploymentOperationGroup group,
         AzDeploymentOperationMg mg,
         AzDeploymentOperationSub sub,
-        AzDeploymentOperationTenant tenant,
-        ICommand internalCommand
+        AzDeploymentOperationTenant tenant
     )
     {
         Group = group;
         Mg = mg;
         Sub = sub;
         Tenant = tenant;
-        _command = internalCommand;
     }
-
-    private readonly ICommand _command;
 
     public AzDeploymentOperationGroup Group { get; }
 
@@ -34,14 +30,4 @@ public class AzDeploymentOperation
     public AzDeploymentOperationSub Sub { get; }
 
     public AzDeploymentOperationTenant Tenant { get; }
-
-    public async Task<CommandResult> List(AzDeploymentOperationListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Show(AzDeploymentOperationShowOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 }

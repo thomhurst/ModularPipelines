@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -26,11 +27,6 @@ public class AzVmwareDatastore
     public AzVmwareDatastoreDiskPoolVolume DiskPoolVolume { get; }
 
     public AzVmwareDatastoreNetappVolume NetappVolume { get; }
-
-    public async Task<CommandResult> Create(AzVmwareDatastoreCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 
     public async Task<CommandResult> Delete(AzVmwareDatastoreDeleteOptions options, CancellationToken token = default)
     {

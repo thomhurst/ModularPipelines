@@ -13,17 +13,11 @@ public record AzDeploymentGroupCancelOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aux-subs")]
-    public string? AuxSubs { get; set; }
-
     [CommandSwitch("--aux-tenants")]
     public string? AuxTenants { get; set; }
 
     [CommandSwitch("--confirm-with-what-if")]
     public string? ConfirmWithWhatIf { get; set; }
-
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
 
     [CommandSwitch("--mode")]
     public string? Mode { get; set; }

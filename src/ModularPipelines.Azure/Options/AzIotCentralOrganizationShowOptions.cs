@@ -13,9 +13,6 @@ public record AzIotCentralOrganizationShowOptions(
 [property: CommandSwitch("--org-id")] string OrgId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

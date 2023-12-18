@@ -13,9 +13,6 @@ public record AzIotCentralJobStopOptions(
 [property: CommandSwitch("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

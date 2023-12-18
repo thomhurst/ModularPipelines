@@ -25,9 +25,6 @@ public record AzSpringConnectionCreateCosmosCassandraOptions : AzOptions
     [CommandSwitch("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [CommandSwitch("--key-space")]
     public string? KeySpace { get; set; }
 

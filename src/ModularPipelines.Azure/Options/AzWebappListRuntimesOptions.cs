@@ -12,9 +12,6 @@ public record AzWebappListRuntimesOptions(
 [property: CommandSwitch("--instance-count")] int InstanceCount
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--linux")]
-    public bool? Linux { get; set; }
-
     [CommandSwitch("--os")]
     public string? Os { get; set; }
 }

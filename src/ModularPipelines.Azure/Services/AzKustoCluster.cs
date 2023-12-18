@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -22,46 +23,36 @@ public class AzKustoCluster
         ICommand internalCommand
     )
     {
-        CreateCommands = create;
-        DeleteCommands = delete;
-        ListCommands = list;
-        ShowCommands = show;
-        StartCommands = start;
-        StopCommands = stop;
-        UpdateCommands = update;
-        WaitCommands = wait;
+        Create = create;
+        Delete = delete;
+        List = list;
+        Show = show;
+        Start = start;
+        Stop = stop;
+        Update = update;
+        Wait = wait;
         _command = internalCommand;
     }
 
     private readonly ICommand _command;
 
-    public AzKustoClusterCreate CreateCommands { get; }
+    public AzKustoClusterCreate Create { get; }
 
-    public AzKustoClusterDelete DeleteCommands { get; }
+    public AzKustoClusterDelete Delete { get; }
 
-    public AzKustoClusterList ListCommands { get; }
+    public AzKustoClusterList List { get; }
 
-    public AzKustoClusterShow ShowCommands { get; }
+    public AzKustoClusterShow Show { get; }
 
-    public AzKustoClusterStart StartCommands { get; }
+    public AzKustoClusterStart Start { get; }
 
-    public AzKustoClusterStop StopCommands { get; }
+    public AzKustoClusterStop Stop { get; }
 
-    public AzKustoClusterUpdate UpdateCommands { get; }
+    public AzKustoClusterUpdate Update { get; }
 
-    public AzKustoClusterWait WaitCommands { get; }
+    public AzKustoClusterWait Wait { get; }
 
     public async Task<CommandResult> AddLanguageExtension(AzKustoClusterAddLanguageExtensionOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Create(AzKustoClusterCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Delete(AzKustoClusterDeleteOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -72,11 +63,6 @@ public class AzKustoCluster
     }
 
     public async Task<CommandResult> DiagnoseVirtualNetwork(AzKustoClusterDiagnoseVirtualNetworkOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> List(AzKustoClusterListOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -104,30 +90,5 @@ public class AzKustoCluster
     public async Task<CommandResult> RemoveLanguageExtension(AzKustoClusterRemoveLanguageExtensionOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterRemoveLanguageExtensionOptions(), token);
-    }
-
-    public async Task<CommandResult> Show(AzKustoClusterShowOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterShowOptions(), token);
-    }
-
-    public async Task<CommandResult> Start(AzKustoClusterStartOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterStartOptions(), token);
-    }
-
-    public async Task<CommandResult> Stop(AzKustoClusterStopOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterStopOptions(), token);
-    }
-
-    public async Task<CommandResult> Update(AzKustoClusterUpdateOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterUpdateOptions(), token);
-    }
-
-    public async Task<CommandResult> Wait(AzKustoClusterWaitOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterWaitOptions(), token);
     }
 }

@@ -28,9 +28,6 @@ public record AzSpringConnectionCreateCosmosMongoOptions : AzOptions
     [CommandSwitch("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 

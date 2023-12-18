@@ -14,9 +14,6 @@ public record AzIotCentralExportUpdateOptions(
 [property: CommandSwitch("--export-id")] string ExportId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

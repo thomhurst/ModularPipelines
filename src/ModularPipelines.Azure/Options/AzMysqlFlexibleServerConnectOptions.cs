@@ -21,7 +21,4 @@ public record AzMysqlFlexibleServerConnectOptions(
 
     [CommandSwitch("--interactive")]
     public string? Interactive { get; set; }
-
-    [CommandSwitch("--querytext")]
-    public string? Querytext { get; set; }
 }

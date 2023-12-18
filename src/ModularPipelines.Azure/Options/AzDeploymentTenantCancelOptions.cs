@@ -15,9 +15,6 @@ public record AzDeploymentTenantCancelOptions(
     [CommandSwitch("--confirm-with-what-if")]
     public string? ConfirmWithWhatIf { get; set; }
 
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [BooleanCommandSwitch("--no-prompt")]
     public bool? NoPrompt { get; set; }
 

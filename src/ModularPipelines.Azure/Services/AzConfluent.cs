@@ -11,18 +11,14 @@ public class AzConfluent
 {
     public AzConfluent(
         AzConfluentOfferDetail offerDetail,
-        AzConfluentOrganization organization,
-        AzConfluentTerms terms
+        AzConfluentOrganization organization
     )
     {
         OfferDetail = offerDetail;
         Organization = organization;
-        Terms = terms;
     }
 
     public AzConfluentOfferDetail OfferDetail { get; }
 
     public AzConfluentOrganization Organization { get; }
-
-    public AzConfluentTerms Terms { get; }
 }

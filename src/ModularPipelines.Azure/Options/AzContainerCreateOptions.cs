@@ -159,9 +159,6 @@ public record AzContainerCreateOptions(
     [CommandSwitch("--vnet-address-prefix")]
     public string? VnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--vnet-name")]
-    public string? VnetName { get; set; }
-
     [CommandSwitch("--zone")]
     public string? Zone { get; set; }
 }

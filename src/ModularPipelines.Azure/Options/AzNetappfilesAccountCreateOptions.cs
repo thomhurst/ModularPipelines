@@ -13,9 +13,6 @@ public record AzNetappfilesAccountCreateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption")]
-    public string? Encryption { get; set; }
-
     [CommandSwitch("--identity-type")]
     public string? IdentityType { get; set; }
 

@@ -15,9 +15,6 @@ public record AzIotCentralFileUploadConfigUpdateOptions(
     [CommandSwitch("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 

@@ -18,7 +18,4 @@ public record AzMlFeatureSetShowOptions(
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--workspace-name")]
-    public string? WorkspaceName { get; set; }
 }

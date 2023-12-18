@@ -13,9 +13,6 @@ public record AzEventgridDomainCreateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--identity")]
-    public string? Identity { get; set; }
-
     [CommandSwitch("--inbound-ip-rules")]
     public string? InboundIpRules { get; set; }
 

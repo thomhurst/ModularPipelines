@@ -16,9 +16,6 @@ public record AzDeploymentMgCreateOptions(
     [CommandSwitch("--confirm-with-what-if")]
     public string? ConfirmWithWhatIf { get; set; }
 
-    [CommandSwitch("--handle-extended-json-format")]
-    public string? HandleExtendedJsonFormat { get; set; }
-
     [CommandSwitch("--mode")]
     public string? Mode { get; set; }
 

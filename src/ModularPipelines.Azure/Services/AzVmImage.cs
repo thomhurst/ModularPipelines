@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -22,11 +23,6 @@ public class AzVmImage
     private readonly ICommand _command;
 
     public AzVmImageTerms Terms { get; }
-
-    public async Task<CommandResult> AcceptTerms(AzVmImageAcceptTermsOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 
     public async Task<CommandResult> List(AzVmImageListOptions options, CancellationToken token = default)
     {

@@ -12,8 +12,7 @@ public record AzMlFeatureStoreEntityUpdateOptions(
 [property: CommandSwitch("--feature-store-name")] string FeatureStoreName,
 [property: CommandSwitch("--name")] string Name,
 [property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--version")] string Version,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CommandSwitch("--version")] string Version
 ) : AzOptions
 {
     [CommandSwitch("--add")]

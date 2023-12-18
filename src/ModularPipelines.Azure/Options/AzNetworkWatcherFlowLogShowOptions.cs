@@ -15,9 +15,6 @@ public record AzNetworkWatcherFlowLogShowOptions(
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--nsg")]
-    public string? Nsg { get; set; }
-
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

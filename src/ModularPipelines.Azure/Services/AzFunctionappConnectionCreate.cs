@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,7 +20,7 @@ public class AzFunctionappConnectionCreate
     )
     {
         MysqlFlexibleCommands = mysqlFlexible;
-        PostgresCommands = postgres;
+        Postgres = postgres;
         PostgresFlexibleCommands = postgresFlexible;
         SqlCommands = sql;
         _command = internalCommand;
@@ -29,7 +30,7 @@ public class AzFunctionappConnectionCreate
 
     public AzFunctionappConnectionCreateMysqlFlexible MysqlFlexibleCommands { get; }
 
-    public AzFunctionappConnectionCreatePostgres PostgresCommands { get; }
+    public AzFunctionappConnectionCreatePostgres Postgres { get; }
 
     public AzFunctionappConnectionCreatePostgresFlexible PostgresFlexibleCommands { get; }
 
@@ -80,19 +81,9 @@ public class AzFunctionappConnectionCreate
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateKeyvaultOptions(), token);
     }
 
-    public async Task<CommandResult> Mysql(AzFunctionappConnectionCreateMysqlOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMysqlOptions(), token);
-    }
-
     public async Task<CommandResult> MysqlFlexible(AzFunctionappConnectionCreateMysqlFlexibleOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMysqlFlexibleOptions(), token);
-    }
-
-    public async Task<CommandResult> Postgres(AzFunctionappConnectionCreatePostgresOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreatePostgresOptions(), token);
     }
 
     public async Task<CommandResult> PostgresFlexible(AzFunctionappConnectionCreatePostgresFlexibleOptions? options = default, CancellationToken token = default)

@@ -31,9 +31,6 @@ public record AzContainerappComposeCreateOptions(
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--transport")]
-    public string? Transport { get; set; }
-
     [CommandSwitch("--transport-mapping")]
     public string? TransportMapping { get; set; }
 }

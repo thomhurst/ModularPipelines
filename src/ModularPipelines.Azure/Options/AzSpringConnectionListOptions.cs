@@ -13,9 +13,6 @@ public record AzSpringConnectionListOptions : AzOptions
     [CommandSwitch("--app")]
     public string? App { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 

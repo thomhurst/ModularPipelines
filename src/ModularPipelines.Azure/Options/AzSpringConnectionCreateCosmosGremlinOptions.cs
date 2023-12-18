@@ -28,9 +28,6 @@ public record AzSpringConnectionCreateCosmosGremlinOptions : AzOptions
     [CommandSwitch("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--deployment")]
-    public string? Deployment { get; set; }
-
     [CommandSwitch("--graph")]
     public string? Graph { get; set; }
 

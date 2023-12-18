@@ -13,9 +13,6 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     [CommandSwitch("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--encryption")]
-    public string? Encryption { get; set; }
-
     [CommandSwitch("--identity-type")]
     public string? IdentityType { get; set; }
 

@@ -10,18 +10,6 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("functionapp", "config", "container", "set")]
 public record AzFunctionappConfigContainerSetOptions : AzOptions
 {
-    [CommandSwitch("--docker-custom-image-name")]
-    public string? DockerCustomImageName { get; set; }
-
-    [CommandSwitch("--docker-registry-server-password")]
-    public string? DockerRegistryServerPassword { get; set; }
-
-    [CommandSwitch("--docker-registry-server-url")]
-    public string? DockerRegistryServerUrl { get; set; }
-
-    [CommandSwitch("--docker-registry-server-user")]
-    public string? DockerRegistryServerUser { get; set; }
-
     [CommandSwitch("--ids")]
     public string? Ids { get; set; }
 

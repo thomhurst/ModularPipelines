@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -53,11 +54,6 @@ public class AzDevops
     public async Task<CommandResult> Configure(AzDevopsConfigureOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsConfigureOptions(), token);
-    }
-
-    public async Task<CommandResult> Feedback(AzDevopsFeedbackOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsFeedbackOptions(), token);
     }
 
     public async Task<CommandResult> Invoke(AzDevopsInvokeOptions? options = default, CancellationToken token = default)

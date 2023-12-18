@@ -17,15 +17,6 @@ public record AzFunctionappDeploymentSlotCreateOptions(
     [CommandSwitch("--configuration-source")]
     public string? ConfigurationSource { get; set; }
 
-    [CommandSwitch("--deployment-container-image-name")]
-    public string? DeploymentContainerImageName { get; set; }
-
-    [CommandSwitch("--docker-registry-server-password")]
-    public string? DockerRegistryServerPassword { get; set; }
-
-    [CommandSwitch("--docker-registry-server-user")]
-    public string? DockerRegistryServerUser { get; set; }
-
     [CommandSwitch("--image")]
     public string? Image { get; set; }
 

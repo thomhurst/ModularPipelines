@@ -27,7 +27,4 @@ public record AzContainerappIngressTrafficSetOptions : AzOptions
 
     [CommandSwitch("--subscription")]
     public string? Subscription { get; set; }
-
-    [CommandSwitch("--traffic-weight")]
-    public string? TrafficWeight { get; set; }
 }

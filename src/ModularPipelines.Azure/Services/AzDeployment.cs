@@ -14,8 +14,7 @@ public class AzDeployment
         AzDeploymentMg mg,
         AzDeploymentOperation operation,
         AzDeploymentSub sub,
-        AzDeploymentTenant tenant,
-        ICommand internalCommand
+        AzDeploymentTenant tenant
     )
     {
         Group = group;
@@ -23,10 +22,7 @@ public class AzDeployment
         Operation = operation;
         Sub = sub;
         Tenant = tenant;
-        _command = internalCommand;
     }
-
-    private readonly ICommand _command;
 
     public AzDeploymentGroup Group { get; }
 
@@ -37,44 +33,4 @@ public class AzDeployment
     public AzDeploymentSub Sub { get; }
 
     public AzDeploymentTenant Tenant { get; }
-
-    public async Task<CommandResult> Cancel(AzDeploymentCancelOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Create(AzDeploymentCreateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Delete(AzDeploymentDeleteOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Export(AzDeploymentExportOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> List(AzDeploymentListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Show(AzDeploymentShowOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Validate(AzDeploymentValidateOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Wait(AzDeploymentWaitOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
 }

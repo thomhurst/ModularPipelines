@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -13,7 +14,6 @@ public class AzCosmosdb
         AzCosmosdbCassandra cassandra,
         AzCosmosdbCopy copy,
         AzCosmosdbCreate create,
-        AzCosmosdbDts dts,
         AzCosmosdbGremlin gremlin,
         AzCosmosdbIdentity identity,
         AzCosmosdbKeys keys,
@@ -38,7 +38,6 @@ public class AzCosmosdb
         Cassandra = cassandra;
         Copy = copy;
         CreateCommands = create;
-        Dts = dts;
         Gremlin = gremlin;
         Identity = identity;
         Keys = keys;
@@ -67,8 +66,6 @@ public class AzCosmosdb
     public AzCosmosdbCopy Copy { get; }
 
     public AzCosmosdbCreate CreateCommands { get; }
-
-    public AzCosmosdbDts Dts { get; }
 
     public AzCosmosdbGremlin Gremlin { get; }
 
@@ -127,26 +124,6 @@ public class AzCosmosdb
     }
 
     public async Task<CommandResult> List(AzCosmosdbListOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> ListConnectionStrings(AzCosmosdbListConnectionStringsOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> ListKeys(AzCosmosdbListKeysOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> ListReadOnlyKeys(AzCosmosdbListReadOnlyKeysOptions options, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> RegenerateKey(AzCosmosdbRegenerateKeyOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

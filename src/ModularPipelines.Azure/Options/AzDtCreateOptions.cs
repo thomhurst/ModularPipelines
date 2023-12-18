@@ -13,9 +13,6 @@ public record AzDtCreateOptions(
 [property: CommandSwitch("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
-
     [CommandSwitch("--location")]
     public string? Location { get; set; }
 

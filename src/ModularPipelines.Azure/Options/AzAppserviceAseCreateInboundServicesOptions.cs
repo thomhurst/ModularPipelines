@@ -14,9 +14,6 @@ public record AzAppserviceAseCreateInboundServicesOptions(
 [property: CommandSwitch("--subnet")] string Subnet
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--skip-dns")]
-    public bool? SkipDns { get; set; }
-
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }
 }

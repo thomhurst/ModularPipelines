@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,7 +20,7 @@ public class AzWebappConnectionCreate
     )
     {
         MysqlFlexibleCommands = mysqlFlexible;
-        PostgresCommands = postgres;
+        Postgres = postgres;
         PostgresFlexibleCommands = postgresFlexible;
         SqlCommands = sql;
         _command = internalCommand;
@@ -29,7 +30,7 @@ public class AzWebappConnectionCreate
 
     public AzWebappConnectionCreateMysqlFlexible MysqlFlexibleCommands { get; }
 
-    public AzWebappConnectionCreatePostgres PostgresCommands { get; }
+    public AzWebappConnectionCreatePostgres Postgres { get; }
 
     public AzWebappConnectionCreatePostgresFlexible PostgresFlexibleCommands { get; }
 
@@ -80,19 +81,9 @@ public class AzWebappConnectionCreate
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateKeyvaultOptions(), token);
     }
 
-    public async Task<CommandResult> Mysql(AzWebappConnectionCreateMysqlOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateMysqlOptions(), token);
-    }
-
     public async Task<CommandResult> MysqlFlexible(AzWebappConnectionCreateMysqlFlexibleOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreateMysqlFlexibleOptions(), token);
-    }
-
-    public async Task<CommandResult> Postgres(AzWebappConnectionCreatePostgresOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreatePostgresOptions(), token);
     }
 
     public async Task<CommandResult> PostgresFlexible(AzWebappConnectionCreatePostgresFlexibleOptions? options = default, CancellationToken token = default)

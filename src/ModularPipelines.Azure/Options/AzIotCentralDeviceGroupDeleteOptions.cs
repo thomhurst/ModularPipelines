@@ -13,9 +13,6 @@ public record AzIotCentralDeviceGroupDeleteOptions(
 [property: CommandSwitch("--device-group-id")] string DeviceGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
-    public string? ApiVersion { get; set; }
-
     [CommandSwitch("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
