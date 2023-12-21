@@ -21,6 +21,17 @@ public class CommandParserTests : TestBase
             }, cancellationToken);
         }
     }
+    
+    public class AzureCommandModule2 : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            return await context.Azure().Az.Account.ManagementGroup.Subscription.Add(new AzAccountManagementGroupSubscriptionAddOptions("MyName", "MySub")
+            {
+                InternalDryRun = true
+            }, cancellationToken);
+        }
+    }
 
     [Test]
     public async Task Empty_Options_Parse_As_Expected()
@@ -153,9 +164,19 @@ public class CommandParserTests : TestBase
     {
         var result = await RunModule<AzureCommandModule>();
 
-        Assert.That(result.Result.Value.CommandInput, Is.EqualTo("""
-                                                    az account alias create --name MyName
-                                                    """));
+        Assert.That(result.Result.Value!.CommandInput, Is.EqualTo("""
+                                                                 az account alias create --name MyName
+                                                                 """));
+    }
+    
+    [Test]
+    public async Task Azure_Command_With_Mandatory_Switch_Conflicting_With_Base_Default_Optional_Switch_Is_Expected_Command()
+    {
+        var result = await RunModule<AzureCommandModule2>();
+
+        Assert.That(result.Result.Value!.CommandInput, Is.EqualTo("""
+                                                                 az account management-group subscription add --name MyName --subscription MySub
+                                                                 """));
     }
 
     private async Task<CommandResult> GetResult(MySuperSecretToolOptions options)
