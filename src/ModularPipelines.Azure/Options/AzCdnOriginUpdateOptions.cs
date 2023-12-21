@@ -50,7 +50,7 @@ public record AzCdnOriginUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--weight")]
     public string? Weight { get; set; }

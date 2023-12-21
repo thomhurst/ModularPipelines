@@ -20,7 +20,7 @@ public record AzAmsContentKeyPolicyShowOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--with-secrets")]
     public bool? WithSecrets { get; set; }

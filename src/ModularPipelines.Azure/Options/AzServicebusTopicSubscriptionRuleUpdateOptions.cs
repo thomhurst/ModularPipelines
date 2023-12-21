@@ -80,7 +80,7 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--subscription-name")]
     public string? SubscriptionName { get; set; }

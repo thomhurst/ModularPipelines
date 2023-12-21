@@ -37,7 +37,7 @@ public record AzBackupRecoveryconfigShowOptions(
     public string? RpName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-container-name")]
     public string? TargetContainerName { get; set; }

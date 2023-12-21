@@ -43,7 +43,7 @@ public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnAddOptions(
     public string? SharedKey { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-local-azure-ip-address")]
     public bool? UseLocalAzureIpAddress { get; set; }

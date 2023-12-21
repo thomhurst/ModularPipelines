@@ -29,5 +29,5 @@ public record AzWebappConfigConnectionStringSetOptions : AzOptions
     public string? SlotSettings { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

@@ -25,5 +25,5 @@ public record AzDlaCatalogCredentialUpdateOptions(
     public string? Password { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

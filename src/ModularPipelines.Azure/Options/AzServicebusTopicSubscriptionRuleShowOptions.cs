@@ -20,7 +20,7 @@ public record AzServicebusTopicSubscriptionRuleShowOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--subscription-name")]
     public string? SubscriptionName { get; set; }

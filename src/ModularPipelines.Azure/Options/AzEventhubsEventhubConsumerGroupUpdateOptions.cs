@@ -35,7 +35,7 @@ public record AzEventhubsEventhubConsumerGroupUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--user-metadata")]
     public string? UserMetadata { get; set; }

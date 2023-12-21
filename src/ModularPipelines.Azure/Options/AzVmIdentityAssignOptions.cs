@@ -26,5 +26,5 @@ public record AzVmIdentityAssignOptions : AzOptions
     public string? Scope { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

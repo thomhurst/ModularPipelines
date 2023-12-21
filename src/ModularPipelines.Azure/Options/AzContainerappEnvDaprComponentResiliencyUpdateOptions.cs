@@ -45,7 +45,7 @@ public record AzContainerappEnvDaprComponentResiliencyUpdateOptions(
     public string? OutTimeout { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--yaml")]
     public string? Yaml { get; set; }

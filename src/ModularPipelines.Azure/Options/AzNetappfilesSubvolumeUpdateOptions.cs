@@ -41,7 +41,7 @@ public record AzNetappfilesSubvolumeUpdateOptions : AzOptions
     public string? Size { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--subvolume-name")]
     public string? SubvolumeName { get; set; }

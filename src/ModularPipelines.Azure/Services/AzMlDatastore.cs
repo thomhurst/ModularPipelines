@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Azure.Options;
 
 namespace ModularPipelines.Azure.Services;
 
@@ -79,9 +79,9 @@ public class AzMlDatastore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlDatastoreListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlDatastoreListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlDatastoreListOptions(), token);
     }
 
     public async Task<CommandResult> SetDefault(AzMlDatastoreSetDefaultOptions options, CancellationToken token = default)

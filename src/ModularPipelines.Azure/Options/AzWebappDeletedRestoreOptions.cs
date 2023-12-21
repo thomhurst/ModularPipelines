@@ -25,7 +25,7 @@ public record AzWebappDeletedRestoreOptions(
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-app-svc-plan")]
     public string? TargetAppSvcPlan { get; set; }

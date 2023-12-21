@@ -29,7 +29,7 @@ public record AzDnsResolverForwardingRuleUpdateOptions : AzOptions
     public string? RulesetName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-dns-servers")]
     public string? TargetDnsServers { get; set; }

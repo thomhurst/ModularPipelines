@@ -38,7 +38,7 @@ public record AzFunctionappDeployOptions : AzOptions
     public string? SrcUrl { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-path")]
     public string? TargetPath { get; set; }

@@ -25,7 +25,7 @@ public record AzStorageAccountMigrationStartOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }

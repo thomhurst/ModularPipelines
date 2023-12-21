@@ -26,7 +26,7 @@ public record AzAfdSecretUpdateOptions : AzOptions
     public string? SecretVersion { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-latest-version")]
     public bool? UseLatestVersion { get; set; }

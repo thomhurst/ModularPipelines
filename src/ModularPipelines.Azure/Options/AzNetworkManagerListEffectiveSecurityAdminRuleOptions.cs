@@ -17,7 +17,7 @@ public record AzNetworkManagerListEffectiveSecurityAdminRuleOptions : AzOptions
     public string? SkipToken { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--virtual-network-name")]
     public string? VirtualNetworkName { get; set; }

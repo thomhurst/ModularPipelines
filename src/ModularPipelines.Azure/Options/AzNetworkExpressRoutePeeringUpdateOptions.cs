@@ -65,7 +65,7 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     public string? SharedKey { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vlan-id")]
     public string? VlanId { get; set; }

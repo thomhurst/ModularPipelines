@@ -26,5 +26,5 @@ public record AzNetworkVhubGetEffectiveRoutesOptions : AzOptions
     public string? ResourceType { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

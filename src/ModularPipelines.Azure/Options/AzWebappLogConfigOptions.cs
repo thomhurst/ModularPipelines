@@ -35,7 +35,7 @@ public record AzWebappLogConfigOptions : AzOptions
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--web-server-logging")]
     public string? WebServerLogging { get; set; }

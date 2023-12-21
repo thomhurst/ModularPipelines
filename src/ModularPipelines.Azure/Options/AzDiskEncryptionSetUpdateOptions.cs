@@ -41,5 +41,5 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     public string? SourceVault { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

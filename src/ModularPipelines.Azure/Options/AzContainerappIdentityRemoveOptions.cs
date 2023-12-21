@@ -20,7 +20,7 @@ public record AzContainerappIdentityRemoveOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--system-assigned")]
     public bool? SystemAssigned { get; set; }

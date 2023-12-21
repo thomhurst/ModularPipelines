@@ -44,7 +44,7 @@ public record AzEventgridNamespaceTopicEventSubscriptionUpdateOptions : AzOption
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }

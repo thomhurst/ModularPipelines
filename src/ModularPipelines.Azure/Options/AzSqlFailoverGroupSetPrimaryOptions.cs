@@ -22,7 +22,7 @@ public record AzSqlFailoverGroupSetPrimaryOptions(
     public string? Server { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--tpbff")]
     public bool? Tpbff { get; set; }

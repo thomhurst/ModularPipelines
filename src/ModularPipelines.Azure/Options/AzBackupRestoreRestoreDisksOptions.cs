@@ -58,7 +58,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public int? StorageAccountResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }

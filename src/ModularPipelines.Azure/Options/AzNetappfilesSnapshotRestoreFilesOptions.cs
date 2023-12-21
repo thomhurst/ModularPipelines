@@ -31,7 +31,7 @@ public record AzNetappfilesSnapshotRestoreFilesOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--volume-name")]
     public string? VolumeName { get; set; }

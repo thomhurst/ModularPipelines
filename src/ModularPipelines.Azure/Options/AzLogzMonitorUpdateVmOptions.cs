@@ -20,7 +20,7 @@ public record AzLogzMonitorUpdateVmOptions : AzOptions
     public string? State { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vm-resource-ids")]
     public string? VmResourceIds { get; set; }

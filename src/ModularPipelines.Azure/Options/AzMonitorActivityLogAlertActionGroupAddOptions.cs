@@ -37,7 +37,7 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions(
     public bool? Strict { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--webhook-properties")]
     public string? WebhookProperties { get; set; }

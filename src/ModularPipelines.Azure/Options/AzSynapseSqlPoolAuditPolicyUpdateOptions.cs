@@ -71,7 +71,7 @@ public record AzSynapseSqlPoolAuditPolicyUpdateOptions : AzOptions
     public string? StorageSubscription { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-secondary-key")]
     public bool? UseSecondaryKey { get; set; }

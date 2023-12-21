@@ -19,7 +19,7 @@ public record AzWebpubsubClientStartOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--user-id")]
     public string? UserId { get; set; }

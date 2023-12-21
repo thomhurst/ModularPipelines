@@ -6,19 +6,25 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "model", "download")]
 public record AzMlModelDownloadOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
+[property: CommandSwitch("--model-id")] string ModelId,
+[property: CommandSwitch("--target-dir")] string TargetDir
 ) : AzOptions
 {
-    [CommandSwitch("--download-path")]
-    public string? DownloadPath { get; set; }
+    [CommandSwitch("--overwrite")]
+    public string? Overwrite { get; set; }
 
-    [CommandSwitch("--registry-name")]
-    public string? RegistryName { get; set; }
+    [CommandSwitch("--path")]
+    public string? Path { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
 
+    [CommandSwitch("--subscription-id")]
+    public string? SubscriptionId { get; set; }
+
     [CommandSwitch("--workspace-name")]
     public string? WorkspaceName { get; set; }
+
+    [CommandSwitch("-v")]
+    public string? V { get; set; }
 }

@@ -35,7 +35,7 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     public string? SasToken { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--table-endpoint")]
     public string? TableEndpoint { get; set; }

@@ -19,7 +19,7 @@ public record AzVmssDiskDetachOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vmss-name")]
     public string? VmssName { get; set; }

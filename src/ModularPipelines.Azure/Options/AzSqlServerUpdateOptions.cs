@@ -59,7 +59,7 @@ public record AzSqlServerUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }

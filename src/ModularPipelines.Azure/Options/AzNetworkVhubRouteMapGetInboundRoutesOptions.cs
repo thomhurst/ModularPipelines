@@ -23,7 +23,7 @@ public record AzNetworkVhubRouteMapGetInboundRoutesOptions : AzOptions
     public string? ResourceUri { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vhub-name")]
     public string? VhubName { get; set; }

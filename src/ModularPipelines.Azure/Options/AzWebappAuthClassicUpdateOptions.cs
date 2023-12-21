@@ -98,7 +98,7 @@ public record AzWebappAuthClassicUpdateOptions : AzOptions
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--token-refresh-extension-hours")]
     public string? TokenRefreshExtensionHours { get; set; }

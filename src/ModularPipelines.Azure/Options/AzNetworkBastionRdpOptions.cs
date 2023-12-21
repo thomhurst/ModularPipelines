@@ -32,7 +32,7 @@ public record AzNetworkBastionRdpOptions : AzOptions
     public string? ResourcePort { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-ip-address")]
     public string? TargetIpAddress { get; set; }

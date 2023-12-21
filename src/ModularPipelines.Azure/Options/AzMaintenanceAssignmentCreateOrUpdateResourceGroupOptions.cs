@@ -44,5 +44,5 @@ public record AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions : AzOpti
     public string? ResourceId { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

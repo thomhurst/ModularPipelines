@@ -41,7 +41,7 @@ public record AzConsumptionBudgetUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--time-grain")]
     public string? TimeGrain { get; set; }

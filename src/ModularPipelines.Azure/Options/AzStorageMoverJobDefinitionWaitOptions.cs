@@ -38,7 +38,7 @@ public record AzStorageMoverJobDefinitionWaitOptions : AzOptions
     public string? StorageMoverName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }

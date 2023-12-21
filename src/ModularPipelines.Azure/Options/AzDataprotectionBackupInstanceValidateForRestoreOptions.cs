@@ -22,7 +22,7 @@ public record AzDataprotectionBackupInstanceValidateForRestoreOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vault-name")]
     public string? VaultName { get; set; }

@@ -53,7 +53,7 @@ public record AzApicApiDeploymentUpdateOptions : AzOptions
     public string? State { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--title")]
     public string? Title { get; set; }

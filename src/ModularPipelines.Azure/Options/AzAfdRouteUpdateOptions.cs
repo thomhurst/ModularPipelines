@@ -65,7 +65,7 @@ public record AzAfdRouteUpdateOptions : AzOptions
     public string? RuleSets { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--supported-protocols")]
     public string? SupportedProtocols { get; set; }

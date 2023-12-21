@@ -38,7 +38,7 @@ public record AzDlaJobListOptions : AzOptions
     public string? Submitter { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--top")]
     public string? Top { get; set; }

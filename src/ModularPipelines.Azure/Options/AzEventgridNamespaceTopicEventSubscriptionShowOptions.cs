@@ -20,7 +20,7 @@ public record AzEventgridNamespaceTopicEventSubscriptionShowOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--topic-name")]
     public string? TopicName { get; set; }

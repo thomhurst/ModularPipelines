@@ -26,7 +26,7 @@ public record AzResourceMoverMoveCollectionDiscardOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--validate-only")]
     public bool? ValidateOnly { get; set; }

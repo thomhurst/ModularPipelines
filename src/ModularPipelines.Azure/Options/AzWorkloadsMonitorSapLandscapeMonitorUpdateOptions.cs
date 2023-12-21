@@ -32,7 +32,7 @@ public record AzWorkloadsMonitorSapLandscapeMonitorUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--top-metrics-thresholds")]
     public string? TopMetricsThresholds { get; set; }

@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Azure.Options;
 
 namespace ModularPipelines.Azure.Services;
 
@@ -49,9 +49,9 @@ public class AzMlModel
         return await _command.ExecuteCommandLineTool(options ?? new AzMlModelListOptions(), token);
     }
 
-    public async Task<CommandResult> Package(AzMlModelPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Package(AzMlModelPackageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlModelPackageOptions(), token);
     }
 
     public async Task<CommandResult> Profile(AzMlModelProfileOptions options, CancellationToken token = default)
@@ -74,9 +74,9 @@ public class AzMlModel
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMlModelShowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMlModelShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlModelShowOptions(), token);
     }
 
     public async Task<CommandResult> Update(AzMlModelUpdateOptions options, CancellationToken token = default)

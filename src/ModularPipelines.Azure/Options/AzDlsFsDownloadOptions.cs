@@ -29,7 +29,7 @@ public record AzDlsFsDownloadOptions(
     public bool? Overwrite { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--thread-count")]
     public int? ThreadCount { get; set; }

@@ -17,7 +17,7 @@ public record AzElasticMonitorUpgradeOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }

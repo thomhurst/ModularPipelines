@@ -35,7 +35,7 @@ public record AzApicWorkspaceUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--title")]
     public string? Title { get; set; }

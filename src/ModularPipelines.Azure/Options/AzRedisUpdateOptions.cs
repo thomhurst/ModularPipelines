@@ -32,7 +32,7 @@ public record AzRedisUpdateOptions : AzOptions
     public string? Sku { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vm-size")]
     public string? VmSize { get; set; }

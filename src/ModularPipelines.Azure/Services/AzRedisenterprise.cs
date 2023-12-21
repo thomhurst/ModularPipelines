@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Azure.Options;
 
 namespace ModularPipelines.Azure.Services;
 

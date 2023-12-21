@@ -25,7 +25,7 @@ public record AzNetworkBastionSshOptions(
     public string? SshKey { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target-ip-address")]
     public string? TargetIpAddress { get; set; }

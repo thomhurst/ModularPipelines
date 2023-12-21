@@ -20,7 +20,7 @@ public record AzMysqlServerConfigurationSetOptions : AzOptions
     public string? ServerName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--value")]
     public string? Value { get; set; }

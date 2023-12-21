@@ -128,7 +128,7 @@ public record AzVmssUpdateOptions : AzOptions
     public string? SpotRestoreTimeout { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--terminate-notification-time")]
     public string? TerminateNotificationTime { get; set; }

@@ -41,7 +41,7 @@ public record AzEventhubsClusterUpdateOptions : AzOptions
     public string? Sku { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--supports-scaling")]
     public bool? SupportsScaling { get; set; }

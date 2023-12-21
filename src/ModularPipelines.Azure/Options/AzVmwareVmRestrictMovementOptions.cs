@@ -26,7 +26,7 @@ public record AzVmwareVmRestrictMovementOptions : AzOptions
     public string? RestrictMovement { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--virtual-machine")]
     public string? VirtualMachine { get; set; }

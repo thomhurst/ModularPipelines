@@ -17,7 +17,7 @@ public record AzNetworkVhubRoutingIntentShowOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vhub")]
     public string? Vhub { get; set; }

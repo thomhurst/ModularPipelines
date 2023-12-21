@@ -158,7 +158,7 @@ public record AzStorageAccountUpdateOptions : AzOptions
     public string? Sku { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }

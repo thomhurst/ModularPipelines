@@ -38,7 +38,7 @@ public record AzSiteRecoveryJobExportOptions : AzOptions
     public string? StartTime { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--timezone-offset")]
     public string? TimezoneOffset { get; set; }

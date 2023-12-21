@@ -43,5 +43,5 @@ public record AzSqlFailoverGroupUpdateOptions(
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

@@ -38,7 +38,7 @@ public record AzAfdOriginGroupUpdateOptions : AzOptions
     public string? SampleSize { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--successful-samples-required")]
     public string? SuccessfulSamplesRequired { get; set; }

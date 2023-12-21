@@ -29,7 +29,7 @@ public record AzBlueprintArtifactTemplateUpdateOptions(
     public string? ResourceGroupArt { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--template")]
     public string? Template { get; set; }

@@ -41,7 +41,7 @@ public record AzElasticSanVolumeUpdateOptions : AzOptions
     public string? SizeGib { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--volume-group")]
     public string? VolumeGroup { get; set; }

@@ -32,5 +32,5 @@ public record AzAfdCustomDomainUpdateOptions : AzOptions
     public string? Secret { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

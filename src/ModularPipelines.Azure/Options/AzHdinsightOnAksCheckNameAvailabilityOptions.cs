@@ -17,7 +17,7 @@ public record AzHdinsightOnAksCheckNameAvailabilityOptions : AzOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }

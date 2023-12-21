@@ -35,5 +35,5 @@ public record AzNetworkcloudBaremetalmachineReplaceOptions : AzOptions
     public string? SerialNumber { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

@@ -29,7 +29,7 @@ public record AzVmReimageOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--temp-disk")]
     public bool? TempDisk { get; set; }

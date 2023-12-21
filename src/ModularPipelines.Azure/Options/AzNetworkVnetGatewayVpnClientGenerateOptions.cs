@@ -29,7 +29,7 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-legacy")]
     public bool? UseLegacy { get; set; }

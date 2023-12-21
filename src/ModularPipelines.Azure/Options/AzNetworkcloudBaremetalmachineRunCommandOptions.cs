@@ -11,7 +11,7 @@ public record AzNetworkcloudBaremetalmachineRunCommandOptions(
 ) : AzOptions
 {
     [CommandSwitch("--arguments")]
-    public string? Arguments { get; set; }
+    public string? NetworkcloudBaremetalmachineRunCommandArguments { get; set; }
 
     [CommandSwitch("--bare-metal-machine-name")]
     public string? BareMetalMachineName { get; set; }
@@ -29,5 +29,5 @@ public record AzNetworkcloudBaremetalmachineRunCommandOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

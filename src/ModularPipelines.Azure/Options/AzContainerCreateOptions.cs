@@ -49,7 +49,7 @@ public record AzContainerCreateOptions(
     public string? DropCapabilities { get; set; }
 
     [CommandSwitch("--environment-variables")]
-    public string? EnvironmentVariables { get; set; }
+    public string? ContainerCreateEnvironmentVariables { get; set; }
 
     [CommandSwitch("--file")]
     public string? File { get; set; }

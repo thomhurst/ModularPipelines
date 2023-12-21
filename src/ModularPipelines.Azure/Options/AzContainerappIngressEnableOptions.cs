@@ -26,7 +26,7 @@ public record AzContainerappIngressEnableOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--transport")]
     public string? Transport { get; set; }

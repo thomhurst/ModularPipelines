@@ -26,7 +26,7 @@ public record AzMeshCodePackageLogGetOptions : AzOptions
     public string? ServiceName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tail")]
     public string? Tail { get; set; }

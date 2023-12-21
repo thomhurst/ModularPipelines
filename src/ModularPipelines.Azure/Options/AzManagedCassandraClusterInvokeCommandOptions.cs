@@ -13,7 +13,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions(
 ) : AzOptions
 {
     [CommandSwitch("--arguments")]
-    public string? Arguments { get; set; }
+    public string? ManagedCassandraClusterInvokeCommandArguments { get; set; }
 
     [BooleanCommandSwitch("--cassandra-stop-start")]
     public bool? CassandraStopStart { get; set; }

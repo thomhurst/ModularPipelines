@@ -50,7 +50,7 @@ public record AzContainerappResiliencyUpdateOptions(
     public bool? NoWait { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tcp-connections")]
     public string? TcpConnections { get; set; }

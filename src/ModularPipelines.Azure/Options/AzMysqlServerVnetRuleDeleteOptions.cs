@@ -20,5 +20,5 @@ public record AzMysqlServerVnetRuleDeleteOptions : AzOptions
     public string? ServerName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

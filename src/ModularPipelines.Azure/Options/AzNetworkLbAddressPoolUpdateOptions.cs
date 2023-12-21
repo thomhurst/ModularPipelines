@@ -47,7 +47,7 @@ public record AzNetworkLbAddressPoolUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--sync-mode")]
     public string? SyncMode { get; set; }

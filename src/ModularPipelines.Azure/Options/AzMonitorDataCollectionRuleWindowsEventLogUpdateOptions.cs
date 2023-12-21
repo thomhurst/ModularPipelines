@@ -22,7 +22,7 @@ public record AzMonitorDataCollectionRuleWindowsEventLogUpdateOptions(
     public string? Streams { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--x-path-queries")]
     public string? XPathQueries { get; set; }

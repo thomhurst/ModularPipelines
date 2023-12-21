@@ -26,7 +26,7 @@ public record AzHybridaksProxyOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--token")]
     public string? Token { get; set; }

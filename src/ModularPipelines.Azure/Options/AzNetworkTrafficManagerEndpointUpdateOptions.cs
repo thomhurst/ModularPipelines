@@ -53,7 +53,7 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     public string? Subnets { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--target")]
     public string? Target { get; set; }

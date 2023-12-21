@@ -35,7 +35,7 @@ public record AzNetworkRouteTableRouteWaitOptions : AzOptions
     public string? RouteTableName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }

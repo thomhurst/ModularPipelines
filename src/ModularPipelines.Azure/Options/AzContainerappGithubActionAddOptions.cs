@@ -49,7 +49,7 @@ public record AzContainerappGithubActionAddOptions(
     public string? ServicePrincipalTenantId { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--token")]
     public string? Token { get; set; }

@@ -20,5 +20,5 @@ public record AzNetworkRouteserverPeeringShowOptions : AzOptions
     public string? Routeserver { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

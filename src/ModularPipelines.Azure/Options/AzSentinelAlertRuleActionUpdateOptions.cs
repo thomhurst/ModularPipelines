@@ -38,7 +38,7 @@ public record AzSentinelAlertRuleActionUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--trigger-uri")]
     public string? TriggerUri { get; set; }

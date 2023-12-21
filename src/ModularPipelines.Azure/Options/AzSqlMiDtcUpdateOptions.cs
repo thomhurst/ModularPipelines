@@ -50,7 +50,7 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     public bool? SnaLuTransactions { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--xa-default-timeout")]
     public string? XaDefaultTimeout { get; set; }

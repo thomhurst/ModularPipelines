@@ -17,7 +17,7 @@ public record AzNetworkFunctionTrafficCollectorCollectorPolicyShowOptions : AzOp
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--traffic-collector-name")]
     public string? TrafficCollectorName { get; set; }

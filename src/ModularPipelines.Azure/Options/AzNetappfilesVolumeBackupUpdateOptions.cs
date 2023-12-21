@@ -44,7 +44,7 @@ public record AzNetappfilesVolumeBackupUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-existing-snapshot")]
     public bool? UseExistingSnapshot { get; set; }

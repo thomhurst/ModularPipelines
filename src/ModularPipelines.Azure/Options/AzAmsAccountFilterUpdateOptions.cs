@@ -50,7 +50,7 @@ public record AzAmsAccountFilterUpdateOptions : AzOptions
     public string? StartTimestamp { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--timescale")]
     public string? Timescale { get; set; }

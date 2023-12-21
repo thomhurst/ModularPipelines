@@ -29,7 +29,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     public bool? RetainAsPerPolicy { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tenant-id")]
     public string? TenantId { get; set; }

@@ -35,7 +35,7 @@ public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--timezone-id")]
     public string? TimezoneId { get; set; }

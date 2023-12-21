@@ -23,7 +23,7 @@ public record AzAfdSecurityPolicyUpdateOptions : AzOptions
     public string? SecurityPolicyName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--waf-policy")]
     public string? WafPolicy { get; set; }

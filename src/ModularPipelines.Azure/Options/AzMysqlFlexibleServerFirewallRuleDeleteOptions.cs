@@ -20,7 +20,7 @@ public record AzMysqlFlexibleServerFirewallRuleDeleteOptions : AzOptions
     public string? RuleName { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--yes")]
     public bool? Yes { get; set; } = true;

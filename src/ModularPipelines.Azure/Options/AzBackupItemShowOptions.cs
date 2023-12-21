@@ -23,7 +23,7 @@ public record AzBackupItemShowOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }

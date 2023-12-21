@@ -17,5 +17,5 @@ public record AzConsumptionPricesheetShowOptions : AzOptions
     public string? IncludeMeterDetails { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

@@ -23,5 +23,5 @@ public record AzSigShowOptions : AzOptions
     public string? SharingGroups { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 }

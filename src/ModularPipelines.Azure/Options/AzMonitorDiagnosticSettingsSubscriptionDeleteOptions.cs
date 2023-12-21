@@ -14,7 +14,7 @@ public record AzMonitorDiagnosticSettingsSubscriptionDeleteOptions : AzOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--yes")]
     public bool? Yes { get; set; }

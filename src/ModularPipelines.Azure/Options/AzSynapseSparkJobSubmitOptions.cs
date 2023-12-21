@@ -18,7 +18,7 @@ public record AzSynapseSparkJobSubmitOptions(
     public string? Archives { get; set; }
 
     [CommandSwitch("--arguments")]
-    public string? Arguments { get; set; }
+    public string? SynapseSparkJobSubmitArguments { get; set; }
 
     [CommandSwitch("--configuration")]
     public string? Configuration { get; set; }

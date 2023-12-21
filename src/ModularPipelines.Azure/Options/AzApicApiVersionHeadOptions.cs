@@ -20,7 +20,7 @@ public record AzApicApiVersionHeadOptions : AzOptions
     public string? Service { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }

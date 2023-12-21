@@ -74,7 +74,7 @@ public record AzFunctionappConfigSetOptions : AzOptions
     public string? StartupFile { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--use-32bit-worker-process")]
     public bool? Use32bitWorkerProcess { get; set; }

@@ -74,7 +74,7 @@ public record AzNetappfilesAccountAdAddOptions(
     public string? Site { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--user-dn")]
     public string? UserDn { get; set; }

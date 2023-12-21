@@ -53,7 +53,7 @@ public record AzImageBuilderCustomizerAddOptions(
     public string? SearchCriteria { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--update-limit")]
     public string? UpdateLimit { get; set; }

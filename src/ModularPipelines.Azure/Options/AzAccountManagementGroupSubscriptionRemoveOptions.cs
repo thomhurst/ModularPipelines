@@ -7,5 +7,5 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("account", "management-group", "subscription", "remove")]
 public record AzAccountManagementGroupSubscriptionRemoveOptions(
 [property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subscription")] string Subscription
+string Subscription
 ) : AzOptions;

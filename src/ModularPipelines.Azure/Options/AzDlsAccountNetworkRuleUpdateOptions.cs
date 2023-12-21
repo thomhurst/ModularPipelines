@@ -32,7 +32,7 @@ public record AzDlsAccountNetworkRuleUpdateOptions(
     public string? Set { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--vnet-name")]
     public string? VnetName { get; set; }

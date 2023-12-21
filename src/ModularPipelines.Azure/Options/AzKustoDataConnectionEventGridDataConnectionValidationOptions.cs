@@ -59,7 +59,7 @@ public record AzKustoDataConnectionEventGridDataConnectionValidationOptions : Az
     public int? StorageAccountResourceId { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--table-name")]
     public string? TableName { get; set; }

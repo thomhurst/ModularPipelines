@@ -34,7 +34,7 @@ public record AzWebappDeploymentGithubActionsAddOptions(
     public string? Slot { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--token")]
     public string? Token { get; set; }

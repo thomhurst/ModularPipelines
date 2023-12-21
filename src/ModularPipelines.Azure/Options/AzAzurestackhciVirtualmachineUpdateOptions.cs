@@ -23,7 +23,7 @@ public record AzAzurestackhciVirtualmachineUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }

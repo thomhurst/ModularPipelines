@@ -19,7 +19,7 @@ public record AzDlaJobWaitOptions(
     public string? MaxWaitTimeSec { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--wait-interval-sec")]
     public string? WaitIntervalSec { get; set; }

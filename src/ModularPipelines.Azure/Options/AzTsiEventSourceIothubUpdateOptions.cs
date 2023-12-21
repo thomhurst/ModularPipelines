@@ -26,7 +26,7 @@ public record AzTsiEventSourceIothubUpdateOptions : AzOptions
     public string? SharedAccessKey { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--tags")]
     public string? Tags { get; set; }

@@ -5,53 +5,41 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "workspace", "update")]
-public record AzMlWorkspaceUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
-) : AzOptions
+public record AzMlWorkspaceUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
-    public string? Add { get; set; }
-
-    [CommandSwitch("--application-insights")]
-    public string? ApplicationInsights { get; set; }
-
-    [CommandSwitch("--container-registry")]
-    public string? ContainerRegistry { get; set; }
+    [BooleanCommandSwitch("--allow-public-access")]
+    public bool? AllowPublicAccess { get; set; }
 
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
-    public string? DisplayName { get; set; }
-
-    [CommandSwitch("--file")]
-    public string? File { get; set; }
-
-    [BooleanCommandSwitch("--force-string")]
-    public bool? ForceString { get; set; }
+    [CommandSwitch("--friendly-name")]
+    public string? FriendlyName { get; set; }
 
     [CommandSwitch("--image-build-compute")]
     public string? ImageBuildCompute { get; set; }
 
-    [CommandSwitch("--managed-network")]
-    public string? ManagedNetwork { get; set; }
+    [CommandSwitch("--output-metadata-file")]
+    public string? OutputMetadataFile { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CommandSwitch("--path")]
+    public string? Path { get; set; }
 
     [CommandSwitch("--primary-user-assigned-identity")]
     public string? PrimaryUserAssignedIdentity { get; set; }
 
-    [CommandSwitch("--public-network-access")]
-    public string? PublicNetworkAccess { get; set; }
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--remove")]
-    public string? Remove { get; set; }
+    [CommandSwitch("--subscription-id")]
+    public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--set")]
-    public string? Set { get; set; }
+    [CommandSwitch("--tags")]
+    public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--update-dependent-resources")]
-    public bool? UpdateDependentResources { get; set; }
+    [CommandSwitch("--v1-legacy-mode")]
+    public string? V1LegacyMode { get; set; }
+
+    [CommandSwitch("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 }

@@ -80,7 +80,7 @@ public record AzVmUpdateOptions : AzOptions
     public string? Size { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [BooleanCommandSwitch("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }

@@ -25,7 +25,7 @@ public record AzVmssApplicationSetOptions(
     public string? ResourceGroup { get; set; }
 
     [CommandSwitch("--subscription")]
-    public string? Subscription { get; set; }
+    public new string? Subscription { get; set; }
 
     [CommandSwitch("--treat-deployment-as-failure")]
     public string? TreatDeploymentAsFailure { get; set; }
