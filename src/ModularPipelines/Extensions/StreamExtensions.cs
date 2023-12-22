@@ -1,7 +1,7 @@
-﻿namespace ModularPipelines.Extensions;
+namespace ModularPipelines.Extensions;
 
 /// <summary>
-/// Extensions for Streams
+/// Extensions for Streams.
 /// </summary>
 public static class StreamExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Azure.Pipelines;
+namespace ModularPipelines.Azure.Pipelines;
 
 public abstract record AzurePipelineVariableBase
 {

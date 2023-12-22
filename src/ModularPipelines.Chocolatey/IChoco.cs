@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Chocolatey.Options;
+using ModularPipelines.Chocolatey.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Chocolatey;

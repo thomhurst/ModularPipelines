@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Context;
+namespace ModularPipelines.Context;
 
 internal class Installer : IInstaller
 {

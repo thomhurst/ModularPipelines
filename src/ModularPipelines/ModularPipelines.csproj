@@ -26,7 +26,7 @@
       <PackageReference Include="Polly" Version="8.2.0" />
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
       <PackageReference Include="System.Text.Json" Version="8.0.0" />
-      <PackageReference Include="EnumerableAsyncProcessor" Version="1.1.22" />
+      <PackageReference Include="EnumerableAsyncProcessor" Version="1.2.0" />
       <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.2" />
       <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20231028.28" />
       <PackageReference Include="YamlDotNet" Version="13.7.1" />

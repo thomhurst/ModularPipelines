@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;

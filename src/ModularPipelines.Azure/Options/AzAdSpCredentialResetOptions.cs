@@ -1,0 +1,32 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Azure.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("ad", "sp", "credential", "reset")]
+public record AzAdSpCredentialResetOptions(
+[property: CommandSwitch("--id")] string Id
+) : AzOptions
+{
+    [BooleanCommandSwitch("--append")]
+    public bool? Append { get; set; }
+
+    [CommandSwitch("--cert")]
+    public string? Cert { get; set; }
+
+    [BooleanCommandSwitch("--create-cert")]
+    public bool? CreateCert { get; set; }
+
+    [CommandSwitch("--display-name")]
+    public string? DisplayName { get; set; }
+
+    [CommandSwitch("--end-date")]
+    public string? EndDate { get; set; }
+
+    [CommandSwitch("--keyvault")]
+    public string? Keyvault { get; set; }
+
+    [CommandSwitch("--years")]
+    public string? Years { get; set; }
+}

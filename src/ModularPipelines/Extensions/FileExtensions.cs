@@ -3,7 +3,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Extensions;
 
 /// <summary>
-/// Extensions for files
+/// Extensions for files.
 /// </summary>
 public static class FileExtensions
 {

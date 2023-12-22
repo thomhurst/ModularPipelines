@@ -4,25 +4,25 @@ using ModularPipelines.FileSystem;
 namespace ModularPipelines.Context;
 
 /// <summary>
-/// Provides context about the current pipeline environment
+/// Provides context about the current pipeline environment.
 /// </summary>
 public interface IEnvironmentContext
 {
     /// <summary>
-    /// The name of the environment that this Pipeline is running in
-    /// e.g. Development or Production
+    /// Gets the name of the environment that this Pipeline is running in
+    /// e.g. Development or Production.
     /// </summary>
     public string EnvironmentName { get; }
 
     /// <summary>
-    /// The current operating system
+    /// Gets the current operating system.
     /// </summary>
     public OperatingSystemIdentifier OperatingSystem { get; }
 
     public Version OperatingSystemVersion { get; }
 
     /// <summary>
-    /// Whether the current operating system is 64 bit
+    /// Gets a value indicating whether whether the current operating system is 64 bit.
     /// </summary>
     public bool Is64BitOperatingSystem { get; }
 
@@ -39,7 +39,7 @@ public interface IEnvironmentContext
     public Folder? GetFolder(Environment.SpecialFolder specialFolder);
 
     /// <summary>
-    /// Gets the Environment Variables available to this Pipeline
+    /// Gets the Environment Variables available to this Pipeline.
     /// </summary>
     public IEnvironmentVariables EnvironmentVariables { get; }
 }

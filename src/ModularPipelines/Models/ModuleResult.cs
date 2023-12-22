@@ -26,7 +26,7 @@ public class ModuleResult<T> : ModuleResult
     }
 
     /// <summary>
-    /// The value held in the result
+    /// Gets the value held in the result.
     /// </summary>
     /// <exception cref="ModuleFailedException">Thrown if the module failed.</exception>
     /// <exception cref="ModuleSkippedException">Thrown if the module was skipped.</exception>
@@ -55,7 +55,7 @@ public class ModuleResult<T> : ModuleResult
     }
 
     /// <summary>
-    /// Gets whether the result holds a value.
+    /// Gets a value indicating whether gets whether the result holds a value.
     /// </summary>
     public bool HasValue => !EqualityComparer<T?>.Default.Equals(_value, default);
 }
@@ -64,25 +64,25 @@ public class ModuleResult<T> : ModuleResult
 public class ModuleResult : ITypeDiscriminator
 {
     /// <summary>
-    /// Gets the name of the module
+    /// Gets the name of the module.
     /// </summary>
     [JsonInclude]
     public string ModuleName { get; private set; }
 
     /// <summary>
-    /// Gets how long the module ran for
+    /// Gets how long the module ran for.
     /// </summary>
     [JsonInclude]
     public TimeSpan ModuleDuration { get; private set; }
 
     /// <summary>
-    /// Gets when the module started
+    /// Gets when the module started.
     /// </summary>
     [JsonInclude]
     public DateTimeOffset ModuleStart { get; private set; }
 
     /// <summary>
-    /// Gets when the module ended
+    /// Gets when the module ended.
     /// </summary>
     [JsonInclude]
     public DateTimeOffset ModuleEnd { get; private set; }
@@ -111,7 +111,7 @@ public class ModuleResult : ITypeDiscriminator
     /// <summary>
     /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// </summary>
-    /// <param name="module">The module from which the result was produced</param>
+    /// <param name="module">The module from which the result was produced.</param>
     protected ModuleResult(ModuleBase module)
     {
         Module = module;
@@ -124,19 +124,19 @@ public class ModuleResult : ITypeDiscriminator
     }
 
     /// <summary>
-    /// Gets the exception that occurred in the module, if one was thrown
+    /// Gets the exception that occurred in the module, if one was thrown.
     /// </summary>
     [JsonInclude]
     public Exception? Exception { get; private set; }
 
     /// <summary>
-    /// Gets the Skip Decision of the module
+    /// Gets the Skip Decision of the module.
     /// </summary>
     [JsonInclude]
     public SkipDecision SkipDecision { get; private protected set; }
 
     /// <summary>
-    /// Gets the type of result that is held
+    /// Gets the type of result that is held.
     /// </summary>
     public ModuleResultType ModuleResultType
     {
@@ -157,7 +157,7 @@ public class ModuleResult : ITypeDiscriminator
     }
 
     /// <summary>
-    /// Gets the type information used to aid in serialization
+    /// Gets the type information used to aid in serialization.
     /// </summary>
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }

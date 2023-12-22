@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Chocolatey.Options;
@@ -14,9 +14,6 @@ public record NewOptions(
 
     [CommandSwitch("--template-name")]
     public string? TemplateName { get; set; }
-
-    [CommandSwitch("--name")]
-    public string? Name { get; set; }
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }

@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Helpers;
+using ModularPipelines.Helpers;
 
 namespace ModularPipelines.UnitTests;
 

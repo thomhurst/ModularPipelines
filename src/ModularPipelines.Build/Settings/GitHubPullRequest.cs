@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Build.Settings;
+namespace ModularPipelines.Build.Settings;
 
 public record GitHubPullRequest
 {

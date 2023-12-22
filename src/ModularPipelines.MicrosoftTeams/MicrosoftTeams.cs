@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using ModularPipelines.Http;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;

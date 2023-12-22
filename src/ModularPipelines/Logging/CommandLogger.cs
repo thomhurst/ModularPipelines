@@ -1,4 +1,4 @@
-﻿using CliWrap.Buffered;
+using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;

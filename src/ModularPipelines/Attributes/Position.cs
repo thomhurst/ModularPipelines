@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Attributes;
+namespace ModularPipelines.Attributes;
 
 public enum Position
 {

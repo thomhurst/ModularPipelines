@@ -1,4 +1,4 @@
-﻿using ModularPipelines.MicrosoftTeams.Options;
+using ModularPipelines.MicrosoftTeams.Options;
 
 namespace ModularPipelines.MicrosoftTeams;
 

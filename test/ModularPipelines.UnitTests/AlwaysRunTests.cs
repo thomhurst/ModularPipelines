@@ -1,4 +1,3 @@
-﻿
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
@@ -17,7 +16,7 @@ public class AlwaysRunTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [DependsOn<MyModule1>]
     public class MyModule2 : Module
     {
@@ -29,7 +28,7 @@ public class AlwaysRunTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [DependsOn<MyModule2>]
     public class MyModule3 : Module
     {
@@ -41,7 +40,7 @@ public class AlwaysRunTests : TestBase
             throw new Exception();
         }
     }
-    
+
     [DependsOn<MyModule3>]
     public class MyModule4 : Module
     {
@@ -55,9 +54,9 @@ public class AlwaysRunTests : TestBase
     [Test]
     public async Task AlwaysRunModules_Will_Run_Even_With_Exception()
     {
-        var (myModule1, myModule2, myModule3, myModule4) 
+        var (myModule1, myModule2, myModule3, myModule4)
             = await RunModules<MyModule1, MyModule2, MyModule3, MyModule4>();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(myModule1.Status, Is.EqualTo(Status.Failed));

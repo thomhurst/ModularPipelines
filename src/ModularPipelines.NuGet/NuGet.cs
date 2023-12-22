@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;

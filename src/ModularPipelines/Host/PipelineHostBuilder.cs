@@ -141,7 +141,7 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Modules with the specified categories will be run, and any other categories ignored
+    /// Modules with the specified categories will be run, and any other categories ignored.
     /// </summary>
     /// <param name="categories">An array of any categories to be run.</param>
     /// <returns>The same pipeline host builder.</returns>
@@ -159,7 +159,7 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Modules with the specified categories will not be run
+    /// Modules with the specified categories will not be run.
     /// </summary>
     /// <param name="categories">An array of any categories to not be run.</param>
     /// <returns>The same pipeline host builder.</returns>
@@ -177,7 +177,7 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Runs the pipelines
+    /// Runs the pipelines.
     /// </summary>
     /// <returns>A summary of the pipeline results.</returns>
     public async Task<PipelineSummary> ExecutePipelineAsync()
@@ -199,7 +199,7 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Registers a repository used to store and retrieve module results
+    /// Registers a repository used to store and retrieve module results.
     /// </summary>
     /// <typeparam name="T">The type of repository.</typeparam>
     /// <returns>The same pipeline host builder.</returns>
@@ -210,7 +210,7 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Configures the log level for the pipeline
+    /// Configures the log level for the pipeline.
     /// </summary>
     /// <param name="logLevel">The log level to set.</param>
     /// <returns>The same pipeline host builder.</returns>

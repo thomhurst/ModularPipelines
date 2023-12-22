@@ -1,0 +1,24 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Azure.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("servicebus", "migration", "delete")]
+public record AzServicebusMigrationDeleteOptions : AzOptions
+{
+    [CommandSwitch("--config-name")]
+    public string? ConfigName { get; set; }
+
+    [CommandSwitch("--ids")]
+    public string? Ids { get; set; }
+
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+
+    [CommandSwitch("--subscription")]
+    public new string? Subscription { get; set; }
+}

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet;
 
 public interface ITrxParser
 {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Options;
 using Polly;

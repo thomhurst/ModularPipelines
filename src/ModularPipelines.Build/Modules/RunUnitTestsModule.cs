@@ -6,8 +6,6 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
-using Polly;
-using Polly.NoOp;
 using Polly.Retry;
 
 namespace ModularPipelines.Build.Modules;
@@ -29,6 +27,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
+                NoRestore = true,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
                     ["GITHUB_ACTIONS"] = null,

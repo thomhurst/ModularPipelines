@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.UnitTests.Extensions;

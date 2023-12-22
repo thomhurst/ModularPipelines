@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Yarn.Models;
 

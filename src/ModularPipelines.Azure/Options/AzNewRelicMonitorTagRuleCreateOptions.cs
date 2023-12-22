@@ -1,0 +1,22 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Azure.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("new-relic", "monitor", "tag-rule", "create")]
+public record AzNewRelicMonitorTagRuleCreateOptions(
+[property: CommandSwitch("--monitor-name")] string MonitorName,
+[property: CommandSwitch("--name")] string Name,
+[property: CommandSwitch("--resource-group")] string ResourceGroup
+) : AzOptions
+{
+    [CommandSwitch("--log-rules")]
+    public string? LogRules { get; set; }
+
+    [CommandSwitch("--metric-rules")]
+    public string? MetricRules { get; set; }
+
+    [BooleanCommandSwitch("--no-wait")]
+    public bool? NoWait { get; set; }
+}

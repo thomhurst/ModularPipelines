@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
@@ -38,8 +39,34 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
 
     protected override async Task<IReadOnlyList<PullRequestFile>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        return await _gitHubClient
+        var pullRequestFiles = (await _gitHubClient
             .PullRequest
-            .Files(_githubSettings.Value.Repository!.Id!.Value, _githubSettings.Value.PullRequest!.Number!.Value);
+            .Files(_githubSettings.Value.Repository!.Id!.Value, _githubSettings.Value.PullRequest!.Number!.Value,
+                new ApiOptions
+                {
+                    PageCount = 30,
+                    PageSize = 100,
+                })
+                ).ToList();
+
+        if (pullRequestFiles.Count == 3000)
+        {
+            pullRequestFiles.AddRange(await _gitHubClient
+                .PullRequest
+                .Files(_githubSettings.Value.Repository!.Id!.Value, _githubSettings.Value.PullRequest!.Number!.Value,
+                    new ApiOptions
+                    {
+                        PageCount = 30,
+                        PageSize = 100,
+                        StartPage = 2,
+                    }));
+        }
+
+        pullRequestFiles = pullRequestFiles.Distinct().ToList();
+
+        context.Logger.LogInformation("{Count} file changes", pullRequestFiles.Count);
+        context.Logger.LogInformation("Changes files: {Files}", string.Join('|', pullRequestFiles.Select(x => x.FileName)));
+
+        return pullRequestFiles;
     }
 }

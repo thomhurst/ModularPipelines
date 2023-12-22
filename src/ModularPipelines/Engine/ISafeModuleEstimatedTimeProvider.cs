@@ -1,5 +1,3 @@
 namespace ModularPipelines.Engine;
 
-internal interface ISafeModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
-{
-}
+internal interface ISafeModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider;

@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Cmd.Models;
+using ModularPipelines.Cmd.Models;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 

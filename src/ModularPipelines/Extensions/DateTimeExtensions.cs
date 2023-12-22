@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Extensions;
+namespace ModularPipelines.Extensions;
 
 internal static class DateTimeExtensions
 {

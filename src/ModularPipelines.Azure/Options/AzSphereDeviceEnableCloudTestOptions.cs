@@ -1,0 +1,21 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Azure.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("sphere", "device", "enable-cloud-test")]
+public record AzSphereDeviceEnableCloudTestOptions(
+[property: CommandSwitch("--catalog")] string Catalog,
+[property: CommandSwitch("--resource-group")] string ResourceGroup
+) : AzOptions
+{
+    [CommandSwitch("--device")]
+    public string? Device { get; set; }
+
+    [CommandSwitch("--device-group")]
+    public string? DeviceGroup { get; set; }
+
+    [CommandSwitch("--product")]
+    public string? Product { get; set; }
+}

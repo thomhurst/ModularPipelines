@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;

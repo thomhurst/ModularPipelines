@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.WinGet.Options;
@@ -7,6 +7,4 @@ namespace ModularPipelines.WinGet.Options;
 [CommandPrecedingArguments("configure")]
 public record ConfigureOptions(
     [property: CommandSwitch("--file")] string File
-) : WingetOptions
-{
-}
+) : WingetOptions;

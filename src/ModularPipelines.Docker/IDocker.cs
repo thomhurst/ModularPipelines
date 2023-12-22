@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker;

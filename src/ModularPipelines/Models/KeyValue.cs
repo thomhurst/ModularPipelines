@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Models;
+namespace ModularPipelines.Models;
 
 public record KeyValue(string Key, string Value, string Separator)
 {

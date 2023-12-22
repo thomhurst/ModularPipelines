@@ -32,6 +32,8 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      - name: Build
+        run: dotnet build ModularPipelines.sln -c Release --framework net7.0 && dotnet build ModularPipelines.sln -c Release --framework net6.0 && dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"

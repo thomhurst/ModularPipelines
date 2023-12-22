@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using CliWrap;
 using CliWrap.Buffered;
 
@@ -7,7 +7,7 @@ namespace ModularPipelines.Models;
 public record CommandResult
 {
     /// <summary>
-    /// The command that was executed.
+    /// Gets the command that was executed.
     /// </summary>
     public string CommandInput { get; }
 
@@ -43,32 +43,32 @@ public record CommandResult
     }
 
     /// <summary>
-    /// Standard output data produced by the underlying process.
+    /// Gets standard output data produced by the underlying process.
     /// </summary>
     public string StandardOutput { get; }
 
     /// <summary>
-    /// Standard error data produced by the underlying process.
+    /// Gets standard error data produced by the underlying process.
     /// </summary>
     public string StandardError { get; }
 
     /// <summary>
-    /// Exit code set by the underlying process.
+    /// Gets exit code set by the underlying process.
     /// </summary>
     public int ExitCode { get; }
 
     /// <summary>
-    /// Time at which the command started executing.
+    /// Gets time at which the command started executing.
     /// </summary>
     public DateTimeOffset StartTime { get; }
 
     /// <summary>
-    /// Time at which the command finished executing.
+    /// Gets time at which the command finished executing.
     /// </summary>
     public DateTimeOffset EndTime { get; }
 
     /// <summary>
-    /// Total duration of the command execution.
+    /// Gets total duration of the command execution.
     /// </summary>
     public TimeSpan Duration { get; }
 }

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Yarn.Models;
@@ -8,6 +8,4 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmTagAddOptions(
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Package,
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Tag
-) : YarnOptions
-{
-}
+) : YarnOptions;

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Models;
+namespace ModularPipelines.Models;
 
 public enum ModuleRunType
 {

@@ -14,9 +14,7 @@ using Polly.Retry;
 
 namespace ModularPipelines.Modules;
 
-public abstract class Module : Module<IDictionary<string, object>>
-{
-}
+public abstract class Module : Module<IDictionary<string, object>>;
 
 /// <summary>
 /// An independent module used to perform an action, and optionally return some data, which can be used within other modules. This is the base class from which all custom modules should inherit.
@@ -110,7 +108,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     }
 
     /// <summary>
-    /// Gets the Module of type <see cref="TModule">{TModule}</see>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
     /// <typeparam name="TModule">The type of module to get.</typeparam>
     /// <returns>{TModule}.</returns>
@@ -146,9 +144,9 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         return Context.GetModule<TModule>();
     }
-    
+
     /// <summary>
-    /// Creates a generic Retry policy that'll catch any exception and retry
+    /// Creates a generic Retry policy that'll catch any exception and retry.
     /// </summary>
     /// <param name="count">The amount of times to retry.</param>
     /// <returns>{T}.</returns>

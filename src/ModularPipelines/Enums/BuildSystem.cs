@@ -1,52 +1,52 @@
 namespace ModularPipelines.Enums;
 
 /// <summary>
-/// Build agent types
+/// Build agent types.
 /// </summary>
 public enum BuildSystem
 {
     /// <summary>
-    /// Azure Pipelines
+    /// Azure Pipelines.
     /// </summary>
     AzurePipelines,
 
     /// <summary>
-    /// TeamCity
+    /// TeamCity.
     /// </summary>
     TeamCity,
 
     /// <summary>
-    /// GitHub actions
+    /// GitHub actions.
     /// </summary>
     GitHubActions,
 
     /// <summary>
-    /// Jenkins
+    /// Jenkins.
     /// </summary>
     Jenkins,
 
     /// <summary>
-    /// GitLab
+    /// GitLab.
     /// </summary>
     GitLab,
 
     /// <summary>
-    /// Bitbucket
+    /// Bitbucket.
     /// </summary>
     Bitbucket,
 
     /// <summary>
-    /// TravisCI
+    /// TravisCI.
     /// </summary>
     TravisCI,
 
     /// <summary>
-    /// AppVeyor
+    /// AppVeyor.
     /// </summary>
     AppVeyor,
 
     /// <summary>
-    /// The build agent type couldn't be detected
+    /// The build agent type couldn't be detected.
     /// </summary>
     Unknown,
 }

@@ -5,6 +5,4 @@ namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("system")]
 [ExcludeFromCodeCoverage]
-public record DockerSystemOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
-{
-}
+public record DockerSystemOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;

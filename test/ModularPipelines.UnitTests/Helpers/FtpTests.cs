@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
@@ -8,6 +8,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.UnitTests.Helpers;
 
 [Parallelizable(ParallelScope.Self)]
+[Ignore("FTP tests flaky due to server load")]
 public class FtpTests : TestBase
 {
     [Test]

@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Email.Options;
+using ModularPipelines.Email.Options;
 
 namespace ModularPipelines.Email;
 

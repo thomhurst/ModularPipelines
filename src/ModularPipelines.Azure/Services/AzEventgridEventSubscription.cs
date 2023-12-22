@@ -1,0 +1,66 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Azure.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+
+namespace ModularPipelines.Azure.Services;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("eventgrid")]
+public class AzEventgridEventSubscription
+{
+    public AzEventgridEventSubscription(
+        AzEventgridEventSubscriptionCreate create,
+        AzEventgridEventSubscriptionDelete delete,
+        AzEventgridEventSubscriptionList list,
+        AzEventgridEventSubscriptionShow show,
+        AzEventgridEventSubscriptionUpdate update,
+        ICommand internalCommand
+    )
+    {
+        CreateCommands = create;
+        DeleteCommands = delete;
+        ListCommands = list;
+        ShowCommands = show;
+        UpdateCommands = update;
+        _command = internalCommand;
+    }
+
+    private readonly ICommand _command;
+
+    public AzEventgridEventSubscriptionCreate CreateCommands { get; }
+
+    public AzEventgridEventSubscriptionDelete DeleteCommands { get; }
+
+    public AzEventgridEventSubscriptionList ListCommands { get; }
+
+    public AzEventgridEventSubscriptionShow ShowCommands { get; }
+
+    public AzEventgridEventSubscriptionUpdate UpdateCommands { get; }
+
+    public async Task<CommandResult> Create(AzEventgridEventSubscriptionCreateOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+
+    public async Task<CommandResult> Delete(AzEventgridEventSubscriptionDeleteOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+
+    public async Task<CommandResult> List(AzEventgridEventSubscriptionListOptions? options = default, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionListOptions(), token);
+    }
+
+    public async Task<CommandResult> Show(AzEventgridEventSubscriptionShowOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+
+    public async Task<CommandResult> Update(AzEventgridEventSubscriptionUpdateOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+}

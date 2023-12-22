@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Engine.Executors.ModuleHandlers;
+namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal interface IErrorHandler
 {

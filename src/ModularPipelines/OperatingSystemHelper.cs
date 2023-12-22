@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines;
+namespace ModularPipelines;
 
 public static class OperatingSystemHelper
 {

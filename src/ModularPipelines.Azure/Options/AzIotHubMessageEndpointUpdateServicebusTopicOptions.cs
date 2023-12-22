@@ -1,0 +1,33 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Azure.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("iot", "hub", "message-endpoint", "update", "servicebus-topic")]
+public record AzIotHubMessageEndpointUpdateServicebusTopicOptions(
+[property: CommandSwitch("--en")] string En,
+[property: CommandSwitch("--hub-name")] string HubName
+) : AzOptions
+{
+    [CommandSwitch("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    [CommandSwitch("--endpoint-resource-group")]
+    public string? EndpointResourceGroup { get; set; }
+
+    [CommandSwitch("--endpoint-subscription-id")]
+    public string? EndpointSubscriptionId { get; set; }
+
+    [CommandSwitch("--endpoint-uri")]
+    public string? EndpointUri { get; set; }
+
+    [CommandSwitch("--entity-path")]
+    public string? EntityPath { get; set; }
+
+    [CommandSwitch("--identity")]
+    public string? Identity { get; set; }
+
+    [CommandSwitch("--resource-group")]
+    public string? ResourceGroup { get; set; }
+}

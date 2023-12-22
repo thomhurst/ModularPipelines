@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Build;
+namespace ModularPipelines.Build;
 
 public static class BuildConstants
 {

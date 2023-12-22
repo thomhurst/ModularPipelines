@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Yarn.Models;
@@ -7,6 +7,4 @@ namespace ModularPipelines.Yarn.Models;
 [CommandPrecedingArguments("plugin", "remove")]
 public record YarnPluginRemoveOptions(
     [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
-) : YarnOptions
-{
-}
+) : YarnOptions;

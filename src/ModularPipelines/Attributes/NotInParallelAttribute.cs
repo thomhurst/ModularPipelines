@@ -1,7 +1,7 @@
-﻿namespace ModularPipelines.Attributes;
+namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Used to control modules not running in parallel with other modules
+/// Used to control modules not running in parallel with other modules.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class NotInParallelAttribute : Attribute

@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Attributes;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -22,7 +22,7 @@ public class CheckReleaseNotesAddedModule : Module
     {
         var getChangedFilesInPullRequestModule = await GetModule<GetChangedFilesInPullRequest>();
 
-        return getChangedFilesInPullRequestModule.SkipDecision;
+        return true;
     }
 
     /// <inheritdoc/>

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.DotNet.Enums;
+namespace ModularPipelines.DotNet.Enums;
 
 public enum TestOutcome
 {
