@@ -108,7 +108,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     }
 
     /// <summary>
-    /// Gets the Module of type <see cref="TModule">{TModule}</see>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
     /// <typeparam name="TModule">The type of module to get.</typeparam>
     /// <returns>{TModule}.</returns>
@@ -146,7 +146,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     }
 
     /// <summary>
-    /// Creates a generic Retry policy that'll catch any exception and retry
+    /// Creates a generic Retry policy that'll catch any exception and retry.
     /// </summary>
     /// <param name="count">The amount of times to retry.</param>
     /// <returns>{T}.</returns>

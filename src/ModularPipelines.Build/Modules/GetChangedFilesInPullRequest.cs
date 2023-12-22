@@ -61,10 +61,12 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
                         StartPage = 2,
                     }));
         }
-        
+
+        pullRequestFiles = pullRequestFiles.Distinct().ToList();
+
         context.Logger.LogInformation("{Count} file changes", pullRequestFiles.Count);
         context.Logger.LogInformation("Changes files: {Files}", string.Join('|', pullRequestFiles.Select(x => x.FileName)));
-        
+
         return pullRequestFiles;
     }
 }

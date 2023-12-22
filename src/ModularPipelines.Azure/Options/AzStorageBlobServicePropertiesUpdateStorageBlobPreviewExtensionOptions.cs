@@ -8,7 +8,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions : AzOptions
 {
     [CommandSwitch("--404-document")]
-    public string? Path404Document { get; set; }
+    public string? 404Document { get; set; }
 
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }

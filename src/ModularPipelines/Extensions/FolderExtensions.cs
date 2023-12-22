@@ -3,7 +3,7 @@ using ModularPipelines.FileSystem;
 namespace ModularPipelines.Extensions;
 
 /// <summary>
-/// Extensions for folders
+/// Extensions for folders.
 /// </summary>
 public static class FolderExtensions
 {

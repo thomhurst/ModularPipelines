@@ -6,12 +6,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Modules;
 
 /// <summary>
-/// A base class for all modules
+/// A base class for all modules.
 /// </summary>
 public partial class ModuleBase
 {
     /// <summary>
-    /// Gets a Timeout for the module
+    /// Gets a Timeout for the module.
     /// </summary>
     protected internal virtual TimeSpan Timeout => TimeSpan.FromMinutes(30);
 
@@ -37,12 +37,12 @@ public partial class ModuleBase
     /// If no persisted result can be reconstructed, this module will fail.
     /// </summary>
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
-    /// <returns>A boolean controlling whether to use historical data if available</returns>
+    /// <returns>A boolean controlling whether to use historical data if available.</returns>
     [ModuleMethodMarker]
     protected internal virtual Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context) => Task.FromResult(context.ModuleResultRepository.GetType() != typeof(NoOpModuleResultRepository));
 
     /// <summary>
-    /// A hook that runs before the module is started
+    /// A hook that runs before the module is started.
     /// </summary>
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
@@ -53,7 +53,7 @@ public partial class ModuleBase
     }
 
     /// <summary>
-    /// A hook that runs after the module has finished executing
+    /// A hook that runs after the module has finished executing.
     /// </summary>
     /// <param name="context">A pipeline context object provided by the pipeline.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
@@ -64,7 +64,7 @@ public partial class ModuleBase
     }
 
     /// <summary>
-    /// Gets whether the Module should run even if the pipeline has failed
+    /// Gets whether the Module should run even if the pipeline has failed.
     /// </summary>
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
 }

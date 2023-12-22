@@ -11,7 +11,7 @@ using ModularPipelines.Serialization;
 namespace ModularPipelines.Modules;
 
 /// <summary>
-/// A base class for all modules
+/// A base class for all modules.
 /// </summary>
 [JsonConverter(typeof(TypeDiscriminatorConverter<ModuleBase>))]
 public abstract partial class ModuleBase : ITypeDiscriminator

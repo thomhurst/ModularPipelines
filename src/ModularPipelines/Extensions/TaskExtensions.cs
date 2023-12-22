@@ -1,7 +1,7 @@
 namespace ModularPipelines.Extensions;
 
 /// <summary>
-/// Extensions for Tasks
+/// Extensions for Tasks.
 /// </summary>
 public static class TaskExtensions
 {

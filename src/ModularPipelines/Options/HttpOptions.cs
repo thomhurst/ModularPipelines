@@ -5,7 +5,7 @@ namespace ModularPipelines.Options;
 public record HttpOptions(HttpRequestMessage HttpRequestMessage)
 {
     /// <summary>
-    /// Gets and sets an optional HttpClient for handling the request.
+    /// Gets or sets and sets an optional HttpClient for handling the request.
     /// </summary>
     public HttpClient? HttpClient { get; set; }
 

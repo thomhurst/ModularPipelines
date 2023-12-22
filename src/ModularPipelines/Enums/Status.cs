@@ -19,7 +19,7 @@ public enum Status
     Processing,
 
     /// <summary>
-    /// Successful
+    /// Successful.
     /// </summary>
     Successful,
 

@@ -21,7 +21,7 @@ public class CommandParserTests : TestBase
             }, cancellationToken);
         }
     }
-    
+
     public class AzureCommandModule2 : Module<CommandResult>
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -168,7 +168,7 @@ public class CommandParserTests : TestBase
                                                                  az account alias create --name MyName
                                                                  """));
     }
-    
+
     [Test]
     public async Task Azure_Command_With_Mandatory_Switch_Conflicting_With_Base_Default_Optional_Switch_Is_Expected_Command()
     {
