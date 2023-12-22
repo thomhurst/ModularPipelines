@@ -27,6 +27,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
+                NoRestore = true,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
                     ["GITHUB_ACTIONS"] = null,
