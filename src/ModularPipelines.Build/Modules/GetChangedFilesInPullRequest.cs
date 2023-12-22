@@ -58,7 +58,7 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
                     {
                         PageCount = 30,
                         PageSize = 100,
-                        StartPage = 31
+                        StartPage = 2
                     }));
         }
         
