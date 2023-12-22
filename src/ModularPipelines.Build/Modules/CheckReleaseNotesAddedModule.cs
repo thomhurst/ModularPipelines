@@ -22,7 +22,7 @@ public class CheckReleaseNotesAddedModule : Module
     {
         var getChangedFilesInPullRequestModule = await GetModule<GetChangedFilesInPullRequest>();
 
-        return getChangedFilesInPullRequestModule.SkipDecision;
+        return true;
     }
 
     /// <inheritdoc/>
