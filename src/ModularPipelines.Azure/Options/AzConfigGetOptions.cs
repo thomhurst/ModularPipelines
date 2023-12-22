@@ -11,5 +11,5 @@ public record AzConfigGetOptions : AzOptions
     public bool? Local { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? KEY { get; set; }
+    public string? Key { get; set; }
 }

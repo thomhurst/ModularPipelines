@@ -5,7 +5,10 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("ml", "workspace", "delete")]
-public record AzMlWorkspaceDeleteOptions : AzOptions
+public record AzMlWorkspaceDeleteOptions(
+[property: CommandSwitch("--name")] string Name,
+[property: CommandSwitch("--resource-group")] string ResourceGroup
+) : AzOptions
 {
     [BooleanCommandSwitch("--all-resources")]
     public bool? AllResources { get; set; }
@@ -13,18 +16,9 @@ public record AzMlWorkspaceDeleteOptions : AzOptions
     [BooleanCommandSwitch("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
-    public string? OutputMetadataFile { get; set; }
+    [BooleanCommandSwitch("--permanently-delete")]
+    public bool? PermanentlyDelete { get; set; }
 
-    [CommandSwitch("--path")]
-    public string? Path { get; set; }
-
-    [CommandSwitch("--resource-group")]
-    public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--subscription-id")]
-    public string? SubscriptionId { get; set; }
-
-    [CommandSwitch("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    [BooleanCommandSwitch("--yes")]
+    public bool? Yes { get; set; }
 }

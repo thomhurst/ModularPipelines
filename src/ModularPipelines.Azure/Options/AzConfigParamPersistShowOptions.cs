@@ -8,5 +8,5 @@ namespace ModularPipelines.Azure.Options;
 public record AzConfigParamPersistShowOptions : AzOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? NAME { get; set; }
+    public string? Name { get; set; }
 }

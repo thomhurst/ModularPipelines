@@ -9,17 +9,14 @@ public record AzMlEnvironmentShowOptions(
 [property: CommandSwitch("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--output-metadata-file")]
-    public string? OutputMetadataFile { get; set; }
+    [CommandSwitch("--label")]
+    public string? Label { get; set; }
 
-    [CommandSwitch("--path")]
-    public string? Path { get; set; }
+    [CommandSwitch("--registry-name")]
+    public string? RegistryName { get; set; }
 
     [CommandSwitch("--resource-group")]
     public string? ResourceGroup { get; set; }
-
-    [CommandSwitch("--subscription-id")]
-    public string? SubscriptionId { get; set; }
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }

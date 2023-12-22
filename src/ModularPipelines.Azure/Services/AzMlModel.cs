@@ -49,9 +49,9 @@ public class AzMlModel
         return await _command.ExecuteCommandLineTool(options ?? new AzMlModelListOptions(), token);
     }
 
-    public async Task<CommandResult> Package(AzMlModelPackageOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Package(AzMlModelPackageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlModelPackageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Profile(AzMlModelProfileOptions options, CancellationToken token = default)
@@ -74,9 +74,9 @@ public class AzMlModel
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMlModelShowOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMlModelShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlModelShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Update(AzMlModelUpdateOptions options, CancellationToken token = default)

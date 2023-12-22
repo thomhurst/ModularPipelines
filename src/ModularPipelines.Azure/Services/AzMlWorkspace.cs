@@ -32,14 +32,14 @@ public class AzMlWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Delete(AzMlWorkspaceDeleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Delete(AzMlWorkspaceDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Diagnose(AzMlWorkspaceDiagnoseOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Diagnose(AzMlWorkspaceDiagnoseOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceDiagnoseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> List(AzMlWorkspaceListOptions? options = default, CancellationToken token = default)
@@ -47,9 +47,9 @@ public class AzMlWorkspace
         return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceListOptions(), token);
     }
 
-    public async Task<CommandResult> ListKeys(AzMlWorkspaceListKeysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListKeys(AzMlWorkspaceListKeysOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceListKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> ProvisionNetwork(AzMlWorkspaceProvisionNetworkOptions options, CancellationToken token = default)
@@ -62,19 +62,19 @@ public class AzMlWorkspace
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Show(AzMlWorkspaceShowOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Show(AzMlWorkspaceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> SyncKeys(AzMlWorkspaceSyncKeysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SyncKeys(AzMlWorkspaceSyncKeysOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceSyncKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Update(AzMlWorkspaceUpdateOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Update(AzMlWorkspaceUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> UpdateDependencies(AzMlWorkspaceUpdateDependenciesOptions? options = default, CancellationToken token = default)

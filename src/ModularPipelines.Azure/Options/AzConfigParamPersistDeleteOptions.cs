@@ -20,5 +20,5 @@ public record AzConfigParamPersistDeleteOptions : AzOptions
     public bool? Yes { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? NAME { get; set; }
+    public string? Name { get; set; }
 }

@@ -79,9 +79,9 @@ public class AzMlDatastore
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> List(AzMlDatastoreListOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> List(AzMlDatastoreListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlDatastoreListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> SetDefault(AzMlDatastoreSetDefaultOptions options, CancellationToken token = default)
