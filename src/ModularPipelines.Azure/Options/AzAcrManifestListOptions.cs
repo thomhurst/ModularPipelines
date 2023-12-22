@@ -29,5 +29,5 @@ public record AzAcrManifestListOptions : AzOptions
     public string? Username { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? RepoId { get; set; }
+    public string? REPOID { get; set; }
 }

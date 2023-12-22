@@ -38,5 +38,5 @@ public record AzStorageBlobSyncOptions(
     public string? SasToken { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ExtraOptions { get; set; }
+    public string? EXTRAOPTIONS { get; set; }
 }

@@ -35,5 +35,5 @@ public record AzAcrManifestUpdateMetadataOptions : AzOptions
     public bool? WriteEnabled { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ManifestId { get; set; }
+    public string? MANIFESTID { get; set; }
 }

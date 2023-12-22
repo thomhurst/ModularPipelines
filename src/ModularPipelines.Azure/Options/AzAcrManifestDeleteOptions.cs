@@ -26,5 +26,5 @@ public record AzAcrManifestDeleteOptions : AzOptions
     public bool? Yes { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ManifestId { get; set; }
+    public string? MANIFESTID { get; set; }
 }

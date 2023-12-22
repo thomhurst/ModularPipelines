@@ -5,7 +5,17 @@ namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("account", "management-group", "subscription", "add")]
-public record AzAccountManagementGroupSubscriptionAddOptions(
-[property: CommandSwitch("--name")] string Name,
-string Subscription
-) : AzOptions;
+public record AzAccountManagementGroupSubscriptionAddOptions : AzOptions
+{
+    public AzAccountManagementGroupSubscriptionAddOptions(
+        string name,
+        string subscription
+    )
+    {
+        Name = name;
+        Subscription = subscription;
+    }
+
+    [CommandSwitch("--name")]
+    public string Name { get; set; }
+}

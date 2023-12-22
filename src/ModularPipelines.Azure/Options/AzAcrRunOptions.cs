@@ -52,5 +52,5 @@ public record AzAcrRunOptions(
     public string? Values { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SourceLocation { get; set; }
+    public string? SOURCELOCATION { get; set; }
 }

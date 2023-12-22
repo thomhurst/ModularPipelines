@@ -17,5 +17,5 @@ public record AzScenarioGuideOptions : AzOptions
     public string? Top { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SearchKeyword { get; set; }
+    public string? SEARCHKEYWORD { get; set; }
 }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Azure.Options;
 public record AzFindOptions : AzOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? CliTerm { get; set; }
+    public string? CLITERM { get; set; }
 }

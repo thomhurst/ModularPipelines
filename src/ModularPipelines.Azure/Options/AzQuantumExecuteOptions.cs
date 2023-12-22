@@ -46,5 +46,5 @@ public record AzQuantumExecuteOptions(
     public string? TargetCapability { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ProgramArgs { get; set; }
+    public string? PROGRAMARGS { get; set; }
 }

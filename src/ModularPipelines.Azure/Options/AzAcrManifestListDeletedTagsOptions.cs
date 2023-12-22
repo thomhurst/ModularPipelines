@@ -23,5 +23,5 @@ public record AzAcrManifestListDeletedTagsOptions : AzOptions
     public string? Username { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? PermRepoId { get; set; }
+    public string? PERMREPOID { get; set; }
 }

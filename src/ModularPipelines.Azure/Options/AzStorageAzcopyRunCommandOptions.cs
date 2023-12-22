@@ -8,5 +8,5 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageAzcopyRunCommandOptions : AzOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? CommandArgs { get; set; }
+    public string? COMMANDARGS { get; set; }
 }

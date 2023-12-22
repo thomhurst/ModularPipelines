@@ -29,5 +29,5 @@ public record AzAcrManifestListReferrersOptions : AzOptions
     public string? Username { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ManifestId { get; set; }
+    public string? MANIFESTID { get; set; }
 }

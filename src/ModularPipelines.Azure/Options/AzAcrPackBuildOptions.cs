@@ -42,5 +42,5 @@ public record AzAcrPackBuildOptions(
     public string? Timeout { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SourceLocation { get; set; }
+    public string? SOURCELOCATION { get; set; }
 }
