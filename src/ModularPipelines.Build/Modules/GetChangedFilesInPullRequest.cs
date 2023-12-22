@@ -45,7 +45,7 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
                 new ApiOptions
                 {
                     PageCount = 30,
-                    PageSize = 100
+                    PageSize = 100,
                 })
                 ).ToList();
 
@@ -58,7 +58,7 @@ public class GetChangedFilesInPullRequest : Module<IReadOnlyList<PullRequestFile
                     {
                         PageCount = 30,
                         PageSize = 100,
-                        StartPage = 2
+                        StartPage = 2,
                     }));
         }
         

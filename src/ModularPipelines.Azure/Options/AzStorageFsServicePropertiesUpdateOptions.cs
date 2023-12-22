@@ -8,7 +8,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageFsServicePropertiesUpdateOptions : AzOptions
 {
     [CommandSwitch("--404-document")]
-    public string? _404Document { get; set; }
+    public string? Path404Document { get; set; }
 
     [CommandSwitch("--account-key")]
     public int? AccountKey { get; set; }
