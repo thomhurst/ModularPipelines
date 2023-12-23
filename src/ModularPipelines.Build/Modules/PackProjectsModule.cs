@@ -46,7 +46,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var projectDirectory = projectFile.Folder!;
 
-        if (changedFiles.Any(x => x.Path.Contains(projectDirectory.Path)))
+        if (!changedFiles.Any(x => x.Path.Contains(projectDirectory.Path)))
         {
             context.Logger.LogInformation("{Project} has not changed so not packing it", projectFile.Name);
             return false;
