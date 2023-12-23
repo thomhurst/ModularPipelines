@@ -1,0 +1,56 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.AmazonWebServices.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("storagegateway", "create-nfs-file-share")]
+public record AwsStoragegatewayCreateNfsFileShareOptions(
+[property: CommandSwitch("--client-token")] string ClientToken,
+[property: CommandSwitch("--gateway-arn")] string GatewayArn,
+[property: CommandSwitch("--role")] string Role,
+[property: CommandSwitch("--location-arn")] string LocationArn
+) : AwsOptions
+{
+    [CommandSwitch("--nfs-file-share-defaults")]
+    public string? NfsFileShareDefaults { get; set; }
+
+    [CommandSwitch("--kms-key")]
+    public string? KmsKey { get; set; }
+
+    [CommandSwitch("--default-storage-class")]
+    public string? DefaultStorageClass { get; set; }
+
+    [CommandSwitch("--object-acl")]
+    public string? ObjectAcl { get; set; }
+
+    [CommandSwitch("--client-list")]
+    public string[]? ClientList { get; set; }
+
+    [CommandSwitch("--squash")]
+    public string? Squash { get; set; }
+
+    [CommandSwitch("--tags")]
+    public string[]? Tags { get; set; }
+
+    [CommandSwitch("--file-share-name")]
+    public string? FileShareName { get; set; }
+
+    [CommandSwitch("--cache-attributes")]
+    public string? CacheAttributes { get; set; }
+
+    [CommandSwitch("--notification-policy")]
+    public string? NotificationPolicy { get; set; }
+
+    [CommandSwitch("--vpc-endpoint-dns-name")]
+    public string? VpcEndpointDnsName { get; set; }
+
+    [CommandSwitch("--bucket-region")]
+    public string? BucketRegion { get; set; }
+
+    [CommandSwitch("--audit-destination-arn")]
+    public string? AuditDestinationArn { get; set; }
+
+    [CommandSwitch("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+}
