@@ -73,12 +73,16 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
-        Context.EngineCancellationToken.CancelWithReason($"{Module.GetType().Name} failed with a {exception.GetType().Name}");
-
-        ModuleResultTaskCompletionSource.TrySetException(exception);
-
         Context.Logger.SetException(exception);
-
+        
+        Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(_ =>
+        {
+            ModuleResultTaskCompletionSource.TrySetException(exception);
+            
+            Context.EngineCancellationToken.CancelWithReason(
+                $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
+        });
+        
         throw new ModuleFailedException(Module, exception);
     }
 }
