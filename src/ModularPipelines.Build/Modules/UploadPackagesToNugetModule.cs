@@ -17,6 +17,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackagePathsParserModule>]
 [SkipIfDependabot]
 [RunOnlyOnBranch("main")]
+[RunOnLinuxOnly]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;

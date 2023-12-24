@@ -55,6 +55,7 @@ jobs:
           GitHub__PullRequest__Number: ${{ github.event.number }}
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
+          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
           Publish__ShouldPublish: false
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       - name: Upload Code Coverage Results
