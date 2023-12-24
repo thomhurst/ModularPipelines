@@ -9,15 +9,18 @@ internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IModuleExecutor _moduleExecutor;
+    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
+        EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
+        _engineCancellationToken = engineCancellationToken;
         _logger = logger;
     }
 
@@ -34,6 +37,8 @@ internal class PipelineExecutor : IPipelineExecutor
         }
         catch
         {
+            _engineCancellationToken.Cancel();
+            
             // Give time for the console to update modules to Failed
             await Task.Delay(TimeSpan.FromMilliseconds(250));
             throw;

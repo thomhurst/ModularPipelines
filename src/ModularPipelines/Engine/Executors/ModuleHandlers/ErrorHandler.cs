@@ -27,10 +27,6 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
             
-            // This shouldn't throw back to the main thread as the initial failing module should be the first to throw
-            // So give 2 seconds to let that happen first, and then throw here as a safety net to ensure the process fails
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            
             throw new PipelineCancelledException(Context.EngineCancellationToken);
         }
         else
@@ -79,21 +75,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
         Context.Logger.SetException(exception);
-
-        _ = CancelPipeline(exception);
-
+        
         ModuleResultTaskCompletionSource.TrySetException(exception);
         
         throw new ModuleFailedException(Module, exception);
-    }
-
-    private async Task CancelPipeline(Exception exception)
-    {
-        // Cancel after a second, so other modules don't fail before this one.
-        await Task.Delay(TimeSpan.FromSeconds(1));
-
-        Context.EngineCancellationToken.CancelWithReason(
-            $"{Module.GetType().Name} failed with a {exception.GetType().Name}"
-        );
     }
 }
