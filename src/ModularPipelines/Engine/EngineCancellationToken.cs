@@ -7,6 +7,11 @@ internal class EngineCancellationToken : CancellationTokenSource
 {
     public string? Reason { get; set; }
 
+    private bool _isCancelled;
+
+    public bool IsCancelled =>
+        _isCancelled || IsCancellationRequested || Token.IsCancellationRequested || Reason != null;
+
     private bool _disposed;
 
     public EngineCancellationToken()
@@ -19,6 +24,7 @@ internal class EngineCancellationToken : CancellationTokenSource
     public void CancelWithReason(string? reason)
     {
         Reason = reason;
+        _isCancelled = true;
         Cancel();
     }
 
@@ -32,6 +38,7 @@ internal class EngineCancellationToken : CancellationTokenSource
     {
         if (!_disposed && Token.CanBeCanceled)
         {
+            _isCancelled = true;
             Cancel();
         }
     }
