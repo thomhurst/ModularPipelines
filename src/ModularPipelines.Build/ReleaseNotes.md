@@ -1,1 +1,1 @@
-- Wrapper classes for interacting with the `aws` CLI
+*   Wrapper classes for interacting with the `aws` CLI
