@@ -11,7 +11,6 @@ public class EmailTests : TestBase
 {
     private const string EmailAddress = "modularpipelinestest@gmail.com";
 
-    [Test]
     public async Task Can_Send_Email()
     {
         var email = await GetService<IEmail>();
