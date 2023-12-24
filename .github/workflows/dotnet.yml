@@ -56,9 +56,13 @@ jobs:
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
         run: |
-          for solution in ${{ env.SOLUTIONS }}
-            for dotnetversion in ${{ env.DOTNET_VERSIONS }}
-              dotnet build $solution -c Release --framework $dotnetversion
+          for SOLUTION in ${{ env.SOLUTIONS }}
+          do
+            for DOTNETVERSION in ${{ env.DOTNET_VERSIONS }}
+            do
+              dotnet build $SOLUTION -c Release --framework $DOTNETVERSION
+            done
+          done
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
