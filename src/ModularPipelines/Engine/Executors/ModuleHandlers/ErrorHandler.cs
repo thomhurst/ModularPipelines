@@ -80,11 +80,11 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         
         Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(_ =>
         {
-            ModuleResultTaskCompletionSource.TrySetException(exception);
-            
             Context.EngineCancellationToken.CancelWithReason(
                 $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
         });
+        
+        ModuleResultTaskCompletionSource.TrySetException(exception);
         
         throw new ModuleFailedException(Module, exception);
     }
