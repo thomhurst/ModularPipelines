@@ -29,7 +29,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         {
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
-            return;
+            throw new PipelineCancelledException(Context.EngineCancellationToken);
         }
         else
         {
@@ -78,11 +78,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
         Context.Logger.SetException(exception);
         
-        Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(_ =>
-        {
-            Context.EngineCancellationToken.CancelWithReason(
-                $"{Module.GetType().Name} failed with a {exception.GetType().Name}");
-        });
+        Context.EngineCancellationToken.CancelWithReason(
+            $"{Module.GetType().Name} failed with a {exception.GetType().Name}"
+            );
         
         ModuleResultTaskCompletionSource.TrySetException(exception);
         
