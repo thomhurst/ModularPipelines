@@ -45,6 +45,8 @@ public class AlwaysRunTests : TestBase
     [DependsOn<MyModule3>]
     public class MyModule4 : Module
     {
+        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
@@ -63,7 +65,7 @@ public class AlwaysRunTests : TestBase
             Assert.That(myModule1.Status, Is.EqualTo(Status.Failed));
             Assert.That(myModule2.Status, Is.EqualTo(Status.Failed));
             Assert.That(myModule3.Status, Is.EqualTo(Status.Failed));
-            Assert.That(myModule4.Status, Is.EqualTo(Status.NotYetStarted));
+            Assert.That(myModule4.Status, Is.Not.EqualTo(Status.NotYetStarted));
         });
     }
 }
