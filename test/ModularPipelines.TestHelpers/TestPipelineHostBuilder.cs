@@ -1,11 +1,12 @@
 using Azure.Identity;
+using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
 using ModularPipelines.Host;
 using ModularPipelines.Options;
 
-namespace ModularPipelines.UnitTests;
+namespace ModularPipelines.TestHelpers;
 
 public static class TestPipelineHostBuilder
 {

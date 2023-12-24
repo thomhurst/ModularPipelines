@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;

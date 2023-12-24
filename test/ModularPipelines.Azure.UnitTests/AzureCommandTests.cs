@@ -3,10 +3,11 @@ using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Azure.UnitTests;
 
-public class AzureCommandTests
+public class AzureCommandTests : TestBase
 {
     public class AzureCommandModule : Module<CommandResult>
     {

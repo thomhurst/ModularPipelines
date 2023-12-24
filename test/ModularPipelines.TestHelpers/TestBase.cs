@@ -1,11 +1,14 @@
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
-using EnumerableAsyncProcessor.Extensions;
+using ModularPipelines.TestHelpers.Extensions;
+using NUnit.Framework;
 
-namespace ModularPipelines.UnitTests;
+namespace ModularPipelines.TestHelpers;
 
 [TestFixture]
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]

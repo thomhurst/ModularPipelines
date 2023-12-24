@@ -3,6 +3,7 @@ using MailKit.Security;
 using MimeKit;
 using ModularPipelines.Email;
 using ModularPipelines.Email.Options;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

@@ -10,4 +10,10 @@
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Azure.ResourceManager" Version="1.9.0" />
+      <PackageReference Include="NUnit" Version="4.0.1" />
+        <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    </ItemGroup>
+
 </Project>

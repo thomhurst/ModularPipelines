@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
