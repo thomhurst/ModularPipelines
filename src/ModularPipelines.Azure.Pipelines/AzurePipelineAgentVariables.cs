@@ -5,9 +5,6 @@ namespace ModularPipelines.Azure.Pipelines;
 [ExcludeFromCodeCoverage]
 public record AzurePipelineAgentVariables : AzurePipelineVariableBase
 {
-    /// <inheritdoc/>
-    protected override string Prefix => "Agent";
-
     public string BuildDirectory => Get("BuildDirectory")!;
 
     public string ContainerMapping => Get("ContainerMapping")!;
@@ -33,4 +30,7 @@ public record AzurePipelineAgentVariables : AzurePipelineVariableBase
     public string ToolsDirectory => Get("ToolsDirectory")!;
 
     public string WorkFolder => Get("WorkFolder")!;
+    
+    /// <inheritdoc/>
+    protected override string Prefix => "Agent";
 }

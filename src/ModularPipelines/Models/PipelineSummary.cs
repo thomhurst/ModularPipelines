@@ -48,6 +48,15 @@ public record PipelineSummary
     /// </summary>
     public Status Status => GetStatus();
 
+    /// <summary>
+    /// Get the Module of type {T}.
+    /// </summary>
+    /// <typeparam name="T">The module type to get.</typeparam>
+    /// <returns>{T}.</returns>
+    public T GetModule<T>()
+        where T : ModuleBase
+        => Modules.GetModule<T>();
+    
     private Status GetStatus()
     {
         if (Modules.Any(x => x.Status == Status.Failed))
@@ -77,13 +86,4 @@ public record PipelineSummary
 
         return Status.Successful;
     }
-
-    /// <summary>
-    /// Get the Module of type {T}.
-    /// </summary>
-    /// <typeparam name="T">The module type to get.</typeparam>
-    /// <returns>{T}.</returns>
-    public T GetModule<T>()
-        where T : ModuleBase
-        => Modules.GetModule<T>();
 }

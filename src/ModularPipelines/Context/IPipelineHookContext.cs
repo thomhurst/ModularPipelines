@@ -14,11 +14,6 @@ namespace ModularPipelines.Context;
 public interface IPipelineHookContext
 {
     /// <summary>
-    /// Gets the cancellation token used for cancelling the pipeline on failures.
-    /// </summary>
-    internal EngineCancellationToken EngineCancellationToken { get; }
-
-    /// <summary>
     /// Gets the service provider orchestrating DI within the pipeline.
     /// </summary>
     public IServiceProvider ServiceProvider { get; }
@@ -32,22 +27,6 @@ public interface IPipelineHookContext
     /// Gets the pipeline's options.
     /// </summary>
     public IOptions<PipelineOptions> PipelineOptions { get; }
-
-    /// <summary>
-    /// Gets the detector used to detect modules which depend on each other.
-    /// </summary>
-    internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
-
-    /// <summary>
-    /// Gets the results repository used for storing module results.
-    /// </summary>
-    internal IModuleResultRepository ModuleResultRepository { get; }
-
-    /// <summary>
-    /// Used to initialise the logger for this context.
-    /// </summary>
-    /// <param name="getType">The module type.</param>
-    internal void InitializeLogger(Type getType);
 
     /// <summary>
     /// Helper method for retrieving services from the Service Provider.
@@ -144,4 +123,25 @@ public interface IPipelineHookContext
     IChecksum Checksum { get; }
 
     #endregion
+    
+    /// <summary>
+    /// Gets the detector used to detect modules which depend on each other.
+    /// </summary>
+    internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
+
+    /// <summary>
+    /// Gets the results repository used for storing module results.
+    /// </summary>
+    internal IModuleResultRepository ModuleResultRepository { get; }
+
+    /// <summary>
+    /// Used to initialise the logger for this context.
+    /// </summary>
+    /// <param name="getType">The module type.</param>
+    internal void InitializeLogger(Type getType);
+    
+    /// <summary>
+    /// Gets the cancellation token used for cancelling the pipeline on failures.
+    /// </summary>
+    internal EngineCancellationToken EngineCancellationToken { get; }
 }
