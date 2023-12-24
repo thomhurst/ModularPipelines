@@ -6,6 +6,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackProjectsModule>]
+[RunOnLinuxOnly]
 public class PackagePathsParserModule : Module<List<File>>
 {
     /// <inheritdoc/>
