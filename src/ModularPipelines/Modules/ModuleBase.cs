@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
@@ -102,6 +103,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal Exception? Exception { get; set; }
 
+    [StackTraceHidden]
     internal abstract Task StartAsync();
 
     internal abstract ModuleBase Initialize(IPipelineContext context);
