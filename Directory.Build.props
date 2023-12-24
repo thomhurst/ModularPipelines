@@ -25,7 +25,7 @@
         <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
         <AnalysisLevel>preview</AnalysisLevel>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <WarningsNotAsErrors>SA1600</WarningsNotAsErrors>
+        <WarningsNotAsErrors>SA1600;NU5104</WarningsNotAsErrors>
     </PropertyGroup>
     
     <ItemGroup>
