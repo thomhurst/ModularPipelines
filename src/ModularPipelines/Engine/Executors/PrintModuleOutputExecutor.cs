@@ -14,7 +14,6 @@ internal class PrintModuleOutputExecutor : IPrintModuleOutputExecutor
     }
 
     [StackTraceHidden]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndPrintModuleOutput(Func<Task> executeDelegate)
     {
         try

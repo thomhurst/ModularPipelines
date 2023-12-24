@@ -23,7 +23,6 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
     }
 
     [StackTraceHidden]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate)
     {
         var printProgressCancellationTokenSource =

@@ -19,7 +19,6 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
     }
 
     [StackTraceHidden]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try
