@@ -4,6 +4,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 

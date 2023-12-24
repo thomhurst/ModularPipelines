@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using ModularPipelines.Context;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

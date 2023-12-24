@@ -9,6 +9,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
