@@ -23,6 +23,9 @@
     <PropertyGroup>
         <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory).ruleset</CodeAnalysisRuleSet>
         <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+        <AnalysisLevel>preview</AnalysisLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsNotAsErrors>SA1600</WarningsNotAsErrors>
     </PropertyGroup>
     
     <ItemGroup>

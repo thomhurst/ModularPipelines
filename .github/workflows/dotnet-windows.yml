@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  SOLUTIONS: ("ModularPipelines.sln", "ModularPipelines.Examples.sln", "src/ModularPipelines.Azure/ModularPipelines.Azure.sln", "src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln")
+  DOTNET_VERSIONS: ("net6.0", "net7.0")
+
 jobs:
   pipeline-windows:
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
@@ -32,8 +36,17 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      - name: Build ModularPipelines.Analyzers.sln
+        run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
-        run: dotnet build ModularPipelines.sln -c Release --framework net7.0 && dotnet build ModularPipelines.sln -c Release --framework net6.0 && dotnet build ModularPipelines.Analyzers.sln -c Release
+        run: |
+          foreach ($SOLUTION in ${{ env.SOLUTIONS }})
+          {
+            foreach ($DOTNETVERSION in ${{ env.DOTNET_VERSIONS }})
+            {
+              dotnet build $SOLUTION -c Release --framework $DOTNETVERSION
+            }
+          }
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"

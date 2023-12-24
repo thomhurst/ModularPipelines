@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
@@ -62,7 +63,7 @@ public class EngineCancellationTokenTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(async () => await host.ExecutePipelineAsync(), Throws.Exception);
-            Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted));
+            Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted).Or.EqualTo(Status.Failed));
         });
     }
 

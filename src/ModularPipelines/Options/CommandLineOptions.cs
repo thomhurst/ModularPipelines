@@ -44,7 +44,7 @@ public record CommandLineOptions
     /// </summary>
     public bool Sudo { get; set; }
 
-    internal bool InternalDryRun { get; set; }
-
     public bool ThrowOnNonZeroExitCode { get; set; } = true;
+    
+    internal bool InternalDryRun { get; set; }
 }

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Context;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

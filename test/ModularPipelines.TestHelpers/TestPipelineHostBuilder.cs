@@ -6,7 +6,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Host;
 using ModularPipelines.Options;
 
-namespace ModularPipelines.UnitTests;
+namespace ModularPipelines.TestHelpers;
 
 public static class TestPipelineHostBuilder
 {
