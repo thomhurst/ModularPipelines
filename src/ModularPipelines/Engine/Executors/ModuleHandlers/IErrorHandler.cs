@@ -2,5 +2,5 @@ namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal interface IErrorHandler
 {
-    Task Handle(Exception exception, EngineCancellationToken engineCancellationToken);
+    Task Handle(Exception exception);
 }

@@ -220,7 +220,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         catch (Exception exception)
         {
             SetEndTime();
-            await ErrorHandler.Handle(exception, Context.EngineCancellationToken);
+            await ErrorHandler.Handle(exception);
         }
         finally
         {

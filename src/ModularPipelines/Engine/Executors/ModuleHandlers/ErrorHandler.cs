@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -13,15 +12,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
     }
 
-    public async Task Handle(Exception exception, EngineCancellationToken engineCancellationToken)
+    public async Task Handle(Exception exception)
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
-
-        if (exception is ModuleFailedException && !engineCancellationToken.IsCancellationRequested)
-        {
-            // Let the engine cancellation token change
-            await Task.Delay(TimeSpan.FromSeconds(2));
-        }
 
         if (IsModuleTimedOutExeption(exception))
         {
@@ -33,6 +26,11 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         {
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
+            
+            // This shouldn't throw back to the main thread as the initial failing module should be the first to throw
+            // So give 2 seconds to let that happen first, and then throw here as a safety net to ensure the process fails
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            
             throw new PipelineCancelledException(Context.EngineCancellationToken);
         }
         else
