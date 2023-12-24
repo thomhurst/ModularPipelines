@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -12,13 +13,16 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
     }
 
-    public async Task Handle(Exception exception)
+    public async Task Handle(Exception exception, EngineCancellationToken engineCancellationToken)
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 
-        // Let the engine cancellation token change
-        await Task.Delay(TimeSpan.FromSeconds(2));
-        
+        if (exception is ModuleFailedException && !engineCancellationToken.IsCancellationRequested)
+        {
+            // Let the engine cancellation token change
+            await Task.Delay(TimeSpan.FromSeconds(2));
+        }
+
         if (IsModuleTimedOutExeption(exception))
         {
             Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
