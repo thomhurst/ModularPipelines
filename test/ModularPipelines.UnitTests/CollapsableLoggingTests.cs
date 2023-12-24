@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Azure.Pipelines;
 using ModularPipelines.GitHub;
 using ModularPipelines.TeamCity;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 

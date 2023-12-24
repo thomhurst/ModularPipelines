@@ -21,6 +21,10 @@ on:
         required: true
         default: true
 
+env:
+  SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln
+  DOTNET_VERSIONS: net6.0 net7.0
+
 jobs:
   pipeline:
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
@@ -48,8 +52,17 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      - name: Build ModularPipelines.Analyzers.sln
+        run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
-        run: dotnet build ModularPipelines.sln -c Release --framework net7.0 && dotnet build ModularPipelines.sln -c Release --framework net6.0 && dotnet build ModularPipelines.Analyzers.sln -c Release
+        run: |
+          for SOLUTION in ${{ env.SOLUTIONS }}
+          do
+            for DOTNETVERSION in ${{ env.DOTNET_VERSIONS }}
+            do
+              dotnet build $SOLUTION -c Release --framework $DOTNETVERSION
+            done
+          done
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"

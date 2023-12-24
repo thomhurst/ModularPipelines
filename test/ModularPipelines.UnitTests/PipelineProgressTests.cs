@@ -4,6 +4,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Spectre.Console;
 
 namespace ModularPipelines.UnitTests;

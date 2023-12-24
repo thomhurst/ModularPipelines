@@ -1,6 +1,7 @@
 using System.Globalization;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
+using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 using File = System.IO.File;
 
