@@ -38,8 +38,8 @@ jobs:
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
         run: |
-          for solution in ${SOLUTIONS}
-            for dotnetversion in ${DOTNET_VERSIONS}
+          for solution in ${{ env.SOLUTIONS }}
+            for dotnetversion in ${{ env.DOTNET_VERSIONS }}
               dotnet build $solution -c Release --framework $dotnetversion
       - name: Run Pipeline
         run: dotnet run -c Release --framework net7.0
