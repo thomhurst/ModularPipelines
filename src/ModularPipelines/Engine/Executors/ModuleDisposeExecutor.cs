@@ -7,6 +7,7 @@ using Spectre.Console;
 
 namespace ModularPipelines.Engine.Executors;
 
+[StackTraceHidden]
 internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 {
     private readonly IModuleDisposer _moduleDisposer;
@@ -18,8 +19,6 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         _options = options;
     }
 
-    [StackTraceHidden]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
     {
         try

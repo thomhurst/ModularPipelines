@@ -7,6 +7,7 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Executors;
 
+[StackTraceHidden]
 internal class PrintProgressExecutor : IPrintProgressExecutor
 {
     private readonly EngineCancellationToken _engineCancellationToken;
@@ -22,8 +23,6 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _logger = logger;
     }
 
-    [StackTraceHidden]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public async Task ExecuteWithProgress(OrganizedModules organizedModules, Func<Task> executeDelegate)
     {
         var printProgressCancellationTokenSource =
