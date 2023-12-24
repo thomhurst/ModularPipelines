@@ -16,6 +16,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 
+        // Let the engine cancellation token change
+        await Task.Delay(TimeSpan.FromSeconds(2));
+        
         if (IsModuleTimedOutExeption(exception))
         {
             Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
