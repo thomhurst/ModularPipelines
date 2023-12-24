@@ -21,7 +21,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
         {
             await WaitForDependencies();
         }
-        catch when (EngineCancellationToken.IsCancellationRequested && Module.ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+        catch when (EngineCancellationToken.IsCancelled && Module.ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
         {
             // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
             Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
@@ -66,7 +66,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
                 try
                 {
-                    await module.WaitTask;
+                    await module.ExecutionTask;
                 }
                 catch (Exception e) when (Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {

@@ -70,7 +70,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         lock (_startCheckLock)
         {
             IsStarted = true;
-            return WaitTask;
+            return ExecutionTask;
         }
     }
 
@@ -96,13 +96,13 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override Task WaitTask
+    internal override Task ExecutionTask
     {
         get
         {
             lock (_triggerLock)
             {
-                return ResultTaskInternal ??= StartInternal();
+                return _executionTaskInternal ??= StartInternal();
             }
         }
     }
@@ -175,6 +175,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         DependentModules.Add(dependsOnAttribute);
     }
+    
+    private Task? _executionTaskInternal;
 
     private async Task StartInternal()
     {

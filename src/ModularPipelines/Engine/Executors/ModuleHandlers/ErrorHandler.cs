@@ -53,14 +53,14 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     private bool IsPipelineCanceled(Exception exception)
     {
         return exception is TaskCanceledException or OperationCanceledException
-               && Context.EngineCancellationToken.IsCancellationRequested;
+               && Context.EngineCancellationToken.IsCancelled;
     }
 
     private bool IsModuleTimedOutExeption(Exception exception)
     {
         return exception is TaskCanceledException or OperationCanceledException
                && ModuleCancellationTokenSource.IsCancellationRequested
-               && !Context.EngineCancellationToken.IsCancellationRequested;
+               && !Context.EngineCancellationToken.IsCancelled;
     }
 
     private async Task SaveFailedResult(Exception exception)
@@ -79,13 +79,21 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
         Context.Logger.SetException(exception);
-        
-        Context.EngineCancellationToken.CancelWithReason(
-            $"{Module.GetType().Name} failed with a {exception.GetType().Name}"
-            );
-        
+
+        _ = CancelPipeline(exception);
+
         ModuleResultTaskCompletionSource.TrySetException(exception);
         
         throw new ModuleFailedException(Module, exception);
+    }
+
+    private async Task CancelPipeline(Exception exception)
+    {
+        // Cancel after a second, so other modules don't fail before this one.
+        await Task.Delay(TimeSpan.FromSeconds(1));
+
+        Context.EngineCancellationToken.CancelWithReason(
+            $"{Module.GetType().Name} failed with a {exception.GetType().Name}"
+        );
     }
 }

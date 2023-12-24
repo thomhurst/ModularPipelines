@@ -75,7 +75,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         if (module.IsStarted)
         {
-            await module.WaitTask;
+            await module.ExecutionTask;
             return module;
         }
 

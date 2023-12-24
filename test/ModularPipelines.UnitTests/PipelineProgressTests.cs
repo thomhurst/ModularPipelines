@@ -113,7 +113,7 @@ public class PipelineProgressTests
         }
     }
 
-    [Test, Retry(5)]
+    [Test]
     public void Can_Show_Progress()
     {
         Assert.That(async () =>
