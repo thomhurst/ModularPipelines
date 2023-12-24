@@ -21,11 +21,8 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
         {
             await WaitForDependencies();
         }
-        catch when (EngineCancellationToken.IsCancelled && Module.ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+        catch (DependencyFailedException) when (Context.EngineCancellationToken.IsCancellationRequested)
         {
-            // The Engine has requested a cancellation due to failures - So fail fast and don't repeat exceptions thrown by other modules.
-            Context.Logger.LogDebug("The pipeline has been cancelled before this module started");
-
             ModuleResultTaskCompletionSource.TrySetCanceled();
 
             return WaitResult.Abort;
@@ -42,6 +39,8 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
             return;
         }
 
+        var notInParallel = Module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null;
+        
         var dependenciesProcessor = Module.DependentModules
             .ToAsyncProcessorBuilder()
             .ForEachAsync(async dependsOnAttribute =>
@@ -78,7 +77,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                 }
             });
 
-        if (Module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+        if (notInParallel)
         {
             await dependenciesProcessor.ProcessOneAtATime();
         }

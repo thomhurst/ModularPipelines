@@ -108,7 +108,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         if (string.IsNullOrEmpty(moduleBases.Key))
         {
-            return await executionProcessor.ProcessInParallel();
+            return await executionProcessor.ProcessInParallel().GetEnumerableTasks().ToArray().WhenAllFailFast();
         }
 
         return await executionProcessor.ProcessOneAtATime();
