@@ -26,9 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
-      <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
@@ -45,6 +43,7 @@
       <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
+      <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     </ItemGroup>
 
     <ItemGroup>

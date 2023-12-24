@@ -1,11 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
-using ModularPipelines.UnitTests.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
