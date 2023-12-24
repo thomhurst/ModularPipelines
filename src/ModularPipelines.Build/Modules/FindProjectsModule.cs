@@ -32,7 +32,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             return false;
         }
 
-        if (path.Contains("Tests", StringComparison.OrdinalIgnoreCase))
+        if (path.Contains("Test", StringComparison.OrdinalIgnoreCase))
         {
             return false;
         }
