@@ -45,6 +45,8 @@ public class AlwaysRunTests : TestBase
     [DependsOn<MyModule3>]
     public class MyModule4 : Module
     {
+        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
