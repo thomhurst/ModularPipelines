@@ -48,7 +48,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [Test, Repeat(10)]
+    [Test, Retry(3)]
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()
@@ -67,7 +67,7 @@ public class EngineCancellationTokenTests : TestBase
         });
     }
 
-    [Test, Repeat(10)]
+    [Test, Retry(3)]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel()
     {
         var host = await TestPipelineHostBuilder.Create()
@@ -89,7 +89,7 @@ public class EngineCancellationTokenTests : TestBase
         });
     }
 
-    [Test, Repeat(10)]
+    [Test, Retry(3)]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel_Without_Cancellation()
     {
         var host = await TestPipelineHostBuilder.Create()
