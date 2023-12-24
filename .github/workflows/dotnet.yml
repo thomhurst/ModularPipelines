@@ -22,8 +22,8 @@ on:
         default: true
 
 env:
-  SOLUTIONS: ("ModularPipelines.sln" "ModularPipelines.Examples.sln" "src/ModularPipelines.Azure.sln" "src/ModularPipelines.AmazonWebServices.sln")
-  DOTNET_VERSIONS: ("net6.0" "net7.0")
+  SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices.sln
+  DOTNET_VERSIONS: net6.0 net7.0
 
 jobs:
   pipeline:
