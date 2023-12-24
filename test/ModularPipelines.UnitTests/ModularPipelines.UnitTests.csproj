@@ -9,7 +9,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Identity" Version="1.10.4" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
@@ -26,9 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
-      <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
@@ -45,6 +42,7 @@
       <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
+      <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Host;
 
-namespace ModularPipelines.UnitTests.Extensions;
+namespace ModularPipelines.TestHelpers.Extensions;
 
 public static class TestHostExtensions
 {

@@ -3,6 +3,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Helpers;

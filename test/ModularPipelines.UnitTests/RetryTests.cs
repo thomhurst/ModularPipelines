@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Polly.Retry;
 
 namespace ModularPipelines.UnitTests;

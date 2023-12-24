@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 

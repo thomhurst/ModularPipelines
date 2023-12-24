@@ -3,6 +3,7 @@ using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.Helpers;
+using ModularPipelines.TestHelpers;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
