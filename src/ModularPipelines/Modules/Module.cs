@@ -104,7 +104,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             lock (_triggerLock)
             {
-                return _executionTaskInternal ??= StartInternal();
+                _executionTaskInternal ??= StartInternal();
+                return ModuleResultTaskCompletionSource.Task;
             }
         }
     }

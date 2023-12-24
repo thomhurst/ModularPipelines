@@ -78,8 +78,10 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
         Context.Logger.SetException(exception);
         
-        ModuleResultTaskCompletionSource.TrySetException(exception);
+        var moduleFailedException = new ModuleFailedException(Module, exception);
         
-        throw new ModuleFailedException(Module, exception);
+        ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
+        
+        throw moduleFailedException;
     }
 }
