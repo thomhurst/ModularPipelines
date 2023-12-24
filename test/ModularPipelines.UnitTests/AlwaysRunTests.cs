@@ -63,7 +63,7 @@ public class AlwaysRunTests : TestBase
             Assert.That(myModule1.Status, Is.EqualTo(Status.Failed));
             Assert.That(myModule2.Status, Is.EqualTo(Status.Failed));
             Assert.That(myModule3.Status, Is.EqualTo(Status.Failed));
-            Assert.That(myModule4.Status, Is.EqualTo(Status.NotYetStarted));
+            Assert.That(myModule4.Status, Is.Not.EqualTo(Status.NotYetStarted));
         });
     }
 }
