@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

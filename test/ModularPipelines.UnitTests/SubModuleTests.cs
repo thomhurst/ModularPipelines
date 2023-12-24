@@ -4,6 +4,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 

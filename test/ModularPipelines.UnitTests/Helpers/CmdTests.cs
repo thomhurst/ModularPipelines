@@ -2,6 +2,7 @@ using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Helpers;

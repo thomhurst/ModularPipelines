@@ -4,6 +4,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
