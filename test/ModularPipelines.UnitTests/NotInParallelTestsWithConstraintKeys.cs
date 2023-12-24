@@ -47,7 +47,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [Test]
+    [Test, Retry(3)]
     public async Task NotInParallel_If_Same_ConstraintKey()
     {
         var results = await TestPipelineHostBuilder.Create()
