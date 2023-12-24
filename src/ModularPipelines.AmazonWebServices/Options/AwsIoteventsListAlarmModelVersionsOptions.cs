@@ -1,0 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.AmazonWebServices.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("iotevents", "list-alarm-model-versions")]
+public record AwsIoteventsListAlarmModelVersionsOptions(
+[property: CommandSwitch("--alarm-model-name")] string AlarmModelName
+) : AwsOptions
+{
+    [CommandSwitch("--next-token")]
+    public string? NextToken { get; set; }
+
+    [CommandSwitch("--max-results")]
+    public int? MaxResults { get; set; }
+
+    [CommandSwitch("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+}

@@ -12,6 +12,7 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<AddLocalNugetSourceModule>]
 [DependsOn<PackagePathsParserModule>]
 [DependsOn<CreateLocalNugetFolderModule>]
+[RunOnLinuxOnly]
 public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
     /// <inheritdoc/>

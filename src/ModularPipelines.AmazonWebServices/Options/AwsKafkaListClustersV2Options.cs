@@ -1,0 +1,27 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.AmazonWebServices.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("kafka", "list-clusters-v2")]
+public record AwsKafkaListClustersV2Options : AwsOptions
+{
+    [CommandSwitch("--cluster-name-filter")]
+    public string? ClusterNameFilter { get; set; }
+
+    [CommandSwitch("--cluster-type-filter")]
+    public string? ClusterTypeFilter { get; set; }
+
+    [CommandSwitch("--starting-token")]
+    public string? StartingToken { get; set; }
+
+    [CommandSwitch("--page-size")]
+    public int? PageSize { get; set; }
+
+    [CommandSwitch("--max-items")]
+    public int? MaxItems { get; set; }
+
+    [CommandSwitch("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+}
