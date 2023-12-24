@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Amazon.S3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.AmazonWebServices.Services;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.AmazonWebServices.Extensions;
