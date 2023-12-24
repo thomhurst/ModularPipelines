@@ -1,0 +1,24 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.AmazonWebServices.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("polly", "describe-voices")]
+public record AwsPollyDescribeVoicesOptions : AwsOptions
+{
+    [CommandSwitch("--engine")]
+    public string? Engine { get; set; }
+
+    [CommandSwitch("--language-code")]
+    public string? LanguageCode { get; set; }
+
+    [CommandSwitch("--starting-token")]
+    public string? StartingToken { get; set; }
+
+    [CommandSwitch("--max-items")]
+    public int? MaxItems { get; set; }
+
+    [CommandSwitch("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+}

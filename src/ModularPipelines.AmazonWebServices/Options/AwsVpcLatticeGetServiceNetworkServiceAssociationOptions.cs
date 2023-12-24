@@ -1,0 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.AmazonWebServices.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("vpc-lattice", "get-service-network-service-association")]
+public record AwsVpcLatticeGetServiceNetworkServiceAssociationOptions(
+[property: CommandSwitch("--service-network-service-association-identifier")] string ServiceNetworkServiceAssociationIdentifier
+) : AwsOptions
+{
+    [CommandSwitch("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+}
