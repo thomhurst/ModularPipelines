@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines", "src\ModularPipelines\ModularPipelines.csproj", "{67A40317-7A69-43A3-B71F-7F0D6298EB01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Examples", "src\ModularPipelines.Examples\ModularPipelines.Examples.csproj", "{01A8D780-3D35-4BEF-A6E5-DEDBB3B44B41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "src\ModularPipelines.Azure\ModularPipelines.Azure.csproj", "{7AB8AA64-9408-4FB4-865E-B888CEAF09B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67A40317-7A69-43A3-B71F-7F0D6298EB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67A40317-7A69-43A3-B71F-7F0D6298EB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67A40317-7A69-43A3-B71F-7F0D6298EB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67A40317-7A69-43A3-B71F-7F0D6298EB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A8D780-3D35-4BEF-A6E5-DEDBB3B44B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A8D780-3D35-4BEF-A6E5-DEDBB3B44B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A8D780-3D35-4BEF-A6E5-DEDBB3B44B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A8D780-3D35-4BEF-A6E5-DEDBB3B44B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB8AA64-9408-4FB4-865E-B888CEAF09B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB8AA64-9408-4FB4-865E-B888CEAF09B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB8AA64-9408-4FB4-865E-B888CEAF09B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB8AA64-9408-4FB4-865E-B888CEAF09B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

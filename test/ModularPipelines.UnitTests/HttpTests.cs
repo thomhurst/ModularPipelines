@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;

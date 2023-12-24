@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
+using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Models;
 using Moq;
 

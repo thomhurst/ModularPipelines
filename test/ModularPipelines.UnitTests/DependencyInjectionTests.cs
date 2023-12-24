@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.TestHelpers;
 using Moq;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
