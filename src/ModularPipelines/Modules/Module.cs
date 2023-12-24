@@ -65,6 +65,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
     /// </summary>
     /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
+    [StackTraceHidden]
     internal override Task StartAsync()
     {
         lock (_startCheckLock)
@@ -98,6 +99,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override Task ExecutionTask
     {
+        [StackTraceHidden]
         get
         {
             lock (_triggerLock)
@@ -178,6 +180,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     
     private Task? _executionTaskInternal;
 
+    [StackTraceHidden]
     private async Task StartInternal()
     {
         try

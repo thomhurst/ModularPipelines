@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -70,6 +71,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         await Module.HistoryHandler.SaveResult(moduleResult);
     }
 
+    [StackTraceHidden]
     private void CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
