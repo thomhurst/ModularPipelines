@@ -60,7 +60,49 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         {
             return;
         }
+
+        var returnStatementSyntaxes = methodDeclarationSyntax.Body?.DescendantNodes().OfType<ReturnStatementSyntax>().ToArray() ?? Array.Empty<ReturnStatementSyntax>();
+
+        if (returnStatementSyntaxes.All(x => IsSynchronousObjectWrappedInTask(x, context)))
+        {
+            return;
+        }
         
         context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation()));
+    }
+
+    private bool IsSynchronousObjectWrappedInTask(ReturnStatementSyntax returnStatementSyntax,
+        SyntaxNodeAnalysisContext context)
+    {
+        if (returnStatementSyntax.ChildNodes().FirstOrDefault() is not InvocationExpressionSyntax
+            invocationExpressionSyntax)
+        {
+            return false;
+        }
+
+        var symbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
+
+        if (symbol is not IMethodSymbol methodSymbol)
+        {
+            return false;
+        }
+
+        if (methodSymbol.Name != "AsTask" && methodSymbol.Name != "FromResult")
+        {
+            return false;
+        }
+        
+        if (methodSymbol.ContainingType.Name != "Task" && methodSymbol.ContainingType.Name != "TaskExtensions")
+        {
+            return false;
+        }
+
+        if (methodSymbol.ContainingNamespace.ToDisplayString() != "ModularPipelines.Extensions"
+            && methodSymbol.ContainingNamespace.ToDisplayString() != "System.Threading.Tasks")
+        {
+            return false;
+        }
+
+        return true;
     }
 }

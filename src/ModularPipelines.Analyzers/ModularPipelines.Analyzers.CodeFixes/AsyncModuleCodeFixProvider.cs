@@ -62,15 +62,27 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         var newMethodDeclarationSyntax = methodDeclarationSyntax;
 
         var returnStatements = methodDeclarationSyntax.Body
-                                    ?.Statements
-                                    .Where(x => x.Kind() == SyntaxKind.ReturnStatement)
-                                    .Distinct()
+                                    ?.DescendantNodes()
+                                    .OfType<ReturnStatementSyntax>()
                                     .ToArray()
-                                ?? Array.Empty<StatementSyntax>();
+                                ?? Array.Empty<ReturnStatementSyntax>();
         
         foreach (var returnStatement in returnStatements)
         {
+            if (returnStatement == null)
+            {
+                continue;
+            }
+            
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
+
+            if (await IsTaskFromResult(expressionSyntax, context)
+                || await IsAsTaskExtension(expressionSyntax, context))
+            {
+                var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First();
+                newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(expressionSyntax, firstInnerExpression);
+                continue;
+            }
 
             var awaitExpressionSyntax = SyntaxFactory.AwaitExpression(expressionSyntax).NormalizeWhitespace();
 
@@ -83,5 +95,49 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             .WithReplacedNode(methodDeclarationSyntax,
                 newMethodDeclarationSyntax.AddModifiers(SyntaxFactory.Token(SyntaxKind.AsyncKeyword))
             );
+    }
+
+    private async Task<bool> IsTaskFromResult(ExpressionSyntax expressionSyntax, CodeFixContext context)
+    {
+        if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
+        {
+            return false;
+        }
+        
+        var semanticModel = await context.Document.GetSemanticModelAsync();
+        
+        var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
+
+        if (symbol is not IMethodSymbol methodSymbol)
+        {
+            return false;
+        }
+
+        return
+            methodSymbol.Name == "FromResult"
+            && methodSymbol.ContainingType.Name == "Task"
+            && methodSymbol.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks";
+    }
+    
+    private async Task<bool> IsAsTaskExtension(ExpressionSyntax expressionSyntax, CodeFixContext context)
+    {
+        if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
+        {
+            return false;
+        }
+        
+        var semanticModel = await context.Document.GetSemanticModelAsync();
+        
+        var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
+
+        if (symbol is not IMethodSymbol methodSymbol)
+        {
+            return false;
+        }
+
+        return
+            methodSymbol.Name == "AsTask"
+            && methodSymbol.ContainingType.Name == "TaskExtensions"
+            && methodSymbol.ContainingNamespace.ToDisplayString() == "ModularPipelines.Extensions";
     }
 }
