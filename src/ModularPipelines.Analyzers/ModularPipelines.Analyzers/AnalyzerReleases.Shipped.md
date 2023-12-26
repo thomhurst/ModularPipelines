@@ -9,4 +9,4 @@ EnumerableModuleResult | Usage | Error | EnumerableModuleResultAnalyzer
 LoggerInConstructor | Usage | Error | LoggerInConstructorAnalyzer
 ConsoleUse | Usage | Error | ConsoleUseAnalyzer
 ConflictingDependsOnAttribute | Usage | Error | ConflictingDependsOnAttributeAnalyzer
-
+AsyncModule | Usage | Error | AsyncModuleAnalyzer

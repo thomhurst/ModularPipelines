@@ -49,9 +49,9 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: CodeFixResources.CodeFixTitle,
+                title: CodeFixResources.MissingDependsOnAttributeCodeFixTitle,
                 createChangedDocument: c => AddAttribute(context, declaration, c),
-                equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
+                equivalenceKey: nameof(CodeFixResources.MissingDependsOnAttributeCodeFixTitle)),
             diagnostic);
     }
 
