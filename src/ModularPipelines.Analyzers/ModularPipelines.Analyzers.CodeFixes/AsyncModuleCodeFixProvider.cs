@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
 using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
@@ -57,16 +58,12 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
     private async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        var document = context.Document;
-
-        var newMethodDeclarationSyntax = methodDeclarationSyntax;
-
-        var returnStatements = GetReturnStatements(newMethodDeclarationSyntax);
-
-        for (var i = 0; i < returnStatements.Length; i++)
+        var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken);
+        
+        editor.SetModifiers(methodDeclarationSyntax, DeclarationModifiers.Override | DeclarationModifiers.Async);
+        
+        foreach (var returnStatement in GetReturnStatements(methodDeclarationSyntax))
         {
-            var returnStatement = GetReturnStatements(newMethodDeclarationSyntax)[i];
-
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
 
             if (await IsTaskFromResult(expressionSyntax, context)
@@ -76,7 +73,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
                 var newReturnStatement = returnStatement.ReplaceNode(expressionSyntax, firstInnerExpression);
                 
-                newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(returnStatement, newReturnStatement);
+                editor.ReplaceNode(returnStatement, newReturnStatement);
                 
                 continue;
             }
@@ -85,13 +82,10 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
             var awaitedReturnStatement = returnStatement.ReplaceNode(expressionSyntax, awaitExpressionSyntax);
             
-            newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(returnStatement, awaitedReturnStatement);
+            editor.ReplaceNode(returnStatement, awaitedReturnStatement);
         }
-
-        return await document
-            .WithReplacedNode(methodDeclarationSyntax,
-                newMethodDeclarationSyntax.AddModifiers(SyntaxFactory.Token(SyntaxKind.AsyncKeyword))
-            );
+        
+        return editor.GetChangedDocument();
     }
 
     private static ReturnStatementSyntax[] GetReturnStatements(MethodDeclarationSyntax newMethodDeclarationSyntax)
@@ -99,6 +93,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         return newMethodDeclarationSyntax.Body
                    ?.DescendantNodes()
                    .OfType<ReturnStatementSyntax>()
+                   .Reverse()
                    .ToArray()
                ?? Array.Empty<ReturnStatementSyntax>();
     }
