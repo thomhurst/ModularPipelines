@@ -25,11 +25,11 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
             return;
         }
 
+        Module.ExecutionTask = ModuleResultTaskCompletionSource.Task;
+        
         CallbackTask.Start(TaskScheduler.Default);
 
         ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
-
-        Module.ExecutionTask = ModuleResultTaskCompletionSource.Task;
         
         Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
     }
