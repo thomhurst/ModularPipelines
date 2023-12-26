@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
 
@@ -12,26 +11,16 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 {
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IOptions<PipelineOptions> _options;
+    private readonly IModuleRetriever _moduleRetriever;
 
-    public ModuleDisposeExecutor(IModuleDisposer moduleDisposer, IOptions<PipelineOptions> options)
+    public ModuleDisposeExecutor(IModuleDisposer moduleDisposer, IOptions<PipelineOptions> options, IModuleRetriever moduleRetriever)
     {
         _moduleDisposer = moduleDisposer;
         _options = options;
+        _moduleRetriever = moduleRetriever;
     }
 
-    public async Task ExecuteAndDispose(IEnumerable<ModuleBase> modules, Func<Task> executeDelegate)
-    {
-        try
-        {
-            await executeDelegate();
-        }
-        finally
-        {
-            await Dispose(modules);
-        }
-    }
-
-    private async Task Dispose(IEnumerable<ModuleBase> modulesToProcess)
+    public async ValueTask DisposeAsync()
     {
         if (!AnsiConsole.Profile.Capabilities.Interactive || !_options.Value.ShowProgressInConsole)
         {
@@ -40,9 +29,18 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             return;
         }
 
-        foreach (var module in modulesToProcess)
+        var modules = await _moduleRetriever.GetOrganizedModules();
+        
+        foreach (var module in modules.AllModules)
         {
-            await _moduleDisposer.DisposeAsync(module);
-        }
+            try
+            {
+                await _moduleDisposer.DisposeAsync(module);
+            }
+            catch (Exception e)
+            {
+                module.Context?.Logger.LogError(e, "Error disposing module");
+            }
+        }    
     }
 }

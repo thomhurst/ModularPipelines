@@ -15,6 +15,7 @@ internal class PipelineInitializer : IPipelineInitializer
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IBuildSystemDetector _buildSystemDetector;
     private readonly ILogger<PipelineInitializer> _logger;
+    private OrganizedModules? _organizedModules;
 
     public PipelineInitializer(IConsolePrinter consolePrinter,
         IModuleRetriever moduleRetriever,
@@ -34,6 +35,11 @@ internal class PipelineInitializer : IPipelineInitializer
     }
 
     public async Task<OrganizedModules> Initialize()
+    {
+        return _organizedModules ??= await InitializeInternal();
+    }
+
+    private async Task<OrganizedModules> InitializeInternal()
     {
         _consolePrinter.PrintLogo();
 
