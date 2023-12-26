@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
@@ -13,6 +14,7 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfDependabot]
 [SkipOnMainBranch]
+[RunOnLinuxOnly]
 public class CodeFormattedNicelyModule : Module<CommandResult>
 {
     public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;

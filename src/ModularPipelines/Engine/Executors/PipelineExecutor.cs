@@ -30,6 +30,7 @@ internal class PipelineExecutor : IPipelineExecutor
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
+        Exception? exception;
         PipelineSummary pipelineSummary;
         try
         {
@@ -45,7 +46,7 @@ internal class PipelineExecutor : IPipelineExecutor
         }
         finally
         {
-            await WaitForAlwaysRunModules(runnableModules);
+            exception = await WaitForAlwaysRunModules(runnableModules);
 
             var end = DateTimeOffset.UtcNow;
 
@@ -54,18 +55,26 @@ internal class PipelineExecutor : IPipelineExecutor
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }
 
+        if (exception != null)
+        {
+            throw exception;
+        }
+        
         return pipelineSummary;
     }
 
-    private async Task WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
+    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
     {
         try
         {
             await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
         }
-        catch (Exception e)
+        catch (Exception? e)
         {
             _logger.LogWarning(e, "Error while waiting for Always Run modules");
+            return e;
         }
+
+        return null;
     }
 }

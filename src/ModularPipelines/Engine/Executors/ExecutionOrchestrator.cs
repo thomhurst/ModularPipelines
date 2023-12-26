@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -62,26 +64,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         PipelineSummary? pipelineSummary = null;
         try
-        {
-            await _moduleDisposeExecutor.ExecuteAndDispose(runnableModules,
-                async () =>
-                {
-                    await _printModuleOutputExecutor.ExecuteAndPrintModuleOutput(async () =>
-                    {
-                        await _printProgressExecutor.ExecuteWithProgress(organizedModules,
-                            async () =>
-                            {
-                                pipelineSummary =
-                                    await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
-                            });
-                    });
-                });
+        { 
+            pipelineSummary = await ExecutePipeline(runnableModules, organizedModules);
         }
         finally
         {
             var end = DateTimeOffset.UtcNow;
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
+            
             _consolePrinter.PrintResults(pipelineSummary);
 
             await Console.Out.FlushAsync();
@@ -93,5 +83,19 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         return pipelineSummary;
+    }
+
+    private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
+    {
+        try
+        {
+            return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
+        }
+        finally
+        {
+            await _moduleDisposeExecutor.DisposeAsync();
+            _printModuleOutputExecutor.Dispose();
+            await _printProgressExecutor.DisposeAsync();
+        }
     }
 }

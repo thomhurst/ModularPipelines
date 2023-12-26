@@ -19,6 +19,7 @@ internal class HookHandler<T> : BaseHandler<T>, IHookHandler
         catch (Exception exception)
         {
             Logger.LogError(exception, "Error in OnBeforeExecute");
+            throw;
         }
     }
 
@@ -31,6 +32,7 @@ internal class HookHandler<T> : BaseHandler<T>, IHookHandler
         catch (Exception exception)
         {
             Logger.LogError(exception, "Error in OnAfterExecute");
+            throw;
         }
     }
 }
