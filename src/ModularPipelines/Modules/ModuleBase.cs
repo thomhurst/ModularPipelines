@@ -26,9 +26,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         TypeDiscriminator = GetType().FullName!;
     }
 
-    internal bool IsStarted { get; set; }
+    internal bool IsStarted { get; private protected set; }
 
-    internal List<DependsOnAttribute> DependentModules { get; } = new();
+    internal List<DependsOnAttribute> DependentModules { get; } = [];
 
     internal abstract IWaitHandler WaitHandler { get; }
 
@@ -73,7 +73,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract Task ExecutionTask { get; set; }
+    internal abstract Task ExecutionTask { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -102,9 +102,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     public Status Status { get; internal set; } = Status.NotYetStarted;
 
     internal Exception? Exception { get; set; }
-
-    [StackTraceHidden]
-    internal abstract Task StartAsync();
 
     internal abstract ModuleBase Initialize(IPipelineContext context);
 

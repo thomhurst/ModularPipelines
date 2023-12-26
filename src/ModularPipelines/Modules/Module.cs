@@ -24,7 +24,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     private readonly object _startCheckLock = new();
-    private readonly object _triggerLock = new();
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
 
@@ -61,20 +60,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    /// <summary>
-    /// Used to start, run, and control the flow of a Module, including handling exceptions and skipping.
-    /// </summary>
-    /// <exception cref="ModuleFailedException">Thrown if the module has failed and the failure was not ignored.</exception>
-    [StackTraceHidden]
-    internal override Task StartAsync()
-    {
-        lock (_startCheckLock)
-        {
-            IsStarted = true;
-            return ExecutionTask;
-        }
-    }
-
     internal override ModuleBase Initialize(IPipelineContext context)
     {
         context.InitializeLogger(GetType());
@@ -102,18 +87,18 @@ public abstract partial class Module<T> : ModuleBase<T>
         [StackTraceHidden]
         get
         {
-            lock (_triggerLock)
+            lock (_startCheckLock)
             {
-                _executionTaskInternal ??= StartInternal();
-                return ModuleResultTaskCompletionSource.Task;
-            }
-        }
+                if (!IsStarted)
+                {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    StartInternal();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                }
 
-        set
-        {
-            lock (_triggerLock)
-            {
-                _executionTaskInternal = value;
+                IsStarted = true;
+                
+                return ModuleResultTaskCompletionSource.Task;
             }
         }
     }
@@ -187,8 +172,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         DependentModules.Add(dependsOnAttribute);
     }
     
-    private Task? _executionTaskInternal;
-
     [StackTraceHidden]
     private async Task StartInternal()
     {
