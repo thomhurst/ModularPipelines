@@ -61,26 +61,23 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
         var newMethodDeclarationSyntax = methodDeclarationSyntax;
 
-        var returnStatements = methodDeclarationSyntax.Body
-                                    ?.DescendantNodes()
-                                    .OfType<ReturnStatementSyntax>()
-                                    .ToArray()
-                                ?? Array.Empty<ReturnStatementSyntax>();
-        
-        foreach (var returnStatement in returnStatements)
+        var returnStatements = GetReturnStatements(newMethodDeclarationSyntax);
+
+        for (var i = 0; i < returnStatements.Length; i++)
         {
-            if (returnStatement == null)
-            {
-                continue;
-            }
-            
+            var returnStatement = GetReturnStatements(newMethodDeclarationSyntax)[i];
+
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
 
             if (await IsTaskFromResult(expressionSyntax, context)
                 || await IsAsTaskExtension(expressionSyntax, context))
             {
-                var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First();
-                newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(expressionSyntax, firstInnerExpression);
+                var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First().Expression;
+
+                var newReturnStatement = returnStatement.ReplaceNode(expressionSyntax, firstInnerExpression);
+                
+                newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(returnStatement, newReturnStatement);
+                
                 continue;
             }
 
@@ -95,6 +92,15 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             .WithReplacedNode(methodDeclarationSyntax,
                 newMethodDeclarationSyntax.AddModifiers(SyntaxFactory.Token(SyntaxKind.AsyncKeyword))
             );
+    }
+
+    private static ReturnStatementSyntax[] GetReturnStatements(MethodDeclarationSyntax newMethodDeclarationSyntax)
+    {
+        return newMethodDeclarationSyntax.Body
+                   ?.DescendantNodes()
+                   .OfType<ReturnStatementSyntax>()
+                   .ToArray()
+               ?? Array.Empty<ReturnStatementSyntax>();
     }
 
     private async Task<bool> IsTaskFromResult(ExpressionSyntax expressionSyntax, CodeFixContext context)
