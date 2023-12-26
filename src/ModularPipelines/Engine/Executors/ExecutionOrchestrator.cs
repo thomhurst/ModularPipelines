@@ -71,11 +71,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             var end = DateTimeOffset.UtcNow;
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-            while (organizedModules.RunnableModules.Any(x => x.Module.Status == Status.Processing))
-            {
-                await Task.Delay(100, cancellationToken);
-            }
             
             _consolePrinter.PrintResults(pipelineSummary);
 

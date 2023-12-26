@@ -108,6 +108,14 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return ModuleResultTaskCompletionSource.Task;
             }
         }
+
+        set
+        {
+            lock (_triggerLock)
+            {
+                _executionTaskInternal = value;
+            }
+        }
     }
 
     /// <summary>
