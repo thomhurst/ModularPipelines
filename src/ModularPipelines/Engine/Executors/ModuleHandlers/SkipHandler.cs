@@ -24,8 +24,6 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
         {
             return;
         }
-
-        Module.ExecutionTask = ModuleResultTaskCompletionSource.Task;
         
         CallbackTask.Start(TaskScheduler.Default);
 
