@@ -92,9 +92,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         finally
         {
-            await using var moduleDisposeExecutor = _moduleDisposeExecutor;
-            using var printModuleOutputExecutor = _printModuleOutputExecutor;
-            await using var printProgressExecutor = _printProgressExecutor;
+            await _moduleDisposeExecutor.DisposeAsync();
+            _printModuleOutputExecutor.Dispose();
+            await _printProgressExecutor.DisposeAsync();
         }
     }
 }
