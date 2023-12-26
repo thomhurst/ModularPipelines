@@ -1,1 +1,1 @@
-- Add analyzer to enforce async modules
+*   Add analyzer to enforce async modules
