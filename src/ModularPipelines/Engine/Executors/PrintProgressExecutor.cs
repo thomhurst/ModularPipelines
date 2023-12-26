@@ -9,17 +9,17 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 {
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
-    private readonly IPipelineInitializer _pipelineInitializer;
+    private readonly IModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
 
     public PrintProgressExecutor(EngineCancellationToken engineCancellationToken,
         IConsolePrinter consolePrinter,
-        IPipelineInitializer pipelineInitializer,
+        IModuleRetriever moduleRetriever,
         ILogger<PrintProgressExecutor> logger)
     {
         _engineCancellationToken = engineCancellationToken;
         _consolePrinter = consolePrinter;
-        _pipelineInitializer = pipelineInitializer;
+        _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
 
@@ -28,7 +28,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         var printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
 
-        var organizedModules = await _pipelineInitializer.Initialize();
+        var organizedModules = await _moduleRetriever.GetOrganizedModules();
 
         var printProgressTask =
             _consolePrinter.PrintProgress(organizedModules, printProgressCancellationTokenSource.Token);

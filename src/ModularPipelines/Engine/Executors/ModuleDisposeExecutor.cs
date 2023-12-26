@@ -10,13 +10,13 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 {
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IOptions<PipelineOptions> _options;
-    private readonly IPipelineInitializer _pipelineInitializer;
+    private readonly IModuleRetriever _moduleRetriever;
 
-    public ModuleDisposeExecutor(IModuleDisposer moduleDisposer, IOptions<PipelineOptions> options, IPipelineInitializer pipelineInitializer)
+    public ModuleDisposeExecutor(IModuleDisposer moduleDisposer, IOptions<PipelineOptions> options, IModuleRetriever moduleRetriever)
     {
         _moduleDisposer = moduleDisposer;
         _options = options;
-        _pipelineInitializer = pipelineInitializer;
+        _moduleRetriever = moduleRetriever;
     }
 
     public async ValueTask DisposeAsync()
@@ -28,7 +28,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             return;
         }
 
-        var modules = await _pipelineInitializer.Initialize();
+        var modules = await _moduleRetriever.GetOrganizedModules();
         
         foreach (var module in modules.AllModules)
         {
