@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using Octokit;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
@@ -34,8 +34,19 @@ public class PackProjectsModule : Module<CommandResult[]>
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
 
+        var gitVersioningInformation = await context.Git().Versioning.GetGitVersioningInformation();
+        
         var others = await projectFiles.Value!.Others
-            .Where(x => ProjectHasChanged(x, changesFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context))
+            .Where(x =>
+            {
+                if (gitVersioningInformation.BranchName == "main")
+                {
+                    return true;
+                }
+                
+                return ProjectHasChanged(x,
+                    changesFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
+            })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessInParallel();
