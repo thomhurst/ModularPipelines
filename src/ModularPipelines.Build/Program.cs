@@ -43,6 +43,7 @@ await PipelineHostBuilder.Create()
             .AddModule<WaitForOtherOperatingSystemBuilds>()
             .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
             .AddModule<MergeCoverageModule>()
+            .AddModule<GetChangedFilesInPullRequest>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>
@@ -57,7 +58,6 @@ await PipelineHostBuilder.Create()
             collection.AddModule<CreateLocalNugetFolderModule>()
                 .AddModule<AddLocalNugetSourceModule>()
                 .AddModule<UploadPackagesToLocalNuGetModule>()
-                .AddModule<GetChangedFilesInPullRequest>()
                 .AddModule<CheckReleaseNotesAddedModule>();
         }
         else
