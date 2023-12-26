@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -16,9 +17,9 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
     public static DiagnosticDescriptor Rule => PrivateRule;
 
     private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
     private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
 
     /// <inheritdoc/>
@@ -30,52 +31,31 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeIEnumerableModuleResults, SyntaxKind.SimpleBaseType);
+        context.RegisterSyntaxNodeAction(AnalyzeNonAsyncModules, SyntaxKind.MethodDeclaration);
     }
 
-    private void AnalyzeIEnumerableModuleResults(SyntaxNodeAnalysisContext context)
+    private void AnalyzeNonAsyncModules(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not SimpleBaseTypeSyntax simpleBaseTypeSyntax)
+        if (context.Node is not MethodDeclarationSyntax methodDeclarationSyntax)
         {
             return;
         }
 
-        if (simpleBaseTypeSyntax.Type is not GenericNameSyntax genericNameSyntax)
+        if (methodDeclarationSyntax.Identifier.Text != "ExecuteAsync")
         {
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "Module")
+        if (methodDeclarationSyntax.Modifiers.Any(x => x.ValueText == "async"))
         {
             return;
         }
-
-        if (genericNameSyntax.TypeArgumentList.Arguments.FirstOrDefault() is not GenericNameSyntax
-            innerGenericNameSyntax)
+        
+        if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != "ModuleBase"))
         {
             return;
         }
-
-        if (innerGenericNameSyntax.Identifier.ValueText is not "IEnumerable")
-        {
-            return;
-        }
-
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(innerGenericNameSyntax).Symbol;
-
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return;
-        }
-
-        if (genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith("global::System.Collections.Generic.IEnumerable<"))
-        {
-            var properties = new Dictionary<string, string?>
-            {
-                ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-            }.ToImmutableDictionary();
-
-            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
-        }
+        
+        context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation()));
     }
 }

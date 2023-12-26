@@ -33,6 +33,15 @@ internal static class SymbolExtensions
         }
     }
 
+    internal static IEnumerable<INamedTypeSymbol> GetSelfAndAllBaseTypes(this INamedTypeSymbol? classSymbol)
+    {
+        while (classSymbol != null)
+        {
+            yield return classSymbol;
+            classSymbol = classSymbol.BaseType;
+        }
+    }
+
     internal static bool IsDependsOnAttributeFor(this AttributeData attributeData, INamedTypeSymbol namedTypeSymbol)
     {
         var attributeClassName = attributeData.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
