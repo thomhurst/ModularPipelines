@@ -40,7 +40,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
         // Find the type declaration identified by the diagnostic.
         var declaration = root.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf().OfType<MethodDeclarationSyntax>().First();
-
+        
         if (declaration is null)
         {
             return;
@@ -49,24 +49,26 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: CodeFixResources.CodeFixTitle,
+                title: CodeFixResources.AsyncModuleCodeFixTitle,
                 createChangedDocument: c => AddAsync(context, declaration, c),
-                equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
+                equivalenceKey: nameof(CodeFixResources.AsyncModuleCodeFixTitle)),
             diagnostic);
     }
 
     private async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        var document = await context.GetDocumentWithReplacedNode(methodDeclarationSyntax, methodDeclarationSyntax.AddModifiers(SyntaxFactory.Token(SyntaxKind.AsyncKeyword)));
+        var document = context.Document;
 
-        var root = await document.GetSyntaxRootAsync(cancellationToken);
+        var newMethodDeclarationSyntax = methodDeclarationSyntax;
+
+        var returnStatements = methodDeclarationSyntax.Body
+                                    ?.Statements
+                                    .Where(x => x.Kind() == SyntaxKind.ReturnStatement)
+                                    .Distinct()
+                                    .ToArray()
+                                ?? Array.Empty<StatementSyntax>();
         
-        foreach (var returnStatement in 
-                 methodDeclarationSyntax.Body
-                     ?.Statements
-                     .Where(x => x.Kind() == SyntaxKind.ReturnStatement)
-                     .Distinct()
-                 ?? Array.Empty<StatementSyntax>())
+        foreach (var returnStatement in returnStatements)
         {
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
 
@@ -74,9 +76,12 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
             var awaitedReturnStatement = returnStatement.ReplaceNode(expressionSyntax, awaitExpressionSyntax);
             
-            root = root!.ReplaceNode(returnStatement, awaitedReturnStatement);
+            newMethodDeclarationSyntax = newMethodDeclarationSyntax.ReplaceNode(returnStatement, awaitedReturnStatement);
         }
 
-        return document.WithSyntaxRoot(root!);
+        return await document
+            .WithReplacedNode(methodDeclarationSyntax,
+                newMethodDeclarationSyntax.AddModifiers(SyntaxFactory.Token(SyntaxKind.AsyncKeyword))
+            );
     }
 }

@@ -51,6 +51,11 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
         
+        if (methodDeclarationSyntax.Modifiers.All(x => x.ValueText != "override"))
+        {
+            return;
+        }
+        
         if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != "ModuleBase"))
         {
             return;

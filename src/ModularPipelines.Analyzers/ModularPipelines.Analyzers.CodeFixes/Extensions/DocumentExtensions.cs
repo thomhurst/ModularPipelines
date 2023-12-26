@@ -5,18 +5,18 @@ namespace ModularPipelines.Analyzers.Extensions;
 
 internal static class DocumentExtensions
 {
-    public static async Task<Document> GetDocumentWithReplacedNode(
-        this CodeFixContext context,
+    public static async Task<Document> WithReplacedNode(
+        this Document document,
         SyntaxNode oldNode,
         SyntaxNode newNode,
         SyntaxNode? root = null)
     {
-        root ??= await context.Document
-            .GetSyntaxRootAsync(context.CancellationToken)
+        root ??= await document
+            .GetSyntaxRootAsync()
             .ConfigureAwait(false);
 
         var newRoot = root!.ReplaceNode(oldNode, newNode);
         
-        return context.Document.WithSyntaxRoot(newRoot);
+        return document.WithSyntaxRoot(newRoot);
     }
 }
