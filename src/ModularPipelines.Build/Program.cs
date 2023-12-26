@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
@@ -66,4 +67,5 @@ await PipelineHostBuilder.Create()
         }
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
+    .SetLogLevel(LogLevel.Debug)
     .ExecutePipelineAsync();

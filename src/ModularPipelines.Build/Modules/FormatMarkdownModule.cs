@@ -13,6 +13,7 @@ using ModularPipelines.Node.Models;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfDependabot]
+[RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
 {
