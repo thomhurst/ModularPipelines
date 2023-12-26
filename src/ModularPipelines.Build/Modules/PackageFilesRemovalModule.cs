@@ -7,7 +7,7 @@ namespace ModularPipelines.Build.Modules;
 public class PackageFilesRemovalModule : Module
 {
     /// <inheritdoc/>
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var packageFiles = context.Git()
             .RootDirectory
@@ -18,6 +18,6 @@ public class PackageFilesRemovalModule : Module
             packageFile.Delete();
         }
 
-        return NothingAsync();
+        return await NothingAsync();
     }
 }

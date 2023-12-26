@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Engine.Executors;
@@ -14,15 +13,8 @@ internal class PrintModuleOutputExecutor : IPrintModuleOutputExecutor
         _moduleLoggerContainer = moduleLoggerContainer;
     }
 
-    public async Task ExecuteAndPrintModuleOutput(Func<Task> executeDelegate)
+    public void Dispose()
     {
-        try
-        {
-            await executeDelegate();
-        }
-        finally
-        {
-            _moduleLoggerContainer.PrintAllLoggers();
-        }
+        _moduleLoggerContainer.PrintAllLoggers();
     }
 }

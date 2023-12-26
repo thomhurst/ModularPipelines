@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -13,6 +14,7 @@ internal class ModuleRetriever : IModuleRetriever
     private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<ModuleBase> _modules;
+    private Task<OrganizedModules>? _cached;
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
@@ -27,13 +29,19 @@ internal class ModuleRetriever : IModuleRetriever
         _modules = modules.ToList();
     }
 
-    public async Task<OrganizedModules> GetOrganizedModules()
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public Task<OrganizedModules> GetOrganizedModules()
+    {
+        return _cached ??= GetInternal();
+    }
+
+    private async Task<OrganizedModules> GetInternal()
     {
         if (_modules.Count == 0)
         {
             throw new PipelineException("No modules have been registered");
         }
-
+        
         await _modules
             .ToAsyncProcessorBuilder()
             .ForEachAsync(m => _moduleInitializer.Initialize(m))
