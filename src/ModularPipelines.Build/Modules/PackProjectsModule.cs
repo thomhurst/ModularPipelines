@@ -27,7 +27,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var projectFiles = await GetModule<FindProjectDependenciesModule>();
 
-        var changesFiles = await GetModule<GetChangedFilesInPullRequest>();
+        var changedFiles = await GetModule<GetChangedFilesInPullRequest>();
         
         var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
@@ -39,13 +39,13 @@ public class PackProjectsModule : Module<CommandResult[]>
         var others = await projectFiles.Value!.Others
             .Where(x =>
             {
-                if (gitVersioningInformation.BranchName == "main")
+                if (changedFiles.SkipDecision.ShouldSkip)
                 {
                     return true;
                 }
                 
                 return ProjectHasChanged(x,
-                    changesFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
+                    changedFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
             })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
