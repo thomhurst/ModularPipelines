@@ -84,6 +84,12 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task<ModuleBase> StartModule(ModuleBase module)
     {
+        if (module.ExecutionTask.IsCompleted)
+        {
+            await module.ExecutionTask;
+            return module;
+        }
+        
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
