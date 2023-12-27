@@ -175,6 +175,11 @@ public abstract partial class Module<T> : ModuleBase<T>
     [StackTraceHidden]
     private async Task StartInternal()
     {
+        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
+        {
+            return;
+        }
+        
         try
         {
             if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)

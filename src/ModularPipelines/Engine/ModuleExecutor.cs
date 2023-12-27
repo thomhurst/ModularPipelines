@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Reflection;
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
@@ -15,6 +16,8 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
+    
+    private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -71,14 +74,22 @@ internal class ModuleExecutor : IModuleExecutor
         return moduleResults;
     }
 
-    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
+    public Task<ModuleBase> ExecuteAsync(ModuleBase module)
     {
-        if (module.IsStarted)
+        lock (module)
+        {
+            return _moduleExecutionTasks.GetOrAdd(module, @base => StartModule(module));
+        }
+    }
+
+    private async Task<ModuleBase> StartModule(ModuleBase module)
+    {
+        if (module.IsStarted || module.ExecutionTask.IsCompleted)
         {
             await module.ExecutionTask;
             return module;
         }
-
+        
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
