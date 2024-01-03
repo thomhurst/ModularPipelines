@@ -22,7 +22,7 @@
       <PackageReference Include="FluentAssertions" Version="6.12.0" />
       <PackageReference Include="Microsoft.Build" Version="17.3.2" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="Octokit" Version="9.0.0" />
+      <PackageReference Include="Octokit" Version="9.1.0" />
     </ItemGroup>
 
     <ItemGroup>
