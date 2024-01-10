@@ -1,5 +1,4 @@
 ﻿using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
 
@@ -44,8 +43,7 @@ public class PipelineWriterTests : TestBase
                     },
                 },
                 OutputPath = RandomFilePath.Path!,
-                PipelineProjectPath = pipelineHookContext.Git().RootDirectory
-                    .FindFile(x => x.Name == "ModularPipelines.Build.csproj")!,
+                PipelineProjectPath = RandomFilePath.Path!,
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
                 DotNetRunFramework = "net7.0",
@@ -86,7 +84,7 @@ public class PipelineWriterTests : TestBase
             .ExecutePipelineAsync();
         
         Assert.That((await RandomFilePath.ReadAsync()).Trim(),
-            Is.EqualTo("""
+            Is.EqualTo($$$"""
                        name: Test
                        on:
                          push:
@@ -137,7 +135,7 @@ public class PipelineWriterTests : TestBase
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
                                restore-keys: ${{ runner.os }}-nuget-
                            - name: Run Pipeline
-                             run: dotnet run -c Release --framework net7.0 C:\git\other\Pipeline.NET\src\ModularPipelines.Build\ModularPipelines.Build.csproj
+                             run: dotnet run -c Release --framework net7.0 {{{RandomFilePath}}}
                              env:
                                DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
                                NuGet__ApiKey: ${{ secrets.NuGet__ApiKey }}
