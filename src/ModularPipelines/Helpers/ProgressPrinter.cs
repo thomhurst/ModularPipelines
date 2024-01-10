@@ -97,7 +97,7 @@ internal class ProgressPrinter : IProgressPrinter
             foreach (var subModule in module.SubModuleBases)
             {
                 table.AddRow(
-                    $"[#5FFFFF]--{subModule.Name}[/]",
+                    $"[lightcyan1]--{subModule.Name}[/]",
                     subModule.Duration.ToDisplayString(),
                     subModule.Status.ToDisplayString(),
                     GetTime(subModule.StartTime, isSameDay),
