@@ -20,4 +20,24 @@ public static class FolderExtensions
     /// <param name="folders">The folder collection.</param>
     /// <returns>The folders as paths.</returns>
     public static List<string> AsPaths(this IList<Folder> folders) => folders.Select(f => f.Path).ToList();
+    
+    /// <summary>
+    /// Turns a nullable Folder object in a non-nullable Folder object if the folder exists.
+    /// </summary>
+    /// <param name="folder">The folder to check.</param>
+    /// <returns>The input object if not null.</returns>
+    public static Folder AssertExists(this Folder? folder)
+    {
+        if (folder == null)
+        {
+            throw new DirectoryNotFoundException("The folder does not exist");
+        }
+        
+        if (!folder.Exists)
+        {
+            throw new DirectoryNotFoundException($"The folder does not exist: {folder.Path}");
+        }
+
+        return folder;
+    }
 }

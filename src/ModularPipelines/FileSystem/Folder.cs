@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using ModularPipelines.Extensions;
 
 namespace ModularPipelines.FileSystem;
 
@@ -228,5 +229,10 @@ public class Folder : IEquatable<Folder>
     public static bool operator !=(Folder? left, Folder? right)
     {
         return !Equals(left, right);
+    }
+    
+    public static Folder operator !(Folder? folder)
+    {
+        return folder.AssertExists();
     }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Extensions;
 
 namespace ModularPipelines.FileSystem;
 
@@ -140,16 +141,6 @@ public class File : IEquatable<File>
     {
         return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName())!;
     }
-    
-    public File AssertExists() 
-    {
-        if (!Exists)
-        {
-            throw new FileNotFoundException("The file does not exist", Path);
-        }
-
-        return this;
-    }
 
     public static implicit operator File?(string? path)
     {
@@ -229,5 +220,10 @@ public class File : IEquatable<File>
     public static bool operator !=(File? left, File? right)
     {
         return !Equals(left, right);
+    }
+
+    public static File operator !(File? file)
+    {
+        return file.AssertExists();
     }
 }
