@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Modules;
@@ -16,6 +17,7 @@ internal class SubModule : SubModuleBase
         {
             try
             {
+                Status = Status.Processing;
                 await action();
             }
             catch (Exception e)
@@ -28,6 +30,7 @@ internal class SubModule : SubModuleBase
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
+            Status = t.IsCompletedSuccessfully ? Status.Successful : Status.Failed;
         });
     }
 
@@ -47,6 +50,7 @@ internal class SubModule<T> : SubModuleBase
         {
             try
             {
+                Status = Status.Processing;
                 return await action();
             }
             catch (Exception e)
@@ -59,6 +63,7 @@ internal class SubModule<T> : SubModuleBase
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
+            Status = t.IsCompletedSuccessfully ? Status.Successful : Status.Failed;
         });
     }
 

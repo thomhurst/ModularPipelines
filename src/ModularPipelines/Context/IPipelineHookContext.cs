@@ -91,6 +91,11 @@ public interface IPipelineHookContext
     /// Gets helpers for convering XML.
     /// </summary>
     public IXml Xml { get; }
+    
+    /// <summary>
+    /// Gets helpers for convering YAML.
+    /// </summary>
+    public IYaml Yaml { get; }
 
     /// <summary>
     /// Gets helpers for running powershell.

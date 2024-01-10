@@ -123,6 +123,22 @@ public class PipelineHostBuilder
 
         return this;
     }
+    
+    /// <summary>
+    /// Registers classes that will write a pipeline output file for a build system to interpret.
+    /// </summary>
+    /// <typeparam name="TBuildSystemPipelineFileWriter">The type of Build System Pipeline File Writer.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    public PipelineHostBuilder AddPipelineFileWriter<TBuildSystemPipelineFileWriter>()
+        where TBuildSystemPipelineFileWriter : class, IBuildSystemPipelineFileWriter
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddScoped<IBuildSystemPipelineFileWriter, TBuildSystemPipelineFileWriter>();
+        });
+
+        return this;
+    }
 
     /// <summary>
     /// Adds a check when initialising the pipeline, failing if the requirement isn't met.

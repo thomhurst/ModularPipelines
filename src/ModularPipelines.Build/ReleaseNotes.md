@@ -1,0 +1,3 @@
+- Added submodule timings to the results table
+- Added a GitHub actions yaml pipeline writer to execute ModularPipelines
+- Added a helper method AssertExists on File class

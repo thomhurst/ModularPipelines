@@ -68,4 +68,5 @@ await PipelineHostBuilder.Create()
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
     .SetLogLevel(LogLevel.Debug)
+    .AddPipelineFileWriter<GitHubYamlWriter>()
     .ExecutePipelineAsync();
