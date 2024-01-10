@@ -226,8 +226,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
-            _stopwatch.Stop();
-
             ModuleResultTaskCompletionSource.TrySetCanceled();
 
             await HookHandler.OnAfterExecute(Context);
