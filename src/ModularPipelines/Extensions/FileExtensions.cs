@@ -20,4 +20,19 @@ public static class FileExtensions
     /// <param name="files">The file collection.</param>
     /// <returns>The files as paths.</returns>
     public static List<string> AsPaths(this IList<File> files) => files.Select(f => f.Path).ToList();
+
+    /// <summary>
+    /// Turns a nullable File object in a non-nullable File object if the file exists.
+    /// </summary>
+    /// <param name="file">The file to check.</param>
+    /// <returns>The input object if not null.</returns>
+    public static File AssertExists(this File? file)
+    {
+        if (file == null)
+        {
+            throw new FileNotFoundException("The file does not exist");
+        }
+        
+        return file.AssertExists();
+    }
 }

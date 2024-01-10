@@ -140,6 +140,16 @@ public class File : IEquatable<File>
     {
         return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName())!;
     }
+    
+    public File AssertExists() 
+    {
+        if (!Exists)
+        {
+            throw new FileNotFoundException("The file does not exist", Path);
+        }
+
+        return this;
+    }
 
     public static implicit operator File?(string? path)
     {

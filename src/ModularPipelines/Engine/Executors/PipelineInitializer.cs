@@ -14,6 +14,7 @@ internal class PipelineInitializer : IPipelineInitializer
     private readonly IConsolePrinter _consolePrinter;
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IBuildSystemDetector _buildSystemDetector;
+    private readonly IPipelineFileWriter _pipelineFileWriter;
     private readonly ILogger<PipelineInitializer> _logger;
     private OrganizedModules? _organizedModules;
 
@@ -23,6 +24,7 @@ internal class PipelineInitializer : IPipelineInitializer
         IDependencyDetector dependencyDetector,
         IPipelineSetupExecutor pipelineSetupExecutor,
         IBuildSystemDetector buildSystemDetector,
+        IPipelineFileWriter pipelineFileWriter,
         ILogger<PipelineInitializer> logger)
     {
         _consolePrinter = consolePrinter;
@@ -31,6 +33,7 @@ internal class PipelineInitializer : IPipelineInitializer
         _dependencyDetector = dependencyDetector;
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _buildSystemDetector = buildSystemDetector;
+        _pipelineFileWriter = pipelineFileWriter;
         _logger = logger;
     }
 
@@ -48,6 +51,8 @@ internal class PipelineInitializer : IPipelineInitializer
         Console.WriteLine();
         _logger.LogInformation("Detected Build System: {BuildSystem}", _buildSystemDetector.GetCurrentBuildSystem());
         Console.WriteLine();
+
+        await _pipelineFileWriter.WritePipelineFiles();
 
         _dependencyDetector.Check();
 

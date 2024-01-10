@@ -38,6 +38,8 @@ internal class PipelineContext : IPipelineContext
     public IJson Json { get; }
 
     public IXml Xml { get; }
+    
+    public IYaml Yaml { get; }
 
     public IPowershell Powershell { get; }
 
@@ -91,7 +93,8 @@ internal class PipelineContext : IPipelineContext
         IPowershell powershell,
         IBash bash,
         IBuildSystemDetector buildSystemDetector,
-        IChecksum checksum)
+        IChecksum checksum, 
+        IYaml yaml)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -108,6 +111,7 @@ internal class PipelineContext : IPipelineContext
         Bash = bash;
         BuildSystemDetector = buildSystemDetector;
         Checksum = checksum;
+        Yaml = yaml;
         ModuleResultRepository = moduleResultRepository;
         Command = command;
         Configuration = configuration;

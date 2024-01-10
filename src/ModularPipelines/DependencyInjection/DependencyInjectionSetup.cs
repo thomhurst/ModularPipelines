@@ -87,7 +87,8 @@ internal static class DependencyInjectionSetup
             .AddScoped<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddScoped<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
             .AddScoped<ICollapsableLogging, SmartCollapsableLogging>()
-            .AddScoped<IInternalCollapsableLogging, SmartCollapsableLogging>();
+            .AddScoped<IInternalCollapsableLogging, SmartCollapsableLogging>()
+            .AddScoped<IPipelineFileWriter, PipelineFileWriter>();
 
         // Singletons
         services

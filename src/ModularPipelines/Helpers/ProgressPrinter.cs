@@ -93,6 +93,17 @@ internal class ProgressPrinter : IProgressPrinter
                 GetTime(module.StartTime, isSameDay),
                 GetTime(module.EndTime, isSameDay),
                 GetModuleExtraInformation(module));
+            
+            foreach (var subModule in module.SubModuleBases)
+            {
+                table.AddRow(
+                    $"[#5FFFFF]--{module.GetType().Name}[/]",
+                    subModule.Duration.ToDisplayString(),
+                    subModule.Status.ToDisplayString(),
+                    GetTime(subModule.StartTime, isSameDay),
+                    GetTime(subModule.EndTime, isSameDay),
+                    string.Empty);
+            }
 
             table.AddEmptyRow();
         }
