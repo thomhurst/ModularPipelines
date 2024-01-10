@@ -24,5 +24,5 @@ public record GitHubPipelineFileWriterOptions
         
     public IDictionary<string, string>? EnvironmentVariables { get; init; }
 
-    public OperatingSystemIdentifier RunnerOperatingSystem = OperatingSystemIdentifier.Linux;
+    public OperatingSystemIdentifier RunnerOperatingSystem { get; init; } = OperatingSystemIdentifier.Linux;
 }
