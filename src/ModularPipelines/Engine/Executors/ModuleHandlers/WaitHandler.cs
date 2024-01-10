@@ -71,6 +71,10 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
                 {
                     Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
+                catch (DependencyFailedException)
+                {
+                    throw;
+                }
                 catch (Exception e)
                 {
                     throw new DependencyFailedException(e, module);
