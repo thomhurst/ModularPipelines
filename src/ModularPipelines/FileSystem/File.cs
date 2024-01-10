@@ -221,9 +221,4 @@ public class File : IEquatable<File>
     {
         return !Equals(left, right);
     }
-
-    public static File operator !(File? file)
-    {
-        return file.AssertExists();
-    }
 }

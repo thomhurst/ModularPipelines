@@ -325,6 +325,30 @@ public class FileTests : TestBase
         Assert.That(files[0].Name, Is.EqualTo("Blah.txt"));
     }
 
+    [Test]
+    public async Task AssertExists()
+    {
+        var file = (File?) await CreateRandomFile();
+        
+        Assert.DoesNotThrow(() => file.AssertExists());
+    }
+    
+    [Test]
+    public void AssertExists_ThrowsWhenNotExists()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        
+        Assert.Throws<FileNotFoundException>(() => file.AssertExists());
+    }
+    
+    [Test]
+    public void AssertExists_ThrowsWhenNull()
+    {
+        var file = null as File;
+        
+        Assert.Throws<FileNotFoundException>(() => file.AssertExists());
+    }
+
     private static async Task<File> CreateRandomFile()
     {
         var path = File.GetNewTemporaryFilePath();

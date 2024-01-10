@@ -1,4 +1,5 @@
 using System.Globalization;
+using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
 using ModularPipelines.TestHelpers;
@@ -289,6 +290,30 @@ public class FolderTests : TestBase
             Assert.That(folder == folder2, Is.False);
             Assert.That(folder != folder2, Is.True);
         });
+    }
+    
+    [Test]
+    public void AssertExists()
+    {
+        var folder = (Folder?) CreateRandomFolder();
+        
+        Assert.DoesNotThrow(() => folder.AssertExists());
+    }
+    
+    [Test]
+    public void AssertExists_ThrowsWhenNotExists()
+    {
+        Folder folder = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath().Path!;
+        
+        Assert.Throws<DirectoryNotFoundException>(() => folder.AssertExists());
+    }
+    
+    [Test]
+    public void AssertExists_ThrowsWhenNull()
+    {
+        var folder = null as Folder;
+        
+        Assert.Throws<DirectoryNotFoundException>(() => folder.AssertExists());
     }
 
     private static Folder CreateRandomFolder()

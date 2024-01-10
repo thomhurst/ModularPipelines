@@ -230,9 +230,4 @@ public class Folder : IEquatable<Folder>
     {
         return !Equals(left, right);
     }
-    
-    public static Folder operator !(Folder? folder)
-    {
-        return folder.AssertExists();
-    }
 }
