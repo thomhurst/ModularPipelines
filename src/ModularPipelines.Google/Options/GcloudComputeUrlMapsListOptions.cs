@@ -1,0 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Google.Options;
+
+[ExcludeFromCodeCoverage]
+[CommandPrecedingArguments("compute", "url-maps", "list")]
+public record GcloudComputeUrlMapsListOptions(
+[property: PositionalArgument] string Name
+) : GcloudOptions
+{
+    [CommandSwitch("--regexp")]
+    public string? Regexp { get; set; }
+
+    [BooleanCommandSwitch("--global")]
+    public bool? Global { get; set; }
+
+    [CommandSwitch("--regions")]
+    public string[]? Regions { get; set; }
+}
