@@ -18,11 +18,11 @@ internal class PipelineFileWriter : IPipelineFileWriter
         _serviceProvider = serviceProvider;
         _writers = writers;
     }
-    
+
     public async Task WritePipelineFiles()
     {
         await _writers
-            .ForEachAsync(x => 
+            .ForEachAsync(x =>
                 x.Write(_serviceProvider.GetRequiredService<IPipelineContext>())
             )
             .ProcessInParallel();
