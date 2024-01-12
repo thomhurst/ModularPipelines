@@ -54,7 +54,7 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
                             With = new
                             {
                                 path= "~/.nuget/packages",
-                                key= "${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}",
+                                key= "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
                                 RestoreKeys = "${{ runner.os }}-nuget-",
                             },
                         },
