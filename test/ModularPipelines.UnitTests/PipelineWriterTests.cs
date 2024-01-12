@@ -133,7 +133,7 @@ public class PipelineWriterTests : TestBase
                              with:
                                path: ~/.nuget/packages
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-                               restore-keys: ${{ runner.os }}-nuget-
+                               restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
                              run: dotnet run -c Release --framework net7.0 {{{RandomFilePath}}}
                              env:
