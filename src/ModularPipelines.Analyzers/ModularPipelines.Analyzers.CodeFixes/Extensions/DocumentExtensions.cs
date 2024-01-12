@@ -15,7 +15,7 @@ internal static class DocumentExtensions
             .ConfigureAwait(false);
 
         var newRoot = root!.ReplaceNode(oldNode, newNode);
-        
+
         return document.WithSyntaxRoot(newRoot);
     }
 }

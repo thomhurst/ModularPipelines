@@ -97,7 +97,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 }
 
                 IsStarted = true;
-                
+
                 return ModuleResultTaskCompletionSource.Task;
             }
         }
@@ -171,7 +171,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         DependentModules.Add(dependsOnAttribute);
     }
-    
+
     [StackTraceHidden]
     private async Task StartInternal()
     {
@@ -179,7 +179,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return;
         }
-        
+
         try
         {
             if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)

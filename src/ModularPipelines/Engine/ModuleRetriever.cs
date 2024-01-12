@@ -41,7 +41,7 @@ internal class ModuleRetriever : IModuleRetriever
         {
             throw new PipelineException("No modules have been registered");
         }
-        
+
         await _modules
             .ToAsyncProcessorBuilder()
             .ForEachAsync(m => _moduleInitializer.Initialize(m))

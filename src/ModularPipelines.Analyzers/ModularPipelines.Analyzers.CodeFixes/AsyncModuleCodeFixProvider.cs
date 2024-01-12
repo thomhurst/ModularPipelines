@@ -40,7 +40,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
         // Find the type declaration identified by the diagnostic.
         var declaration = root.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf().OfType<MethodDeclarationSyntax>().First();
-        
+
         if (declaration is null)
         {
             return;
@@ -58,9 +58,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
     private async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
         var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken);
-        
+
         editor.SetModifiers(methodDeclarationSyntax, DeclarationModifiers.Override | DeclarationModifiers.Async);
-        
+
         foreach (var returnStatement in GetReturnStatements(methodDeclarationSyntax))
         {
             var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().First()!;
@@ -71,19 +71,19 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
                 var firstInnerExpression = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().First().Arguments.First().Expression;
 
                 var newReturnStatement = returnStatement.ReplaceNode(expressionSyntax, firstInnerExpression);
-                
+
                 editor.ReplaceNode(returnStatement, newReturnStatement);
-                
+
                 continue;
             }
 
             var awaitExpressionSyntax = SyntaxFactory.AwaitExpression(expressionSyntax).NormalizeWhitespace();
 
             var awaitedReturnStatement = returnStatement.ReplaceNode(expressionSyntax, awaitExpressionSyntax);
-            
+
             editor.ReplaceNode(returnStatement, awaitedReturnStatement);
         }
-        
+
         return editor.GetChangedDocument();
     }
 
@@ -103,9 +103,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         {
             return false;
         }
-        
+
         var semanticModel = await context.Document.GetSemanticModelAsync();
-        
+
         var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
         if (symbol is not IMethodSymbol methodSymbol)
@@ -118,16 +118,16 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             && methodSymbol.ContainingType.Name == "Task"
             && methodSymbol.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks";
     }
-    
+
     private async Task<bool> IsAsTaskExtension(ExpressionSyntax expressionSyntax, CodeFixContext context)
     {
         if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
         {
             return false;
         }
-        
+
         var semanticModel = await context.Document.GetSemanticModelAsync();
-        
+
         var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
 
         if (symbol is not IMethodSymbol methodSymbol)

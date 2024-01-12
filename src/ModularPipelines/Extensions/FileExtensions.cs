@@ -32,7 +32,7 @@ public static class FileExtensions
         {
             throw new FileNotFoundException("The file does not exist");
         }
-        
+
         if (!file.Exists)
         {
             throw new FileNotFoundException("The file does not exist", file.Path);

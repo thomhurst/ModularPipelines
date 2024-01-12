@@ -82,7 +82,7 @@ public class PipelineWriterTests : TestBase
             .AddModule<NotInParallelTests.Module1>()
             .AddPipelineFileWriter<GitHubYamlWriter>()
             .ExecutePipelineAsync();
-        
+
         Assert.That((await RandomFilePath.ReadAsync()).Trim(),
             Is.EqualTo($$$"""
                        name: Test

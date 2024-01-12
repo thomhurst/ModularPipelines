@@ -28,14 +28,14 @@ public class PackProjectsModule : Module<CommandResult[]>
         var projectFiles = await GetModule<FindProjectDependenciesModule>();
 
         var changedFiles = await GetModule<GetChangedFilesInPullRequest>();
-        
+
         var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
 
         var gitVersioningInformation = await context.Git().Versioning.GetGitVersioningInformation();
-        
+
         var others = await projectFiles.Value!.Others
             .Where(x =>
             {
@@ -43,7 +43,7 @@ public class PackProjectsModule : Module<CommandResult[]>
                 {
                     return true;
                 }
-                
+
                 return ProjectHasChanged(x,
                     changedFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
             })
@@ -64,7 +64,7 @@ public class PackProjectsModule : Module<CommandResult[]>
             context.Logger.LogInformation("{Project} has not changed so not packing it", projectFile.Name);
             return false;
         }
-        
+
         context.Logger.LogInformation("{Project} has changed so packing it", projectFile.Name);
 
         return true;

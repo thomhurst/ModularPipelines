@@ -50,12 +50,12 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         {
             return;
         }
-        
+
         if (methodDeclarationSyntax.Modifiers.All(x => x.ValueText != "override"))
         {
             return;
         }
-        
+
         if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != "ModuleBase"))
         {
             return;
@@ -67,7 +67,7 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         {
             return;
         }
-        
+
         context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation()));
     }
 
@@ -91,7 +91,7 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         {
             return false;
         }
-        
+
         if (methodSymbol.ContainingType.Name != "Task" && methodSymbol.ContainingType.Name != "TaskExtensions")
         {
             return false;

@@ -123,7 +123,7 @@ public class PipelineHostBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers classes that will write a pipeline output file for a build system to interpret.
     /// </summary>
