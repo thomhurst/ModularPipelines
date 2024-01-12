@@ -132,8 +132,8 @@ public class PipelineWriterTests : TestBase
                              uses: actions/cache@v3
                              with:
                                path: ~/.nuget/packages
-                               key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-                               restore-keys: ${{ runner.os }}-nuget-
+                               key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+                               restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
                              run: dotnet run -c Release --framework net7.0 {{{RandomFilePath}}}
                              env:
