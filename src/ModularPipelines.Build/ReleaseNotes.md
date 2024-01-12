@@ -1,2 +1,1 @@
-
 *   Google gcloud Helper Classes
