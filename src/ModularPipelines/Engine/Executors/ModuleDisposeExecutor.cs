@@ -30,7 +30,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
         }
 
         var modules = await _moduleRetriever.GetOrganizedModules();
-        
+
         foreach (var module in modules.AllModules)
         {
             try
@@ -41,6 +41,6 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             {
                 module.Context?.Logger.LogError(e, "Error disposing module");
             }
-        }    
+        }
     }
 }

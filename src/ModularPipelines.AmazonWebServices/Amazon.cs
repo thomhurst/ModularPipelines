@@ -11,6 +11,6 @@ internal class Amazon : IAmazon
     }
 
     public IAmazonProvisioner Provisioner { get; }
-    
+
     public Aws AwsCli { get; }
 }

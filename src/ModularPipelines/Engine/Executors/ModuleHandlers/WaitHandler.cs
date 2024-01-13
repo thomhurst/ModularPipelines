@@ -40,7 +40,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
         }
 
         var notInParallel = Module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null;
-        
+
         var dependenciesProcessor = Module.DependentModules
             .ToAsyncProcessorBuilder()
             .ForEachAsync(async dependsOnAttribute =>

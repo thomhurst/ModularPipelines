@@ -56,7 +56,7 @@ public record PipelineSummary
     public T GetModule<T>()
         where T : ModuleBase
         => Modules.GetModule<T>();
-    
+
     private Status GetStatus()
     {
         if (Modules.Any(x => x.Status == Status.Failed))

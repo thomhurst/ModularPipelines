@@ -9,18 +9,18 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
     public async Task Write(IPipelineHookContext pipelineHookContext)
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext);
-        
+
         var yaml = pipelineHookContext.Yaml.ToYaml(new
         {
             Name = options.Name,
             On = options.TriggerCondition,
             Jobs = new
             {
-                Pipeline = new 
+                Pipeline = new
                 {
                     Environment = options.Environment,
                     RunsOn = options.Runner,
-                    
+
                     Steps = new object?[]
                     {
                         options.ValuesToMask?.Any() != true ? null : new

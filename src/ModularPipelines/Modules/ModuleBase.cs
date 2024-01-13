@@ -194,7 +194,7 @@ public abstract class ModuleBase<T> : ModuleBase
     {
         return ModuleResultTaskCompletionSource.Task.GetAwaiter();
     }
-    
+
     /// <summary>
     /// Used to return no result in a module.
     /// </summary>

@@ -64,14 +64,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         PipelineSummary? pipelineSummary = null;
         try
-        { 
+        {
             pipelineSummary = await ExecutePipeline(runnableModules, organizedModules);
         }
         finally
         {
             var end = DateTimeOffset.UtcNow;
             pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-            
+
             _consolePrinter.PrintResults(pipelineSummary);
 
             await Console.Out.FlushAsync();

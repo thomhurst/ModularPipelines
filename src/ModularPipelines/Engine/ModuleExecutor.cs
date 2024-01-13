@@ -16,7 +16,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
-    
+
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
@@ -89,7 +89,7 @@ internal class ModuleExecutor : IModuleExecutor
             await module.ExecutionTask;
             return module;
         }
-        
+
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
