@@ -329,23 +329,23 @@ public class FileTests : TestBase
     public async Task AssertExists()
     {
         var file = (File?) await CreateRandomFile();
-        
+
         Assert.DoesNotThrow(() => file.AssertExists());
     }
-    
+
     [Test]
     public void AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
-        
+
         Assert.Throws<FileNotFoundException>(() => file.AssertExists());
     }
-    
+
     [Test]
     public void AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-        
+
         Assert.Throws<FileNotFoundException>(() => file.AssertExists());
     }
 

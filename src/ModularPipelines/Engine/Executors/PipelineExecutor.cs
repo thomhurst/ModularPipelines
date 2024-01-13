@@ -39,7 +39,7 @@ internal class PipelineExecutor : IPipelineExecutor
         catch
         {
             _engineCancellationToken.Cancel();
-            
+
             // Give time for the console to update modules to Failed
             await Task.Delay(TimeSpan.FromMilliseconds(250));
             throw;
@@ -59,7 +59,7 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             throw exception;
         }
-        
+
         return pipelineSummary;
     }
 

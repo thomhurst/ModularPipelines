@@ -30,7 +30,7 @@ public record AzurePipelineAgentVariables : AzurePipelineVariableBase
     public string ToolsDirectory => Get("ToolsDirectory")!;
 
     public string WorkFolder => Get("WorkFolder")!;
-    
+
     /// <inheritdoc/>
     protected override string Prefix => "Agent";
 }

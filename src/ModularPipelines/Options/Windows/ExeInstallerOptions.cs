@@ -14,7 +14,7 @@ public record ExeInstallerOptions(string ExePath) : CommandLineToolOptions(ExePa
 
     [BooleanCommandSwitch("/restartapplications")]
     public bool RestartApplications { get; init; } = true;
-    
+
     [BooleanCommandSwitch("/qn")]
     internal bool? DisableUserInterface2 => DisableUserInterface;
 

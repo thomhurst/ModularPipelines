@@ -14,7 +14,7 @@ public record MsiInstallerOptions([property: CommandSwitch("/package")] string M
 
     [BooleanCommandSwitch("/restartapplications")]
     public bool RestartApplications { get; init; } = true;
-    
+
     [BooleanCommandSwitch("/qn")]
     internal bool? DisableUserInterface2 => DisableUserInterface;
 

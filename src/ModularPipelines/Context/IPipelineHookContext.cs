@@ -91,7 +91,7 @@ public interface IPipelineHookContext
     /// Gets helpers for convering XML.
     /// </summary>
     public IXml Xml { get; }
-    
+
     /// <summary>
     /// Gets helpers for convering YAML.
     /// </summary>
@@ -128,7 +128,7 @@ public interface IPipelineHookContext
     IChecksum Checksum { get; }
 
     #endregion
-    
+
     /// <summary>
     /// Gets the detector used to detect modules which depend on each other.
     /// </summary>
@@ -144,7 +144,7 @@ public interface IPipelineHookContext
     /// </summary>
     /// <param name="getType">The module type.</param>
     internal void InitializeLogger(Type getType);
-    
+
     /// <summary>
     /// Gets the cancellation token used for cancelling the pipeline on failures.
     /// </summary>
