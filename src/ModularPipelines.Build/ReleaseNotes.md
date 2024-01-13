@@ -1,1 +1,1 @@
-*   Google gcloud Helper Classes
+null
