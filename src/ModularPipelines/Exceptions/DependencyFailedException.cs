@@ -1,19 +1,21 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Exceptions;
 
 public class DependencyFailedException : PipelineException
 {
-    private readonly ModuleBase _moduleBase;
+    [JsonInclude]
+    public string FailingModuleName { get; private set; }
 
-    public DependencyFailedException(Exception exception, ModuleBase moduleBase) : base($"The dependency {GetInnerMostFailingModule(moduleBase, exception).GetType().Name} has failed.", exception)
+    public DependencyFailedException(Exception exception, ModuleBase moduleBase) : base($"The dependency {GetInnerMostFailingModule(moduleBase, exception)} has failed.", exception)
     {
-        _moduleBase = moduleBase;
+        FailingModuleName = moduleBase.GetType().Name;
     }
     
-    private static ModuleBase GetInnerMostFailingModule(ModuleBase rootModuleBase, Exception rootException)
+    private static string GetInnerMostFailingModule(ModuleBase rootModuleBase, Exception rootException)
     {
-        var module = rootModuleBase;
+        var module = rootModuleBase.GetType().Name;
         
         var exception = rootException;
         
@@ -21,7 +23,7 @@ public class DependencyFailedException : PipelineException
         {
             if (exception is DependencyFailedException dependencyFailedException)
             {
-                module = dependencyFailedException._moduleBase;
+                module = dependencyFailedException.FailingModuleName;
             }
 
             exception = exception.InnerException;
