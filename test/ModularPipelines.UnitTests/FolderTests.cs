@@ -316,6 +316,29 @@ public class FolderTests : TestBase
         Assert.Throws<DirectoryNotFoundException>(() => folder.AssertExists());
     }
 
+    [Test, WindowsOnlyTest]
+    public void Searching_Local_Files_User_Does_Not_Throw_Unauth_Exception()
+    {
+        Assert.DoesNotThrow(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
+            .GetFolder("AppData")
+            ?.FindFile(x => x.Name.Contains(Guid.NewGuid().ToString()), exclude => exclude.Name.StartsWith('.')));
+    }
+    
+    [Test, WindowsOnlyTest]
+    public void Searching_Local_Files_User_Does_Not_Throw_Unauth_Exception2()
+    {
+        Assert.DoesNotThrow(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
+            ?.GetFiles(Guid.NewGuid().ToString()));
+    }
+    
+    [Test, WindowsOnlyTest]
+    public void Searching_Local_Folders_User_Does_Not_Throw_Unauth_Exception()
+    {
+        Assert.DoesNotThrow(() => new Folder(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
+                .GetFolder("AppData")
+            ?.FindFolder(x => x.Name.Contains(Guid.NewGuid().ToString()), exclude => exclude.Name.StartsWith('.')));
+    }
+
     private static Folder CreateRandomFolder()
     {
         var tempFolderPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
