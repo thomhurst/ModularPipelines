@@ -15,7 +15,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     protected override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
         return Task.FromResult(exception is CommandException commandException &&
-                               commandException.CommandResult.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
+                               commandException.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
     }
 
     /// <inheritdoc/>
