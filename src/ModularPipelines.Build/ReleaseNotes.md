@@ -1,0 +1,1 @@
+- Log commands standard output and standard error even if they throw exceptions
