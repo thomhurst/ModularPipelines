@@ -27,14 +27,14 @@ public record CommandResult
         EnvironmentVariables = command.EnvironmentVariables;
     }
 
-    internal CommandResult(Command command, BufferedCommandResult commandResult)
+    internal CommandResult(Command command, CliWrap.CommandResult commandResult, string standardOutput, string standardError)
     {
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = command.EnvironmentVariables;
 
-        StandardOutput = commandResult.StandardOutput;
-        StandardError = commandResult.StandardError;
+        StandardOutput = standardOutput;
+        StandardError = standardError;
         StartTime = commandResult.StartTime;
         EndTime = commandResult.ExitTime;
         Duration = commandResult.RunTime;

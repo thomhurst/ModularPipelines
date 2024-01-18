@@ -1,7 +1,10 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 using CliWrap;
 using CliWrap.Buffered;
+using CliWrap.Exceptions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -61,19 +64,18 @@ internal class Command(ICommandLogger commandLogger) : ICommand
 
         if (options.InternalDryRun)
         {
-            _commandLogger.Log(options, command.ToString(),
-                new BufferedCommandResult(0,
-                    DateTimeOffset.UtcNow,
-                    DateTimeOffset.UtcNow,
-                    "Dummy Output Response",
-                    "Dummy Error Response"));
+            _commandLogger.Log(options,
+                inputToLog: command.ToString(),
+                exitCode: 0,
+                runTime: TimeSpan.Zero,
+                standardOutput: "Dummy Output Response",
+                standardError: "Dummy Error Response"
+            );
 
             return new CommandResult(command);
         }
 
-        var result = await Of(command, options, cancellationToken);
-
-        return new CommandResult(command, result);
+        return await Of(command, options, cancellationToken);
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)
@@ -81,23 +83,65 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         return options.OptionsObject ?? options;
     }
 
-    private async Task<BufferedCommandResult> Of(CliWrap.Command command,
+    private async Task<CommandResult> Of(CliWrap.Command command,
         CommandLineToolOptions options, CancellationToken cancellationToken = default)
     {
-        var result = await command
-            .WithValidation(CommandResultValidation.None)
-            .ExecuteBufferedAsync(cancellationToken);
+        StringBuilder standardOutputStringBuilder = new();
+        StringBuilder standardErrorStringBuilder = new();
+        var stopwatch = Stopwatch.StartNew();
 
-        _commandLogger.Log(options: options,
-            inputToLog: command.ToString(),
-            result);
-
-        if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
+        var standardOutput = string.Empty;
+        var standardError = string.Empty;
+        
+        try
         {
-            var input = command.ToString();
-            throw new CommandException(input, result);
-        }
+            var result = await command
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync(cancellationToken);
+            
+            standardOutput = standardOutputStringBuilder.ToString();
+            standardError = standardErrorStringBuilder.ToString();
 
-        return result;
+            _commandLogger.Log(options: options,
+                inputToLog: command.ToString(),
+                result.ExitCode,
+                result.RunTime,
+                standardOutput,
+                standardError
+            );
+
+            if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
+            {
+                var input = command.ToString();
+                throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
+            }
+
+            return new CommandResult(command, result, standardOutput, standardError);
+        }
+        catch (CommandExecutionException e)
+        {
+            _commandLogger.Log(options: options,
+                inputToLog: command.ToString(),
+                e.ExitCode,
+                stopwatch.Elapsed,
+                standardOutput,
+                standardError
+            );
+            throw;
+        }
+        catch (Exception e) when (e is not CommandExecutionException)
+        {
+            _commandLogger.Log(options: options,
+                inputToLog: command.ToString(),
+                -1,
+                stopwatch.Elapsed,
+                standardOutput,
+                standardError
+            );
+            
+            throw;
+        }
     }
 }

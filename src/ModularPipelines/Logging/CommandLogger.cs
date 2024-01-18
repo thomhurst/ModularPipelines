@@ -1,4 +1,3 @@
-using CliWrap.Buffered;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
@@ -26,7 +25,7 @@ internal class CommandLogger : ICommandLogger
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public void Log(CommandLineToolOptions options, string? inputToLog, BufferedCommandResult result)
+    public void Log(CommandLineToolOptions options, string? inputToLog, int? exitCode, TimeSpan? runTime, string standardOutput, string standardError)
     {
         if (options.CommandLogging == CommandLogging.None)
         {
@@ -67,7 +66,7 @@ internal class CommandLogger : ICommandLogger
                 Logger.LogInformation("""
                                       ---Exit Code----
                                       {ExitCode}
-                                      """, result.ExitCode);
+                                      """, exitCode);
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
@@ -75,7 +74,7 @@ internal class CommandLogger : ICommandLogger
                 Logger.LogInformation("""
                                       ---Duration---
                                       {Duration}
-                                      """, result.RunTime.ToDisplayString());
+                                      """, runTime?.ToDisplayString());
             }
 
             if (ShouldLogOutput(optionsCommandLogging))
@@ -85,17 +84,17 @@ internal class CommandLogger : ICommandLogger
                 Logger.LogInformation("""
                                       ---Command Result---
                                       {Output}
-                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardOutput, options)));
+                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(standardOutput, options)));
             }
 
-            if (ShouldLogError(optionsCommandLogging, result.ExitCode))
+            if (ShouldLogError(optionsCommandLogging, exitCode))
             {
                 var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
 
                 Logger.LogInformation("""
                                       ---Command Error---
                                       {Error}
-                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(result.StandardError, options)));
+                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(standardError, options)));
             }
         }
     }
