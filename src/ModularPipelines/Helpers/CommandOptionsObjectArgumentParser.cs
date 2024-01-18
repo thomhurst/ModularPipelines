@@ -7,24 +7,62 @@ namespace ModularPipelines.Helpers;
 
 public static class CommandOptionsObjectArgumentParser
 {
-    public static void AddArgumentsFromOptionsObject(List<string> parsedArgs, object optionsArgumentsObject)
+    public static void AddArgumentsFromOptionsObject(List<string> precedingArguments, object optionsArgumentsObject)
     {
         var properties = GetProperties(optionsArgumentsObject);
 
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
 
+        AddPlaceholderArguments(precedingArguments, optionsArgumentsObject, positionalArgumentProperties);
+
         var positionalArgumentsBefore = positionalArgumentProperties.Where(p =>
-            p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.BeforeSwitches);
+        {
+            var positionalArgumentAttribute = p.GetCustomAttribute<PositionalArgumentAttribute>()!;
+            return positionalArgumentAttribute.PlaceholderName == null && positionalArgumentAttribute!.Position == Position.BeforeSwitches;
+        });
 
         var positionalArgumentsAfter = positionalArgumentProperties
             .Where(p =>
-                p.GetCustomAttribute<PositionalArgumentAttribute>()!.Position == Position.AfterSwitches);
+            {
+                var positionalArgumentAttribute = p.GetCustomAttribute<PositionalArgumentAttribute>()!;
+                return positionalArgumentAttribute.PlaceholderName == null && positionalArgumentAttribute.Position == Position.AfterSwitches;
+            });
 
-        AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsBefore);
+        AddPositionalArguments(precedingArguments, optionsArgumentsObject, positionalArgumentsBefore);
 
-        AddSwitches(parsedArgs, optionsArgumentsObject, properties);
+        AddSwitches(precedingArguments, optionsArgumentsObject, properties);
 
-        AddPositionalArguments(parsedArgs, optionsArgumentsObject, positionalArgumentsAfter);
+        AddPositionalArguments(precedingArguments, optionsArgumentsObject, positionalArgumentsAfter);
+    }
+
+    private static void AddPlaceholderArguments(List<string> precedingArguments, object optionsArgumentsObject,
+        IEnumerable<PropertyInfo> positionalArgumentProperties)
+    {
+        var positionalPlaceholderArguments = positionalArgumentProperties
+            .Where(p =>
+                p.GetCustomAttribute<PositionalArgumentAttribute>()!.PlaceholderName != null);
+
+        foreach (var positionalPlaceholderArgument in positionalPlaceholderArguments)
+        {
+            var value = positionalPlaceholderArgument.GetValue(optionsArgumentsObject)?.ToString();
+            var placeholderName = positionalPlaceholderArgument.GetCustomAttribute<PositionalArgumentAttribute>()!
+                .PlaceholderName;
+
+            var indexOfMatchingPrecedingArgumentPlaceholder =
+                precedingArguments.FindIndex(x => x == placeholderName);
+
+            if (indexOfMatchingPrecedingArgumentPlaceholder < 0)
+            {
+                throw new ArgumentException($"No matching placeholder found for property {positionalPlaceholderArgument.Name}");
+            }
+            
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException($"No value provided for property {positionalPlaceholderArgument.Name}");
+            }
+
+            precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder] = value;
+        }
     }
 
     private static PropertyInfo[] GetProperties(object optionsArgumentsObject)

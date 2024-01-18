@@ -134,8 +134,40 @@ public class CommandParserTests : TestBase
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
                                                     """));
     }
+    
+    [Test]
+    public async Task Placeholder_Positional_Parameter_Parse_As_Expected()
+    {
+        var result = await GetResult(new PlaceholderToolOptions("ThisPackage", "MyProject.csproj")
+        {
+            Source = "nuget.org"
+        });
 
-    private async Task<CommandResult> GetResult(MySuperSecretToolOptions options)
+        Assert.That(result.CommandInput, Is.EqualTo("""
+                                                    dotnet add MyProject.csproj package ThisPackage --source nuget.org
+                                                    """));
+    }
+    
+    [TestCase("")]
+    [TestCase(null)]
+    public void Placeholder_Positional_WhenEmpty_Throws(string? package)
+    {
+        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
+        {
+            Source = "nuget.org"
+        }));
+    }
+        
+    [Test]
+    public void No_Matching_Placeholder_Positional_Throws()
+    {
+        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
+        {
+            Source = "nuget.org"
+        }));
+    }
+
+    private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommand>();
 
@@ -170,5 +202,31 @@ public class CommandParserTests : TestBase
 
         [PositionalArgument(Position = Position.AfterSwitches)]
         public string? Positional2 { get; set; }
+    }
+    
+    [CommandPrecedingArguments("add", "{PROJECT}", "package", "{PACKAGE_NAME}")]
+    private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
+    {
+        [PositionalArgument(PlaceholderName = "{PROJECT}")]
+        public string Project { get; set; } = Project;
+
+        [PositionalArgument(PlaceholderName = "{PACKAGE_NAME}")]
+        public string Package { get; set; } = Package;
+
+        [CommandSwitch("--source")]
+        public string? Source { get; set; }
+    }
+    
+    [CommandPrecedingArguments("add", "{PROJECT}", "package", "{PACKAGE_NAME}")]
+    private record PlaceholderToolOptions2(string Package, string Project) : CommandLineToolOptions("dotnet")
+    {
+        [PositionalArgument(PlaceholderName = "{PROJECT}")]
+        public string Project { get; set; } = Project;
+
+        [PositionalArgument(PlaceholderName = "{WRONG_PLACEHOLDER}")]
+        public string Package { get; set; } = Package;
+
+        [CommandSwitch("--source")]
+        public string? Source { get; set; }
     }
 }
