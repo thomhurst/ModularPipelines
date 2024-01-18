@@ -148,6 +148,8 @@ public interface INpm
 
     Task<CommandResult> Root(NpmRootOptions? options = default, CancellationToken token = default);
 
+    Task<CommandResult> Run(NpmRunOptions options, CancellationToken token = default);
+
     Task<CommandResult> Sbom(NpmSbomOptions? options = default, CancellationToken token = default);
 
     Task<CommandResult> Search(NpmSearchOptions options, CancellationToken token = default);
