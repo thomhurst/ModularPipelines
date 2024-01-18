@@ -377,6 +377,11 @@ internal class Npm : INpm
         return await _command.ExecuteCommandLineTool(options ?? new NpmRootOptions(), token);
     }
 
+    public async Task<CommandResult> Run(NpmRunOptions options, CancellationToken token = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, token);
+    }
+
     public async Task<CommandResult> Sbom(NpmSbomOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new NpmSbomOptions(), token);
