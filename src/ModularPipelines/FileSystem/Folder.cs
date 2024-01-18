@@ -109,7 +109,7 @@ public class Folder : IEquatable<Folder>
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => GetFolders(predicate, _ => false);
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate) => GetFiles(predicate, _ => false);
-    
+
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters) => SafeWalk.EnumerateFolders(this, exclusionFilters)
         .Select(x => new Folder(x))
         .Distinct()
@@ -133,7 +133,7 @@ public class Folder : IEquatable<Folder>
     public File? FindFile(Func<File, bool> predicate) => FindFile(predicate, _ => false);
 
     public Folder? FindFolder(Func<Folder, bool> predicate) => FindFolder(predicate, _ => false);
-    
+
     public File? FindFile(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFiles(predicate, directoryExclusionFilters).FirstOrDefault();
 
     public Folder? FindFolder(Func<Folder, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFolders(predicate, directoryExclusionFilters).FirstOrDefault();

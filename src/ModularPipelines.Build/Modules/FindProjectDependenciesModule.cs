@@ -18,7 +18,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var file in projects.Value!)
         {
-            var contents = await file.ReadLinesAsync();
+            var contents = await file.ReadLinesAsync(cancellationToken);
 
             foreach (var projectReferenceLine in contents.Where(x => x.Contains("<ProjectReference")))
             {

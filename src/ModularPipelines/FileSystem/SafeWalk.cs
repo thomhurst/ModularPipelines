@@ -26,11 +26,11 @@ internal static class SafeWalk
             {
                 yield return innerFile;
             }
-            
+
             innerFiles.Clear();
         }
     }
-    
+
     public static IEnumerable<string> EnumerateFolders(Folder path, Func<Folder, bool> exclusionFilters)
     {
         var innerFolders = new List<string>();
@@ -38,7 +38,7 @@ internal static class SafeWalk
                      .Where(x => !exclusionFilters(x!)))
         {
             yield return folder;
-            
+
             try
             {
                 innerFolders.AddRange(EnumerateFolders(folder!, exclusionFilters));
@@ -47,12 +47,12 @@ internal static class SafeWalk
             {
                 continue;
             }
-            
+
             foreach (var innerFolder in innerFolders)
             {
                 yield return innerFolder;
             }
-            
+
             innerFolders.Clear();
         }
     }

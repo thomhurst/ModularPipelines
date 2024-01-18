@@ -13,6 +13,8 @@ namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
 [SkipIfDependabot]
+[DependsOn<RunUnitTestsModule>]
+[DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
@@ -40,12 +42,6 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
-
-        if (!_publishSettings.Value.ShouldPublish)
-        {
-            // It'll take at least 5 minutes to finish - So wait before trying to fetch to give it time to start
-            await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
-        }
 
         var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
         {

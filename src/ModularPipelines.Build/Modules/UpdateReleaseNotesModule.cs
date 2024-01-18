@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
@@ -28,6 +29,12 @@ public class UpdateReleaseNotesModule : Module
         _publishSettings = publishSettings;
     }
 
+    protected override async Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+    {
+        await Task.Yield();
+        return exception is ApiValidationException;
+    }
+
     /// <inheritdoc/>
     protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
@@ -51,7 +58,7 @@ public class UpdateReleaseNotesModule : Module
     {
         var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 
-        var releaseNotesContents = await releaseNotesFile.ReadAsync();
+        var releaseNotesContents = await releaseNotesFile.ReadAsync(cancellationToken);
 
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
 
@@ -73,9 +80,16 @@ public class UpdateReleaseNotesModule : Module
     private async Task ResetReleaseNotesFile(File releaseNotesFile, IPipelineContext context,
         CancellationToken cancellationToken)
     {
-        await releaseNotesFile.WriteAsync(string.Empty);
+        try
+        {
+            await releaseNotesFile.WriteAsync(string.Empty, cancellationToken);
 
-        await GitHelpers.SetUserCommitInformation(context, cancellationToken);
-        await GitHelpers.CommitAndPush(context, null, "Create Release", _githubSettings.Value.AdminToken!, cancellationToken);
+            await GitHelpers.SetUserCommitInformation(context, cancellationToken);
+            await GitHelpers.CommitAndPush(context, null, "Create Release", _githubSettings.Value.AdminToken!, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            context.Logger.LogWarning(e, "Error pushing");
+        }
     }
 }
