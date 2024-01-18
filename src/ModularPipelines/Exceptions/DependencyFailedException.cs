@@ -12,13 +12,13 @@ public class DependencyFailedException : PipelineException
     {
         FailingModuleName = moduleBase.GetType().Name;
     }
-    
+
     private static string GetInnerMostFailingModule(ModuleBase rootModuleBase, Exception rootException)
     {
         var module = rootModuleBase.GetType().Name;
-        
+
         var exception = rootException;
-        
+
         while (exception != null)
         {
             if (exception is DependencyFailedException dependencyFailedException)

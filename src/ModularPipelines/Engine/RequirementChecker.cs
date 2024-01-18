@@ -33,7 +33,7 @@ internal class RequirementChecker : IRequirementChecker
                     {
                         failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
                     }
-                }).ProcessInParallel();   
+                }).ProcessInParallel();
         }
 
         if (failedRequirementsNames.Any())

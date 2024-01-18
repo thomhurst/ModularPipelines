@@ -41,7 +41,7 @@ public class SubModuleTests : TestBase
                     Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
                     await Task.Yield();
-                }))
+                }), cancellationToken)
                 .ProcessInParallel();
 
             return await NothingAsync();
@@ -78,7 +78,7 @@ public class SubModuleTests : TestBase
                 {
                     Interlocked.Increment(ref _subModuleRunCount);
                     context.Logger.LogInformation("Running Submodule {Submodule}", name);
-                }))
+                }), cancellationToken)
                 .ProcessInParallel();
 
             return await NothingAsync();
@@ -108,7 +108,7 @@ public class SubModuleTests : TestBase
                 {
                     await Task.Yield();
                     throw new Exception();
-                }))
+                }), cancellationToken)
                 .ProcessInParallel();
 
             return await NothingAsync();
@@ -145,7 +145,7 @@ public class SubModuleTests : TestBase
                     {
                         throw new Exception();
                     }
-                }))
+                }), cancellationToken)
                 .ProcessInParallel();
 
             return await NothingAsync();
