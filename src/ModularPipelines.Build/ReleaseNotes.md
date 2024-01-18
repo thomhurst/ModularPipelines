@@ -1,0 +1,1 @@
+*   Improved the stability of searching nested directories for files and folders so UnauthorizedAccessException's don't occur and only return files and folders that are accessible, and doesn't break the entire enumerator

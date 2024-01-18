@@ -106,12 +106,16 @@ public class Folder : IEquatable<Folder>
 
     public File CreateFile(string name) => GetFile(name).Create();
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => DirectoryInfo.EnumerateDirectories("*", SearchOption.AllDirectories)
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => GetFolders(predicate, _ => false);
+
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => GetFiles(predicate, _ => false);
+    
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters) => SafeWalk.EnumerateFolders(this, exclusionFilters)
         .Select(x => new Folder(x))
         .Distinct()
         .Where(predicate);
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => DirectoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
         .Select(x => new File(x))
         .Distinct()
         .Where(predicate);
@@ -126,9 +130,13 @@ public class Folder : IEquatable<Folder>
             .Distinct();
     }
 
-    public File? FindFile(Func<File, bool> predicate) => GetFiles(predicate).FirstOrDefault();
+    public File? FindFile(Func<File, bool> predicate) => FindFile(predicate, _ => false);
 
-    public Folder? FindFolder(Func<Folder, bool> predicate) => GetFolders(predicate).FirstOrDefault();
+    public Folder? FindFolder(Func<Folder, bool> predicate) => FindFolder(predicate, _ => false);
+    
+    public File? FindFile(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFiles(predicate, directoryExclusionFilters).FirstOrDefault();
+
+    public Folder? FindFolder(Func<Folder, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFolders(predicate, directoryExclusionFilters).FirstOrDefault();
 
     public IEnumerable<File> ListFiles()
     {

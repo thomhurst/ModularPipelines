@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Requirements;
@@ -17,18 +18,23 @@ internal class RequirementChecker : IRequirementChecker
 
     public async Task CheckRequirementsAsync()
     {
-        var failedRequirementsNames = new List<string>();
+        var failedRequirementsNames = new ConcurrentBag<string>();
 
-        await _requirements.ToAsyncProcessorBuilder()
-            .ForEachAsync(async requirement =>
+        var groupedRequirements = _requirements.GroupBy(x => x.Order);
+
+        foreach (var pipelineRequirements in groupedRequirements)
         {
-            var requirementDecision = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
+            await pipelineRequirements.ToAsyncProcessorBuilder()
+                .ForEachAsync(async requirement =>
+                {
+                    var requirementDecision = await requirement.MustAsync(await _moduleContextProvider.GetModuleContext());
 
-            if (!requirementDecision.Success)
-            {
-                failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
-            }
-        }).ProcessInParallel();
+                    if (!requirementDecision.Success)
+                    {
+                        failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
+                    }
+                }).ProcessInParallel();   
+        }
 
         if (failedRequirementsNames.Any())
         {
