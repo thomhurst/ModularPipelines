@@ -22,9 +22,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
     {
         var optionsObject = GetOptionsObject(options);
 
-        var precedingArgs =
-            optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
-                ?.PrecedingArguments.ToList() ?? new List<string>();
+        var precedingArgs = GetPrecedingArguments(optionsObject);
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(precedingArgs, optionsObject);
 
@@ -76,6 +74,17 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         }
 
         return await Of(command, options, cancellationToken);
+    }
+
+    private static List<string> GetPrecedingArguments(object optionsObject)
+    {
+        if (optionsObject is CommandLineToolOptions { CommandParts: not null } commandLineToolOptions)
+        {
+            return commandLineToolOptions.CommandParts.ToList();
+        }
+        
+        return optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
+            ?.PrecedingArguments.ToList() ?? new List<string>();
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)
