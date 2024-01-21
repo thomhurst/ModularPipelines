@@ -90,7 +90,4 @@ public record DotNetTestOptions : DotNetOptions
 
     [CommandSwitch("--verbosity")]
     public string? Verbosity { get; set; }
-
-    [PositionalArgument(PlaceholderName = "[<args>...]")]
-    public string? Args { get; set; }
 }
