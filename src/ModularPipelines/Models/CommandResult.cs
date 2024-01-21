@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using CliWrap;
-using CliWrap.Buffered;
 
 namespace ModularPipelines.Models;
 

@@ -9,11 +9,11 @@ public class CommandException : PipelineException
         StandardOutput = standardOutput;
         StandardError = standardError;
     }
-    
+
     public int ExitCode { get; }
-    
+
     public TimeSpan ExecutionTime { get; }
-    
+
     public string StandardOutput { get; }
 
     public string StandardError { get; }

@@ -1,54 +1,86 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("build")]
 [ExcludeFromCodeCoverage]
 public record DotNetBuildOptions : DotNetOptions
 {
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    public DotNetBuildOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["build", "[<PROJECT>|<SOLUTION>]"];
 
-    [CommandSwitch("-f")]
-    public string? Framework { get; init; }
+        ProjectSolution = projectSolution;
+    }
 
-    [CommandSwitch("-a")]
-    public string? Architecture { get; init; }
+    public DotNetBuildOptions()
+    {
+        CommandParts = ["build", "[<PROJECT>|<SOLUTION>]"];
+    }
 
-    [CommandSwitch("-o")]
-    public string? Output { get; init; }
+    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    public string? ProjectSolution { get; set; }
 
-    [CommandSwitch("-s")]
-    public string? Source { get; init; }
+    [CommandSwitch("--arch")]
+    public string? Architecture { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--os", SwitchValueSeparator = " ")]
-    public string? OperatingSystem { get; init; }
+    [CommandSwitch("--configuration")]
+    public string? Configuration { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version-suffix", SwitchValueSeparator = " ")]
-    public string? VersionSuffix { get; init; }
+    [CommandSwitch("--framework")]
+    public string? Framework { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tl", SwitchValueSeparator = " ")]
-    public string? TerminalLogger { get; init; }
+    [BooleanCommandSwitch("--disable-build-servers")]
+    public bool? DisableBuildServers { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; init; }
+    public bool? Force { get; set; }
+
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--no-dependencies")]
-    public bool? NoDependencies { get; init; }
+    public bool? NoDependencies { get; set; }
 
     [BooleanCommandSwitch("--no-incremental")]
-    public bool? NoIncremental { get; init; }
+    public bool? NoIncremental { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; init; }
+    public bool? NoRestore { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? NoLogo { get; init; }
+    public bool? Nologo { get; set; }
 
     [BooleanCommandSwitch("--no-self-contained")]
-    public bool? NoSelfContained { get; init; }
+    public bool? NoSelfContained { get; set; }
+
+    [CommandSwitch("--os")]
+    public string? Os { get; set; }
+
+    [CommandSwitch("--output")]
+    public string? OutputDirectory { get; set; }
+
+    [CommandSwitch("--runtime")]
+    public string? RuntimeIdentifier { get; set; }
+
+    [BooleanCommandSwitch("--self-contained")]
+    public bool? SelfContained { get; set; }
+
+    [CommandSwitch("--source")]
+    public string? Source { get; set; }
+
+    [BooleanCommandSwitch("--tl")]
+    public bool? Tl { get; set; }
 
     [BooleanCommandSwitch("--use-current-runtime")]
-    public bool? UseCurrentRuntime { get; init; }
+    public bool? UseCurrentRuntime { get; set; }
+
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
+
+    [CommandSwitch("--version-suffix")]
+    public string? VersionSuffix { get; set; }
 }

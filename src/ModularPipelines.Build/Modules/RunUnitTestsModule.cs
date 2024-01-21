@@ -25,7 +25,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             .ToAsyncProcessorBuilder()
             .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
             {
-                TargetPath = unitTestProjectFile.Path,
+                ProjectSolutionDirectoryDllExe = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
                 NoRestore = true,
                 EnvironmentVariables = new Dictionary<string, string?>

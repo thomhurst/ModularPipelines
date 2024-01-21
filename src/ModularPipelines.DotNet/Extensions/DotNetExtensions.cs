@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet.Services;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.DotNet.Extensions;
@@ -20,8 +21,23 @@ public static class DotNetExtensions
 
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
-        services.TryAddScoped<IDotNet, DotNet>();
         services.TryAddScoped<ITrxParser, TrxParser>();
+
+        services.TryAddScoped<IDotNet, Services.DotNet>();
+        services.TryAddScoped<DotNetAdd>();
+        services.TryAddScoped<DotNetList>();
+        services.TryAddScoped<DotNetNuget>();
+        services.TryAddScoped<DotNetNugetAdd>();
+        services.TryAddScoped<DotNetNugetDisable>();
+        services.TryAddScoped<DotNetNugetEnable>();
+        services.TryAddScoped<DotNetNugetList>();
+        services.TryAddScoped<DotNetNugetRemove>();
+        services.TryAddScoped<DotNetNugetUpdate>();
+        services.TryAddScoped<DotNetRemove>();
+        services.TryAddScoped<DotNetSdk>();
+        services.TryAddScoped<DotNetTool>();
+        services.TryAddScoped<DotNetWorkload>();
+
         return services;
     }
 

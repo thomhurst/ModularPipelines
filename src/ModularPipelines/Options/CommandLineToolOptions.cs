@@ -19,6 +19,8 @@ public record CommandLineToolOptions : CommandLineOptions
 
     public string Tool { get; init; }
 
+    public string[]? CommandParts { get; init; }
+
     /// <summary>
     /// Gets used for providing switches and arguments to the tool.
     /// </summary>

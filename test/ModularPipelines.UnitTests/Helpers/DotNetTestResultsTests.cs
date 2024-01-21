@@ -25,10 +25,10 @@ public class DotNetTestResultsTests : TestBase
 
             return await context.DotNet().Test(new DotNetTestOptions
             {
-                TargetPath = testProject,
+                ProjectSolutionDirectoryDllExe = testProject,
                 Framework = "net7.0",
                 CommandLogging = CommandLogging.Error,
-            }, cancellationToken: cancellationToken);
+            }, token: cancellationToken);
         }
     }
 
@@ -41,11 +41,11 @@ public class DotNetTestResultsTests : TestBase
 
             return await context.DotNet().Test(new DotNetTestOptions
             {
-                TargetPath = testProject,
+                ProjectSolutionDirectoryDllExe = testProject,
                 Filter = "TestCategory=Pass",
                 Framework = "net7.0",
                 CommandLogging = CommandLogging.Error,
-            }, cancellationToken: cancellationToken);
+            }, token: cancellationToken);
         }
     }
 

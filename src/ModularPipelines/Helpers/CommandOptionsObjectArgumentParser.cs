@@ -39,8 +39,7 @@ public static class CommandOptionsObjectArgumentParser
         IEnumerable<PropertyInfo> positionalArgumentProperties)
     {
         var positionalPlaceholderArguments = positionalArgumentProperties
-            .Where(p =>
-                p.GetCustomAttribute<PositionalArgumentAttribute>()!.PlaceholderName != null);
+            .Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.PlaceholderName != null);
 
         foreach (var positionalPlaceholderArgument in positionalPlaceholderArguments)
         {
@@ -55,10 +54,16 @@ public static class CommandOptionsObjectArgumentParser
             {
                 throw new ArgumentException($"No matching placeholder found for property {positionalPlaceholderArgument.Name}");
             }
-            
-            if (string.IsNullOrWhiteSpace(value))
+
+            if (string.IsNullOrWhiteSpace(value) && precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder].StartsWith('<'))
             {
                 throw new ArgumentException($"No value provided for property {positionalPlaceholderArgument.Name}");
+            }
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                precedingArguments.RemoveAt(indexOfMatchingPrecedingArgumentPlaceholder);
+                return;
             }
 
             precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder] = value;

@@ -3,40 +3,68 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("pack")]
 [ExcludeFromCodeCoverage]
 public record DotNetPackOptions : DotNetOptions
 {
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    public DotNetPackOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["pack", "[<PROJECT>|<SOLUTION>]"];
 
-    [CommandSwitch("-o")]
-    public string? Output { get; init; }
+        ProjectSolution = projectSolution;
+    }
 
-    [CommandSwitch("-s")]
-    public string? Source { get; init; }
+    public DotNetPackOptions()
+    {
+        CommandParts = ["pack", "[<PROJECT>|<SOLUTION>]"];
+    }
 
-    [CommandEqualsSeparatorSwitch("--version-suffix", SwitchValueSeparator = " ")]
-    public string? VersionSuffix { get; init; }
+    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    public string? ProjectSolution { get; set; }
 
-    [BooleanCommandSwitch("--include-source")]
-    public bool? IncludeSource { get; init; }
-
-    [BooleanCommandSwitch("--include-symbols")]
-    public bool? IncludeSymbols { get; init; }
-
-    [BooleanCommandSwitch("--serviceable")]
-    public bool? Serviceable { get; init; }
+    [CommandSwitch("--configuration")]
+    public string? Configuration { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; init; }
+    public bool? Force { get; set; }
+
+    [BooleanCommandSwitch("--include-source")]
+    public bool? IncludeSource { get; set; }
+
+    [BooleanCommandSwitch("--include-symbols")]
+    public bool? IncludeSymbols { get; set; }
+
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
+
+    [BooleanCommandSwitch("--no-build")]
+    public bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--no-dependencies")]
-    public bool? NoDependencies { get; init; }
+    public bool? NoDependencies { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; init; }
+    public bool? NoRestore { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? NoLogo { get; init; }
+    public bool? Nologo { get; set; }
+
+    [CommandSwitch("--output")]
+    public string? OutputDirectory { get; set; }
+
+    [CommandSwitch("--runtime")]
+    public string? RuntimeIdentifier { get; set; }
+
+    [BooleanCommandSwitch("--serviceable")]
+    public bool? Serviceable { get; set; }
+
+    [BooleanCommandSwitch("--tl")]
+    public bool? Tl { get; set; }
+
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
+
+    [CommandSwitch("--version-suffix")]
+    public string? VersionSuffix { get; set; }
 }

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using CliWrap;
-using CliWrap.Buffered;
 using CliWrap.Exceptions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
@@ -22,9 +21,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
     {
         var optionsObject = GetOptionsObject(options);
 
-        var precedingArgs =
-            optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
-                ?.PrecedingArguments.ToList() ?? new List<string>();
+        var precedingArgs = GetPrecedingArguments(optionsObject);
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(precedingArgs, optionsObject);
 
@@ -78,6 +75,17 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         return await Of(command, options, cancellationToken);
     }
 
+    private static List<string> GetPrecedingArguments(object optionsObject)
+    {
+        if (optionsObject is CommandLineToolOptions { CommandParts: not null } commandLineToolOptions)
+        {
+            return commandLineToolOptions.CommandParts.ToList();
+        }
+
+        return optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
+            ?.PrecedingArguments.ToList() ?? new List<string>();
+    }
+
     private static object GetOptionsObject(CommandLineToolOptions options)
     {
         return options.OptionsObject ?? options;
@@ -92,7 +100,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
 
         var standardOutput = string.Empty;
         var standardError = string.Empty;
-        
+
         try
         {
             var result = await command
@@ -100,7 +108,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync(cancellationToken);
-            
+
             standardOutput = standardOutputStringBuilder.ToString();
             standardError = standardErrorStringBuilder.ToString();
 
@@ -140,7 +148,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
                 standardOutput,
                 standardError
             );
-            
+
             throw;
         }
     }

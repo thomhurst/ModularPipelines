@@ -21,6 +21,10 @@ internal static class SafeWalk
             {
                 continue;
             }
+            catch (DirectoryNotFoundException)
+            {
+                continue;
+            }
 
             foreach (var innerFile in innerFiles)
             {
@@ -44,6 +48,10 @@ internal static class SafeWalk
                 innerFolders.AddRange(EnumerateFolders(folder!, exclusionFilters));
             }
             catch (UnauthorizedAccessException)
+            {
+                continue;
+            }
+            catch (DirectoryNotFoundException)
             {
                 continue;
             }

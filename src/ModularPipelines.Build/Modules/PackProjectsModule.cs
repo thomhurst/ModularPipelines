@@ -74,14 +74,14 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         return await context.DotNet().Pack(new DotNetPackOptions
         {
-            TargetPath = projectFile.Path,
+            ProjectSolution = projectFile.Path,
             Configuration = Configuration.Release,
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             NoRestore = true,
-            Properties = new List<string>
+            Properties = new List<KeyValue>
             {
-                $"PackageVersion={packageVersion.Value}",
-                $"Version={packageVersion.Value}",
+                ("PackageVersion", packageVersion.Value!),
+                ("Version", packageVersion.Value!),
             },
         }, cancellationToken);
     }

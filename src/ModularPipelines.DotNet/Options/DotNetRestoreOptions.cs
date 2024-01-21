@@ -3,55 +3,77 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("restore")]
 [ExcludeFromCodeCoverage]
 public record DotNetRestoreOptions : DotNetOptions
 {
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    public DotNetRestoreOptions(
+        string path
+    )
+    {
+        CommandParts = ["restore", "[<ROOT>]"];
 
-    [CommandSwitch("-f")]
-    public string? Framework { get; init; }
+        Path = path;
+    }
 
-    [CommandSwitch("-a")]
-    public string? Architecture { get; init; }
+    public DotNetRestoreOptions()
+    {
+        CommandParts = ["restore", "[<ROOT>]"];
+    }
 
-    [CommandSwitch("-o")]
-    public string? Output { get; init; }
+    [PositionalArgument(PlaceholderName = "[<ROOT>]")]
+    public string? Path { get; set; }
 
-    [CommandSwitch("-s")]
-    public string? Source { get; init; }
+    [CommandSwitch("--configfile")]
+    public string? Configfile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--config-file", SwitchValueSeparator = " ")]
-    public string? ConfigFile { get; init; }
-
-    [CommandEqualsSeparatorSwitch("--packages", SwitchValueSeparator = " ")]
-    public string? PackagesDirectory { get; init; }
-
-    [BooleanCommandSwitch("--force-evaluate")]
-    public bool? ForceEvaluate { get; init; }
-
-    [BooleanCommandSwitch("--ignore-failed-sources")]
-    public bool? IgnoreFailedSources { get; init; }
+    [BooleanCommandSwitch("--disable-build-servers")]
+    public bool? DisableBuildServers { get; set; }
 
     [BooleanCommandSwitch("--disable-parallel")]
-    public bool? DisableParallel { get; init; }
-
-    [BooleanCommandSwitch("--locked-mode")]
-    public bool? LockedMode { get; init; }
-
-    [BooleanCommandSwitch("--use-lock-file")]
-    public bool? UseLockFile { get; init; }
+    public bool? DisableParallel { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; init; }
+    public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--nologo")]
-    public bool? NoLogo { get; init; }
+    [BooleanCommandSwitch("--force-evaluate")]
+    public bool? ForceEvaluate { get; set; }
+
+    [BooleanCommandSwitch("--ignore-failed-sources")]
+    public bool? IgnoreFailedSources { get; set; }
+
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
+
+    [CommandSwitch("--lock-file-path")]
+    public string? LockFilePath { get; set; }
+
+    [BooleanCommandSwitch("--locked-mode")]
+    public bool? LockedMode { get; set; }
 
     [BooleanCommandSwitch("--no-cache")]
-    public bool? NoCache { get; init; }
+    public bool? NoCache { get; set; }
+
+    [BooleanCommandSwitch("--no-dependencies")]
+    public bool? NoDependencies { get; set; }
+
+    [CommandSwitch("--packages")]
+    public string? PackagesDirectory { get; set; }
+
+    [CommandSwitch("--runtime")]
+    public string? RuntimeIdentifier { get; set; }
+
+    [CommandSwitch("--source")]
+    public IEnumerable<string>? Source { get; set; }
+
+    [BooleanCommandSwitch("--tl")]
+    public bool? Tl { get; set; }
 
     [BooleanCommandSwitch("--use-current-runtime")]
-    public bool? UseCurrentRuntime { get; init; }
+    public bool? UseCurrentRuntime { get; set; }
+
+    [BooleanCommandSwitch("--use-lock-file")]
+    public bool? UseLockFile { get; set; }
+
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
 }
