@@ -207,7 +207,7 @@ public class CommandParserTests : TestBase
     [CommandPrecedingArguments("add", "[<PROJECT>]", "package", "<PACKAGE_NAME>")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
     {
-        [PositionalArgument(PlaceholderName = "<PROJECT>")]
+        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
         public string Project { get; set; } = Project;
 
         [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
@@ -217,10 +217,10 @@ public class CommandParserTests : TestBase
         public string? Source { get; set; }
     }
 
-    [CommandPrecedingArguments("add", "<PROJECT>", "package", "<PACKAGE_NAME>")]
+    [CommandPrecedingArguments("add", "[<PROJECT>]", "package", "<PACKAGE_NAME>")]
     private record PlaceholderToolOptions2(string Package, string Project) : CommandLineToolOptions("dotnet")
     {
-        [PositionalArgument(PlaceholderName = "<PROJECT>")]
+        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
         public string Project { get; set; } = Project;
 
         [PositionalArgument(PlaceholderName = "<WRONG_PLACEHOLDER>")]
