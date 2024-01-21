@@ -1,0 +1,24 @@
+using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Models;
+
+namespace ModularPipelines.Docker.Options;
+
+[ExcludeFromCodeCoverage]
+public record DockerVolumeRmOptions : DockerOptions
+{
+    public DockerVolumeRmOptions(
+        IEnumerable<string> volume
+    )
+    {
+        CommandParts = ["volume", "rm"];
+
+        Volume = volume;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Volume { get; set; }
+
+    [BooleanCommandSwitch("--force")]
+    public bool? Force { get; set; }
+}

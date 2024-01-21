@@ -20,17 +20,16 @@ public class DockerTests : TestBase
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
 
-            return await context.Docker().Build(new(pretendPath)
+            return await context.Docker().DockerImage.Build(new(pretendPath)
             {
                 InternalDryRun = true,
-                BuildArgs = new List<KeyValue>
+                BuildArg = new List<KeyValue>
                 {
                     ("Arg1", "Value1"),
                     ("Arg2", "Value2"),
                     ("Arg3", "Value3"),
                 },
                 Tag = "mytaggedimage",
-                Output = "type=local,dest=out",
                 Target = "build-env",
             }, token: cancellationToken);
         }
@@ -46,6 +45,6 @@ public class DockerTests : TestBase
         var dockerfilePath = new Folder(Environment.CurrentDirectory).Parent!.Parent!.Parent!.Parent!.Parent!.GetFolder("src")
             .GetFolder("MyApp").GetFile("Dockerfile").Path;
 
-        Assert.That(result.Value!.CommandInput, Is.EqualTo($"docker build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env --output type=local,dest=out {dockerfilePath}"));
+        Assert.That(result.Value!.CommandInput, Is.EqualTo($"docker build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env"));
     }
 }

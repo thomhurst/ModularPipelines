@@ -13,11 +13,12 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfDependabot]
+[DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly GitHubClient _gitHubClient; 
+    private readonly GitHubClient _gitHubClient;
     private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings,
