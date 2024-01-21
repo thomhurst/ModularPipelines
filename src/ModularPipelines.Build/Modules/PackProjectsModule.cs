@@ -74,7 +74,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         return await context.DotNet().Pack(new DotNetPackOptions
         {
-            TargetPath = projectFile.Path,
+            ProjectSolution = projectFile.Path,
             Configuration = Configuration.Release,
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             NoRestore = true,

@@ -12,7 +12,7 @@ public class DotNetTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().Version(cancellationToken: cancellationToken);
+            return await context.DotNet().List.Package(token: cancellationToken);
         }
     }
 

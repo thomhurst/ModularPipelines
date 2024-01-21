@@ -18,7 +18,7 @@ public record CommandLineToolOptions : CommandLineOptions
     }
 
     public string Tool { get; init; }
-    
+
     public string[]? CommandParts { get; init; }
 
     /// <summary>

@@ -3,34 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("format")]
+[CommandPrecedingArguments("format", "[options]", "[<PROJECT | SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetFormatOptions : DotNetOptions
 {
-    [CommandEqualsSeparatorSwitch("--diagnostics", SwitchValueSeparator = " ")]
-    public string? Diagnostics { get; init; }
+    [PositionalArgument(PlaceholderName = "[<PROJECT | SOLUTION>]")]
+    public string? ProjectSolution { get; set; }
+
+    [CommandSwitch("--diagnostics")]
+    public string? Diagnostics { get; set; }
 
     [BooleanCommandSwitch("--severity")]
-    public string? Severity { get; init; }
+    public string? Severity { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool NoRestore { get; init; }
+    public bool? NoRestore { get; set; }
 
     [BooleanCommandSwitch("--verify-no-changes")]
-    public bool VerifyNoChanges { get; init; } = true;
+    public bool? VerifyNoChanges { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--include", SwitchValueSeparator = " ")]
-    public string? Include { get; init; }
+    [CommandSwitch("--include")]
+    public string? Include { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exclude", SwitchValueSeparator = " ")]
-    public string? Exclude { get; init; }
+    [CommandSwitch("--exclude")]
+    public string? Exclude { get; set; }
 
     [BooleanCommandSwitch("--include-generated")]
-    public bool IncludeGenerated { get; init; }
+    public bool? IncludeGenerated { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--binary-log", SwitchValueSeparator = " ")]
-    public string? BinaryLogPath { get; init; }
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--report", SwitchValueSeparator = " ")]
-    public string? ReportPath { get; init; }
+    [CommandSwitch("--binarylog")]
+    public string? Binarylog { get; set; }
+
+    [CommandSwitch("--report")]
+    public string? Report { get; set; }
+
+    [BooleanCommandSwitch("--help")]
+    public bool? Help { get; set; }
 }

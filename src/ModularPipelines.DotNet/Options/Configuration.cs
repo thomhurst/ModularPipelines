@@ -1,12 +1,8 @@
-using ModularPipelines.Attributes;
-
 namespace ModularPipelines.DotNet.Options;
 
-public enum Configuration
+public static class Configuration
 {
-    [EnumValue("Debug")]
-    Debug,
-
-    [EnumValue("Release")]
-    Release,
+    public static readonly string Debug = "Debug";
+    
+    public static readonly string Release = "Release";
 }

@@ -3,94 +3,94 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("test")]
+[CommandPrecedingArguments("test", "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetTestOptions : DotNetOptions
 {
+    [PositionalArgument(PlaceholderName = "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
+    public string? ProjectSolutionDirectoryDllExe { get; set; }
+
+    [CommandSwitch("--test-adapter-path")]
+    public string? TestAdapterPath { get; set; }
+
+    [CommandSwitch("--arch")]
+    public string? Architecture { get; set; }
+
     [BooleanCommandSwitch("--blame")]
-    public bool? Blame { get; init; }
+    public bool? Blame { get; set; }
 
     [BooleanCommandSwitch("--blame-crash")]
-    public bool? BlameCrash { get; init; }
+    public bool? BlameCrash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--blame-crash-dump-type")]
-    public string? BlameCrashDumpType { get; init; }
+    [CommandSwitch("--blame-crash-dump-type")]
+    public string? BlameCrashDumpType { get; set; }
 
     [BooleanCommandSwitch("--blame-crash-collect-always")]
-    public bool? BlameCrashCollectAlways { get; init; }
+    public bool? BlameCrashCollectAlways { get; set; }
 
     [BooleanCommandSwitch("--blame-hang")]
-    public bool? BlameHang { get; init; }
+    public bool? BlameHang { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--blame-hang-dump-type")]
-    public string? BlameHangDumpType { get; init; }
+    [CommandSwitch("--blame-hang-dump-type")]
+    public string? BlameHangDumpType { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--blame-hang-timeout")]
-    public string? BlameHangTimeout { get; init; }
+    [CommandSwitch("--blame-hang-timeout")]
+    public string? BlameHangTimeout { get; set; }
 
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; } = Options.Configuration.Release;
+    [CommandSwitch("--configuration")]
+    public string? Configuration { get; set; }
 
-    [CommandSwitch("-f")]
-    public string? Framework { get; init; }
+    [CommandSwitch("--collect")]
+    public string? Collect { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
-    public string? Filter { get; init; }
+    [CommandSwitch("--diag")]
+    public string? Diag { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--environment", SwitchValueSeparator = " ")]
-    public string? Environment { get; init; }
+    [CommandSwitch("--framework")]
+    public string? Framework { get; set; }
 
-    [CommandSwitch("-d")]
-    public string? DiagnosticLogFile { get; init; }
+    [CommandSwitch("--environment")]
+    public IEnumerable<string>? Environment { get; set; }
 
-    [CommandSwitch("-l")]
-    public ICollection<string>? Logger { get; set; }
+    [CommandSwitch("--filter")]
+    public string? Filter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--results-directory", SwitchValueSeparator = " ")]
-    public string? ResultsDirectory { get; init; }
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
-    [CommandSwitch("-s")]
-    public string? SettingsFile { get; init; }
+    [CommandSwitch("--logger")]
+    public IEnumerable<string>? Logger { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--collect", SwitchValueSeparator = " ")]
-    public string? Collect { get; init; }
-
-    [CommandSwitch("-a")]
-    public string? Architecture { get; init; }
-
-    [CommandSwitch("-o")]
-    public string? Output { get; init; }
-
-    [CommandSwitch("-s")]
-    public string? Source { get; init; }
-
-    [CommandEqualsSeparatorSwitch("--os", SwitchValueSeparator = " ")]
-    public string? OperatingSystem { get; init; }
-
-    [CommandEqualsSeparatorSwitch("--version-suffix", SwitchValueSeparator = " ")]
-    public string? VersionSuffix { get; init; }
-
-    [CommandEqualsSeparatorSwitch("--tl", SwitchValueSeparator = " ")]
-    public string? TerminalLogger { get; init; }
-
-    [BooleanCommandSwitch("--force")]
-    public bool? Force { get; init; }
-
-    [BooleanCommandSwitch("--no-dependencies")]
-    public bool? NoDependencies { get; init; }
-
-    [BooleanCommandSwitch("--no-incremental")]
-    public bool? NoIncremental { get; init; }
-
-    [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; init; }
+    [BooleanCommandSwitch("--no-build")]
+    public bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? NoLogo { get; init; }
+    public bool? Nologo { get; set; }
 
-    [BooleanCommandSwitch("--no-self-contained")]
-    public bool? NoSelfContained { get; init; }
+    [BooleanCommandSwitch("--no-restore")]
+    public bool? NoRestore { get; set; }
 
-    [BooleanCommandSwitch("--use-current-runtime")]
-    public bool? UseCurrentRuntime { get; init; }
+    [CommandSwitch("--output")]
+    public string? OutputDirectory { get; set; }
+
+    [CommandSwitch("--os")]
+    public string? Os { get; set; }
+
+    [CommandSwitch("--results-directory")]
+    public string? ResultsDirectory { get; set; }
+
+    [CommandSwitch("--runtime")]
+    public string? RuntimeIdentifier { get; set; }
+
+    [CommandSwitch("--settings")]
+    public string? SettingsFile { get; set; }
+
+    [BooleanCommandSwitch("--list-tests")]
+    public bool? ListTests { get; set; }
+
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
+
+    [PositionalArgument(PlaceholderName = "[<args>...]")]
+    public string? Args { get; set; }
 }

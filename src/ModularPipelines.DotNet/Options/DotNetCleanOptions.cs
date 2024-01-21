@@ -3,22 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("clean")]
+[CommandPrecedingArguments("clean", "[<PROJECT>|<SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetCleanOptions : DotNetOptions
 {
-    [CommandSwitch("-c")]
-    public Configuration? Configuration { get; init; }
+    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    public string? ProjectSolution { get; set; }
 
-    [CommandSwitch("-f")]
-    public string? Framework { get; init; }
+    [CommandSwitch("--configuration")]
+    public string? Configuration { get; set; }
 
-    [CommandSwitch("-o")]
-    public string? Output { get; init; }
+    [CommandSwitch("--framework")]
+    public string? Framework { get; set; }
+
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? NoLogo { get; init; }
+    public bool? Nologo { get; set; }
 
-    [BooleanCommandSwitch("--use-current-runtime")]
-    public bool? UseCurrentRuntime { get; init; }
+    [CommandSwitch("--output")]
+    public string? OutputDirectory { get; set; }
+
+    [CommandSwitch("--runtime")]
+    public string? RuntimeIdentifier { get; set; }
+
+    [BooleanCommandSwitch("--tl")]
+    public bool? Tl { get; set; }
+
+    [CommandSwitch("--verbosity")]
+    public string? Verbosity { get; set; }
 }

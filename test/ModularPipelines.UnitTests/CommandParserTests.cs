@@ -134,7 +134,7 @@ public class CommandParserTests : TestBase
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
                                                     """));
     }
-    
+
     [Test]
     public async Task Placeholder_Positional_Parameter_Parse_As_Expected()
     {
@@ -147,7 +147,7 @@ public class CommandParserTests : TestBase
                                                     dotnet add MyProject.csproj package ThisPackage --source nuget.org
                                                     """));
     }
-    
+
     [TestCase("")]
     [TestCase(null)]
     public void Placeholder_Positional_WhenEmpty_Throws(string? package)
@@ -157,7 +157,7 @@ public class CommandParserTests : TestBase
             Source = "nuget.org"
         }));
     }
-        
+
     [Test]
     public void No_Matching_Placeholder_Positional_Throws()
     {
@@ -203,7 +203,7 @@ public class CommandParserTests : TestBase
         [PositionalArgument(Position = Position.AfterSwitches)]
         public string? Positional2 { get; set; }
     }
-    
+
     [CommandPrecedingArguments("add", "{PROJECT}", "package", "{PACKAGE_NAME}")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
     {
@@ -216,7 +216,7 @@ public class CommandParserTests : TestBase
         [CommandSwitch("--source")]
         public string? Source { get; set; }
     }
-    
+
     [CommandPrecedingArguments("add", "{PROJECT}", "package", "{PACKAGE_NAME}")]
     private record PlaceholderToolOptions2(string Package, string Project) : CommandLineToolOptions("dotnet")
     {

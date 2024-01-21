@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using CliWrap;
-using CliWrap.Buffered;
 using CliWrap.Exceptions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
@@ -82,7 +81,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         {
             return commandLineToolOptions.CommandParts.ToList();
         }
-        
+
         return optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
             ?.PrecedingArguments.ToList() ?? new List<string>();
     }
@@ -101,7 +100,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
 
         var standardOutput = string.Empty;
         var standardError = string.Empty;
-        
+
         try
         {
             var result = await command
@@ -109,7 +108,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync(cancellationToken);
-            
+
             standardOutput = standardOutputStringBuilder.ToString();
             standardError = standardErrorStringBuilder.ToString();
 
@@ -149,7 +148,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
                 standardOutput,
                 standardError
             );
-            
+
             throw;
         }
     }
