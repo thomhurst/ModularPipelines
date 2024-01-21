@@ -61,6 +61,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
             .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
             {
                 Path = nugetFile,
+                Source = "https://api.nuget.org/v3/index.json",
                 ApiKey = _nugetSettings.Value.ApiKey!,
             }, cancellationToken), cancellationToken: cancellationToken)
             .ProcessOneAtATime();

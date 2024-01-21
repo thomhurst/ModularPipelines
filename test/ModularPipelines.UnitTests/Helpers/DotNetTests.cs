@@ -15,7 +15,7 @@ public class DotNetTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().List.Package(new DotNetListPackageOptions()
+            return await context.DotNet().List.Package(new DotNetListPackageOptions
             {
                 ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Extension == ".sln").AssertExists(),
             }, token: cancellationToken);
