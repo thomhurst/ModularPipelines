@@ -204,7 +204,7 @@ public class CommandParserTests : TestBase
         public string? Positional2 { get; set; }
     }
 
-    [CommandPrecedingArguments("add", "{PROJECT}", "package", "{PACKAGE_NAME}")]
+    [CommandPrecedingArguments("add", "[<PROJECT>]", "package", "<PACKAGE_NAME>")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
     {
         [PositionalArgument(PlaceholderName = "{PROJECT}")]

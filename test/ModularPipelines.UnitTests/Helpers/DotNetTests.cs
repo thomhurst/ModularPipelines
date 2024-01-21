@@ -1,5 +1,8 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
+using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -12,7 +15,10 @@ public class DotNetTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().List.Package(token: cancellationToken);
+            return await context.DotNet().List.Package(new DotNetListPackageOptions()
+            {
+                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Extension == ".sln").AssertExists(),
+            }, token: cancellationToken);
         }
     }
 
