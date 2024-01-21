@@ -24,10 +24,9 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     {
         var localNugetPathResult = await GetModule<CreateLocalNugetFolderModule>();
 
-        return await context.DotNet().Nuget.Add.Source(new DotNetNugetAddSourceOptions
+        return await context.DotNet().Nuget.Add.Source(new DotNetNugetAddSourceOptions(packageSourcePath: localNugetPathResult.Value.AssertExists())
         {
-            PackageSourcePath = localNugetPathResult.Value.AssertExists(),
             Name = "ModularPipelinesLocalNuGet",
-        });
+        }, cancellationToken);
     }
 }

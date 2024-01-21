@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("test", "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetTestOptions : DotNetOptions
 {
+    public DotNetTestOptions(
+        string projectSolutionDirectoryDllExe
+    )
+    {
+        CommandParts = ["test", "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]"];
+
+        ProjectSolutionDirectoryDllExe = projectSolutionDirectoryDllExe;
+    }
+
+    public DotNetTestOptions()
+    {
+        CommandParts = ["test", "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
     public string? ProjectSolutionDirectoryDllExe { get; set; }
 

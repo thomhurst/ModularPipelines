@@ -6,6 +6,11 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetToolListOptions : DotNetOptions
 {
+    public DotNetToolListOptions()
+    {
+        CommandParts = ["tool", "list", "[<PACKAGE_ID>]"];
+    }
+
     public DotNetToolListOptions(
         string packageId
     )
@@ -15,10 +20,14 @@ public record DotNetToolListOptions : DotNetOptions
         PackageId = packageId;
     }
 
-    public DotNetToolListOptions()
-    {
-        CommandParts = ["tool", "list"];
-    }
+    [BooleanCommandSwitch("--global")]
+    public bool? Global { get; set; }
+
+    [BooleanCommandSwitch("--tool-path")]
+    public bool? ToolPath { get; set; }
+
+    [BooleanCommandSwitch("--local")]
+    public bool? Local { get; set; }
 
     [PositionalArgument(PlaceholderName = "[<PACKAGE_ID>]")]
     public string? PackageId { get; set; }

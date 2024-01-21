@@ -6,6 +6,15 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetNugetUpdateSourceOptions : DotNetOptions
 {
+    public DotNetNugetUpdateSourceOptions(
+        string name
+    )
+    {
+        CommandParts = ["nuget", "update", "source", "<NAME>"];
+
+        Name = name;
+    }
+
     [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? Name { get; set; }
 

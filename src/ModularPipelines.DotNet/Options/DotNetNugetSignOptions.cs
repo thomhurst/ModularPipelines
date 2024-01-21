@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("nuget", "sign", "[<package-path(s)>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetSignOptions : DotNetOptions
 {
+    public DotNetNugetSignOptions(
+        string packagePath
+    )
+    {
+        CommandParts = ["nuget", "sign", "[<package-path(s)>]"];
+
+        PackagePath = packagePath;
+    }
+
+    public DotNetNugetSignOptions()
+    {
+        CommandParts = ["nuget", "sign", "[<package-path(s)>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<package-path(s)>]")]
     public string? PackagePath { get; set; }
 

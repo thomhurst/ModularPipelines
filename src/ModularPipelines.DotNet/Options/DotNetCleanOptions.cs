@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("clean", "[<PROJECT>|<SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetCleanOptions : DotNetOptions
 {
+    public DotNetCleanOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["clean", "[<PROJECT>|<SOLUTION>]"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetCleanOptions()
+    {
+        CommandParts = ["clean", "[<PROJECT>|<SOLUTION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 

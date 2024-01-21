@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("migrate", "[<SOLUTION_FILE|PROJECT_DIR>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetMigrateOptions : DotNetOptions
 {
+    public DotNetMigrateOptions(
+        string solutionFileProjectDir
+    )
+    {
+        CommandParts = ["migrate", "[<SOLUTION_FILE|PROJECT_DIR>]"];
+
+        SolutionFileProjectDir = solutionFileProjectDir;
+    }
+
+    public DotNetMigrateOptions()
+    {
+        CommandParts = ["migrate", "[<SOLUTION_FILE|PROJECT_DIR>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<SOLUTION_FILE|PROJECT_DIR>]")]
     public string? SolutionFileProjectDir { get; set; }
 

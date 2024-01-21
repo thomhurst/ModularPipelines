@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("nuget", "verify", "[<package-path(s)>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetVerifyOptions : DotNetOptions
 {
+    public DotNetNugetVerifyOptions(
+        string packagePath
+    )
+    {
+        CommandParts = ["nuget", "verify", "[<package-path(s)>]"];
+
+        PackagePath = packagePath;
+    }
+
+    public DotNetNugetVerifyOptions()
+    {
+        CommandParts = ["nuget", "verify", "[<package-path(s)>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<package-path(s)>]")]
     public string? PackagePath { get; set; }
 

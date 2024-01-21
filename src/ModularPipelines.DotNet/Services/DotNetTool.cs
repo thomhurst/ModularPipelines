@@ -27,9 +27,9 @@ public class DotNetTool
         return await _command.ExecuteCommandLineTool(options ?? new DotNetToolListOptions(), token);
     }
 
-    public async Task<CommandResult> Update(DotNetToolUpdateOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Update(DotNetToolUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetToolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Uninstall(DotNetToolUninstallOptions options, CancellationToken token = default)
@@ -37,8 +37,8 @@ public class DotNetTool
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Search(DotNetToolSearchOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Search(DotNetToolSearchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetToolSearchOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 }

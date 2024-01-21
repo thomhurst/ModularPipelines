@@ -78,10 +78,10 @@ public class PackProjectsModule : Module<CommandResult[]>
             Configuration = Configuration.Release,
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             NoRestore = true,
-            Properties = new List<string>
+            Properties = new List<KeyValue>
             {
-                $"PackageVersion={packageVersion.Value}",
-                $"Version={packageVersion.Value}",
+                ("PackageVersion", packageVersion.Value!),
+                ("Version", packageVersion.Value!),
             },
         }, cancellationToken);
     }

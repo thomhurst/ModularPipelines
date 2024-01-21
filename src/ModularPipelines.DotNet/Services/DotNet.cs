@@ -150,9 +150,9 @@ public class DotNet : IDotNet
         return await _command.ExecuteCommandLineTool(options ?? new DotNetSlnOptions(), token);
     }
 
-    public async Task<CommandResult> Store(DotNetStoreOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Store(DotNetStoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetStoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Watch(DotNetWatchOptions options, CancellationToken token = default)

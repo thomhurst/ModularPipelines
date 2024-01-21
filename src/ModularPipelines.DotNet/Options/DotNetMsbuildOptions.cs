@@ -6,6 +6,23 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetMsbuildOptions : DotNetOptions
 {
+    public DotNetMsbuildOptions(
+        string msbuildArguments
+    )
+    {
+        CommandParts = ["msbuild", "<MSBUILD_ARGUMENTS>"];
+
+        MsbuildArguments = msbuildArguments;
+    }
+
+    public DotNetMsbuildOptions()
+    {
+        CommandParts = ["msbuild", "<MSBUILD_ARGUMENTS>"];
+    }
+
     [PositionalArgument(PlaceholderName = "<MSBUILD_ARGUMENTS>")]
     public string? MsbuildArguments { get; set; }
+
+    [BooleanCommandSwitch("-h")]
+    public bool? H { get; set; }
 }

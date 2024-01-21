@@ -22,8 +22,8 @@ public class DotNetAdd
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Reference(DotNetAddReferenceOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Reference(DotNetAddReferenceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetAddReferenceOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 }

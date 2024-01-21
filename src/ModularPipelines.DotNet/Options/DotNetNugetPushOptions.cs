@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("nuget", "push", "[<ROOT>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetPushOptions : DotNetOptions
 {
+    public DotNetNugetPushOptions(
+        string path
+    )
+    {
+        CommandParts = ["nuget", "push", "[<ROOT>]"];
+
+        Path = path;
+    }
+
+    public DotNetNugetPushOptions()
+    {
+        CommandParts = ["nuget", "push", "[<ROOT>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<ROOT>]")]
     public string? Path { get; set; }
 

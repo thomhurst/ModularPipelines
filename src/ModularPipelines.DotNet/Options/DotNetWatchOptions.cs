@@ -6,6 +6,27 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetWatchOptions : DotNetOptions
 {
+    public DotNetWatchOptions(
+        string command,
+        string forwardedArguments
+    )
+    {
+        CommandParts = ["watch", "[<command>]"];
+
+        Command = command;
+
+        ForwardedArguments = forwardedArguments;
+    }
+
+    public DotNetWatchOptions(
+        string forwardedArguments
+    )
+    {
+        CommandParts = ["watch", "[<command>]"];
+
+        ForwardedArguments = forwardedArguments;
+    }
+
     [PositionalArgument(PlaceholderName = "[<command>]")]
     public string? Command { get; set; }
 

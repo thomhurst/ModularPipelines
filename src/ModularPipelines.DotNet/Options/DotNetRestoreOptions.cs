@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("restore", "[<ROOT>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetRestoreOptions : DotNetOptions
 {
+    public DotNetRestoreOptions(
+        string path
+    )
+    {
+        CommandParts = ["restore", "[<ROOT>]"];
+
+        Path = path;
+    }
+
+    public DotNetRestoreOptions()
+    {
+        CommandParts = ["restore", "[<ROOT>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<ROOT>]")]
     public string? Path { get; set; }
 

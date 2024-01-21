@@ -6,6 +6,15 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetNugetAddSourceOptions : DotNetOptions
 {
+    public DotNetNugetAddSourceOptions(
+        string packageSourcePath
+    )
+    {
+        CommandParts = ["nuget", "add", "source", "<PACKAGE_SOURCE_PATH>"];
+
+        PackageSourcePath = packageSourcePath;
+    }
+
     [PositionalArgument(PlaceholderName = "<PACKAGE_SOURCE_PATH>")]
     public string? PackageSourcePath { get; set; }
 

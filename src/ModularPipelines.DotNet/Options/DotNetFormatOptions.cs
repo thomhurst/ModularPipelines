@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("format", "[options]", "[<PROJECT | SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetFormatOptions : DotNetOptions
 {
+    public DotNetFormatOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["format", "[options]", "[<PROJECT | SOLUTION>]"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetFormatOptions()
+    {
+        CommandParts = ["format", "[options]", "[<PROJECT | SOLUTION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT | SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 

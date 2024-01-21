@@ -6,10 +6,32 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetToolUpdateOptions : DotNetOptions
 {
-    public DotNetToolUpdateOptions()
+    public DotNetToolUpdateOptions(
+        string packageId,
+        string path
+    )
     {
         CommandParts = ["tool", "update", "<PACKAGE_ID>"];
+
+        PackageId = packageId;
+
+        Path = path;
     }
+
+    public DotNetToolUpdateOptions(
+        string packageId
+    )
+    {
+        CommandParts = ["tool", "update", "<PACKAGE_ID>"];
+
+        PackageId = packageId;
+    }
+
+    [PositionalArgument(PlaceholderName = "<PACKAGE_ID>")]
+    public string? PackageId { get; set; }
+
+    [BooleanCommandSwitch("--global")]
+    public bool? Global { get; set; }
 
     [CommandSwitch("--add-source")]
     public string? AddSource { get; set; }
@@ -40,6 +62,15 @@ public record DotNetToolUpdateOptions : DotNetOptions
 
     [CommandSwitch("--version")]
     public string? Version { get; set; }
+
+    [BooleanCommandSwitch("--tool-path")]
+    public bool? ToolPath { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<PATH>")]
+    public string? Path { get; set; }
+
+    [BooleanCommandSwitch("--local")]
+    public bool? Local { get; set; }
 
     [CommandSwitch("--tool-manifest")]
     public string? ToolManifest { get; set; }

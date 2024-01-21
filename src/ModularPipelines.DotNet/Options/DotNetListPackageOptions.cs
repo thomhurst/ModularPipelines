@@ -3,10 +3,26 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("list", "[<PROJECT>|<SOLUTION>]", "package")]
 [ExcludeFromCodeCoverage]
 public record DotNetListPackageOptions : DotNetOptions
 {
+    public DotNetListPackageOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["list", "[<PROJECT>|<SOLUTION>]", "package"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetListPackageOptions()
+    {
+        CommandParts = ["list", "[<PROJECT>|<SOLUTION>]", "package"];
+    }
+
+    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    public string? ProjectSolution { get; set; }
+
     [CommandSwitch("--config")]
     public string? Config { get; set; }
 

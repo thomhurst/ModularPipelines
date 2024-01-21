@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet.Options;
@@ -8,5 +9,5 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetOptions() : CommandLineToolOptions("dotnet")
 {
     [CommandSwitch("--property:", SwitchValueSeparator = "")]
-    public IEnumerable<string>? Properties { get; set; }
+    public IEnumerable<KeyValue>? Properties { get; set; }
 }

@@ -41,7 +41,7 @@ public interface IDotNet
 
     Task<CommandResult> Sln(DotNetSlnOptions? options = default, CancellationToken token = default);
 
-    Task<CommandResult> Store(DotNetStoreOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Store(DotNetStoreOptions options, CancellationToken token = default);
 
     Task<CommandResult> Watch(DotNetWatchOptions options, CancellationToken token = default);
 

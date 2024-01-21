@@ -17,9 +17,9 @@ public class DotNetWorkload
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Install(DotNetWorkloadInstallOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Install(DotNetWorkloadInstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadInstallOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> List(DotNetWorkloadListOptions? options = default, CancellationToken token = default)

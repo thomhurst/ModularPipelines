@@ -3,8 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("list", "[<PROJECT>]", "reference")]
 [ExcludeFromCodeCoverage]
 public record DotNetListReferenceOptions : DotNetOptions
 {
+    public DotNetListReferenceOptions(
+        string project
+    )
+    {
+        CommandParts = ["list", "[<PROJECT>]", "reference"];
+
+        Project = project;
+    }
+
+    public DotNetListReferenceOptions()
+    {
+        CommandParts = ["list", "[<PROJECT>]", "reference"];
+    }
+
+    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+    public string? Project { get; set; }
 }

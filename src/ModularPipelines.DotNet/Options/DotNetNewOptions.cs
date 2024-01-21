@@ -6,6 +6,15 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetNewOptions : DotNetOptions
 {
+    public DotNetNewOptions(
+        string template
+    )
+    {
+        CommandParts = ["new", "<TEMPLATE>"];
+
+        Template = template;
+    }
+
     [PositionalArgument(PlaceholderName = "<TEMPLATE>")]
     public string? Template { get; set; }
 

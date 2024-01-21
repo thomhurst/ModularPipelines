@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("workload", "restore", "[<PROJECT | SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadRestoreOptions : DotNetOptions
 {
+    public DotNetWorkloadRestoreOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["workload", "restore", "[<PROJECT | SOLUTION>]"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetWorkloadRestoreOptions()
+    {
+        CommandParts = ["workload", "restore", "[<PROJECT | SOLUTION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT | SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 

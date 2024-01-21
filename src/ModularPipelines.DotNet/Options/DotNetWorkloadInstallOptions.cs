@@ -3,10 +3,21 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("workload", "install", "<WORKLOAD_ID>", "...")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadInstallOptions : DotNetOptions
 {
+    public DotNetWorkloadInstallOptions(
+        string workloadId
+    )
+    {
+        CommandParts = ["workload", "install", "<WORKLOAD_ID>", "..."];
+
+        WorkloadId = workloadId;
+    }
+
+    [PositionalArgument(PlaceholderName = "<WORKLOAD_ID>")]
+    public string? WorkloadId { get; set; }
+
     [CommandSwitch("--configfile")]
     public string? Configfile { get; set; }
 

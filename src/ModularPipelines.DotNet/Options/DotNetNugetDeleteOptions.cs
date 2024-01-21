@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("nuget", "delete", "[<PACKAGE_NAME> <PACKAGE_VERSION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetDeleteOptions : DotNetOptions
 {
+    public DotNetNugetDeleteOptions(
+        string packageNamePackageVersion
+    )
+    {
+        CommandParts = ["nuget", "delete", "[<PACKAGE_NAME> <PACKAGE_VERSION>]"];
+
+        PackageNamePackageVersion = packageNamePackageVersion;
+    }
+
+    public DotNetNugetDeleteOptions()
+    {
+        CommandParts = ["nuget", "delete", "[<PACKAGE_NAME> <PACKAGE_VERSION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PACKAGE_NAME> <PACKAGE_VERSION>]")]
     public string? PackageNamePackageVersion { get; set; }
 

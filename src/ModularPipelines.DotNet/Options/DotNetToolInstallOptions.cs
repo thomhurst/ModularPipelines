@@ -6,6 +6,33 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetToolInstallOptions : DotNetOptions
 {
+    public DotNetToolInstallOptions(
+        string packageName,
+        string path
+    )
+    {
+        CommandParts = ["tool", "install", "<PACKAGE_NAME>"];
+
+        PackageName = packageName;
+
+        Path = path;
+    }
+
+    public DotNetToolInstallOptions(
+        string packageName
+    )
+    {
+        CommandParts = ["tool", "install", "<PACKAGE_NAME>"];
+
+        PackageName = packageName;
+    }
+
+    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
+    public string? PackageName { get; set; }
+
+    [BooleanCommandSwitch("--global")]
+    public bool? Global { get; set; }
+
     [CommandSwitch("--arch")]
     public string? Architecture { get; set; }
 
@@ -42,8 +69,11 @@ public record DotNetToolInstallOptions : DotNetOptions
     [CommandSwitch("--version")]
     public string? VersionNumber { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    [BooleanCommandSwitch("--tool-path")]
+    public bool? ToolPath { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<PATH>")]
+    public string? Path { get; set; }
 
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }

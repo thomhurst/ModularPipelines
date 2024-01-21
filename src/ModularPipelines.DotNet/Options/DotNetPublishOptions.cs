@@ -3,10 +3,23 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("publish", "[<PROJECT>|<SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetPublishOptions : DotNetOptions
 {
+    public DotNetPublishOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["publish", "[<PROJECT>|<SOLUTION>]"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetPublishOptions()
+    {
+        CommandParts = ["publish", "[<PROJECT>|<SOLUTION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 

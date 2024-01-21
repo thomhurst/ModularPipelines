@@ -4,10 +4,23 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("build", "[<PROJECT>|<SOLUTION>]")]
 [ExcludeFromCodeCoverage]
 public record DotNetBuildOptions : DotNetOptions
 {
+    public DotNetBuildOptions(
+        string projectSolution
+    )
+    {
+        CommandParts = ["build", "[<PROJECT>|<SOLUTION>]"];
+
+        ProjectSolution = projectSolution;
+    }
+
+    public DotNetBuildOptions()
+    {
+        CommandParts = ["build", "[<PROJECT>|<SOLUTION>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 
@@ -49,9 +62,6 @@ public record DotNetBuildOptions : DotNetOptions
 
     [CommandSwitch("--output")]
     public string? OutputDirectory { get; set; }
-
-    [CommandSwitch("--property")]
-    public IEnumerable<KeyValue>? Property { get; set; }
 
     [CommandSwitch("--runtime")]
     public string? RuntimeIdentifier { get; set; }

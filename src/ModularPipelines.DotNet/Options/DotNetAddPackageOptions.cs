@@ -6,6 +6,30 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetAddPackageOptions : DotNetOptions
 {
+    public DotNetAddPackageOptions(
+        string project,
+        string packageName
+    )
+    {
+        CommandParts = ["add", "[<PROJECT>]", "package", "<PACKAGE_NAME>"];
+
+        Project = project;
+
+        PackageName = packageName;
+    }
+
+    public DotNetAddPackageOptions(
+        string packageName
+    )
+    {
+        CommandParts = ["add", "[<PROJECT>]", "package", "<PACKAGE_NAME>"];
+
+        PackageName = packageName;
+    }
+
+    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+    public string? Project { get; set; }
+
     [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
     public string? PackageName { get; set; }
 

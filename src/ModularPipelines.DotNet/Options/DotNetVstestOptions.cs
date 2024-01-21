@@ -6,6 +6,32 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetVstestOptions : DotNetOptions
 {
+    public DotNetVstestOptions(
+        string testFileNames,
+        string platformType
+    )
+    {
+        CommandParts = ["vstest", "[<TEST_FILE_NAMES>]"];
+
+        TestFileNames = testFileNames;
+
+        PlatformType = platformType;
+    }
+
+    public DotNetVstestOptions(
+        string platformType
+    )
+    {
+        CommandParts = ["vstest", "[<TEST_FILE_NAMES>]"];
+
+        PlatformType = platformType;
+    }
+
+    public DotNetVstestOptions()
+    {
+        CommandParts = ["vstest", "[<TEST_FILE_NAMES>]"];
+    }
+
     [PositionalArgument(PlaceholderName = "[<TEST_FILE_NAMES>]")]
     public string? TestFileNames { get; set; }
 
@@ -56,4 +82,7 @@ public record DotNetVstestOptions : DotNetOptions
 
     [CommandSwitch("--Tests")]
     public string? Tests { get; set; }
+
+    [BooleanCommandSwitch("--Help")]
+    public bool? Help { get; set; }
 }
