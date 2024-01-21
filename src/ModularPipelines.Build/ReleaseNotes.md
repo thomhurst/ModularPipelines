@@ -3,3 +3,4 @@
 # Breaking
 
 *   DotNet options have been rewritten. Some options, properties and method call names may have changed.
+*   ModularPipelines.NuGet package is deprecated and the commands to interact with NuGet are now part of the ModularPipelines.DotNet package

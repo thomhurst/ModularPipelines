@@ -8,7 +8,7 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetNugetPushOptions : DotNetOptions
 {
     [PositionalArgument(PlaceholderName = "[<ROOT>]")]
-    public string? Root { get; set; }
+    public string? Path { get; set; }
 
     [BooleanCommandSwitch("--disable-buffering")]
     public bool? DisableBuffering { get; set; }

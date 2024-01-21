@@ -1,21 +1,14 @@
-using ModularPipelines.Attributes;
-
 namespace ModularPipelines.DotNet.Options;
 
-public enum Verbosity
+public static class Verbosity
 {
-    [EnumValue("quiet")]
-    Quiet,
+    public static readonly string Quiet = "Quiet";
 
-    [EnumValue("minimal")]
-    Minimal,
+    public static readonly string Minimal = "Minimal";
 
-    [EnumValue("normal")]
-    Normal,
+    public static readonly string Normal = "Normal";
 
-    [EnumValue("detailed")]
-    Detailed,
+    public static readonly string Detailed = "Detailed";
 
-    [EnumValue("diagnostic")]
-    Diagnostic,
+    public static readonly string Diagnostic = "Diagnostic";
 }

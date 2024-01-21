@@ -186,7 +186,7 @@ public class CommandParserTests : TestBase
         public bool? Force { get; set; }
 
         [CommandSwitch("--verbosity")]
-        public Verbosity? Verbosity { get; set; }
+        public string? Verbosity { get; set; }
 
         [CommandSwitch("--grace-period")]
         public int? GracePeriod { get; set; }
