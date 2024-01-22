@@ -8,8 +8,7 @@ public record DockerContainerCpOptions : DockerOptions
 {
     public DockerContainerCpOptions(
         string container,
-        string destPath
-docker,
+        string destPath,
         string cp,
         string srcPath
     )
@@ -18,9 +17,7 @@ docker,
 
         Container = container;
 
-        DestPath
-docker = destPath
-docker;
+        DestPath = destPath;
 
         Cp = cp;
 
@@ -31,24 +28,23 @@ docker;
     public string? Container { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? DestPath
-docker { get; set; }
+    public string? DestPath { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? Cp { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Cp { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? Options { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Options { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? SrcPath { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? SrcPath { get; set; }
 
-[CommandSwitch("--archive")]
-public string? Archive { get; set; }
+    [CommandSwitch("--archive")]
+    public string? Archive { get; set; }
 
-[CommandSwitch("--follow-link")]
-public string? FollowLink { get; set; }
+    [CommandSwitch("--follow-link")]
+    public string? FollowLink { get; set; }
 
-[BooleanCommandSwitch("--quiet")]
-public bool? Quiet { get; set; }
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 }

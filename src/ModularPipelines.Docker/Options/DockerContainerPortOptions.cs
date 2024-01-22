@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContainerPortOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? PrivatePort/proto { get; set; }
+    public string? PrivatePortOrProto { get; set; }
 }

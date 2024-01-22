@@ -8,8 +8,7 @@ public record DockerComposeCpOptions : DockerOptions
 {
     public DockerComposeCpOptions(
         string service,
-        string destPath
-docker,
+        string destPath,
         string compose,
         string cp,
         string srcPath
@@ -19,9 +18,7 @@ docker,
 
         Service = service;
 
-        DestPath
-docker = destPath
-docker;
+        DestPath = destPath;
 
         Compose = compose;
 
@@ -34,30 +31,29 @@ docker;
     public string? Service { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? DestPath
-docker { get; set; }
+    public string? DestPath { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? Compose { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Compose { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? Cp { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Cp { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? Options { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Options { get; set; }
 
-[PositionalArgument(Position = Position.AfterSwitches)]
-public string? SrcPath { get; set; }
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? SrcPath { get; set; }
 
-[BooleanCommandSwitch("--all")]
-public bool? All { get; set; }
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
-[CommandSwitch("--archive")]
-public string? Archive { get; set; }
+    [CommandSwitch("--archive")]
+    public string? Archive { get; set; }
 
-[CommandSwitch("--follow-link")]
-public string? FollowLink { get; set; }
+    [CommandSwitch("--follow-link")]
+    public string? FollowLink { get; set; }
 
-[CommandSwitch("--index")]
-public string? Index { get; set; }
+    [CommandSwitch("--index")]
+    public string? Index { get; set; }
 }
