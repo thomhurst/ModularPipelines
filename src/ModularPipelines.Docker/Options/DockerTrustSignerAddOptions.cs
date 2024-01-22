@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,6 +7,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerTrustSignerAddOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Repository { get; set; }
+
     [CommandSwitch("--key")]
     public string? Key { get; set; }
 }

@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -9,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutCvesOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ImageDirectoryArchive { get; set; }
+    public string? ImageOrDirectoryOrArchive { get; set; }
 
     [BooleanCommandSwitch("--details")]
     public bool? Details { get; set; }

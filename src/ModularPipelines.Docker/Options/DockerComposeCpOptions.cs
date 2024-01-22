@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -9,7 +8,8 @@ public record DockerComposeCpOptions : DockerOptions
 {
     public DockerComposeCpOptions(
         string service,
-        string destPathDocker,
+        string destPath
+docker,
         string compose,
         string cp,
         string srcPath
@@ -19,7 +19,9 @@ public record DockerComposeCpOptions : DockerOptions
 
         Service = service;
 
-        DestPathDocker = destPathDocker;
+        DestPath
+docker = destPath
+docker;
 
         Compose = compose;
 
@@ -32,29 +34,30 @@ public record DockerComposeCpOptions : DockerOptions
     public string? Service { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? DestPathDocker { get; set; }
+    public string? DestPath
+docker { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Compose { get; set; }
+[PositionalArgument(Position = Position.AfterSwitches)]
+public string? Compose { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Cp { get; set; }
+[PositionalArgument(Position = Position.AfterSwitches)]
+public string? Cp { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Options { get; set; }
+[PositionalArgument(Position = Position.AfterSwitches)]
+public string? Options { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SrcPath { get; set; }
+[PositionalArgument(Position = Position.AfterSwitches)]
+public string? SrcPath { get; set; }
 
-    [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+[BooleanCommandSwitch("--all")]
+public bool? All { get; set; }
 
-    [CommandSwitch("--archive")]
-    public string? Archive { get; set; }
+[CommandSwitch("--archive")]
+public string? Archive { get; set; }
 
-    [CommandSwitch("--follow-link")]
-    public string? FollowLink { get; set; }
+[CommandSwitch("--follow-link")]
+public string? FollowLink { get; set; }
 
-    [CommandSwitch("--index")]
-    public string? Index { get; set; }
+[CommandSwitch("--index")]
+public string? Index { get; set; }
 }

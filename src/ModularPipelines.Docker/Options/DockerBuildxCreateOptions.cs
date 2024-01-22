@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -9,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ContextEndpoint { get; set; }
+    public string? ContextOrEndpoint { get; set; }
 
     [CommandSwitch("--append")]
     public string? Append { get; set; }

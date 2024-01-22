@@ -122,9 +122,9 @@ public class DockerContainer
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Top(DockerContainerTopOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Top(DockerContainerTopOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerContainerTopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options, token);
     }
 
     public async Task<CommandResult> Unpause(DockerContainerUnpauseOptions? options = default, CancellationToken token = default)

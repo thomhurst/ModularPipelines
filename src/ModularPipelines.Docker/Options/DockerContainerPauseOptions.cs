@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,4 +7,6 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerContainerPauseOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
 }

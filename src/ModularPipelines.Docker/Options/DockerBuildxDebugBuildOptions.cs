@@ -8,16 +8,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxDebugBuildOptions : DockerOptions
 {
     public DockerBuildxDebugBuildOptions(
-        string path
+        string pathOrUrl
     )
     {
         CommandParts = ["buildx", "debug_build"];
 
-        Path = path;
+        PathOrUrl = pathOrUrl;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Path { get; set; }
+    public string? PathOrUrl { get; set; }
 
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }

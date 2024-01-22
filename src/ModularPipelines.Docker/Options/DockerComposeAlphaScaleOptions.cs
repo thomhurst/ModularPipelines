@@ -8,6 +8,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerComposeAlphaScaleOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
+
     [BooleanCommandSwitch("--no-deps")]
     public bool? NoDeps { get; set; }
 }
