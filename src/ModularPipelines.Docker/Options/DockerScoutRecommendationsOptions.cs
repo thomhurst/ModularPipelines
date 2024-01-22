@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,6 +7,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerScoutRecommendationsOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? ImageOrDirectoryOrArchive { get; set; }
+
     [CommandSwitch("--only-refresh")]
     public string? OnlyRefresh { get; set; }
 

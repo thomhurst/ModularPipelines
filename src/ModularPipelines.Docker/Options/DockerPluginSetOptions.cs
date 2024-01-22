@@ -8,4 +8,6 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerPluginSetOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<KeyValue>? KeyValue { get; set; }
 }

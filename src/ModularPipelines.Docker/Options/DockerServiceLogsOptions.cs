@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,16 +7,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerServiceLogsOptions : DockerOptions
 {
     public DockerServiceLogsOptions(
-        string serviceTask
+        string serviceOrTask
     )
     {
         CommandParts = ["service", "logs"];
 
-        ServiceTask = serviceTask;
+        ServiceOrTask = serviceOrTask;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? ServiceTask { get; set; }
+    public string? ServiceOrTask { get; set; }
 
     [BooleanCommandSwitch("--details")]
     public bool? Details { get; set; }

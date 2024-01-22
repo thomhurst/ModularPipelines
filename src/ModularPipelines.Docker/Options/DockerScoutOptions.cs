@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,6 +7,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerScoutOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Command { get; set; }
+
     [CommandSwitch("--verbose-debug")]
     public string? VerboseDebug { get; set; }
 }

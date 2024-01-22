@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,16 +7,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmJoinTokenOptions : DockerOptions
 {
     public DockerSwarmJoinTokenOptions(
-        string workerManager
+        string workerOrManager
     )
     {
         CommandParts = ["swarm", "join-token"];
 
-        WorkerManager = workerManager;
+        WorkerOrManager = workerOrManager;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? WorkerManager { get; set; }
+    public string? WorkerOrManager { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }

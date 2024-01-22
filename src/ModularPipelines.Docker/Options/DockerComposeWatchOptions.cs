@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,6 +7,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerComposeWatchOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Service { get; set; }
+
     [CommandSwitch("--no-up")]
     public string? NoUp { get; set; }
 

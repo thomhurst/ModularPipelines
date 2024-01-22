@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,6 +7,12 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerScoutStreamOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Stream { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Image { get; set; }
+
     [CommandSwitch("--org")]
     public string? Org { get; set; }
 

@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,16 +7,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImageImportOptions : DockerOptions
 {
     public DockerImageImportOptions(
-        string fileUrl
+        string fileOrUrl
     )
     {
         CommandParts = ["image", "import"];
 
-        FileUrl = fileUrl;
+        FileOrUrl = fileOrUrl;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? FileUrl { get; set; }
+    public string? FileOrUrl { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Repository { get; set; }

@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,16 +7,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNodeInspectOptions : DockerOptions
 {
     public DockerNodeInspectOptions(
-        string selfNode
+        string selfOrNode
     )
     {
         CommandParts = ["node", "inspect"];
 
-        SelfNode = selfNode;
+        SelfOrNode = selfOrNode;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? SelfNode { get; set; }
+    public string? SelfOrNode { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Node { get; set; }

@@ -8,6 +8,9 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerServiceScaleOptions : DockerOptions
 {
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
+
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 }

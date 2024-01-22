@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -9,7 +8,7 @@ public record DockerContainerCpOptions : DockerOptions
 {
     public DockerContainerCpOptions(
         string container,
-        string destPathDocker,
+        string destPath,
         string cp,
         string srcPath
     )
@@ -18,7 +17,7 @@ public record DockerContainerCpOptions : DockerOptions
 
         Container = container;
 
-        DestPathDocker = destPathDocker;
+        DestPath = destPath;
 
         Cp = cp;
 
@@ -29,7 +28,7 @@ public record DockerContainerCpOptions : DockerOptions
     public string? Container { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? DestPathDocker { get; set; }
+    public string? DestPath { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Cp { get; set; }

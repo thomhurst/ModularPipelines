@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -8,16 +7,16 @@ namespace ModularPipelines.Docker.Options;
 public record DockerInspectOptions : DockerOptions
 {
     public DockerInspectOptions(
-        IEnumerable<string> nameId
+        IEnumerable<string> nameOrId
     )
     {
         CommandParts = ["inspect"];
 
-        NameId = nameId;
+        NameOrId = nameOrId;
     }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? NameId { get; set; }
+    public IEnumerable<string>? NameOrId { get; set; }
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
