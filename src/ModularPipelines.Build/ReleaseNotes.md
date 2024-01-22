@@ -1,2 +1,3 @@
 # Breaking
-- The Docker options helpers have been rewritten.
+
+*   The Docker options helpers have been rewritten.
