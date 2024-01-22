@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image rm")]
 [ExcludeFromCodeCoverage]
-public record DockerImageRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Images) : DockerOptions
+public record DockerImageRmOptions : DockerOptions
 {
+    public DockerImageRmOptions(
+        IEnumerable<string> image
+    )
+    {
+        CommandParts = ["image", "rm"];
+
+        Image = image;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Image { get; set; }
+
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 

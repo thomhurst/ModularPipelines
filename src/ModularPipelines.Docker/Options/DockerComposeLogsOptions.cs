@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose logs")]
+[CommandPrecedingArguments("compose", "logs")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeLogsOptions : DockerOptions
 {
@@ -12,6 +13,9 @@ public record DockerComposeLogsOptions : DockerOptions
 
     [BooleanCommandSwitch("--follow")]
     public bool? Follow { get; set; }
+
+    [CommandSwitch("--index")]
+    public string? Index { get; set; }
 
     [BooleanCommandSwitch("--no-color")]
     public bool? NoColor { get; set; }
@@ -30,7 +34,4 @@ public record DockerComposeLogsOptions : DockerOptions
 
     [CommandSwitch("--until")]
     public string? Until { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

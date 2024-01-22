@@ -1,20 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx create")]
+[CommandPrecedingArguments("buildx", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Context { get; set; }
+    public string? ContextEndpoint { get; set; }
+
+    [CommandSwitch("--append")]
+    public string? Append { get; set; }
 
     [CommandSwitch("--bootstrap")]
     public string? Bootstrap { get; set; }
 
-    [CommandSwitch("--append")]
-    public string? Append { get; set; }
+    [CommandSwitch("--builder")]
+    public string? Builder { get; set; }
 
     [CommandSwitch("--buildkitd-flags")]
     public string? BuildkitdFlags { get; set; }

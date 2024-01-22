@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose run")]
 [ExcludeFromCodeCoverage]
-public record DockerComposeRunOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
+public record DockerComposeRunOptions : DockerOptions
 {
+    public DockerComposeRunOptions(
+        string service
+    )
+    {
+        CommandParts = ["compose", "run"];
+
+        Service = service;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Service { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Command { get; set; }
 
@@ -41,7 +53,7 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-TTY")]
-    public bool? NoTTY { get; set; }
+    public bool? NoTty { get; set; }
 
     [BooleanCommandSwitch("--no-deps")]
     public bool? NoDeps { get; set; }
@@ -61,6 +73,9 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
     [CommandSwitch("--service-ports")]
     public string? ServicePorts { get; set; }
 
+    [BooleanCommandSwitch("--tty")]
+    public bool? Tty { get; set; }
+
     [CommandSwitch("--use-aliases")]
     public string? UseAliases { get; set; }
 
@@ -72,7 +87,4 @@ public record DockerComposeRunOptions([property: PositionalArgument(Position = P
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

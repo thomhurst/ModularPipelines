@@ -1,12 +1,30 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("manifest annotate")]
 [ExcludeFromCodeCoverage]
-public record DockerManifestAnnotateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string ManifestList, [property: PositionalArgument(Position = Position.AfterSwitches)] string Manifest) : DockerOptions
+public record DockerManifestAnnotateOptions : DockerOptions
 {
+    public DockerManifestAnnotateOptions(
+        string manifestList,
+        string manifest
+    )
+    {
+        CommandParts = ["manifest", "annotate"];
+
+        ManifestList = manifestList;
+
+        Manifest = manifest;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? ManifestList { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Manifest { get; set; }
+
     [CommandSwitch("--arch")]
     public string? Arch { get; set; }
 

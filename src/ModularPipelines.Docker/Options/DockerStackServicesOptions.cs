@@ -1,18 +1,30 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack services")]
 [ExcludeFromCodeCoverage]
-public record DockerStackServicesOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
+public record DockerStackServicesOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public DockerStackServicesOptions(
+        string stack
+    )
+    {
+        CommandParts = ["stack", "services"];
+
+        Stack = stack;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Stack { get; set; }
 
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 
     [CommandSwitch("--format")]
     public string? Format { get; set; }
+
+    [BooleanCommandSwitch("--quiet")]
+    public bool? Quiet { get; set; }
 }

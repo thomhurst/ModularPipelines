@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx du")]
+[CommandPrecedingArguments("buildx", "du")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxDuOptions : DockerOptions
 {
@@ -12,7 +13,4 @@ public record DockerBuildxDuOptions : DockerOptions
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
-    [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
 }

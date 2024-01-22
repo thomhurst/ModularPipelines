@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context export")]
 [ExcludeFromCodeCoverage]
-public record DockerContextExportOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Context) : DockerOptions
+public record DockerContextExportOptions : DockerOptions
 {
+    public DockerContextExportOptions(
+        string context
+    )
+    {
+        CommandParts = ["context", "export"];
+
+        ExportContext = context;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? ExportContext { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? File { get; set; }
 }

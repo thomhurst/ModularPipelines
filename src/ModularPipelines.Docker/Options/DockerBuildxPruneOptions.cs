@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx prune")]
+[CommandPrecedingArguments("buildx", "prune")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxPruneOptions : DockerOptions
 {
@@ -21,7 +22,4 @@ public record DockerBuildxPruneOptions : DockerOptions
 
     [CommandSwitch("--verbose")]
     public string? Verbose { get; set; }
-
-    [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
 }

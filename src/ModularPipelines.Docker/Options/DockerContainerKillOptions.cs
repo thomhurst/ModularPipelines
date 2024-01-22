@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container kill")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerKillOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerKillOptions : DockerOptions
 {
+    public DockerContainerKillOptions(
+        IEnumerable<string> container
+    )
+    {
+        CommandParts = ["container", "kill"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
+
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 }

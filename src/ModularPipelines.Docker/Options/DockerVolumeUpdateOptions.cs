@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("volume update")]
+[CommandPrecedingArguments("volume", "update")]
 [ExcludeFromCodeCoverage]
 public record DockerVolumeUpdateOptions : DockerOptions
 {

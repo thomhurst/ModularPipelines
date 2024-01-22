@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("service rm")]
+[CommandPrecedingArguments("service", "rm")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Service) : DockerOptions;
+public record DockerServiceRmOptions : DockerOptions
+{
+}

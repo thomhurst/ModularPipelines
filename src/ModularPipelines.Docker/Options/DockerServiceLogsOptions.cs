@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("service logs")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceLogsOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
+public record DockerServiceLogsOptions : DockerOptions
 {
+    public DockerServiceLogsOptions(
+        string serviceTask
+    )
+    {
+        CommandParts = ["service", "logs"];
+
+        ServiceTask = serviceTask;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? ServiceTask { get; set; }
+
     [BooleanCommandSwitch("--details")]
     public bool? Details { get; set; }
 

@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("manifest rm")]
+[CommandPrecedingArguments("manifest", "rm")]
 [ExcludeFromCodeCoverage]
-public record DockerManifestRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> ManifestsList) : DockerOptions;
+public record DockerManifestRmOptions : DockerOptions
+{
+}

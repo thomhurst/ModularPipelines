@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("plugin disable")]
 [ExcludeFromCodeCoverage]
-public record DockerPluginDisableOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Plugin) : DockerOptions
+public record DockerPluginDisableOptions : DockerOptions
 {
+    public DockerPluginDisableOptions(
+        string plugin
+    )
+    {
+        CommandParts = ["plugin", "disable"];
+
+        Plugin = plugin;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Plugin { get; set; }
+
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 }

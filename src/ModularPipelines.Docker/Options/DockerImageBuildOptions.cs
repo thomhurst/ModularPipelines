@@ -4,15 +4,26 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image build")]
 [ExcludeFromCodeCoverage]
-public record DockerImageBuildOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Path) : DockerOptions
+public record DockerImageBuildOptions : DockerOptions
 {
+    public DockerImageBuildOptions(
+        string path
+    )
+    {
+        CommandParts = ["image", "build"];
+
+        Path = path;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Path { get; set; }
+
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public IEnumerable<KeyValue>? BuildArgs { get; set; }
+    public IEnumerable<KeyValue>? BuildArg { get; set; }
 
     [CommandSwitch("--cache-from")]
     public string? CacheFrom { get; set; }

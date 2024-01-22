@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose ls")]
+[CommandPrecedingArguments("compose", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeLsOptions : DockerOptions
 {
@@ -18,7 +19,4 @@ public record DockerComposeLsOptions : DockerOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

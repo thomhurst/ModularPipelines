@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("service update")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
+public record DockerServiceUpdateOptions : DockerOptions
 {
+    public DockerServiceUpdateOptions(
+        string service
+    )
+    {
+        CommandParts = ["service", "update"];
+
+        Service = service;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Service { get; set; }
+
     [CommandSwitch("--args")]
     public string? Args { get; set; }
 
@@ -94,6 +106,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--health-retries")]
     public string? HealthRetries { get; set; }
 
+    [CommandSwitch("--health-start-interval")]
+    public string? HealthStartInterval { get; set; }
+
     [CommandSwitch("--health-start-period")]
     public string? HealthStartPeriod { get; set; }
 
@@ -114,6 +129,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--init")]
     public string? Init { get; set; }
+
+    [BooleanCommandSwitch("--isolation")]
+    public bool? Isolation { get; set; }
 
     [CommandSwitch("--label-add")]
     public string? LabelAdd { get; set; }
@@ -139,8 +157,14 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--max-concurrent")]
     public string? MaxConcurrent { get; set; }
 
+    [CommandSwitch("--mount-add")]
+    public string? MountAdd { get; set; }
+
     [CommandSwitch("--mount-rm")]
     public string? MountRm { get; set; }
+
+    [CommandSwitch("--network-add")]
+    public string? NetworkAdd { get; set; }
 
     [CommandSwitch("--network-rm")]
     public string? NetworkRm { get; set; }
@@ -156,6 +180,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--placement-pref-rm")]
     public string? PlacementPrefRm { get; set; }
+
+    [CommandSwitch("--publish-add")]
+    public string? PublishAdd { get; set; }
 
     [CommandSwitch("--publish-rm")]
     public string? PublishRm { get; set; }
@@ -190,6 +217,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--restart-window")]
     public string? RestartWindow { get; set; }
 
+    [CommandSwitch("--rollback")]
+    public string? Rollback { get; set; }
+
     [CommandSwitch("--rollback-delay")]
     public string? RollbackDelay { get; set; }
 
@@ -207,6 +237,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--rollback-parallelism")]
     public string? RollbackParallelism { get; set; }
+
+    [CommandSwitch("--secret-add")]
+    public string? SecretAdd { get; set; }
 
     [CommandSwitch("--secret-rm")]
     public string? SecretRm { get; set; }
@@ -247,6 +280,9 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
     [CommandSwitch("--update-order")]
     public string? UpdateOrder { get; set; }
 
+    [CommandSwitch("--update-parallelism")]
+    public string? UpdateParallelism { get; set; }
+
     [CommandSwitch("--user")]
     public string? User { get; set; }
 
@@ -255,25 +291,4 @@ public record DockerServiceUpdateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
-    [BooleanCommandSwitch("--isolation")]
-    public bool? Isolation { get; set; }
-
-    [CommandSwitch("--mount-add")]
-    public string? MountAdd { get; set; }
-
-    [CommandSwitch("--network-add")]
-    public string? NetworkAdd { get; set; }
-
-    [CommandSwitch("--publish-add")]
-    public string? PublishAdd { get; set; }
-
-    [CommandSwitch("--rollback")]
-    public string? Rollback { get; set; }
-
-    [CommandSwitch("--secret-add")]
-    public string? SecretAdd { get; set; }
-
-    [CommandSwitch("--update-parallelism")]
-    public string? UpdateParallelism { get; set; }
 }

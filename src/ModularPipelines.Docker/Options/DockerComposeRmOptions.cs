@@ -1,14 +1,18 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose rm")]
+[CommandPrecedingArguments("compose", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeRmOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Service { get; set; }
+
+    [BooleanCommandSwitch("--all")]
+    public bool? All { get; set; }
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
@@ -18,7 +22,4 @@ public record DockerComposeRmOptions : DockerOptions
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

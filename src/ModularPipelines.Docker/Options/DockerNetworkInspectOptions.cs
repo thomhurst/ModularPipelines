@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("network inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerNetworkInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Networks) : DockerOptions
+public record DockerNetworkInspectOptions : DockerOptions
 {
+    public DockerNetworkInspectOptions(
+        IEnumerable<string> network
+    )
+    {
+        CommandParts = ["network", "inspect"];
+
+        Network = network;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Network { get; set; }
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 

@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose up")]
+[CommandPrecedingArguments("compose", "up")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeUpOptions : DockerOptions
 {
@@ -81,7 +82,4 @@ public record DockerComposeUpOptions : DockerOptions
 
     [CommandSwitch("--wait-timeout")]
     public string? WaitTimeout { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

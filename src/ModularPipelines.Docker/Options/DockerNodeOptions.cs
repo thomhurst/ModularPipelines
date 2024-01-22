@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
 [CommandPrecedingArguments("node")]
 [ExcludeFromCodeCoverage]
-public record DockerNodeOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;
+public record DockerNodeOptions : DockerOptions
+{
+}

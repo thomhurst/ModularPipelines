@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("volume create")]
+[CommandPrecedingArguments("volume", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerVolumeCreateOptions : DockerOptions
 {
@@ -25,6 +26,12 @@ public record DockerVolumeCreateOptions : DockerOptions
     [CommandSwitch("--limit-bytes")]
     public string? LimitBytes { get; set; }
 
+    [CommandSwitch("--name")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--opt")]
+    public string? Opt { get; set; }
+
     [CommandSwitch("--required-bytes")]
     public string? RequiredBytes { get; set; }
 
@@ -45,7 +52,4 @@ public record DockerVolumeCreateOptions : DockerOptions
 
     [CommandSwitch("--type")]
     public string? Type { get; set; }
-
-    [CommandSwitch("--opt")]
-    public string? Opt { get; set; }
 }

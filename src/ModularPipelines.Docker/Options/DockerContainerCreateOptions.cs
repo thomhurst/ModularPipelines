@@ -1,17 +1,29 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container create")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
+public record DockerContainerCreateOptions : DockerOptions
 {
+    public DockerContainerCreateOptions(
+        string image
+    )
+    {
+        CommandParts = ["container", "create"];
+
+        Image = image;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Image { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Command { get; set; }
 
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? DockerArgs { get; set; }
+    public IEnumerable<string>? Arg { get; set; }
 
     [CommandSwitch("--add-host")]
     public string? AddHost { get; set; }
@@ -97,6 +109,9 @@ public record DockerContainerCreateOptions([property: PositionalArgument(Positio
     [CommandSwitch("--dns")]
     public string? Dns { get; set; }
 
+    [CommandSwitch("--dns-opt")]
+    public string? DnsOpt { get; set; }
+
     [CommandSwitch("--dns-option")]
     public string? DnsOption { get; set; }
 
@@ -132,6 +147,9 @@ public record DockerContainerCreateOptions([property: PositionalArgument(Positio
 
     [CommandSwitch("--health-retries")]
     public string? HealthRetries { get; set; }
+
+    [CommandSwitch("--health-start-interval")]
+    public string? HealthStartInterval { get; set; }
 
     [CommandSwitch("--health-start-period")]
     public string? HealthStartPeriod { get; set; }
@@ -207,6 +225,12 @@ public record DockerContainerCreateOptions([property: PositionalArgument(Positio
 
     [CommandSwitch("--name")]
     public string? Name { get; set; }
+
+    [CommandSwitch("--net")]
+    public string? Net { get; set; }
+
+    [CommandSwitch("--net-alias")]
+    public string? NetAlias { get; set; }
 
     [CommandSwitch("--network")]
     public string? Network { get; set; }

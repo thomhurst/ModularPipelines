@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust signer")]
+[CommandPrecedingArguments("trust", "signer")]
 [ExcludeFromCodeCoverage]
-public record DockerTrustSignerOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;
+public record DockerTrustSignerOptions : DockerOptions
+{
+}

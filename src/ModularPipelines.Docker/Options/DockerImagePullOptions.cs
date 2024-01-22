@@ -1,12 +1,21 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image pull")]
 [ExcludeFromCodeCoverage]
 public record DockerImagePullOptions : DockerOptions
 {
+    public DockerImagePullOptions(
+        string name
+    )
+    {
+        CommandParts = ["image", "pull"];
+
+        Name = name;
+    }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
 

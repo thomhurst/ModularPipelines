@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack ls")]
+[CommandPrecedingArguments("stack", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerStackLsOptions : DockerOptions
 {

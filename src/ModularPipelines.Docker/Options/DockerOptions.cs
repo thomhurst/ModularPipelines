@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Options;
@@ -11,13 +12,13 @@ public record DockerOptions() : CommandLineToolOptions("docker")
     public string? Config { get; set; }
 
     [CommandSwitch("--context")]
-    public string? ContextOverride { get; set; }
+    public string? Context { get; set; }
 
-    [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    [CommandSwitch("--debug")]
+    public string? Debug { get; set; }
 
-    [BooleanCommandSwitch("--debug")]
-    public bool? Debug { get; set; }
+    [CommandSwitch("--help")]
+    public string? Help { get; set; }
 
     [CommandSwitch("--host")]
     public string? Host { get; set; }
@@ -25,18 +26,18 @@ public record DockerOptions() : CommandLineToolOptions("docker")
     [CommandSwitch("--log-level")]
     public string? LogLevel { get; set; }
 
-    [BooleanCommandSwitch("--tls")]
-    public bool? Tls { get; set; }
+    [CommandSwitch("--tls")]
+    public string? Tls { get; set; }
 
     [CommandSwitch("--tlscacert")]
-    public string? TlsCaCert { get; set; }
+    public string? Tlscacert { get; set; }
 
     [CommandSwitch("--tlscert")]
-    public string? TlsCert { get; set; }
+    public string? Tlscert { get; set; }
 
     [CommandSwitch("--tlskey")]
-    public string? TlsKey { get; set; }
+    public string? Tlskey { get; set; }
 
-    [BooleanCommandSwitch("--tlsverify")]
-    public bool? TlsVerify { get; set; }
+    [CommandSwitch("--tlsverify")]
+    public string? Tlsverify { get; set; }
 }

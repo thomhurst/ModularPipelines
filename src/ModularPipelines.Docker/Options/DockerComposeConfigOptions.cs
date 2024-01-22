@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose config")]
+[CommandPrecedingArguments("compose", "config")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeConfigOptions : DockerOptions
 {
@@ -31,6 +32,9 @@ public record DockerComposeConfigOptions : DockerOptions
     [BooleanCommandSwitch("--no-path-resolution")]
     public bool? NoPathResolution { get; set; }
 
+    [CommandSwitch("--output")]
+    public string? Output { get; set; }
+
     [CommandSwitch("--profiles")]
     public string? Profiles { get; set; }
 
@@ -45,7 +49,4 @@ public record DockerComposeConfigOptions : DockerOptions
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

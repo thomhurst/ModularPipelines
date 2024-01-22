@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container top")]
+[CommandPrecedingArguments("container", "top")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerTopOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions;
+public record DockerContainerTopOptions : DockerOptions
+{
+}

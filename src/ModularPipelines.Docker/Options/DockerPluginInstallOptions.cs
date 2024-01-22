@@ -1,14 +1,26 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("plugin install")]
 [ExcludeFromCodeCoverage]
-public record DockerPluginInstallOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Plugin) : DockerOptions
+public record DockerPluginInstallOptions : DockerOptions
 {
+    public DockerPluginInstallOptions(
+        string plugin
+    )
+    {
+        CommandParts = ["plugin", "install"];
+
+        Plugin = plugin;
+    }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? KeyValues { get; set; }
+    public string? Plugin { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<KeyValue>? KeyValue { get; set; }
 
     [CommandSwitch("--alias")]
     public string? Alias { get; set; }

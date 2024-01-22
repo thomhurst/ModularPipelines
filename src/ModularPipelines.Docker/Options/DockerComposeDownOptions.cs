@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose down")]
+[CommandPrecedingArguments("compose", "down")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeDownOptions : DockerOptions
 {
@@ -21,7 +22,4 @@ public record DockerComposeDownOptions : DockerOptions
 
     [CommandSwitch("--volumes")]
     public string? Volumes { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

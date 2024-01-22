@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout repo list")]
+[CommandPrecedingArguments("scout", "repo", "list")]
 [ExcludeFromCodeCoverage]
-public record DockerScoutRepoListOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Org) : DockerOptions
+public record DockerScoutRepoListOptions : DockerOptions
 {
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
@@ -15,4 +16,10 @@ public record DockerScoutRepoListOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--only-enabled")]
     public string? OnlyEnabled { get; set; }
+
+    [CommandSwitch("--only-registry")]
+    public string? OnlyRegistry { get; set; }
+
+    [CommandSwitch("--org")]
+    public string? Org { get; set; }
 }

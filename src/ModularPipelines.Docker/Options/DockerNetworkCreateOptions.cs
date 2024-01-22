@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("network create")]
 [ExcludeFromCodeCoverage]
-public record DockerNetworkCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Network) : DockerOptions
+public record DockerNetworkCreateOptions : DockerOptions
 {
+    public DockerNetworkCreateOptions(
+        string network
+    )
+    {
+        CommandParts = ["network", "create"];
+
+        Network = network;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Network { get; set; }
+
     [CommandSwitch("--attachable")]
     public string? Attachable { get; set; }
 
@@ -24,6 +36,12 @@ public record DockerNetworkCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--gateway")]
     public string? Gateway { get; set; }
+
+    [CommandSwitch("--ingress")]
+    public string? Ingress { get; set; }
+
+    [CommandSwitch("--internal")]
+    public string? Internal { get; set; }
 
     [CommandSwitch("--ip-range")]
     public string? IpRange { get; set; }
@@ -48,10 +66,4 @@ public record DockerNetworkCreateOptions([property: PositionalArgument(Position 
 
     [CommandSwitch("--subnet")]
     public string? Subnet { get; set; }
-
-    [CommandSwitch("--ingress")]
-    public string? Ingress { get; set; }
-
-    [CommandSwitch("--internal")]
-    public string? Internal { get; set; }
 }

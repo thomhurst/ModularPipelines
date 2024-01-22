@@ -1,12 +1,21 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image push")]
 [ExcludeFromCodeCoverage]
 public record DockerImagePushOptions : DockerOptions
 {
+    public DockerImagePushOptions(
+        string name
+    )
+    {
+        CommandParts = ["image", "push"];
+
+        Name = name;
+    }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Name { get; set; }
 

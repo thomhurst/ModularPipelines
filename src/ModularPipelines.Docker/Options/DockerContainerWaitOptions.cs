@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container wait")]
+[CommandPrecedingArguments("container", "wait")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerWaitOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions;
+public record DockerContainerWaitOptions : DockerOptions
+{
+}

@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("service rollback")]
 [ExcludeFromCodeCoverage]
-public record DockerServiceRollbackOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service) : DockerOptions
+public record DockerServiceRollbackOptions : DockerOptions
 {
+    public DockerServiceRollbackOptions(
+        string service
+    )
+    {
+        CommandParts = ["service", "rollback"];
+
+        Service = service;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Service { get; set; }
+
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 

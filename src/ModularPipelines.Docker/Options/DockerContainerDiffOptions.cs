@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container diff")]
+[CommandPrecedingArguments("container", "diff")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerDiffOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions;
+public record DockerContainerDiffOptions : DockerOptions
+{
+}

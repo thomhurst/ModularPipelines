@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack ps")]
 [ExcludeFromCodeCoverage]
-public record DockerStackPsOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
+public record DockerStackPsOptions : DockerOptions
 {
+    public DockerStackPsOptions(
+        string stack
+    )
+    {
+        CommandParts = ["stack", "ps"];
+
+        Stack = stack;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Stack { get; set; }
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("system df")]
+[CommandPrecedingArguments("system", "df")]
 [ExcludeFromCodeCoverage]
 public record DockerSystemDfOptions : DockerOptions
 {

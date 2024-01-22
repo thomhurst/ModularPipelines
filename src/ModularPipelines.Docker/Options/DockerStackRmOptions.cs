@@ -1,8 +1,21 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack rm")]
 [ExcludeFromCodeCoverage]
-public record DockerStackRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Stacks) : DockerOptions;
+public record DockerStackRmOptions : DockerOptions
+{
+    public DockerStackRmOptions(
+        IEnumerable<string> stack
+    )
+    {
+        CommandParts = ["stack", "rm"];
+
+        Stack = stack;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Stack { get; set; }
+}

@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image load")]
+[CommandPrecedingArguments("image", "load")]
 [ExcludeFromCodeCoverage]
 public record DockerImageLoadOptions : DockerOptions
 {

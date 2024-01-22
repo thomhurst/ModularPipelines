@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container commit")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerCommitOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions
+public record DockerContainerCommitOptions : DockerOptions
 {
+    public DockerContainerCommitOptions(
+        string container
+    )
+    {
+        CommandParts = ["container", "commit"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Container { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Repository { get; set; }
 

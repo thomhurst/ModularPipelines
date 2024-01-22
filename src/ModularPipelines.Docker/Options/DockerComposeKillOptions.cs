@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose kill")]
+[CommandPrecedingArguments("compose", "kill")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeKillOptions : DockerOptions
 {
@@ -15,7 +16,4 @@ public record DockerComposeKillOptions : DockerOptions
 
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

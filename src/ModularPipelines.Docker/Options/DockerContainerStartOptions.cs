@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container start")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerStartOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerStartOptions : DockerOptions
 {
+    public DockerContainerStartOptions(
+        IEnumerable<string> container
+    )
+    {
+        CommandParts = ["container", "start"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
+
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 

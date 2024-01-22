@@ -1,12 +1,30 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("checkpoint create")]
 [ExcludeFromCodeCoverage]
-public record DockerCheckpointCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container, [property: PositionalArgument(Position = Position.AfterSwitches)] string Checkpoint) : DockerOptions
+public record DockerCheckpointCreateOptions : DockerOptions
 {
+    public DockerCheckpointCreateOptions(
+        string container,
+        string checkpoint
+    )
+    {
+        CommandParts = ["checkpoint", "create"];
+
+        Container = container;
+
+        Checkpoint = checkpoint;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Container { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Checkpoint { get; set; }
+
     [CommandSwitch("--checkpoint-dir")]
     public string? CheckpointDir { get; set; }
 

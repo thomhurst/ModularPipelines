@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container pause")]
+[CommandPrecedingArguments("container", "pause")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerPauseOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions;
+public record DockerContainerPauseOptions : DockerOptions
+{
+}

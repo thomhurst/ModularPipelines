@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose images")]
+[CommandPrecedingArguments("compose", "images")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeImagesOptions : DockerOptions
 {
@@ -15,7 +16,4 @@ public record DockerComposeImagesOptions : DockerOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

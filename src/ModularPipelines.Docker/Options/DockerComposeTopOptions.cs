@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose top")]
+[CommandPrecedingArguments("compose", "top")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeTopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Services { get; set; }
 }

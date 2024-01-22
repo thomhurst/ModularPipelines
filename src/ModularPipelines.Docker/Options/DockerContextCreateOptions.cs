@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context create")]
 [ExcludeFromCodeCoverage]
-public record DockerContextCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Context) : DockerOptions
+public record DockerContextCreateOptions : DockerOptions
 {
+    public DockerContextCreateOptions(
+        string context
+    )
+    {
+        CommandParts = ["context", "create"];
+
+        CreateContext = context;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? CreateContext { get; set; }
+
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 

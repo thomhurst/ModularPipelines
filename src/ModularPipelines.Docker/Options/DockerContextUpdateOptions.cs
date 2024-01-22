@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context update")]
 [ExcludeFromCodeCoverage]
-public record DockerContextUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Context) : DockerOptions
+public record DockerContextUpdateOptions : DockerOptions
 {
+    public DockerContextUpdateOptions(
+        string context
+    )
+    {
+        CommandParts = ["context", "update"];
+
+        UpdateContext = context;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? UpdateContext { get; set; }
+
     [CommandSwitch("--description")]
     public string? Description { get; set; }
 

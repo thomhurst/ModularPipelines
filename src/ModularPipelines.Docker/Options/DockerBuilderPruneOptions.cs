@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("builder prune")]
+[CommandPrecedingArguments("builder", "prune")]
 [ExcludeFromCodeCoverage]
 public record DockerBuilderPruneOptions : DockerOptions
 {

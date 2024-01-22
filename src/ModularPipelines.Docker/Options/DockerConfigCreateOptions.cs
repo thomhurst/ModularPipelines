@@ -1,15 +1,33 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("config create")]
 [ExcludeFromCodeCoverage]
-public record DockerConfigCreateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string ConfigName) : DockerOptions
+public record DockerConfigCreateOptions : DockerOptions
 {
-    [CommandSwitch("--template-driver")]
-    public string? TemplateDriver { get; set; }
+    public DockerConfigCreateOptions(
+        string config,
+        string file
+    )
+    {
+        CommandParts = ["config", "create"];
+
+        CreateConfig = config;
+
+        File = file;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? CreateConfig { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? File { get; set; }
 
     [CommandSwitch("--label")]
     public string? Label { get; set; }
+
+    [CommandSwitch("--template-driver")]
+    public string? TemplateDriver { get; set; }
 }

@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx rm")]
+[CommandPrecedingArguments("buildx", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxRmOptions : DockerOptions
 {
@@ -21,7 +22,4 @@ public record DockerBuildxRmOptions : DockerOptions
 
     [CommandSwitch("--keep-state")]
     public string? KeepState { get; set; }
-
-    [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
 }

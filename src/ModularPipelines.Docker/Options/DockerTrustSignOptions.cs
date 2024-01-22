@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust sign")]
+[CommandPrecedingArguments("trust", "sign")]
 [ExcludeFromCodeCoverage]
-public record DockerTrustSignOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
+public record DockerTrustSignOptions : DockerOptions
 {
     [CommandSwitch("--local")]
     public string? Local { get; set; }

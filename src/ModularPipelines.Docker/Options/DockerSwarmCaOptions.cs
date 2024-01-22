@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("swarm ca")]
+[CommandPrecedingArguments("swarm", "ca")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmCaOptions : DockerOptions
 {
@@ -16,14 +17,14 @@ public record DockerSwarmCaOptions : DockerOptions
     [CommandSwitch("--cert-expiry")]
     public string? CertExpiry { get; set; }
 
+    [BooleanCommandSwitch("--detach")]
+    public bool? Detach { get; set; }
+
     [CommandSwitch("--external-ca")]
     public string? ExternalCa { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
-    [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
 
     [CommandSwitch("--rotate")]
     public string? Rotate { get; set; }

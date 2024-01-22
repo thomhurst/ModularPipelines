@@ -1,12 +1,27 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("stack deploy")]
 [ExcludeFromCodeCoverage]
-public record DockerStackDeployOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Stack) : DockerOptions
+public record DockerStackDeployOptions : DockerOptions
 {
+    public DockerStackDeployOptions(
+        string stack
+    )
+    {
+        CommandParts = ["stack", "deploy"];
+
+        Stack = stack;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Stack { get; set; }
+
+    [CommandSwitch("--compose-file")]
+    public string? ComposeFile { get; set; }
+
     [CommandSwitch("--prune")]
     public string? Prune { get; set; }
 
@@ -15,7 +30,4 @@ public record DockerStackDeployOptions([property: PositionalArgument(Position = 
 
     [CommandSwitch("--with-registry-auth")]
     public string? WithRegistryAuth { get; set; }
-
-    [CommandSwitch("--compose-file")]
-    public string? ComposeFile { get; set; }
 }

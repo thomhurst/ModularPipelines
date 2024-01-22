@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust key load")]
 [ExcludeFromCodeCoverage]
-public record DockerTrustKeyLoadOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Keyfile) : DockerOptions
+public record DockerTrustKeyLoadOptions : DockerOptions
 {
+    public DockerTrustKeyLoadOptions(
+        string keyfile
+    )
+    {
+        CommandParts = ["trust", "key", "load"];
+
+        Keyfile = keyfile;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Keyfile { get; set; }
+
     [CommandSwitch("--name")]
     public string? Name { get; set; }
 }

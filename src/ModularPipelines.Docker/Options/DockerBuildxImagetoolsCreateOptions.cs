@@ -1,17 +1,18 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx imagetools create")]
+[CommandPrecedingArguments("buildx", "imagetools", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? Source { get; set; }
+    public string? Source { get; set; }
 
-    [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    [CommandSwitch("--annotation")]
+    public string? Annotation { get; set; }
 
     [CommandSwitch("--append")]
     public string? Append { get; set; }
@@ -22,9 +23,9 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     [CommandSwitch("--file")]
     public string? File { get; set; }
 
+    [CommandSwitch("--progress")]
+    public string? Progress { get; set; }
+
     [CommandSwitch("--tag")]
     public string? Tag { get; set; }
-
-    [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
 }

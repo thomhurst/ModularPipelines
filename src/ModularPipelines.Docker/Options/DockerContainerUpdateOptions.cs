@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container update")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerUpdateOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerUpdateOptions : DockerOptions
 {
+    public DockerContainerUpdateOptions(
+        IEnumerable<string> container
+    )
+    {
+        CommandParts = ["container", "update"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
+
     [CommandSwitch("--blkio-weight")]
     public string? BlkioWeight { get; set; }
 
@@ -33,6 +45,9 @@ public record DockerContainerUpdateOptions([property: PositionalArgument(Positio
 
     [CommandSwitch("--cpuset-mems")]
     public string? CpusetMems { get; set; }
+
+    [CommandSwitch("--kernel-memory")]
+    public string? KernelMemory { get; set; }
 
     [CommandSwitch("--memory")]
     public string? Memory { get; set; }

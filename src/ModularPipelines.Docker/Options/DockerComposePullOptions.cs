@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose pull")]
+[CommandPrecedingArguments("compose", "pull")]
 [ExcludeFromCodeCoverage]
 public record DockerComposePullOptions : DockerOptions
 {
@@ -19,9 +20,15 @@ public record DockerComposePullOptions : DockerOptions
     [CommandSwitch("--include-deps")]
     public string? IncludeDeps { get; set; }
 
+    [BooleanCommandSwitch("--no-parallel")]
+    public bool? NoParallel { get; set; }
+
+    [BooleanCommandSwitch("--parallel")]
+    public bool? Parallel { get; set; }
+
+    [CommandSwitch("--policy")]
+    public string? Policy { get; set; }
+
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

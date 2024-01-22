@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("config rm")]
+[CommandPrecedingArguments("config", "rm")]
 [ExcludeFromCodeCoverage]
-public record DockerConfigRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> ConfigNamesNames) : DockerOptions;
+public record DockerConfigRmOptions : DockerOptions
+{
+}

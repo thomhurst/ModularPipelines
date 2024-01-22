@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("plugin upgrade")]
 [ExcludeFromCodeCoverage]
-public record DockerPluginUpgradeOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Plugin) : DockerOptions
+public record DockerPluginUpgradeOptions : DockerOptions
 {
+    public DockerPluginUpgradeOptions(
+        string plugin
+    )
+    {
+        CommandParts = ["plugin", "upgrade"];
+
+        Plugin = plugin;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Plugin { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public string? Remote { get; set; }
 

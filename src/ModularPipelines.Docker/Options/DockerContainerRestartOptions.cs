@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container restart")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerRestartOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerRestartOptions : DockerOptions
 {
+    public DockerContainerRestartOptions(
+        IEnumerable<string> container
+    )
+    {
+        CommandParts = ["container", "restart"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
+
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 

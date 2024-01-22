@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose stop")]
+[CommandPrecedingArguments("compose", "stop")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeStopOptions : DockerOptions
 {
@@ -12,7 +13,4 @@ public record DockerComposeStopOptions : DockerOptions
 
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

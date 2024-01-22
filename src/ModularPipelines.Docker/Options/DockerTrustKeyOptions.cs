@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust key")]
+[CommandPrecedingArguments("trust", "key")]
 [ExcludeFromCodeCoverage]
-public record DockerTrustKeyOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions;
+public record DockerTrustKeyOptions : DockerOptions
+{
+}

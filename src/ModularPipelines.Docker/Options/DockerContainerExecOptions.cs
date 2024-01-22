@@ -1,14 +1,32 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container exec")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerExecOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container, [property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
+public record DockerContainerExecOptions : DockerOptions
 {
+    public DockerContainerExecOptions(
+        string container,
+        string command
+    )
+    {
+        CommandParts = ["container", "exec"];
+
+        Container = container;
+
+        Command = command;
+    }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
-    public IEnumerable<string>? DockerArgs { get; set; }
+    public string? Container { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Command { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Arg { get; set; }
 
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }

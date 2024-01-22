@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("search")]
 [ExcludeFromCodeCoverage]
-public record DockerSearchOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Term) : DockerOptions
+public record DockerSearchOptions : DockerOptions
 {
+    public DockerSearchOptions(
+        string term
+    )
+    {
+        CommandParts = ["search"];
+
+        Term = term;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Term { get; set; }
+
     [CommandSwitch("--filter")]
     public string? Filter { get; set; }
 

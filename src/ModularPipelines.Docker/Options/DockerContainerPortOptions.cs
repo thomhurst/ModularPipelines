@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container port")]
+[CommandPrecedingArguments("container", "port")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerPortOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Container) : DockerOptions
+public record DockerContainerPortOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? PrivatePort { get; set; }
 }

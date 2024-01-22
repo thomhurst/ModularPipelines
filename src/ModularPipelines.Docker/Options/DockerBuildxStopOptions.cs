@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx stop")]
+[CommandPrecedingArguments("buildx", "stop")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxStopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
-    public string? Name { get; set; }
 }

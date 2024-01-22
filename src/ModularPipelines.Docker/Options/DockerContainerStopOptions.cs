@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container stop")]
 [ExcludeFromCodeCoverage]
-public record DockerContainerStopOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Containers) : DockerOptions
+public record DockerContainerStopOptions : DockerOptions
 {
+    public DockerContainerStopOptions(
+        IEnumerable<string> container
+    )
+    {
+        CommandParts = ["container", "stop"];
+
+        Container = container;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Container { get; set; }
+
     [CommandSwitch("--signal")]
     public string? Signal { get; set; }
 

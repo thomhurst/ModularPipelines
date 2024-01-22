@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose events")]
+[CommandPrecedingArguments("compose", "events")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeEventsOptions : DockerOptions
 {
@@ -12,7 +13,4 @@ public record DockerComposeEventsOptions : DockerOptions
 
     [CommandSwitch("--json")]
     public string? Json { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

@@ -1,23 +1,33 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout compare")]
+[CommandPrecedingArguments("scout", "compare")]
 [ExcludeFromCodeCoverage]
-public record DockerScoutCompareOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Image) : DockerOptions
+public record DockerScoutCompareOptions : DockerOptions
 {
     [CommandSwitch("--exit-code")]
     public string? ExitCode { get; set; }
 
+    [CommandSwitch("--exit-on")]
+    public string? ExitOn { get; set; }
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
+
+    [CommandSwitch("--hide-policies")]
+    public string? HidePolicies { get; set; }
 
     [CommandSwitch("--ignore-base")]
     public string? IgnoreBase { get; set; }
 
     [CommandSwitch("--ignore-unchanged")]
     public string? IgnoreUnchanged { get; set; }
+
+    [CommandSwitch("--multi-stage")]
+    public string? MultiStage { get; set; }
 
     [CommandSwitch("--only-fixed")]
     public string? OnlyFixed { get; set; }
@@ -28,8 +38,17 @@ public record DockerScoutCompareOptions([property: PositionalArgument(Position =
     [CommandSwitch("--only-severity")]
     public string? OnlySeverity { get; set; }
 
+    [CommandSwitch("--only-stage")]
+    public string? OnlyStage { get; set; }
+
     [CommandSwitch("--only-unfixed")]
     public string? OnlyUnfixed { get; set; }
+
+    [CommandSwitch("--org")]
+    public string? Org { get; set; }
+
+    [CommandSwitch("--output")]
+    public string? Output { get; set; }
 
     [CommandSwitch("--platform")]
     public string? Platform { get; set; }
@@ -40,6 +59,9 @@ public record DockerScoutCompareOptions([property: PositionalArgument(Position =
     [CommandSwitch("--to")]
     public string? To { get; set; }
 
+    [CommandSwitch("--to-env")]
+    public string? ToEnv { get; set; }
+
     [CommandSwitch("--to-latest")]
     public string? ToLatest { get; set; }
 
@@ -48,10 +70,4 @@ public record DockerScoutCompareOptions([property: PositionalArgument(Position =
 
     [CommandSwitch("--to-stream")]
     public string? ToStream { get; set; }
-
-    [CommandSwitch("--to-type")]
-    public string? ToType { get; set; }
-
-    [CommandSwitch("--type")]
-    public string? Type { get; set; }
 }

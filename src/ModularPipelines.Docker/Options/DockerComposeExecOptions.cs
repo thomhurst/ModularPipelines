@@ -1,12 +1,30 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose exec")]
 [ExcludeFromCodeCoverage]
-public record DockerComposeExecOptions([property: PositionalArgument(Position = Position.AfterSwitches)] string Service, [property: PositionalArgument(Position = Position.AfterSwitches)] string Command) : DockerOptions
+public record DockerComposeExecOptions : DockerOptions
 {
+    public DockerComposeExecOptions(
+        string service,
+        string command
+    )
+    {
+        CommandParts = ["compose", "exec"];
+
+        Service = service;
+
+        Command = command;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Service { get; set; }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public string? Command { get; set; }
+
     [PositionalArgument(Position = Position.AfterSwitches)]
     public IEnumerable<string>? Args { get; set; }
 
@@ -19,18 +37,21 @@ public record DockerComposeExecOptions([property: PositionalArgument(Position = 
     [CommandSwitch("--index")]
     public string? Index { get; set; }
 
+    [BooleanCommandSwitch("--interactive")]
+    public bool? Interactive { get; set; }
+
     [BooleanCommandSwitch("--no-TTY")]
-    public bool? NoTTY { get; set; }
+    public bool? NoTty { get; set; }
 
     [BooleanCommandSwitch("--privileged")]
     public bool? Privileged { get; set; }
+
+    [BooleanCommandSwitch("--tty")]
+    public bool? Tty { get; set; }
 
     [CommandSwitch("--user")]
     public string? User { get; set; }
 
     [CommandSwitch("--workdir")]
     public string? Workdir { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

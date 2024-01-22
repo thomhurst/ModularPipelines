@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("node promote")]
+[CommandPrecedingArguments("node", "promote")]
 [ExcludeFromCodeCoverage]
-public record DockerNodePromoteOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Node) : DockerOptions;
+public record DockerNodePromoteOptions : DockerOptions
+{
+}

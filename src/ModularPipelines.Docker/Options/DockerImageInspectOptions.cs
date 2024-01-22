@@ -1,12 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image inspect")]
 [ExcludeFromCodeCoverage]
-public record DockerImageInspectOptions([property: PositionalArgument(Position = Position.AfterSwitches)] IEnumerable<string> Images) : DockerOptions
+public record DockerImageInspectOptions : DockerOptions
 {
+    public DockerImageInspectOptions(
+        IEnumerable<string> image
+    )
+    {
+        CommandParts = ["image", "inspect"];
+
+        Image = image;
+    }
+
+    [PositionalArgument(Position = Position.AfterSwitches)]
+    public IEnumerable<string>? Image { get; set; }
+
     [CommandSwitch("--format")]
     public string? Format { get; set; }
 }

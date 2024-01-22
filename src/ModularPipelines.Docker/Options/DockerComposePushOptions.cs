@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose push")]
+[CommandPrecedingArguments("compose", "push")]
 [ExcludeFromCodeCoverage]
 public record DockerComposePushOptions : DockerOptions
 {
@@ -18,7 +19,4 @@ public record DockerComposePushOptions : DockerOptions
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }

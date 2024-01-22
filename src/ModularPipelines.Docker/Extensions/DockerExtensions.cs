@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.Docker.Services;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Docker.Extensions;
@@ -20,7 +21,35 @@ public static class DockerExtensions
 
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
-        services.TryAddScoped<IDocker, Docker>();
+        services.TryAddScoped<IDocker, Services.Docker>();
+        services.TryAddScoped<DockerBuilder>();
+        services.TryAddScoped<DockerBuildx>();
+        services.TryAddScoped<DockerBuildxImagetools>();
+        services.TryAddScoped<DockerCheckpoint>();
+        services.TryAddScoped<DockerCompose>();
+        services.TryAddScoped<DockerComposeAlpha>();
+        services.TryAddScoped<DockerConfig>();
+        services.TryAddScoped<DockerContainer>();
+        services.TryAddScoped<DockerContext>();
+        services.TryAddScoped<DockerImage>();
+        services.TryAddScoped<DockerManifest>();
+        services.TryAddScoped<DockerNetwork>();
+        services.TryAddScoped<DockerNode>();
+        services.TryAddScoped<DockerPlugin>();
+        services.TryAddScoped<DockerScout>();
+        services.TryAddScoped<DockerScoutCache>();
+        services.TryAddScoped<DockerScoutIntegration>();
+        services.TryAddScoped<DockerScoutRepo>();
+        services.TryAddScoped<DockerSecret>();
+        services.TryAddScoped<DockerService>();
+        services.TryAddScoped<DockerStack>();
+        services.TryAddScoped<DockerSwarm>();
+        services.TryAddScoped<DockerSystem>();
+        services.TryAddScoped<DockerTrust>();
+        services.TryAddScoped<DockerTrustKey>();
+        services.TryAddScoped<DockerTrustSigner>();
+        services.TryAddScoped<DockerVolume>();
+
         return services;
     }
 

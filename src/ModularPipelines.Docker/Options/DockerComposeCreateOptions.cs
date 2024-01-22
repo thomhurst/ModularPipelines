@@ -1,9 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose create")]
+[CommandPrecedingArguments("compose", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeCreateOptions : DockerOptions
 {
@@ -30,7 +31,4 @@ public record DockerComposeCreateOptions : DockerOptions
 
     [CommandSwitch("--scale")]
     public string? Scale { get; set; }
-
-    [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
 }
