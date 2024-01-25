@@ -349,6 +349,13 @@ public class FileTests : TestBase
         Assert.Throws<FileNotFoundException>(() => file.AssertExists());
     }
 
+    [Test]
+    public async Task MoveTo_Folder()
+    {
+        var file = await CreateRandomFile();
+        file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
+    }
+
     private static async Task<File> CreateRandomFile()
     {
         var path = File.GetNewTemporaryFilePath();

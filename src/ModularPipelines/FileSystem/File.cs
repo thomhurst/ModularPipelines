@@ -132,6 +132,14 @@ public class File : IEquatable<File>
         FileInfo.MoveTo(path);
         return this;
     }
+    
+    /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
+    public File MoveTo(Folder folder)
+    {
+        folder.Create();
+        MoveTo(System.IO.Path.Combine(folder.Path, Name));
+        return this;
+    }
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path) => FileInfo.CopyTo(path);
