@@ -353,7 +353,7 @@ public class FileTests : TestBase
     public async Task MoveTo_Folder()
     {
         var file = await CreateRandomFile();
-        file.MoveTo(new Folder("C:\\temp"));
+        file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
     }
 
     private static async Task<File> CreateRandomFile()
