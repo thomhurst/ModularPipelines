@@ -62,7 +62,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         if (options.InternalDryRun)
         {
             _commandLogger.Log(options,
-                inputToLog: command.ToString(),
+                inputToLog: options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString()),
                 exitCode: 0,
                 runTime: TimeSpan.Zero,
                 standardOutput: "Dummy Output Response",
@@ -101,6 +101,8 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
+        var inputToLog = options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString());
+        
         try
         {
             var result = await command
@@ -109,11 +111,11 @@ internal class Command(ICommandLogger commandLogger) : ICommand
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync(cancellationToken);
 
-            standardOutput = standardOutputStringBuilder.ToString();
-            standardError = standardErrorStringBuilder.ToString();
+            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
             _commandLogger.Log(options: options,
-                inputToLog: command.ToString(),
+                inputToLog: inputToLog,
                 result.ExitCode,
                 result.RunTime,
                 standardOutput,
@@ -122,7 +124,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
 
             if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
             {
-                var input = command.ToString();
+                var input = inputToLog;
                 throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
             }
 
@@ -131,7 +133,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         catch (CommandExecutionException e)
         {
             _commandLogger.Log(options: options,
-                inputToLog: command.ToString(),
+                inputToLog: inputToLog,
                 e.ExitCode,
                 stopwatch.Elapsed,
                 standardOutput,
@@ -142,7 +144,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         catch (Exception e) when (e is not CommandExecutionException)
         {
             _commandLogger.Log(options: options,
-                inputToLog: command.ToString(),
+                inputToLog: inputToLog,
                 -1,
                 stopwatch.Elapsed,
                 standardOutput,
