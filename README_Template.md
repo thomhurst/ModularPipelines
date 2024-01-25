@@ -117,11 +117,14 @@ public class UploadNugetPackagesModule : Module<FileInfo>
     {
         var nugetFiles = await GetModule<FindNugetPackagesModule>();
 
-        return await context.NuGet()
-            .UploadPackages(new NuGetUploadOptions(nugetFiles.Value!.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
+        return await nugetFiles.Value!
+            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
             {
-                ApiKey = _nugetSettings.Value.ApiKey
-            });
+                Path = nugetFile,
+                Source = "https://api.nuget.org/v3/index.json",
+                ApiKey = _nugetSettings.Value.ApiKey!,
+            }, cancellationToken), cancellationToken: cancellationToken)
+            .ProcessOneAtATime();
     }
 }
 ```
