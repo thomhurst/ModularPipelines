@@ -1,1 +1,1 @@
- *   File.MoveTo(Folder) method
+*   File.MoveTo(Folder) method
