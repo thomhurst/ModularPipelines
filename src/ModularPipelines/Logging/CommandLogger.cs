@@ -45,13 +45,11 @@ internal class CommandLogger : ICommandLogger
 
             if (ShouldLogInput(optionsCommandLogging))
             {
-                var inputLoggingManipulator = options.InputLoggingManipulator ?? (s => s);
-
                 Logger.LogInformation("""
                                       ---Executing Command---
                                       {Input}
                                       """,
-                    inputLoggingManipulator(_secretObfuscator.Obfuscate(inputToLog, options)));
+                    _secretObfuscator.Obfuscate(inputToLog, options));
             }
             else
             {
@@ -79,22 +77,18 @@ internal class CommandLogger : ICommandLogger
 
             if (ShouldLogOutput(optionsCommandLogging))
             {
-                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-
                 Logger.LogInformation("""
                                       ---Command Result---
                                       {Output}
-                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(standardOutput, options)));
+                                      """, _secretObfuscator.Obfuscate(standardOutput, options));
             }
 
             if (ShouldLogError(optionsCommandLogging, exitCode))
             {
-                var outputLoggingManipulator = options.OutputLoggingManipulator ?? (s => s);
-
                 Logger.LogInformation("""
                                       ---Command Error---
                                       {Error}
-                                      """, outputLoggingManipulator(_secretObfuscator.Obfuscate(standardError, options)));
+                                      """, _secretObfuscator.Obfuscate(standardError, options));
             }
         }
     }

@@ -18,10 +18,17 @@ public class CommandException : PipelineException
 
     public string StandardError { get; }
 
-    private static string? GenerateMessage(string input, int exitCode, TimeSpan executionTime,
+    private static string GenerateMessage(string input, int exitCode, TimeSpan executionTime,
         string standardOutput, string standardError)
     {
-        return $"Error: {GetOutput(standardOutput, standardError)}{Environment.NewLine}Exit Code: {exitCode}{Environment.NewLine}Input: {input}";
+        return $"""
+               
+               Input: {input}
+               
+               Error: {GetOutput(standardOutput, standardError)}
+               
+               Exit Code: {exitCode}
+               """;
     }
 
     private static string GetOutput(string standardOutput, string standardError)
