@@ -13,7 +13,7 @@ public class ModuleFailedException : PipelineException
 
     private static string GetInnerMessage(Exception exception)
     {
-        if (!string.IsNullOrEmpty(exception?.Message))
+        if (!string.IsNullOrEmpty(exception.Message))
         {
             return $"{Environment.NewLine}{Environment.NewLine}{exception.Message}";
         }
