@@ -86,15 +86,11 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
     private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
     {
-        try
-        {
-            return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
-        }
-        finally
-        {
-            await _moduleDisposeExecutor.DisposeAsync();
-            _printModuleOutputExecutor.Dispose();
-            await _printProgressExecutor.DisposeAsync();
-        }
+        // Dispose and flush on scope leave - So including success or if an exception is thrown
+        await using var moduleDisposeExecutor = _moduleDisposeExecutor;
+        using var printModuleOutputExecutor = _printModuleOutputExecutor;
+        await using var printProgressExecutor = _printProgressExecutor;
+        
+        return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
     }
 }
