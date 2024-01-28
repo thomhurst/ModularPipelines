@@ -7,13 +7,24 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    private class Module : Module<string>
+    private class Module_UsingCancellationToken : Module<string>
     {
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(3);
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            return "Foo bar!";
+        }
+    }
+    
+    private class Module_NotUsingCancellationToken : Module<string>
+    {
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
+
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
             return "Foo bar!";
         }
     }
@@ -30,9 +41,17 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public void Throws_Timeout_Exception()
+    public void Throws_TaskException_When_Using_CancellationToken()
     {
-        var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module>);
+        var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
+
+        Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>());
+    }
+    
+    [Test]
+    public void Throws_Timeout_Exception_When_Not_Using_CancellationToken()
+    {
+        var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
         Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>());
     }

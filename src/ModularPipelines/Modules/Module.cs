@@ -224,8 +224,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
-            ModuleResultTaskCompletionSource.TrySetCanceled();
-
             await HookHandler.OnAfterExecute(Context);
 
             StatusHandler.LogModuleStatus();
@@ -284,8 +282,11 @@ public abstract partial class Module<T> : ModuleBase<T>
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
             {
-                Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
-                
+                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                {
+                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                }
+
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
