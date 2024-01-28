@@ -3,9 +3,9 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Exceptions;
 
-public class TimeoutException : PipelineException
+public class ModuleTimeoutException : PipelineException
 {
-    internal TimeoutException(ModuleBase moduleBase) : base($"{moduleBase.GetType().Name} has timed out after {GetTimeout(moduleBase)}")
+    internal ModuleTimeoutException(ModuleBase moduleBase) : base($"{moduleBase.GetType().Name} has timed out after {GetTimeout(moduleBase)}")
     {
     }
 

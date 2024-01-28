@@ -3,7 +3,6 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Polly.Retry;
-using TimeoutException = ModularPipelines.Exceptions.TimeoutException;
 
 namespace ModularPipelines.UnitTests;
 
@@ -156,6 +155,6 @@ public class RetryTests : TestBase
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());
 
-        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<TimeoutException>());
+        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<ModuleTimeoutException>());
     }
 }

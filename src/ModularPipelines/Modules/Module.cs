@@ -11,7 +11,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using Polly;
 using Polly.Retry;
-using TimeoutException = ModularPipelines.Exceptions.TimeoutException;
 
 namespace ModularPipelines.Modules;
 
@@ -286,7 +285,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
                 
-                throw new TimeoutException(this);
+                throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
         // Will throw a timeout exception if configured and timeout is reached

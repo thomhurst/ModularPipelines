@@ -2,7 +2,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using TimeoutException = ModularPipelines.Exceptions.TimeoutException;
 
 namespace ModularPipelines.UnitTests;
 
@@ -24,6 +23,6 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module>);
 
-        Assert.That(exception!.InnerException, Is.TypeOf<TimeoutException>());
+        Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>());
     }
 }
