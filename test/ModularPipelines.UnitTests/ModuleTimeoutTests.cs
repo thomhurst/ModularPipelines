@@ -17,6 +17,17 @@ public class ModuleTimeoutTests : TestBase
             return "Foo bar!";
         }
     }
+    
+    private class NoTimeoutModule : Module<string>
+    {
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.Zero;
+
+        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
+            return "Foo bar!";
+        }
+    }
 
     [Test]
     public void Throws_Timeout_Exception()
@@ -24,5 +35,11 @@ public class ModuleTimeoutTests : TestBase
         var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module>);
 
         Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>());
+    }
+    
+    [Test]
+    public void No_Timeout_Does_Not_Throw_Exception()
+    {
+        Assert.DoesNotThrowAsync(RunModule<NoTimeoutModule>);
     }
 }
