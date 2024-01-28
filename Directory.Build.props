@@ -19,6 +19,8 @@
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <RunAnalyzers>false</RunAnalyzers>
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -36,6 +38,7 @@
     
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" 
+                          Condition="$(MSBuildProjectFile.Contains('Test')) == false and '$(GITHUB_ACTIONS)' != 'true'"/>
     </ItemGroup>
 </Project>
