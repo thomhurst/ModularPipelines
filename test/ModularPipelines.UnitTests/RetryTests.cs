@@ -155,6 +155,6 @@ public class RetryTests : TestBase
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());
 
-        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<TaskCanceledException>());
+        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<ModuleTimeoutException>());
     }
 }

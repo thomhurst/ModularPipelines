@@ -202,12 +202,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
-
-            var timeoutExceptionTask = CancellationHandler.ConfigureModuleTimeout();
-
+            
             _stopwatch.Start();
 
-            var executeResult = await ExecuteInternal(timeoutExceptionTask);
+            var executeResult = await ExecuteInternal();
 
             SetEndTime();
 
@@ -226,8 +224,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
-            ModuleResultTaskCompletionSource.TrySetCanceled();
-
             await HookHandler.OnAfterExecute(Context);
 
             StatusHandler.LogModuleStatus();
@@ -251,7 +247,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private ModuleResult<T> _result = null!;
 
-    private async Task<T?> ExecuteInternal(Task timeoutExceptionTask)
+    private async Task<T?> ExecuteInternal()
     {
         var isRetry = false;
         var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
@@ -267,6 +263,32 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
         });
+
+        if (Timeout == TimeSpan.Zero)
+        {
+            return await executeAsyncTask;
+        }
+        
+        ModuleCancellationTokenSource.CancelAfter(Timeout);
+
+        var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
+        _ = executeAsyncTask.ContinueWith(async t =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
+            timeoutCancellationTokenSource.Cancel();
+            timeoutCancellationTokenSource.Dispose();
+        }, CancellationToken.None);
+        
+        var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
+            .ContinueWith(t =>
+            {
+                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                {
+                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                }
+
+                throw new ModuleTimeoutException(this);
+            }, CancellationToken.None);
 
         // Will throw a timeout exception if configured and timeout is reached
         await await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);

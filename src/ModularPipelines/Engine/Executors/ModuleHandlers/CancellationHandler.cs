@@ -18,29 +18,4 @@ internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
 
         ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
     }
-
-    public Task ConfigureModuleTimeout()
-    {
-        if (Module.Timeout == TimeSpan.Zero)
-        {
-            return Task.CompletedTask;
-        }
-
-        ModuleCancellationTokenSource.CancelAfter(Module.Timeout);
-
-        return Task.Run(async () =>
-        {
-            while (Module.ExecutionTask is not { IsCompleted: true })
-            {
-                ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                if (Module.ModuleRunType != ModuleRunType.AlwaysRun)
-                {
-                    EngineCancellationToken.Token.ThrowIfCancellationRequested();
-                }
-
-                await Task.Delay(500, ModuleCancellationTokenSource.Token);
-            }
-        }, ModuleCancellationTokenSource.Token);
-    }
 }

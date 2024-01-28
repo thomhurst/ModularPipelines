@@ -1,6 +1,8 @@
+using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -46,6 +48,26 @@ public class DependsOnTests : TestBase
 
     [DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3WithGet : Module
+    {
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            _ = GetModule<Module1>();
+            return await NothingAsync();
+        }
+    }
+    
+    [DependsOn<DependsOnSelfModule>]
+    private class DependsOnSelfModule : Module
+    {
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            _ = GetModule<Module1>();
+            return await NothingAsync();
+        }
+    }
+    
+    [DependsOn(typeof(ModuleFailedException))]
+    private class DependsOnNonModule : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -112,5 +134,23 @@ public class DependsOnTests : TestBase
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync(),
             Throws.Exception);
+    }
+    
+    [Test]
+    public void Depends_On_Self_Module_Throws_Exception()
+    {
+        Assert.That(async () => await TestPipelineHostBuilder.Create()
+                .AddModule<DependsOnSelfModule>()
+                .ExecutePipelineAsync(),
+            Throws.Exception.TypeOf<ModuleReferencingSelfException>());
+    }
+    
+    [Test]
+    public void Depends_On_Non_Module_Throws_Exception()
+    {
+        Assert.That(async () => await TestPipelineHostBuilder.Create()
+                .AddModule<DependsOnNonModule>()
+                .ExecutePipelineAsync(),
+            Throws.Exception.Message.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class"));
     }
 }

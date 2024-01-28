@@ -16,7 +16,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     {
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 
-        if (IsModuleTimedOutExeption(exception))
+        if (IsModuleTimedOutException(exception))
         {
             Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
 
@@ -52,9 +52,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
                && Context.EngineCancellationToken.IsCancelled;
     }
 
-    private bool IsModuleTimedOutExeption(Exception exception)
+    private bool IsModuleTimedOutException(Exception exception)
     {
-        return exception is TaskCanceledException or OperationCanceledException
+        return exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException
                && ModuleCancellationTokenSource.IsCancellationRequested
                && !Context.EngineCancellationToken.IsCancelled;
     }
@@ -73,11 +73,13 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     private void CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
-
+        
         Context.Logger.SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(Module, exception);
-
+        
+        Context.EngineCancellationToken.Cancel();
+        
         ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
 
         throw moduleFailedException;
