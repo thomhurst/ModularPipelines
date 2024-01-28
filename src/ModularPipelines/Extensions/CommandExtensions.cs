@@ -44,11 +44,6 @@ public static class CommandExtensions
         return options with
         {
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
-            CommandLineCredentials = options.CommandLineCredentials,
-            EnvironmentVariables = options.EnvironmentVariables,
-            CommandLogging = options.CommandLogging,
-            WorkingDirectory = options.WorkingDirectory,
-            OptionsObject = options.OptionsObject ?? options,
         };
     }
 }
