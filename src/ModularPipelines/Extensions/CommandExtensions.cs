@@ -44,7 +44,6 @@ public static class CommandExtensions
         return options with
         {
             Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
-            OptionsObject = options.OptionsObject ?? options,
         };
     }
 }
