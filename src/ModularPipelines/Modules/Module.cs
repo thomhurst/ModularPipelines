@@ -271,6 +271,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return await executeAsyncTask;
         }
+        
+        ModuleCancellationTokenSource.CancelAfter(Timeout);
 
         var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
         _ = executeAsyncTask.ContinueWith(t =>
