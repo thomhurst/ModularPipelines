@@ -5,6 +5,7 @@ using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Polly.Retry;
 
@@ -27,10 +28,15 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             {
                 ProjectSolutionDirectoryDllExe = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
-                NoRestore = true,
+                NoBuild = true,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
                     ["GITHUB_ACTIONS"] = null,
+                },
+                Properties = new KeyValue[]
+                {
+                    new("RunAnalyzersDuringBuild", "false"),
+                    new("RunAnalyzers", "false"),
                 },
             }, cancellationToken))
             .ProcessInParallel();
