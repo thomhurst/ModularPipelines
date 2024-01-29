@@ -16,8 +16,12 @@ internal class EngineCancellationToken : CancellationTokenSource
 
     public EngineCancellationToken()
     {
-        Console.CancelKeyPress += (_, _) => TryCancel();
-
+        Console.CancelKeyPress += (sender, args) =>
+        {
+            args.Cancel = true;
+            TryCancel();
+        };
+        
         AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
     }
 
