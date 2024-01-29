@@ -21,8 +21,6 @@ public static class Disposer
     [ExcludeFromCodeCoverage]
     public static void RegisterOnShutdown(object? obj)
     {
-        Console.CancelKeyPress += (_, _) => DisposeObject(obj);
-
         AppDomain.CurrentDomain.ProcessExit += (_, _) => DisposeObject(obj);
     }
 }
