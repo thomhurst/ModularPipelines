@@ -29,6 +29,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
                 ProjectSolutionDirectoryDllExe = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
                 NoBuild = true,
+                Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
                     ["GITHUB_ACTIONS"] = null,
