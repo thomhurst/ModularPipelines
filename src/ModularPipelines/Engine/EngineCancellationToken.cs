@@ -14,10 +14,15 @@ internal class EngineCancellationToken : CancellationTokenSource
 
     private bool _disposed;
 
+    [ExcludeFromCodeCoverage]
     public EngineCancellationToken()
     {
-        Console.CancelKeyPress += (_, _) => TryCancel();
-
+        Console.CancelKeyPress += (_, args) =>
+        {
+            args.Cancel = true;
+            TryCancel();
+        };
+        
         AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
     }
 
