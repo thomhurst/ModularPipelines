@@ -11,6 +11,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Serialization;
 using Polly;
 using Polly.Retry;
 
@@ -250,7 +251,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 foreach (var o in enumerable.Cast<object>())
                 {
-                    Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o));
+                    Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o, ModularPipelinesJsonSerializerSettings.Default));
                 }
 
                 return;
