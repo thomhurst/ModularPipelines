@@ -236,31 +236,38 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private void LogResult(T? executeResult)
     {
-        Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
-        
-        if (executeResult is null)
+        try
         {
-            Context.Logger.LogDebug("null");
-            return;
-        }
+            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
 
-        if (executeResult is IEnumerable enumerable)
-        {
-            foreach (var o in enumerable.Cast<object>())
+            if (executeResult is null)
             {
-                Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o));
+                Context.Logger.LogDebug("null");
+                return;
             }
-            
-            return;
-        }
 
-        if (typeof(T).IsPrimitive || executeResult is string)
-        {
-            Context.Logger.LogDebug("{Value}", executeResult);
-            return;
+            if (executeResult is IEnumerable enumerable)
+            {
+                foreach (var o in enumerable.Cast<object>())
+                {
+                    Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o));
+                }
+
+                return;
+            }
+
+            if (typeof(T).IsPrimitive || executeResult is string)
+            {
+                Context.Logger.LogDebug("{Value}", executeResult);
+                return;
+            }
+
+            Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
         }
-        
-        Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
+        catch
+        {
+            // Ignored
+        }
     }
 
     private void SetResult(ModuleResult<T> result)
