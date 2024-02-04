@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -209,6 +211,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             SetEndTime();
 
+            LogResult(executeResult);
+
             Status = Status.Successful;
 
             var moduleResult = new ModuleResult<T>(executeResult, this);
@@ -228,6 +232,35 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             StatusHandler.LogModuleStatus();
         }
+    }
+
+    private void LogResult(T? executeResult)
+    {
+        Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
+        
+        if (executeResult is null)
+        {
+            Context.Logger.LogDebug("null");
+            return;
+        }
+
+        if (executeResult is IEnumerable enumerable)
+        {
+            foreach (var o in enumerable.Cast<object>())
+            {
+                Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o));
+            }
+            
+            return;
+        }
+
+        if (typeof(T).IsPrimitive || executeResult is string)
+        {
+            Context.Logger.LogDebug("{Value}", executeResult);
+            return;
+        }
+        
+        Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
     }
 
     private void SetResult(ModuleResult<T> result)

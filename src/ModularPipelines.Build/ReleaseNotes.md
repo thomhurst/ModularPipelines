@@ -1,0 +1,1 @@
+*   Log module returns in debug mode
