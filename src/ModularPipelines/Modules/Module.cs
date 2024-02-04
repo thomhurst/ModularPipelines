@@ -237,6 +237,11 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private void LogResult(T? executeResult)
     {
+        if (!Context.Logger.IsEnabled(LogLevel.Debug))
+        {
+            return;
+        }
+        
         try
         {
             Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
