@@ -1,6 +1,8 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -152,6 +154,6 @@ public class PipelineWriterTests : TestBase
                                Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
                                CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
                                EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-                       """.Trim()));
+                       """.Trim());
     }
 }

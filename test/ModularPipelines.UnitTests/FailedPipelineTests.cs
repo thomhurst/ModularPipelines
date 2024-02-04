@@ -4,6 +4,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -73,6 +74,6 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module3>()
                 .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 }

@@ -2,6 +2,8 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -62,8 +64,8 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         var b1 = results.Modules.OfType<ModuleWithBConstraintKey1>().First();
         var b2 = results.Modules.OfType<ModuleWithBConstraintKey2>().First();
 
-        AssertAfter(a1, a2, TimeSpan.FromSeconds(1));
-        AssertAfter(b1, b2, TimeSpan.FromSeconds(1));
+        AssertAfter(a1, a2, TimeSpan.FromSeconds(1);
+        AssertAfter(b1, b2, TimeSpan.FromSeconds(1);
 
         AssertParallel(a1, b1);
         AssertParallel(a2, b2);

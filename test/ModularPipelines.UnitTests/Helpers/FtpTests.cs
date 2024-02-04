@@ -4,6 +4,8 @@ using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.Helpers;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -32,8 +34,8 @@ public class FtpTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(response, Is.EqualTo(FtpStatus.Success));
-            Assert.That(fileContents, Does.StartWith("6jack"));
+            Assert.That(response).Is.EqualTo(FtpStatus.Success);
+            Assert.That(fileContents).Does.StartWith("6jack");
         });
     }
 
@@ -48,10 +50,10 @@ public class FtpTests : TestBase
             ClientConfigurator = client => { },
         });
 
-        Assert.That(client.IsDisposed, Is.False);
+        Assert.That(client.IsDisposed).Is.False);
 
         await Disposer.DisposeObjectAsync(ftp);
 
-        Assert.That(client.IsDisposed, Is.True);
+        Assert.That(client.IsDisposed).Is.True);
     }
 }

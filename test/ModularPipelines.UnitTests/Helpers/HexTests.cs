@@ -2,6 +2,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -25,9 +27,9 @@ public class HexTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(moduleResult.Value).Is.Not.Null);
         });
     }
 
@@ -38,7 +40,7 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That(moduleResult.Value, Is.EqualTo("466f6f2062617221"));
+        Assert.That(moduleResult.Value).Is.EqualTo("466f6f2062617221");
     }
 
     private class FromHexModule : Module<string>
@@ -59,9 +61,9 @@ public class HexTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(moduleResult.Value).Is.Not.Null);
         });
     }
 
@@ -72,6 +74,6 @@ public class HexTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That(moduleResult.Value, Is.EqualTo("Foo bar!"));
+        Assert.That(moduleResult.Value).Is.EqualTo("Foo bar!");
     }
 }

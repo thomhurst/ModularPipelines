@@ -3,6 +3,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -35,7 +37,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
                 .ExecutePipelineAsync()
         );
 
-        Assert.That(moduleFailedException!.InnerException, Is.TypeOf<ModuleNotRegisteredException>());
+        Assert.That(moduleFailedException!.InnerException).Is.TypeOf<ModuleNotRegisteredException>();
     }
 
     [Test]

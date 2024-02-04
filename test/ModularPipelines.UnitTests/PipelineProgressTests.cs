@@ -6,6 +6,8 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -106,7 +108,7 @@ public class PipelineProgressTests
             foreach (var guid in Enumerable.Range(0, 20)
                          .Select(x => Guid.NewGuid().ToString("N")))
             {
-                await SubModule(guid, async () => await Task.FromResult(guid));
+                await SubModule(guid, async () => await Task.FromResult(guid);
             }
 
             return await NothingAsync();

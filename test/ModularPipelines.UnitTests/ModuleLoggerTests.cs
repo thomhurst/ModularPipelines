@@ -5,6 +5,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -32,7 +34,7 @@ public class ModuleLoggerTests
             .ConfigureServices((_, collection) =>
             {
                 collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder));
+                collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder);
             })
             .AddModule<Module1>()
             .BuildHostAsync();
@@ -43,7 +45,7 @@ public class ModuleLoggerTests
 
         var stringOutput = consoleStringBuilder.ToString();
 
-        Assert.That(stringOutput, Does.Contain(RandomString));
-        Assert.That(await file.ReadAsync(), Does.Not.Contain(RandomString));
+        Assert.That(stringOutput).Does.Contain(RandomString);
+        Assert.That(await file.ReadAsync()).Does.Not.Contain(RandomString);
     }
 }

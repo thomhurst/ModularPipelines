@@ -100,8 +100,8 @@ await PipelineHostBuilder.Create()
     })
     .ConfigureServices((context, collection) =>
     {
-        collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
-        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
+        collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet");
+        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish");
         collection.AddSingleton<ISomeService1, SomeService1>();
         collection.AddTransient<ISomeService2, SomeService2>();
     })

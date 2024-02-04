@@ -1,11 +1,13 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -86,7 +88,7 @@ public class ModuleHistoryTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
         {
-            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module));
+            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module);
         }
     }
 
@@ -98,7 +100,7 @@ public class ModuleHistoryTests
             .IgnoreCategories("1")
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -109,7 +111,7 @@ public class ModuleHistoryTests
             .RunCategories("2")
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -119,7 +121,7 @@ public class ModuleHistoryTests
             .AddModule<SkipFromRunCondition>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -129,7 +131,7 @@ public class ModuleHistoryTests
             .AddModule<SkipFromMethod>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -141,7 +143,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -153,7 +155,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -164,7 +166,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -175,7 +177,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<NotFoundModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -187,7 +189,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.UsedHistory);
     }
 
     [Test]
@@ -199,7 +201,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.UsedHistory);
     }
 
     [Test]
@@ -210,7 +212,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.UsedHistory);
     }
 
     [Test]
@@ -221,7 +223,7 @@ public class ModuleHistoryTests
             .AddResultsRepository<GoodModuleRepository>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.UsedHistory));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.UsedHistory);
     }
 
     [Test]
@@ -231,6 +233,6 @@ public class ModuleHistoryTests
             .AddModule<UseHistoryTrueModule>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules[0].Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules[0].Status).Is.EqualTo(Status.Skipped);
     }
 }

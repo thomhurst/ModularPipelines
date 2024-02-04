@@ -3,6 +3,8 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -20,7 +22,7 @@ public class ModuleReferencingSelfTests : TestBase
     [Test]
     public void Throws_Exception()
     {
-        var exception = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<ModuleReferencingSelf>());
-        Assert.That(exception!.InnerException, Is.TypeOf<ModuleReferencingSelfException>());
+        var exception = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<ModuleReferencingSelf>();
+        Assert.That(exception!.InnerException).Is.TypeOf<ModuleReferencingSelfException>();
     }
 }

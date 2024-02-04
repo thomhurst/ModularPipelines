@@ -1,6 +1,8 @@
 using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -13,9 +15,9 @@ public class JsonTests : TestBase
 
         var result = json.ToJson(new JsonModel { Foo = "Bar!", Hello = "World!" });
 
-        Assert.That(result, Is.EqualTo("""
+        Assert.That(result).Is.EqualTo("""
                                        {"Foo":"Bar!","Hello":"World!"}
-                                       """));
+                                       """);
     }
 
     [Test]
@@ -28,12 +30,12 @@ public class JsonTests : TestBase
             WriteIndented = true,
         });
 
-        Assert.That(result, Is.EqualTo("""
+        Assert.That(result).Is.EqualTo("""
                                        {
                                          "Foo": "Bar!",
                                          "Hello": "World!"
                                        }
-                                       """));
+                                       """);
     }
 
     [Test]
@@ -45,7 +47,7 @@ public class JsonTests : TestBase
                                               {"Foo":"Bar!","Hello":"World!"}
                                               """);
 
-        Assert.That(result, Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" }));
+        Assert.That(result, Is.EqualTo(new JsonModel { Foo = "Bar!").Hello = "World!" });
     }
 
     [Test]
@@ -63,7 +65,7 @@ public class JsonTests : TestBase
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
 
-        Assert.That(result, Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" }));
+        Assert.That(result, Is.EqualTo(new JsonModel { Foo = "Bar!").Hello = "World!" });
     }
 
     private record JsonModel

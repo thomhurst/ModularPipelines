@@ -4,6 +4,8 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -12,9 +14,9 @@ public class CommandParserTests : TestBase
     [Test]
     public async Task Empty_Options_Parse_As_Expected()
     {
-        var result = await GetResult(new MySuperSecretToolOptions());
+        var result = await GetResult(new MySuperSecretToolOptions();
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that");
     }
 
     [Test]
@@ -30,7 +32,7 @@ public class CommandParserTests : TestBase
             },
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3");
     }
 
     [Test]
@@ -41,7 +43,7 @@ public class CommandParserTests : TestBase
             Force = true,
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --force"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --force");
     }
 
     [TestCase(null)]
@@ -53,7 +55,7 @@ public class CommandParserTests : TestBase
             Force = force,
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that");
     }
 
     [Test]
@@ -69,7 +71,7 @@ public class CommandParserTests : TestBase
             },
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --filename file1.txt --filename foo.txt --filename bar.json"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --filename file1.txt --filename foo.txt --filename bar.json");
     }
 
     [Test]
@@ -80,9 +82,9 @@ public class CommandParserTests : TestBase
             SomeString = "Foo bar",
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that --some-string "Foo bar"
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -93,7 +95,7 @@ public class CommandParserTests : TestBase
             GracePeriod = 123,
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --grace-period 123"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --grace-period 123");
     }
 
     [Test]
@@ -104,7 +106,7 @@ public class CommandParserTests : TestBase
             Verbosity = Verbosity.Quiet,
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --verbosity quiet"));
+        Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --verbosity quiet");
     }
 
     [Test]
@@ -116,9 +118,9 @@ public class CommandParserTests : TestBase
             Positional1 = "MyFile.txt",
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that MyFile.txt --some-string "Foo bar"
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -130,9 +132,9 @@ public class CommandParserTests : TestBase
             Positional2 = "MyFile.txt",
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -143,9 +145,9 @@ public class CommandParserTests : TestBase
             Source = "nuget.org"
         });
 
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        Assert.That(result.CommandInput).Is.EqualTo("""
                                                     dotnet add MyProject.csproj package ThisPackage --source nuget.org
-                                                    """));
+                                                    """);
     }
 
     [TestCase("")]
@@ -155,7 +157,7 @@ public class CommandParserTests : TestBase
         Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
             Source = "nuget.org"
-        }));
+        });
     }
 
     [Test]
@@ -164,7 +166,7 @@ public class CommandParserTests : TestBase
         Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
         {
             Source = "nuget.org"
-        }));
+        });
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

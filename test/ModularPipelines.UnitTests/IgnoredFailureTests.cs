@@ -4,6 +4,8 @@ using ModularPipelines.Engine;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -35,9 +37,9 @@ public class IgnoredFailureTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Failure));
-            Assert.That(moduleResult.Exception, Is.Not.Null);
-            Assert.That(engineCancellationToken.IsCancellationRequested, Is.False);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Failure);
+            Assert.That(moduleResult.Exception).Is.Not.Null);
+            Assert.That(engineCancellationToken.IsCancellationRequested).Is.False);
         });
     }
 }

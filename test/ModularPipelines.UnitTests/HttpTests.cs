@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
@@ -41,12 +43,12 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]"));
+        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]");
 
-        Assert.That(logFile, Does.Not.Contain("---Request---"));
-        Assert.That(logFile, Does.Not.Contain("GET https://www.github.com/ HTTP/1.1"));
-        Assert.That(logFile, Does.Contain("---Response---"));
-        Assert.That(logFile, Does.Contain("Server: GitHub.com"));
+        Assert.That(logFile).Does.Not.Contain("---Request---");
+        Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
+        Assert.That(logFile).Does.Contain("---Response---");
+        Assert.That(logFile).Does.Contain("Server: GitHub.com");
     }
 
     [Test]
@@ -73,12 +75,12 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]"));
+        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
 
-        Assert.That(logFile, Does.Contain("---Request---"));
-        Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
-        Assert.That(logFile, Does.Not.Contain("---Response---"));
-        Assert.That(logFile, Does.Not.Contain("Server: GitHub.com"));
+        Assert.That(logFile).Does.Contain("---Request---");
+        Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        Assert.That(logFile).Does.Not.Contain("---Response---");
+        Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
 
     [TestCase(true)]
@@ -115,29 +117,29 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Http."));
+        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.");
 
-        Assert.That(logFile, Does.Contain("---Request---"));
-        Assert.That(logFile, Does.Contain("GET https://www.github.com/ HTTP/1.1"));
-        Assert.That(logFile, Does.Contain("---Response---"));
-        Assert.That(logFile, Does.Contain("Headers"));
-        Assert.That(logFile, Does.Contain("Server: GitHub.com"));
-        Assert.That(logFile, Does.Contain("Body"));
-        Assert.That(logFile, Does.Contain("---Duration---"));
-        Assert.That(logFile, Does.Contain("---HTTP Status Code---"));
+        Assert.That(logFile).Does.Contain("---Request---");
+        Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        Assert.That(logFile).Does.Contain("---Response---");
+        Assert.That(logFile).Does.Contain("Headers");
+        Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        Assert.That(logFile).Does.Contain("Body");
+        Assert.That(logFile).Does.Contain("---Duration---");
+        Assert.That(logFile).Does.Contain("---HTTP Status Code---");
 
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
-        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---"));
-        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---"));
-        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---"));
-        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---"));
+        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---");
+        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---");
+        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---");
+        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---");
 
         Assert.Multiple(() =>
         {
-            Assert.That(indexOfRequest, Is.LessThan(indexOfStatusCode));
-            Assert.That(indexOfStatusCode, Is.LessThan(indexOfDuration));
-            Assert.That(indexOfDuration, Is.LessThan(indexOfResponse));
+            Assert.That(indexOfRequest).Is.LessThan(indexOfStatusCode);
+            Assert.That(indexOfStatusCode).Is.LessThan(indexOfDuration);
+            Assert.That(indexOfDuration).Is.LessThan(indexOfResponse);
         });
     }
 }

@@ -1,4 +1,6 @@
 ﻿using ModularPipelines.Extensions;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Extensions;
 
@@ -11,8 +13,8 @@ public class BooleanExtensionTests
         
         Assert.Multiple(() =>
         {
-            Assert.That(trueSkipDecision.ShouldSkip, Is.True);
-            Assert.That(trueSkipDecision.Reason, Is.EqualTo("My reason"));
+            Assert.That(trueSkipDecision.ShouldSkip).Is.True);
+            Assert.That(trueSkipDecision.Reason).Is.EqualTo("My reason");
         });
     }
     
@@ -23,8 +25,8 @@ public class BooleanExtensionTests
         
         Assert.Multiple(() =>
         {
-            Assert.That(falseSkipDecision.ShouldSkip, Is.False);
-            Assert.That(falseSkipDecision.Reason, Is.Null);
+            Assert.That(falseSkipDecision.ShouldSkip).Is.False);
+            Assert.That(falseSkipDecision.Reason).Is.Null);
         });
     }
 }

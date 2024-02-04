@@ -4,6 +4,8 @@ using ModularPipelines.Azure.Pipelines;
 using ModularPipelines.GitHub;
 using ModularPipelines.TeamCity;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -16,7 +18,7 @@ public class CollapsableLoggingTests : TestBase
 
         var azurePipelines = await GetService<IAzurePipeline>((_, collection) =>
         {
-            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder);
         });
 
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
@@ -39,7 +41,7 @@ public class CollapsableLoggingTests : TestBase
 
         var gitHub = await GetService<IGitHub>((_, collection) =>
         {
-            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder);
         });
 
         gitHub.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
@@ -62,7 +64,7 @@ public class CollapsableLoggingTests : TestBase
 
         var teamCity = await GetService<ITeamCity>((_, collection) =>
         {
-            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder);
         });
 
         teamCity.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");

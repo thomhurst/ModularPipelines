@@ -1,10 +1,12 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -20,7 +22,7 @@ public class SafeEstimatedTimeProviderTests
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
 
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -33,7 +35,7 @@ public class SafeEstimatedTimeProviderTests
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
 
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -46,7 +48,7 @@ public class SafeEstimatedTimeProviderTests
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
 
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     private class DummyModule : Module
@@ -61,7 +63,7 @@ public class SafeEstimatedTimeProviderTests
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
         {
-            return Task.FromResult(TimeSpan.FromMinutes(1));
+            return Task.FromResult(TimeSpan.FromMinutes(1);
         }
 
         public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
@@ -71,7 +73,7 @@ public class SafeEstimatedTimeProviderTests
 
         public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
         {
-            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>());
+            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>();
         }
 
         public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
@@ -107,7 +109,7 @@ public class SafeEstimatedTimeProviderTests
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
         {
-            return Task.FromResult(TimeSpan.FromMinutes(2));
+            return Task.FromResult(TimeSpan.FromMinutes(2);
         }
 
         public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
@@ -117,7 +119,7 @@ public class SafeEstimatedTimeProviderTests
 
         public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
         {
-            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>());
+            return Task.FromResult<IEnumerable<SubModuleEstimation>>(new List<SubModuleEstimation>();
         }
 
         public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)

@@ -5,6 +5,8 @@ using ModularPipelines.Host;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Models;
 using Moq;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -22,7 +24,7 @@ public class SecretObfuscatorTests
 
         _consoleWriterMock = new Mock<IConsoleWriter>();
         _consoleWriterMock.Setup(x => x.LogToConsole(It.IsAny<string>()))
-            .Callback<string>(value => _stringBuilder.AppendLine(value));
+            .Callback<string>(value => _stringBuilder.AppendLine(value);
     }
 
     [Test]
@@ -34,8 +36,8 @@ public class SecretObfuscatorTests
 
         var logOutput = _stringBuilder.ToString();
 
-        Assert.That(logOutput, Contains.Substring("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput).Contains.Substring("::add-mask::This is a secret value!");
+        Assert.That(logOutput).Does.Not.Contain("::add-mask::This is NOT a secret value!");
     }
 
     [Test]
@@ -47,8 +49,8 @@ public class SecretObfuscatorTests
 
         var logOutput = _stringBuilder.ToString();
 
-        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is a secret value!"));
-        Assert.That(logOutput, Does.Not.Contain("::add-mask::This is NOT a secret value!"));
+        Assert.That(logOutput).Does.Not.Contain("::add-mask::This is a secret value!");
+        Assert.That(logOutput).Does.Not.Contain("::add-mask::This is NOT a secret value!");
     }
 
     private Task<IPipelineHost> GetPipelineHost()

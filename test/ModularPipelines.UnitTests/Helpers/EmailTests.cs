@@ -4,6 +4,7 @@ using MimeKit;
 using ModularPipelines.Email;
 using ModularPipelines.Email.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -40,6 +41,6 @@ public class EmailTests : TestBase
             }
         );
 
-        Assert.That(response, Does.Contain("queued"));
+        Assert.That(response).Does.Contain("queued");
     }
 }

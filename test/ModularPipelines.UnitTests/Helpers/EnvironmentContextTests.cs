@@ -1,5 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -16,7 +18,7 @@ public class EnvironmentContextTests : TestBase
 
         var result = context.EnvironmentVariables.GetEnvironmentVariable(guid);
 
-        Assert.That(result, Is.EqualTo("Foo bar!"));
+        Assert.That(result).Is.EqualTo("Foo bar!");
     }
 
     [Test]
@@ -30,8 +32,8 @@ public class EnvironmentContextTests : TestBase
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
 
-        Assert.That(result, Is.Not.Null.And.AssignableTo<IDictionary<string, string>>());
-        Assert.That(result[guid], Is.EqualTo("Foo bar!"));
+        Assert.That(result, Is.Not.Null.And.AssignableTo<IDictionary<string).string>>();
+        Assert.That(result[guid]).Is.EqualTo("Foo bar!");
     }
 
     [Test]
@@ -45,7 +47,7 @@ public class EnvironmentContextTests : TestBase
 
         var result = Environment.GetEnvironmentVariable(guid);
 
-        Assert.That(result, Is.EqualTo("Foo bar!"));
+        Assert.That(result).Is.EqualTo("Foo bar!");
     }
 
     [Test]
@@ -53,18 +55,18 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
 
-        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N"));
+        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N");
 
         var path = context.EnvironmentVariables.GetPath();
 
-        Assert.That(path, Is.Not.Empty);
-        Assert.That(path, Does.Not.Contain(directoryToAdd));
+        Assert.That(path).Is.Not.Empty);
+        Assert.That(path).Does.Not.Contain(directoryToAdd);
 
         context.EnvironmentVariables.AddToPath(directoryToAdd);
 
         path = context.EnvironmentVariables.GetPath();
 
-        Assert.That(path, Does.Contain(directoryToAdd));
+        Assert.That(path).Does.Contain(directoryToAdd);
     }
 
     [Test]
@@ -74,14 +76,14 @@ public class EnvironmentContextTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(context.ContentDirectory, Is.Not.Null);
-            Assert.That(context.OperatingSystem.ToString(), Is.Not.Null);
-            Assert.That(context.OperatingSystemVersion.ToString(), Is.Not.Null);
-            Assert.That(context.Is64BitOperatingSystem, Is.True.Or.False);
-            Assert.That(context.WorkingDirectory, Is.Not.Null);
-            Assert.That(context.AppDomainDirectory, Is.Not.Null);
-            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData), Is.Not.Null);
-            Assert.That(context.EnvironmentName, Is.Not.Null);
+            Assert.That(context.ContentDirectory).Is.Not.Null);
+            Assert.That(context.OperatingSystem.ToString()).Is.Not.Null);
+            Assert.That(context.OperatingSystemVersion.ToString()).Is.Not.Null);
+            Assert.That(context.Is64BitOperatingSystem).Is.True.Or.False);
+            Assert.That(context.WorkingDirectory).Is.Not.Null);
+            Assert.That(context.AppDomainDirectory).Is.Not.Null);
+            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null);
+            Assert.That(context.EnvironmentName).Is.Not.Null);
         });
     }
 }

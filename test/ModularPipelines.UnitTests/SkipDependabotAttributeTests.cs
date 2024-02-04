@@ -1,12 +1,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Moq;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -78,7 +80,7 @@ public class SkipDependabotAttributeTests : TestBase
             .AddModule<Module1>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -94,7 +96,7 @@ public class SkipDependabotAttributeTests : TestBase
             .AddModule<Module1>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -107,7 +109,7 @@ public class SkipDependabotAttributeTests : TestBase
             .AddModule<Module2>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -120,7 +122,7 @@ public class SkipDependabotAttributeTests : TestBase
             .AddModule<Module3>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Skipped));
+        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -133,6 +135,6 @@ public class SkipDependabotAttributeTests : TestBase
             .AddModule<Module4>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.First().Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 }

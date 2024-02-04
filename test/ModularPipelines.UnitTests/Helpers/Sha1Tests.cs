@@ -2,6 +2,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -25,9 +27,9 @@ public class Sha1Tests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(moduleResult.Value).Is.Not.Null);
         });
     }
 
@@ -38,6 +40,6 @@ public class Sha1Tests : TestBase
 
         var moduleResult = await module;
 
-        Assert.That(moduleResult.Value, Is.EqualTo("cc3626c5ad2e3aff0779dc63e80555c463fd99dc"));
+        Assert.That(moduleResult.Value).Is.EqualTo("cc3626c5ad2e3aff0779dc63e80555c463fd99dc");
     }
 }

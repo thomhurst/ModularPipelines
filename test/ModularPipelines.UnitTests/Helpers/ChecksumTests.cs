@@ -1,6 +1,8 @@
 using ModularPipelines.Context;
 using ModularPipelines.Git;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -17,6 +19,6 @@ public class ChecksumTests : TestBase
 
         var calculatedMd5 = checksum.Md5(file!);
 
-        Assert.That(calculatedMd5, Is.EqualTo("90EAEF2DB61DD9B2AF2B27F57785141E"));
+        Assert.That(calculatedMd5).Is.EqualTo("90EAEF2DB61DD9B2AF2B27F57785141E");
     }
 }

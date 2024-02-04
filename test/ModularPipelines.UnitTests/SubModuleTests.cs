@@ -5,6 +5,8 @@ using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -161,9 +163,9 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2", "3" }));
-            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
+            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2")."3" });
+            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
 
@@ -176,9 +178,9 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(results.Value, Is.Null);
-            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
+            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(results.Value).Is.Null);
+            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
 
@@ -191,9 +193,9 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2", "3" }));
-            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
+            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2")."3" });
+            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
 
@@ -206,9 +208,9 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(results.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(results.Value, Is.Null);
-            Assert.That(module.SubModuleRunCount, Is.EqualTo(3));
+            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(results.Value).Is.Null);
+            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
 
@@ -219,8 +221,8 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleFailedException?.InnerException, Is.TypeOf<SubModuleFailedException>());
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!, Has.Message.EqualTo("The Sub-Module 1 has failed."));
+            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -231,8 +233,8 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleFailedException?.InnerException, Is.TypeOf<SubModuleFailedException>());
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!, Has.Message.EqualTo("The Sub-Module 1 has failed."));
+            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -243,8 +245,8 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleFailedException?.InnerException, Is.TypeOf<SubModuleFailedException>());
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!, Has.Message.EqualTo("The Sub-Module 1 has failed."));
+            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -255,8 +257,8 @@ public class SubModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleFailedException?.InnerException, Is.TypeOf<SubModuleFailedException>());
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!, Has.Message.EqualTo("The Sub-Module 1 has failed."));
+            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
         });
     }
 }

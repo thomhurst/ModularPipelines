@@ -5,6 +5,8 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -22,13 +24,13 @@ public class NonIgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Thrown_And_Cancelled_Pipeline()
     {
-        var exception = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
+        var exception = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>();
 
         var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
-        await Task.Delay(TimeSpan.FromSeconds(2));
+        await Task.Delay(TimeSpan.FromSeconds(2);
 
-        Assert.That(engineCancellationToken.IsCancellationRequested, Is.True);
+        Assert.That(engineCancellationToken.IsCancellationRequested).Is.True);
     }
 }

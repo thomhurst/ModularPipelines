@@ -1,9 +1,11 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -62,10 +64,10 @@ public class AlwaysRunTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(myModule1.Status, Is.EqualTo(Status.Failed));
-            Assert.That(myModule2.Status, Is.EqualTo(Status.Failed));
-            Assert.That(myModule3.Status, Is.EqualTo(Status.Failed));
-            Assert.That(myModule4.Status, Is.Not.EqualTo(Status.NotYetStarted));
+            Assert.That(myModule1.Status).Is.EqualTo(Status.Failed);
+            Assert.That(myModule2.Status).Is.EqualTo(Status.Failed);
+            Assert.That(myModule3.Status).Is.EqualTo(Status.Failed);
+            Assert.That(myModule4.Status).Is.Not.EqualTo(Status.NotYetStarted);
         });
     }
 }

@@ -7,6 +7,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -53,7 +54,7 @@ public class LoggingSecretTests
 
         var actualLogResult = stringBuilder.ToString().Trim();
 
-        Assert.That(actualLogResult, Does.Contain($"My Secret Value is: **********"));
-        Assert.That(actualLogResult, Does.Not.Contain(secretValue));
+        Assert.That(actualLogResult).Does.Contain($"My Secret Value is: **********");
+        Assert.That(actualLogResult).Does.Not.Contain(secretValue);
     }
 }

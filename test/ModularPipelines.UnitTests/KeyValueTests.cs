@@ -1,4 +1,6 @@
 ﻿using ModularPipelines.Models;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -11,8 +13,8 @@ public class KeyValueTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(keyValue.Key, Is.EqualTo("one"));
-            Assert.That(keyValue.Value, Is.EqualTo("two"));
+            Assert.That(keyValue.Key).Is.EqualTo("one");
+            Assert.That(keyValue.Value).Is.EqualTo("two");
         });
     }
 
@@ -23,8 +25,8 @@ public class KeyValueTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(keyValue.Key, Is.EqualTo("one"));
-            Assert.That(keyValue.Value, Is.EqualTo("two"));
+            Assert.That(keyValue.Key).Is.EqualTo("one");
+            Assert.That(keyValue.Value).Is.EqualTo("two");
         });
     }
 
@@ -35,8 +37,8 @@ public class KeyValueTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(keyValue.Key, Is.EqualTo("one"));
-            Assert.That(keyValue.Value, Is.EqualTo("two"));
+            Assert.That(keyValue.Key).Is.EqualTo("one");
+            Assert.That(keyValue.Value).Is.EqualTo("two");
         });
     }
 }

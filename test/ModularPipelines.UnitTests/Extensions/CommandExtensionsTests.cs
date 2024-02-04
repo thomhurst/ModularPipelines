@@ -1,5 +1,7 @@
 ﻿using ModularPipelines.Extensions;
 using ModularPipelines.Options;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Extensions;
 
@@ -13,8 +15,8 @@ public class CommandExtensionsTests
         
         Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments).Is.EquivalentTo(new[] { "arg1" });
         });
     }
     
@@ -26,8 +28,8 @@ public class CommandExtensionsTests
         
         Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1")."arg2" });
         });
     }
     
@@ -40,8 +42,8 @@ public class CommandExtensionsTests
         
         Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4")."arg5" });
         });
     }
 }

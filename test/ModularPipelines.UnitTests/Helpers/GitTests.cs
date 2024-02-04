@@ -5,6 +5,8 @@ using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -30,9 +32,9 @@ public class GitTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(moduleResult.Value).Is.Not.Null);
         });
     }
 
@@ -45,8 +47,8 @@ public class GitTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput, Does.Match("git version \\d+.*"));
+            Assert.That(moduleResult.Value!.StandardError).Is.Null.Or.Empty);
+            Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
         });
     }
 
@@ -57,8 +59,8 @@ public class GitTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(git.RootDirectory.Name, Is.EqualTo("ModularPipelines"));
-            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name), Does.Contain("README.md"));
+            Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
+            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
         });
     }
 
@@ -67,6 +69,6 @@ public class GitTests : TestBase
     {
         var git = await GetService<IGit>();
 
-        Assert.That(git.Information.DefaultBranchName, Is.EqualTo("main"));
+        Assert.That(git.Information.DefaultBranchName).Is.EqualTo("main");
     }
 }

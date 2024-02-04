@@ -1,4 +1,6 @@
 using ModularPipelines.Models;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Models;
 
@@ -11,8 +13,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.True);
-            Assert.That(requirementDecision.Reason, Is.Null);
+            Assert.That(requirementDecision.Success).Is.True);
+            Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
 
@@ -23,8 +25,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.False);
-            Assert.That(requirementDecision.Reason, Is.Null);
+            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
 
@@ -35,8 +37,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.False);
-            Assert.That(requirementDecision.Reason, Is.EqualTo("Foo!"));
+            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
         });
     }
 
@@ -47,8 +49,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.False);
-            Assert.That(requirementDecision.Reason, Is.EqualTo("Blah!"));
+            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
         });
     }
 
@@ -59,8 +61,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.True);
-            Assert.That(requirementDecision.Reason, Is.Null);
+            Assert.That(requirementDecision.Success).Is.True);
+            Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
 
@@ -72,8 +74,8 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success, Is.EqualTo(success));
-            Assert.That(requirementDecision.Reason, !success ? Is.EqualTo("Blah!") : Is.Null);
+            Assert.That(requirementDecision.Success).Is.EqualTo(success);
+            Assert.That(requirementDecision.Reason).!success ? Is.EqualTo("Blah!") : Is.Null);
         });
     }
 }

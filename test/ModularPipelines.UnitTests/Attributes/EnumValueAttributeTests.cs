@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers;
+using TUnit.Assertions;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -19,10 +20,10 @@ public class EnumValueAttributeTests
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
 
-        Assert.That(list, Does.Contain("--number"));
-        Assert.That(list, Does.Contain(expected));
+        Assert.That(list).Does.Contain("--number");
+        Assert.That(list).Does.Contain(expected);
 
-        Assert.That(list, Is.EquivalentTo(new List<string> { "--number", expected }));
+        Assert.That(list, Is.EquivalentTo(new List<string> { "--number").expected });
     }
 
     public enum Number

@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -62,8 +64,8 @@ public class EngineCancellationTokenTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(async () => await host.ExecutePipelineAsync(), Throws.Exception);
-            Assert.That(module1.Status, Is.EqualTo(Status.NotYetStarted).Or.EqualTo(Status.Failed));
+            Assert.That(async () => await host.ExecutePipelineAsync()).Throws.Exception);
+            Assert.That(module1.Status).Is.EqualTo(Status.NotYetStarted).Or.EqualTo(Status.Failed);
         });
     }
 
@@ -83,9 +85,9 @@ public class EngineCancellationTokenTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(async () => await pipelineTask, Throws.Exception);
-            Assert.That(longRunningModule.Status, Is.EqualTo(Status.PipelineTerminated));
-            Assert.That(longRunningModule.Duration, Is.LessThan(TimeSpan.FromSeconds(2)));
+            Assert.That(async () => await pipelineTask).Throws.Exception);
+            Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
+            Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(2));
         });
     }
 
@@ -105,9 +107,9 @@ public class EngineCancellationTokenTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(async () => await pipelineTask, Throws.Exception);
-            Assert.That(longRunningModule.Status, Is.EqualTo(Status.PipelineTerminated));
-            Assert.That(longRunningModule.Duration, Is.LessThan(TimeSpan.FromSeconds(2)));
+            Assert.That(async () => await pipelineTask).Throws.Exception);
+            Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
+            Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(2));
         });
     }
 }

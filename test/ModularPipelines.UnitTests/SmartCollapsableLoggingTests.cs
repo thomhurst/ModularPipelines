@@ -4,6 +4,8 @@ using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
 using Moq;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -87,7 +89,7 @@ public class SmartCollapsableLoggingTests : TestBase
         var azurePipelines = await GetService<ICollapsableLogging>((_, collection) =>
         {
             collection.AddSingleton(buildSystemDetectorMock.Object);
-            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder);
         });
 
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");

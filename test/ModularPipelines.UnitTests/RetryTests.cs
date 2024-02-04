@@ -3,6 +3,8 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Polly.Retry;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -83,8 +85,8 @@ public class RetryTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(1));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(1);
+            Assert.That(module.Exception).Is.Null);
         });
     }
 
@@ -103,8 +105,8 @@ public class RetryTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(4));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(4);
+            Assert.That(module.Exception).Is.Null);
         });
     }
 
@@ -119,8 +121,8 @@ public class RetryTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(4));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(4);
+            Assert.That(module.Exception).Is.Null);
         });
     }
 
@@ -133,14 +135,14 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = 0;
             })
             .AddModule<FailedModule>()
-            .ExecutePipelineAsync());
+            .ExecutePipelineAsync();
 
         var module = moduleFailedException?.Module as FailedModule;
 
         Assert.Multiple(() =>
         {
-            Assert.That(module?.ExecutionCount, Is.EqualTo(1));
-            Assert.That(module!.Exception, Is.Not.Null);
+            Assert.That(module?.ExecutionCount).Is.EqualTo(1);
+            Assert.That(module!.Exception).Is.Not.Null);
         });
     }
 
@@ -153,8 +155,8 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = 3;
             })
             .AddModule<FailedModuleWithTimeout>()
-            .ExecutePipelineAsync());
+            .ExecutePipelineAsync();
 
-        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<ModuleTimeoutException>());
+        Assert.That(moduleFailedException?.InnerException).Is.TypeOf<ModuleTimeoutException>();
     }
 }

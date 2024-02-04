@@ -3,6 +3,8 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -40,8 +42,8 @@ public class ZipTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
         });
     }
 
@@ -51,12 +53,12 @@ public class ZipTests : TestBase
     {
         await RunModule<ZipModule>();
 
-        var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip"));
+        var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip");
 
         Assert.Multiple(() =>
         {
-            Assert.That(expectedFile.Exists, Is.True);
-            Assert.That(expectedFile.Length, Is.GreaterThan(5000));
+            Assert.That(expectedFile.Exists).Is.True);
+            Assert.That(expectedFile.Length).Is.GreaterThan(5000);
         });
     }
 
@@ -86,8 +88,8 @@ public class ZipTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
         });
     }
 
@@ -97,12 +99,12 @@ public class ZipTests : TestBase
     {
         await RunModule<UnZipModule>();
 
-        var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped"));
+        var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped");
 
         Assert.Multiple(() =>
         {
-            Assert.That(expectedFolder.Exists, Is.True);
-            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories), Has.Length.EqualTo(1));
+            Assert.That(expectedFolder.Exists).Is.True);
+            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Length.EqualTo(1);
         });
     }
 }

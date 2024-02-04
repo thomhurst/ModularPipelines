@@ -6,6 +6,8 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Moq;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -54,11 +56,11 @@ public class UnusedModuleDetectorTests
 
         _unusedModuleDetector.Log();
 
-        Assert.That(_sb.ToString(), Is.Not.Empty);
-        Assert.That(_sb.ToString().Trim(), Is.EqualTo("""
+        Assert.That(_sb.ToString()).Is.Not.Empty);
+        Assert.That(_sb.ToString().Trim()).Is.EqualTo("""
 Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
 ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
-"""));
+""");
     }
 
     private class Module1 : Module

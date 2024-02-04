@@ -2,6 +2,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -11,7 +13,7 @@ public class SkippedModuleTests : TestBase
     {
         protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
-            return Task.FromResult(SkipDecision.Skip("Testing purposes"));
+            return Task.FromResult(SkipDecision.Skip("Testing purposes");
         }
 
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -30,9 +32,9 @@ public class SkippedModuleTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Skipped));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(() => moduleResult.Value, Throws.Exception);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Skipped);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(() => moduleResult.Value).Throws.Exception);
         });
     }
 }

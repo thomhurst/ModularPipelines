@@ -5,6 +5,8 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -45,6 +47,6 @@ public class DockerTests : TestBase
         var dockerfilePath = new Folder(Environment.CurrentDirectory).Parent!.Parent!.Parent!.Parent!.Parent!.GetFolder("src")
             .GetFolder("MyApp").GetFile("Dockerfile").Path;
 
-        Assert.That(result.Value!.CommandInput, Is.EqualTo($"docker image build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env {dockerfilePath}"));
+        Assert.That(result.Value!.CommandInput).Is.EqualTo($"docker image build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env {dockerfilePath}");
     }
 }

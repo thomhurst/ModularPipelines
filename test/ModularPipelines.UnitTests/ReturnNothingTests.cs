@@ -2,6 +2,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -67,10 +69,10 @@ public class ReturnNothingTests : TestBase
     {
         NUnit.Framework.Assert.Multiple(() =>
         {
-            NUnit.Framework.Assert.That(result.HasValue, Is.False);
-            NUnit.Framework.Assert.That(result.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            NUnit.Framework.Assert.That(result.Value, Is.Null);
-            NUnit.Framework.Assert.That(result.Exception, Is.Null);
+            NUnit.Framework.Assert.That(result.HasValue).Is<,,>.False);
+            NUnit.Framework.Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            NUnit.Framework.Assert.That(result.Value).Is.Null);
+            NUnit.Framework.Assert.That(result.Exception).Is.Null);
         });
     }
 }

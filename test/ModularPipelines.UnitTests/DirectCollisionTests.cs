@@ -3,6 +3,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -16,7 +18,7 @@ public class DirectCollisionTests
                 .AddModule<DependencyConflictModule2>()
             .ExecutePipelineAsync(),
             Throws.Exception.TypeOf<DependencyCollisionException>()
-                .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**"));
+                .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
     }
 
     [DependsOn<DependencyConflictModule2>]

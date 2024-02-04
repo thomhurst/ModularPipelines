@@ -4,6 +4,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
@@ -28,13 +30,13 @@ public class CommandLoggerTests : TestBase
 
         if (!logInput && !logOutput && !logError && !logDuration && !logExitCode)
         {
-            Assert.That(logFile, Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
+            Assert.That(logFile).Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]");
             return;
         }
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
+        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]");
 
-        Assert.That(logFile, logInput
+        Assert.That(logFile).logInput
             ? Does.Contain("""
                            ---Executing Command---
                            pwsh -Command "echo Hello world!
@@ -43,19 +45,19 @@ public class CommandLoggerTests : TestBase
             : Does.Contain("""
                            ---Executing Command---
                            ********
-                           """));
+                           """);
 
         Assert.That(logFile,
-            logOutput ? Does.Contain("---Command Result---") : Does.Not.Contain("---Command Result---"));
+            logOutput ? Does.Contain("---Command Result---") : Does.Not.Contain("---Command Result---");
 
         Assert.That(logFile,
-            logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error"));
+            logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error");
 
         Assert.That(logFile,
-            logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration"));
+            logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration");
 
         Assert.That(logFile,
-            logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code"));
+            logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code");
     }
 
     private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,

@@ -4,6 +4,8 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -27,9 +29,9 @@ public class CmdTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null);
+            Assert.That(moduleResult.Value).Is.Not.Null);
         });
     }
 
@@ -42,8 +44,8 @@ public class CmdTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput.Trim(), Is.EqualTo("Foo bar!"));
+            Assert.That(moduleResult.Value!.StandardError).Is.Null.Or.Empty);
+            Assert.That(moduleResult.Value.StandardOutput.Trim()).Is.EqualTo("Foo bar!");
         });
     }
 }

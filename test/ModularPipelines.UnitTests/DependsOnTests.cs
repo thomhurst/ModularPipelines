@@ -1,10 +1,12 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -84,7 +86,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module2>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -95,7 +97,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module3>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -114,7 +116,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module3>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -124,7 +126,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module3WithGetIfRegistered>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Status, Is.EqualTo(Status.Successful));
+        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -142,7 +144,7 @@ public class DependsOnTests : TestBase
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
                 .ExecutePipelineAsync(),
-            Throws.Exception.TypeOf<ModuleReferencingSelfException>());
+            Throws.Exception.TypeOf<ModuleReferencingSelfException>();
     }
     
     [Test]
@@ -151,6 +153,6 @@ public class DependsOnTests : TestBase
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnNonModule>()
                 .ExecutePipelineAsync(),
-            Throws.Exception.Message.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class"));
+            Throws.Exception.Message.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");
     }
 }

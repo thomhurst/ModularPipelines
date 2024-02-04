@@ -2,6 +2,8 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions;
+using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
@@ -45,7 +47,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
 
-        Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>().Or.TypeOf<TaskCanceledException>());
+        Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>().Or.TypeOf<TaskCanceledException>();
     }
     
     [Test]
@@ -53,7 +55,7 @@ public class ModuleTimeoutTests : TestBase
     {
         var exception = Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
 
-        Assert.That(exception!.InnerException, Is.TypeOf<ModuleTimeoutException>());
+        Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>();
     }
     
     [Test]
