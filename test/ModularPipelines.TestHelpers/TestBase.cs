@@ -6,13 +6,10 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers.Extensions;
-using NUnit.Framework;
+using TUnit.Core;
 
 namespace ModularPipelines.TestHelpers;
 
-[TestFixture]
-[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
-[Parallelizable(ParallelScope.All)]
 public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = new();
@@ -119,7 +116,7 @@ public abstract class TestBase
         return (serviceProvider.GetRequiredService<T>(), host);
     }
 
-    [TearDown]
+    [CleanUp]
     public async Task DisposeCreatedHost()
     {
         await _hosts.ToAsyncProcessorBuilder()
