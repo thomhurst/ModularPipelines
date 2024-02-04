@@ -33,7 +33,7 @@ public class ModuleTimeoutTests : TestBase
     
     private class NoTimeoutModule : Module<string>
     {
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.Zero;
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.Zero();
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

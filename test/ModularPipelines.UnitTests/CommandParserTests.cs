@@ -154,19 +154,19 @@ public class CommandParserTests : TestBase
     [TestWithData(null)]
     public void Placeholder_Positional_WhenEmpty_Throws(string? package)
     {
-        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
+        Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
             Source = "nuget.org"
-        });
+        })).Throws.TypeOf<ArgumentException>();
     }
 
     [Test]
     public void No_Matching_Placeholder_Positional_Throws()
     {
-        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
+        Assert.That(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
         {
             Source = "nuget.org"
-        });
+        })).Throws.TypeOf<ArgumentException>();
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

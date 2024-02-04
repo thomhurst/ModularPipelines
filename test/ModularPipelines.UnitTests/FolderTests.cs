@@ -55,7 +55,7 @@ public class FolderTests : TestBase
 
         var readme = git.RootDirectory.FindFile(x => x.Name == "README.md");
 
-        Assert.That(readme).Is.Not.Null);
+        Assert.That(readme).Is.Not.Null();
         Assert.That(readme!.Exists).Is.True();
     }
 
@@ -66,7 +66,7 @@ public class FolderTests : TestBase
 
         var src = git.RootDirectory.FindFolder(x => x.Name == "src");
 
-        Assert.That(src).Is.Not.Null);
+        Assert.That(src).Is.Not.Null();
         Assert.That(src!.Exists).Is.True();
     }
 
@@ -152,16 +152,16 @@ public class FolderTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
-            Assert.That(folder.Attributes.ToString()).Is.Not.Null.Or.Empty);
-            Assert.That(folder.Path).Is.Not.Null.Or.Empty);
-            Assert.That(folder.OriginalPath).Is.Not.Null.Or.Empty);
-            Assert.That(folder.Extension).Is.Not.Null.Or.Empty);
-            Assert.That(folder.Parent?.ToString()).Is.Not.Null.Or.Empty);
-            Assert.That(folder.Root.ToString()).Is.Not.Null.Or.Empty);
-            Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null.Or.Empty);
-            Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null.Or.Empty);
+            Assert.That(folder.Attributes.ToString()).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Path).Is.Not.Null().Or.Empty();
+            Assert.That(folder.OriginalPath).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Extension).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Parent?.ToString()).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Root.ToString()).Is.Not.Null().Or.Empty();
+            Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().Or.Empty();
+            Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().Or.Empty();
             Assert.That(folder.Hidden).Is.False();
-            Assert.That(folder.Name).Is.Not.Null.Or.Empty);
+            Assert.That(folder.Name).Is.Not.Null().Or.Empty();
         });
     }
 
@@ -217,7 +217,7 @@ public class FolderTests : TestBase
 
         Folder? file = directoryInfo;
 
-        Assert.That(file).Is.Null);
+        Assert.That(file).Is.Null();
     }
 
     [Test]
@@ -227,7 +227,7 @@ public class FolderTests : TestBase
 
         Folder? file = fileInfo;
 
-        Assert.That(file).Is.Null);
+        Assert.That(file).Is.Null();
     }
 
     [Test]
@@ -237,7 +237,7 @@ public class FolderTests : TestBase
 
         Folder file = directoryInfo;
 
-        Assert.That(file).Is.Not.Null);
+        Assert.That(file).Is.Not.Null();
     }
 
     [Test]
@@ -247,7 +247,7 @@ public class FolderTests : TestBase
 
         Folder file = path!;
 
-        Assert.That(file).Is.Not.Null);
+        Assert.That(file).Is.Not.Null();
     }
 
     [Test]

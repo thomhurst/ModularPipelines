@@ -33,8 +33,8 @@ public class PipelineRequirementTests
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
 
-        Assert.That(executePipelineDelegate).Throws.Exception.TypeOf<FailedRequirementsException>()
-            .With.Message.EqualTo("Requirements failed:\r\nFailingRequirement");
+        Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nFailingRequirement");
     }
 
     [Test]
@@ -45,8 +45,8 @@ public class PipelineRequirementTests
             .AddRequirement<FailingRequirementWithReason>()
             .ExecutePipelineAsync();
 
-        Assert.That(executePipelineDelegate).Throws.Exception.TypeOf<FailedRequirementsException>()
-            .With.Message.EqualTo("Requirements failed:\r\nError: Foo bar!");
+        Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
     private class DummyModule : Module

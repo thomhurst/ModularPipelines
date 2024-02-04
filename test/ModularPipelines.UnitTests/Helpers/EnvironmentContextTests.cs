@@ -1,3 +1,4 @@
+using System.Collections;
 using ModularPipelines.Context;
 using ModularPipelines.TestHelpers;
 using TUnit.Assertions;
@@ -32,7 +33,7 @@ public class EnvironmentContextTests : TestBase
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
 
-        Assert.That(result, Is.Not.Null.And.AssignableTo<IDictionary<string).string>>();
+        Assert.That(result).Is.Not.Null().And.Is.AssignableTo<IDictionary<string).string>>();
         Assert.That(result[guid]).Is.EqualTo("Foo bar!");
     }
 
@@ -59,7 +60,7 @@ public class EnvironmentContextTests : TestBase
 
         var path = context.EnvironmentVariables.GetPath();
 
-        Assert.That(path).Is.Not.Empty);
+        Assert.That(path).Is.Not.Empty();
         Assert.That(path).Does.Not.Contain(directoryToAdd);
 
         context.EnvironmentVariables.AddToPath(directoryToAdd);
@@ -76,14 +77,14 @@ public class EnvironmentContextTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(context.ContentDirectory).Is.Not.Null);
-            Assert.That(context.OperatingSystem.ToString()).Is.Not.Null);
-            Assert.That(context.OperatingSystemVersion.ToString()).Is.Not.Null);
-            Assert.That(context.Is64BitOperatingSystem).Is.True.Or.False);
-            Assert.That(context.WorkingDirectory).Is.Not.Null);
-            Assert.That(context.AppDomainDirectory).Is.Not.Null);
-            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null);
-            Assert.That(context.EnvironmentName).Is.Not.Null);
+            Assert.That(context.ContentDirectory).Is.Not.Null();
+            Assert.That(context.OperatingSystem.ToString()).Is.Not.Null();
+            Assert.That(context.OperatingSystemVersion.ToString()).Is.Not.Null();
+            Assert.That(context.Is64BitOperatingSystem).Is.True().Or.Is.False();
+            Assert.That(context.WorkingDirectory).Is.Not.Null();
+            Assert.That(context.AppDomainDirectory).Is.Not.Null();
+            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null();
+            Assert.That(context.EnvironmentName).Is.Not.Null();
         });
     }
 }

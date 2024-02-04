@@ -83,7 +83,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
         var azurePipelines = await GetService<IInternalCollapsableLogging>((_, collection) =>
         {
             collection.AddSingleton(buildSystemDetectorMock.Object);
-            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder);
+            collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
 
         azurePipelines.T.WriteConsoleLogGroupInternal("MyGroup", "Foo bar!");

@@ -72,8 +72,8 @@ public class FileSystemContextTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null);
-            Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null.Or.Empty);
+            Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null();
+            Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null().Or.Empty();
             Assert.That(context.FileExists(file)).Is.True();
         });
     }
@@ -141,8 +141,8 @@ public class FileSystemContextTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null);
-            Assert.That(context.CreateTemporaryFolder()).Is.Not.Null.Or.Empty);
+            Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null();
+            Assert.That(context.CreateTemporaryFolder()).Is.Not.Null();
             Assert.That(context.FolderExists(folder)).Is.True();
         });
     }

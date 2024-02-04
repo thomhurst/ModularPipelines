@@ -76,7 +76,7 @@ public class XmlTests : TestBase
                                               </XmlModel>
                                               """);
 
-        Assert.That(result, Is.EqualTo(new XmlModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new XmlModel { Foo = "Bar!", Hello = "World!" });
     }
 
     [Test]
@@ -91,7 +91,7 @@ public class XmlTests : TestBase
                                               </XmlModel>
                                               """, LoadOptions.None);
 
-        Assert.That(result, Is.EqualTo(new XmlModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new XmlModel { Foo = "Bar!", Hello = "World!" });
     }
 
     public record XmlModel

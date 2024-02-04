@@ -88,7 +88,7 @@ public class ModuleHistoryTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
         {
-            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module);
+            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module));
         }
     }
 

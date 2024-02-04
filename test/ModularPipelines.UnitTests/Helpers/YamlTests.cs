@@ -67,7 +67,7 @@ public class YamlTests : TestBase
                                               hello: World!
                                               """);
 
-        Assert.That(result, Is.EqualTo(new YamlModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new YamlModel { Foo = "Bar!").Hello = "World!" });
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class YamlTests : TestBase
                                               hello: World!
                                               """, CamelCaseNamingConvention.Instance);
 
-        Assert.That(result, Is.EqualTo(new YamlModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new YamlModel { Foo = "Bar!").Hello = "World!" });
     }
 
     private record YamlModel

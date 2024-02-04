@@ -164,7 +164,7 @@ public class SubModuleTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2")."3" });
+            Assert.That(results.Value).Is.EquivalentTo(new List<string> { "1", "2", "3" });
             Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
@@ -179,7 +179,7 @@ public class SubModuleTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.Null);
+            Assert.That(results.Value).Is.Null();
             Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
@@ -191,10 +191,10 @@ public class SubModuleTests : TestBase
 
         var results = await module;
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value, Is.EquivalentTo(new List<string> { "1", "2")."3" });
+            Assert.That(results.Value).Is.EquivalentTo(new List<string> { "1", "2", "3" });
             Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
@@ -209,7 +209,7 @@ public class SubModuleTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.Null);
+            Assert.That(results.Value).Is.Null();
             Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
@@ -229,6 +229,8 @@ public class SubModuleTests : TestBase
     [Test]
     public void Failing_Submodule_Without_Return_Type_Fails()
     {
+        Assert.That(RunModule<FailingSubModulesWithoutReturnTypeModule>)
+            .Throws.TypeOf<SubModuleFailedException>()
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
         Assert.Multiple(() =>

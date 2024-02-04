@@ -26,7 +26,7 @@ public class BooleanExtensionTests
         Assert.Multiple(() =>
         {
             Assert.That(falseSkipDecision.ShouldSkip).Is.False();
-            Assert.That(falseSkipDecision.Reason).Is.Null);
+            Assert.That(falseSkipDecision.Reason).Is.Null();
         });
     }
 }

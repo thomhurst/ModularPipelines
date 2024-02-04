@@ -28,8 +28,8 @@ public class Sha384Tests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(moduleResult.Exception).Is.Null);
-            Assert.That(moduleResult.Value).Is.Not.Null);
+            Assert.That(moduleResult.Exception).Is.Null();
+            Assert.That(moduleResult.Value).Is.Not.Null();
         });
     }
 

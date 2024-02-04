@@ -133,7 +133,7 @@ public class PipelineProgressTests
                     .AddModule<Module6>()
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
-            Throws.Exception.TypeOf<ModuleFailedException>()
+            Throws.TypeOf<ModuleFailedException>()
         );
     }
 }

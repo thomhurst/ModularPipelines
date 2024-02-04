@@ -24,7 +24,7 @@ public class InstallerTests : TestBase
 
             var result = await installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(file);
 
-            Assert.That(result.ExitCode).Is.Zero);
+            Assert.That(result.ExitCode).Is.Zero();
         }
         else if (OperatingSystem.IsLinux())
         {
@@ -34,7 +34,7 @@ public class InstallerTests : TestBase
 
             var result = await installer.LinuxInstaller.InstallFromDpkg(new DpkgInstallOptions(file);
 
-            Assert.That(result.ExitCode).Is.Zero);
+            Assert.That(result.ExitCode).Is.Zero();
         }
     }
 }

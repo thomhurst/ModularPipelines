@@ -67,12 +67,12 @@ public class ReturnNothingTests : TestBase
 
     private static void Assert(ModuleResult<CommandResult> result)
     {
-        NUnit.Framework.Assert.Multiple(() =>
+        TUnit.Assertions.Assert.Multiple(() =>
         {
-            NUnit.Framework.Assert.That(result.HasValue).Is<,,>.False);
-            NUnit.Framework.Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            NUnit.Framework.Assert.That(result.Value).Is.Null);
-            NUnit.Framework.Assert.That(result.Exception).Is.Null);
+            TUnit.Assertions.Assert.That(result.HasValue).Is.False();
+            TUnit.Assertions.Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            TUnit.Assertions.Assert.That(result.Value).Is.Null();
+            TUnit.Assertions.Assert.That(result.Exception).Is.Null();
         });
     }
 }
