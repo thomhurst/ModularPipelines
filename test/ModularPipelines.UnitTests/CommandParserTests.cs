@@ -46,8 +46,8 @@ public class CommandParserTests : TestBase
         Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --force");
     }
 
-    [TestCase(null)]
-    [TestCase(false)]
+    [TestWithData(null)]
+    [TestWithData(false)]
     public async Task Boolean_Switch_Parse_As_Expected_When_Not_True(bool? force)
     {
         var result = await GetResult(new MySuperSecretToolOptions
@@ -150,8 +150,8 @@ public class CommandParserTests : TestBase
                                                     """);
     }
 
-    [TestCase("")]
-    [TestCase(null)]
+    [TestWithData("")]
+    [TestWithData(null)]
     public void Placeholder_Positional_WhenEmpty_Throws(string? package)
     {
         Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")

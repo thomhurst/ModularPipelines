@@ -105,7 +105,7 @@ public class DependsOnTests : TestBase
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception);
     }
 
@@ -134,7 +134,7 @@ public class DependsOnTests : TestBase
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module3WithGet>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception);
     }
     
@@ -143,7 +143,7 @@ public class DependsOnTests : TestBase
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception.TypeOf<ModuleReferencingSelfException>();
     }
     
@@ -152,7 +152,7 @@ public class DependsOnTests : TestBase
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnNonModule>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception.Message.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");
     }
 }

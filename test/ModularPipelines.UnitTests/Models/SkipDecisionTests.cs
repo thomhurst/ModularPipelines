@@ -13,7 +13,7 @@ public class SkipDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip).Is.True);
+            Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.Null);
         });
     }
@@ -25,7 +25,7 @@ public class SkipDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip).Is.True);
+            Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Foo!");
         });
     }
@@ -37,7 +37,7 @@ public class SkipDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip).Is.False);
+            Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null);
         });
     }
@@ -49,7 +49,7 @@ public class SkipDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip).Is.True);
+            Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Blah!");
         });
     }
@@ -61,13 +61,13 @@ public class SkipDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip).Is.False);
+            Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null);
         });
     }
 
-    [TestCase(true)]
-    [TestCase(false)]
+    [TestWithData(true)]
+    [TestWithData(false)]
     public void Of(bool shouldSkip)
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");

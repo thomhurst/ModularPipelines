@@ -16,11 +16,11 @@ public class FileTests : TestBase
     {
         var file = await CreateRandomFile();
 
-        Assert.That(file.Exists).Is.True);
+        Assert.That(file.Exists).Is.True();
 
         file.Delete();
 
-        Assert.That(file.Exists).Is.False);
+        Assert.That(file.Exists).Is.False();
     }
 
     [Test]
@@ -32,18 +32,18 @@ public class FileTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(file.Exists).Is.True);
-            Assert.That(file2.Exists).Is.False);
+            Assert.That(file.Exists).Is.True();
+            Assert.That(file2.Exists).Is.False();
         });
 
         file.MoveTo(file2);
 
         Assert.Multiple(() =>
         {
-            Assert.That(new File(file.OriginalPath).Exists).Is.False);
+            Assert.That(new File(file.OriginalPath).Exists).Is.False();
 
-            Assert.That(file.Exists).Is.True);
-            Assert.That(file2.Exists).Is.True);
+            Assert.That(file.Exists).Is.True();
+            Assert.That(file2.Exists).Is.True();
         });
     }
 
@@ -54,7 +54,7 @@ public class FileTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(file.Exists).Is.True);
+            Assert.That(file.Exists).Is.True();
             Assert.That(file.Attributes.ToString()).Is.Not.Null.Or.Empty);
             Assert.That(file.Path).Is.Not.Null.Or.Empty);
             Assert.That(file.OriginalPath).Is.Not.Null.Or.Empty);
@@ -62,10 +62,10 @@ public class FileTests : TestBase
             Assert.That(file.Folder?.ToString()).Is.Not.Null.Or.Empty);
             Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null.Or.Empty);
             Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null.Or.Empty);
-            Assert.That(file.Hidden).Is.False);
+            Assert.That(file.Hidden).Is.False();
             Assert.That(file.Name).Is.Not.Null.Or.Empty);
             Assert.That(file.NameWithoutExtension).Is.Not.Null.Or.Empty);
-            Assert.That(file.IsReadOnly).Is.False);
+            Assert.That(file.IsReadOnly).Is.False();
         });
     }
 
@@ -78,16 +78,16 @@ public class FileTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(file.Exists).Is.True);
-            Assert.That(file2.Exists).Is.False);
+            Assert.That(file.Exists).Is.True();
+            Assert.That(file2.Exists).Is.False();
         });
 
         file.CopyTo(file2);
 
         Assert.Multiple(() =>
         {
-            Assert.That(file.Exists).Is.True);
-            Assert.That(file2.Exists).Is.True);
+            Assert.That(file.Exists).Is.True();
+            Assert.That(file2.Exists).Is.True();
         });
     }
 
@@ -96,11 +96,11 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
 
-        Assert.That(file.Exists).Is.False);
+        Assert.That(file.Exists).Is.False();
 
         file.Create();
 
-        Assert.That(file.Exists).Is.True);
+        Assert.That(file.Exists).Is.True();
     }
 
     [Test]
@@ -264,11 +264,11 @@ public class FileTests : TestBase
     {
         var file = await CreateRandomFile();
 
-        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.False);
+        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.False();
 
         file.Attributes = FileAttributes.Hidden;
 
-        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.True);
+        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.True();
     }
 
     [Test]
@@ -282,8 +282,8 @@ public class FileTests : TestBase
         {
             Assert.That(file).Is.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.EqualTo(file2.GetHashCode());
-            Assert.That(file == file2).Is.True);
-            Assert.That(file != file2).Is.False);
+            Assert.That(file == file2).Is.True();
+            Assert.That(file != file2).Is.False();
         });
     }
 
@@ -297,15 +297,15 @@ public class FileTests : TestBase
         {
             Assert.That(file).Is.Not.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.Not.EqualTo(file2.GetHashCode());
-            Assert.That(file == file2).Is.False);
-            Assert.That(file != file2).Is.True);
+            Assert.That(file == file2).Is.False();
+            Assert.That(file != file2).Is.True();
         });
     }
 
-    [TestCase("**/Nest2/**/*.txt")]
-    [TestCase("**/blah.txt")]
-    [TestCase("**/Blah.txt")]
-    [TestCase("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
+    [TestWithData("**/Nest2/**/*.txt")]
+    [TestWithData("**/blah.txt")]
+    [TestWithData("**/Blah.txt")]
+    [TestWithData("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
     public void GlobTests(string globPattern)
     {
         var workingDirectory = new Folder(Environment.CurrentDirectory);

@@ -32,11 +32,11 @@ public class DisposerTests
     {
         var myClass = new MyClass();
 
-        Assert.That(myClass.DisposedAsync).Is.False);
+        Assert.That(myClass.DisposedAsync).Is.False();
 
         await Disposer.DisposeObjectAsync(myClass);
 
-        Assert.That(myClass.DisposedAsync).Is.True);
+        Assert.That(myClass.DisposedAsync).Is.True();
     }
 
     [Test]
@@ -44,10 +44,10 @@ public class DisposerTests
     {
         var myClass = new MyClass2();
 
-        Assert.That(myClass.Disposed).Is.False);
+        Assert.That(myClass.Disposed).Is.False();
 
         await Disposer.DisposeObjectAsync(myClass);
 
-        Assert.That(myClass.Disposed).Is.True);
+        Assert.That(myClass.Disposed).Is.True();
     }
 }

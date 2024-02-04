@@ -13,7 +13,7 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success).Is.True);
+            Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
@@ -25,7 +25,7 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
@@ -37,7 +37,7 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
         });
     }
@@ -49,7 +49,7 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success).Is.False);
+            Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
         });
     }
@@ -61,13 +61,13 @@ public class RequirementDecisionTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(requirementDecision.Success).Is.True);
+            Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null);
         });
     }
 
-    [TestCase(true)]
-    [TestCase(false)]
+    [TestWithData(true)]
+    [TestWithData(false)]
     public void Of(bool success)
     {
         var requirementDecision = RequirementDecision.Of(success, "Blah!");

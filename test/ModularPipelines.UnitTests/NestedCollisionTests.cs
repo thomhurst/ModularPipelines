@@ -19,7 +19,7 @@ public class NestedCollisionTests
                 .AddModule<DependencyConflictModule3>()
                 .AddModule<DependencyConflictModule4>()
                 .AddModule<DependencyConflictModule5>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception.TypeOf<DependencyCollisionException>()
                 .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
     }

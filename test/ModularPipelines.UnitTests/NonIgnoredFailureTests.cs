@@ -31,6 +31,6 @@ public class NonIgnoredFailureTests : TestBase
 
         await Task.Delay(TimeSpan.FromSeconds(2);
 
-        Assert.That(engineCancellationToken.IsCancellationRequested).Is.True);
+        Assert.That(engineCancellationToken.IsCancellationRequested).Is.True();
     }
 }

@@ -35,9 +35,9 @@ public class LoggingSecretTests
         }
     }
 
-    [TestCase("Shh!")]
-    [TestCase("SuperSecret!")]
-    [TestCase("🤐")]
+    [TestWithData("Shh!")]
+    [TestWithData("SuperSecret!")]
+    [TestWithData("🤐")]
     public async Task SecretIsCensored(string secretValue)
     {
         var stringBuilder = new StringBuilder();

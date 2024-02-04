@@ -22,24 +22,24 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public void When_No_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_False()
     {
-        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False);
+        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
     }
 
-    [TestCase("TF_BUILD")]
-    [TestCase("TEAMCITY_VERSION")]
-    [TestCase("GITHUB_ACTIONS")]
-    [TestCase("JENKINS_URL")]
-    [TestCase("GITLAB_CI")]
-    [TestCase("BITBUCKET_BUILD_NUMBER")]
-    [TestCase("TRAVIS")]
-    [TestCase("APPVEYOR")]
+    [TestWithData("TF_BUILD")]
+    [TestWithData("TEAMCITY_VERSION")]
+    [TestWithData("GITHUB_ACTIONS")]
+    [TestWithData("JENKINS_URL")]
+    [TestWithData("GITLAB_CI")]
+    [TestWithData("BITBUCKET_BUILD_NUMBER")]
+    [TestWithData("TRAVIS")]
+    [TestWithData("APPVEYOR")]
     public void When_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_True(string environmentVariableName)
     {
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
 
-        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.True);
+        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.True();
     }
 
     [Test]
@@ -47,26 +47,26 @@ public class BuildSystemDetectorTests : TestBase
     {
         Assert.Multiple(() =>
         {
-            Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnTeamCity).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).Is.True.Or.False);
-            Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False);
-            Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False);
+            Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnTeamCity).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).Is.True().Or.Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False();
+            Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False();
         });
     }
 
-    [TestCase("TF_BUILD", BuildSystem.AzurePipelines)]
-    [TestCase("TEAMCITY_VERSION", BuildSystem.TeamCity)]
-    [TestCase("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
-    [TestCase("JENKINS_URL", BuildSystem.Jenkins)]
-    [TestCase("GITLAB_CI", BuildSystem.GitLab)]
-    [TestCase("BITBUCKET_BUILD_NUMBER", BuildSystem.Bitbucket)]
-    [TestCase("TRAVIS", BuildSystem.TravisCI)]
-    [TestCase("APPVEYOR", BuildSystem.AppVeyor)]
-    [TestCase("blah", BuildSystem.Unknown)]
+    [TestWithData("TF_BUILD", BuildSystem.AzurePipelines)]
+    [TestWithData("TEAMCITY_VERSION", BuildSystem.TeamCity)]
+    [TestWithData("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
+    [TestWithData("JENKINS_URL", BuildSystem.Jenkins)]
+    [TestWithData("GITLAB_CI", BuildSystem.GitLab)]
+    [TestWithData("BITBUCKET_BUILD_NUMBER", BuildSystem.Bitbucket)]
+    [TestWithData("TRAVIS", BuildSystem.TravisCI)]
+    [TestWithData("APPVEYOR", BuildSystem.AppVeyor)]
+    [TestWithData("blah", BuildSystem.Unknown)]
     public void Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
     {
         _environmentVariables

@@ -15,7 +15,7 @@ public class AsyncDisposableModuleTests
             .AddModule<AsyncDisposableModule>()
             .ExecutePipelineAsync();
 
-        Assert.That(pipelineSummary.Modules.OfType<AsyncDisposableModule>().Single().IsDisposed).Is.True);
+        Assert.That(pipelineSummary.Modules.OfType<AsyncDisposableModule>().Single().IsDisposed).Is.True();
     }
 
     public class AsyncDisposableModule : Module, IAsyncDisposable

@@ -36,8 +36,8 @@ public class FailedPipelineTests : TestBase
         }
     }
 
-    [TestCase(ExecutionMode.StopOnFirstException)]
-    [TestCase(ExecutionMode.WaitForAllModules)]
+    [TestWithData(ExecutionMode.StopOnFirstException)]
+    [TestWithData(ExecutionMode.WaitForAllModules)]
     public void Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
@@ -46,12 +46,12 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .AddModule<Module3>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception);
     }
 
-    [TestCase(ExecutionMode.StopOnFirstException)]
-    [TestCase(ExecutionMode.WaitForAllModules)]
+    [TestWithData(ExecutionMode.StopOnFirstException)]
+    [TestWithData(ExecutionMode.WaitForAllModules)]
     public void Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         Assert.That(async () => await TestPipelineHostBuilder.Create()
@@ -59,12 +59,12 @@ public class FailedPipelineTests : TestBase
                     => options.ExecutionMode = executionMode)
                 .AddModule<Module1>()
                 .AddModule<Module2>()
-                .ExecutePipelineAsync(),
+                .ExecutePipelineAsync()).
             Throws.Exception);
     }
 
-    [TestCase(ExecutionMode.StopOnFirstException)]
-    [TestCase(ExecutionMode.WaitForAllModules)]
+    [TestWithData(ExecutionMode.StopOnFirstException)]
+    [TestWithData(ExecutionMode.WaitForAllModules)]
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
