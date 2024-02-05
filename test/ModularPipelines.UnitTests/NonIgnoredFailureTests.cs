@@ -31,7 +31,7 @@ public class NonIgnoredFailureTests : TestBase
         var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
-        await Task.Delay(TimeSpan.FromSeconds(2);
+        await Task.Delay(TimeSpan.FromSeconds(2));
 
         Assert.That(engineCancellationToken.IsCancellationRequested).Is.True();
     }

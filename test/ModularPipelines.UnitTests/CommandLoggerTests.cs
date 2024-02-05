@@ -36,28 +36,57 @@ public class CommandLoggerTests : TestBase
 
         Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]");
 
-        Assert.That(logFile).logInput
-            ? Does.Contain("""
-                           ---Executing Command---
-                           pwsh -Command "echo Hello world!
-                           throw \"Error!\""
-                           """)
-            : Does.Contain("""
-                           ---Executing Command---
-                           ********
-                           """);
+        if (logInput)
+        {
+            Assert.That(logFile).Does.Contain("""
+                                              ---Executing Command---
+                                              pwsh -Command "echo Hello world!
+                                              throw \"Error!\""
+                                              """);
+        }
+        else
+        {
+            Assert.That(logFile).Does.Contain("""
+                                              ---Executing Command---
+                                              ********
+                                              """);
+        }
 
-        Assert.That(logFile,
-            logOutput ? Does.Contain("---Command Result---") : Does.Not.Contain("---Command Result---");
+        if (logOutput)
+        {
+            Assert.That(logFile).Does.Contain("---Command Result---");
+        }
+        else
+        {
+            Assert.That(logFile).Does.Not.Contain("---Command Result---");
+        }
 
-        Assert.That(logFile,
-            logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error");
-
-        Assert.That(logFile,
-            logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration");
-
-        Assert.That(logFile,
-            logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code");
+        if (logError)
+        {
+            Assert.That(logFile).Does.Contain("---Command Error---");
+        }
+        else
+        {
+            Assert.That(logFile).Does.Not.Contain("---Command Error---");
+        }
+       
+        if (logError)
+        {
+            Assert.That(logFile).Does.Contain("---Duration");
+        }
+        else
+        {
+            Assert.That(logFile).Does.Not.Contain("---Duration");
+        }
+        
+        if (logExitCode)
+        {
+            Assert.That(logFile).Does.Contain("---Exit Code");
+        }
+        else
+        {
+            Assert.That(logFile).Does.Not.Contain("---Exit Code");
+        }
     }
 
     private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,

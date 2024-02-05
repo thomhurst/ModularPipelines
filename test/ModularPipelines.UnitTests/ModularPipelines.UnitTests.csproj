@@ -13,7 +13,7 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
-        <PackageReference Include="TUnit" Version="0.1.24-alpha01" />
+        <PackageReference Include="TUnit" Version="0.1.26-alpha01" />
         <PackageReference Include="coverlet.collector" Version="6.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
