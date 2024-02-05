@@ -73,18 +73,13 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
 
     private void AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
     {
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds()).
-            Is.EqualTo((firstModule.StartTime + expectedTimeAfter).ToUnixTimeMilliseconds())
-                .Within(350)
-        );
+        Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance((firstModule.StartTime + expectedTimeAfter), TimeSpan.FromMilliseconds(350));
     }
 
     private void AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
     {
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds()).
-            Is.EqualTo(firstModule.StartTime.ToUnixTimeMilliseconds()).Within(350)
-        );
+        Assert.That(nextModule.StartTime).
+            Is.EqualToWithTolerance(firstModule.StartTime, TimeSpan.FromMilliseconds(350));
     }
 }
