@@ -30,7 +30,7 @@ public class FolderTests : TestBase
     }
 
     [Test]
-    public void CleanFolders()
+    public async Task CleanFolders()
     {
         var folder = CreateRandomFolder();
 
@@ -139,7 +139,7 @@ public class FolderTests : TestBase
     }
 
     [Test]
-    public void Data_Is_Populated()
+    public async Task Data_Is_Populated()
     {
         var folder = CreateRandomFolder();
         await Assert.Multiple(() =>
@@ -159,9 +159,10 @@ public class FolderTests : TestBase
     }
 
     [Test]
-    public void CreateFolder()
+    public async Task CreateFolder()
     {
         var folder = new Folder(Path.GetRandomFileName());
+        
         await Assert.That(folder.Exists).Is.False();
 
         folder.Create();

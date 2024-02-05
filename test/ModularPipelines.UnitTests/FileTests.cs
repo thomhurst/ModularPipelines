@@ -54,7 +54,7 @@ public class FileTests : TestBase
             Assert.That(file.Path).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.OriginalPath).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.Extension).Is.Not.Null().And.Is.Not.Empty();
-            Assert.That(file.Folder?.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(file.Folder.ToString()).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.Hidden).Is.False();

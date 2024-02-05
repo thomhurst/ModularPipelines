@@ -99,12 +99,12 @@ public class DependsOnTests : TestBase
     }
 
     [Test]
-    public void Exception_Thrown_When_Dependent_Module_Missing_And_No_Ignore_On_Attribute()
+    public async Task Exception_Thrown_When_Dependent_Module_Missing_And_No_Ignore_On_Attribute()
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
-                .ExecutePipelineAsync()).
-            Throws.Exception;
+                .ExecutePipelineAsync())
+            .Throws.Exception();
     }
 
     [Test]
@@ -126,16 +126,16 @@ public class DependsOnTests : TestBase
     }
 
     [Test]
-    public void Exception_Thrown_When_Dependent_Module_Missing_And_Get_Module_Called()
+    public async Task Exception_Thrown_When_Dependent_Module_Missing_And_Get_Module_Called()
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync()).
-            Throws.Exception;
+            Throws.Exception();
     }
 
     [Test]
-    public void Depends_On_Self_Module_Throws_Exception()
+    public async Task Depends_On_Self_Module_Throws_Exception()
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
@@ -144,7 +144,7 @@ public class DependsOnTests : TestBase
     }
 
     [Test]
-    public void Depends_On_Non_Module_Throws_Exception()
+    public async Task Depends_On_Non_Module_Throws_Exception()
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnNonModule>()

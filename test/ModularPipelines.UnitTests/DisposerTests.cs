@@ -1,6 +1,7 @@
 using ModularPipelines.Helpers;
 using TUnit.Assertions;
 using TUnit.Core;
+using Disposer = ModularPipelines.Helpers.Disposer;
 
 namespace ModularPipelines.UnitTests;
 

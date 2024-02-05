@@ -7,7 +7,7 @@ namespace ModularPipelines.UnitTests.Extensions;
 public class BooleanExtensionTests
 {
     [Test]
-    public void True()
+    public async Task True()
     {
         var trueSkipDecision = true.AsSkipDecisionIfTrue("My reason");
         await Assert.Multiple(() =>
@@ -18,9 +18,10 @@ public class BooleanExtensionTests
     }
 
     [Test]
-    public void False()
+    public async Task False()
     {
         var falseSkipDecision = false.AsSkipDecisionIfTrue("My reason");
+        
         await Assert.Multiple(() =>
         {
             Assert.That(falseSkipDecision.ShouldSkip).Is.False();

@@ -8,7 +8,7 @@ namespace ModularPipelines.UnitTests.Extensions;
 public class FolderExtensionsTests
 {
     [Test]
-    public void EnumerablePaths()
+    public async Task EnumerablePaths()
     {
         var folders = new List<Folder>
         {
@@ -18,7 +18,7 @@ public class FolderExtensionsTests
 
         var paths = folders.AsPaths();
         await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
-        await await Assert.That(paths).Is.Not.AssignableTo<List<string>>();
+        await Assert.That(paths).Is.Not.AssignableTo<List<string>>();
         await Assert.That(paths).Is.EquivalentTo(new List<string>
         {
             Path.Combine(Environment.CurrentDirectory, "Folder1"),
@@ -27,7 +27,7 @@ public class FolderExtensionsTests
     }
 
     [Test]
-    public void ListPaths()
+    public async Task ListPaths()
     {
         var folders = new List<Folder>
         {

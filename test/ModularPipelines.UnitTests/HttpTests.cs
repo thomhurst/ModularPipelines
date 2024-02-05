@@ -75,7 +75,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
-        await await Assert.That(logFile).Does.Not.Contain("---Response---");
+        await Assert.That(logFile).Does.Not.Contain("---Response---");
         await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
 

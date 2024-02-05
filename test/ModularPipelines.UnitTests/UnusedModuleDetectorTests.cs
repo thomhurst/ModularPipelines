@@ -34,7 +34,7 @@ public class UnusedModuleDetectorTests
     }
 
     [Test]
-    public void Logs_Unregisted_Modules_Correctly()
+    public async Task Logs_Unregisted_Modules_Correctly()
     {
         _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(ModuleBase)))
             .Returns(new[]

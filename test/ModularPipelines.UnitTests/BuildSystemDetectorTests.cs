@@ -20,7 +20,7 @@ public class BuildSystemDetectorTests : TestBase
     }
 
     [Test]
-    public void When_No_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_False()
+    public async Task When_No_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_False()
     {
         await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
     }
@@ -33,7 +33,7 @@ public class BuildSystemDetectorTests : TestBase
     [TestWithData("BITBUCKET_BUILD_NUMBER")]
     [TestWithData("TRAVIS")]
     [TestWithData("APPVEYOR")]
-    public void When_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_True(string environmentVariableName)
+    public async Task When_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_True(string environmentVariableName)
     {
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
@@ -42,7 +42,7 @@ public class BuildSystemDetectorTests : TestBase
     }
 
     [Test]
-    public void Each_Property_Returns_Result()
+    public async Task Each_Property_Returns_Result()
     {
         await Assert.Multiple(() =>
         {
@@ -66,7 +66,7 @@ public class BuildSystemDetectorTests : TestBase
     [TestWithData("TRAVIS", BuildSystem.TravisCI)]
     [TestWithData("APPVEYOR", BuildSystem.AppVeyor)]
     [TestWithData("blah", BuildSystem.Unknown)]
-    public void Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
+    public async Task Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
     {
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))

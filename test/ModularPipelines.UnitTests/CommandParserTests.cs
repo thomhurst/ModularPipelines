@@ -139,7 +139,7 @@ public class CommandParserTests : TestBase
 
     [TestWithData("")]
     [TestWithData(null)]
-    public void Placeholder_Positional_WhenEmpty_Throws(string? package)
+    public async Task Placeholder_Positional_WhenEmpty_Throws(string? package)
     {
         await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
@@ -148,7 +148,7 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public void No_Matching_Placeholder_Positional_Throws()
+    public async Task No_Matching_Placeholder_Positional_Throws()
     {
         await Assert.That(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
         {
