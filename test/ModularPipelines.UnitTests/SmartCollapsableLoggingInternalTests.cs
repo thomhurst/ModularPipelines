@@ -21,8 +21,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
-                       """)
-        );
+                       """);
     }
 
     [Test]
@@ -35,8 +34,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
-                       """)
-        );
+                       """);
     }
 
     [Test]
@@ -49,8 +47,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
-                       """)
-        );
+                       """);
     }
 
     [TestWithData(BuildSystem.Jenkins)]
@@ -67,8 +64,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
         Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        Foo bar!
-                       """)
-        );
+                       """);
     }
 
     private async Task<StringBuilder> Execute(BuildSystem buildSystem)

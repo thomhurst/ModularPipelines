@@ -30,8 +30,7 @@ public class CollapsableLoggingTests : TestBase
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
-                       """)
-        );
+                       """);
     }
 
     [Test]
@@ -53,8 +52,7 @@ public class CollapsableLoggingTests : TestBase
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
-                       """)
-        );
+                       """);
     }
 
     [Test]
@@ -76,7 +74,6 @@ public class CollapsableLoggingTests : TestBase
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
-                       """)
-        );
+                       """);
     }
 }
