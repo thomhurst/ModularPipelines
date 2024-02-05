@@ -47,7 +47,7 @@ public class JsonTests : TestBase
                                               {"Foo":"Bar!","Hello":"World!"}
                                               """);
 
-        Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
     }
 
     [Test]
@@ -65,7 +65,7 @@ public class JsonTests : TestBase
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
 
-        Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!").Hello = "World!" });
+        Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
     }
 
     private record JsonModel

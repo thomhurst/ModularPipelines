@@ -62,14 +62,14 @@ public class DotNetTestResultsTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(exception, Is.Not.Null().() => $"Exception is null: {exception}");
-            Assert.That(exception?.Message, Is.Not.Null().And.Not.Empty()).() => $"Exception message is null: {exception?.Message}");
-            Assert.That(unitTestResults, Is.Not.Null().() => $"Unit test results are null: {exception!.CommandResult}");
-            Assert.That(exception?.DotNetTestResult, Is.Not.Null().() => $"DotNetTestResult is null: {exception?.DotNetTestResult}");
+            Assert.That(exception).Is.Not.Null();
+            Assert.That(exception?.Message).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(unitTestResults).Is.Not.Null();
+            Assert.That(exception?.DotNetTestResult).Is.Not.Null();
             Assert.That(exception!.DotNetTestResult!.Successful).Is.False();
-            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Failed).ToList()).Has.Count.EqualTo(1);
-            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.NotExecuted).ToList()).Has.Count.EqualTo(1);
-            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Passed).ToList()).Has.Count.EqualTo(2);
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Failed).ToList()).Has.Count().EqualTo(1);
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.NotExecuted).ToList()).Has.Count().EqualTo(1);
+            Assert.That(unitTestResults!.Where(x => x.Outcome == TestOutcome.Passed).ToList()).Has.Count().EqualTo(2);
         });
     }
 
@@ -85,8 +85,8 @@ public class DotNetTestResultsTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Failed).ToList()).Has.Count.EqualTo(0);
-            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Passed).ToList()).Has.Count.EqualTo(2);
+            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Failed).ToList()).Has.Count().EqualTo(0);
+            Assert.That(unitTestResults?.Where(x => x.Outcome == TestOutcome.Passed).ToList()).Has.Count().EqualTo(2);
         });
     }
 }

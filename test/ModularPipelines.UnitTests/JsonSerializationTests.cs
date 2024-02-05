@@ -93,7 +93,7 @@ public class JsonSerializationTests : TestBase
             Assert.That(deserializedSummary.Start).Is.EqualTo(pipelineSummary.Start);
             Assert.That(deserializedSummary.End).Is.EqualTo(pipelineSummary.End);
             Assert.That(deserializedSummary.TotalDuration).Is.EqualTo(pipelineSummary.TotalDuration);
-            Assert.That(deserializedSummary.Modules).Has.Count.EqualTo(pipelineSummary.Modules.Count);
+            Assert.That(deserializedSummary.Modules).Has.Count().EqualTo(pipelineSummary.Modules.Count);
             Assert.That(deserializedSummary.Status).Is.EqualTo(pipelineSummary.Status);
 
             Assert.That(module1Deserialized.StartTime).Is.EqualTo(module.StartTime);

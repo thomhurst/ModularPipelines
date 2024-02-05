@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
@@ -8,7 +9,7 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[Parallelizable(ParallelScope.Fixtures)]
+[NotInParallel]
 public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
@@ -53,7 +54,7 @@ public class ZipTests : TestBase
     {
         await RunModule<ZipModule>();
 
-        var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip");
+        var expectedFile = new FileInfo(Path.Combine(Environment.CurrentDirectory, "LoremData.zip");
 
         Assert.Multiple(() =>
         {
@@ -99,7 +100,7 @@ public class ZipTests : TestBase
     {
         await RunModule<UnZipModule>();
 
-        var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped");
+        var expectedFolder = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "LoremDataUnzipped"));
 
         Assert.Multiple(() =>
         {

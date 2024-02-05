@@ -13,7 +13,7 @@ public class SkippedModuleTests : TestBase
     {
         protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
-            return Task.FromResult(SkipDecision.Skip("Testing purposes");
+            return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }
 
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

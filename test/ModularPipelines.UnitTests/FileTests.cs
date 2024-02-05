@@ -74,7 +74,7 @@ public class FileTests : TestBase
     {
         var file = await CreateRandomFile();
 
-        var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
 
         Assert.Multiple(() =>
         {
@@ -187,7 +187,7 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
 
-        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray());
+        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
 
@@ -199,7 +199,7 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
 
-        await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray());
+        await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
 
@@ -211,7 +211,7 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
 
-        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray());
+        await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
 
@@ -241,7 +241,7 @@ public class FileTests : TestBase
     [Test]
     public void FileInfo_Implicit_Cast()
     {
-        var fileInfo = new FileInfo(Path.GetTempFileName();
+        var fileInfo = new FileInfo(Path.GetTempFileName());
 
         File file = fileInfo;
 
@@ -355,7 +355,7 @@ public class FileTests : TestBase
     public async Task MoveTo_Folder()
     {
         var file = await CreateRandomFile();
-        file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+        file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
     }
 
     private static async Task<File> CreateRandomFile()

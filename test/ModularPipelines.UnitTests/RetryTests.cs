@@ -135,7 +135,7 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = 0;
             })
             .AddModule<FailedModule>()
-            .ExecutePipelineAsync();
+            .ExecutePipelineAsync());
 
         var module = moduleFailedException?.Module as FailedModule;
 

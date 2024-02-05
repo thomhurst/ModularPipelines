@@ -14,7 +14,7 @@ public class CommandParserTests : TestBase
     [Test]
     public async Task Empty_Options_Parse_As_Expected()
     {
-        var result = await GetResult(new MySuperSecretToolOptions();
+        var result = await GetResult(new MySuperSecretToolOptions());
 
         Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that");
     }

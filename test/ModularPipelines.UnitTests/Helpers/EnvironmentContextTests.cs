@@ -33,7 +33,7 @@ public class EnvironmentContextTests : TestBase
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
 
-        Assert.That(result).Is.Not.Null().And.Is.AssignableTo<IDictionary<string).string>>();
+        Assert.That(result).Is.Not.Null().And.Is.AssignableTo<IDictionary<string,string>>();
         Assert.That(result[guid]).Is.EqualTo("Foo bar!");
     }
 
@@ -56,7 +56,7 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
 
-        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N");
+        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N"));
 
         var path = context.EnvironmentVariables.GetPath();
 

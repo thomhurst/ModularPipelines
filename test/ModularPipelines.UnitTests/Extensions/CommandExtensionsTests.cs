@@ -29,7 +29,7 @@ public class CommandExtensionsTests
         Assert.Multiple(() =>
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1")."arg2" });
+            Assert.That(commandLineOptions.Arguments).Is.EquivalentTo(new[] { "arg1", "arg2" });
         });
     }
     
@@ -43,7 +43,7 @@ public class CommandExtensionsTests
         Assert.Multiple(() =>
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4")."arg5" });
+            Assert.That(commandLineOptions.Arguments).Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });
         });
     }
 }

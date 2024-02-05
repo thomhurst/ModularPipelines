@@ -23,8 +23,8 @@ public class PipelineProgressTests
         AnsiConsole.Profile.Capabilities.Interactive = true;
     }
 
-    [TearDown]
-    public static void TearDown()
+    [CleanUp]
+    public static void CleanUp()
     {
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
@@ -108,7 +108,7 @@ public class PipelineProgressTests
             foreach (var guid in Enumerable.Range(0, 20)
                          .Select(x => Guid.NewGuid().ToString("N")))
             {
-                await SubModule(guid, async () => await Task.FromResult(guid);
+                await SubModule(guid, async () => await Task.FromResult(guid));
             }
 
             return await NothingAsync();
@@ -133,7 +133,6 @@ public class PipelineProgressTests
                     .AddModule<Module6>()
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
-            Throws.TypeOf<ModuleFailedException>()
-        );
+            Throws.TypeOf<ModuleFailedException>();
     }
 }

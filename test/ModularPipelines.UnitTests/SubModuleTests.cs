@@ -230,7 +230,8 @@ public class SubModuleTests : TestBase
     public void Failing_Submodule_Without_Return_Type_Fails()
     {
         Assert.That(RunModule<FailingSubModulesWithoutReturnTypeModule>)
-            .Throws.TypeOf<SubModuleFailedException>()
+            .Throws.TypeOf<SubModuleFailedException>();
+        
         var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
         Assert.Multiple(() =>

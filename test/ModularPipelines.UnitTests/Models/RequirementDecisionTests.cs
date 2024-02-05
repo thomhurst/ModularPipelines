@@ -75,7 +75,7 @@ public class RequirementDecisionTests
         Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.EqualTo(success);
-            Assert.That(requirementDecision.Reason).!success ? Is.EqualTo("Blah!") : Is.Null();
+            Assert.That(requirementDecision.Reason).Is.EqualTo(success ? "Blah!" : null);
         });
     }
 }

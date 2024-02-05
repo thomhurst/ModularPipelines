@@ -130,10 +130,10 @@ public class HttpTests : TestBase
 
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
-        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---");
-        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---");
-        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---");
-        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---");
+        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("---Request---"));
+        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---"));
+        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---"));
+        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---"));
 
         Assert.Multiple(() =>
         {
