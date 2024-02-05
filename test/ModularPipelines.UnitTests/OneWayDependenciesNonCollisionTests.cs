@@ -12,7 +12,7 @@ public class OneWayDependenciesNonCollisionTests
     [Test]
     public void Modules_Not_Dependent_On_Each_Other_Succeed()
     {
-        Assert.That(() => TestPipelineHostBuilder.Create()
+        await Assert.That(() => TestPipelineHostBuilder.Create()
             .AddModule<DependencyConflictModule1>()
             .AddModule<DependencyConflictModule2>()
             .AddModule<DependencyConflictModule3>()

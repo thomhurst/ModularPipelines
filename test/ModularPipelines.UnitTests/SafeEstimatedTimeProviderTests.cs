@@ -21,8 +21,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -34,8 +33,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -47,8 +45,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     private class DummyModule : Module

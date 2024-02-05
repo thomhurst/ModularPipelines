@@ -19,7 +19,7 @@ public class ModuleTimeoutTests : TestBase
             return "Foo bar!";
         }
     }
-    
+
     private class Module_NotUsingCancellationToken : Module<string>
     {
         protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
@@ -30,7 +30,7 @@ public class ModuleTimeoutTests : TestBase
             return "Foo bar!";
         }
     }
-    
+
     private class NoTimeoutModule : Module<string>
     {
         protected internal override TimeSpan Timeout { get; } = TimeSpan.Zero();
@@ -46,18 +46,16 @@ public class ModuleTimeoutTests : TestBase
     public void Throws_TaskException_When_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
-
-        Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>().Or.TypeOf<TaskCanceledException>();
+        await Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>().Or.TypeOf<TaskCanceledException>();
     }
-    
+
     [Test]
     public void Throws_Timeout_Exception_When_Not_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
-
-        Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>();
+        await Assert.That(exception!.InnerException).Is.TypeOf<ModuleTimeoutException>();
     }
-    
+
     [Test]
     public void No_Timeout_Does_Not_Throw_Exception()
     {

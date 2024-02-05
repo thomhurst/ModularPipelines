@@ -26,8 +26,7 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
@@ -41,8 +40,7 @@ public class CmdTests : TestBase
         var module = await RunModule<CmdEchoModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
             Assert.That(moduleResult.Value.StandardOutput.Trim()).Is.EqualTo("Foo bar!");

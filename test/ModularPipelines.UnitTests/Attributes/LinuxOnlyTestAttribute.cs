@@ -13,7 +13,7 @@ public class LinuxOnlyTestAttribute : Attribute, ITestAttribute
         {
             testContext.SkipTest("Linux only test");
         }
-        
+
         return Task.CompletedTask;
     }
 }

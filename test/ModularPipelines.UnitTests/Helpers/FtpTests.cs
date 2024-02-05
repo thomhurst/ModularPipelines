@@ -31,8 +31,7 @@ public class FtpTests : TestBase
         var response = await client.DownloadFile(localPath, "/6jack/README.markdown");
 
         var fileContents = await localPath.ReadAsync();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(response).Is.EqualTo(FtpStatus.Success);
             Assert.That(fileContents).Does.StartWith("6jack");
@@ -48,11 +47,9 @@ public class FtpTests : TestBase
         {
             ClientConfigurator = client => { },
         });
-
-        Assert.That(client.IsDisposed).Is.False();
+        await Assert.That(client.IsDisposed).Is.False();
 
         await Disposer.DisposeObjectAsync(ftp);
-
-        Assert.That(client.IsDisposed).Is.True();
+        await Assert.That(client.IsDisposed).Is.True();
     }
 }

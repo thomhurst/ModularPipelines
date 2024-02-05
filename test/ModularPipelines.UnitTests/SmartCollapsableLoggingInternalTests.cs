@@ -15,8 +15,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     public async Task AzurePipelines()
     {
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##[group]MyGroup
                        Foo bar!
@@ -28,8 +27,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     public async Task GitHub()
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ::group::MyGroup
                        Foo bar!
@@ -41,8 +39,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     public async Task TeamCity()
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
@@ -60,11 +57,8 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
-
-        Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
-                       Foo bar!
-                       """);
+        await Assert.That(stringBuilder.ToString().Trim()).
+            Is.EqualTo("Foo bar!");
     }
 
     private async Task<StringBuilder> Execute(BuildSystem buildSystem)

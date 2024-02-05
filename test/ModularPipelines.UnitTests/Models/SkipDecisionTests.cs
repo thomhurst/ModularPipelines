@@ -10,8 +10,7 @@ public class SkipDecisionTests
     public void True_Implicit_Cast()
     {
         SkipDecision skipDecision = true;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.Null();
@@ -22,8 +21,7 @@ public class SkipDecisionTests
     public void String_Implicit_Cast()
     {
         SkipDecision skipDecision = "Foo!";
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Foo!");
@@ -34,8 +32,7 @@ public class SkipDecisionTests
     public void False_Implicit_Cast()
     {
         SkipDecision skipDecision = false;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();
@@ -46,8 +43,7 @@ public class SkipDecisionTests
     public void Skip()
     {
         var skipDecision = SkipDecision.Skip("Blah!");
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Blah!");
@@ -58,8 +54,7 @@ public class SkipDecisionTests
     public void DoNotSkip()
     {
         var skipDecision = SkipDecision.DoNotSkip;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();

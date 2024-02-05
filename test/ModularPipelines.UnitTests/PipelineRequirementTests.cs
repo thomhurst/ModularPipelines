@@ -21,8 +21,7 @@ public class PipelineRequirementTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -32,8 +31,7 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
-
-        Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
             .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nFailingRequirement");
     }
 
@@ -44,8 +42,7 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirementWithReason>()
             .ExecutePipelineAsync();
-
-        Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
             .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 

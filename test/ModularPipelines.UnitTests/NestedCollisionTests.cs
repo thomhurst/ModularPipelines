@@ -13,7 +13,7 @@ public class NestedCollisionTests
     [Test]
     public void Modules_Dependent_On_Each_Other_Throws_Exception()
     {
-        Assert.That(() => TestPipelineHostBuilder.Create()
+        await Assert.That(() => TestPipelineHostBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
                 .AddModule<DependencyConflictModule3>()

@@ -22,7 +22,7 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public void When_No_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_False()
     {
-        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
+        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
     }
 
     [TestWithData("TF_BUILD")]
@@ -38,14 +38,13 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-
-        Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.True();
+        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.True();
     }
 
     [Test]
     public void Each_Property_Returns_Result()
     {
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
             Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();
@@ -72,7 +71,6 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-
-        Assert.That(_buildSystemDetector.GetCurrentBuildSystem()).Is.EqualTo(expectedBuildSystem);
+        await Assert.That(_buildSystemDetector.GetCurrentBuildSystem()).Is.EqualTo(expectedBuildSystem);
     }
 }

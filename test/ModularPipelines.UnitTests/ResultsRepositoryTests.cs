@@ -59,8 +59,7 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful)).Is.True();
+        await Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful)).Is.True();
     }
 
     [Test, Order(2)]
@@ -72,7 +71,6 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module2>()
             .RunCategories("Other")
             .ExecutePipelineAsync();
-
-        Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory)).Is.True();
+        await Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory)).Is.True();
     }
 }

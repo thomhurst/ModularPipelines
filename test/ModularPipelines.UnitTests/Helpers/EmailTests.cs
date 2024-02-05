@@ -40,7 +40,6 @@ public class EmailTests : TestBase
                 },
             }
         );
-
-        Assert.That(response).Does.Contain("queued");
+        await Assert.That(response).Does.Contain("queued");
     }
 }

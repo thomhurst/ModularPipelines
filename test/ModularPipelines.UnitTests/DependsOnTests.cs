@@ -57,7 +57,7 @@ public class DependsOnTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn<DependsOnSelfModule>]
     private class DependsOnSelfModule : Module
     {
@@ -67,7 +67,7 @@ public class DependsOnTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     [DependsOn(typeof(ModuleFailedException))]
     private class DependsOnNonModule : Module
     {
@@ -85,8 +85,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -96,14 +95,13 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
     public void Exception_Thrown_When_Dependent_Module_Missing_And_No_Ignore_On_Attribute()
     {
-        Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()).
             Throws.Exception;
@@ -115,8 +113,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -125,32 +122,31 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<Module3WithGetIfRegistered>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
     public void Exception_Thrown_When_Dependent_Module_Missing_And_Get_Module_Called()
     {
-        Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync()).
             Throws.Exception;
     }
-    
+
     [Test]
     public void Depends_On_Self_Module_Throws_Exception()
     {
-        Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
                 .ExecutePipelineAsync()).
             Throws.TypeOf<ModuleReferencingSelfException>();
     }
-    
+
     [Test]
     public void Depends_On_Non_Module_Throws_Exception()
     {
-        Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnNonModule>()
                 .ExecutePipelineAsync()).
             Throws.WithMessage.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");

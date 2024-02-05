@@ -40,8 +40,7 @@ public class ZipTests : TestBase
         var module = await RunModule<ZipModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
@@ -55,8 +54,7 @@ public class ZipTests : TestBase
         await RunModule<ZipModule>();
 
         var expectedFile = new FileInfo(Path.Combine(Environment.CurrentDirectory, "LoremData.zip"));
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(expectedFile.Exists).Is.True();
             Assert.That(expectedFile.Length).Is.GreaterThan(5000);
@@ -86,8 +84,7 @@ public class ZipTests : TestBase
         var module = await RunModule<UnZipModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
@@ -101,8 +98,7 @@ public class ZipTests : TestBase
         await RunModule<UnZipModule>();
 
         var expectedFolder = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "LoremDataUnzipped"));
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(expectedFolder.Exists).Is.True();
             Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Count().EqualTo(1);

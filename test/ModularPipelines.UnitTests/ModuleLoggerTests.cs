@@ -44,8 +44,7 @@ public class ModuleLoggerTests
         await host.DisposeAsync();
 
         var stringOutput = consoleStringBuilder.ToString();
-
-        Assert.That(stringOutput).Does.Contain(RandomString);
-        Assert.That(await file.ReadAsync()).Does.Not.Contain(RandomString);
+        await Assert.That(stringOutput).Does.Contain(RandomString);
+        await Assert.That(await file.ReadAsync()).Does.Not.Contain(RandomString);
     }
 }

@@ -13,7 +13,7 @@ public class WindowsOnlyTestAttribute : Attribute, ITestAttribute
         {
             testContext.SkipTest("Windows only test");
         }
-        
+
         return Task.CompletedTask;
     }
 }

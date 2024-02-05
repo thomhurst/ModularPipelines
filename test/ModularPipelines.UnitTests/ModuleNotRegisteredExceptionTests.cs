@@ -36,8 +36,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()
         );
-
-        Assert.That(moduleFailedException!.InnerException).Is.TypeOf<ModuleNotRegisteredException>();
+        await Assert.That(moduleFailedException!.InnerException).Is.TypeOf<ModuleNotRegisteredException>();
     }
 
     [Test]

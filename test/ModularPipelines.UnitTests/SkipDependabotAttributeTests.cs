@@ -79,8 +79,7 @@ public class SkipDependabotAttributeTests : TestBase
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -95,8 +94,7 @@ public class SkipDependabotAttributeTests : TestBase
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
+        await Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -108,8 +106,7 @@ public class SkipDependabotAttributeTests : TestBase
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -121,8 +118,7 @@ public class SkipDependabotAttributeTests : TestBase
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module3>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
+        await Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Skipped);
     }
 
     [Test]
@@ -134,7 +130,6 @@ public class SkipDependabotAttributeTests : TestBase
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module4>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Modules.First().Status).Is.EqualTo(Status.Successful);
     }
 }

@@ -23,11 +23,10 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
+        await Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
 
         folder.Clean();
-
-        Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(0);
+        await Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(0);
     }
 
     [Test]
@@ -41,7 +40,7 @@ public class FolderTests : TestBase
             Directory.CreateDirectory(Path.Combine(folder, folderName));
         }
 
-        Assert.That(folder.ListFolders().ToList()).Has.Count().EqualTo(10);
+        await Assert.That(folder.ListFolders().ToList()).Has.Count().EqualTo(10);
 
         folder.Clean();
 
@@ -65,21 +64,18 @@ public class FolderTests : TestBase
         var git = await GetService<IGit>();
 
         var src = git.RootDirectory.FindFolder(x => x.Name == "src");
-
-        Assert.That(src).Is.Not.Null();
-        Assert.That(src!.Exists).Is.True();
+        await Assert.That(src).Is.Not.Null();
+        await Assert.That(src!.Exists).Is.True();
     }
 
     [Test]
     public void Delete()
     {
         var folder = CreateRandomFolder();
-
-        Assert.That(folder.Exists).Is.True();
+        await Assert.That(folder.Exists).Is.True();
 
         folder.Delete();
-
-        Assert.That(folder.Exists).Is.False();
+        await Assert.That(folder.Exists).Is.False();
     }
 
     [Test]
@@ -95,7 +91,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -103,8 +99,7 @@ public class FolderTests : TestBase
         });
 
         folder.MoveTo(folder2);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(new Folder(folder.OriginalPath).Exists).Is.False();
             Assert.That(folder.Exists).Is.True();
@@ -126,7 +121,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -134,8 +129,7 @@ public class FolderTests : TestBase
         });
 
         folder.CopyTo(folder2);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -148,8 +142,7 @@ public class FolderTests : TestBase
     public void Data_Is_Populated()
     {
         var folder = CreateRandomFolder();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
@@ -169,8 +162,7 @@ public class FolderTests : TestBase
     public void CreateFolder()
     {
         var folder = new Folder(Path.GetRandomFileName());
-
-        Assert.That(folder.Exists).Is.False();
+        await Assert.That(folder.Exists).Is.False();
 
         folder.Create();
 

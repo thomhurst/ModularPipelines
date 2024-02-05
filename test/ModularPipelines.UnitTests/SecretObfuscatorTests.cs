@@ -34,9 +34,8 @@ public class SecretObfuscatorTests
         await ExecutePipelineAsync();
 
         var logOutput = _stringBuilder.ToString();
-
-        Assert.That(logOutput).Contains.Substring("::add-mask::This is a secret value!");
-        Assert.That(logOutput).Does.Not.Contain("::add-mask::This is NOT a secret value!");
+        await Assert.That(logOutput).Contains.Substring("::add-mask::This is a secret value!");
+        await Assert.That(logOutput).Does.Not.Contain("::add-mask::This is NOT a secret value!");
     }
 
     [Test]
@@ -47,8 +46,7 @@ public class SecretObfuscatorTests
         await ExecutePipelineAsync();
 
         var logOutput = _stringBuilder.ToString();
-
-        Assert.That(logOutput).Does.Not.Contain("::add-mask::This is a secret value!");
+        await await Assert.That(logOutput).Does.Not.Contain("::add-mask::This is a secret value!");
         Assert.That(logOutput).Does.Not.Contain("::add-mask::This is NOT a secret value!");
     }
 

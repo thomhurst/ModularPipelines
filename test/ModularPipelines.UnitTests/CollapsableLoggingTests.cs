@@ -24,8 +24,7 @@ public class CollapsableLoggingTests : TestBase
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await azurePipelines.Host.DisposeAsync();
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##[group]MyGroup
                        Foo bar!
@@ -46,8 +45,7 @@ public class CollapsableLoggingTests : TestBase
         gitHub.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await gitHub.Host.DisposeAsync();
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ::group::MyGroup
                        Foo bar!
@@ -68,8 +66,7 @@ public class CollapsableLoggingTests : TestBase
         teamCity.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await teamCity.Host.DisposeAsync();
-
-        Assert.That(stringBuilder.ToString().Trim()).
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!

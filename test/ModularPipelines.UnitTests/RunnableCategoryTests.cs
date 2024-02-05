@@ -75,8 +75,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<OtherModule3>()
             .RunCategories("Run1", "Run2")
             .ExecutePipelineAsync();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status).Is.EqualTo(Status.Successful);
             Assert.That(pipelineSummary.GetModule<RunnableModule2>().Status).Is.EqualTo(Status.Successful);
@@ -99,8 +98,7 @@ public class RunnableCategoryTests : TestBase
             .AddModule<OtherModule3>()
             .IgnoreCategories("NoRun1", "NoRun2")
             .ExecutePipelineAsync();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status).Is.EqualTo(Status.Successful);
             Assert.That(pipelineSummary.GetModule<RunnableModule2>().Status).Is.EqualTo(Status.Successful);

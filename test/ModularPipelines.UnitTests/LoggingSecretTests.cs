@@ -54,8 +54,7 @@ public class LoggingSecretTests
             .ExecutePipelineAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
-
-        Assert.That(actualLogResult).Does.Contain($"My Secret Value is: **********");
-        Assert.That(actualLogResult).Does.Not.Contain(secretValue);
+        await Assert.That(actualLogResult).Does.Contain($"My Secret Value is: **********");
+        await Assert.That(actualLogResult).Does.Not.Contain(secretValue);
     }
 }

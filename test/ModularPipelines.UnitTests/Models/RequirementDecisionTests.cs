@@ -10,8 +10,7 @@ public class RequirementDecisionTests
     public void True_Implicit_Cast()
     {
         RequirementDecision requirementDecision = true;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null();
@@ -22,8 +21,7 @@ public class RequirementDecisionTests
     public void False_Implicit_Cast()
     {
         RequirementDecision requirementDecision = false;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.Null();
@@ -34,8 +32,7 @@ public class RequirementDecisionTests
     public void String_Implicit_Cast()
     {
         RequirementDecision requirementDecision = "Foo!";
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
@@ -46,8 +43,7 @@ public class RequirementDecisionTests
     public void Failed()
     {
         var requirementDecision = RequirementDecision.Failed("Blah!");
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
@@ -58,8 +54,7 @@ public class RequirementDecisionTests
     public void Passed()
     {
         var requirementDecision = RequirementDecision.Passed;
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null();
@@ -71,8 +66,7 @@ public class RequirementDecisionTests
     public void Of(bool success)
     {
         var requirementDecision = RequirementDecision.Of(success, "Blah!");
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(requirementDecision.Success).Is.EqualTo(success);
             Assert.That(requirementDecision.Reason).Is.EqualTo(success ? "Blah!" : null);

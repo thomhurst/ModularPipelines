@@ -15,12 +15,10 @@ public class FileTests : TestBase
     public async Task Delete()
     {
         var file = await CreateRandomFile();
-
-        Assert.That(file.Exists).Is.True();
+        await Assert.That(file.Exists).Is.True();
 
         file.Delete();
-
-        Assert.That(file.Exists).Is.False();
+        await Assert.That(file.Exists).Is.False();
     }
 
     [Test]
@@ -29,16 +27,14 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
         });
 
         file.MoveTo(file2);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(new File(file.OriginalPath).Exists).Is.False();
 
@@ -51,8 +47,7 @@ public class FileTests : TestBase
     public async Task Data_Is_Populated()
     {
         var file = await CreateRandomFile();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
@@ -75,16 +70,14 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
         });
 
         file.CopyTo(file2);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.True();
@@ -95,12 +88,10 @@ public class FileTests : TestBase
     public void CreateFile()
     {
         var file = File.GetNewTemporaryFilePath();
-
-        Assert.That(file.Exists).Is.False();
+        await Assert.That(file.Exists).Is.False();
 
         file.Create();
-
-        Assert.That(file.Exists).Is.True();
+        await Assert.That(file.Exists).Is.True();
     }
 
     [Test]
@@ -160,8 +151,7 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
             Assert.That(lines).Has.Count().EqualTo(2);
@@ -178,8 +168,7 @@ public class FileTests : TestBase
         await file.WriteAsync("Hello world!"u8.ToArray());
 
         var plainText = await file.ReadAsync();
-
-        Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).Is.EqualTo("Hello world!");
     }
 
     [Test]
@@ -190,8 +179,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-
-        Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).Is.EqualTo("Hello world!");
     }
 
     [Test]
@@ -202,8 +190,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-
-        Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).Is.EqualTo("Hello world!");
     }
 
     [Test]
@@ -214,8 +201,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-
-        Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).Is.EqualTo("Hello world!");
     }
 
     [Test]
@@ -224,8 +210,7 @@ public class FileTests : TestBase
         FileInfo? fileInfo = null;
 
         File? file = fileInfo;
-
-        Assert.That(file).Is.Null();
+        await Assert.That(file).Is.Null();
     }
 
     [Test]
@@ -234,8 +219,7 @@ public class FileTests : TestBase
         string? fileInfo = null;
 
         File? file = fileInfo;
-
-        Assert.That(file).Is.Null();
+        await Assert.That(file).Is.Null();
     }
 
     [Test]
@@ -244,8 +228,7 @@ public class FileTests : TestBase
         var fileInfo = new FileInfo(Path.GetTempFileName());
 
         File file = fileInfo;
-
-        Assert.That(file).Is.Not.Null();
+        await Assert.That(file).Is.Not.Null();
     }
 
     [Test]
@@ -254,8 +237,7 @@ public class FileTests : TestBase
         var fileInfo = Path.GetTempFileName();
 
         File file = fileInfo!;
-
-        Assert.That(file).Is.Not.Null();
+        await Assert.That(file).Is.Not.Null();
     }
 
     [Test]
@@ -263,12 +245,10 @@ public class FileTests : TestBase
     public async Task Attributes()
     {
         var file = await CreateRandomFile();
-
-        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.False();
+        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.False();
 
         file.Attributes = FileAttributes.Hidden;
-
-        Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.True();
+        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.True();
     }
 
     [Test]
@@ -277,8 +257,7 @@ public class FileTests : TestBase
         var path = Path.GetRandomFileName();
         var file = new File(path);
         var file2 = new File(path);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file).Is.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.EqualTo(file2.GetHashCode());
@@ -292,8 +271,7 @@ public class FileTests : TestBase
     {
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file).Is.Not.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.Not.EqualTo(file2.GetHashCode());
@@ -310,8 +288,7 @@ public class FileTests : TestBase
     {
         var workingDirectory = new Folder(Environment.CurrentDirectory);
         var files = workingDirectory.GetFiles(globPattern).ToList();
-
-        Assert.That(files).Has.Count().EqualTo(1);
+        await Assert.That(files).Has.Count().EqualTo(1);
         Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
     }
 
@@ -331,24 +308,21 @@ public class FileTests : TestBase
     public async Task AssertExists()
     {
         var file = (File?) await CreateRandomFile();
-
-        Assert.That(() => file.AssertExists()).Throws.Nothing();
+        await Assert.That(() => file.AssertExists()).Throws.Nothing();
     }
 
     [Test]
     public void AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
-
-        Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
     }
 
     [Test]
     public void AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-
-        Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
     }
 
     [Test]

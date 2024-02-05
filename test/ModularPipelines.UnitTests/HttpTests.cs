@@ -42,13 +42,11 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-
-        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]");
-
-        Assert.That(logFile).Does.Not.Contain("---Request---");
-        Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
-        Assert.That(logFile).Does.Contain("---Response---");
-        Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]");
+        await Assert.That(logFile).Does.Not.Contain("---Request---");
+        await Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("---Response---");
+        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
     }
 
     [Test]
@@ -74,13 +72,11 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-
-        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
-
-        Assert.That(logFile).Does.Contain("---Request---");
-        Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
-        Assert.That(logFile).Does.Not.Contain("---Response---");
-        Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
+        await Assert.That(logFile).Does.Contain("---Request---");
+        await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        await await Assert.That(logFile).Does.Not.Contain("---Response---");
+        await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
 
     [TestWithData(true)]
@@ -116,17 +112,15 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-
-        Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.");
-
-        Assert.That(logFile).Does.Contain("---Request---");
-        Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
-        Assert.That(logFile).Does.Contain("---Response---");
-        Assert.That(logFile).Does.Contain("Headers");
-        Assert.That(logFile).Does.Contain("Server: GitHub.com");
-        Assert.That(logFile).Does.Contain("Body");
-        Assert.That(logFile).Does.Contain("---Duration---");
-        Assert.That(logFile).Does.Contain("---HTTP Status Code---");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.");
+        await Assert.That(logFile).Does.Contain("---Request---");
+        await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("---Response---");
+        await Assert.That(logFile).Does.Contain("Headers");
+        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Contain("Body");
+        await Assert.That(logFile).Does.Contain("---Duration---");
+        await Assert.That(logFile).Does.Contain("---HTTP Status Code---");
 
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
@@ -134,8 +128,7 @@ public class HttpTests : TestBase
         var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---"));
         var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---"));
         var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---"));
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(indexOfRequest).Is.LessThan(indexOfStatusCode);
             Assert.That(indexOfStatusCode).Is.LessThan(indexOfDuration);

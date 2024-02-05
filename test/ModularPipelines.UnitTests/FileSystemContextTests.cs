@@ -18,8 +18,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         context.MoveFile(file, newLocation);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Path).Is.EqualTo(newLocation);
             Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
@@ -37,8 +36,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         var newFile = context.CopyFile(file, newLocation);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(file.Path).Is.Not.EqualTo(newLocation);
             Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
@@ -55,12 +53,10 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-
-        Assert.That(context.FileExists(file)).Is.True();
+        await Assert.That(context.FileExists(file)).Is.True();
 
         file.Delete();
-
-        Assert.That(context.FileExists(file)).Is.False();
+        await Assert.That(context.FileExists(file)).Is.False();
     }
 
     [Test]
@@ -69,8 +65,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null();
             Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null().And.Is.Not.Empty();
@@ -87,8 +82,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         context.MoveFolder(folder, newLocation);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
             Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
@@ -106,8 +100,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         var newFile = context.CopyFolder(folder, newLocation);
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
             Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
@@ -124,12 +117,10 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-
-        Assert.That(context.FolderExists(folder)).Is.True();
+        await Assert.That(context.FolderExists(folder)).Is.True();
 
         folder.Delete();
-
-        Assert.That(context.FolderExists(folder)).Is.False();
+        await Assert.That(context.FolderExists(folder)).Is.False();
     }
 
     [Test]
@@ -138,8 +129,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null();
             Assert.That(context.CreateTemporaryFolder()).Is.Not.Null();
