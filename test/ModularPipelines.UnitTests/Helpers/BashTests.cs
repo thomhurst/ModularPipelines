@@ -53,7 +53,7 @@ public class BashTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Empty();
+            Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
             Assert.That(moduleResult.Value.StandardOutput.Trim()).Is.EqualTo("Foo bar!");
         });
     }
@@ -68,7 +68,7 @@ public class BashTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Empty();
+            Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
             Assert.That(moduleResult.Value.StandardOutput.Trim()).Is.EqualTo("Foo bar!");
         });
     }

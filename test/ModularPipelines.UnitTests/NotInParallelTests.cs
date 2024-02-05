@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTests
 {
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -19,7 +19,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     public class Module2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     [DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : Module<string>
     {
@@ -49,7 +49,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     [DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : Module<string>
     {
@@ -72,7 +72,7 @@ public class NotInParallelTests
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
         Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
+            nextModule.StartTime.ToUnixTimeMilliseconds()).
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
                 .Within(500)
         );
@@ -90,7 +90,7 @@ public class NotInParallelTests
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
         Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
+            nextModule.StartTime.ToUnixTimeMilliseconds()).
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
                 .Within(500)
         );
@@ -109,7 +109,7 @@ public class NotInParallelTests
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
         Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
+            nextModule.StartTime.ToUnixTimeMilliseconds()).
             Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(4)).ToUnixTimeMilliseconds())
                 .Within(500)
         );

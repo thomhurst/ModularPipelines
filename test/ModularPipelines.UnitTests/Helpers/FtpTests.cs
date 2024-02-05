@@ -11,7 +11,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 [Skip("FTP tests flaky due to server load")]
 public class FtpTests : TestBase
 {

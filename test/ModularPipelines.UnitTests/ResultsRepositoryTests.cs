@@ -12,7 +12,7 @@ using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 public class ResultsRepositoryTests : TestBase
 {
     public static readonly Folder Folder = Folder.CreateTemporaryFolder();

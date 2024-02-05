@@ -31,7 +31,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     [Test]
     public void Module_Getting_Non_Registered_Module_Throws_Exception()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(() =>
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(() =>
             TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()

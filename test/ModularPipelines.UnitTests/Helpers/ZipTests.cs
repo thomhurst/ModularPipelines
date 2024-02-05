@@ -9,7 +9,7 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
@@ -105,7 +105,7 @@ public class ZipTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(expectedFolder.Exists).Is.True();
-            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Length.EqualTo(1);
+            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Count().EqualTo(1);
         });
     }
 }

@@ -1,17 +1,19 @@
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal;
+using TUnit.Core;
+using TUnit.Core.Interfaces;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-public class WindowsOnlyTestAttribute : Attribute, IApplyToTest
+public class WindowsOnlyTestAttribute : Attribute, ITestAttribute
 {
     /// <inheritdoc/>
-    public void ApplyToTest(Test test)
+    public Task ApplyToTest(TestContext testContext)
     {
         if (!OperatingSystem.IsWindows())
         {
-            test.RunState = RunState.Ignored;
+            testContext.SkipTest("Windows only test");
         }
+        
+        return Task.CompletedTask;
     }
 }

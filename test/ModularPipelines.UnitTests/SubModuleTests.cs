@@ -194,7 +194,7 @@ public class SubModuleTests : TestBase
         await Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.EquivalentTo(new List<string> { "1", "2", "3" });
+            Assert.That(results.Value!).Is.EquivalentTo(new List<string> { "1", "2", "3" });
             Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
         });
     }
@@ -217,7 +217,7 @@ public class SubModuleTests : TestBase
     [Test]
     public void Failing_Submodule_With_Return_Type_Fails()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModule>);
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModule>);
 
         Assert.Multiple(() =>
         {
@@ -227,12 +227,12 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
-    public void Failing_Submodule_Without_Return_Type_Fails()
+    public async Task Failing_Submodule_Without_Return_Type_Fails()
     {
         Assert.That(RunModule<FailingSubModulesWithoutReturnTypeModule>)
             .Throws.TypeOf<SubModuleFailedException>();
         
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
         Assert.Multiple(() =>
         {
@@ -244,7 +244,7 @@ public class SubModuleTests : TestBase
     [Test]
     public void Failing_Submodule_With_Return_Type_Fails_Synchronous()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModuleSynchronous>);
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModuleSynchronous>);
 
         Assert.Multiple(() =>
         {
@@ -256,7 +256,7 @@ public class SubModuleTests : TestBase
     [Test]
     public void Failing_Submodule_Without_Return_Type_Fails_Synchronous()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>);
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>);
 
         Assert.Multiple(() =>
         {

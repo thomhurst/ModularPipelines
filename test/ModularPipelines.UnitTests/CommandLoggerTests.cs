@@ -13,13 +13,13 @@ namespace ModularPipelines.UnitTests;
 public class CommandLoggerTests : TestBase
 {
     [Test]
-    [Combinatorial]
+    [Combinative]
     public async Task Logs_As_Expected_With_Options(
-        [Values(true, false)] bool logInput,
-        [Values(true, false)] bool logOutput,
-        [Values(true, false)] bool logError,
-        [Values(true, false)] bool logExitCode,
-        [Values(true, false)] bool logDuration)
+        [CombinativeValues(true, false)] bool logInput,
+        [CombinativeValues(true, false)] bool logOutput,
+        [CombinativeValues(true, false)] bool logError,
+        [CombinativeValues(true, false)] bool logExitCode,
+        [CombinativeValues(true, false)] bool logDuration)
     {
         var file = await RunPowershellCommand("""
                                         echo Hello world!

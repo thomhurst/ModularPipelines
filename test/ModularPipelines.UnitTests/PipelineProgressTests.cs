@@ -11,7 +11,7 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
-[Parallelizable(ParallelScope.None)]
+[TUnit.Core.NotInParallel]
 public class PipelineProgressTests
 {
     private static bool _originalInteractive;

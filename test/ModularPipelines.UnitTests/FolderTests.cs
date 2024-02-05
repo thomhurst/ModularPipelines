@@ -152,16 +152,16 @@ public class FolderTests : TestBase
         Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
-            Assert.That(folder.Attributes.ToString()).Is.Not.Null().Or.Empty();
-            Assert.That(folder.Path).Is.Not.Null().Or.Empty();
-            Assert.That(folder.OriginalPath).Is.Not.Null().Or.Empty();
-            Assert.That(folder.Extension).Is.Not.Null().Or.Empty();
-            Assert.That(folder.Parent?.ToString()).Is.Not.Null().Or.Empty();
-            Assert.That(folder.Root.ToString()).Is.Not.Null().Or.Empty();
-            Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().Or.Empty();
-            Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.Path).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.OriginalPath).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.Extension).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.Parent?.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.Root.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.Hidden).Is.False();
-            Assert.That(folder.Name).Is.Not.Null().Or.Empty();
+            Assert.That(folder.Name).Is.Not.Null().And.Is.Not.Empty();
         });
     }
 

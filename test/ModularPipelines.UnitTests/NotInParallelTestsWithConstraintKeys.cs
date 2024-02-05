@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTestsWithConstraintKeys : TestBase
 {
-    [NotInParallel(ConstraintKey = "A")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "A")]
     public class ModuleWithAConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -19,7 +19,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "A")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "A")]
     public class ModuleWithAConstraintKey2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "B")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "B")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -74,7 +74,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     private void AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
     {
         Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
+            nextModule.StartTime.ToUnixTimeMilliseconds()).
             Is.EqualTo((firstModule.StartTime + expectedTimeAfter).ToUnixTimeMilliseconds())
                 .Within(350)
         );
@@ -83,7 +83,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     private void AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
     {
         Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
+            nextModule.StartTime.ToUnixTimeMilliseconds()).
             Is.EqualTo(firstModule.StartTime.ToUnixTimeMilliseconds()).Within(350)
         );
     }

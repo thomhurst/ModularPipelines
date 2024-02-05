@@ -42,7 +42,7 @@ public class NodeTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Empty();
+            Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
             Assert.That(moduleResult.Value.StandardOutput).Does.Match("v\\d+");
         });
     }

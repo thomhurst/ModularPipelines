@@ -66,7 +66,7 @@ public class JsonSerializationTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(moduleJson).Is.Not.Null().Or.Empty();
+            Assert.That(moduleJson).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(deserializedModule).Is.Not.Null();
         });
 
@@ -75,7 +75,7 @@ public class JsonSerializationTests : TestBase
 
         Assert.Multiple(() =>
         {
-            Assert.That(pipelineJson).Is.Not.Null().Or.Empty();
+            Assert.That(pipelineJson).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(deserializedSummary).Is.Not.Null();
         });
 

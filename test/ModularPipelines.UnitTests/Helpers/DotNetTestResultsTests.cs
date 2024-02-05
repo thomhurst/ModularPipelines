@@ -16,7 +16,7 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<DotNetTestResult>
