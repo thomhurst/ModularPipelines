@@ -31,7 +31,7 @@ public class DependencyInjectionTests
         var serviceCollection = new ServiceCollection()
             .AddSingleton(Mock.Of<IHost>())
             .AddSingleton(Mock.Of<IHostEnvironment>())
-            .AddSingleton(Mock.Of<IConfiguration>();
+            .AddSingleton(Mock.Of<IConfiguration>());
 
         DependencyInjectionSetup.Initialize(serviceCollection);
 

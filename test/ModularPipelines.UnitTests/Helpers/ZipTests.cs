@@ -54,7 +54,7 @@ public class ZipTests : TestBase
     {
         await RunModule<ZipModule>();
 
-        var expectedFile = new FileInfo(Path.Combine(Environment.CurrentDirectory, "LoremData.zip");
+        var expectedFile = new FileInfo(Path.Combine(Environment.CurrentDirectory, "LoremData.zip"));
 
         Assert.Multiple(() =>
         {

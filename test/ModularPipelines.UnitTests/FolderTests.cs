@@ -346,7 +346,7 @@ public class FolderTests : TestBase
 
     private static Folder CreateRandomFolder()
     {
-        var tempFolderPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N");
+        var tempFolderPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempFolderPath);
 
         return new Folder(tempFolderPath);

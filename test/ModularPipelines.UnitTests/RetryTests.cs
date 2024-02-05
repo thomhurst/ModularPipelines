@@ -155,7 +155,7 @@ public class RetryTests : TestBase
                 options.DefaultRetryCount = 3;
             })
             .AddModule<FailedModuleWithTimeout>()
-            .ExecutePipelineAsync();
+            .ExecutePipelineAsync());
 
         Assert.That(moduleFailedException?.InnerException).Is.TypeOf<ModuleTimeoutException>();
     }

@@ -34,7 +34,7 @@ public class ModuleLoggerTests
             .ConfigureServices((_, collection) =>
             {
                 collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder);
+                collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder));
             })
             .AddModule<Module1>()
             .BuildHostAsync();

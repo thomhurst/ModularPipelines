@@ -63,7 +63,7 @@ public class SafeEstimatedTimeProviderTests
     {
         public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
         {
-            return Task.FromResult(TimeSpan.FromMinutes(1);
+            return Task.FromResult(TimeSpan.FromMinutes(1));
         }
 
         public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
