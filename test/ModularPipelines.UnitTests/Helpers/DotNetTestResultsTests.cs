@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Enums;
@@ -15,7 +16,7 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[Parallelizable(ParallelScope.None)]
+[NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<DotNetTestResult>
@@ -54,7 +55,7 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public void Has_Errored()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
 
         var exception = moduleFailedException.InnerException as DotNetTestFailedException;
 

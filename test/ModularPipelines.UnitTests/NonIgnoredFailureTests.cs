@@ -24,10 +24,8 @@ public class NonIgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Thrown_And_Cancelled_Pipeline()
     {
-        Assert.That(async () => await RunModule<NonIgnoredFailureModule>())
-            .Throws.TypeOf<ModuleFailedException>()
-            .And.Throws.;
-
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
+        
         var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 

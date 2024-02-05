@@ -10,7 +10,6 @@ using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 
-[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 public class SecretObfuscatorTests
 {
     private readonly Mock<IBuildSystemDetector> _buildSystemMock;

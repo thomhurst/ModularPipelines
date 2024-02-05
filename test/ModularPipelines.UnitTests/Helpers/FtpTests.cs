@@ -1,5 +1,6 @@
 using System.Net;
 using FluentFTP;
+using ModularPipelines.Attributes;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.Helpers;
@@ -10,13 +11,12 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[Parallelizable(ParallelScope.Self)]
-[Ignore("FTP tests flaky due to server load")]
+[NotInParallel]
+[Skip("FTP tests flaky due to server load")]
 public class FtpTests : TestBase
 {
     [Test]
     [Order(1)]
-    [Ignore("FTP tests flaky due to server load")]
     public async Task Can_Download()
     {
         var ftp = await GetService<IFtp>();
@@ -40,7 +40,6 @@ public class FtpTests : TestBase
     }
 
     [Test]
-    [Ignore("FTP tests flaky due to server load")]
     public async Task Client_Is_Disposed_Properly()
     {
         var ftp = await GetService<IFtp>();
