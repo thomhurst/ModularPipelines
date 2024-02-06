@@ -24,6 +24,7 @@ public class Sha1Tests : TestBase
         var module = await RunModule<ToSha1Module>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);

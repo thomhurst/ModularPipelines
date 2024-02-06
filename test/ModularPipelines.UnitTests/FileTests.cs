@@ -27,6 +27,7 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
@@ -34,6 +35,7 @@ public class FileTests : TestBase
         });
 
         file.MoveTo(file2);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(new File(file.OriginalPath).Exists).Is.False();
@@ -47,6 +49,7 @@ public class FileTests : TestBase
     public async Task Data_Is_Populated()
     {
         var file = await CreateRandomFile();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
@@ -70,6 +73,7 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
@@ -77,6 +81,7 @@ public class FileTests : TestBase
         });
 
         file.CopyTo(file2);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file.Exists).Is.True();
@@ -151,6 +156,7 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
@@ -257,6 +263,7 @@ public class FileTests : TestBase
         var path = Path.GetRandomFileName();
         var file = new File(path);
         var file2 = new File(path);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file).Is.EqualTo(file2);
@@ -271,6 +278,7 @@ public class FileTests : TestBase
     {
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
+        
         await Assert.Multiple(() =>
         {
             Assert.That(file).Is.Not.EqualTo(file2);

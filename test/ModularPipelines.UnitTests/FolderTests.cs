@@ -97,6 +97,7 @@ public class FolderTests : TestBase
         });
 
         folder.MoveTo(folder2);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(new Folder(folder.OriginalPath).Exists).Is.False();
@@ -127,6 +128,7 @@ public class FolderTests : TestBase
         });
 
         folder.CopyTo(folder2);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
@@ -140,6 +142,7 @@ public class FolderTests : TestBase
     public async Task Data_Is_Populated()
     {
         var folder = CreateRandomFolder();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(folder.Exists).Is.True();
@@ -188,6 +191,7 @@ public class FolderTests : TestBase
         await Assert.That(folderBeforeCreation.Exists).Is.False();
 
         var subfolder = folder.CreateFolder("Foo");
+        
         await Assert.Multiple(() =>
         {
             Assert.That(subfolder.Exists).Is.True();
@@ -250,6 +254,7 @@ public class FolderTests : TestBase
         var path = Path.GetRandomFileName();
         var folder = new Folder(path);
         var folder2 = new Folder(path);
+        
         await Assert.Multiple(() =>
         {
             Assert.That(folder).Is.EqualTo(folder2);
@@ -264,6 +269,7 @@ public class FolderTests : TestBase
     {
         var folder = new Folder(Path.GetRandomFileName());
         var folder2 = new Folder(Path.GetRandomFileName());
+        
         await Assert.Multiple(() =>
         {
             Assert.That(folder).Is.Not.EqualTo(folder2);

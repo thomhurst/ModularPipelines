@@ -35,6 +35,7 @@ public class BashTests : TestBase
         var module = await RunModule<BashCommandModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -49,6 +50,7 @@ public class BashTests : TestBase
         var module = await RunModule<BashCommandModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
@@ -63,6 +65,7 @@ public class BashTests : TestBase
         var module = await RunModule<BashScriptModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();

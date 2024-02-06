@@ -160,6 +160,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithReturnTypeModule>();
 
         var results = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -174,6 +175,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithoutReturnTypeModule>();
 
         var results = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -203,6 +205,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithoutReturnTypeModuleSynchronous>();
 
         var results = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);

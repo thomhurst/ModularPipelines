@@ -23,6 +23,7 @@ public class PowershellTests : TestBase
         var module = await RunModule<PowershellEchoModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -37,6 +38,7 @@ public class PowershellTests : TestBase
         var module = await RunModule<PowershellEchoModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();

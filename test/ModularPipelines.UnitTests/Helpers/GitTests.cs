@@ -29,6 +29,7 @@ public class GitTests : TestBase
         var module = await RunModule<GitVersionModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -43,6 +44,7 @@ public class GitTests : TestBase
         var module = await RunModule<GitVersionModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
@@ -54,6 +56,7 @@ public class GitTests : TestBase
     public async Task GitRootDirectory()
     {
         var git = await GetService<IGit>();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");

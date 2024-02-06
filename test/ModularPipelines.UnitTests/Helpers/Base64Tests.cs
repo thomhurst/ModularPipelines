@@ -24,6 +24,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<ToBase64Module>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
@@ -56,6 +57,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<FromBase64Module>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);

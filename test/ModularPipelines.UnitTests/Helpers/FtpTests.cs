@@ -32,6 +32,7 @@ public class FtpTests : TestBase
         var response = await client.DownloadFile(localPath, "/6jack/README.markdown");
 
         var fileContents = await localPath.ReadAsync();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(response).Is.EqualTo(FtpStatus.Success);

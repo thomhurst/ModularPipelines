@@ -82,6 +82,7 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<SuccessModule>().First();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(1);
@@ -101,6 +102,7 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<FailedModule>().First();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(4);
@@ -116,6 +118,7 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<FailedModuleWithCustomRetryPolicy>().First();
+        
         await Assert.Multiple(() =>
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(4);
@@ -135,6 +138,7 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync());
 
         var module = moduleFailedException?.Module as FailedModule;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(module?.ExecutionCount).Is.EqualTo(1);

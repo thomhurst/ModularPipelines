@@ -60,6 +60,7 @@ public class DotNetTestResultsTests : TestBase
         var exception = moduleFailedException.InnerException as DotNetTestFailedException;
 
         var unitTestResults = exception?.DotNetTestResult?.UnitTestResults;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(exception).Is.Not.Null();
@@ -81,6 +82,7 @@ public class DotNetTestResultsTests : TestBase
         var result = await module;
 
         var unitTestResults = result.Value!.UnitTestResults;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);

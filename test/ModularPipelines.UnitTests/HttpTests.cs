@@ -128,6 +128,7 @@ public class HttpTests : TestBase
         var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("---HTTP Status Code---"));
         var indexOfDuration = logFileLines.FindIndex(x => x.Contains("---Duration---"));
         var indexOfResponse = logFileLines.FindIndex(x => x.Contains("---Response---"));
+        
         await Assert.Multiple(() =>
         {
             Assert.That(indexOfRequest).Is.LessThan(indexOfStatusCode);

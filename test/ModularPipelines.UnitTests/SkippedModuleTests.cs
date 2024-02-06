@@ -29,6 +29,7 @@ public class SkippedModuleTests : TestBase
         var module = await RunModule<SkippedModule>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Skipped);

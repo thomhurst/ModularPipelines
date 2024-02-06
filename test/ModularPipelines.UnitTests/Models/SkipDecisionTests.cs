@@ -10,6 +10,7 @@ public class SkipDecisionTests
     public async Task True_Implicit_Cast()
     {
         SkipDecision skipDecision = true;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
@@ -21,6 +22,7 @@ public class SkipDecisionTests
     public async Task String_Implicit_Cast()
     {
         SkipDecision skipDecision = "Foo!";
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
@@ -32,6 +34,7 @@ public class SkipDecisionTests
     public async Task False_Implicit_Cast()
     {
         SkipDecision skipDecision = false;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
@@ -43,6 +46,7 @@ public class SkipDecisionTests
     public async Task Skip()
     {
         var skipDecision = SkipDecision.Skip("Blah!");
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
@@ -54,6 +58,7 @@ public class SkipDecisionTests
     public async Task DoNotSkip()
     {
         var skipDecision = SkipDecision.DoNotSkip;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
@@ -66,6 +71,7 @@ public class SkipDecisionTests
     public async Task Of(bool shouldSkip)
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
+        
         await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.EqualTo(shouldSkip);

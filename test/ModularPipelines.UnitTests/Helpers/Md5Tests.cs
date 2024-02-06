@@ -24,6 +24,7 @@ public class Md5Tests : TestBase
         var module = await RunModule<ToMd5Module>();
 
         var moduleResult = await module;
+        
         await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
