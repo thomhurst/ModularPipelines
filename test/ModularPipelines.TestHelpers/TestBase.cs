@@ -24,6 +24,8 @@ public abstract class TestBase
         _hosts.Add(host);
 
         var results = await host.ExecutePipelineAsync();
+        
+        await host.DisposeAsync();
 
         return results.Modules.OfType<T>().Single();
     }

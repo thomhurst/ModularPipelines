@@ -55,7 +55,7 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Has_Errored()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>())!;
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>());
 
         var exception = moduleFailedException.InnerException as DotNetTestFailedException;
 

@@ -26,7 +26,7 @@ public class NonIgnoredFailureTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
 
-        var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
+        var serviceProvider = exception.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
         await Task.Delay(TimeSpan.FromSeconds(2));
