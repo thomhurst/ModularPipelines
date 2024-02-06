@@ -45,7 +45,7 @@ public class DotNetTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().And.Is.Not.Empty();
             Assert.That(moduleResult.Value.StandardOutput).Does.Match("\\d+");

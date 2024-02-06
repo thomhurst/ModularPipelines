@@ -147,7 +147,7 @@ public class FolderTests : TestBase
             Assert.That(folder.Path).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.OriginalPath).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.Extension).Is.Not.Null().And.Is.Not.Empty();
-            Assert.That(folder.Parent?.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(folder.Parent?.ToString()!).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.Root.ToString()).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();

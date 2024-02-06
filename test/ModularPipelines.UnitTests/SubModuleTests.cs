@@ -216,10 +216,10 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModule>);
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -231,10 +231,10 @@ public class SubModuleTests : TestBase
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -243,10 +243,10 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModuleSynchronous>);
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
         });
     }
 
@@ -255,10 +255,10 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>);
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message.EqualTo("The Sub-Module 1 has failed.");
+            Assert.That((SubModuleFailedException) moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
         });
     }
 }

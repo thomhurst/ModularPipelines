@@ -63,7 +63,7 @@ public class RequirementDecisionTests
 
     [TestWithData(true)]
     [TestWithData(false)]
-    public void Of(bool success)
+    public async Task Of(bool success)
     {
         var requirementDecision = RequirementDecision.Of(success, "Blah!");
         await Assert.Multiple(() =>

@@ -106,7 +106,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(plainText).Is.Empty();
             Assert.That(lines).Is.Empty();
@@ -127,7 +127,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world");
             Assert.That(lines).Has.Count().EqualTo(2);
