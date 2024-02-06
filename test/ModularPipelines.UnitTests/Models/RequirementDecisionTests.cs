@@ -7,7 +7,7 @@ namespace ModularPipelines.UnitTests.Models;
 public class RequirementDecisionTests
 {
     [Test]
-    public void True_Implicit_Cast()
+    public async Task True_Implicit_Cast()
     {
         RequirementDecision requirementDecision = true;
         await Assert.Multiple(() =>
@@ -18,7 +18,7 @@ public class RequirementDecisionTests
     }
 
     [Test]
-    public void False_Implicit_Cast()
+    public async Task False_Implicit_Cast()
     {
         RequirementDecision requirementDecision = false;
         await Assert.Multiple(() =>
@@ -29,7 +29,7 @@ public class RequirementDecisionTests
     }
 
     [Test]
-    public void String_Implicit_Cast()
+    public async Task String_Implicit_Cast()
     {
         RequirementDecision requirementDecision = "Foo!";
         await Assert.Multiple(() =>
@@ -40,7 +40,7 @@ public class RequirementDecisionTests
     }
 
     [Test]
-    public void Failed()
+    public async Task Failed()
     {
         var requirementDecision = RequirementDecision.Failed("Blah!");
         await Assert.Multiple(() =>
@@ -51,7 +51,7 @@ public class RequirementDecisionTests
     }
 
     [Test]
-    public void Passed()
+    public async Task Passed()
     {
         var requirementDecision = RequirementDecision.Passed;
         await Assert.Multiple(() =>

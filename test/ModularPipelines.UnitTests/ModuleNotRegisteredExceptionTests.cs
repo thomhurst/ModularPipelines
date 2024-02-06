@@ -29,7 +29,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     }
 
     [Test]
-    public void Module_Getting_Non_Registered_Module_Throws_Exception()
+    public async Task Module_Getting_Non_Registered_Module_Throws_Exception()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(() =>
             TestPipelineHostBuilder.Create()
@@ -40,13 +40,13 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     }
 
     [Test]
-    public void Module_Getting_Registered_Module_Does_Not_Throw_Exception()
+    public async Task Module_Getting_Registered_Module_Does_Not_Throw_Exception()
     {
-        Assert.DoesNotThrowAsync(() =>
+        await Assert.That(() =>
             TestPipelineHostBuilder.Create()
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()
-        );
+        ).Throws.Nothing();
     }
 }

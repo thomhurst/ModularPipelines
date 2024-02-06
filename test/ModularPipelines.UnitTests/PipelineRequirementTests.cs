@@ -25,7 +25,7 @@ public class PipelineRequirementTests
     }
 
     [Test]
-    public void When_Requirement_Fails_Then_Error()
+    public async Task When_Requirement_Fails_Then_Error()
     {
         var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
@@ -36,7 +36,7 @@ public class PipelineRequirementTests
     }
 
     [Test]
-    public void When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
+    public async Task When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
     {
         var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()

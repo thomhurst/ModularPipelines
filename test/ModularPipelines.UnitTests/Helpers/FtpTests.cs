@@ -7,6 +7,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.TestHelpers;
 using TUnit.Assertions;
 using TUnit.Core;
+using Disposer = ModularPipelines.Helpers.Disposer;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;

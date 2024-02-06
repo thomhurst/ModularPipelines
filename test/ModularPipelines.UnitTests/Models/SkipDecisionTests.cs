@@ -7,7 +7,7 @@ namespace ModularPipelines.UnitTests.Models;
 public class SkipDecisionTests
 {
     [Test]
-    public void True_Implicit_Cast()
+    public async Task True_Implicit_Cast()
     {
         SkipDecision skipDecision = true;
         await Assert.Multiple(() =>
@@ -18,7 +18,7 @@ public class SkipDecisionTests
     }
 
     [Test]
-    public void String_Implicit_Cast()
+    public async Task String_Implicit_Cast()
     {
         SkipDecision skipDecision = "Foo!";
         await Assert.Multiple(() =>
@@ -29,7 +29,7 @@ public class SkipDecisionTests
     }
 
     [Test]
-    public void False_Implicit_Cast()
+    public async Task False_Implicit_Cast()
     {
         SkipDecision skipDecision = false;
         await Assert.Multiple(() =>
@@ -40,7 +40,7 @@ public class SkipDecisionTests
     }
 
     [Test]
-    public void Skip()
+    public async Task Skip()
     {
         var skipDecision = SkipDecision.Skip("Blah!");
         await Assert.Multiple(() =>
@@ -51,7 +51,7 @@ public class SkipDecisionTests
     }
 
     [Test]
-    public void DoNotSkip()
+    public async Task DoNotSkip()
     {
         var skipDecision = SkipDecision.DoNotSkip;
         await Assert.Multiple(() =>
@@ -63,14 +63,13 @@ public class SkipDecisionTests
 
     [TestWithData(true)]
     [TestWithData(false)]
-    public void Of(bool shouldSkip)
+    public async Task Of(bool shouldSkip)
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(skipDecision.ShouldSkip).Is.EqualTo(shouldSkip);
-            Assert.That(skipDecision.Reason).shouldSkip ? Is.EqualTo("Blah!") : Is.Null();
+            Assert.That(skipDecision.Reason).Is.EqualTo(shouldSkip ? "Blah!" : null);
         });
     }
 }

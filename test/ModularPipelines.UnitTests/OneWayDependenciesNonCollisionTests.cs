@@ -10,7 +10,7 @@ namespace ModularPipelines.UnitTests;
 public class OneWayDependenciesNonCollisionTests
 {
     [Test]
-    public void Modules_Not_Dependent_On_Each_Other_Succeed()
+    public async Task Modules_Not_Dependent_On_Each_Other_Succeed()
     {
         await Assert.That(() => TestPipelineHostBuilder.Create()
             .AddModule<DependencyConflictModule1>()

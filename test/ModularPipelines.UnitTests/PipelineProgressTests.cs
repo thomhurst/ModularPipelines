@@ -116,7 +116,7 @@ public class PipelineProgressTests
     }
 
     [Test, Retry(5)]
-    public void Can_Show_Progress()
+    public async Task Can_Show_Progress()
     {
         await Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()

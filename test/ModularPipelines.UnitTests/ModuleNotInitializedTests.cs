@@ -35,9 +35,9 @@ public class ModuleNotInitializedTests : TestBase
     }
 
     [Test]
-    public void ThrowsException()
+    public async Task ThrowsException()
     {
-        Assert.ThrowsAsync<ModuleNotInitializedException>(async () =>
+        await Assert.ThrowsAsync<ModuleNotInitializedException>(async () =>
             await TestPipelineHostBuilder.Create()
                 .AddModule<Module1>()
                 .AddModule<ModuleNotInitializedModule>()

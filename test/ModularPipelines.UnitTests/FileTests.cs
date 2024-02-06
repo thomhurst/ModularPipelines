@@ -54,7 +54,7 @@ public class FileTests : TestBase
             Assert.That(file.Path).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.OriginalPath).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.Extension).Is.Not.Null().And.Is.Not.Empty();
-            Assert.That(file.Folder.ToString()).Is.Not.Null().And.Is.Not.Empty();
+            Assert.That(file.Folder?.ToString()).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.Hidden).Is.False();
@@ -85,7 +85,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void CreateFile()
+    public async Task CreateFile()
     {
         var file = File.GetNewTemporaryFilePath();
         await Assert.That(file.Exists).Is.False();
@@ -205,7 +205,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void Null_FileInfo_Implicit_Cast()
+    public async Task Null_FileInfo_Implicit_Cast()
     {
         FileInfo? fileInfo = null;
 
@@ -214,7 +214,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void Null_String_Implicit_Cast()
+    public async Task Null_String_Implicit_Cast()
     {
         string? fileInfo = null;
 
@@ -223,7 +223,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void FileInfo_Implicit_Cast()
+    public async Task FileInfo_Implicit_Cast()
     {
         var fileInfo = new FileInfo(Path.GetTempFileName());
 
@@ -232,7 +232,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void String_Implicit_Cast()
+    public async Task String_Implicit_Cast()
     {
         var fileInfo = Path.GetTempFileName();
 
@@ -252,7 +252,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void EqualityTrue()
+    public async Task EqualityTrue()
     {
         var path = Path.GetRandomFileName();
         var file = new File(path);
@@ -267,7 +267,7 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void EqualityFalse()
+    public async Task EqualityFalse()
     {
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
@@ -284,24 +284,23 @@ public class FileTests : TestBase
     [TestWithData("**/blah.txt")]
     [TestWithData("**/Blah.txt")]
     [TestWithData("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
-    public void GlobTests(string globPattern)
+    public async Task GlobTests(string globPattern)
     {
         var workingDirectory = new Folder(Environment.CurrentDirectory);
         var files = workingDirectory.GetFiles(globPattern).ToList();
         await Assert.That(files).Has.Count().EqualTo(1);
-        Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
+        await Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
     }
 
     [Test]
-    public void GlobTest2()
+    public async Task GlobTest2()
     {
         var folder = new Folder(Environment.CurrentDirectory)
             .FindFolder(x => x.Name == "Nest5")!;
 
         var files = folder.GetFiles("Blah.txt").ToList();
-
-        Assert.That(files).Has.Count().EqualTo(1);
-        Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
+        await Assert.That(files).Has.Count().EqualTo(1);
+        await Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
     }
 
     [Test]
@@ -312,14 +311,14 @@ public class FileTests : TestBase
     }
 
     [Test]
-    public void AssertExists_ThrowsWhenNotExists()
+    public async Task AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
         await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
     }
 
     [Test]
-    public void AssertExists_ThrowsWhenNull()
+    public async Task AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
         await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();

@@ -82,8 +82,7 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModule = modules.GetModule<LongRunningModule>();
 
         var pipelineTask = host.ExecutePipelineAsync();
-
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
             Assert.That(async () => await pipelineTask).Throws.Exception();
             Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);

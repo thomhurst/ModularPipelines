@@ -124,7 +124,7 @@ public class RetryTests : TestBase
     }
 
     [Test]
-    public void When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
+    public async Task When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
@@ -143,7 +143,7 @@ public class RetryTests : TestBase
     }
 
     [Test]
-    public void When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
+    public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>

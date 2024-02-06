@@ -212,7 +212,7 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
-    public void Failing_Submodule_With_Return_Type_Fails()
+    public async Task Failing_Submodule_With_Return_Type_Fails()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModule>);
 
@@ -239,7 +239,7 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
-    public void Failing_Submodule_With_Return_Type_Fails_Synchronous()
+    public async Task Failing_Submodule_With_Return_Type_Fails_Synchronous()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModuleSynchronous>);
 
@@ -251,7 +251,7 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
-    public void Failing_Submodule_Without_Return_Type_Fails_Synchronous()
+    public async Task Failing_Submodule_Without_Return_Type_Fails_Synchronous()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>);
 

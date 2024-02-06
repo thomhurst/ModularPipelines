@@ -20,7 +20,8 @@ public class EmailTests : TestBase
 
         if (string.IsNullOrEmpty(emailPassword))
         {
-            Assert.Ignore();
+            TestContext.Current.SkipTest("No email password");
+            return;
         }
 
         var response = await email.SendAsync(

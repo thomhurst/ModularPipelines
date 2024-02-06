@@ -70,9 +70,8 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
-
-        Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2), 
+        await Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2),
                 TimeSpan.FromMilliseconds(500));
     }
 
@@ -86,8 +85,7 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
-
-        Assert.That(nextModule.StartTime)
+        await Assert.That(nextModule.StartTime)
             .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(500));
     }
 
@@ -102,8 +100,7 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
-
-        Assert.That(nextModule.StartTime)
+        await Assert.That(nextModule.StartTime)
             .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(4), TimeSpan.FromMicroseconds(500));
     }
 }

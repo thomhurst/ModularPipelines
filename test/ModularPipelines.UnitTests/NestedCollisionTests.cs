@@ -11,7 +11,7 @@ namespace ModularPipelines.UnitTests;
 public class NestedCollisionTests
 {
     [Test]
-    public void Modules_Dependent_On_Each_Other_Throws_Exception()
+    public async Task Modules_Dependent_On_Each_Other_Throws_Exception()
     {
         await Assert.That(() => TestPipelineHostBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
