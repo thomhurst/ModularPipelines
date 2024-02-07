@@ -43,7 +43,7 @@ public static class CommandExtensions
     {
         return options with
         {
-            Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
+            Arguments = (options.Arguments ?? Array.Empty<string>()).Concat(arguments),
         };
     }
 }
