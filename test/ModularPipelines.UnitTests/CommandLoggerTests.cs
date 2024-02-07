@@ -70,7 +70,7 @@ public class CommandLoggerTests : TestBase
             await Assert.That(logFile).Does.Not.Contain("---Command Error---");
         }
 
-        if (logError)
+        if (logDuration)
         {
             await Assert.That(logFile).Does.Contain("---Duration");
         }
