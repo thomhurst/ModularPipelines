@@ -9,10 +9,5 @@ internal class ModuleDisposer : IModuleDisposer
     {
         await Disposer.DisposeObjectAsync(module);
         await Disposer.DisposeObjectAsync(module.Context.Logger);
-
-        if (!TestDetector.IsRunningFromNUnit)
-        {
-            await Disposer.DisposeObjectAsync(module.Context.ServiceProvider);
-        }
     }
 }
