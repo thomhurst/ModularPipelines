@@ -22,7 +22,7 @@ public class EnumValueAttributeTests
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
         await Assert.That(list).Does.Contain("--number");
         await Assert.That(list).Does.Contain(expected);
-        await Assert.That(list).Is.EquivalentTo(new List<string> { "--number" });
+        await Assert.That(list).Is.EquivalentTo(new List<string> { "--number", expected });
     }
 
     public enum Number
