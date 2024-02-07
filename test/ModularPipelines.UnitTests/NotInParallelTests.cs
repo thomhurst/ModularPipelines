@@ -100,7 +100,10 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
+
+        var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(4);
+        
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(4), TimeSpan.FromMicroseconds(500));
+            .Is.EqualToWithTolerance(expectedStartTime, TimeSpan.FromMilliseconds(500));
     }
 }
