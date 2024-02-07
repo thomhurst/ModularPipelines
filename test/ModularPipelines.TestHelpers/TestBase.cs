@@ -25,8 +25,6 @@ public abstract class TestBase
 
         var results = await host.ExecutePipelineAsync();
         
-        await host.DisposeAsync();
-
         return results.Modules.OfType<T>().Single();
     }
 
