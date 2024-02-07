@@ -15,7 +15,9 @@ public static class EnumerableExtensions
     /// <returns>The specified module.</returns>
     public static T GetModule<T>(this IEnumerable<ModuleBase> modules)
         where T : ModuleBase
-        => modules.OfType<T>().Single();
+    {
+        return modules.OfType<T>().Single();
+    }
 
     /// <summary>
     /// Gets the first item from an IAsyncEnumerable.

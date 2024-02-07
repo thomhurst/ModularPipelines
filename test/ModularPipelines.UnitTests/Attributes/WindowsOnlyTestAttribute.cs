@@ -1,4 +1,3 @@
-using TUnit.Core;
 using TUnit.Core.Interfaces;
 
 namespace ModularPipelines.UnitTests.Attributes;

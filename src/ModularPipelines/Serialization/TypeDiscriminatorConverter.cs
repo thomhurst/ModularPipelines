@@ -6,18 +6,6 @@ namespace ModularPipelines.Serialization;
 internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
     where T : ITypeDiscriminator
 {
-    private readonly IEnumerable<Type> _types;
-
-    public TypeDiscriminatorConverter()
-    {
-        var type = typeof(T);
-
-        _types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
-            .Where(p => type.IsAssignableFrom(p) && p is { IsClass: true, IsAbstract: false })
-            .ToList();
-    }
-
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -31,8 +19,8 @@ internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
         {
             throw new JsonException();
         }
-
-        var type = _types.FirstOrDefault(x => x.FullName == typeProperty.GetString());
+        
+        var type = Type.GetType(typeProperty.GetString()!);
 
         if (type == null)
         {

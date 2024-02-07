@@ -4,8 +4,6 @@ using ModularPipelines.Azure.Pipelines;
 using ModularPipelines.GitHub;
 using ModularPipelines.TeamCity;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions;
-using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 

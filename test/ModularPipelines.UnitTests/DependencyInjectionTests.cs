@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.TestHelpers;
 using Moq;
-using TUnit.Core;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace ModularPipelines.UnitTests;

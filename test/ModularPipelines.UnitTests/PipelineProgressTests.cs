@@ -6,8 +6,6 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
-using TUnit.Assertions;
-using TUnit.Core;
 
 namespace ModularPipelines.UnitTests;
 

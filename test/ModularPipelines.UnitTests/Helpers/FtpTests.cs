@@ -1,12 +1,8 @@
 using System.Net;
 using FluentFTP;
-using ModularPipelines.Attributes;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
-using ModularPipelines.Helpers;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions;
-using TUnit.Core;
 using Disposer = ModularPipelines.Helpers.Disposer;
 using File = ModularPipelines.FileSystem.File;
 

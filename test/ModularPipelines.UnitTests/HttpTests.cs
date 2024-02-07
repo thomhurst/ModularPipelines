@@ -3,8 +3,6 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions;
-using TUnit.Core;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
