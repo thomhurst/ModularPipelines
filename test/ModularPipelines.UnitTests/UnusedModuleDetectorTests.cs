@@ -37,14 +37,13 @@ public class UnusedModuleDetectorTests
     public async Task Logs_Unregisted_Modules_Correctly()
     {
         _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(ModuleBase)))
-            .Returns(new[]
-            {
+            .Returns([
                 typeof(Module1),
                 typeof(Module2),
                 typeof(Module3),
                 typeof(Module4),
-                typeof(Module5),
-            });
+                typeof(Module5)
+            ]);
 
         var serviceCollection = new ServiceCollection()
             .AddModule<Module1>()

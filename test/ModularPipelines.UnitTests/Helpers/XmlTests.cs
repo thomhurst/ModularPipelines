@@ -31,7 +31,7 @@ public class XmlTests : TestBase
         {
             Foo = "Bar!",
             Hello = "World!",
-            Items = new[] { "One", "Two", "3" },
+            Items = ["One", "Two", "3"],
         });
         await Assert.That(result.Trim()).Is.EqualTo("""
                                               <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">

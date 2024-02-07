@@ -59,12 +59,12 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new MySuperSecretToolOptions
         {
-            Filename = new[]
-            {
+            Filename =
+            [
                 "file1.txt",
                 "foo.txt",
-                "bar.json",
-            },
+                "bar.json"
+            ],
         });
         await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --filename file1.txt --filename foo.txt --filename bar.json");
     }
