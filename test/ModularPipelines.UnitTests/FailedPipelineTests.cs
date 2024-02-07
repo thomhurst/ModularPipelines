@@ -35,8 +35,8 @@ public class FailedPipelineTests : TestBase
         }
     }
 
-    [TestWithData(ExecutionMode.StopOnFirstException)]
-    [TestWithData(ExecutionMode.WaitForAllModules)]
+    [DataDrivenTest(ExecutionMode.StopOnFirstException)]
+    [DataDrivenTest(ExecutionMode.WaitForAllModules)]
     public async Task Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
@@ -49,8 +49,8 @@ public class FailedPipelineTests : TestBase
             Throws.Exception();
     }
 
-    [TestWithData(ExecutionMode.StopOnFirstException)]
-    [TestWithData(ExecutionMode.WaitForAllModules)]
+    [DataDrivenTest(ExecutionMode.StopOnFirstException)]
+    [DataDrivenTest(ExecutionMode.WaitForAllModules)]
     public async Task Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
@@ -62,8 +62,8 @@ public class FailedPipelineTests : TestBase
             Throws.Exception();
     }
 
-    [TestWithData(ExecutionMode.StopOnFirstException)]
-    [TestWithData(ExecutionMode.WaitForAllModules)]
+    [DataDrivenTest(ExecutionMode.StopOnFirstException)]
+    [DataDrivenTest(ExecutionMode.WaitForAllModules)]
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()

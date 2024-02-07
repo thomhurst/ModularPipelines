@@ -77,8 +77,8 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
 
-    [TestWithData(true)]
-    [TestWithData(false)]
+    [DataDrivenTest(true)]
+    [DataDrivenTest(false)]
     public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");

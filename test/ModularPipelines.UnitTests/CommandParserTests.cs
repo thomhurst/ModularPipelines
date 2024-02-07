@@ -41,8 +41,8 @@ public class CommandParserTests : TestBase
         await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --force");
     }
 
-    [TestWithData(null)]
-    [TestWithData(false)]
+    [DataDrivenTest(null)]
+    [DataDrivenTest(false)]
     public async Task Boolean_Switch_Parse_As_Expected_When_Not_True(bool? force)
     {
         var result = await GetResult(new MySuperSecretToolOptions
@@ -135,8 +135,8 @@ public class CommandParserTests : TestBase
         await Assert.That(result.CommandInput).Is.EqualTo("dotnet add MyProject.csproj package ThisPackage --source nuget.org");
     }
 
-    [TestWithData("")]
-    [TestWithData(null)]
+    [DataDrivenTest("")]
+    [DataDrivenTest(null)]
     public async Task Placeholder_Positional_WhenEmpty_Throws(string? package)
     {
         await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
