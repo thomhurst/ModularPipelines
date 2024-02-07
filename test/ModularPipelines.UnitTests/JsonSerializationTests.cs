@@ -99,7 +99,7 @@ public class JsonSerializationTests : TestBase
             Assert.That(module1Deserialized.Duration).Is.EqualTo(module.Duration);
             Assert.That(module1Deserialized.SkipResult).Is.EqualTo(module.SkipResult);
             Assert.That(module1Deserialized.GetType().Name).Is.EqualTo(module.GetType().Name);
-            Assert.That(module1Deserialized.TypeDiscriminator).Is.EqualTo(module.GetType().FullName!);
+            Assert.That(module1Deserialized.TypeDiscriminator).Is.EqualTo(module.GetType().AssemblyQualifiedName!);
 
             Assert.That(module1DeserializedResult.ModuleStart).Is.EqualTo(module.StartTime);
             Assert.That(module1DeserializedResult.ModuleEnd).Is.EqualTo(module.EndTime);
