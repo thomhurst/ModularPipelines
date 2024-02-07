@@ -229,8 +229,9 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Failing_Submodule_Without_Return_Type_Fails()
     {
-        await Assert.That(RunModule<FailingSubModulesWithoutReturnTypeModule>)
-            .Throws.TypeOf<SubModuleFailedException>();
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
+            
+        await Assert.That(exception.InnerException).Is.TypeOf<SubModuleFailedException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 

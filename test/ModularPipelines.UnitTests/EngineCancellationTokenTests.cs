@@ -82,6 +82,8 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModule = modules.GetModule<LongRunningModule>();
 
         var pipelineTask = host.ExecutePipelineAsync();
+
+        await Task.Delay(TimeSpan.FromSeconds(1));
         
         await Assert.Multiple(() =>
         {
@@ -104,6 +106,8 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModule = modules.GetModule<LongRunningModuleWithoutCancellation>();
 
         var pipelineTask = host.ExecutePipelineAsync();
+
+        await Task.Delay(TimeSpan.FromSeconds(1));
 
         await Assert.Multiple(() =>
         {
