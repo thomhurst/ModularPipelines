@@ -13,6 +13,12 @@ public class InstallerTests : TestBase
     [Test]
     public async Task Can_Install()
     {
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
+        {
+            TestContext.Current.SkipTest("Avoid installing things on people's machines");
+            return;
+        }
+        
         var downloader = await GetService<IDownloader>();
         var installer = await GetService<IInstaller>();
 
