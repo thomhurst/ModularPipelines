@@ -16,6 +16,11 @@ internal class PipelineHost : IPipelineHost
     private readonly IHost _hostImplementation;
     private readonly AsyncServiceScope _serviceScope;
 
+    ~PipelineHost()
+    {
+        Dispose();
+    }
+
     private PipelineHost(IHost hostImplementation)
     {
         _hostImplementation = hostImplementation;
@@ -31,11 +36,6 @@ internal class PipelineHost : IPipelineHost
         await host.RootServices.InitializeAsync();
 
         return host;
-    }
-
-    ~PipelineHost()
-    {
-        Dispose();
     }
 
     [StackTraceHidden]
@@ -58,8 +58,11 @@ internal class PipelineHost : IPipelineHost
 
     public void Dispose()
     {
-        DisposeAsync().AsTask().GetAwaiter().GetResult();
-        GC.SuppressFinalize(this);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CA2012
+        DisposeAsync();
+#pragma warning restore CA2012
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
     public async ValueTask DisposeAsync()
