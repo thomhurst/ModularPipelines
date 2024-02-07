@@ -2,6 +2,7 @@ namespace ModularPipelines.TestsForTests;
 
 public class Tests
 {
+    [Test]
     [Category("Pass")]
     public void Pass()
     {
