@@ -64,16 +64,15 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         var three = results.Modules.OfType<Module3>().First();
         var four = results.Modules.OfType<Module4>().First();
 
-        await AssertAfter(one, two, TimeSpan.FromSeconds(1));
+        await AssertAfter(one, two);
 
         await AssertParallel(one, three);
         await AssertParallel(one, four);
     }
 
-    private async Task AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
+    private async Task AssertAfter(ModuleBase firstModule, ModuleBase nextModule)
     {
-        await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance((firstModule.StartTime + expectedTimeAfter), TimeSpan.FromMilliseconds(350));
+        await Assert.That(nextModule.StartTime).Is.GreaterThan(firstModule.EndTime);
     }
 
     private async Task AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
