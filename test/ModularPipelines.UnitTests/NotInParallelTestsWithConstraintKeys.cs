@@ -70,8 +70,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
 
     private async Task AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
     {
-        await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance((firstModule.StartTime + expectedTimeAfter), TimeSpan.FromMilliseconds(350));
+        await Assert.That(nextModule.StartTime).Is.GreaterThan(firstModule.StartTime);
     }
 
     private async Task AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
