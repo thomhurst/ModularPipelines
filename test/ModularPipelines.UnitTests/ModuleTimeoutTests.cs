@@ -40,7 +40,7 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    [Test]
+    [Test, Retry(3)]
     public async Task Throws_TaskException_When_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);

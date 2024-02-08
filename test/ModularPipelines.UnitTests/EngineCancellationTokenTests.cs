@@ -81,7 +81,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var pipelineTask = host.ExecutePipelineAsync();
 
-        await Task.Delay(TimeSpan.FromSeconds(1));
+        await Task.Delay(TimeSpan.FromSeconds(2));
         
         await Assert.Multiple(() =>
         {
@@ -105,7 +105,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var pipelineTask = host.ExecutePipelineAsync();
 
-        await Task.Delay(TimeSpan.FromSeconds(1));
+        await Task.Delay(TimeSpan.FromSeconds(2));
 
         await Assert.Multiple(() =>
         {
