@@ -22,12 +22,12 @@ public class NodeTests : TestBase
         var module = await RunModule<NodeVersionModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null();
+            Assert.That(moduleResult.Value).Is.Not.Null();
         });
     }
 
@@ -38,10 +38,10 @@ public class NodeTests : TestBase
 
         var moduleResult = await module;
 
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput, Does.Match("v\\d+"));
+            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
+            Assert.That(moduleResult.Value.StandardOutput).Does.Match("v\\d+");
         });
     }
 }

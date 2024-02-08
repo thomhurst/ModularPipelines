@@ -25,7 +25,7 @@ internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
 
                 if (_buildSystemDetector.IsRunningOnGitHubActions)
                 {
-                    _consoleWriter.LogToConsole($@"::add-mask::{secret}");
+                    _consoleWriter.LogToConsole($"::add-mask::{secret}");
                 }
             }
         }

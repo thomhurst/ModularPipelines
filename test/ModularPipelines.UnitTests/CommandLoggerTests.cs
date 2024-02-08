@@ -11,13 +11,13 @@ namespace ModularPipelines.UnitTests;
 public class CommandLoggerTests : TestBase
 {
     [Test]
-    [Combinatorial]
+    [Combinative]
     public async Task Logs_As_Expected_With_Options(
-        [Values(true, false)] bool logInput,
-        [Values(true, false)] bool logOutput,
-        [Values(true, false)] bool logError,
-        [Values(true, false)] bool logExitCode,
-        [Values(true, false)] bool logDuration)
+        [CombinativeValues(true, false)] bool logInput,
+        [CombinativeValues(true, false)] bool logOutput,
+        [CombinativeValues(true, false)] bool logError,
+        [CombinativeValues(true, false)] bool logExitCode,
+        [CombinativeValues(true, false)] bool logDuration)
     {
         var file = await RunPowershellCommand("""
                                         echo Hello world!
@@ -28,34 +28,63 @@ public class CommandLoggerTests : TestBase
 
         if (!logInput && !logOutput && !logError && !logDuration && !logExitCode)
         {
-            Assert.That(logFile, Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
+            await Assert.That(logFile).Does.Not.Contain("INFO	[ModularPipelines.Logging.CommandLogger]");
             return;
         }
 
-        Assert.That(logFile, Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]"));
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Logging.CommandLogger]");
 
-        Assert.That(logFile, logInput
-            ? Does.Contain("""
-                           ---Executing Command---
-                           pwsh -Command "echo Hello world!
-                           throw \"Error!\""
-                           """)
-            : Does.Contain("""
-                           ---Executing Command---
-                           ********
-                           """));
+        if (logInput)
+        {
+            await Assert.That(logFile).Does.Contain("""
+                                              ---Executing Command---
+                                              pwsh -Command "echo Hello world!
+                                              throw \"Error!\""
+                                              """);
+        }
+        else
+        {
+            await Assert.That(logFile).Does.Contain("""
+                                              ---Executing Command---
+                                              ********
+                                              """);
+        }
 
-        Assert.That(logFile,
-            logOutput ? Does.Contain("---Command Result---") : Does.Not.Contain("---Command Result---"));
+        if (logOutput)
+        {
+            await Assert.That(logFile).Does.Contain("---Command Result---");
+        }
+        else
+        {
+            await Assert.That(logFile).Does.Not.Contain("---Command Result---");
+        }
 
-        Assert.That(logFile,
-            logError ? Does.Contain("---Command Error") : Does.Not.Contain("---Command Error"));
+        if (logError)
+        {
+            await Assert.That(logFile).Does.Contain("---Command Error---");
+        }
+        else
+        {
+            await Assert.That(logFile).Does.Not.Contain("---Command Error---");
+        }
 
-        Assert.That(logFile,
-            logDuration ? Does.Contain("---Duration") : Does.Not.Contain("---Duration"));
+        if (logDuration)
+        {
+            await Assert.That(logFile).Does.Contain("---Duration");
+        }
+        else
+        {
+            await Assert.That(logFile).Does.Not.Contain("---Duration");
+        }
 
-        Assert.That(logFile,
-            logExitCode ? Does.Contain("---Exit Code") : Does.Not.Contain("---Exit Code"));
+        if (logExitCode)
+        {
+            await Assert.That(logFile).Does.Contain("---Exit Code");
+        }
+        else
+        {
+            await Assert.That(logFile).Does.Not.Contain("---Exit Code");
+        }
     }
 
     private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,

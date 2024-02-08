@@ -1,4 +1,3 @@
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -7,7 +6,7 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTestsWithConstraintKeys : TestBase
 {
-    [NotInParallel(ConstraintKey = "A")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "A")]
     public class ModuleWithAConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -17,7 +16,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "A")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "A")]
     public class ModuleWithAConstraintKey2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -27,7 +26,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "B")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -37,7 +36,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [NotInParallel(ConstraintKey = "B")]
+    [ModularPipelines.Attributes.NotInParallel(ConstraintKey = "B")]
     public class ModuleWithBConstraintKey2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -62,27 +61,22 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         var b1 = results.Modules.OfType<ModuleWithBConstraintKey1>().First();
         var b2 = results.Modules.OfType<ModuleWithBConstraintKey2>().First();
 
-        AssertAfter(a1, a2, TimeSpan.FromSeconds(1));
-        AssertAfter(b1, b2, TimeSpan.FromSeconds(1));
+        await AssertAfter(a1, a2, TimeSpan.FromSeconds(1));
+        await AssertAfter(b1, b2, TimeSpan.FromSeconds(1));
 
-        AssertParallel(a1, b1);
-        AssertParallel(a2, b2);
+        await AssertParallel(a1, b1);
+        await AssertParallel(a2, b2);
     }
 
-    private void AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
+    private async Task AssertAfter(ModuleBase firstModule, ModuleBase nextModule, TimeSpan expectedTimeAfter)
     {
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + expectedTimeAfter).ToUnixTimeMilliseconds())
-                .Within(350)
-        );
+        await Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance((firstModule.StartTime + expectedTimeAfter), TimeSpan.FromMilliseconds(350));
     }
 
-    private void AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
+    private async Task AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
     {
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo(firstModule.StartTime.ToUnixTimeMilliseconds()).Within(350)
-        );
+        await Assert.That(nextModule.StartTime).
+            Is.EqualToWithTolerance(firstModule.StartTime, TimeSpan.FromMilliseconds(350));
     }
 }

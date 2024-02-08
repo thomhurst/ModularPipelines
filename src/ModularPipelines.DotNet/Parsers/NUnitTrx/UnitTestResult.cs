@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using ModularPipelines.DotNet.Enums;
 
-namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
 [Serializable]
 [XmlRoot(ElementName = "UnitTestResult")]
+[ExcludeFromCodeCoverage]
 public record UnitTestResult
 {
     [XmlAttribute("executionId")]

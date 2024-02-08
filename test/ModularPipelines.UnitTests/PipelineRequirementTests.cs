@@ -1,10 +1,10 @@
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 using ModularPipelines.TestHelpers;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -19,32 +19,29 @@ public class PipelineRequirementTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
-    public void When_Requirement_Fails_Then_Error()
+    public async Task When_Requirement_Fails_Then_Error()
     {
         var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
-
-        Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
-            .With.Message.EqualTo("Requirements failed:\r\nFailingRequirement"));
+        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nFailingRequirement");
     }
 
     [Test]
-    public void When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
+    public async Task When_Requirement_Fails_With_Reason_Then_Error_With_Reason()
     {
         var executePipelineDelegate = () => TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirementWithReason>()
             .ExecutePipelineAsync();
-
-        Assert.That(executePipelineDelegate, Throws.Exception.TypeOf<FailedRequirementsException>()
-            .With.Message.EqualTo("Requirements failed:\r\nError: Foo bar!"));
+        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
+            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
     private class DummyModule : Module

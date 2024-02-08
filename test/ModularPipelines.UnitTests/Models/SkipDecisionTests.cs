@@ -5,75 +5,75 @@ namespace ModularPipelines.UnitTests.Models;
 public class SkipDecisionTests
 {
     [Test]
-    public void True_Implicit_Cast()
+    public async Task True_Implicit_Cast()
     {
         SkipDecision skipDecision = true;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.True);
-            Assert.That(skipDecision.Reason, Is.Null);
+            Assert.That(skipDecision.ShouldSkip).Is.True();
+            Assert.That(skipDecision.Reason).Is.Null();
         });
     }
 
     [Test]
-    public void String_Implicit_Cast()
+    public async Task String_Implicit_Cast()
     {
         SkipDecision skipDecision = "Foo!";
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.True);
-            Assert.That(skipDecision.Reason, Is.EqualTo("Foo!"));
+            Assert.That(skipDecision.ShouldSkip).Is.True();
+            Assert.That(skipDecision.Reason).Is.EqualTo("Foo!");
         });
     }
 
     [Test]
-    public void False_Implicit_Cast()
+    public async Task False_Implicit_Cast()
     {
         SkipDecision skipDecision = false;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.False);
-            Assert.That(skipDecision.Reason, Is.Null);
+            Assert.That(skipDecision.ShouldSkip).Is.False();
+            Assert.That(skipDecision.Reason).Is.Null();
         });
     }
 
     [Test]
-    public void Skip()
+    public async Task Skip()
     {
         var skipDecision = SkipDecision.Skip("Blah!");
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.True);
-            Assert.That(skipDecision.Reason, Is.EqualTo("Blah!"));
+            Assert.That(skipDecision.ShouldSkip).Is.True();
+            Assert.That(skipDecision.Reason).Is.EqualTo("Blah!");
         });
     }
 
     [Test]
-    public void DoNotSkip()
+    public async Task DoNotSkip()
     {
         var skipDecision = SkipDecision.DoNotSkip;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.False);
-            Assert.That(skipDecision.Reason, Is.Null);
+            Assert.That(skipDecision.ShouldSkip).Is.False();
+            Assert.That(skipDecision.Reason).Is.Null();
         });
     }
 
-    [TestCase(true)]
-    [TestCase(false)]
-    public void Of(bool shouldSkip)
+    [DataDrivenTest(true)]
+    [DataDrivenTest(false)]
+    public async Task Of(bool shouldSkip)
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(skipDecision.ShouldSkip, Is.EqualTo(shouldSkip));
-            Assert.That(skipDecision.Reason, shouldSkip ? Is.EqualTo("Blah!") : Is.Null);
+            Assert.That(skipDecision.ShouldSkip).Is.EqualTo(shouldSkip);
+            Assert.That(skipDecision.Reason).Is.EqualTo(shouldSkip ? "Blah!" : null);
         });
     }
 }

@@ -27,12 +27,12 @@ public class GitTests : TestBase
         var module = await RunModule<GitVersionModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null();
+            Assert.That(moduleResult.Value).Is.Not.Null();
         });
     }
 
@@ -42,11 +42,11 @@ public class GitTests : TestBase
         var module = await RunModule<GitVersionModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.Value!.StandardError, Is.Null.Or.Empty);
-            Assert.That(moduleResult.Value.StandardOutput, Does.Match("git version \\d+.*"));
+            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
+            Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
         });
     }
 
@@ -54,11 +54,11 @@ public class GitTests : TestBase
     public async Task GitRootDirectory()
     {
         var git = await GetService<IGit>();
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(git.RootDirectory.Name, Is.EqualTo("ModularPipelines"));
-            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name), Does.Contain("README.md"));
+            Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
+            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
         });
     }
 
@@ -66,7 +66,6 @@ public class GitTests : TestBase
     public async Task DefaultBranchName()
     {
         var git = await GetService<IGit>();
-
-        Assert.That(git.Information.DefaultBranchName, Is.EqualTo("main"));
+        await Assert.That(git.Information.DefaultBranchName).Is.EqualTo("main");
     }
 }

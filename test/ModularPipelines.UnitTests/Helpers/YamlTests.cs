@@ -12,11 +12,10 @@ public class YamlTests : TestBase
         var yaml = await GetService<IYaml>();
 
         var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" });
-
-        Assert.That(result.Trim(), Is.EqualTo("""
+        await Assert.That(result.Trim()).Is.EqualTo("""
                                        foo: Bar!
                                        hello: World!
-                                       """));
+                                       """);
     }
 
     [Test]
@@ -30,15 +29,14 @@ public class YamlTests : TestBase
             Hello = "World!",
             Items = new List<string> { "One", "Two", "3" },
         });
-
-        Assert.That(result.Trim(), Is.EqualTo("""
+        await Assert.That(result.Trim()).Is.EqualTo("""
                                               foo: Bar!
                                               hello: World!
                                               items:
                                               - One
                                               - Two
                                               - 3
-                                              """));
+                                              """);
     }
 
     [Test]
@@ -48,11 +46,10 @@ public class YamlTests : TestBase
 
         var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" },
             PascalCaseNamingConvention.Instance);
-
-        Assert.That(result.Trim(), Is.EqualTo("""
+        await Assert.That(result.Trim()).Is.EqualTo("""
                                        Foo: Bar!
                                        Hello: World!
-                                       """));
+                                       """);
     }
 
     [Test]
@@ -64,8 +61,7 @@ public class YamlTests : TestBase
                                               foo: Bar!
                                               hello: World!
                                               """);
-
-        Assert.That(result, Is.EqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" }));
+        await Assert.That(result).Is.EqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" });
     }
 
     [Test]
@@ -77,8 +73,7 @@ public class YamlTests : TestBase
                                               foo: Bar!
                                               hello: World!
                                               """, CamelCaseNamingConvention.Instance);
-
-        Assert.That(result, Is.EqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" }));
+        await Assert.That(result).Is.EqualTo(new YamlModel { Foo = "Bar!", Hello = "World!" });
     }
 
     private record YamlModel

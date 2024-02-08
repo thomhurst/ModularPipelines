@@ -13,12 +13,12 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>]
 [DependsOn<PackProjectsModule>]
-public class RunUnitTestsModule : Module<DotNetTestResult[]>
+public class RunUnitTestsModule : Module<CommandResult[]>
 {
-    protected override AsyncRetryPolicy<DotNetTestResult[]?> RetryPolicy => CreateRetryPolicy(0);
+    protected override AsyncRetryPolicy<CommandResult[]?> RetryPolicy => CreateRetryPolicy(0);
 
     /// <inheritdoc/>
-    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)

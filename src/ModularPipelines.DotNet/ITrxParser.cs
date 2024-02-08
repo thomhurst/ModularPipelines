@@ -2,5 +2,5 @@ namespace ModularPipelines.DotNet;
 
 public interface ITrxParser
 {
-    DotNetTestResult ParseTestResult(string input);
+    DotNetTestResult ParseTrxContents(string input);
 }

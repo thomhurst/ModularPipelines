@@ -82,8 +82,7 @@ public class PipelineWriterTests : TestBase
             .AddModule<NotInParallelTests.Module1>()
             .AddPipelineFileWriter<GitHubYamlWriter>()
             .ExecutePipelineAsync();
-
-        Assert.That((await RandomFilePath.ReadAsync()).Trim(),
+        await Assert.That((await RandomFilePath.ReadAsync()).Trim()).
             Is.EqualTo($$$"""
                        name: Test
                        on:
@@ -152,6 +151,6 @@ public class PipelineWriterTests : TestBase
                                Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
                                CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
                                EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-                       """.Trim()));
+                       """.Trim());
     }
 }

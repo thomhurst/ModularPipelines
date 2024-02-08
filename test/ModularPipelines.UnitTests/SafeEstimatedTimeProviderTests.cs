@@ -1,10 +1,10 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -19,8 +19,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -32,8 +31,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     [Test]
@@ -45,8 +43,7 @@ public class SafeEstimatedTimeProviderTests
             .ExecutePipelineAsync();
 
         var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-
-        Assert.That(dummyModule.Status, Is.EqualTo(Status.Successful));
+        await Assert.That(dummyModule.Status).Is.EqualTo(Status.Successful);
     }
 
     private class DummyModule : Module

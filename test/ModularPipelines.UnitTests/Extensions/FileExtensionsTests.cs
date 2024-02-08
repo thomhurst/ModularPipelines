@@ -6,7 +6,7 @@ namespace ModularPipelines.UnitTests.Extensions;
 public class FileExtensionsTests
 {
     [Test]
-    public void EnumerablePaths()
+    public async Task EnumerablePaths()
     {
         var files = new List<File>
         {
@@ -15,18 +15,17 @@ public class FileExtensionsTests
         }.AsEnumerable();
 
         var paths = files.AsPaths();
-
-        Assert.That(paths, Is.AssignableTo<IEnumerable<string>>());
-        Assert.That(paths, Is.Not.AssignableTo<List<string>>());
-        Assert.That(paths, Is.EquivalentTo(new List<string>
+        await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
+        await Assert.That(paths).Is.Not.AssignableTo<List<string>>();
+        await Assert.That(paths).Is.EquivalentTo(new List<string>
         {
             Path.Combine(Environment.CurrentDirectory, "File1.txt"),
             Path.Combine(Environment.CurrentDirectory, "File2.txt"),
-        }));
+        });
     }
 
     [Test]
-    public void ListPaths()
+    public async Task ListPaths()
     {
         var files = new List<File>
         {
@@ -35,13 +34,12 @@ public class FileExtensionsTests
         };
 
         var paths = files.AsPaths();
-
-        Assert.That(paths, Is.AssignableTo<IEnumerable<string>>());
-        Assert.That(paths, Is.AssignableTo<List<string>>());
-        Assert.That(paths, Is.EquivalentTo(new List<string>
+        await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
+        await Assert.That(paths).Is.AssignableTo<List<string>>();
+        await Assert.That(paths).Is.EquivalentTo(new List<string>
         {
             Path.Combine(Environment.CurrentDirectory, "File1.txt"),
             Path.Combine(Environment.CurrentDirectory, "File2.txt"),
-        }));
+        });
     }
 }

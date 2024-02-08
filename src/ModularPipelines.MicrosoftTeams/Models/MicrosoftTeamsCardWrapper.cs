@@ -17,14 +17,14 @@ internal class MicrosoftTeamsCardWrapper
         return new MicrosoftTeamsCardWrapper
         {
             Type = "message",
-            Attachments = new[]
-            {
+            Attachments =
+            [
                 new Attachment
                 {
                     ContentType = "application/vnd.microsoft.card.adaptive",
                     Content = adaptiveCard,
-                },
-            },
+                }
+            ],
         };
     }
 }

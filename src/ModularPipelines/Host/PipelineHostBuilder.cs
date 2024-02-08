@@ -198,7 +198,7 @@ public class PipelineHostBuilder
     /// <returns>A summary of the pipeline results.</returns>
     public async Task<PipelineSummary> ExecutePipelineAsync()
     {
-        var host = await BuildHostAsync();
+        await using var host = await BuildHostAsync();
 
         return await host.ExecutePipelineAsync();
     }

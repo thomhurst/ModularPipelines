@@ -22,13 +22,12 @@ public class NonIgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Thrown_And_Cancelled_Pipeline()
     {
-        var exception = Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
 
-        var serviceProvider = exception!.Module.Context.Get<IServiceProvider>()!;
+        var serviceProvider = exception.Module.Context.Get<IServiceProvider>()!;
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
         await Task.Delay(TimeSpan.FromSeconds(2));
-
-        Assert.That(engineCancellationToken.IsCancellationRequested, Is.True);
+        await Assert.That(engineCancellationToken.IsCancellationRequested).Is.True();
     }
 }

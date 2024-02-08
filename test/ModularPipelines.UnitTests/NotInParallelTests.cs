@@ -7,7 +7,7 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTests
 {
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -17,7 +17,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     public class Module2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     [DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : Module<string>
     {
@@ -47,7 +47,7 @@ public class NotInParallelTests
         }
     }
 
-    [NotInParallel]
+    [ModularPipelines.Attributes.NotInParallel]
     [DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : Module<string>
     {
@@ -68,12 +68,9 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
-
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
-                .Within(500)
-        );
+        await Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2),
+                TimeSpan.FromMilliseconds(500));
     }
 
     [Test, Retry(3)]
@@ -86,12 +83,8 @@ public class NotInParallelTests
 
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
-
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(2)).ToUnixTimeMilliseconds())
-                .Within(500)
-        );
+        await Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(500));
     }
 
     [Test, Retry(3)]
@@ -106,10 +99,9 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
-        Assert.That(
-            nextModule.StartTime.ToUnixTimeMilliseconds(),
-            Is.EqualTo((firstModule.StartTime + TimeSpan.FromSeconds(4)).ToUnixTimeMilliseconds())
-                .Within(500)
-        );
+        var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(4);
+        
+        await Assert.That(nextModule.StartTime)
+            .Is.EqualToWithTolerance(expectedStartTime, TimeSpan.FromMilliseconds(500));
     }
 }

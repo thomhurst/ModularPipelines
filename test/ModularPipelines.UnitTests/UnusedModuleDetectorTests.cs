@@ -32,17 +32,16 @@ public class UnusedModuleDetectorTests
     }
 
     [Test]
-    public void Logs_Unregisted_Modules_Correctly()
+    public async Task Logs_Unregisted_Modules_Correctly()
     {
         _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(ModuleBase)))
-            .Returns(new[]
-            {
+            .Returns([
                 typeof(Module1),
                 typeof(Module2),
                 typeof(Module3),
                 typeof(Module4),
-                typeof(Module5),
-            });
+                typeof(Module5)
+            ]);
 
         var serviceCollection = new ServiceCollection()
             .AddModule<Module1>()
@@ -53,12 +52,11 @@ public class UnusedModuleDetectorTests
             .Returns(serviceCollection);
 
         _unusedModuleDetector.Log();
-
-        Assert.That(_sb.ToString(), Is.Not.Empty);
-        Assert.That(_sb.ToString().Trim(), Is.EqualTo("""
+        await Assert.That(_sb.ToString()).Is.Not.Empty();
+        await Assert.That(_sb.ToString().Trim()).Is.EqualTo("""
 Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
 ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
-"""));
+""");
     }
 
     private class Module1 : Module

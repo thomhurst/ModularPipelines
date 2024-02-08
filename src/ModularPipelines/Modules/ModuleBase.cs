@@ -22,8 +22,15 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [ModuleMethodMarker]
     protected ModuleBase()
     {
-        TypeDiscriminator = GetType().FullName!;
+        TypeDiscriminator = GetType().AssemblyQualifiedName!;
     }
+    
+    /// <summary>
+    /// Gets the Type Discriminator.
+    /// Important this is defined at the beginning of the class.
+    /// </summary>
+    [JsonInclude]
+    public string TypeDiscriminator { get; private set; }
 
     internal bool IsStarted { get; private protected set; }
 
@@ -168,9 +175,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
         await submodule.Task;
     }
-
-    [JsonInclude]
-    public string TypeDiscriminator { get; private set; }
 
     protected EventHandler? OnInitialised { get; set; }
 }

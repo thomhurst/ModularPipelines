@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
-namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
 [XmlRoot(ElementName = "Output")]
+[ExcludeFromCodeCoverage]
 public record TestOutput
 {
     [XmlElement("StdOut")]

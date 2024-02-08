@@ -22,12 +22,12 @@ public class Sha384Tests : TestBase
         var module = await RunModule<ToSha384Module>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
-            Assert.That(moduleResult.Value, Is.Not.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null();
+            Assert.That(moduleResult.Value).Is.Not.Null();
         });
     }
 
@@ -37,7 +37,6 @@ public class Sha384Tests : TestBase
         var module = await RunModule<ToSha384Module>();
 
         var moduleResult = await module;
-
-        Assert.That(moduleResult.Value, Is.EqualTo("bb338a277da65d5663467d5fd98aa67349506150cd1287597b0eaa0f0988d2b22c33504fd85dd0b8c99ce8cc50666f88"));
+        await Assert.That(moduleResult.Value).Is.EqualTo("bb338a277da65d5663467d5fd98aa67349506150cd1287597b0eaa0f0988d2b22c33504fd85dd0b8c99ce8cc50666f88");
     }
 }

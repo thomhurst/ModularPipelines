@@ -1,4 +1,5 @@
 using ModularPipelines.DotNet.Enums;
+using ModularPipelines.DotNet.Parsers.NUnitTrx;
 
 namespace ModularPipelines.DotNet;
 

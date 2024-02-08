@@ -35,19 +35,16 @@ public class AzureCommandTests : TestBase
     public async Task Azure_Command_Is_Expected_Command()
     {
         var result = await RunModule<AzureCommandModule>();
-
-        Assert.That(result.Result.Value!.CommandInput, Is.EqualTo("""
-                                                                  az account alias create --name MyName
-                                                                  """));
+        
+        await Assert.That(result.Result.Value!.CommandInput)
+            .Is.EqualTo("az account alias create --name MyName");
     }
 
     [Test]
     public async Task Azure_Command_With_Mandatory_Switch_Conflicting_With_Base_Default_Optional_Switch_Is_Expected_Command()
     {
         var result = await RunModule<AzureCommandModule2>();
-
-        Assert.That(result.Result.Value!.CommandInput, Is.EqualTo("""
-                                                                  az account management-group subscription add --name MyName --subscription MySub
-                                                                  """));
+        await Assert.That(result.Result.Value!.CommandInput)
+            .Is.EqualTo("az account management-group subscription add --name MyName --subscription MySub");
     }
 }

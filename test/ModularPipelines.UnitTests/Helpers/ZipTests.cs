@@ -6,7 +6,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[Parallelizable(ParallelScope.Fixtures)]
+[TUnit.Core.NotInParallel]
 public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
@@ -37,11 +37,11 @@ public class ZipTests : TestBase
         var module = await RunModule<ZipModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null();
         });
     }
 
@@ -51,12 +51,12 @@ public class ZipTests : TestBase
     {
         await RunModule<ZipModule>();
 
-        var expectedFile = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremData.zip"));
-
-        Assert.Multiple(() =>
+        var expectedFile = new FileInfo(Path.Combine(Environment.CurrentDirectory, "LoremData.zip"));
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(expectedFile.Exists, Is.True);
-            Assert.That(expectedFile.Length, Is.GreaterThan(5000));
+            Assert.That(expectedFile.Exists).Is.True();
+            Assert.That(expectedFile.Length).Is.GreaterThan(5000);
         });
     }
 
@@ -83,11 +83,11 @@ public class ZipTests : TestBase
         var module = await RunModule<UnZipModule>();
 
         var moduleResult = await module;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(moduleResult.ModuleResultType, Is.EqualTo(ModuleResultType.Success));
-            Assert.That(moduleResult.Exception, Is.Null);
+            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            Assert.That(moduleResult.Exception).Is.Null();
         });
     }
 
@@ -97,12 +97,12 @@ public class ZipTests : TestBase
     {
         await RunModule<UnZipModule>();
 
-        var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "LoremDataUnzipped"));
-
-        Assert.Multiple(() =>
+        var expectedFolder = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "LoremDataUnzipped"));
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(expectedFolder.Exists, Is.True);
-            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories), Has.Length.EqualTo(1));
+            Assert.That(expectedFolder.Exists).Is.True();
+            Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Count().EqualTo(1);
         });
     }
 }

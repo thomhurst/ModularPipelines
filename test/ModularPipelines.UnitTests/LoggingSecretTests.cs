@@ -34,9 +34,9 @@ public class LoggingSecretTests
         }
     }
 
-    [TestCase("Shh!")]
-    [TestCase("SuperSecret!")]
-    [TestCase("🤐")]
+    [DataDrivenTest("Shh!")]
+    [DataDrivenTest("SuperSecret!")]
+    [DataDrivenTest("🤐")]
     public async Task SecretIsCensored(string secretValue)
     {
         var stringBuilder = new StringBuilder();
@@ -52,8 +52,7 @@ public class LoggingSecretTests
             .ExecutePipelineAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
-
-        Assert.That(actualLogResult, Does.Contain($"My Secret Value is: **********"));
-        Assert.That(actualLogResult, Does.Not.Contain(secretValue));
+        await Assert.That(actualLogResult).Does.Contain($"My Secret Value is: **********");
+        await Assert.That(actualLogResult).Does.Not.Contain(secretValue);
     }
 }

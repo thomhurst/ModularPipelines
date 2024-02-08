@@ -2,15 +2,15 @@ using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
-[Parallelizable(ParallelScope.Fixtures)]
+[TUnit.Core.NotInParallel]
 public class ResultsRepositoryTests : TestBase
 {
     public static readonly Folder Folder = Folder.CreateTemporaryFolder();
@@ -57,8 +57,7 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-
-        Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful), Is.True);
+        await Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful)).Is.True();
     }
 
     [Test, Order(2)]
@@ -70,7 +69,6 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module2>()
             .RunCategories("Other")
             .ExecutePipelineAsync();
-
-        Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory), Is.True);
+        await Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory)).Is.True();
     }
 }

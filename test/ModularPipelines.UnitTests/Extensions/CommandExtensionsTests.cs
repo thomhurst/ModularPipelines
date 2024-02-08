@@ -6,42 +6,55 @@ namespace ModularPipelines.UnitTests.Extensions;
 public class CommandExtensionsTests
 {
     [Test]
-    public void ToToolOptions_SingleArg()
+    public async Task ToToolOptions_SingleArg()
     {
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", "arg1");
         
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1" });
+        });
+    }
+
+    [Test]
+    public async Task ToToolOptions_MultipleArgs()
+    {
+        var commandLineOptions = new CommandLineOptions()
+            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
+        
+        await Assert.Multiple(() =>
+        {
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
         });
     }
     
     [Test]
-    public void ToToolOptions_MultipleArgs()
+    public async Task ToToolOptions_MultipleArgs_IEnumerable()
     {
         var commandLineOptions = new CommandLineOptions()
-            .ToCommandLineToolOptions("mytool", new[] {"arg1", "arg2"});
+            .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
         
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
         });
     }
-    
+
     [Test]
-    public void WithArguments_AddsToExisting()
+    public async Task WithArguments_AddsToExisting()
     {
         var commandLineOptions = new CommandLineOptions()
-            .ToCommandLineToolOptions("mytool", new[] {"arg1", "arg2"})
-            .WithArguments(new[] {"arg3", "arg4", "arg5"});
+            .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
+            .WithArguments(["arg3", "arg4", "arg5"]);
         
-        Assert.Multiple(() =>
+        await Assert.Multiple(() =>
         {
-            Assert.That(commandLineOptions.Tool, Is.EqualTo("mytool"));
-            Assert.That(commandLineOptions.Arguments, Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" }));
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });
         });
     }
 }

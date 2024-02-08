@@ -13,60 +13,50 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     public async Task AzurePipelines()
     {
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
-
-        Assert.That(stringBuilder.ToString().Trim(),
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
-                       """)
-        );
+                       """);
     }
 
     [Test]
     public async Task GitHub()
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
-
-        Assert.That(stringBuilder.ToString().Trim(),
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
-                       """)
-        );
+                       """);
     }
 
     [Test]
     public async Task TeamCity()
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
-
-        Assert.That(stringBuilder.ToString().Trim(),
+        await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
-                       """)
-        );
+                       """);
     }
 
-    [TestCase(BuildSystem.Jenkins)]
-    [TestCase(BuildSystem.GitLab)]
-    [TestCase(BuildSystem.Bitbucket)]
-    [TestCase(BuildSystem.TravisCI)]
-    [TestCase(BuildSystem.AppVeyor)]
-    [TestCase(BuildSystem.Unknown)]
-    [TestCase(-1)]
+    [DataDrivenTest(BuildSystem.Jenkins)]
+    [DataDrivenTest(BuildSystem.GitLab)]
+    [DataDrivenTest(BuildSystem.Bitbucket)]
+    [DataDrivenTest(BuildSystem.TravisCI)]
+    [DataDrivenTest(BuildSystem.AppVeyor)]
+    [DataDrivenTest(BuildSystem.Unknown)]
+    [DataDrivenTest(-1)]
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
-
-        Assert.That(stringBuilder.ToString().Trim(),
-            Is.EqualTo("""
-                       Foo bar!
-                       """)
-        );
+        await Assert.That(stringBuilder.ToString().Trim()).
+            Is.EqualTo("Foo bar!");
     }
 
     private async Task<StringBuilder> Execute(BuildSystem buildSystem)

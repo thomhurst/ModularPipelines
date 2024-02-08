@@ -5,10 +5,10 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class EnumValueAttributeTests
 {
-    [TestCase(Number.One, "1")]
-    [TestCase(Number.Two, "2")]
-    [TestCase(Number.Three, "3")]
-    public void Can_Parse_EnumValueAttribute(Number number, string expected)
+    [DataDrivenTest(Number.One, "1")]
+    [DataDrivenTest(Number.Two, "2")]
+    [DataDrivenTest(Number.Three, "3")]
+    public async Task Can_Parse_EnumValueAttribute(Number number, string expected)
     {
         var options = new NumberWrapper
         {
@@ -18,11 +18,9 @@ public class EnumValueAttributeTests
         var list = new List<string>();
 
         CommandOptionsObjectArgumentParser.AddArgumentsFromOptionsObject(list, options);
-
-        Assert.That(list, Does.Contain("--number"));
-        Assert.That(list, Does.Contain(expected));
-
-        Assert.That(list, Is.EquivalentTo(new List<string> { "--number", expected }));
+        await Assert.That(list).Does.Contain("--number");
+        await Assert.That(list).Does.Contain(expected);
+        await Assert.That(list).Is.EquivalentTo(new List<string> { "--number", expected });
     }
 
     public enum Number

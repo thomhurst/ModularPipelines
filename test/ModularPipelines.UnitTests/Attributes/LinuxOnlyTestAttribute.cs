@@ -1,17 +1,18 @@
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal;
+using TUnit.Core.Interfaces;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-public class LinuxOnlyTestAttribute : Attribute, IApplyToTest
+public class LinuxOnlyTestAttribute : Attribute, ITestAttribute
 {
     /// <inheritdoc/>
-    public void ApplyToTest(Test test)
+    public Task ApplyToTest(TestContext testContext)
     {
         if (!OperatingSystem.IsLinux())
         {
-            test.RunState = RunState.Ignored;
+            testContext.SkipTest("Linux only test");
         }
+
+        return Task.CompletedTask;
     }
 }

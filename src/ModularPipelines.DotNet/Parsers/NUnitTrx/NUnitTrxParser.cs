@@ -1,11 +1,11 @@
 using System.Xml.Linq;
 using ModularPipelines.DotNet.Enums;
 
-namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
-internal class TrxParser : ITrxParser
+public class NUnitTrxParser : ITrxParser
 {
-    public DotNetTestResult ParseTestResult(string input)
+    public DotNetTestResult ParseTrxContents(string input)
     {
         return new DotNetTestResult(GetUnitTestResults(input));
     }

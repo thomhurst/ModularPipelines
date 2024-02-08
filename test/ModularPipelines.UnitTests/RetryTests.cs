@@ -80,11 +80,11 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<SuccessModule>().First();
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(1));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(1);
+            Assert.That(module.Exception).Is.Null();
         });
     }
 
@@ -100,11 +100,11 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<FailedModule>().First();
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(4));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(4);
+            Assert.That(module.Exception).Is.Null();
         });
     }
 
@@ -116,18 +116,18 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync();
 
         var module = pipelineSummary.Modules.OfType<FailedModuleWithCustomRetryPolicy>().First();
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(module.ExecutionCount, Is.EqualTo(4));
-            Assert.That(module.Exception, Is.Null);
+            Assert.That(module.ExecutionCount).Is.EqualTo(4);
+            Assert.That(module.Exception).Is.Null();
         });
     }
 
     [Test]
-    public void When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
+    public async Task When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 0;
@@ -136,25 +136,24 @@ public class RetryTests : TestBase
             .ExecutePipelineAsync());
 
         var module = moduleFailedException?.Module as FailedModule;
-
-        Assert.Multiple(() =>
+        
+        await Assert.Multiple(() =>
         {
-            Assert.That(module?.ExecutionCount, Is.EqualTo(1));
-            Assert.That(module!.Exception, Is.Not.Null);
+            Assert.That(module?.ExecutionCount).Is.EqualTo(1);
+            Assert.That(module!.Exception).Is.Not.Null();
         });
     }
 
     [Test]
-    public void When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
+    public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
-        var moduleFailedException = Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
             .ConfigurePipelineOptions((_, options) =>
             {
                 options.DefaultRetryCount = 3;
             })
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());
-
-        Assert.That(moduleFailedException?.InnerException, Is.TypeOf<ModuleTimeoutException>());
+        await Assert.That(moduleFailedException?.InnerException).Is.TypeOf<ModuleTimeoutException>();
     }
 }

@@ -9,14 +9,14 @@ namespace ModularPipelines.UnitTests;
 public class DirectCollisionTests
 {
     [Test]
-    public void Modules_Dependent_On_Each_Other_Throws_Exception()
+    public async Task Modules_Dependent_On_Each_Other_Throws_Exception()
     {
-        Assert.That(() => TestPipelineHostBuilder.Create()
+        await Assert.That(() => TestPipelineHostBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
-            .ExecutePipelineAsync(),
-            Throws.Exception.TypeOf<DependencyCollisionException>()
-                .With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**"));
+            .ExecutePipelineAsync()).
+            Throws.TypeOf<DependencyCollisionException>()
+                .And.Throws.WithMessage.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
     }
 
     [DependsOn<DependencyConflictModule2>]

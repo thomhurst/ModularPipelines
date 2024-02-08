@@ -9,7 +9,7 @@ using Spectre.Console;
 
 namespace ModularPipelines.UnitTests;
 
-[Parallelizable(ParallelScope.None)]
+[TUnit.Core.NotInParallel]
 public class PipelineProgressTests
 {
     private static bool _originalInteractive;
@@ -21,8 +21,8 @@ public class PipelineProgressTests
         AnsiConsole.Profile.Capabilities.Interactive = true;
     }
 
-    [TearDown]
-    public static void TearDown()
+    [CleanUp]
+    public static void CleanUp()
     {
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
@@ -114,9 +114,9 @@ public class PipelineProgressTests
     }
 
     [Test, Retry(5)]
-    public void Can_Show_Progress()
+    public async Task Can_Show_Progress()
     {
-        Assert.That(async () =>
+        await Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()
                     .ConfigurePipelineOptions((_, options) =>
                     {
@@ -130,8 +130,7 @@ public class PipelineProgressTests
                     .AddModule<Module5>()
                     .AddModule<Module6>()
                     .AddModule<Module7>()
-                    .ExecutePipelineAsync(),
-            Throws.Exception.TypeOf<ModuleFailedException>()
-        );
+                    .ExecutePipelineAsync()).
+            Throws.TypeOf<ModuleFailedException>();
     }
 }

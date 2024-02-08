@@ -13,7 +13,7 @@ public static class CommandExtensions
     public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool,
         string singleArgument)
     {
-        return ToCommandLineToolOptions(options, tool, new[] { singleArgument });
+        return ToCommandLineToolOptions(options, tool, [singleArgument]);
     }
 
     public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, string[] arguments)
@@ -31,7 +31,7 @@ public static class CommandExtensions
 
     public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, string singleArgument)
     {
-        return WithArguments(options, new[] { singleArgument });
+        return WithArguments(options, [singleArgument]);
     }
 
     public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, IEnumerable<string>? arguments)
@@ -43,7 +43,7 @@ public static class CommandExtensions
     {
         return options with
         {
-            Arguments = arguments.Concat(options.Arguments ?? Array.Empty<string>()),
+            Arguments = (options.Arguments ?? Array.Empty<string>()).Concat(arguments),
         };
     }
 }

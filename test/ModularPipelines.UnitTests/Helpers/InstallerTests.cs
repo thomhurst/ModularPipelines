@@ -11,6 +11,12 @@ public class InstallerTests : TestBase
     [Test]
     public async Task Can_Install()
     {
+        if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
+        {
+            TestContext.Current.SkipTest("Avoid installing things on people's machines");
+            return;
+        }
+        
         var downloader = await GetService<IDownloader>();
         var installer = await GetService<IInstaller>();
 
@@ -21,8 +27,7 @@ public class InstallerTests : TestBase
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(file));
-
-            Assert.That(result.ExitCode, Is.Zero);
+            await Assert.That(result.ExitCode).Is.Zero();
         }
         else if (OperatingSystem.IsLinux())
         {
@@ -31,8 +36,7 @@ public class InstallerTests : TestBase
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.LinuxInstaller.InstallFromDpkg(new DpkgInstallOptions(file));
-
-            Assert.That(result.ExitCode, Is.Zero);
+            await Assert.That(result.ExitCode).Is.Zero();
         }
     }
 }

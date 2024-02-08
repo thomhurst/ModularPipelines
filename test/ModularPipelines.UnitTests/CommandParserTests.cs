@@ -13,8 +13,7 @@ public class CommandParserTests : TestBase
     public async Task Empty_Options_Parse_As_Expected()
     {
         var result = await GetResult(new MySuperSecretToolOptions());
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that");
     }
 
     [Test]
@@ -29,8 +28,7 @@ public class CommandParserTests : TestBase
                 ("Arg3", "Value3"),
             },
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3");
     }
 
     [Test]
@@ -40,20 +38,18 @@ public class CommandParserTests : TestBase
         {
             Force = true,
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --force"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --force");
     }
 
-    [TestCase(null)]
-    [TestCase(false)]
+    [DataDrivenTest(null)]
+    [DataDrivenTest(false)]
     public async Task Boolean_Switch_Parse_As_Expected_When_Not_True(bool? force)
     {
         var result = await GetResult(new MySuperSecretToolOptions
         {
             Force = force,
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that");
     }
 
     [Test]
@@ -61,15 +57,14 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new MySuperSecretToolOptions
         {
-            Filename = new[]
-            {
+            Filename =
+            [
                 "file1.txt",
                 "foo.txt",
-                "bar.json",
-            },
+                "bar.json"
+            ],
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --filename file1.txt --filename foo.txt --filename bar.json"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --filename file1.txt --filename foo.txt --filename bar.json");
     }
 
     [Test]
@@ -79,10 +74,9 @@ public class CommandParserTests : TestBase
         {
             SomeString = "Foo bar",
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        await Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that --some-string "Foo bar"
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -92,8 +86,7 @@ public class CommandParserTests : TestBase
         {
             GracePeriod = 123,
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --grace-period 123"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --grace-period 123");
     }
 
     [Test]
@@ -103,8 +96,7 @@ public class CommandParserTests : TestBase
         {
             Verbosity = Verbosity.Quiet,
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("mysupersecrettool do this then that --verbosity quiet"));
+        await Assert.That(result.CommandInput).Is.EqualTo("mysupersecrettool do this then that --verbosity quiet");
     }
 
     [Test]
@@ -115,10 +107,9 @@ public class CommandParserTests : TestBase
             SomeString = "Foo bar",
             Positional1 = "MyFile.txt",
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        await Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that MyFile.txt --some-string "Foo bar"
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -129,10 +120,9 @@ public class CommandParserTests : TestBase
             SomeString = "Foo bar",
             Positional2 = "MyFile.txt",
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("""
+        await Assert.That(result.CommandInput).Is.EqualTo("""
                                                     mysupersecrettool do this then that --some-string "Foo bar" MyFile.txt
-                                                    """));
+                                                    """);
     }
 
     [Test]
@@ -142,29 +132,26 @@ public class CommandParserTests : TestBase
         {
             Source = "nuget.org"
         });
-
-        Assert.That(result.CommandInput, Is.EqualTo("""
-                                                    dotnet add MyProject.csproj package ThisPackage --source nuget.org
-                                                    """));
+        await Assert.That(result.CommandInput).Is.EqualTo("dotnet add MyProject.csproj package ThisPackage --source nuget.org");
     }
 
-    [TestCase("")]
-    [TestCase(null)]
-    public void Placeholder_Positional_WhenEmpty_Throws(string? package)
+    [DataDrivenTest("")]
+    [DataDrivenTest(null)]
+    public async Task Placeholder_Positional_WhenEmpty_Throws(string? package)
     {
-        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
+        await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
             Source = "nuget.org"
-        }));
+        })).Throws.TypeOf<ArgumentException>();
     }
 
     [Test]
-    public void No_Matching_Placeholder_Positional_Throws()
+    public async Task No_Matching_Placeholder_Positional_Throws()
     {
-        Assert.ThrowsAsync<ArgumentException>(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
+        await Assert.That(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
         {
             Source = "nuget.org"
-        }));
+        })).Throws.TypeOf<ArgumentException>();
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
