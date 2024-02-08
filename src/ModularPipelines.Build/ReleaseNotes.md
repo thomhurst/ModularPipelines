@@ -1,1 +1,1 @@
-* Improved JSON deserialization of modules by including Assembly information within the TypeDescriminator field
+*   Improved JSON deserialization of modules by including Assembly information within the TypeDescriminator field
