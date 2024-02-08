@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
@@ -10,10 +10,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
-        <PackageReference Include="NUnit" Version="4.0.1" />
-        <PackageReference Include="NUnit3TestAdapter" Version="4.2.1"/>
-        <PackageReference Include="NUnit.Analyzers" Version="3.3.0"/>
         <PackageReference Include="coverlet.collector" Version="3.1.2"/>
+        <PackageReference Include="TUnit" Version="0.1.96-alpha01" />
     </ItemGroup>
 
     <ItemGroup>
