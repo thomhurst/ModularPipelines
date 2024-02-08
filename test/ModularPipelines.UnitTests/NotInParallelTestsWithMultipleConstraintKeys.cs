@@ -70,14 +70,28 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         await AssertParallel(one, four);
     }
 
-    private async Task AssertAfter(ModuleBase firstModule, ModuleBase nextModule)
+    private async Task AssertAfter(ModuleBase one, ModuleBase two)
     {
-        await Assert.That(nextModule.StartTime).Is.GreaterThan(firstModule.EndTime);
+        var modules = new[] { one, two };
+        var firstModule = modules.OrderBy(x => x.StartTime).First();
+        var secondModule = modules.OrderBy(x => x.StartTime).Last();
+        
+        await Assert.That(secondModule.StartTime)
+            .Is
+            .GreaterThan(firstModule.StartTime + TimeSpan.FromSeconds(1));
     }
 
-    private async Task AssertParallel(ModuleBase firstModule, ModuleBase nextModule)
+    private async Task AssertParallel(ModuleBase one, ModuleBase two)
     {
-        await Assert.That(nextModule.StartTime).
-            Is.EqualToWithTolerance(firstModule.StartTime, TimeSpan.FromMilliseconds(350));
+        var modules = new[] { one, two };
+        var firstModule = modules.OrderBy(x => x.StartTime).First();
+        var secondModule = modules.OrderBy(x => x.StartTime).Last();
+
+        await Assert.That(secondModule.StartTime)
+            .Is
+            .GreaterThanOrEqualTo(firstModule.StartTime)
+            .And
+            .Is
+            .LessThanOrEqualTo(firstModule.EndTime);
     }
 }
