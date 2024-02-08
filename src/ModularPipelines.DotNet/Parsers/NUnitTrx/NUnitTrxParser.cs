@@ -1,9 +1,9 @@
 using System.Xml.Linq;
 using ModularPipelines.DotNet.Enums;
 
-namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
-internal class TrxParser : ITrxParser
+internal class NUnitTrxParser : ITrxParser
 {
     public DotNetTestResult ParseTestResult(string input)
     {

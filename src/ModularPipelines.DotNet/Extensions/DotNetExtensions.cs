@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
+using ModularPipelines.DotNet.Parsers.NUnitTrx;
 using ModularPipelines.DotNet.Services;
 using ModularPipelines.Engine;
 
@@ -21,7 +22,7 @@ public static class DotNetExtensions
 
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
-        services.TryAddScoped<ITrxParser, TrxParser>();
+        services.TryAddScoped<ITrxParser, NUnitTrxParser>();
 
         services.TryAddScoped<IDotNet, Services.DotNet>();
         services.TryAddScoped<DotNetAdd>();

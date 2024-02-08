@@ -29,7 +29,7 @@ public interface IDotNet
 
     Task<CommandResult> Run(DotNetRunOptions? options = default, CancellationToken token = default);
 
-    Task<DotNetTestResult> Test(DotNetTestOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Test(DotNetTestOptions? options = default, CancellationToken token = default);
 
     Task<CommandResult> Vstest(DotNetVstestOptions options, CancellationToken token = default);
 

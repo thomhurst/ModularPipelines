@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace ModularPipelines.DotNet;
+namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
 [XmlRoot(ElementName = "Output")]
 public record TestOutput
