@@ -34,7 +34,7 @@ internal class EnvironmentVariables : IEnvironmentVariables
     {
         var oldValue = Environment.GetEnvironmentVariable(PathVariableName, target);
 
-        var newValue = $@"{oldValue}{Delimiter}{pathToAdd}";
+        var newValue = $"{oldValue}{Delimiter}{pathToAdd}";
 
         Environment.SetEnvironmentVariable(PathVariableName, newValue, target);
     }
