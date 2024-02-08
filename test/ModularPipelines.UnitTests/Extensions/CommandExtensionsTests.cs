@@ -30,6 +30,19 @@ public class CommandExtensionsTests
             Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
         });
     }
+    
+    [Test]
+    public async Task ToToolOptions_MultipleArgs_IEnumerable()
+    {
+        var commandLineOptions = new CommandLineOptions()
+            .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
+        
+        await Assert.Multiple(() =>
+        {
+            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
+        });
+    }
 
     [Test]
     public async Task WithArguments_AddsToExisting()
