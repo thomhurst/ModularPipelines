@@ -4,10 +4,11 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-public class NotInParallelTestsWithConstraintKeys : TestBase
+[Repeat(5)]
+public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
 {
     [ModularPipelines.Attributes.NotInParallel("A")]
-    public class ModuleWithAConstraintKey1 : Module<string>
+    public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -16,8 +17,8 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.NotInParallel("A")]
-    public class ModuleWithAConstraintKey2 : Module<string>
+    [ModularPipelines.Attributes.NotInParallel("A", "B")]
+    public class Module2 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -26,8 +27,8 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.NotInParallel("B")]
-    public class ModuleWithBConstraintKey1 : Module<string>
+    [ModularPipelines.Attributes.NotInParallel("B", "C")]
+    public class Module3 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -36,8 +37,8 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.NotInParallel("B")]
-    public class ModuleWithBConstraintKey2 : Module<string>
+    [ModularPipelines.Attributes.NotInParallel("D")]
+    public class Module4 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -46,26 +47,27 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         }
     }
 
-    [Test, Retry(3)]
-    public async Task NotInParallel_If_Same_ConstraintKey()
+    [Test]
+    public async Task NotInParallel_If_Any_Modules_Executing_With_Any_Of_Same_ConstraintKey()
     {
-        var results = await TestPipelineHostBuilder.Create()
-            .AddModule<ModuleWithAConstraintKey1>()
-            .AddModule<ModuleWithAConstraintKey2>()
-            .AddModule<ModuleWithBConstraintKey1>()
-            .AddModule<ModuleWithBConstraintKey2>()
+        var resultsTask = TestPipelineHostBuilder.Create()
+            .AddModule<Module1>()
+            .AddModule<Module2>()
+            .AddModule<Module3>()
+            .AddModule<Module4>()
             .ExecutePipelineAsync();
 
-        var a1 = results.Modules.OfType<ModuleWithAConstraintKey1>().First();
-        var a2 = results.Modules.OfType<ModuleWithAConstraintKey2>().First();
-        var b1 = results.Modules.OfType<ModuleWithBConstraintKey1>().First();
-        var b2 = results.Modules.OfType<ModuleWithBConstraintKey2>().First();
+        var results = await resultsTask;
+        
+        var one = results.Modules.OfType<Module1>().First();
+        var two = results.Modules.OfType<Module2>().First();
+        var three = results.Modules.OfType<Module3>().First();
+        var four = results.Modules.OfType<Module4>().First();
 
-        await AssertAfter(a1, a2);
-        await AssertAfter(b1, b2);
+        await AssertAfter(one, two);
 
-        await AssertParallel(a1, b1);
-        await AssertParallel(a2, b2);
+        await AssertParallel(one, three);
+        await AssertParallel(one, four);
     }
 
     private async Task AssertAfter(ModuleBase one, ModuleBase two)
