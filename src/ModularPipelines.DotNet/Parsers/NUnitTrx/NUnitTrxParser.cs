@@ -3,9 +3,9 @@ using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
-internal class NUnitTrxParser : ITrxParser
+public class NUnitTrxParser : ITrxParser
 {
-    public DotNetTestResult ParseTestResult(string input)
+    public DotNetTestResult ParseTrxContents(string input)
     {
         return new DotNetTestResult(GetUnitTestResults(input));
     }
