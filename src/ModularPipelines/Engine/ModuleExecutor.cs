@@ -72,7 +72,22 @@ internal class ModuleExecutor : IModuleExecutor
         return moduleResults;
     }
 
-    public Task<ModuleBase> ExecuteAsync(ModuleBase module)
+    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
+    {
+        try
+        {
+            return await ExecuteWithLockAsync(module);
+        }
+        catch (TaskCanceledException)
+        {
+            // If the pipeline failed, sometimes a TaskCanceledException can throw before the original exception
+            // So delay a bit to let the original exception throw first
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
+            throw;
+        }
+    }
+
+    private Task<ModuleBase> ExecuteWithLockAsync(ModuleBase module)
     {
         lock (module)
         {
