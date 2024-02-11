@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
         <PackageReference Include="TUnit" Version="0.1.129-alpha01" />
