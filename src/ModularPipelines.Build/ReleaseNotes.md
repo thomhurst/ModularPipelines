@@ -1,1 +1,1 @@
-* Suppress non-fatal git command errors on startup
+*   Suppress non-fatal git command errors on startup
