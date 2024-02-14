@@ -206,7 +206,7 @@ internal class StaticGitInformation : IInitializer
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Error running Git command");
+            _logger.LogDebug(exception, "Error running Git command");
             return null;
         }
     }
