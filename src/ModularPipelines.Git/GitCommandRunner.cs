@@ -16,10 +16,7 @@ internal class GitCommandRunner
 
     public async Task<string> RunCommands(CommandLineOptions? commandEnvironmentOptions, params string?[] commands)
     {
-        commandEnvironmentOptions ??= new CommandLineOptions
-        {
-            CommandLogging = CommandLogging.None,
-        };
+        commandEnvironmentOptions ??= new CommandLineOptions();
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray()) with
         {
