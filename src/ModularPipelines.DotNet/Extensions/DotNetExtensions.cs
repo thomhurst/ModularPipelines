@@ -22,7 +22,8 @@ public static class DotNetExtensions
 
     public static IServiceCollection RegisterDotNetContext(this IServiceCollection services)
     {
-        services.TryAddScoped<ITrxParser, NUnitTrxParser>();
+        services.TryAddScoped<ITrxParser, TrxParser>();
+        services.TryAddScoped<ITrx, Trx>();
 
         services.TryAddScoped<IDotNet, Services.DotNet>();
         services.TryAddScoped<DotNetAdd>();
@@ -43,4 +44,6 @@ public static class DotNetExtensions
     }
 
     public static IDotNet DotNet(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
+    
+    public static ITrx Trx(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ITrx>();
 }

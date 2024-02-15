@@ -3,7 +3,7 @@ using ModularPipelines.DotNet.Enums;
 
 namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
 
-public class NUnitTrxParser : ITrxParser
+public class TrxParser : ITrxParser
 {
     public DotNetTestResult ParseTrxContents(string input)
     {

@@ -9,7 +9,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using File = ModularPipelines.FileSystem.File;
-using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
@@ -35,7 +34,7 @@ public class TrxParsingTests : TestBase
 
             var trxContents = await trxFile.ReadAsync(cancellationToken);
 
-            return new NUnitTrxParser().ParseTrxContents(trxContents);
+            return new TrxParser().ParseTrxContents(trxContents);
         }
     }
 
