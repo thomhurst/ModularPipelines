@@ -1,12 +1,14 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Parsers.NUnitTrx;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -31,6 +33,8 @@ public class DotNetTestResultsTests : TestBase
 
     private class DotNetTestWithoutFailureModule : Module<CommandResult>
     {
+        public File TrxFile { get; } = File.GetNewTemporaryFilePath();
+        
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
@@ -42,6 +46,7 @@ public class DotNetTestResultsTests : TestBase
                 Filter = "TestCategory=Pass",
                 Framework = "net7.0",
                 CommandLogging = CommandLogging.Error,
+                Logger = [$"trx;LogFileName={TrxFile}"]
             }, token: cancellationToken);
         }
     }
@@ -57,5 +62,24 @@ public class DotNetTestResultsTests : TestBase
     {
         await Assert.That(RunModule<DotNetTestWithoutFailureModule>)
             .Throws.Nothing();
+    }
+
+    [Test]
+    public async Task Can_Parse_Trx_Manually()
+    {
+        var module = await RunModule<DotNetTestWithoutFailureModule>();
+        var parsedResults = new TrxParser().ParseTrxContents(await module.TrxFile.ReadAsync());
+
+        await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
+    }
+    
+    [Test]
+    public async Task Can_Parse_Trx_Using_Helper()
+    {
+        var module = await RunModule<DotNetTestWithoutFailureModule>();
+        
+        var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
+
+        await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
     }
 }
