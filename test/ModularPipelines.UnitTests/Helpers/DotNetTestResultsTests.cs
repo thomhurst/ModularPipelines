@@ -65,10 +65,20 @@ public class DotNetTestResultsTests : TestBase
     }
 
     [Test]
-    public async Task Can_Parse_Trx()
+    public async Task Can_Parse_Trx_Manually()
     {
         var module = await RunModule<DotNetTestWithoutFailureModule>();
         var parsedResults = new TrxParser().ParseTrxContents(await module.TrxFile.ReadAsync());
+
+        await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
+    }
+    
+    [Test]
+    public async Task Can_Parse_Trx_Using_Helper()
+    {
+        var module = await RunModule<DotNetTestWithoutFailureModule>();
+        
+        var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
 
         await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
     }
