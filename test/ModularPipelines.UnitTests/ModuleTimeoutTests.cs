@@ -13,7 +13,7 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
             return "Foo bar!";
         }
     }
@@ -24,7 +24,7 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
+            await Task.Delay(TimeSpan.FromSeconds(30), CancellationToken.None);
             return "Foo bar!";
         }
     }
