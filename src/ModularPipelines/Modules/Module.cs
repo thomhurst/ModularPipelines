@@ -251,6 +251,12 @@ public abstract partial class Module<T> : ModuleBase<T>
                 Context.Logger.LogDebug("null");
                 return;
             }
+            
+            if (typeof(T).IsPrimitive || executeResult is string)
+            {
+                Context.Logger.LogDebug("{Value}", executeResult);
+                return;
+            }
 
             if (executeResult is IEnumerable enumerable)
             {
@@ -262,17 +268,11 @@ public abstract partial class Module<T> : ModuleBase<T>
                 return;
             }
 
-            if (typeof(T).IsPrimitive || executeResult is string)
-            {
-                Context.Logger.LogDebug("{Value}", executeResult);
-                return;
-            }
-
             Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
         }
         catch
         {
-            // Ignored
+            Context.Logger.LogDebug("{Value}", executeResult);
         }
     }
 
