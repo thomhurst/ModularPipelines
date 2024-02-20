@@ -44,10 +44,5 @@
       <PackageReference Include="YamlDotNet" Version="15.1.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj" 
-                        Name="ModularPipelines.Analyzers"/>
-    </ItemGroup>
-
 
 </Project>

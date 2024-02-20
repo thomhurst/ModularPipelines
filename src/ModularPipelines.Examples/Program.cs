@@ -24,15 +24,17 @@ await PipelineHostBuilder.Create()
     {
         collection.Configure<MyOptions>(context.Configuration);
 
-        collection.AddModule<SuccessModule>()
-            .AddModule<LogSecretModule>()
-            .AddModule<DependentOnSuccessModule>()
-            .AddModule<DependentOn2>()
-            .AddModule<DependentOn3>()
-            .AddModule<DependentOn4>()
-            .AddModule<SubmodulesModule>()
-            .AddModule<GitVersionModule>()
-            .AddModule<GitLastCommitModule>()
-            .AddModule<FailedModule>();
+        collection
+            .AddModule<SuccessModule>();
+
+        // .AddModule<LogSecretModule>()
+        // .AddModule<DependentOnSuccessModule>()
+        // .AddModule<DependentOn2>()
+        // .AddModule<DependentOn3>()
+        // .AddModule<DependentOn4>()
+        // .AddModule<SubmodulesModule>()
+        // .AddModule<GitVersionModule>()
+        // .AddModule<GitLastCommitModule>();
+        // .AddModule<FailedModule>();
     })
     .ExecutePipelineAsync();
