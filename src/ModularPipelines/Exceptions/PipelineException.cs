@@ -15,8 +15,4 @@ public class PipelineException : Exception
     public PipelineException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
-
-    protected PipelineException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
 }
