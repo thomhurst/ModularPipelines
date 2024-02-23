@@ -10,6 +10,6 @@ public interface ICommand
     /// </summary>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
 }
