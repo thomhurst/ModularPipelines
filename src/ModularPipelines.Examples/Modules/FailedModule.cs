@@ -12,6 +12,5 @@ public class FailedModule : Module
     {
         await Task.Delay(TimeSpan.FromSeconds(9), cancellationToken);
         return null;
-        throw new Exception();
     }
 }

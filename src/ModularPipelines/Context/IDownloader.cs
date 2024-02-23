@@ -10,7 +10,7 @@ public interface IDownloader
     /// </summary>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -18,7 +18,7 @@ public interface IDownloader
     /// </summary>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task<string?> DownloadStringAsync(DownloadOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -26,6 +26,6 @@ public interface IDownloader
     /// </summary>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task<HttpResponseMessage> DownloadResponseAsync(DownloadOptions options, CancellationToken cancellationToken = default);
 }
