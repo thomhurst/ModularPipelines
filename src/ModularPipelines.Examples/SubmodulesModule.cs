@@ -20,7 +20,7 @@ public class SubmodulesModule : Module
             await SubModule(c.ToString(), async () =>
             {
                 context.Logger.LogInformation("{Submodule}", c.ToString());
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);
             });
         }
 
