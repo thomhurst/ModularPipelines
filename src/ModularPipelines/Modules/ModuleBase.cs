@@ -24,7 +24,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     {
         TypeDiscriminator = GetType().AssemblyQualifiedName!;
     }
-    
+
     /// <summary>
     /// Gets the Type Discriminator.
     /// Important this is defined at the beginning of the class.

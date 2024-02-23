@@ -24,7 +24,7 @@ internal abstract class ModuleLogger : IModuleLogger
     public abstract IDisposable? BeginScope<TState>(TState state)
         where TState : notnull;
 #endif
-    
+
     public abstract void Dispose();
 
     public abstract void LogToConsole(string value);

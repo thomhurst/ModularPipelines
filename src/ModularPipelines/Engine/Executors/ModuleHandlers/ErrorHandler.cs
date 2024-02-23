@@ -73,13 +73,13 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
     private void CancelPipelineAndThrow(Exception exception)
     {
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
-        
+
         Context.Logger.SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(Module, exception);
-        
+
         Context.EngineCancellationToken.Cancel();
-        
+
         ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
 
         throw moduleFailedException;

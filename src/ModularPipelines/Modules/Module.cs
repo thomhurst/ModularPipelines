@@ -205,7 +205,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
-            
+
             _stopwatch.Start();
 
             var executeResult = await ExecuteInternal();
@@ -241,7 +241,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return;
         }
-        
+
         try
         {
             Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
@@ -251,7 +251,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 Context.Logger.LogDebug("null");
                 return;
             }
-            
+
             if (typeof(T).IsPrimitive || executeResult is string)
             {
                 Context.Logger.LogDebug("{Value}", executeResult);
@@ -314,7 +314,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             return await executeAsyncTask;
         }
-        
+
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
         var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
@@ -324,7 +324,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             timeoutCancellationTokenSource.Cancel();
             timeoutCancellationTokenSource.Dispose();
         }, CancellationToken.None);
-        
+
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
             {

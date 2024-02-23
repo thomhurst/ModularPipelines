@@ -22,7 +22,7 @@ internal class EngineCancellationToken : CancellationTokenSource
             args.Cancel = true;
             TryCancel();
         };
-        
+
         AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
     }
 

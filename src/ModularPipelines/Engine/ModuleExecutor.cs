@@ -102,7 +102,7 @@ internal class ModuleExecutor : IModuleExecutor
         var currentlyExecutingByKeys = new List<(string[] Keys, Task)>();
 
         var executing = new List<Task<ModuleBase>>();
-        
+
         while (keyedNonParallelModules.Count > 0)
         {
             // Reversing allows us to remove from the collection
@@ -141,7 +141,7 @@ internal class ModuleExecutor : IModuleExecutor
                         return currentlyExecutingByKeys.Remove(tuple);
                     }
                 });
-                
+
                 executing.Add(executionTask);
             }
         }

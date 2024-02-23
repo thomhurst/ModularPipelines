@@ -19,7 +19,7 @@ internal class TypeDiscriminatorConverter<T> : JsonConverter<T>
         {
             throw new JsonException();
         }
-        
+
         var type = Type.GetType(typeProperty.GetString()!);
 
         if (type == null)

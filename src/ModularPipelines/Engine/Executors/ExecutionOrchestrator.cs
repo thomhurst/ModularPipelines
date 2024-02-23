@@ -90,7 +90,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         await using var moduleDisposeExecutor = _moduleDisposeExecutor;
         using var printModuleOutputExecutor = _printModuleOutputExecutor;
         await using var printProgressExecutor = _printProgressExecutor;
-        
+
         return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
     }
 }

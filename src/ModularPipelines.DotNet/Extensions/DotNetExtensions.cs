@@ -44,6 +44,6 @@ public static class DotNetExtensions
     }
 
     public static IDotNet DotNet(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IDotNet>();
-    
+
     public static ITrx Trx(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ITrx>();
 }

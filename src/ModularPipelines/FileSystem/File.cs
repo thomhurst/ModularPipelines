@@ -132,7 +132,7 @@ public class File : IEquatable<File>
         FileInfo.MoveTo(path);
         return this;
     }
-    
+
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(Folder folder)
     {

@@ -102,7 +102,7 @@ internal class Command(ICommandLogger commandLogger) : ICommand
         var standardError = string.Empty;
 
         var inputToLog = options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString());
-        
+
         try
         {
             var result = await command

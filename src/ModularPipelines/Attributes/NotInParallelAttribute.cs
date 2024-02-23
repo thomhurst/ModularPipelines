@@ -17,12 +17,12 @@ public class NotInParallelAttribute : Attribute
     public NotInParallelAttribute()
     {
     }
-    
+
     public NotInParallelAttribute(string constraintKey) : this([constraintKey])
     {
         ArgumentNullException.ThrowIfNull(constraintKey);
     }
-    
+
     public NotInParallelAttribute(params string[] constraintKeys)
     {
         ConstraintKeys = constraintKeys;
