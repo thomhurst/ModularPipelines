@@ -26,7 +26,7 @@ public class StringLogger<T> : ILogger<T>
     }
 
     /// <inheritdoc/>
-    public IDisposable BeginScope<TState>(TState state)
+    public IDisposable BeginScope<TState>(TState state) where TState : notnull
     {
         return new NoOpDisposable();
     }
