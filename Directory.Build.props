@@ -5,7 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -28,7 +27,7 @@
         <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
         <AnalysisLevel>preview</AnalysisLevel>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <WarningsNotAsErrors>SA1600;NU5104</WarningsNotAsErrors>
+        <WarningsNotAsErrors>NU5104</WarningsNotAsErrors>
     </PropertyGroup>
     
     <ItemGroup>

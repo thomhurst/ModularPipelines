@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Git", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.DotNet", "src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj", "{80B2A133-2188-4CD4-9DEA-4D6B8C15F1DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Slack", "src\ModularPipelines.Slack\ModularPipelines.Slack.csproj", "{DE55E147-8CC6-4B0C-BB07-A4C464A40DED}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers", "src\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj", "{FA16350A-6C60-4AA1-8BCB-8198338FCBE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Analyzers.Package", "src\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj", "{A561E991-A4E9-4CDE-80A8-F64B3F308A82}"
