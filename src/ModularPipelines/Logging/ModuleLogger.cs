@@ -18,9 +18,7 @@ internal abstract class ModuleLogger : IModuleLogger
 
 #if NET6_0
     public abstract IDisposable BeginScope<TState>(TState state);
-#endif
-
-#if NET7_0_OR_GREATER
+#else
     public abstract IDisposable? BeginScope<TState>(TState state)
         where TState : notnull;
 #endif
@@ -75,9 +73,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     {
         return new NoopDisposable();
     }
-#endif
-
-#if NET7_0_OR_GREATER
+#else
     public override IDisposable? BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
