@@ -20,7 +20,7 @@ public class EmailTests : TestBase
 
         if (string.IsNullOrEmpty(emailPassword))
         {
-            TestContext.Current.SkipTest("No email password");
+            TestContext.Current!.SkipTest("No email password");
             return;
         }
 
