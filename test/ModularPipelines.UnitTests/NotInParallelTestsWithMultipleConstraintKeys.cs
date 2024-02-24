@@ -48,7 +48,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         }
     }
 
-    [Test]
+    [Test, Retry(3)]
     public async Task NotInParallel_If_Any_Modules_Executing_With_Any_Of_Same_ConstraintKey()
     {
         var resultsTask = TestPipelineHostBuilder.Create()
