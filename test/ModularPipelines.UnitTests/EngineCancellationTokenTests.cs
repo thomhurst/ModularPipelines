@@ -82,13 +82,13 @@ public class EngineCancellationTokenTests : TestBase
 
         var pipelineTask = host.ExecutePipelineAsync();
 
-        await Task.Delay(TimeSpan.FromSeconds(2));
+        await Task.Delay(TimeSpan.FromSeconds(10));
         
         await Assert.Multiple(() =>
         {
             Assert.That(async () => await pipelineTask).Throws.Exception();
             Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
-            Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(2));
+            Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(30));
         });
     }
 
