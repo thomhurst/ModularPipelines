@@ -1,6 +1,6 @@
 namespace ModularPipelines.Engine;
 
-internal interface ILogoPrinter
+public interface ILogoPrinter
 {
     void PrintLogo();
 }

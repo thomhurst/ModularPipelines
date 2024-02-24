@@ -36,4 +36,9 @@ public enum CommandLogging
     /// Log command exit code.
     /// </summary>
     ExitCode = 1 << 4,
+
+    /// <summary>
+    /// Default logging. Log input, output, error, duration and exit code.
+    /// </summary>
+    Default = Input | Output | Error | Duration | ExitCode,
 }

@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Options;
 using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 
 [ExcludeFromCodeCoverage]
-internal class LogoPrinter : ILogoPrinter
+public sealed class LogoPrinter(IOptions<PipelineOptions> options) : ILogoPrinter
 {
     private const string LargeAsciiLogo = """"""""
                                                                                       
@@ -31,8 +33,15 @@ internal class LogoPrinter : ILogoPrinter
                  88                                                                                                                                                                                                       
 """""""";
 
+    private readonly IOptions<PipelineOptions> _options = options;
+
     public void PrintLogo()
     {
+        if (!_options.Value.PrintLogo)
+        {
+            return;
+        }
+
         if (AnsiConsole.Console.Profile.Capabilities.Interactive && AnsiConsole.Console.Profile.Width < 90)
         {
             AnsiConsole.Console.Profile.Width = 90;

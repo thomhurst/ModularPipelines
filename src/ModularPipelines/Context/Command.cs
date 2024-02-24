@@ -13,7 +13,7 @@ using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
 
-internal class Command(ICommandLogger commandLogger) : ICommand
+public sealed class Command(ICommandLogger commandLogger) : ICommand
 {
     private readonly ICommandLogger _commandLogger = commandLogger;
 
