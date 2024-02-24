@@ -42,6 +42,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override IErrorHandler ErrorHandler { get; }
 
+    public async Task<ModuleResult<T>> GetResult() => await this;
+
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
