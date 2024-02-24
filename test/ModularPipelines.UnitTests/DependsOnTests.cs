@@ -102,7 +102,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync())
-            .Throws.Exception();
+            .Throws.Exception().OfAnyType();
     }
 
     [Test]
@@ -129,7 +129,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync()).
-            Throws.Exception();
+            Throws.Exception().OfAnyType();
     }
 
     [Test]

@@ -46,8 +46,8 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .AddModule<Module3>()
-                .ExecutePipelineAsync()).
-            Throws.Exception();
+                .ExecutePipelineAsync()).Throws.Exception()
+            .OfAnyType();
     }
 
     [DataDrivenTest(ExecutionMode.StopOnFirstException)]
@@ -60,7 +60,7 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()).
-            Throws.Exception();
+            Throws.Exception().OfAnyType();
     }
 
     [DataDrivenTest(ExecutionMode.StopOnFirstException)]
