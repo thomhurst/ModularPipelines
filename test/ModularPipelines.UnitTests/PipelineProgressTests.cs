@@ -14,7 +14,7 @@ public class PipelineProgressTests
 {
     private static bool _originalInteractive;
 
-    [OneTimeSetUp]
+    [OnlyOnceSetUp]
     public static void Setup()
     {
         _originalInteractive = AnsiConsole.Profile.Capabilities.Interactive;
@@ -22,7 +22,7 @@ public class PipelineProgressTests
     }
 
     [CleanUp]
-    public static void CleanUp()
+    public void CleanUp()
     {
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
@@ -131,6 +131,6 @@ public class PipelineProgressTests
                     .AddModule<Module6>()
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
-            Throws.TypeOf<ModuleFailedException>();
+            Throws.Exception().OfType<ModuleFailedException>();
     }
 }

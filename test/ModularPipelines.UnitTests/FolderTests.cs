@@ -4,6 +4,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
+using TUnit.Assertions.Extensions;
 using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
@@ -288,14 +289,14 @@ public class FolderTests : TestBase
     public async Task AssertExists_ThrowsWhenNotExists()
     {
         Folder folder = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath().Path!;
-        await Assert.That(() => folder.AssertExists()).Throws.TypeOf<DirectoryNotFoundException>();
+        await Assert.That(() => folder.AssertExists()).Throws.Exception().OfType<DirectoryNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
         var folder = null as Folder;
-        await Assert.That(() => folder.AssertExists()).Throws.TypeOf<DirectoryNotFoundException>();
+        await Assert.That(() => folder.AssertExists()).Throws.Exception().OfType<DirectoryNotFoundException>();
     }
 
     [Test, WindowsOnlyTest]

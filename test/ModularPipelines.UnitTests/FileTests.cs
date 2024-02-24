@@ -3,6 +3,8 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
+using TUnit.Assertions.Extensions;
+using TUnit.Assertions.Extensions.Is;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -320,14 +322,14 @@ public class FileTests : TestBase
     public async Task AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
-        await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws.Exception().OfType<FileNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-        await Assert.That(() => file.AssertExists()).Throws.TypeOf<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws.Exception().OfType<FileNotFoundException>();
     }
 
     [Test]

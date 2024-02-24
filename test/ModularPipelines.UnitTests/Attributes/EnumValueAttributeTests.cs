@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Attributes;
 

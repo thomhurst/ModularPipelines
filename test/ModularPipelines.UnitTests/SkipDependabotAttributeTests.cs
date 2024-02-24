@@ -6,6 +6,7 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Moq;
+using TUnit.Assertions.Extensions;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;

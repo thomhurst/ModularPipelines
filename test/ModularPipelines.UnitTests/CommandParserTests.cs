@@ -4,6 +4,7 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -142,7 +143,7 @@ public class CommandParserTests : TestBase
         await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
             Source = "nuget.org"
-        })).Throws.TypeOf<ArgumentException>();
+        })).Throws.Exception().OfType<ArgumentException>();
     }
 
     [Test]
@@ -151,7 +152,7 @@ public class CommandParserTests : TestBase
         await Assert.That(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
         {
             Source = "nuget.org"
-        })).Throws.TypeOf<ArgumentException>();
+        })).Throws.Exception().OfType<ArgumentException>();
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

@@ -7,6 +7,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

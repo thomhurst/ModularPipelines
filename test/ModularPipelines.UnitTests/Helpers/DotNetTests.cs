@@ -6,6 +6,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 

@@ -6,11 +6,11 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
 
-[TUnit.Core.NotInParallel]
 public class ResultsRepositoryTests : TestBase
 {
     public static readonly Folder Folder = Folder.CreateTemporaryFolder();
@@ -49,7 +49,8 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    [Test, Order(1)]
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 1)]
     public async Task RunOne()
     {
         var pipeline = await TestPipelineHostBuilder.Create()
@@ -60,7 +61,8 @@ public class ResultsRepositoryTests : TestBase
         await Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful)).Is.True();
     }
 
-    [Test, Order(2)]
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 2)]
     public async Task RunTwoFromHistory()
     {
         var pipeline = await TestPipelineHostBuilder.Create()

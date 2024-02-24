@@ -3,17 +3,17 @@ using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using Disposer = ModularPipelines.Helpers.Disposer;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[TUnit.Core.NotInParallel]
 [Skip("FTP tests flaky due to server load")]
 public class FtpTests : TestBase
 {
     [Test]
-    [Order(1)]
+    [NotInParallel(nameof(FtpTests), Order = 1)]
     public async Task Can_Download()
     {
         var ftp = await GetService<IFtp>();
