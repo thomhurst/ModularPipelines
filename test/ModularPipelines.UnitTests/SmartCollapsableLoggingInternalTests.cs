@@ -58,7 +58,6 @@ public class SmartCollapsableLoggingInternalTests : TestBase
         var stringBuilder = await Execute(buildSystem);
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
-                       
                        ----------MyGroup Start----------
                        Foo bar!
                        -----------MyGroup End-----------
