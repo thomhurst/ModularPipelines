@@ -8,6 +8,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;

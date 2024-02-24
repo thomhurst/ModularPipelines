@@ -4,6 +4,7 @@ using MimeKit;
 using ModularPipelines.Email;
 using ModularPipelines.Email.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -19,7 +20,7 @@ public class EmailTests : TestBase
 
         if (string.IsNullOrEmpty(emailPassword))
         {
-            TestContext.Current.SkipTest("No email password");
+            TestContext.Current!.SkipTest("No email password");
             return;
         }
 

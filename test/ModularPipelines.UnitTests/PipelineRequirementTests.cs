@@ -4,6 +4,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
@@ -29,8 +30,8 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
-        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
-            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nFailingRequirement");
+        await Assert.That(executePipelineDelegate).Throws.Exception().OfType<FailedRequirementsException>()
+            .And.Throws.Exception().With.Message.EqualTo("Requirements failed:\r\nFailingRequirement");
     }
 
     [Test]
@@ -40,8 +41,8 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirementWithReason>()
             .ExecutePipelineAsync();
-        await Assert.That(executePipelineDelegate).Throws.TypeOf<FailedRequirementsException>()
-            .And.Throws.WithMessage.EqualTo("Requirements failed:\r\nError: Foo bar!");
+        await Assert.That(executePipelineDelegate).Throws.Exception().OfType<FailedRequirementsException>()
+            .And.Throws.Exception().With.Message.EqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
     private class DummyModule : Module

@@ -10,7 +10,7 @@ public class DependentOn4 : Module
     /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+        await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
         return null;
     }
 }

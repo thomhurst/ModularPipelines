@@ -3,6 +3,7 @@ using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions.Is;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -13,7 +14,7 @@ public class InstallerTests : TestBase
     {
         if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
         {
-            TestContext.Current.SkipTest("Avoid installing things on people's machines");
+            TestContext.Current!.SkipTest("Avoid installing things on people's machines");
             return;
         }
         

@@ -26,12 +26,17 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
 
     public string? GetStartConsoleLogGroup(string name)
     {
-        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name);
+        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name)
+               ?? $"""
+                   
+                   ----------{name} Start----------
+                   """;
     }
 
     public string? GetEndConsoleLogGroup(string name)
     {
-        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.End(name);
+        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.End(name)
+               ?? $"-----------{name} End-----------";
     }
 
     private record LogBlockMarkers(Func<string, string> Start, Func<string, string> End);

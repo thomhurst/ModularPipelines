@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
@@ -101,7 +102,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync())
-            .Throws.Exception();
+            .Throws.Exception().OfAnyType();
     }
 
     [Test]
@@ -128,7 +129,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync()).
-            Throws.Exception();
+            Throws.Exception().OfAnyType();
     }
 
     [Test]
@@ -137,7 +138,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
                 .ExecutePipelineAsync()).
-            Throws.TypeOf<ModuleReferencingSelfException>();
+            Throws.Exception().OfType<ModuleReferencingSelfException>();
     }
 
     [Test]
@@ -146,6 +147,6 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<DependsOnNonModule>()
                 .ExecutePipelineAsync()).
-            Throws.WithMessage.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");
+            Throws.Exception().With.Message.EqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");
     }
 }

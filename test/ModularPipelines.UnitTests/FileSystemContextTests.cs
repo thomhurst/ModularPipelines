@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;

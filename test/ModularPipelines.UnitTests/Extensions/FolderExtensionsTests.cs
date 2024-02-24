@@ -1,5 +1,7 @@
+using System.Collections;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Extensions;
 
@@ -34,6 +36,7 @@ public class FolderExtensionsTests
         };
 
         var paths = folders.AsPaths();
+        await Assert.That(paths).Is.AssignableTo<IEnumerable>();
         await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
         await Assert.That(paths).Is.AssignableTo<List<string>>();
         await Assert.That(paths).Is.EquivalentTo(new List<string>

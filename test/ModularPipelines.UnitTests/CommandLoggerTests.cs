@@ -4,14 +4,14 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.UnitTests;
 
 public class CommandLoggerTests : TestBase
 {
-    [Test]
-    [Combinative]
+    [CombinativeTest]
     public async Task Logs_As_Expected_With_Options(
         [CombinativeValues(true, false)] bool logInput,
         [CombinativeValues(true, false)] bool logOutput,

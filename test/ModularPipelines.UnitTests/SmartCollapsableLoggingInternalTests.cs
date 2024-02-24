@@ -4,6 +4,7 @@ using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
 using Moq;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -56,7 +57,11 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     {
         var stringBuilder = await Execute(buildSystem);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("Foo bar!");
+            Is.EqualTo("""
+                       ----------MyGroup Start----------
+                       Foo bar!
+                       -----------MyGroup End-----------
+                       """);
     }
 
     private async Task<StringBuilder> Execute(BuildSystem buildSystem)

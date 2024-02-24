@@ -4,6 +4,7 @@ using ModularPipelines.Azure.Pipelines;
 using ModularPipelines.GitHub;
 using ModularPipelines.TeamCity;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 
@@ -24,9 +25,11 @@ public class CollapsableLoggingTests : TestBase
         await azurePipelines.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
+                       ----------AzurePipeline Start----------
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
+                       -----------AzurePipeline End-----------
                        """);
     }
 
@@ -45,9 +48,11 @@ public class CollapsableLoggingTests : TestBase
         await gitHub.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
+                       ----------GitHub Start----------
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
+                       -----------GitHub End-----------
                        """);
     }
 
@@ -66,9 +71,11 @@ public class CollapsableLoggingTests : TestBase
         await teamCity.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
+                       ----------TeamCity Start----------
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
+                       -----------TeamCity End-----------
                        """);
     }
 }

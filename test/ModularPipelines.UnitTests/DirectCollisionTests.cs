@@ -15,8 +15,8 @@ public class DirectCollisionTests
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
             .ExecutePipelineAsync()).
-            Throws.TypeOf<DependencyCollisionException>()
-                .And.Throws.WithMessage.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
+            Throws.Exception().OfType<DependencyCollisionException>()
+                .And.Throws.Exception().With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
     }
 
     [DependsOn<DependencyConflictModule2>]

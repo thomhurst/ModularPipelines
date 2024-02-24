@@ -3,10 +3,10 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-[TUnit.Core.NotInParallel]
 public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
@@ -31,7 +31,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [Order(1)]
+    [NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
         var module = await RunModule<ZipModule>();
@@ -46,7 +46,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [Order(2)]
+    [NotInParallel(nameof(ZipTests), Order = 2)]
     public async Task Zip_File_Exists()
     {
         await RunModule<ZipModule>();
@@ -77,7 +77,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [Order(3)]
+    [NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
         var module = await RunModule<UnZipModule>();
@@ -92,7 +92,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [Order(4)]
+    [NotInParallel(nameof(ZipTests), Order = 4)]
     public async Task UnZipped_Folder_Exists()
     {
         await RunModule<UnZipModule>();
