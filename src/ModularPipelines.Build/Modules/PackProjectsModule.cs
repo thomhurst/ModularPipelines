@@ -45,7 +45,7 @@ public class PackProjectsModule : Module<CommandResult[]>
                 }
 
                 return ProjectHasChanged(x,
-                    changedFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
+                    changedFiles.Value!, context);
             })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
