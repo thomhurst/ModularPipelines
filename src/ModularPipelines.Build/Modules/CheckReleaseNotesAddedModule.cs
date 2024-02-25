@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
