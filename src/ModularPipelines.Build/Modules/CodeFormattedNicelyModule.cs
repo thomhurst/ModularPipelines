@@ -12,7 +12,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
 public class CodeFormattedNicelyModule : Module<CommandResult>

@@ -12,7 +12,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>

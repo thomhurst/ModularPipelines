@@ -12,7 +12,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 public class UpdateReleaseNotesModule : Module

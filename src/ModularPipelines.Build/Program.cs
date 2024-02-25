@@ -43,7 +43,7 @@ await PipelineHostBuilder.Create()
             .AddModule<WaitForOtherOperatingSystemBuilds>()
             .AddModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>()
             .AddModule<MergeCoverageModule>()
-            .AddModule<GetChangedFilesInPullRequest>()
+            .AddModule<ChangedFilesInPullRequestModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton(sp =>

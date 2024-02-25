@@ -13,6 +13,29 @@ public record CommandResult
     public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
 
     public string WorkingDirectory { get; }
+    
+    public CommandResult(
+        string commandInput,
+        string workingDirectory,
+        string standardOutput,
+        string standardError,
+        IReadOnlyDictionary<string, string?> environmentVariables,
+        DateTimeOffset startTime,
+        DateTimeOffset endTime,
+        TimeSpan duration,
+        int exitCode
+        )
+    {
+        CommandInput = commandInput;
+        WorkingDirectory = workingDirectory;
+        StandardOutput = standardOutput;
+        StandardError = standardError;
+        EnvironmentVariables = environmentVariables;
+        StartTime = startTime;
+        EndTime = endTime;
+        Duration = duration;
+        ExitCode = exitCode;
+    }
 
 #if NET7_0_OR_GREATER
     [SetsRequiredMembersAttribute]
