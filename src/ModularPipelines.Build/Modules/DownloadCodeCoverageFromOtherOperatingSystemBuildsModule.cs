@@ -10,7 +10,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {

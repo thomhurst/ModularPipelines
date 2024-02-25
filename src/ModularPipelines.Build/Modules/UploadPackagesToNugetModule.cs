@@ -16,7 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
 [RunOnLinuxOnly]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>
