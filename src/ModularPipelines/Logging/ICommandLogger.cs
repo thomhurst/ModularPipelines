@@ -2,7 +2,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
 
-internal interface ICommandLogger
+public interface ICommandLogger
 {
     void Log(CommandLineToolOptions options,
         string? inputToLog,

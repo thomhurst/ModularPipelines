@@ -16,8 +16,9 @@ public record PipelineOptions
 
     public bool PrintResults { get; set; } = true;
 
+    public bool PrintLogo { get; set; } = true;
+
     public int DefaultRetryCount { get; set; }
 
-    public CommandLogging DefaultCommandLogging { get; set; } =
-        CommandLogging.Input | CommandLogging.Output | CommandLogging.Error | CommandLogging.Duration | CommandLogging.ExitCode;
+    public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
 }
