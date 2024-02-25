@@ -13,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<MergeCoverageModule>]
 [RunOnLinux]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 public class CodeCovUploaderModule : Module<CommandResult>
 {
     private readonly IOptions<CodeCovSettings> _codeCovSettings;

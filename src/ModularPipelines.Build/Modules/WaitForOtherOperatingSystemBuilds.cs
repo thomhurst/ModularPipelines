@@ -12,7 +12,7 @@ using Octokit;
 namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>

@@ -11,7 +11,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<MergeCoverageModule>]
 [RunOnLinux]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;

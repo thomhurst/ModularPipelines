@@ -10,7 +10,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
-[SkipIfDependabot]
+[SkipIfNoGitHubToken]
 [DependsOn<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>]
 [DependsOn<RunUnitTestsModule>]
 public class MergeCoverageModule : Module<File>

@@ -16,7 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>]
 [DependsOn<FindProjectDependenciesModule>]
 
-[DependsOn<GetChangedFilesInPullRequest>]
+[DependsOn<ChangedFilesInPullRequestModule>]
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
 {
@@ -27,7 +27,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var projectFiles = await GetModule<FindProjectDependenciesModule>();
 
-        var changedFiles = await GetModule<GetChangedFilesInPullRequest>();
+        var changedFiles = await GetModule<ChangedFilesInPullRequestModule>();
 
         var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
@@ -45,7 +45,7 @@ public class PackProjectsModule : Module<CommandResult[]>
                 }
 
                 return ProjectHasChanged(x,
-                    changedFiles.Value?.Select(x => new File(x.FileName)).ToList() ?? new List<File>(), context);
+                    changedFiles.Value!, context);
             })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
