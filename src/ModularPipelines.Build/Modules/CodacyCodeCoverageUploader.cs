@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.GitHub.Attributes;
@@ -12,6 +13,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<MergeCoverageModule>]
 [RunOnLinux]
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 public class CodacyCodeCoverageUploader : Module<CommandResult>
 {
     private readonly IOptions<CodacySettings> _options;

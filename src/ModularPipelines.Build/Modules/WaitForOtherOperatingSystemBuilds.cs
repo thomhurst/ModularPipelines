@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -13,6 +14,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 [DependsOn<RunUnitTestsModule>]
 [DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
@@ -47,6 +49,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         {
             HeadSha = commitSha,
         });
+        
         var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,

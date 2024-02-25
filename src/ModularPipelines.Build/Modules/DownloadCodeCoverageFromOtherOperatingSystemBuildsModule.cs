@@ -1,5 +1,6 @@
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.GitHub.Attributes;
@@ -11,6 +12,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {

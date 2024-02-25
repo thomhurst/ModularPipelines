@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -14,6 +15,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<MergeCoverageModule>]
 [RunOnLinux]
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 public class CodeCovUploaderModule : Module<CommandResult>
 {
     private readonly IOptions<CodeCovSettings> _codeCovSettings;

@@ -13,6 +13,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
 public class CodeFormattedNicelyModule : Module<CommandResult>

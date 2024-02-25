@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
@@ -11,6 +12,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 [DependsOn<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>]
 [DependsOn<RunUnitTestsModule>]
 public class MergeCoverageModule : Module<File>

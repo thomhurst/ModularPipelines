@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
@@ -13,6 +14,7 @@ using ModularPipelines.Node.Models;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
+[SkipIfNoStandardGitHubToken]
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<CommandResult>
