@@ -1,0 +1,1 @@
+*   File.CopyTo(Folder) method
