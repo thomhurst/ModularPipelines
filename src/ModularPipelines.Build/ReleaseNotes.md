@@ -1,1 +1,1 @@
-- File.CopyTo(Folder) method
+*   File.CopyTo(Folder) method
