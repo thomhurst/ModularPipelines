@@ -338,6 +338,13 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
         file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
     }
+    
+    [Test]
+    public async Task CopyTo_Folder()
+    {
+        var file = await CreateRandomFile();
+        file.CopyTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
+    }
 
     private static async Task<File> CreateRandomFile()
     {
