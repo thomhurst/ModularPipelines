@@ -137,12 +137,17 @@ public class File : IEquatable<File>
     public File MoveTo(Folder folder)
     {
         folder.Create();
-        MoveTo(System.IO.Path.Combine(folder.Path, Name));
-        return this;
+        return MoveTo(System.IO.Path.Combine(folder.Path, Name));
     }
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path) => FileInfo.CopyTo(path);
+    
+    public File CopyTo(Folder folder)
+    {
+        folder.Create();
+        return CopyTo(System.IO.Path.Combine(folder.Path, Name));
+    }
 
     public static File GetNewTemporaryFilePath()
     {
