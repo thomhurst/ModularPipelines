@@ -320,16 +320,15 @@ public abstract partial class Module<T> : ModuleBase<T>
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
         var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
-        _ = executeAsyncTask.ContinueWith(async t =>
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
-            timeoutCancellationTokenSource.Cancel();
-            timeoutCancellationTokenSource.Dispose();
-        }, CancellationToken.None);
 
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
             {
+                if (executeAsyncTask.IsCompleted)
+                {
+                    return;
+                }
+                
                 if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
                 {
                     Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
@@ -338,8 +337,17 @@ public abstract partial class Module<T> : ModuleBase<T>
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+
+#if NET8_0_OR_GREATER
+        await timeoutCancellationTokenSource.CancelAsync();
+#else
+        timeoutCancellationTokenSource.Cancel();
+#endif
+        timeoutCancellationTokenSource.Dispose();
+        
         // Will throw a timeout exception if configured and timeout is reached
-        await await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+        await finishedTask;
 
         return await executeAsyncTask;
     }
