@@ -6,6 +6,7 @@ public class Tests
     [Category("Pass")]
     public void Pass()
     {
+        TestContext.CurrentContext.TestDirectory
         Assert.Pass();
     }
 
