@@ -1,6 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
@@ -21,7 +22,7 @@ public class MergeCoverageModule : Module<File>
     protected override async Task<File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var coverageFilesFromThisRun = context.Git().RootDirectory
-            .GetFiles(x => x.Extension is ".coverage");
+            .GetFiles(x => x.Name.Contains("cobertura") && x.Extension is ".xml");
 
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
@@ -40,11 +41,11 @@ public class MergeCoverageModule : Module<File>
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);
 
-        var outputPath = Folder.CreateTemporaryFolder().GetFile("coverage.coverage").Path;
+        var outputPath = Folder.CreateTemporaryFolder().FindFile(x => x.Name.Contains("cobertura")).AssertExists().Path;
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet-coverage")
         {
-            Arguments = new[] { "merge", "--remove-input-files", "--output-format", "coverage", "--output", outputPath }.Concat(coverageFiles.Select(x => x.Path)),
+            Arguments = new[] { "merge", "--remove-input-files", "--output-format", "cobertura", "--output", outputPath }.Concat(coverageFiles.Select(x => x.Path)),
         }, cancellationToken);
 
         return outputPath;
