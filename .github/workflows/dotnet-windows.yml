@@ -60,4 +60,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
-          path: '**/*.coverage'
+          path: '**/*cobertura*'
