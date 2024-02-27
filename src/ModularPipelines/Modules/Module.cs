@@ -338,8 +338,12 @@ public abstract partial class Module<T> : ModuleBase<T>
             }, CancellationToken.None);
 
         var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-        
+
+#if NET8_0_OR_GREATER
+        await timeoutCancellationTokenSource.CancelAsync();
+#else
         timeoutCancellationTokenSource.Cancel();
+#endif
         timeoutCancellationTokenSource.Dispose();
         
         // Will throw a timeout exception if configured and timeout is reached
