@@ -1,1 +1,1 @@
-- Tweak logic for throwing Timeout Exceptions
+*   Tweak logic for throwing Timeout Exceptions
