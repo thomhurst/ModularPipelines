@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net7.0</TargetFrameworks>
         <IsPackable>false</IsPackable>
+        <OutputType>exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,14 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.10.3" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
-        <PackageReference Include="TUnit" Version="0.1.230-alpha01" />
-        <PackageReference Include="coverlet.collector" Version="6.0.1">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="TUnit" Version="0.1.231-PullRequest0073.3333" />
     </ItemGroup>
 
     <ItemGroup>

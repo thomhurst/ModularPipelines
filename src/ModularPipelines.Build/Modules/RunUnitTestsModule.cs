@@ -23,10 +23,9 @@ public class RunUnitTestsModule : Module<CommandResult[]>
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                               && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
+            .SelectAsync(async unitTestProjectFile => await context.DotNet().Run(new DotNetRunOptions
             {
-                ProjectSolutionDirectoryDllExe = unitTestProjectFile.Path,
-                Collect = "XPlat Code Coverage",
+                Project = unitTestProjectFile.Path,
                 NoBuild = true,
                 Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>
