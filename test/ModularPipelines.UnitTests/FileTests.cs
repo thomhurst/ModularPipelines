@@ -288,10 +288,11 @@ public class FileTests : TestBase
         });
     }
 
-    [DataDrivenTest("**/Nest2/**/*.txt")]
-    [DataDrivenTest("**/blah.txt")]
-    [DataDrivenTest("**/Blah.txt")]
-    [DataDrivenTest("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
+    [DataDrivenTest]
+    [Arguments("**/Nest2/**/*.txt")]
+    [Arguments("**/blah.txt")]
+    [Arguments("**/Blah.txt")]
+    [Arguments("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
     public async Task GlobTests(string globPattern)
     {
         var workingDirectory = new Folder(Environment.CurrentDirectory);

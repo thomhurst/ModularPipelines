@@ -46,13 +46,14 @@ public class SmartCollapsableLoggingInternalTests : TestBase
                        """);
     }
 
-    [DataDrivenTest(BuildSystem.Jenkins)]
-    [DataDrivenTest(BuildSystem.GitLab)]
-    [DataDrivenTest(BuildSystem.Bitbucket)]
-    [DataDrivenTest(BuildSystem.TravisCI)]
-    [DataDrivenTest(BuildSystem.AppVeyor)]
-    [DataDrivenTest(BuildSystem.Unknown)]
-    [DataDrivenTest(-1)]
+    [DataDrivenTest]
+    [Arguments(BuildSystem.Jenkins)]
+    [Arguments(BuildSystem.GitLab)]
+    [Arguments(BuildSystem.Bitbucket)]
+    [Arguments(BuildSystem.TravisCI)]
+    [Arguments(BuildSystem.AppVeyor)]
+    [Arguments(BuildSystem.Unknown)]
+    [Arguments(-1)]
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
