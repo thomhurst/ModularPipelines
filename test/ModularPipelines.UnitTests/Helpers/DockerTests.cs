@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
-using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
