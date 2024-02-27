@@ -21,7 +21,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {
-        var file = Path.Combine(TestContext.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
@@ -50,7 +50,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task When_Log_Response_False_Then_Do_Not_Log_Request()
     {
-        var file = Path.Combine(TestContext.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
@@ -81,7 +81,7 @@ public class HttpTests : TestBase
     [Arguments(false)]
     public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
     {
-        var file = Path.Combine(TestContext.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
