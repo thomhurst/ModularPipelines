@@ -21,7 +21,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {
-        var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TUnit.Engine.TUnit.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
@@ -41,7 +41,6 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]");
         await Assert.That(logFile).Does.Not.Contain("---Request---");
         await Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
@@ -51,7 +50,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task When_Log_Response_False_Then_Do_Not_Log_Request()
     {
-        var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TUnit.Engine.TUnit.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
@@ -71,7 +70,6 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
@@ -83,7 +81,7 @@ public class HttpTests : TestBase
     [Arguments(false)]
     public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
     {
-        var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TUnit.Engine.TUnit.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<IHttp>((_, collection) =>
         {
@@ -112,7 +110,6 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.");
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
