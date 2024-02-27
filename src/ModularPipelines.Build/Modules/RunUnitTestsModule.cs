@@ -27,7 +27,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
             {
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
-                Framework = "net8.0",
+                Framework = "net7.0",
                 Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
