@@ -295,7 +295,7 @@ public class FileTests : TestBase
     [Arguments("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
     public async Task GlobTests(string globPattern)
     {
-        var workingDirectory = new Folder(TUnit.Engine.TUnit.OutputDirectory);
+        var workingDirectory = new Folder(TestContext.OutputDirectory);
         var files = workingDirectory.GetFiles(globPattern).ToList();
         await Assert.That(files).Has.Count().EqualTo(1);
         await Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
@@ -304,7 +304,7 @@ public class FileTests : TestBase
     [Test]
     public async Task GlobTest2()
     {
-        var folder = new Folder(TUnit.Engine.TUnit.OutputDirectory)
+        var folder = new Folder(TestContext.OutputDirectory)
             .FindFolder(x => x.Name == "Nest5")!;
 
         var files = folder.GetFiles("Blah.txt").ToList();

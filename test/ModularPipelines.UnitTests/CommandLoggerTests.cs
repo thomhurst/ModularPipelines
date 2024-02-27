@@ -90,7 +90,7 @@ public class CommandLoggerTests : TestBase
     private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,
         bool logExitCode, bool logDuration)
     {
-        var file = Path.Combine(TUnit.Engine.TUnit.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var file = Path.Combine(TestContext.OutputDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
         var result = await GetService<ICommand>((_, collection) =>
         {
