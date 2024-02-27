@@ -1,6 +1,6 @@
 ﻿namespace ModularPipelines.UnitTests;
 
-public class GlobalTestSetup
+public static class GlobalTestSetup
 {
     [AssemblySetUp]
     public static void Setup()
