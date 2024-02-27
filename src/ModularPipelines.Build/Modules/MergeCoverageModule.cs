@@ -1,7 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
@@ -41,7 +40,7 @@ public class MergeCoverageModule : Module<File>
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);
 
-        var outputPath = Folder.CreateTemporaryFolder().FindFile(x => x.Name.Contains("cobertura")).AssertExists().Path;
+        var outputPath = Folder.CreateTemporaryFolder().GetFile("cobertura.xml").Path;
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet-coverage")
         {
