@@ -5,7 +5,13 @@
   </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
       <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Octokit" Version="10.0.0" />
+        <PackageReference Include="LibGit2Sharp" Version="0.29.0"/>
     </ItemGroup>
 
 </Project>

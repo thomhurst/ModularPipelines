@@ -22,6 +22,7 @@ public static class GitHubExtensions
     {
         services.TryAddScoped<IGitHub, GitHub>();
         services.TryAddScoped<IGitHubEnvironmentVariables, GitHubEnvironmentVariables>();
+        services.TryAddScoped<IGitHubRepositoryInfo, GitHubRepositoryInfo>();
         return services;
     }
 
