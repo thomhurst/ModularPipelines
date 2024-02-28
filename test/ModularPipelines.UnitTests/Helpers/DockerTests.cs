@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
-using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -43,8 +42,11 @@ public class DockerTests : TestBase
 
         var result = await module;
 
-        var dockerfilePath = new Folder(Environment.CurrentDirectory).Parent!.Parent!.Parent!.Parent!.Parent!.GetFolder("src")
-            .GetFolder("MyApp").GetFile("Dockerfile").Path;
+        var dockerfilePath = module.Context.Git().RootDirectory
+            .GetFolder("src")
+            .GetFolder("MyApp")
+            .GetFile("Dockerfile").Path;
+        
         await Assert.That(result.Value!.CommandInput).Is.EqualTo($"docker image build --build-arg Arg1=Value1 --build-arg Arg2=Value2 --build-arg Arg3=Value3 --tag mytaggedimage --target build-env {dockerfilePath}");
     }
 }

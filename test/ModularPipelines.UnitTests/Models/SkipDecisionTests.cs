@@ -65,8 +65,9 @@ public class SkipDecisionTests
         });
     }
 
-    [DataDrivenTest(true)]
-    [DataDrivenTest(false)]
+    [DataDrivenTest]
+    [Arguments(true)]
+    [Arguments(false)]
     public async Task Of(bool shouldSkip)
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");

@@ -63,7 +63,6 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 | ModularPipelines.WinGet | Helpers for interacting with the Windows Package Manager. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.WinGet.svg)](https://www.nuget.org/packages/ModularPipelines.WinGet/) |
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 
-
 ## Getting Started
 
 If you want to see how to get started, or want to know more about ModularPipelines, [read the Documentation here](https://thomhurst.github.io/ModularPipelines)

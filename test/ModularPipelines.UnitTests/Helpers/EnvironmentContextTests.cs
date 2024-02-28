@@ -51,7 +51,7 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
 
-        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N"));
+        var directoryToAdd = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N"));
 
         var path = context.EnvironmentVariables.GetPath();
         await Assert.That(path).Is.Not.Empty();

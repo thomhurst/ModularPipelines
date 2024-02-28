@@ -11,8 +11,8 @@ public class FileExtensionsTests
     {
         var files = new List<File>
         {
-            new File(Path.Combine(Environment.CurrentDirectory, "File1.txt")),
-            new File(Path.Combine(Environment.CurrentDirectory, "File2.txt")),
+            new File(Path.Combine(TestContext.WorkingDirectory, "File1.txt")),
+            new File(Path.Combine(TestContext.WorkingDirectory, "File2.txt")),
         }.AsEnumerable();
 
         var paths = files.AsPaths();
@@ -20,8 +20,8 @@ public class FileExtensionsTests
         await Assert.That(paths).Is.Not.AssignableTo<List<string>>();
         await Assert.That(paths).Is.EquivalentTo(new List<string>
         {
-            Path.Combine(Environment.CurrentDirectory, "File1.txt"),
-            Path.Combine(Environment.CurrentDirectory, "File2.txt"),
+            Path.Combine(TestContext.WorkingDirectory, "File1.txt"),
+            Path.Combine(TestContext.WorkingDirectory, "File2.txt"),
         });
     }
 
@@ -30,8 +30,8 @@ public class FileExtensionsTests
     {
         var files = new List<File>
         {
-            new File(Path.Combine(Environment.CurrentDirectory, "File1.txt")),
-            new File(Path.Combine(Environment.CurrentDirectory, "File2.txt")),
+            new File(Path.Combine(TestContext.WorkingDirectory, "File1.txt")),
+            new File(Path.Combine(TestContext.WorkingDirectory, "File2.txt")),
         };
 
         var paths = files.AsPaths();
@@ -39,8 +39,8 @@ public class FileExtensionsTests
         await Assert.That(paths).Is.AssignableTo<List<string>>();
         await Assert.That(paths).Is.EquivalentTo(new List<string>
         {
-            Path.Combine(Environment.CurrentDirectory, "File1.txt"),
-            Path.Combine(Environment.CurrentDirectory, "File2.txt"),
+            Path.Combine(TestContext.WorkingDirectory, "File1.txt"),
+            Path.Combine(TestContext.WorkingDirectory, "File2.txt"),
         });
     }
 }

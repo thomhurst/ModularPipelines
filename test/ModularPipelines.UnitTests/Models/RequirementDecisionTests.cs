@@ -65,8 +65,9 @@ public class RequirementDecisionTests
         });
     }
 
-    [DataDrivenTest(true)]
-    [DataDrivenTest(false)]
+    [DataDrivenTest]
+    [Arguments(true)]
+    [Arguments(false)]
     public async Task Of(bool success)
     {
         var requirementDecision = RequirementDecision.Of(success, "Blah!");

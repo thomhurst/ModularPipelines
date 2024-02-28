@@ -24,14 +24,15 @@ public class BuildSystemDetectorTests : TestBase
         await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
     }
 
-    [DataDrivenTest("TF_BUILD")]
-    [DataDrivenTest("TEAMCITY_VERSION")]
-    [DataDrivenTest("GITHUB_ACTIONS")]
-    [DataDrivenTest("JENKINS_URL")]
-    [DataDrivenTest("GITLAB_CI")]
-    [DataDrivenTest("BITBUCKET_BUILD_NUMBER")]
-    [DataDrivenTest("TRAVIS")]
-    [DataDrivenTest("APPVEYOR")]
+    [DataDrivenTest]
+    [Arguments("TF_BUILD")]
+    [Arguments("TEAMCITY_VERSION")]
+    [Arguments("GITHUB_ACTIONS")]
+    [Arguments("JENKINS_URL")]
+    [Arguments("GITLAB_CI")]
+    [Arguments("BITBUCKET_BUILD_NUMBER")]
+    [Arguments("TRAVIS")]
+    [Arguments("APPVEYOR")]
     public async Task When_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_True(string environmentVariableName)
     {
         _environmentVariables
@@ -56,15 +57,16 @@ public class BuildSystemDetectorTests : TestBase
         });
     }
 
-    [DataDrivenTest("TF_BUILD", BuildSystem.AzurePipelines)]
-    [DataDrivenTest("TEAMCITY_VERSION", BuildSystem.TeamCity)]
-    [DataDrivenTest("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
-    [DataDrivenTest("JENKINS_URL", BuildSystem.Jenkins)]
-    [DataDrivenTest("GITLAB_CI", BuildSystem.GitLab)]
-    [DataDrivenTest("BITBUCKET_BUILD_NUMBER", BuildSystem.Bitbucket)]
-    [DataDrivenTest("TRAVIS", BuildSystem.TravisCI)]
-    [DataDrivenTest("APPVEYOR", BuildSystem.AppVeyor)]
-    [DataDrivenTest("blah", BuildSystem.Unknown)]
+    [DataDrivenTest]
+    [Arguments("TF_BUILD", BuildSystem.AzurePipelines)]
+    [Arguments("TEAMCITY_VERSION", BuildSystem.TeamCity)]
+    [Arguments("GITHUB_ACTIONS", BuildSystem.GitHubActions)]
+    [Arguments("JENKINS_URL", BuildSystem.Jenkins)]
+    [Arguments("GITLAB_CI", BuildSystem.GitLab)]
+    [Arguments("BITBUCKET_BUILD_NUMBER", BuildSystem.Bitbucket)]
+    [Arguments("TRAVIS", BuildSystem.TravisCI)]
+    [Arguments("APPVEYOR", BuildSystem.AppVeyor)]
+    [Arguments("blah", BuildSystem.Unknown)]
     public async Task Expected_Build_Agent(string environmentVariableName, BuildSystem expectedBuildSystem)
     {
         _environmentVariables

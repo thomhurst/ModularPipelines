@@ -16,7 +16,7 @@ public class SmartCollapsableLoggingTests : TestBase
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
-                       ##[group]SmartCollapsableLogging
+                       ##[group]SmartCollapsableLoggingTests
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
@@ -30,7 +30,7 @@ public class SmartCollapsableLoggingTests : TestBase
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
-                       ::group::SmartCollapsableLogging
+                       ::group::SmartCollapsableLoggingTests
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
@@ -44,31 +44,32 @@ public class SmartCollapsableLoggingTests : TestBase
         var stringBuilder = await Execute(BuildSystem.TeamCity);
         await Assert.That(stringBuilder.ToString().Trim()).
             Is.EqualTo("""
-                       ##teamcity[blockOpened name='SmartCollapsableLogging']
+                       ##teamcity[blockOpened name='SmartCollapsableLoggingTests']
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
-                       ##teamcity[blockClosed name='SmartCollapsableLogging']
+                       ##teamcity[blockClosed name='SmartCollapsableLoggingTests']
                        """);
     }
 
-    [DataDrivenTest(BuildSystem.Jenkins)]
-    [DataDrivenTest(BuildSystem.GitLab)]
-    [DataDrivenTest(BuildSystem.Bitbucket)]
-    [DataDrivenTest(BuildSystem.TravisCI)]
-    [DataDrivenTest(BuildSystem.AppVeyor)]
-    [DataDrivenTest(BuildSystem.Unknown)]
-    [DataDrivenTest(-1)]
+    [DataDrivenTest]
+    [Arguments(BuildSystem.Jenkins)]
+    [Arguments(BuildSystem.GitLab)]
+    [Arguments(BuildSystem.Bitbucket)]
+    [Arguments(BuildSystem.TravisCI)]
+    [Arguments(BuildSystem.AppVeyor)]
+    [Arguments(BuildSystem.Unknown)]
+    [Arguments(-1)]
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
         await Assert.That(stringBuilder.ToString().Trim()).Is.EqualTo("""
-                                                                      ----------SmartCollapsableLogging Start----------
+                                                                      ----------SmartCollapsableLoggingTests Start----------
                                                                      
                                                                       ----------MyGroup Start----------
                                                                       Foo bar!
                                                                       -----------MyGroup End-----------
-                                                                      -----------SmartCollapsableLogging End-----------
+                                                                      -----------SmartCollapsableLoggingTests End-----------
                                                                       """);
     }
 
