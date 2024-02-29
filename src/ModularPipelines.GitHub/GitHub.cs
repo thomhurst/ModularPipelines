@@ -1,4 +1,3 @@
-using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.GitHub.Options;
 using ModularPipelines.Logging;

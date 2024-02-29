@@ -13,15 +13,15 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
   private readonly IGit _git;
 
-  public string Url { get; private set; } = string.Empty;
+  public bool IsInitialized { get; private set; }
   
-  public string Endpoint { get; private set; } = string.Empty;
-
-  public string Owner { get; private set; } = string.Empty;
-
-  public string RepositoryName { get; private set; } = string.Empty;
+  public string? Url { get; private set; }
   
-  public AccountType AccountType { get; private set; } = default!;
+  public string? Endpoint { get; private set; }
+
+  public string? Owner { get; private set; }
+
+  public string? RepositoryName { get; private set; }
 
   public GitHubRepositoryInfo(IGit git)
   {
@@ -30,16 +30,23 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
   
   public async Task InitializeAsync()
   {
+    if (IsInitialized)
+    {
+      return;
+    }
+    
     var options = new GitRemoteOptions
     {
       Arguments = ["get-url", "origin"],
+      ThrowOnNonZeroExitCode = false,
     };
     var remote = await _git.Commands.Remote(options);
     var remoteUrl = remote.StandardOutput;
     
     if (string.IsNullOrEmpty(remoteUrl))
     {
-      throw new InvalidOperationException("No remote repository configured.");
+      // Will not initialize as git repo is not setup
+      return;
     }
 
     // Parse owner and repository name from the remote URL
@@ -55,13 +62,15 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
     if (!match.Success)
     {
-      throw new InvalidOperationException(
-        $"The remote repository URL is not recognized as a {endpoint} repository URL.");
+      // Will not initialize as git repo is not setup
+      return;
     }
 
     Url = remoteUrl;
     Endpoint = endpoint;
     Owner = match.Groups["owner"].Value;
     RepositoryName = match.Groups["name"].Value;
+
+    IsInitialized = true;
   }
 }
