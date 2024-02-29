@@ -29,10 +29,13 @@
   - [Pipeline Modes](getting-started/pipeline-modes "Pipeline Modes")
   - [Always Run](getting-started/always-run "Always Run")
   - [Retry Policy](getting-started/retry-policy "Retry Policy")
-  - [Categories](getting-started/sub-modules "Sub-Modules")
+  - [SubModules](getting-started/sub-modules "Sub-Modules")
   - [Timeouts](getting-started/timeouts "Timeouts")
   - [Time Estimator](getting-started/time-estimator "Time Estimator")
   - [Console Progress](getting-started/console-progress "Console Progress")
+
+- Additional Packages
+  - [GitHub](/mp-packages/github "GitHub Package")
 
 - Examples
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
