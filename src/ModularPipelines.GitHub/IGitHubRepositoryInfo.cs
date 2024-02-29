@@ -3,6 +3,11 @@
 public interface IGitHubRepositoryInfo
 {
   /// <summary>
+  /// Gets the URL of a GitHub repository.
+  /// </summary>
+  string Url { get; }
+
+  /// <summary>
   /// Gets an endpoint for accessing a remote repository.
   /// </summary>
   string Endpoint { get; }
@@ -28,10 +33,4 @@ public interface IGitHubRepositoryInfo
   /// </summary>
   /// <value><c>true</c> if the endpoint is GitHub; otherwise, <c>false</c>.</value>
   bool IsGitHub => Endpoint.Equals("github.com", StringComparison.OrdinalIgnoreCase);
-
-  /// <summary>
-  /// Shortcut for getting the owner and repository name as a tuple ready for deconstruction.
-  /// </summary>
-  /// <returns>Returns a tuple of owner name and repository name.</returns>
-  (string Owner, string RepositoryName) GetOwnerAndRepositoryName() => (Owner, RepositoryName);
 }
