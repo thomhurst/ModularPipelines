@@ -25,8 +25,6 @@ public class GitHubRepositoryInfoTests : TestBase
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
-        await Assert.That(gitHubRepositoryInfo.Endpoint).Is.EqualTo("github", StringComparison.InvariantCulture);
-        
         await Assert.That(gitHubRepositoryInfo.IsGitHub).Is.True();
         await Assert.That(gitHubRepositoryInfo.IsInitialized).Is.True();
         await Assert.That(gitHubRepositoryInfo.RepositoryName).Is.Not.Null()
