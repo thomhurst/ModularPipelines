@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
-using Octokit;
 
 // ReSharper disable ConvertToPrimaryConstructor
 namespace ModularPipelines.GitHub;
@@ -11,7 +11,7 @@ namespace ModularPipelines.GitHub;
 [ExcludeFromCodeCoverage]
 internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
-  private readonly IGit _git;
+  private readonly IServiceProvider _serviceProvider;
 
   public bool IsInitialized { get; private set; }
   
@@ -23,9 +23,9 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
   public string? RepositoryName { get; private set; }
 
-  public GitHubRepositoryInfo(IGit git)
+  public GitHubRepositoryInfo(IServiceProvider serviceProvider)
   {
-    _git = git;
+    _serviceProvider = serviceProvider;
   }
   
   public async Task InitializeAsync()
@@ -35,12 +35,15 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
       return;
     }
     
+    await using var scope = _serviceProvider.CreateAsyncScope();
+    var git = scope.ServiceProvider.GetRequiredService<IGit>();
+    
     var options = new GitRemoteOptions
     {
       Arguments = ["get-url", "origin"],
       ThrowOnNonZeroExitCode = false,
     };
-    var remote = await _git.Commands.Remote(options);
+    var remote = await git.Commands.Remote(options);
     var remoteUrl = remote.StandardOutput;
     
     if (string.IsNullOrEmpty(remoteUrl))
