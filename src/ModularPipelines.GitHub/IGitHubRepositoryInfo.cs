@@ -41,5 +41,6 @@ public interface IGitHubRepositoryInfo
   /// Gets a value indicating whether the endpoint is GitHub.
   /// </summary>
   /// <value><c>true</c> if the endpoint is GitHub; otherwise, <c>false</c>.</value>
-  bool IsGitHub => Endpoint?.Equals("github.com", StringComparison.OrdinalIgnoreCase) ?? false;
+  bool IsGitHub => Endpoint?.Equals("github.com", StringComparison.OrdinalIgnoreCase) == true
+                   || Endpoint?.Equals("github", StringComparison.OrdinalIgnoreCase) == true;
 }
