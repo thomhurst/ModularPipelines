@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Enums;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
 
@@ -42,7 +43,9 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     {
       Arguments = ["get-url", "origin"],
       ThrowOnNonZeroExitCode = false,
+      CommandLogging = CommandLogging.None,
     };
+    
     var remote = await git.Commands.Remote(options);
     var remoteUrl = remote.StandardOutput;
     
@@ -55,7 +58,7 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     // Parse owner and repository name from the remote URL
     var endpoint = "github";
     var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+?)/(?<name>.+?)\.git";
-    var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+?)/(?<name>.+?)\.git";
+    var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+?)/(?<name>.+?)(\.git)?";
 
     var match = Regex.Match(remoteUrl, sshPattern);
     if (!match.Success)
