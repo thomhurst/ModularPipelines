@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="TUnit" Version="0.1.230-alpha01" />
-        <PackageReference Include="Azure.ResourceManager" Version="1.10.1" />
+        <PackageReference Include="Azure.ResourceManager" Version="1.10.2" />
         <PackageReference Include="Azure.Identity" Version="1.10.4" />
     </ItemGroup>
 
