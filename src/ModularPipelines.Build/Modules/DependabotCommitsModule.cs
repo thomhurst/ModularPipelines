@@ -6,6 +6,7 @@ using ModularPipelines.Git.Options;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
+using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -20,16 +21,24 @@ public class DependabotCommitsModule : Module<string>
         context.Logger.LogInformation("RepositoryInfo: {RepositoryInfo}", repositoryInfo);
         
         var latestRelease = await context.GitHub().Client.Repository.Release.GetLatest(repositoryInfo.Owner, repositoryInfo.RepositoryName);
+
+        var releaseCommits = await context.GitHub().Client.Repository.Commit.GetAll(repositoryInfo.Owner,
+            repositoryInfo.RepositoryName, new CommitRequest
+            {
+                Sha = "main",
+                Since = latestRelease.CreatedAt.AddMinutes(-2),
+                Until = latestRelease.CreatedAt.AddMinutes(2),
+            });
+
+        var releaseCommit = releaseCommits.First();
         
-        var sha = latestRelease.TargetCommitish;
-        
-        context.Logger.LogInformation("Sha: {Sha}", sha);
+        context.Logger.LogInformation("Sha: {Sha}", releaseCommit.Sha);
 
         var commitsResult = await context.Git().Commands.Log(new GitLogOptions
         {
             Author = "dependabot",
             Format = "%s",
-            Arguments = [$"{sha}..HEAD"],
+            Arguments = [$"{releaseCommit.Sha}..HEAD"],
         }, cancellationToken);
 
         var commits = commitsResult.StandardOutput;
