@@ -10,7 +10,7 @@ using ModularPipelines.Git.Options;
 namespace ModularPipelines.GitHub;
 
 [ExcludeFromCodeCoverage]
-internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
+internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
   private readonly IServiceProvider _serviceProvider;
 
@@ -57,8 +57,8 @@ internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
     // Parse owner and repository name from the remote URL
     var endpoint = "github";
-    var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+?)/(?<name>.+?)\.git";
-    var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+?)/(?<name>.+?)(\.git)?";
+    var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
+    var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
 
     var match = Regex.Match(remoteUrl, sshPattern);
     if (!match.Success)

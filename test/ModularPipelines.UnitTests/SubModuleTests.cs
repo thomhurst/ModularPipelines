@@ -142,7 +142,7 @@ public class SubModuleTests : TestBase
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name => SubModule(name, () =>
                 {
-                    if (1.ToString() == "1")
+                    if (name == "1")
                     {
                         throw new Exception();
                     }
@@ -237,7 +237,10 @@ public class SubModuleTests : TestBase
         await Assert.Multiple(() =>
         {
             Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That(moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
+            Assert.That(moduleFailedException!.InnerException!)
+                .Has.Message().EqualTo("The Sub-Module 1 has failed.")
+                .Or.Has.Message().EqualTo("The Sub-Module 2 has failed.")
+                .Or.Has.Message().EqualTo("The Sub-Module 3 has failed.");
         });
     }
 

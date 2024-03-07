@@ -141,11 +141,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     protected async Task SubModule(string name, Action action)
     {
-        await SubModule(name, () =>
-        {
-            action();
-            return Task.CompletedTask;
-        });
+        await SubModule(name, () => Task.Run(action));
     }
 
     /// <summary>
@@ -156,7 +152,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     protected async Task<T> SubModule<T>(string name, Func<T> action)
     {
-        return await SubModule(name, () => Task.FromResult(action()));
+        return await SubModule(name, () => Task.Run(action));
     }
 
     /// <summary>
