@@ -1,2 +1,2 @@
 *   Automatically add Dependabot commits to the release notes
-*   Fix [SkipIfNoGitHubToken] attribute
+*   Fix \[SkipIfNoGitHubToken] attribute
