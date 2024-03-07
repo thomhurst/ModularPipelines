@@ -10,7 +10,7 @@ using ModularPipelines.Git.Options;
 namespace ModularPipelines.GitHub;
 
 [ExcludeFromCodeCoverage]
-internal class GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
+internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
   private readonly IServiceProvider _serviceProvider;
 

@@ -17,9 +17,13 @@ public class DependabotCommitsModule : Module<string>
     {
         var repositoryInfo = context.GitHub().RepositoryInfo;
         
+        context.Logger.LogInformation("RepositoryInfo: {RepositoryInfo}", repositoryInfo);
+        
         var latestRelease = await context.GitHub().Client.Repository.Release.GetLatest(repositoryInfo.Owner, repositoryInfo.RepositoryName);
         
         var sha = latestRelease.TargetCommitish;
+        
+        context.Logger.LogInformation("Sha: {Sha}", sha);
 
         var commitsResult = await context.Git().Commands.Log(new GitLogOptions
         {
