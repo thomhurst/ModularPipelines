@@ -25,7 +25,7 @@ public class DependabotCommitsModule : Module<List<string>>
             {
                 Sha = "main",
                 Since = latestRelease.CreatedAt.AddMinutes(-2),
-                Author = "dependabot",
+                Author = "dependabot[bot]",
             });
         
         var commits = commitsSinceRelease
