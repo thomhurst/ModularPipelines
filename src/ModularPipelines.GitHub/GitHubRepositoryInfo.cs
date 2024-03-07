@@ -57,7 +57,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
     // Parse owner and repository name from the remote URL
     var endpoint = "github";
-    var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+?)/(?<name>.+?)\.git";
+    var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
     var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
 
     var match = Regex.Match(remoteUrl, sshPattern);
