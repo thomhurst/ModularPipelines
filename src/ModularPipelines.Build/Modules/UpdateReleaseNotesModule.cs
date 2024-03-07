@@ -15,6 +15,7 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
+[RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 [DependsOn<DependabotCommitsModule>]

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.GitHub.Attributes;
@@ -10,6 +10,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
+[RunOnLinuxOnly]
 public class DependabotCommitsModule : Module<string>
 {
     protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
