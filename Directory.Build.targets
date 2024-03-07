@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
-    <PropertyGroup>
-        <TargetFramework Condition="$(MSBuildProjectName.Contains('Test'))">net7.0</TargetFramework>
-    </PropertyGroup>
-</Project>
