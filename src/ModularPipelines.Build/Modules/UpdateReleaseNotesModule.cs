@@ -100,13 +100,13 @@ public class UpdateReleaseNotesModule : Module
     {
         var commits = await GetModule<DependabotCommitsModule>();
 
-        if (string.IsNullOrEmpty(commits.Value))
+        if (commits.Value?.Any() != true)
         {
             return string.Empty;
         }
 
         var splitCommits = string.Join(Environment.NewLine,
-            commits.Value.Split(Environment.NewLine).Select(x => $"*   {x}")
+            commits.Value.Select(x => $"*   {x}")
         );
 
         return $"""

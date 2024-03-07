@@ -12,38 +12,27 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
 [RunOnLinuxOnly]
-public class DependabotCommitsModule : Module<string>
+public class DependabotCommitsModule : Module<List<string>>
 {
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = context.GitHub().RepositoryInfo;
         
-        context.Logger.LogInformation("RepositoryInfo: {RepositoryInfo}", repositoryInfo);
-        
         var latestRelease = await context.GitHub().Client.Repository.Release.GetLatest(repositoryInfo.Owner, repositoryInfo.RepositoryName);
 
-        var releaseCommits = await context.GitHub().Client.Repository.Commit.GetAll(repositoryInfo.Owner,
+        var commitsSinceRelease = await context.GitHub().Client.Repository.Commit.GetAll(repositoryInfo.Owner,
             repositoryInfo.RepositoryName, new CommitRequest
             {
                 Sha = "main",
                 Since = latestRelease.CreatedAt.AddMinutes(-2),
-                Until = latestRelease.CreatedAt.AddMinutes(2),
+                Author = "dependabot",
             });
-
-        var releaseCommit = releaseCommits.First();
         
-        context.Logger.LogInformation("Sha: {Sha}", releaseCommit.Sha);
-
-        var commitsResult = await context.Git().Commands.Log(new GitLogOptions
-        {
-            Author = "dependabot",
-            Format = "%s",
-            Arguments = [$"{releaseCommit.Sha}..HEAD"],
-        }, cancellationToken);
-
-        var commits = commitsResult.StandardOutput;
+        var commits = commitsSinceRelease
+            .Select(x => x.Commit.Message)
+            .ToList();
         
-        context.Logger.LogInformation("Commits: {Commits}", commits);
+        context.Logger.LogInformation("Commits: {Commits}", string.Join(Environment.NewLine, commits));
 
         return commits;
     }
