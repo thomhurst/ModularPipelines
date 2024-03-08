@@ -1,3 +1,9 @@
 <Project>
     <!-- Only here so that the default Directory.Build.props will not be used. -->
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
 </Project>
