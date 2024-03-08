@@ -25,10 +25,10 @@ public class DependabotCommitsModule : Module<List<string>>
             {
                 Sha = "main",
                 Since = latestRelease.CreatedAt.AddMinutes(-2),
-                Author = "dependabot[bot]",
             });
         
         var commits = commitsSinceRelease
+            .Where(x => x.Author.Login.StartsWith("dependabot"))
             .Select(x => x.Commit.Message)
             .ToList();
         
