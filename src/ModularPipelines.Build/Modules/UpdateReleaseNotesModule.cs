@@ -106,7 +106,7 @@ public class UpdateReleaseNotesModule : Module
         }
 
         var splitCommits = string.Join(Environment.NewLine,
-            commits.Value.Select(x => $"*   {x}")
+            commits.Value.Select(x => $"## {x}")
         );
 
         return $"""
