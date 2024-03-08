@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
-        <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Test')) and '$(TargetFrameworks)' == ''">net6.0;net7.0;net8.0</TargetFrameworks>
-        <TargetFramework Condition="$(MSBuildProjectName.Contains('Test'))">net7.0</TargetFramework>
+        <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net6.0;net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
