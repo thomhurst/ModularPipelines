@@ -55,7 +55,7 @@
       <PackageReference Include="System.Text.Json" Version="8.0.3" />
       <PackageReference Include="EnumerableAsyncProcessor" Version="1.3.2" />
       <PackageReference Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
-      <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240309.29" />
+      <PackageReference Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240326.31" />
       <PackageReference Include="YamlDotNet" Version="15.1.2" />
     </ItemGroup>
 
