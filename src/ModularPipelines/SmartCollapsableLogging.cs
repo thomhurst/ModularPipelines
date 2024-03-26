@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 
@@ -11,11 +12,11 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     private IModuleLogger ModuleLogger => _moduleLoggerProvider.GetLogger();
 
-    public SmartCollapsableLogging(IModuleLoggerProvider moduleLoggerProvider,
+    public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _moduleLoggerProvider = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IModuleLoggerProvider>();
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
         _consoleWriter = consoleWriter;
     }

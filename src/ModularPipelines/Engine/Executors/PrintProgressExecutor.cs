@@ -1,12 +1,11 @@
 using System.Diagnostics;
-using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Engine.Executors;
 
 [StackTraceHidden]
-internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
+internal class PrintProgressExecutor : IPrintProgressExecutor
 {
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
@@ -26,9 +25,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
         _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
-
-    public int Order => int.MaxValue;
-
+    
     public async Task InitializeAsync()
     {
         _printProgressCancellationTokenSource =

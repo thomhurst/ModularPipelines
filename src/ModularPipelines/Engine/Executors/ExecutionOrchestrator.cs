@@ -56,6 +56,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var organizedModules = await _pipelineInitializer.Initialize();
 
+        await _printProgressExecutor.InitializeAsync();
+        
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
         var start = DateTimeOffset.UtcNow;
