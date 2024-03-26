@@ -102,7 +102,7 @@ public class PipelineHostBuilder
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddScoped<IPipelineGlobalHooks, TGlobalHooks>();
+            collection.AddSingleton<IPipelineGlobalHooks, TGlobalHooks>();
         });
 
         return this;
@@ -118,7 +118,7 @@ public class PipelineHostBuilder
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddScoped<IPipelineModuleHooks, TModuleHooks>();
+            collection.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
         });
 
         return this;
@@ -300,7 +300,7 @@ public class PipelineHostBuilder
         _internalHost.ConfigureServices(s =>
         {
             s.RemoveAll<TBase>()
-                .AddScoped<TBase, T>();
+                .AddSingleton<TBase, T>();
         });
 
         return this;

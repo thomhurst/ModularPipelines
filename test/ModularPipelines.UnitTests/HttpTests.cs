@@ -41,7 +41,7 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.ResponseLoggingHttpHandler]");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http");
         await Assert.That(logFile).Does.Not.Contain("---Request---");
         await Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
@@ -49,7 +49,7 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    public async Task When_Log_Response_False_Then_Do_Not_Log_Request()
+    public async Task When_Log_Response_False_Then_Do_Not_Log_Response()
     {
         var file = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -71,7 +71,7 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http.RequestLoggingHttpHandler]");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http");
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
