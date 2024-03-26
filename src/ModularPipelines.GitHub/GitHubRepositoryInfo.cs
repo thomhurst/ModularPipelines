@@ -43,7 +43,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     {
       Arguments = ["get-url", "origin"],
       ThrowOnNonZeroExitCode = false,
-      CommandLogging = CommandLogging.None,
+      CommandLogging = CommandLogging.Default,
     };
     
     var remote = await git.Commands.Remote(options);
