@@ -22,7 +22,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        if (!_options.Value.ShowProgressInConsole || !AnsiConsole.Profile.Capabilities.Interactive)
+        if (!_options.Value.ShowProgressInConsole)
         {
             return Task.CompletedTask;
         }

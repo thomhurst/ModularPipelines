@@ -171,7 +171,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         finally
         {
-            if (!AnsiConsole.Profile.Capabilities.Interactive || !_pipelineOptions.Value.ShowProgressInConsole)
+            if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(module);
             }
