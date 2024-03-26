@@ -23,11 +23,10 @@ internal class StaticGitInformation : IInitializer
     public static readonly SemaphoreSlim Lock = new(1, 1);
     private readonly ICommand _command;
 
-    public StaticGitInformation(IServiceProvider serviceProvider,
-        ILogger<StaticGitInformation> logger)
+    public StaticGitInformation(IServiceProvider serviceProvider)
     {
-        _logger = logger;
         var scope = serviceProvider.CreateAsyncScope();
+        _logger = scope.ServiceProvider.GetRequiredService<ILogger<StaticGitInformation>>();
         _command = scope.ServiceProvider.GetRequiredService<ICommand>();
         _gitCommandRunner = scope.ServiceProvider.GetRequiredService<GitCommandRunner>();
         _gitCommitMapper = scope.ServiceProvider.GetRequiredService<IGitCommitMapper>();

@@ -26,7 +26,9 @@ internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
         _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
-    
+
+    public int Order => int.MaxValue;
+
     public async Task InitializeAsync()
     {
         _printProgressCancellationTokenSource =

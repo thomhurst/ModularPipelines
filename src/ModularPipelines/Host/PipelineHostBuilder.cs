@@ -271,9 +271,7 @@ public class PipelineHostBuilder
             Assembly.Load(new AssemblyName(modularPipelineAssembly));
         }
 
-        foreach (var assembly in AppDomain.CurrentDomain
-                     .GetAssemblies()
-                     .Where(a => a.GetName().Name?.Contains("ModularPipeline", StringComparison.InvariantCultureIgnoreCase) == true))
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
         }
