@@ -10,13 +10,11 @@ internal class PipelineFileWriter : IPipelineFileWriter
     private readonly IServiceProvider _serviceProvider;
     private readonly IEnumerable<IBuildSystemPipelineFileWriter> _writers;
 
-    public PipelineFileWriter(
-        IServiceProvider serviceProvider,
-        IEnumerable<IBuildSystemPipelineFileWriter> writers
-    )
+    public PipelineFileWriter(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _writers = writers;
+        var scope = serviceProvider.CreateScope();
+        _writers = scope.ServiceProvider.GetServices<IBuildSystemPipelineFileWriter>();
     }
 
     public async Task WritePipelineFiles()
