@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -9,11 +10,10 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     private readonly IModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly ILogger _logger;
 
-    public SafeModuleEstimatedTimeProvider(IModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        IModuleLoggerProvider moduleLoggerProvider)
+    public SafeModuleEstimatedTimeProvider(IModuleEstimatedTimeProvider moduleEstimatedTimeProvider, IServiceProvider serviceProvider)
     {
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
-        _logger = moduleLoggerProvider.GetLogger();
+        _logger = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
     }
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)

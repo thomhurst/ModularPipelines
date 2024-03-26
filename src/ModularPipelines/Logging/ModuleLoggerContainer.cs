@@ -12,6 +12,11 @@ internal class ModuleLoggerContainer : IModuleLoggerContainer
         }
     }
 
+    public IModuleLogger? GetLogger(Type type)
+    {
+        return _loggers.FirstOrDefault(logger => logger?.GetType() == type);
+    }
+
     public void AddLogger(ModuleLogger? logger)
     {
         if (logger is not null)

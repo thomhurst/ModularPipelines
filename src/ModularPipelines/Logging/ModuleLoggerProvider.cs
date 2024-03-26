@@ -10,12 +10,15 @@ namespace ModularPipelines.Logging;
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IModuleLoggerContainer _moduleLoggerContainer;
 
     private IModuleLogger? _moduleLogger;
     
-    public ModuleLoggerProvider(IServiceProvider serviceProvider)
+    public ModuleLoggerProvider(IServiceProvider serviceProvider,
+        IModuleLoggerContainer moduleLoggerContainer)
     {
         _serviceProvider = serviceProvider;
+        _moduleLoggerContainer = moduleLoggerContainer;
     }
 
     public IModuleLogger GetLogger(Type type) => MakeLogger(type);
@@ -73,7 +76,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        return _moduleLogger ??= (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
+        return _moduleLogger ??= _moduleLoggerContainer.GetLogger(loggerType) ?? (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
 
     private bool IsModule(Type? type)
