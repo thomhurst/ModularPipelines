@@ -55,8 +55,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         cancellationToken.Register(() => _engineCancellationToken.CancelWithReason("The user's cancellation token passed into the pipeline was cancelled."));
 
         var organizedModules = await _pipelineInitializer.Initialize();
-
-        await _printProgressExecutor.InitializeAsync();
         
         var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
 
@@ -91,7 +89,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         // Dispose and flush on scope leave - So including success or if an exception is thrown
         await using var moduleDisposeExecutor = _moduleDisposeExecutor;
         using var printModuleOutputExecutor = _printModuleOutputExecutor;
-        await using var printProgressExecutor = _printProgressExecutor;
+        await using var printProgressExecutor = await _printProgressExecutor.InitializeAsync();
 
         return await _pipelineExecutor.ExecuteAsync(runnableModules, organizedModules);
     }

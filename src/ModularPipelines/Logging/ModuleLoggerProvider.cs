@@ -23,6 +23,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public IModuleLogger GetLogger(Type type) => MakeLogger(type);
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IModuleLogger GetLogger()
     {
         if (_moduleLogger != null)

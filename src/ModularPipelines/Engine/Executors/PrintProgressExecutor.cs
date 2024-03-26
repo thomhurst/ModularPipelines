@@ -12,8 +12,8 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
     private readonly IModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
     
-    private Task _printProgressTask = null!; // LateInit
-    private CancellationTokenSource _printProgressCancellationTokenSource = null!; // LateInit
+    private Task? _printProgressTask;
+    private CancellationTokenSource? _printProgressCancellationTokenSource;
 
     public PrintProgressExecutor(EngineCancellationToken engineCancellationToken,
         IConsolePrinter consolePrinter,
@@ -26,7 +26,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _logger = logger;
     }
     
-    public async Task InitializeAsync()
+    public async Task<IPrintProgressExecutor> InitializeAsync()
     {
         _printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -35,11 +35,13 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
         _printProgressTask =
             _consolePrinter.PrintProgress(organizedModules, _printProgressCancellationTokenSource.Token);
+
+        return this;
     }
 
     public async ValueTask DisposeAsync()
     {
-        _printProgressCancellationTokenSource.CancelAfter(5000);
+        _printProgressCancellationTokenSource?.CancelAfter(5000);
 
         await SafelyAwaitProgressPrinter();
     }
@@ -48,7 +50,10 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
     {
         try
         {
-            await _printProgressTask;
+            if (_printProgressTask != null)
+            {
+                await _printProgressTask;
+            }
         }
         catch (Exception e)
         {
