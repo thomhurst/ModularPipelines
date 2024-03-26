@@ -1,6 +1,7 @@
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
@@ -13,6 +14,15 @@ namespace ModularPipelines.TestHelpers;
 public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = new();
+
+    private class DummyModule : Module
+    {
+        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            return null;
+        }
+    }
 
     public async Task<T> RunModule<T>()
         where T : ModuleBase
@@ -106,6 +116,7 @@ public abstract class TestBase
     {
         var host = await TestPipelineHostBuilder
             .Create()
+            .AddModule<DummyModule>()
             .ConfigureServices((context, collection) => configureServices?.Invoke(context, collection))
             .BuildHostAsync();
 
