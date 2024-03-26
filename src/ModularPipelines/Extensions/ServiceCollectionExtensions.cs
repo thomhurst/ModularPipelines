@@ -141,7 +141,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IServiceCollection services)
         where TModuleHooks : class, IPipelineModuleHooks
     {
-        return services.AddScoped<IPipelineModuleHooks, TModuleHooks>();
+        return services.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

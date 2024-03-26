@@ -118,7 +118,7 @@ public class PipelineHostBuilder
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddScoped<IPipelineModuleHooks, TModuleHooks>();
+            collection.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
         });
 
         return this;
