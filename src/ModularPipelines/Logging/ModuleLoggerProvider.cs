@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -11,9 +12,8 @@ namespace ModularPipelines.Logging;
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
-
-    private IModuleLogger? _logger;
-
+    private readonly ConcurrentDictionary<Type, IModuleLogger> _cachedLoggers = new();
+    
     public ModuleLoggerProvider(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -23,11 +23,6 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public IModuleLogger GetLogger()
     {
-        if (_logger != null)
-        {
-            return _logger;
-        }
-
         var stackFrames = new StackTrace().GetFrames().ToList();
 
         var module = GetModuleFromMarkerAttributes(stackFrames)
@@ -59,7 +54,10 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public void Dispose()
     {
-        Disposer.DisposeObject(_logger);
+        foreach (var (_, moduleLogger) in _cachedLoggers)
+        {
+            moduleLogger.Dispose();
+        }
     }
 
     private Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
@@ -74,11 +72,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
-
-        _logger = logger;
-
-        return logger;
+        return _cachedLoggers.GetOrAdd(loggerType, _ =>
+        {
+            var scope = _serviceProvider.CreateScope();
+            return (IModuleLogger) scope.ServiceProvider.GetRequiredService(loggerType);
+        });
     }
 
     private bool IsModule(Type? type)

@@ -7,15 +7,12 @@ internal class ConsolePrinter : IConsolePrinter
 {
     private readonly IProgressPrinter _progressPrinter;
     private readonly ILogoPrinter _logoPrinter;
-    private readonly IDependencyPrinter _dependencyPrinter;
 
     public ConsolePrinter(IProgressPrinter progressPrinter,
-        ILogoPrinter logoPrinter,
-        IDependencyPrinter dependencyPrinter)
+        ILogoPrinter logoPrinter)
     {
         _progressPrinter = progressPrinter;
         _logoPrinter = logoPrinter;
-        _dependencyPrinter = dependencyPrinter;
     }
 
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
