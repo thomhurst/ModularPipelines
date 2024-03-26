@@ -1,20 +1,19 @@
 using System.Diagnostics;
-using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Engine.Executors;
 
 [StackTraceHidden]
-internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
+internal class PrintProgressExecutor : IPrintProgressExecutor
 {
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
     private readonly IModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
     
-    private Task _printProgressTask = null!; // LateInit
-    private CancellationTokenSource _printProgressCancellationTokenSource = null!; // LateInit
+    private Task? _printProgressTask;
+    private CancellationTokenSource? _printProgressCancellationTokenSource;
 
     public PrintProgressExecutor(EngineCancellationToken engineCancellationToken,
         IConsolePrinter consolePrinter,
@@ -26,10 +25,8 @@ internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
         _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
-
-    public int Order => int.MaxValue;
-
-    public async Task InitializeAsync()
+    
+    public async Task<IPrintProgressExecutor> InitializeAsync()
     {
         _printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -38,11 +35,13 @@ internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
 
         _printProgressTask =
             _consolePrinter.PrintProgress(organizedModules, _printProgressCancellationTokenSource.Token);
+
+        return this;
     }
 
     public async ValueTask DisposeAsync()
     {
-        _printProgressCancellationTokenSource.CancelAfter(5000);
+        _printProgressCancellationTokenSource?.CancelAfter(5000);
 
         await SafelyAwaitProgressPrinter();
     }
@@ -51,7 +50,10 @@ internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
     {
         try
         {
-            await _printProgressTask;
+            if (_printProgressTask != null)
+            {
+                await _printProgressTask;
+            }
         }
         catch (Exception e)
         {

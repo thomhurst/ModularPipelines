@@ -38,6 +38,7 @@ internal static class DependencyInjectionSetup
         // Everything that is injected into `PipelineContext` should be Scoped
         services
             .AddScoped<IPipelineContext, PipelineContext>()
+            .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddScoped(typeof(ModuleLogger<>))
             .AddScoped<IHttp, Http.Http>()
             .AddScoped<ICommand, Command>()
@@ -65,7 +66,6 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
-            .AddSingleton<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddSingleton<IConsolePrinter, ConsolePrinter>()
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
             .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()

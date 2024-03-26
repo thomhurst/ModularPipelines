@@ -1,19 +1,23 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 
-internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvider
+internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvider, IScopeDisposer
 {
     private readonly IModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly ILogger _logger;
+    private readonly List<IServiceScope> _scopes = new();
 
-    public SafeModuleEstimatedTimeProvider(IModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        IModuleLoggerProvider moduleLoggerProvider)
+    public SafeModuleEstimatedTimeProvider(IModuleEstimatedTimeProvider moduleEstimatedTimeProvider, IServiceProvider serviceProvider)
     {
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
-        _logger = moduleLoggerProvider.GetLogger();
+        var scope = serviceProvider.CreateScope();
+        _scopes.Add(scope);
+        _logger = scope.ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
     }
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
@@ -65,5 +69,10 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         {
             _logger.LogWarning(e, "Error saving submodule execution time for {Module}", moduleType.Name);
         }
+    }
+
+    public IEnumerable<IServiceScope> GetScopes()
+    {
+        return _scopes;
     }
 }
