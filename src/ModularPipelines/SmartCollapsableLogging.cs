@@ -4,19 +4,31 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines;
 
-internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging
+internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging, IScopeDisposer
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
     private readonly IConsoleWriter _consoleWriter;
+    private readonly List<IServiceScope> _scopes = new();
 
-    private IModuleLogger ModuleLogger => _moduleLoggerProvider.GetLogger();
+    private IModuleLogger ModuleLogger
+    {
+        get
+        {
+            var scope = _serviceProvider.CreateScope();
+            _scopes.Add(scope);
+            return scope
+                .ServiceProvider
+                .GetRequiredService<IModuleLoggerProvider>()
+                .GetLogger();
+        }
+    }
 
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter)
     {
-        _moduleLoggerProvider = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IModuleLoggerProvider>();
+        _serviceProvider = serviceProvider;
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
         _consoleWriter = consoleWriter;
     }
@@ -49,6 +61,11 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     public void LogToConsoleDirect(string value)
     {
         LogToConsole(value, _consoleWriter);
+    }
+    
+    public IEnumerable<IServiceScope> GetScopes()
+    {
+        return _scopes;
     }
 
     private void StartGroup(string name, IConsoleWriter writer)
