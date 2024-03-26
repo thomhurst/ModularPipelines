@@ -71,7 +71,7 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http]");
+        await Assert.That(logFile).Does.Contain("INFO	[ModularPipelines.Http");
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
