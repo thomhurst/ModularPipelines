@@ -59,7 +59,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services)
         where TRequirement : class, IPipelineRequirement
     {
-        return services.AddScoped<IPipelineRequirement, TRequirement>();
+        return services.AddSingleton<IPipelineRequirement, TRequirement>();
     }
 
     /// <summary>

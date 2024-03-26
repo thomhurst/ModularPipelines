@@ -300,7 +300,7 @@ public class PipelineHostBuilder
         _internalHost.ConfigureServices(s =>
         {
             s.RemoveAll<TBase>()
-                .AddScoped<TBase, T>();
+                .AddSingleton<TBase, T>();
         });
 
         return this;

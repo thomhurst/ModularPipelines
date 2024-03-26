@@ -4,19 +4,17 @@ namespace ModularPipelines.Http;
 
 internal class RequestLoggingHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLogger _logger;
 
-    public RequestLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider)
+    public RequestLoggingHttpHandler(IModuleLogger logger)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _logger = logger;
     }
 
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var logger = _moduleLoggerProvider.GetLogger();
-
-        await HttpLogger.PrintRequest(request, logger);
+        await HttpLogger.PrintRequest(request, _logger);
 
         var response = await base.SendAsync(request, cancellationToken);
 
