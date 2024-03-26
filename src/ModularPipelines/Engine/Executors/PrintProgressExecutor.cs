@@ -1,16 +1,20 @@
 using System.Diagnostics;
+using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Engine.Executors;
 
 [StackTraceHidden]
-internal class PrintProgressExecutor : IPrintProgressExecutor
+internal class PrintProgressExecutor : IPrintProgressExecutor, IInitializer
 {
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
     private readonly IModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
+    
+    private Task _printProgressTask = null!; // LateInit
+    private CancellationTokenSource _printProgressCancellationTokenSource = null!; // LateInit
 
     public PrintProgressExecutor(EngineCancellationToken engineCancellationToken,
         IConsolePrinter consolePrinter,
@@ -22,27 +26,30 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
-
-    public async ValueTask DisposeAsync()
+    
+    public async Task InitializeAsync()
     {
-        var printProgressCancellationTokenSource =
+        _printProgressCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
 
         var organizedModules = await _moduleRetriever.GetOrganizedModules();
 
-        var printProgressTask =
-            _consolePrinter.PrintProgress(organizedModules, printProgressCancellationTokenSource.Token);
-
-        printProgressCancellationTokenSource.CancelAfter(5000);
-
-        await SafelyAwaitProgressPrinter(printProgressTask);
+        _printProgressTask =
+            _consolePrinter.PrintProgress(organizedModules, _printProgressCancellationTokenSource.Token);
     }
 
-    private async Task SafelyAwaitProgressPrinter(Task printProgressTask)
+    public async ValueTask DisposeAsync()
+    {
+        _printProgressCancellationTokenSource.CancelAfter(5000);
+
+        await SafelyAwaitProgressPrinter();
+    }
+
+    private async Task SafelyAwaitProgressPrinter()
     {
         try
         {
-            await printProgressTask;
+            await _printProgressTask;
         }
         catch (Exception e)
         {
