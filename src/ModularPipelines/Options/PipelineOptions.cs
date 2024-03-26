@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Enums;
+using Spectre.Console;
 
 namespace ModularPipelines.Options;
 
@@ -12,7 +13,13 @@ public record PipelineOptions
 
     public ICollection<string>? IgnoreCategories { get; set; }
 
-    public bool ShowProgressInConsole { get; set; } = true;
+    private bool _showProgressInConsole = AnsiConsole.Profile.Capabilities.Interactive;
+    
+    public bool ShowProgressInConsole
+    {
+        get => _showProgressInConsole;
+        set => AnsiConsole.Profile.Capabilities.Interactive = _showProgressInConsole = value;
+    }
 
     public bool PrintResults { get; set; } = true;
 
