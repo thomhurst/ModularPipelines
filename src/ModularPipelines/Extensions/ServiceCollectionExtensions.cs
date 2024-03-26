@@ -129,7 +129,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services)
         where TGlobalSetup : class, IPipelineGlobalHooks
     {
-        return services.AddScoped<IPipelineGlobalHooks, TGlobalSetup>();
+        return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
     }
 
     /// <summary>

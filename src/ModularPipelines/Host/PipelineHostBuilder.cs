@@ -102,7 +102,7 @@ public class PipelineHostBuilder
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
-            collection.AddScoped<IPipelineGlobalHooks, TGlobalHooks>();
+            collection.AddSingleton<IPipelineGlobalHooks, TGlobalHooks>();
         });
 
         return this;
