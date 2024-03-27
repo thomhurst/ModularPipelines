@@ -1,1 +1,0 @@
-Fix modules appearing as completed (100%) before they had actually completed
