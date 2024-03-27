@@ -55,7 +55,7 @@ jobs:
           Publish__ShouldPublish: false
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       - name: Upload Code Coverage Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: '**/coverage*.xml'
