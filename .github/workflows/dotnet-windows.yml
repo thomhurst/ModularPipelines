@@ -25,7 +25,7 @@ jobs:
       - name: Setup WSL
         uses: Vampire/setup-wsl@v2.0.1
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
       - name: Cache NuGet
