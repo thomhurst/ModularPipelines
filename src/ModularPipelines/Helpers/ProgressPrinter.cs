@@ -168,9 +168,9 @@ internal class ProgressPrinter : IProgressPrinter
                 progressTask.StartTask();
                 var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
 
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
+                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
 
-                var ticksPerSecond = 100 / totalEstimatedSeconds;
+                var ticksPerSecond = 100.0 / totalEstimatedSeconds;
 
                 progressTask.Description = moduleName;
                 while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
