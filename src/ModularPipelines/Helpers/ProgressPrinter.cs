@@ -173,7 +173,7 @@ internal class ProgressPrinter : IProgressPrinter
                 var ticksPerSecond = 100 / totalEstimatedSeconds;
 
                 progressTask.Description = moduleName;
-                while (progressTask is { IsFinished: false, Value: < 95 })
+                while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
