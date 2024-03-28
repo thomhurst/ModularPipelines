@@ -6,7 +6,6 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 public record KubernetesWaitOptions : KubernetesOptions
 {
-
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 

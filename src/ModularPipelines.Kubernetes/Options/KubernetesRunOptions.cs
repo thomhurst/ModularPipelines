@@ -25,7 +25,7 @@ public record KubernetesRunOptions : KubernetesOptions
 
     [CommandSwitch("--cascade")]
     public string? Cascade { get; set; }
-    
+
     [BooleanCommandSwitch("--command")]
     public bool? Command { get; set; }
 
