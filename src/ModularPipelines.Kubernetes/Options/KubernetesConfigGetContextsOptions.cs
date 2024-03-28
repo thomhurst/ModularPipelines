@@ -3,13 +3,20 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "get-contexts")]
 [ExcludeFromCodeCoverage]
 public record KubernetesConfigGetContextsOptions : KubernetesOptions
 {
+    public KubernetesConfigGetContextsOptions(
+        string output
+)
+    {
+        CommandParts = ["config", "get-contexts"];
+        Output = output;
+    }
+
     [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 }

@@ -3,23 +3,30 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("auth", "reconcile")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAuthReconcileOptions : KubernetesOptions
 {
+    public KubernetesAuthReconcileOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["auth", "reconcile"];
+        Filename = filename;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
@@ -34,6 +41,6 @@ public record KubernetesAuthReconcileOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 }

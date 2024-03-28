@@ -3,13 +3,20 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("explain")]
 [ExcludeFromCodeCoverage]
-public record KubernetesExplainOptions([property: PositionalArgument] string Resource) : KubernetesOptions
+public record KubernetesExplainOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--api-version", SwitchValueSeparator = " ")]
+    public KubernetesExplainOptions()
+    {
+        CommandParts = ["explain"];
+    }
+
+    [CommandSwitch("--api-version")]
     public string? ApiVersion { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<RESOURCE>")]
+    public string? RESOURCE { get; set; }
 }

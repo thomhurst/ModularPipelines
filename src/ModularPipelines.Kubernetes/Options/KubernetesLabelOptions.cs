@@ -3,10 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("label")]
 [ExcludeFromCodeCoverage]
 public record KubernetesLabelOptions : KubernetesOptions
 {
+    public KubernetesLabelOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["label"];
+        Filename = filename;
+    }
+
+    public KubernetesLabelOptions(
+        string typeName
+)
+    {
+        CommandParts = ["label", "<TypeName>"];
+        TypeName = typeName;
+    }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
@@ -16,19 +31,19 @@ public record KubernetesLabelOptions : KubernetesOptions
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--list")]
@@ -37,7 +52,7 @@ public record KubernetesLabelOptions : KubernetesOptions
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--overwrite")]
@@ -49,15 +64,18 @@ public record KubernetesLabelOptions : KubernetesOptions
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resource-version", SwitchValueSeparator = " ")]
+    [CommandSwitch("--resource-version")]
     public string? ResourceVersion { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

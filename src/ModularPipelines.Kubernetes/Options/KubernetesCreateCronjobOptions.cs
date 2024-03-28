@@ -3,38 +3,53 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "cronjob")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateCronJobOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateCronjobOptions : KubernetesOptions
 {
+    public KubernetesCreateCronjobOptions(
+        string image,
+        string schedule
+)
+    {
+        CommandParts = ["create", "cronjob"];
+        Image = image;
+        Schedule = schedule;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Command>")]
+    public string? Command { get; set; }
+
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
+    [CommandSwitch("--restart")]
     public string? Restart { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--schedule", SwitchValueSeparator = " ")]
+    [CommandSwitch("--schedule")]
     public string? Schedule { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

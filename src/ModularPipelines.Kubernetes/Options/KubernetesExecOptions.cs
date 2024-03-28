@@ -3,17 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("exec")]
 [ExcludeFromCodeCoverage]
-public record KubernetesExecOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesExecOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<COMMAND>")]
+    public string? COMMAND { get; set; }
+
+    [CommandSwitch("--container")]
     public string? Container { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
+    public string? Pod { get; set; }
+
+    [CommandSwitch("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
@@ -24,4 +29,7 @@ public record KubernetesExecOptions([property: PositionalArgument] string Name) 
 
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

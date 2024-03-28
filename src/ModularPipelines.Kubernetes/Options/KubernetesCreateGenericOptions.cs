@@ -3,32 +3,39 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "configmap")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateConfigMapOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateGenericOptions : KubernetesOptions
 {
+    public KubernetesCreateGenericOptions()
+    {
+        CommandParts = ["create", "generic"];
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--append-hash")]
     public bool? AppendHash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from-env-file", SwitchValueSeparator = " ")]
+    [CommandSwitch("--from-env-file")]
     public string? FromEnvFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from-file", SwitchValueSeparator = " ")]
-    public string[]? FromFile { get; set; }
+    [CommandSwitch("--from-file")]
+    public IEnumerable<string>? FromFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from-literal", SwitchValueSeparator = " ")]
-    public string[]? FromLiteral { get; set; }
+    [CommandSwitch("--from-literal")]
+    public IEnumerable<string>? FromLiteral { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -37,8 +44,11 @@ public record KubernetesCreateConfigMapOptions([property: PositionalArgument] st
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
+
+    [CommandSwitch("--type")]
+    public string? Type { get; set; }
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }

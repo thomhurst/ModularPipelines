@@ -3,28 +3,44 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("describe")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDescribeOptions : KubernetesOptions
 {
+    public KubernetesDescribeOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["describe"];
+        Filename = filename;
+    }
+
     [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
-    public int? ChunkSize { get; set; }
+    [CommandSwitch("--chunk-size")]
+    public string? ChunkSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<NamePrefixLLabel>")]
+    public string? NamePrefixLLabel { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-events")]
     public bool? ShowEvents { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<Type>")]
+    public string? Type { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

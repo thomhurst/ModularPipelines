@@ -3,43 +3,47 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("proxy")]
 [ExcludeFromCodeCoverage]
 public record KubernetesProxyOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--accept-hosts", SwitchValueSeparator = " ")]
+    public KubernetesProxyOptions()
+    {
+        CommandParts = ["proxy"];
+    }
+
+    [CommandSwitch("--accept-hosts")]
     public string? AcceptHosts { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--accept-paths", SwitchValueSeparator = " ")]
+    [CommandSwitch("--accept-paths")]
     public string? AcceptPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--address", SwitchValueSeparator = " ")]
+    [CommandSwitch("--address")]
     public string? Address { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--api-prefix", SwitchValueSeparator = " ")]
+    [CommandSwitch("--api-prefix")]
     public string? ApiPrefix { get; set; }
 
     [BooleanCommandSwitch("--disable-filter")]
     public bool? DisableFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keepalive", SwitchValueSeparator = " ")]
+    [CommandSwitch("--keepalive")]
     public string? Keepalive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
-    public int? Port { get; set; }
+    [CommandSwitch("--port")]
+    public string? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reject-methods", SwitchValueSeparator = " ")]
+    [CommandSwitch("--reject-methods")]
     public string? RejectMethods { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reject-paths", SwitchValueSeparator = " ")]
+    [CommandSwitch("--reject-paths")]
     public string? RejectPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--unix-socket", SwitchValueSeparator = " ")]
+    [CommandSwitch("--unix-socket")]
     public string? UnixSocket { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--www", SwitchValueSeparator = " ")]
+    [CommandSwitch("--www")]
     public string? Www { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--www-prefix", SwitchValueSeparator = " ")]
+    [CommandSwitch("--www-prefix")]
     public string? WwwPrefix { get; set; }
 }

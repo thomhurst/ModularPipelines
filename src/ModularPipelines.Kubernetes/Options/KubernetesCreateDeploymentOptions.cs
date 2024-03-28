@@ -3,29 +3,42 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "deployment")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateDeploymentOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateDeploymentOptions : KubernetesOptions
 {
+    public KubernetesCreateDeploymentOptions(
+        IEnumerable<string> image
+)
+    {
+        CommandParts = ["create", "deployment"];
+        Image = image;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Command>")]
+    public string? Command { get; set; }
+
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
-    public string[]? Image { get; set; }
+    [CommandSwitch("--image")]
+    public IEnumerable<string>? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CommandSwitch("--port")]
     public int? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--replicas", SwitchValueSeparator = " ")]
+    [CommandSwitch("--replicas")]
     public int? Replicas { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -34,7 +47,7 @@ public record KubernetesCreateDeploymentOptions([property: PositionalArgument] s
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

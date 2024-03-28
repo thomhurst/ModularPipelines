@@ -3,9 +3,8 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("wait")]
 [ExcludeFromCodeCoverage]
-public record KubernetesWaitOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesWaitOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
@@ -16,33 +15,36 @@ public record KubernetesWaitOptions([property: PositionalArgument] string Name) 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--for", SwitchValueSeparator = " ")]
+    [CommandSwitch("--for")]
     public string? For { get; set; }
 
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Resource>")]
+    public string? Resource { get; set; }
+
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 }

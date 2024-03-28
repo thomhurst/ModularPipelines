@@ -3,12 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("kustomize")]
 [ExcludeFromCodeCoverage]
-public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
+public record KubernetesKustomizeOptions : KubernetesOptions
 {
+    public KubernetesKustomizeOptions()
+    {
+        CommandParts = ["kustomize"];
+    }
+
     [BooleanCommandSwitch("--as-current-user")]
     public bool? AsCurrentUser { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<DIR>")]
+    public string? DIR { get; set; }
 
     [BooleanCommandSwitch("--enable-alpha-plugins")]
     public bool? EnableAlphaPlugins { get; set; }
@@ -19,27 +26,27 @@ public record KubernetesKustomizeOptions([property: PositionalArgument] string D
     [BooleanCommandSwitch("--enable-managedby-label")]
     public bool? EnableManagedbyLabel { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CommandSwitch("--env")]
+    public IEnumerable<string>? Env { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--helm-command", SwitchValueSeparator = " ")]
+    [CommandSwitch("--helm-command")]
     public string? HelmCommand { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-restrictor", SwitchValueSeparator = " ")]
+    [CommandSwitch("--load-restrictor")]
     public string? LoadRestrictor { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mount", SwitchValueSeparator = " ")]
-    public string[]? Mount { get; set; }
+    [CommandSwitch("--mount")]
+    public IEnumerable<string>? Mount { get; set; }
 
     [BooleanCommandSwitch("--network")]
     public bool? Network { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--network-name", SwitchValueSeparator = " ")]
+    [CommandSwitch("--network-name")]
     public string? NetworkName { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reorder", SwitchValueSeparator = " ")]
+    [CommandSwitch("--reorder")]
     public string? Reorder { get; set; }
 }

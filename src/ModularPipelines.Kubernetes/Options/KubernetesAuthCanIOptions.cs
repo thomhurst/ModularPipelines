@@ -3,10 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("auth", "can-i")]
 [ExcludeFromCodeCoverage]
-public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
+public record KubernetesAuthCanIOptions : KubernetesOptions
 {
+    public KubernetesAuthCanIOptions()
+    {
+        CommandParts = ["auth", "can-i"];
+    }
+
     [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
@@ -19,6 +23,12 @@ public record KubernetesAuthCanIOptions([property: PositionalArgument] string Ve
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
+    [CommandSwitch("--subresource")]
     public string? Subresource { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeTypeNameNonresourceurl>")]
+    public string? TypeTypeNameNonresourceurl { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<VERB>")]
+    public string? VERB { get; set; }
 }

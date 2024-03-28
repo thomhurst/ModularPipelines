@@ -3,23 +3,27 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "nodeport")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateServiceNodePortOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateServiceaccountOptions : KubernetesOptions
 {
+    public KubernetesCreateServiceaccountOptions()
+    {
+        CommandParts = ["create", "serviceaccount"];
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--node-port", SwitchValueSeparator = " ")]
-    public int? NodePort { get; set; }
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -28,10 +32,7 @@ public record KubernetesCreateServiceNodePortOptions([property: PositionalArgume
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tcp", SwitchValueSeparator = " ")]
-    public string[]? Tcp { get; set; }
-
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

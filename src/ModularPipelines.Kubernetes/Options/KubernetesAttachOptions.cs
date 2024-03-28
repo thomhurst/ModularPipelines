@@ -3,14 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("attach")]
 [ExcludeFromCodeCoverage]
-public record KubernetesAttachOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesAttachOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [CommandSwitch("--container")]
     public string? Container { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
+    public string? Pod { get; set; }
+
+    [CommandSwitch("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
@@ -21,4 +23,7 @@ public record KubernetesAttachOptions([property: PositionalArgument] string Name
 
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

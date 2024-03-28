@@ -3,26 +3,39 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "job")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateJobOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateJobOptions : KubernetesOptions
 {
+    public KubernetesCreateJobOptions(
+        string image
+)
+    {
+        CommandParts = ["create", "job"];
+        Image = image;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Command>")]
+    public string? Command { get; set; }
+
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from", SwitchValueSeparator = " ")]
+    [CommandSwitch("--from")]
     public string? From { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -31,7 +44,7 @@ public record KubernetesCreateJobOptions([property: PositionalArgument] string N
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

@@ -3,10 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "view")]
 [ExcludeFromCodeCoverage]
 public record KubernetesConfigViewOptions : KubernetesOptions
 {
+    public KubernetesConfigViewOptions()
+    {
+        CommandParts = ["config", "view"];
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
@@ -19,7 +23,7 @@ public record KubernetesConfigViewOptions : KubernetesOptions
     [BooleanCommandSwitch("--minify")]
     public bool? Minify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--raw")]
@@ -28,6 +32,6 @@ public record KubernetesConfigViewOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 }

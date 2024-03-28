@@ -3,38 +3,47 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("autoscale")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAutoscaleOptions : KubernetesOptions
 {
+    public KubernetesAutoscaleOptions(
+        IEnumerable<string> filename,
+        int max
+)
+    {
+        CommandParts = ["autoscale"];
+        Filename = filename;
+        Max = max;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cpu-percent", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cpu-percent")]
     public int? CpuPercent { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
+    [CommandSwitch("--max")]
     public int? Max { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--min", SwitchValueSeparator = " ")]
+    [CommandSwitch("--min")]
     public int? Min { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
+    [CommandSwitch("--name")]
     public string? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--record")]
@@ -49,6 +58,9 @@ public record KubernetesAutoscaleOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

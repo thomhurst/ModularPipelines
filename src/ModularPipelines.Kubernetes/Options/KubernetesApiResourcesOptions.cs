@@ -3,11 +3,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("api-resources")]
 [ExcludeFromCodeCoverage]
 public record KubernetesApiResourcesOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--api-group", SwitchValueSeparator = " ")]
+    public KubernetesApiResourcesOptions()
+    {
+        CommandParts = ["api-resources"];
+    }
+
+    [CommandSwitch("--api-group")]
     public string? ApiGroup { get; set; }
 
     [BooleanCommandSwitch("--cached")]
@@ -19,12 +23,12 @@ public record KubernetesApiResourcesOptions : KubernetesOptions
     [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
+    [CommandSwitch("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--verbs", SwitchValueSeparator = " ")]
-    public string[]? Verbs { get; set; }
+    [CommandSwitch("--verbs")]
+    public IEnumerable<string>? Verbs { get; set; }
 }

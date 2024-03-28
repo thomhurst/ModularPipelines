@@ -3,9 +3,8 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("delete")]
 [ExcludeFromCodeCoverage]
-public record KubernetesDeleteOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesDeleteOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
@@ -13,47 +12,50 @@ public record KubernetesDeleteOptions([property: PositionalArgument] string Name
     [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cascade")]
     public string? Cascade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CommandSwitch("--grace-period")]
     public int? GracePeriod { get; set; }
 
     [BooleanCommandSwitch("--ignore-not-found")]
     public bool? IgnoreNotFound { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--now")]
     public bool? Now { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--raw", SwitchValueSeparator = " ")]
+    [CommandSwitch("--raw")]
     public string? Raw { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<Type>")]
+    public string? Type { get; set; }
 
     [BooleanCommandSwitch("--wait")]
     public bool? Wait { get; set; }

@@ -3,31 +3,35 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("cluster-info", "dump")]
 [ExcludeFromCodeCoverage]
 public record KubernetesClusterInfoDumpOptions : KubernetesOptions
 {
+    public KubernetesClusterInfoDumpOptions()
+    {
+        CommandParts = ["cluster-info", "dump"];
+    }
+
     [BooleanCommandSwitch("--all-namespaces")]
     public bool? AllNamespaces { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--namespaces", SwitchValueSeparator = " ")]
-    public string[]? Namespaces { get; set; }
+    [CommandSwitch("--namespaces")]
+    public IEnumerable<string>? Namespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-directory", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output-directory")]
     public string? OutputDirectory { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 }

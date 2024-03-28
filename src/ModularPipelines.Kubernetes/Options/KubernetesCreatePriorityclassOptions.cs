@@ -3,29 +3,41 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "priorityclass")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreatePriorityClassOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreatePriorityclassOptions : KubernetesOptions
 {
+    public KubernetesCreatePriorityclassOptions(
+        int value,
+        bool globalDefault
+)
+    {
+        CommandParts = ["create", "priorityclass"];
+        Value = value;
+        GlobalDefault = globalDefault;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--description", SwitchValueSeparator = " ")]
+    [CommandSwitch("--description")]
     public string? Description { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
     [BooleanCommandSwitch("--global-default")]
     public bool? GlobalDefault { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--preemption-policy", SwitchValueSeparator = " ")]
+    [CommandSwitch("--preemption-policy")]
     public string? PreemptionPolicy { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -34,12 +46,12 @@ public record KubernetesCreatePriorityClassOptions([property: PositionalArgument
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--value", SwitchValueSeparator = " ")]
+    [CommandSwitch("--value")]
     public int? Value { get; set; }
 }

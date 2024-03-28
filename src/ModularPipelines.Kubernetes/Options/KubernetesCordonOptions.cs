@@ -3,13 +3,20 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("cordon")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCordonOptions([property: PositionalArgument] string Node) : KubernetesOptions
+public record KubernetesCordonOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    public KubernetesCordonOptions()
+    {
+        CommandParts = ["cordon"];
+    }
+
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NODE>")]
+    public string? NODE { get; set; }
+
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 }

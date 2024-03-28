@@ -3,27 +3,39 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "role")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateRoleOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateRoleOptions : KubernetesOptions
 {
+    public KubernetesCreateRoleOptions(
+        IEnumerable<string> verb,
+        IEnumerable<string> resource
+)
+    {
+        CommandParts = ["create", "role"];
+        Verb = verb;
+        Resource = resource;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resource", SwitchValueSeparator = " ")]
-    public string[]? Resource { get; set; }
+    [CommandSwitch("--resource")]
+    public IEnumerable<string>? Resource { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resource-name", SwitchValueSeparator = " ")]
-    public string[]? ResourceName { get; set; }
+    [CommandSwitch("--resource-name")]
+    public IEnumerable<string>? ResourceName { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
@@ -31,12 +43,12 @@ public record KubernetesCreateRoleOptions([property: PositionalArgument] string 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--verb", SwitchValueSeparator = " ")]
-    public string[]? Verb { get; set; }
+    [CommandSwitch("--verb")]
+    public IEnumerable<string>? Verb { get; set; }
 }

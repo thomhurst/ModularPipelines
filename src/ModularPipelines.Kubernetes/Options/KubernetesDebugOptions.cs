@@ -3,9 +3,8 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("debug")]
 [ExcludeFromCodeCoverage]
-public record KubernetesDebugOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesDebugOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--arguments-only")]
     public bool? ArgumentsOnly { get; set; }
@@ -13,20 +12,23 @@ public record KubernetesDebugOptions([property: PositionalArgument] string Name)
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [CommandSwitch("--container")]
     public string? Container { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--copy-to", SwitchValueSeparator = " ")]
+    [CommandSwitch("--copy-to")]
     public string? CopyTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CommandSwitch("--env")]
+    public IEnumerable<string>? Env { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image-pull-policy")]
     public string? ImagePullPolicy { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<Pod>")]
+    public string? Pod { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
@@ -37,8 +39,8 @@ public record KubernetesDebugOptions([property: PositionalArgument] string Name)
     [BooleanCommandSwitch("--same-node")]
     public bool? SameNode { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-image", SwitchValueSeparator = " ")]
-    public string[]? SetImage { get; set; }
+    [CommandSwitch("--set-image")]
+    public IEnumerable<string>? SetImage { get; set; }
 
     [BooleanCommandSwitch("--share-processes")]
     public bool? ShareProcesses { get; set; }
@@ -46,9 +48,12 @@ public record KubernetesDebugOptions([property: PositionalArgument] string Name)
     [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--target", SwitchValueSeparator = " ")]
+    [CommandSwitch("--target")]
     public string? Target { get; set; }
 
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

@@ -3,38 +3,50 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "poddisruptionbudget")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreatePodDisruptionBudgetOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreatePoddisruptionbudgetOptions : KubernetesOptions
 {
+    public KubernetesCreatePoddisruptionbudgetOptions(
+        string selector,
+        string minAvailable
+)
+    {
+        CommandParts = ["create", "poddisruptionbudget"];
+        Selector = selector;
+        MinAvailable = minAvailable;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-unavailable", SwitchValueSeparator = " ")]
+    [CommandSwitch("--max-unavailable")]
     public string? MaxUnavailable { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--min-available", SwitchValueSeparator = " ")]
+    [CommandSwitch("--min-available")]
     public string? MinAvailable { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

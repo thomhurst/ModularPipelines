@@ -3,13 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigOptions([property: PositionalArgument] string Subcommand) : KubernetesOptions
+public record KubernetesConfigOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--no-headers")]
-    public bool? NoHeaders { get; set; }
+    public KubernetesConfigOptions()
+    {
+        CommandParts = ["config"];
+    }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
-    public string? Output { get; set; }
+    [PositionalArgument(PlaceholderName = "<SUBCOMMAND>")]
+    public string? SUBCOMMAND { get; set; }
 }

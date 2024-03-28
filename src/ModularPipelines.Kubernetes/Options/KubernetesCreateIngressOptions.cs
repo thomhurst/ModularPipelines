@@ -3,33 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "ingress")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateIngressOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateIngressOptions : KubernetesOptions
 {
+    public KubernetesCreateIngressOptions(
+        IEnumerable<string> rule
+)
+    {
+        CommandParts = ["create", "ingress"];
+        Rule = rule;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--annotation", SwitchValueSeparator = " ")]
-    public string[]? Annotation { get; set; }
+    [CommandSwitch("--annotation")]
+    public IEnumerable<string>? Annotation { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--class", SwitchValueSeparator = " ")]
+    [CommandSwitch("--class")]
     public string? Class { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--default-backend", SwitchValueSeparator = " ")]
+    [CommandSwitch("--default-backend")]
     public string? DefaultBackend { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rule", SwitchValueSeparator = " ")]
-    public string[]? Rule { get; set; }
+    [CommandSwitch("--rule")]
+    public IEnumerable<string>? Rule { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
@@ -37,7 +47,7 @@ public record KubernetesCreateIngressOptions([property: PositionalArgument] stri
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

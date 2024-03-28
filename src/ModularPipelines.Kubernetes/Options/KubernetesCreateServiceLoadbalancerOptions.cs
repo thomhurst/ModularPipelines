@@ -3,20 +3,27 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "loadbalancer")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateServiceLoadbalancerOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateServiceLoadbalancerOptions : KubernetesOptions
 {
+    public KubernetesCreateServiceLoadbalancerOptions()
+    {
+        CommandParts = ["create", "service", "loadbalancer"];
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -25,10 +32,10 @@ public record KubernetesCreateServiceLoadbalancerOptions([property: PositionalAr
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tcp", SwitchValueSeparator = " ")]
-    public string[]? Tcp { get; set; }
+    [CommandSwitch("--tcp")]
+    public IEnumerable<string>? Tcp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

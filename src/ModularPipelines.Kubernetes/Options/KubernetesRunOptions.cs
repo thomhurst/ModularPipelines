@@ -3,77 +3,87 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("run")]
 [ExcludeFromCodeCoverage]
-public record KubernetesRunOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesRunOptions : KubernetesOptions
 {
+    public KubernetesRunOptions(
+        string image
+)
+    {
+        CommandParts = ["run"];
+        Image = image;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--annotations", SwitchValueSeparator = " ")]
-    public string[]? Annotations { get; set; }
+    [CommandSwitch("--annotations")]
+    public IEnumerable<string>? Annotations { get; set; }
 
     [BooleanCommandSwitch("--attach")]
     public bool? Attach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cascade")]
     public string? Cascade { get; set; }
 
     [BooleanCommandSwitch("--command")]
     public bool? Command { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
-    public string[]? Env { get; set; }
+    [CommandSwitch("--env")]
+    public IEnumerable<string>? Env { get; set; }
 
     [BooleanCommandSwitch("--expose")]
     public bool? Expose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CommandSwitch("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--hostport", SwitchValueSeparator = " ")]
+    [CommandSwitch("--hostport")]
     public int? Hostport { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
+    [CommandSwitch("--image-pull-policy")]
     public string? ImagePullPolicy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
+    [CommandSwitch("--labels")]
     public string? Labels { get; set; }
 
     [BooleanCommandSwitch("--leave-stdin-open")]
     public bool? LeaveStdinOpen { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limits", SwitchValueSeparator = " ")]
+    [CommandSwitch("--limits")]
     public string? Limits { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
+    [CommandSwitch("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CommandSwitch("--port")]
     public string? Port { get; set; }
 
     [BooleanCommandSwitch("--privileged")]
@@ -88,10 +98,10 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--requests", SwitchValueSeparator = " ")]
+    [CommandSwitch("--requests")]
     public string? Requests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
+    [CommandSwitch("--restart")]
     public string? Restart { get; set; }
 
     [BooleanCommandSwitch("--rm")]
@@ -100,7 +110,7 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
+    [CommandSwitch("--serviceaccount")]
     public string? Serviceaccount { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
@@ -109,10 +119,10 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     [BooleanCommandSwitch("--stdin")]
     public bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--tty")]

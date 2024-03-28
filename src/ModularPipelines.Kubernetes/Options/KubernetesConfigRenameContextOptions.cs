@@ -3,10 +3,11 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "rename-context")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigRenameContextOptions([property: PositionalArgument] string ContextName) : KubernetesOptions
+public record KubernetesConfigRenameContextOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--set-raw-bytes")]
-    public bool? SetRawBytes { get; set; }
+    public KubernetesConfigRenameContextOptions()
+    {
+        CommandParts = ["config", "rename-context"];
+    }
 }

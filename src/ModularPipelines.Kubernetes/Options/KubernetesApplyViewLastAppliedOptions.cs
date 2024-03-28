@@ -3,25 +3,41 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("apply", "view-last-applied")]
 [ExcludeFromCodeCoverage]
-public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
 {
+    public KubernetesApplyViewLastAppliedOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["apply", "view-last-applied"];
+        Filename = filename;
+    }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
+    public string? NameLLabel { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<Type>")]
+    public string? Type { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

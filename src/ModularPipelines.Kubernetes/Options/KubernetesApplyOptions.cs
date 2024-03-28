@@ -3,27 +3,42 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("apply")]
 [ExcludeFromCodeCoverage]
 public record KubernetesApplyOptions : KubernetesOptions
 {
+    public KubernetesApplyOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["apply"];
+        Filename = filename;
+    }
+
+    public KubernetesApplyOptions(
+        string kustomize
+)
+    {
+        CommandParts = ["apply"];
+        Kustomize = kustomize;
+    }
+
     [BooleanCommandSwitch("--all")]
     public bool? All { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cascade")]
     public string? Cascade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
@@ -31,16 +46,16 @@ public record KubernetesApplyOptions : KubernetesOptions
     [BooleanCommandSwitch("--force-conflicts")]
     public bool? ForceConflicts { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CommandSwitch("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--openapi-patch")]
     public bool? OpenapiPatch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--overwrite")]
@@ -49,8 +64,8 @@ public record KubernetesApplyOptions : KubernetesOptions
     [BooleanCommandSwitch("--prune")]
     public bool? Prune { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prune-whitelist", SwitchValueSeparator = " ")]
-    public string[]? PruneWhitelist { get; set; }
+    [CommandSwitch("--prune-whitelist")]
+    public IEnumerable<string>? PruneWhitelist { get; set; }
 
     [BooleanCommandSwitch("--record")]
     public bool? Record { get; set; }
@@ -58,7 +73,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--server-side")]
@@ -67,10 +82,10 @@ public record KubernetesApplyOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--validate")]

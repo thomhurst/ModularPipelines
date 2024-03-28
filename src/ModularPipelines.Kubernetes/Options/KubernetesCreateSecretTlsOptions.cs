@@ -3,29 +3,41 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "tls")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateSecretTlsOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateSecretTlsOptions : KubernetesOptions
 {
+    public KubernetesCreateSecretTlsOptions(
+        string cert,
+        string key
+)
+    {
+        CommandParts = ["create", "secret", "tls"];
+        Cert = cert;
+        Key = key;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--append-hash")]
     public bool? AppendHash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cert")]
     public string? Cert { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key", SwitchValueSeparator = " ")]
+    [CommandSwitch("--key")]
     public string? Key { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -34,7 +46,7 @@ public record KubernetesCreateSecretTlsOptions([property: PositionalArgument] st
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

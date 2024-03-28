@@ -3,23 +3,38 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("apply", "edit-last-applied")]
 [ExcludeFromCodeCoverage]
-public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
 {
+    public KubernetesApplyEditLastAppliedOptions(
+        string resourceName
+)
+    {
+        CommandParts = ["apply", "edit-last-applied", "<ResourceName>"];
+        ResourceName = resourceName;
+    }
+
+    public KubernetesApplyEditLastAppliedOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["apply", "edit-last-applied"];
+        Filename = filename;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--record")]
@@ -28,10 +43,13 @@ public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgumen
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
+    [PositionalArgument(PlaceholderName = "<ResourceName>")]
+    public string? ResourceName { get; set; }
+
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--windows-line-endings")]

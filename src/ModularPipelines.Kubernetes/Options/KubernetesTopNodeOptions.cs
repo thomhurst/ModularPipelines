@@ -3,17 +3,24 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("top", "node")]
 [ExcludeFromCodeCoverage]
-public record KubernetesTopNodeOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesTopNodeOptions : KubernetesOptions
 {
+    public KubernetesTopNodeOptions()
+    {
+        CommandParts = ["top", "node"];
+    }
+
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
+    public string? NameLLabel { get; set; }
+
     [BooleanCommandSwitch("--no-headers")]
     public bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
+    [CommandSwitch("--sort-by")]
     public string? SortBy { get; set; }
 
     [BooleanCommandSwitch("--use-protocol-buffers")]

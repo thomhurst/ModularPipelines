@@ -3,23 +3,41 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("certificate", "deny")]
 [ExcludeFromCodeCoverage]
 public record KubernetesCertificateDenyOptions : KubernetesOptions
 {
+    public KubernetesCertificateDenyOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["certificate", "deny"];
+        Filename = filename;
+    }
+
+    public KubernetesCertificateDenyOptions(
+        string name
+)
+    {
+        CommandParts = ["certificate", "deny", "<Name>"];
+        Name = name;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
     public bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Name>")]
+    public string? Name { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
@@ -28,6 +46,6 @@ public record KubernetesCertificateDenyOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 }

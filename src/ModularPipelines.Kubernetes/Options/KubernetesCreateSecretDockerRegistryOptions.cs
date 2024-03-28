@@ -3,38 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "docker-registry")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateSecretDockerRegistryOptions : KubernetesOptions
 {
+    public KubernetesCreateSecretDockerRegistryOptions(
+        string dockerUsername,
+        string dockerPassword,
+        string dockerEmail
+)
+    {
+        CommandParts = ["create", "secret", "docker-registry"];
+        DockerUsername = dockerUsername;
+        DockerPassword = dockerPassword;
+        DockerEmail = dockerEmail;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--append-hash")]
     public bool? AppendHash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-email", SwitchValueSeparator = " ")]
+    [CommandSwitch("--docker-email")]
     public string? DockerEmail { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-password", SwitchValueSeparator = " ")]
+    [CommandSwitch("--docker-password")]
     public string? DockerPassword { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-server", SwitchValueSeparator = " ")]
+    [CommandSwitch("--docker-server")]
     public string? DockerServer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-username", SwitchValueSeparator = " ")]
+    [CommandSwitch("--docker-username")]
     public string? DockerUsername { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from-file", SwitchValueSeparator = " ")]
-    public string[]? FromFile { get; set; }
+    [CommandSwitch("--from-file")]
+    public IEnumerable<string>? FromFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
+    public string? NAME { get; set; }
+
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
@@ -43,7 +57,7 @@ public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalA
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]

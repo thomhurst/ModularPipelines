@@ -3,56 +3,71 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("expose")]
 [ExcludeFromCodeCoverage]
 public record KubernetesExposeOptions : KubernetesOptions
 {
+    public KubernetesExposeOptions(
+        IEnumerable<string> filename
+)
+    {
+        CommandParts = ["expose"];
+        Filename = filename;
+    }
+
+    public KubernetesExposeOptions(
+        string typeName
+)
+    {
+        CommandParts = ["expose", "<TypeName>"];
+        TypeName = typeName;
+    }
+
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cluster-ip", SwitchValueSeparator = " ")]
+    [CommandSwitch("--cluster-ip")]
     public string? ClusterIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container-port", SwitchValueSeparator = " ")]
+    [CommandSwitch("--container-port")]
     public string? ContainerPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--external-ip", SwitchValueSeparator = " ")]
+    [CommandSwitch("--external-ip")]
     public string? ExternalIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
-    public string[]? Filename { get; set; }
+    [CommandSwitch("--filename")]
+    public IEnumerable<string>? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--generator", SwitchValueSeparator = " ")]
+    [CommandSwitch("--generator")]
     public string? Generator { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
+    [CommandSwitch("--labels")]
     public string? Labels { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-balancer-ip", SwitchValueSeparator = " ")]
+    [CommandSwitch("--load-balancer-ip")]
     public string? LoadBalancerIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
+    [CommandSwitch("--name")]
     public string? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CommandSwitch("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
+    [CommandSwitch("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CommandSwitch("--port")]
     public string? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--protocol", SwitchValueSeparator = " ")]
+    [CommandSwitch("--protocol")]
     public string? Protocol { get; set; }
 
     [BooleanCommandSwitch("--record")]
@@ -64,21 +79,24 @@ public record KubernetesExposeOptions : KubernetesOptions
     [BooleanCommandSwitch("--save-config")]
     public bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--session-affinity", SwitchValueSeparator = " ")]
+    [CommandSwitch("--session-affinity")]
     public string? SessionAffinity { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
     public bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--target-port", SwitchValueSeparator = " ")]
+    [CommandSwitch("--target-port")]
     public string? TargetPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
+    [CommandSwitch("--type")]
     public string? Type { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }

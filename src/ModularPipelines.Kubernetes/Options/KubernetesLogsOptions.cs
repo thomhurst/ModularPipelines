@@ -3,14 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("logs")]
 [ExcludeFromCodeCoverage]
-public record KubernetesLogsOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesLogsOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-containers")]
     public bool? AllContainers { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [CommandSwitch("--container")]
     public string? Container { get; set; }
 
     [BooleanCommandSwitch("--follow")]
@@ -22,13 +21,16 @@ public record KubernetesLogsOptions([property: PositionalArgument] string Name) 
     [BooleanCommandSwitch("--insecure-skip-tls-verify-backend")]
     public bool? InsecureSkipTlsVerifyBackend { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limit-bytes", SwitchValueSeparator = " ")]
+    [CommandSwitch("--limit-bytes")]
     public int? LimitBytes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-log-requests", SwitchValueSeparator = " ")]
-    public int? MaxLogRequests { get; set; }
+    [CommandSwitch("--max-log-requests")]
+    public string? MaxLogRequests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
+    public string? Pod { get; set; }
+
+    [CommandSwitch("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--prefix")]
@@ -37,18 +39,21 @@ public record KubernetesLogsOptions([property: PositionalArgument] string Name) 
     [BooleanCommandSwitch("--previous")]
     public bool? Previous { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since", SwitchValueSeparator = " ")]
+    [CommandSwitch("--since")]
     public string? Since { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since-time", SwitchValueSeparator = " ")]
+    [CommandSwitch("--since-time")]
     public string? SinceTime { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tail", SwitchValueSeparator = " ")]
+    [CommandSwitch("--tail")]
     public int? Tail { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
     public bool? Timestamps { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
+    public string? TypeName { get; set; }
 }
