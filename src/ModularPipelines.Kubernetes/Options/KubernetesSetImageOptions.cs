@@ -18,7 +18,7 @@ public record KubernetesSetImageOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["set", "image", "{TypeName}"];
+        CommandParts = ["set", "image", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -61,6 +61,6 @@ public record KubernetesSetImageOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

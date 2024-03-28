@@ -11,6 +11,6 @@ public record KubernetesRolloutOptions : KubernetesOptions
         CommandParts = ["rollout"];
     }
 
-    [PositionalArgument(PlaceholderName = "SUBCOMMAND")]
+    [PositionalArgument(PlaceholderName = "<SUBCOMMAND>")]
     public string? SUBCOMMAND { get; set; }
 }

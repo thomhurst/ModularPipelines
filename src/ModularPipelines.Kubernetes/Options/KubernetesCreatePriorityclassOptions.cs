@@ -31,7 +31,7 @@ public record KubernetesCreatePriorityclassOptions : KubernetesOptions
     [BooleanCommandSwitch("--global-default")]
     public bool? GlobalDefault { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

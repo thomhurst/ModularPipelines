@@ -30,7 +30,7 @@ public record KubernetesGetOptions : KubernetesOptions
     [CommandSwitch("--label-columns")]
     public IEnumerable<string>? LabelColumns { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NameLLabel")]
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
     public string? NameLLabel { get; set; }
 
     [BooleanCommandSwitch("--no-headers")]
@@ -69,10 +69,10 @@ public record KubernetesGetOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Type")]
+    [PositionalArgument(PlaceholderName = "<Type>")]
     public string? Type { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 
     [BooleanCommandSwitch("--use-openapi-print-columns")]

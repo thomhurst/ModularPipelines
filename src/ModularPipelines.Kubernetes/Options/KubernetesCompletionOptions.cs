@@ -11,6 +11,6 @@ public record KubernetesCompletionOptions : KubernetesOptions
         CommandParts = ["completion"];
     }
 
-    [PositionalArgument(PlaceholderName = "SHELL")]
+    [PositionalArgument(PlaceholderName = "<SHELL>")]
     public string? SHELL { get; set; }
 }

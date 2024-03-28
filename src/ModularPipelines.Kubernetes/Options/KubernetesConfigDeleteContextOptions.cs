@@ -11,6 +11,6 @@ public record KubernetesConfigDeleteContextOptions : KubernetesOptions
         CommandParts = ["config", "delete-context"];
     }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 }

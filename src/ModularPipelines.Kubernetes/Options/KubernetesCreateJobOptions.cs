@@ -17,7 +17,7 @@ public record KubernetesCreateJobOptions : KubernetesOptions
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Command")]
+    [PositionalArgument(PlaceholderName = "<Command>")]
     public string? Command { get; set; }
 
     [CommandSwitch("--dry-run")]
@@ -32,7 +32,7 @@ public record KubernetesCreateJobOptions : KubernetesOptions
     [CommandSwitch("--image")]
     public string? Image { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

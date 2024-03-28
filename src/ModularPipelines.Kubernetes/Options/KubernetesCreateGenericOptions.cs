@@ -32,7 +32,7 @@ public record KubernetesCreateGenericOptions : KubernetesOptions
     [CommandSwitch("--from-literal")]
     public IEnumerable<string>? FromLiteral { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

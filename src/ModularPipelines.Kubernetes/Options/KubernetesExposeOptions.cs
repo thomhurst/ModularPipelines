@@ -18,7 +18,7 @@ public record KubernetesExposeOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["expose", "{TypeName}"];
+        CommandParts = ["expose", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -97,6 +97,6 @@ public record KubernetesExposeOptions : KubernetesOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

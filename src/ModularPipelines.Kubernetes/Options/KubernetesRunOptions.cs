@@ -25,10 +25,7 @@ public record KubernetesRunOptions : KubernetesOptions
 
     [CommandSwitch("--cascade")]
     public string? Cascade { get; set; }
-
-    [PositionalArgument(PlaceholderName = "Command")]
-    public string? Command { get; set; }
-
+    
     [BooleanCommandSwitch("--command")]
     public bool? Command { get; set; }
 
@@ -74,7 +71,7 @@ public record KubernetesRunOptions : KubernetesOptions
     [CommandSwitch("--limits")]
     public string? Limits { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

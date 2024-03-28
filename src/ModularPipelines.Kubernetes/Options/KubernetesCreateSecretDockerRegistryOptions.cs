@@ -45,7 +45,7 @@ public record KubernetesCreateSecretDockerRegistryOptions : KubernetesOptions
     [CommandSwitch("--from-file")]
     public IEnumerable<string>? FromFile { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

@@ -27,7 +27,7 @@ public record KubernetesLogsOptions : KubernetesOptions
     [CommandSwitch("--max-log-requests")]
     public string? MaxLogRequests { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Pod")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
     public string? Pod { get; set; }
 
     [CommandSwitch("--pod-running-timeout")]
@@ -54,6 +54,6 @@ public record KubernetesLogsOptions : KubernetesOptions
     [BooleanCommandSwitch("--timestamps")]
     public bool? Timestamps { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

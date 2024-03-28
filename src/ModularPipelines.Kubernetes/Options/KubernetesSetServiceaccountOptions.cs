@@ -18,7 +18,7 @@ public record KubernetesSetServiceaccountOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["set", "serviceaccount", "{TypeName}"];
+        CommandParts = ["set", "serviceaccount", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -58,6 +58,6 @@ public record KubernetesSetServiceaccountOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

@@ -11,6 +11,6 @@ public record KubernetesConfigDeleteUserOptions : KubernetesOptions
         CommandParts = ["config", "delete-user"];
     }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 }

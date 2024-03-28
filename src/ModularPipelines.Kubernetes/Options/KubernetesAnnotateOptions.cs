@@ -18,7 +18,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["annotate", "{TypeName}"];
+        CommandParts = ["annotate", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -76,6 +76,6 @@ public record KubernetesAnnotateOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

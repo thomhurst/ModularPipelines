@@ -26,9 +26,9 @@ public record KubernetesAuthCanIOptions : KubernetesOptions
     [CommandSwitch("--subresource")]
     public string? Subresource { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeTypeNameNonresourceurl")]
+    [PositionalArgument(PlaceholderName = "<TypeTypeNameNonresourceurl>")]
     public string? TypeTypeNameNonresourceurl { get; set; }
 
-    [PositionalArgument(PlaceholderName = "VERB")]
+    [PositionalArgument(PlaceholderName = "<VERB>")]
     public string? VERB { get; set; }
 }

@@ -10,7 +10,7 @@ public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
         string resourceName
 )
     {
-        CommandParts = ["apply", "edit-last-applied", "{ResourceName}"];
+        CommandParts = ["apply", "edit-last-applied", "<ResourceName>"];
         ResourceName = resourceName;
     }
 
@@ -43,7 +43,7 @@ public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [PositionalArgument(PlaceholderName = "ResourceName")]
+    [PositionalArgument(PlaceholderName = "<ResourceName>")]
     public string? ResourceName { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]

@@ -31,7 +31,7 @@ public record KubernetesCreatePoddisruptionbudgetOptions : KubernetesOptions
     [CommandSwitch("--min-available")]
     public string? MinAvailable { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

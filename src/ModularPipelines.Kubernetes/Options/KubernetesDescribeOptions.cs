@@ -26,7 +26,7 @@ public record KubernetesDescribeOptions : KubernetesOptions
     [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NamePrefixLLabel")]
+    [PositionalArgument(PlaceholderName = "<NamePrefixLLabel>")]
     public string? NamePrefixLLabel { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
@@ -38,9 +38,9 @@ public record KubernetesDescribeOptions : KubernetesOptions
     [BooleanCommandSwitch("--show-events")]
     public bool? ShowEvents { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Type")]
+    [PositionalArgument(PlaceholderName = "<Type>")]
     public string? Type { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

@@ -61,6 +61,6 @@ public record KubernetesAutoscaleOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

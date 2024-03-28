@@ -6,7 +6,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [ExcludeFromCodeCoverage]
 public record KubernetesExecOptions : KubernetesOptions
 {
-    [PositionalArgument(PlaceholderName = "COMMAND")]
+    [PositionalArgument(PlaceholderName = "<COMMAND>")]
     public string? COMMAND { get; set; }
 
     [CommandSwitch("--container")]
@@ -15,7 +15,7 @@ public record KubernetesExecOptions : KubernetesOptions
     [CommandSwitch("--filename")]
     public IEnumerable<string>? Filename { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Pod")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
     public string? Pod { get; set; }
 
     [CommandSwitch("--pod-running-timeout")]
@@ -30,6 +30,6 @@ public record KubernetesExecOptions : KubernetesOptions
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

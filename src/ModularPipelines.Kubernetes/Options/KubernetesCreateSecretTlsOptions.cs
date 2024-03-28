@@ -34,7 +34,7 @@ public record KubernetesCreateSecretTlsOptions : KubernetesOptions
     [CommandSwitch("--key")]
     public string? Key { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

@@ -23,7 +23,7 @@ public record KubernetesCreateQuotaOptions : KubernetesOptions
     [CommandSwitch("--hard")]
     public string? Hard { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

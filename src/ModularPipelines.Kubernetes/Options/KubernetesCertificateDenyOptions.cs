@@ -18,7 +18,7 @@ public record KubernetesCertificateDenyOptions : KubernetesOptions
         string name
 )
     {
-        CommandParts = ["certificate", "deny", "{Name}"];
+        CommandParts = ["certificate", "deny", "<Name>"];
         Name = name;
     }
 
@@ -34,7 +34,7 @@ public record KubernetesCertificateDenyOptions : KubernetesOptions
     [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Name")]
+    [PositionalArgument(PlaceholderName = "<Name>")]
     public string? Name { get; set; }
 
     [CommandSwitch("--output")]

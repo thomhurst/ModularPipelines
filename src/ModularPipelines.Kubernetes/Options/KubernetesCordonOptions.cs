@@ -14,7 +14,7 @@ public record KubernetesCordonOptions : KubernetesOptions
     [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NODE")]
+    [PositionalArgument(PlaceholderName = "<NODE>")]
     public string? NODE { get; set; }
 
     [CommandSwitch("--selector")]

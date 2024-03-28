@@ -23,10 +23,10 @@ public record KubernetesTaintOptions : KubernetesOptions
     [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NODE")]
+    [PositionalArgument(PlaceholderName = "<NODE>")]
     public string? NODE { get; set; }
 
     [CommandSwitch("--output")]

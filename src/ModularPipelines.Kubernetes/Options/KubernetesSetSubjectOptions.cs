@@ -18,7 +18,7 @@ public record KubernetesSetSubjectOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["set", "subject", "{TypeName}"];
+        CommandParts = ["set", "subject", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -64,7 +64,7 @@ public record KubernetesSetSubjectOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 
     [CommandSwitch("--user")]

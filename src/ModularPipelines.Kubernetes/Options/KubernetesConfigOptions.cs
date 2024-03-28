@@ -11,6 +11,6 @@ public record KubernetesConfigOptions : KubernetesOptions
         CommandParts = ["config"];
     }
 
-    [PositionalArgument(PlaceholderName = "SUBCOMMAND")]
+    [PositionalArgument(PlaceholderName = "<SUBCOMMAND>")]
     public string? SUBCOMMAND { get; set; }
 }

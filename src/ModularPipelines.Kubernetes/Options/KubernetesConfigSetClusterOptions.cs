@@ -20,7 +20,7 @@ public record KubernetesConfigSetClusterOptions : KubernetesOptions
     [CommandSwitch("--insecure-skip-tls-verify")]
     public string? InsecureSkipTlsVerify { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--server")]

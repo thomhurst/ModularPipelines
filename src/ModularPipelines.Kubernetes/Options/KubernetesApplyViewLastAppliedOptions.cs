@@ -23,7 +23,7 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NameLLabel")]
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
     public string? NameLLabel { get; set; }
 
     [CommandSwitch("--output")]
@@ -35,9 +35,9 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     [CommandSwitch("--selector")]
     public string? Selector { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Type")]
+    [PositionalArgument(PlaceholderName = "<Type>")]
     public string? Type { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

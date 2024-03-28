@@ -38,7 +38,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     [CommandSwitch("--exec-env")]
     public IEnumerable<string>? ExecEnv { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--password")]

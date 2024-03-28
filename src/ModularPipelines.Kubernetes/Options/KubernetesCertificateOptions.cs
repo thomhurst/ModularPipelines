@@ -11,6 +11,6 @@ public record KubernetesCertificateOptions : KubernetesOptions
         CommandParts = ["certificate"];
     }
 
-    [PositionalArgument(PlaceholderName = "SUBCOMMAND")]
+    [PositionalArgument(PlaceholderName = "<SUBCOMMAND>")]
     public string? SUBCOMMAND { get; set; }
 }

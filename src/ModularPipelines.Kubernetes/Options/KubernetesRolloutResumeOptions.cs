@@ -29,7 +29,7 @@ public record KubernetesRolloutResumeOptions : KubernetesOptions
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [PositionalArgument(PlaceholderName = "RESOURCE")]
+    [PositionalArgument(PlaceholderName = "<RESOURCE>")]
     public string? RESOURCE { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]

@@ -9,7 +9,7 @@ public record KubernetesAttachOptions : KubernetesOptions
     [CommandSwitch("--container")]
     public string? Container { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Pod")]
+    [PositionalArgument(PlaceholderName = "<Pod>")]
     public string? Pod { get; set; }
 
     [CommandSwitch("--pod-running-timeout")]
@@ -24,6 +24,6 @@ public record KubernetesAttachOptions : KubernetesOptions
     [BooleanCommandSwitch("--tty")]
     public bool? Tty { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

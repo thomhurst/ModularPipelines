@@ -17,7 +17,7 @@ public record KubernetesCreateDeploymentOptions : KubernetesOptions
     [BooleanCommandSwitch("--allow-missing-template-keys")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Command")]
+    [PositionalArgument(PlaceholderName = "<Command>")]
     public string? Command { get; set; }
 
     [CommandSwitch("--dry-run")]
@@ -29,7 +29,7 @@ public record KubernetesCreateDeploymentOptions : KubernetesOptions
     [CommandSwitch("--image")]
     public IEnumerable<string>? Image { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

@@ -29,7 +29,7 @@ public record KubernetesCreateClusterrolebindingOptions : KubernetesOptions
     [CommandSwitch("--group")]
     public IEnumerable<string>? Group { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

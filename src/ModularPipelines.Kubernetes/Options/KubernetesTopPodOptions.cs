@@ -20,7 +20,7 @@ public record KubernetesTopPodOptions : KubernetesOptions
     [CommandSwitch("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NameLLabel")]
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
     public string? NameLLabel { get; set; }
 
     [BooleanCommandSwitch("--no-headers")]

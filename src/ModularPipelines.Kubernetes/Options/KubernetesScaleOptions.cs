@@ -21,7 +21,7 @@ public record KubernetesScaleOptions : KubernetesOptions
         int replicas
 )
     {
-        CommandParts = ["scale", "{TypeName}"];
+        CommandParts = ["scale", "<TypeName>"];
         TypeName = typeName;
         Replicas = replicas;
     }
@@ -71,6 +71,6 @@ public record KubernetesScaleOptions : KubernetesOptions
     [CommandSwitch("--timeout")]
     public string? Timeout { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

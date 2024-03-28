@@ -10,7 +10,7 @@ public record KubernetesEditOptions : KubernetesOptions
         string resourceName
 )
     {
-        CommandParts = ["edit", "{ResourceName}"];
+        CommandParts = ["edit", "<ResourceName>"];
         ResourceName = resourceName;
     }
 
@@ -46,7 +46,7 @@ public record KubernetesEditOptions : KubernetesOptions
     [BooleanCommandSwitch("--recursive")]
     public bool? Recursive { get; set; }
 
-    [PositionalArgument(PlaceholderName = "ResourceName")]
+    [PositionalArgument(PlaceholderName = "<ResourceName>")]
     public string? ResourceName { get; set; }
 
     [BooleanCommandSwitch("--save-config")]

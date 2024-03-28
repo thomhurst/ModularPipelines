@@ -26,7 +26,7 @@ public record KubernetesCreateServiceExternalnameExternalOptions : KubernetesOpt
     [CommandSwitch("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 
     [CommandSwitch("--output")]

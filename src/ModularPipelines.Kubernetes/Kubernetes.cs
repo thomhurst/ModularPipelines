@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Kubernetes.Services;
 using ModularPipelines.Models;
 
-namespace ModularPipelines.Kubernetes.Services;
+namespace ModularPipelines.Kubernetes;
 
 [ExcludeFromCodeCoverage]
 public class Kubernetes(
@@ -19,7 +19,7 @@ public class Kubernetes(
     KubernetesSet set,
     KubernetesTop top,
     ICommand internalCommand
-    )
+    ) : IKubernetes
 {
     private readonly ICommand _command = internalCommand;
 

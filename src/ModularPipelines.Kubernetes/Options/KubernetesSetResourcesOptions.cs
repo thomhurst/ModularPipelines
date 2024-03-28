@@ -18,7 +18,7 @@ public record KubernetesSetResourcesOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["set", "resources", "{TypeName}"];
+        CommandParts = ["set", "resources", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -70,6 +70,6 @@ public record KubernetesSetResourcesOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

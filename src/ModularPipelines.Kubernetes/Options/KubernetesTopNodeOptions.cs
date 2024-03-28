@@ -11,7 +11,7 @@ public record KubernetesTopNodeOptions : KubernetesOptions
         CommandParts = ["top", "node"];
     }
 
-    [PositionalArgument(PlaceholderName = "NameLLabel")]
+    [PositionalArgument(PlaceholderName = "<NameLLabel>")]
     public string? NameLLabel { get; set; }
 
     [BooleanCommandSwitch("--no-headers")]

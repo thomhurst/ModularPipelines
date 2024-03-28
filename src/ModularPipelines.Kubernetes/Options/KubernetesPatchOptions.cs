@@ -18,7 +18,7 @@ public record KubernetesPatchOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["patch", "{TypeName}"];
+        CommandParts = ["patch", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -64,6 +64,6 @@ public record KubernetesPatchOptions : KubernetesOptions
     [CommandSwitch("--type")]
     public string? Type { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

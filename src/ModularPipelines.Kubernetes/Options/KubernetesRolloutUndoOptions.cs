@@ -33,6 +33,6 @@ public record KubernetesRolloutUndoOptions : KubernetesOptions
     [CommandSwitch("--to-revision")]
     public int? ToRevision { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

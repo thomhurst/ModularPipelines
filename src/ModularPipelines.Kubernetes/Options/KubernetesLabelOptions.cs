@@ -18,7 +18,7 @@ public record KubernetesLabelOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["label", "{TypeName}"];
+        CommandParts = ["label", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -76,6 +76,6 @@ public record KubernetesLabelOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

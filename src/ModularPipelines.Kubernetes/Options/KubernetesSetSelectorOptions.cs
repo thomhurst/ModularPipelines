@@ -18,7 +18,7 @@ public record KubernetesSetSelectorOptions : KubernetesOptions
         string typeName
 )
     {
-        CommandParts = ["set", "selector", "{TypeName}"];
+        CommandParts = ["set", "selector", "<TypeName>"];
         TypeName = typeName;
     }
 
@@ -31,7 +31,7 @@ public record KubernetesSetSelectorOptions : KubernetesOptions
     [CommandSwitch("--dry-run")]
     public string? DryRun { get; set; }
 
-    [PositionalArgument(PlaceholderName = "EXPRESSIONS")]
+    [PositionalArgument(PlaceholderName = "<EXPRESSIONS>")]
     public string? EXPRESSIONS { get; set; }
 
     [CommandSwitch("--field-manager")]
@@ -61,6 +61,6 @@ public record KubernetesSetSelectorOptions : KubernetesOptions
     [CommandSwitch("--template")]
     public string? Template { get; set; }
 
-    [PositionalArgument(PlaceholderName = "TypeName")]
+    [PositionalArgument(PlaceholderName = "<TypeName>")]
     public string? TypeName { get; set; }
 }

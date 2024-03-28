@@ -38,7 +38,7 @@ public record KubernetesDrainOptions : KubernetesOptions
     [BooleanCommandSwitch("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NODE")]
+    [PositionalArgument(PlaceholderName = "<NODE>")]
     public string? NODE { get; set; }
 
     [CommandSwitch("--pod-selector")]

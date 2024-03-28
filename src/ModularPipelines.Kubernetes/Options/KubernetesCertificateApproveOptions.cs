@@ -18,7 +18,7 @@ public record KubernetesCertificateApproveOptions : KubernetesOptions
         string name
 )
     {
-        CommandParts = ["certificate", "approve", "{Name}"];
+        CommandParts = ["certificate", "approve", "<Name>"];
         Name = name;
     }
 
@@ -34,7 +34,7 @@ public record KubernetesCertificateApproveOptions : KubernetesOptions
     [CommandSwitch("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [PositionalArgument(PlaceholderName = "Name")]
+    [PositionalArgument(PlaceholderName = "<Name>")]
     public string? Name { get; set; }
 
     [CommandSwitch("--output")]

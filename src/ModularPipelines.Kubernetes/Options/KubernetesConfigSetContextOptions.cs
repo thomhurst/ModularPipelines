@@ -17,7 +17,7 @@ public record KubernetesConfigSetContextOptions : KubernetesOptions
     [BooleanCommandSwitch("--current")]
     public bool? Current { get; set; }
 
-    [PositionalArgument(PlaceholderName = "NameCurrent")]
+    [PositionalArgument(PlaceholderName = "<NameCurrent>")]
     public string? NameCurrent { get; set; }
 
     [CommandSwitch("--namespace")]

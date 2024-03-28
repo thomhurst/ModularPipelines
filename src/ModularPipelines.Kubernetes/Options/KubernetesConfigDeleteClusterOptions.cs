@@ -11,6 +11,6 @@ public record KubernetesConfigDeleteClusterOptions : KubernetesOptions
         CommandParts = ["config", "delete-cluster"];
     }
 
-    [PositionalArgument(PlaceholderName = "NAME")]
+    [PositionalArgument(PlaceholderName = "<NAME>")]
     public string? NAME { get; set; }
 }

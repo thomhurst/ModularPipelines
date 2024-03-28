@@ -14,7 +14,7 @@ public record KubernetesKustomizeOptions : KubernetesOptions
     [BooleanCommandSwitch("--as-current-user")]
     public bool? AsCurrentUser { get; set; }
 
-    [PositionalArgument(PlaceholderName = "DIR")]
+    [PositionalArgument(PlaceholderName = "<DIR>")]
     public string? DIR { get; set; }
 
     [BooleanCommandSwitch("--enable-alpha-plugins")]
