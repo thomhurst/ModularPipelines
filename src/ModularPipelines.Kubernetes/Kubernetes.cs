@@ -14,34 +14,31 @@ public class Kubernetes(
     KubernetesClusterInfo clusterInfo,
     KubernetesConfig config,
     KubernetesCreate create,
-    KubernetesPlugin plugin,
     KubernetesRollout rollout,
     KubernetesSet set,
     KubernetesTop top,
     ICommand internalCommand
-    ) : IKubernetes
+    )
 {
     private readonly ICommand _command = internalCommand;
 
-    public KubernetesApply ApplyCommands { get; } = apply;
+    public KubernetesApply Apply { get; } = apply;
 
-    public KubernetesAuth AuthCommands { get; } = auth;
+    public KubernetesAuth Auth { get; } = auth;
 
-    public KubernetesCertificate CertificateCommands { get; } = certificate;
+    public KubernetesCertificate Certificate { get; } = certificate;
 
-    public KubernetesClusterInfo ClusterInfoCommands { get; } = clusterInfo;
+    public KubernetesClusterInfo ClusterInfo { get; } = clusterInfo;
 
-    public KubernetesConfig ConfigCommands { get; } = config;
+    public KubernetesConfig Config { get; } = config;
 
-    public KubernetesCreate CreateCommands { get; } = create;
+    public KubernetesCreate Create { get; } = create;
 
-    public KubernetesPlugin PluginCommands { get; } = plugin;
+    public KubernetesRollout Rollout { get; } = rollout;
 
-    public KubernetesRollout RolloutCommands { get; } = rollout;
+    public KubernetesSet Set { get; } = set;
 
-    public KubernetesSet SetCommands { get; } = set;
-
-    public KubernetesTop TopCommands { get; } = top;
+    public KubernetesTop Top { get; } = top;
 
     public async Task<CommandResult> Alpha(KubernetesAlphaOptions? options = default, CancellationToken token = default)
     {
@@ -63,7 +60,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesApiVersionsOptions(), token);
     }
 
-    public async Task<CommandResult> Apply(KubernetesApplyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ApplyCommand(KubernetesApplyOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -73,7 +70,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Auth(KubernetesAuthOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> AuthCommand(KubernetesAuthOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesAuthOptions(), token);
     }
@@ -83,12 +80,12 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Certificate(KubernetesCertificateOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CertificateCommand(KubernetesCertificateOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesCertificateOptions(), token);
     }
 
-    public async Task<CommandResult> ClusterInfo(KubernetesClusterInfoOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ClusterInfoCommand(KubernetesClusterInfoOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesClusterInfoOptions(), token);
     }
@@ -98,7 +95,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesCompletionOptions(), token);
     }
 
-    public async Task<CommandResult> Config(KubernetesConfigOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ConfigCommand(KubernetesConfigOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesConfigOptions(), token);
     }
@@ -113,7 +110,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesCpOptions(), token);
     }
 
-    public async Task<CommandResult> Create(KubernetesCreateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCommand(KubernetesCreateOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
@@ -213,7 +210,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Rollout(KubernetesRolloutOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RolloutCommand(KubernetesRolloutOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesRolloutOptions(), token);
     }
@@ -228,7 +225,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Set(KubernetesSetOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SetCommand(KubernetesSetOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesSetOptions(), token);
     }
@@ -238,7 +235,7 @@ public class Kubernetes(
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesTaintOptions(), token);
     }
 
-    public async Task<CommandResult> Top(KubernetesTopOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> TopCommand(KubernetesTopOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KubernetesTopOptions(), token);
     }

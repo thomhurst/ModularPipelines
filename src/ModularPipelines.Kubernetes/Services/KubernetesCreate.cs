@@ -15,9 +15,9 @@ public class KubernetesCreate(
 {
     private readonly ICommand _command = internalCommand;
 
-    public KubernetesCreateSecret SecretCommands { get; } = secret;
+    public KubernetesCreateSecret Secret { get; } = secret;
 
-    public KubernetesCreateService ServiceCommands { get; } = service;
+    public KubernetesCreateService Service { get; } = service;
 
     public async Task<CommandResult> Clusterrole(KubernetesCreateClusterroleOptions options, CancellationToken token = default)
     {
@@ -87,16 +87,6 @@ public class KubernetesCreate(
     public async Task<CommandResult> Rolebinding(KubernetesCreateRolebindingOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
-    }
-
-    public async Task<CommandResult> Secret(KubernetesCreateSecretOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new KubernetesCreateSecretOptions(), token);
-    }
-
-    public async Task<CommandResult> Service(KubernetesCreateServiceOptions? options = default, CancellationToken token = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new KubernetesCreateServiceOptions(), token);
     }
 
     public async Task<CommandResult> Serviceaccount(KubernetesCreateServiceaccountOptions? options = default, CancellationToken token = default)
