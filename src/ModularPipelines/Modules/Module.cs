@@ -316,7 +316,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (Timeout == TimeSpan.Zero)
         {
-            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask));
+            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, null));
             return await executeAsyncTask;
         }
 
@@ -340,7 +340,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask));
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
 #if NET8_0_OR_GREATER
         await timeoutCancellationTokenSource.CancelAsync();
@@ -355,11 +355,17 @@ public abstract partial class Module<T> : ModuleBase<T>
         return await executeAsyncTask;
     }
 
-    private async Task ThrowQuicklyOnFailure(Task mainExecutionTask)
+    private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask)
     {
         while (!mainExecutionTask.IsCompleted)
         {
+            if (timeoutTask?.IsCompleted == true)
+            {
+                throw new ModuleTimeoutException(this);
+            }
+            
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             await Task.Delay(TimeSpan.FromSeconds(5));
         }
     }
