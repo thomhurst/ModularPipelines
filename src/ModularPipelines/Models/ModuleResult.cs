@@ -61,29 +61,21 @@ public class ModuleResult<T> : ModuleResult
 }
 
 [JsonConverter(typeof(TypeDiscriminatorConverter<ModuleResult>))]
-public class ModuleResult : ITypeDiscriminator
+public class ModuleResult : IModuleResult, ITypeDiscriminator
 {
-    /// <summary>
-    /// Gets the name of the module.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public string ModuleName { get; private set; }
 
-    /// <summary>
-    /// Gets how long the module ran for.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public TimeSpan ModuleDuration { get; private set; }
 
-    /// <summary>
-    /// Gets when the module started.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public DateTimeOffset ModuleStart { get; private set; }
 
-    /// <summary>
-    /// Gets when the module ended.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public DateTimeOffset ModuleEnd { get; private set; }
 
@@ -123,21 +115,15 @@ public class ModuleResult : ITypeDiscriminator
         TypeDiscriminator = GetType().FullName!;
     }
 
-    /// <summary>
-    /// Gets the exception that occurred in the module, if one was thrown.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public Exception? Exception { get; private set; }
 
-    /// <summary>
-    /// Gets the Skip Decision of the module.
-    /// </summary>
+    /// <inheritdoc />
     [JsonInclude]
     public SkipDecision SkipDecision { get; private protected set; }
 
-    /// <summary>
-    /// Gets the type of result that is held.
-    /// </summary>
+    /// <inheritdoc />
     public ModuleResultType ModuleResultType
     {
         get

@@ -108,6 +108,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
+    internal override async Task<IModuleResult> GetModuleResult() => await this;
+    
     /// <summary>
     /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
@@ -314,6 +316,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (Timeout == TimeSpan.Zero)
         {
+            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask));
             return await executeAsyncTask;
         }
 
@@ -331,13 +334,13 @@ public abstract partial class Module<T> : ModuleBase<T>
                 
                 if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
                 {
-                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                    ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
 
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask));
 
 #if NET8_0_OR_GREATER
         await timeoutCancellationTokenSource.CancelAsync();
@@ -350,6 +353,15 @@ public abstract partial class Module<T> : ModuleBase<T>
         await finishedTask;
 
         return await executeAsyncTask;
+    }
+
+    private async Task ThrowQuicklyOnFailure(Task mainExecutionTask)
+    {
+        while (!mainExecutionTask.IsCompleted)
+        {
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            await Task.Delay(TimeSpan.FromSeconds(5));
+        }
     }
 
     private void SetEndTime()
