@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ModularPipelines.Models;
+﻿namespace ModularPipelines.Models;
 
 public interface IModuleResult
 {
