@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -322,7 +323,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
-        var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
+        using var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
@@ -334,7 +335,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 
                 if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
                 {
-                    ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
                 }
 
                 throw new ModuleTimeoutException(this);
@@ -347,7 +348,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 #else
         timeoutCancellationTokenSource.Cancel();
 #endif
-        timeoutCancellationTokenSource.Dispose();
         
         // Will throw a timeout exception if configured and timeout is reached
         await finishedTask;
