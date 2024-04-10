@@ -12,7 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
-        <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
+        <PackageReference Include="NReco.Logging.File" Version="1.2.0" />
         <PackageReference Include="TUnit" Version="0.1.232-alpha01" />
         <PackageReference Include="coverlet.collector" Version="6.0.2">
           <PrivateAssets>all</PrivateAssets>
