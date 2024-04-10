@@ -62,7 +62,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
 
         if (zipStream is null)
         {
-            throw new Exception($"Stream from artifiact {artifact.Id} is null");
+            throw new Exception($"Stream from artifact {artifact.Id} is null");
         }
 
         var file = File.GetNewTemporaryFilePath();
