@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
-using Spectre.Console;
 
 namespace ModularPipelines.Engine.Executors;
 

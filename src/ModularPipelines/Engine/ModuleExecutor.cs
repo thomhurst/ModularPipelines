@@ -6,7 +6,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 

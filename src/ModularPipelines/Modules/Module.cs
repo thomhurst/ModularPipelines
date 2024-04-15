@@ -108,6 +108,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
+    internal override async Task<IModuleResult> GetModuleResult() => await this;
+    
     /// <summary>
     /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
@@ -314,12 +316,13 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (Timeout == TimeSpan.Zero)
         {
+            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, null));
             return await executeAsyncTask;
         }
 
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
-        var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
+        using var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
@@ -337,19 +340,33 @@ public abstract partial class Module<T> : ModuleBase<T>
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
 #if NET8_0_OR_GREATER
         await timeoutCancellationTokenSource.CancelAsync();
 #else
         timeoutCancellationTokenSource.Cancel();
 #endif
-        timeoutCancellationTokenSource.Dispose();
         
         // Will throw a timeout exception if configured and timeout is reached
         await finishedTask;
 
         return await executeAsyncTask;
+    }
+
+    private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask)
+    {
+        while (!mainExecutionTask.IsCompleted)
+        {
+            if (timeoutTask?.IsCompleted == true)
+            {
+                throw new ModuleTimeoutException(this);
+            }
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
+            await Task.Delay(TimeSpan.FromSeconds(5));
+        }
     }
 
     private void SetEndTime()

@@ -60,6 +60,11 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             BuildConstants.RepositoryName,
             artifact.Id, "zip");
 
+        if (zipStream is null)
+        {
+            throw new Exception($"Stream from artifact {artifact.Id} is null");
+        }
+
         var file = File.GetNewTemporaryFilePath();
 
         await file.WriteAsync(zipStream);
