@@ -1,0 +1,1 @@
+* Add ModuleStatus to IModuleResult.cs
