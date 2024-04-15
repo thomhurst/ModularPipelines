@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.Serialization;
@@ -113,6 +114,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
         ModuleEnd = module.EndTime;
         SkipDecision = module.SkipResult;
         TypeDiscriminator = GetType().FullName!;
+        ModuleStatus = module.Status;
     }
 
     /// <inheritdoc />
@@ -141,6 +143,9 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
             return ModuleResultType.Success;
         }
     }
+
+    /// <inheritdoc/>
+    public Status ModuleStatus { get; private set; }
 
     /// <summary>
     /// Gets the type information used to aid in serialization.

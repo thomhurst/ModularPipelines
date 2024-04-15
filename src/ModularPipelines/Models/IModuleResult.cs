@@ -1,4 +1,6 @@
-﻿namespace ModularPipelines.Models;
+﻿using ModularPipelines.Enums;
+
+namespace ModularPipelines.Models;
 
 public interface IModuleResult
 {
@@ -36,4 +38,9 @@ public interface IModuleResult
     /// Gets the type of result that is held.
     /// </summary>
     public ModuleResultType ModuleResultType { get; }
+    
+    /// <summary>
+    /// Gets the status of the module.
+    /// </summary>
+    public Status ModuleStatus { get; }
 }
