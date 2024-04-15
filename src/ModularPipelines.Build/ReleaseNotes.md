@@ -1,1 +1,0 @@
-*   `GetModuleResultsAsync()` method exposed on `PipelineSummary` object. This will return `IModuleResult` objects which exposes module name, status, start, finish, and any skip reasons or exceptions.
