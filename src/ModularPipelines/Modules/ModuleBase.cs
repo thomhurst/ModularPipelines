@@ -36,6 +36,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal List<DependsOnAttribute> DependentModules { get; } = [];
 
+    internal List<DependencyForAttribute> ReliantModules { get; } = [];
+
     internal abstract IWaitHandler WaitHandler { get; }
 
     internal abstract ICancellationHandler CancellationHandler { get; }

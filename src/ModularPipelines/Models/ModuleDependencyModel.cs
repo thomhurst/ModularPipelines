@@ -8,6 +8,10 @@ internal record ModuleDependencyModel(ModuleBase Module)
 
     public List<ModuleDependencyModel> IsDependentOn { get; } = new();
 
+    public List<ModuleDependencyModel> IsTriggering { get; } = new();
+
+    public List<ModuleDependencyModel> IsTriggeredBy { get; } = new();
+
     public IEnumerable<ModuleDependencyModel> AllDescendantDependenciesAndSelf()
     {
         yield return this;

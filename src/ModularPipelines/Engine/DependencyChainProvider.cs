@@ -26,6 +26,15 @@ internal class DependencyChainProvider : IDependencyChainProvider
             {
                 dependencyModel.IsDependencyFor.Add(moduleDependencyModel);
             }
+
+            var dependants = GetModuleReliants(moduleDependencyModel, allModules).ToList();
+
+            moduleDependencyModel.IsDependencyFor.AddRange(dependants);
+
+            foreach (var dependencyModel in dependants)
+            {
+                dependencyModel.IsDependentOn.Add(moduleDependencyModel);
+            }
         }
 
         return allModules;
@@ -38,6 +47,21 @@ internal class DependencyChainProvider : IDependencyChainProvider
         foreach (var dependsOnAttribute in customAttributes)
         {
             var dependency = GetModuleDependencyModel(dependsOnAttribute.Type, allModules);
+
+            if (dependency is not null)
+            {
+                yield return dependency;
+            }
+        }
+    }
+
+    private IEnumerable<ModuleDependencyModel> GetModuleReliants(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
+    {
+        var customAttributes = moduleDependencyModel.Module.GetType().GetCustomAttributes<DependencyForAttribute>(true);
+
+        foreach (var dependencyForAttribute in customAttributes)
+        {
+            var dependency = GetModuleDependencyModel(dependencyForAttribute.Type, allModules);
 
             if (dependency is not null)
             {

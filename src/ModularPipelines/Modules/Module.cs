@@ -59,9 +59,14 @@ public abstract partial class Module<T> : ModuleBase<T>
         StatusHandler = new StatusHandler<T>(this);
         ErrorHandler = new ErrorHandler<T>(this);
 
-        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        foreach (var dependsOnAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
-            AddDependency(customAttribute);
+            AddDependency(dependsOnAttribute);
+        }
+
+        foreach (var dependencyForAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependencyForAttribute>())
+        {
+            AddDependency(dependencyForAttribute);
         }
     }
 
@@ -177,6 +182,28 @@ public abstract partial class Module<T> : ModuleBase<T>
         };
 
         DependentModules.Add(dependsOnAttribute);
+    }
+
+    private void AddDependency(DependencyForAttribute dependencyForAttribute)
+    {
+        var type = dependencyForAttribute.Type;
+
+        if (type == GetType())
+        {
+            throw new ModuleReferencingSelfException("A module cannot relies on itself");
+        }
+
+        if (!type.IsAssignableTo(typeof(ModuleBase)))
+        {
+            throw new Exception($"{type.FullName} must be a module to add as a reliant");
+        }
+
+        OnInitialised += (_, _) =>
+        {
+            Context.Logger.LogDebug("This module is reliant for {Module}", dependencyForAttribute.Type.Name);
+        };
+
+        ReliantModules.Add(dependencyForAttribute);
     }
 
     [StackTraceHidden]
