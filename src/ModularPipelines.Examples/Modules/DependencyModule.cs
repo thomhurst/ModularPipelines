@@ -1,11 +1,9 @@
-﻿using ModularPipelines.Attributes;
-using ModularPipelines.Context;
+﻿using ModularPipelines.Context;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-[DependencyFor<ReliantModule>]
-public class DependencyForReliantModule : Module
+public class DependencyModule : Module
 {
     /// <inheritdoc/>
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
