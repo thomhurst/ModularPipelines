@@ -18,18 +18,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup WSL
-        uses: Vampire/setup-wsl@v2.0.1
+        uses: Vampire/setup-wsl@v3.0.0
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
       - name: Cache NuGet
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -57,7 +57,7 @@ jobs:
           Publish__ShouldPublish: false
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       - name: Upload Code Coverage Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: '**/*cobertura*'

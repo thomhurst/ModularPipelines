@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <IsPackable>false</IsPackable>
-        <OutputType>exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,10 +10,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.10.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
-        <PackageReference Include="TUnit" Version="0.1.231-pullrequest0073-0041" />
+        <PackageReference Include="TUnit" Version="0.1.232-alpha01" />
+        <PackageReference Include="coverlet.collector" Version="6.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
@@ -35,6 +38,12 @@
       <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
       <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
       <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Data\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     
 </Project>

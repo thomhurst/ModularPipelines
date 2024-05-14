@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
-using Spectre.Console;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -22,10 +21,10 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 
     public async ValueTask DisposeAsync()
     {
-        if (!AnsiConsole.Profile.Capabilities.Interactive || !_options.Value.ShowProgressInConsole)
+        if (!_options.Value.ShowProgressInConsole)
         {
             // If not an interactive console, we'll dispose each module as it finishes, to print its output
-            // Otherwise we'll do it here, so we don't miss up the Progress printer
+            // Otherwise we'll do it here, so we don't mess up the Progress printer
             return;
         }
 

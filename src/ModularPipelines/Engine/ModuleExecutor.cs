@@ -6,7 +6,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 
@@ -171,7 +170,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         finally
         {
-            if (!AnsiConsole.Profile.Capabilities.Interactive || !_pipelineOptions.Value.ShowProgressInConsole)
+            if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(module);
             }

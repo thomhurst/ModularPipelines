@@ -5,11 +5,11 @@ namespace ModularPipelines.Http;
 
 internal class DurationLoggingHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleLogger _logger;
 
-    public DurationLoggingHttpHandler(IModuleLoggerProvider moduleLoggerProvider)
+    public DurationLoggingHttpHandler(IModuleLogger logger)
     {
-        _moduleLoggerProvider = moduleLoggerProvider;
+        _logger = logger;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ internal class DurationLoggingHttpHandler : DelegatingHandler
         }
         finally
         {
-            HttpLogger.PrintDuration(stopwatch.Elapsed, _moduleLoggerProvider.GetLogger());
+            HttpLogger.PrintDuration(stopwatch.Elapsed, _logger);
         }
     }
 }

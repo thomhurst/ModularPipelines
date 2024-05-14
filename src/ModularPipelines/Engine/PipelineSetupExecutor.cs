@@ -22,26 +22,26 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     public Task OnStartAsync()
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnStartAsync(await GetModuleContext())));
+        return Task.WhenAll(_globalHooks.Select(x => x.OnStartAsync(GetModuleContext())));
     }
 
     public Task OnEndAsync(PipelineSummary pipelineSummary)
     {
-        return Task.WhenAll(_globalHooks.Select(async x => x.OnEndAsync(await GetModuleContext(), pipelineSummary)));
+        return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(GetModuleContext(), pipelineSummary)));
     }
 
     public Task OnBeforeModuleStartAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnBeforeModuleStartAsync(await GetModuleContext(), module)));
+        return Task.WhenAll(_moduleHooks.Select(x => x.OnBeforeModuleStartAsync(GetModuleContext(), module)));
     }
 
     public Task OnAfterModuleEndAsync(ModuleBase module)
     {
-        return Task.WhenAll(_moduleHooks.Select(async x => x.OnAfterModuleEndAsync(await GetModuleContext(), module)));
+        return Task.WhenAll(_moduleHooks.Select(x => x.OnAfterModuleEndAsync(GetModuleContext(), module)));
     }
 
-    private async Task<IPipelineHookContext> GetModuleContext()
+    private IPipelineHookContext GetModuleContext()
     {
-        return await _moduleContextProvider.GetModuleContext();
+        return _moduleContextProvider.GetModuleContext();
     }
 }

@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
@@ -11,23 +10,27 @@ namespace ModularPipelines.Logging;
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IModuleLoggerContainer _moduleLoggerContainer;
 
-    private IModuleLogger? _logger;
-
-    public ModuleLoggerProvider(IServiceProvider serviceProvider)
+    private IModuleLogger? _moduleLogger;
+    
+    public ModuleLoggerProvider(IServiceProvider serviceProvider,
+        IModuleLoggerContainer moduleLoggerContainer)
     {
         _serviceProvider = serviceProvider;
+        _moduleLoggerContainer = moduleLoggerContainer;
     }
 
     public IModuleLogger GetLogger(Type type) => MakeLogger(type);
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IModuleLogger GetLogger()
     {
-        if (_logger != null)
+        if (_moduleLogger != null)
         {
-            return _logger;
+            return _moduleLogger;
         }
-
+        
         var stackFrames = new StackTrace().GetFrames().ToList();
 
         var module = GetModuleFromMarkerAttributes(stackFrames)
@@ -59,7 +62,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public void Dispose()
     {
-        Disposer.DisposeObject(_logger);
+        _moduleLogger?.Dispose();
     }
 
     private Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
@@ -74,11 +77,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        var logger = (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
-
-        _logger = logger;
-
-        return logger;
+        return _moduleLogger ??= _moduleLoggerContainer.GetLogger(loggerType) ?? (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
 
     private bool IsModule(Type? type)

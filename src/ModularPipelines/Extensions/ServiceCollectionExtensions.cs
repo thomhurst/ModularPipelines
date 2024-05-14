@@ -59,7 +59,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRequirement<TRequirement>(this IServiceCollection services)
         where TRequirement : class, IPipelineRequirement
     {
-        return services.AddScoped<IPipelineRequirement, TRequirement>();
+        return services.AddSingleton<IPipelineRequirement, TRequirement>();
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPipelineGlobalHooks<TGlobalSetup>(this IServiceCollection services)
         where TGlobalSetup : class, IPipelineGlobalHooks
     {
-        return services.AddScoped<IPipelineGlobalHooks, TGlobalSetup>();
+        return services.AddSingleton<IPipelineGlobalHooks, TGlobalSetup>();
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPipelineModuleHooks<TModuleHooks>(this IServiceCollection services)
         where TModuleHooks : class, IPipelineModuleHooks
     {
-        return services.AddScoped<IPipelineModuleHooks, TModuleHooks>();
+        return services.AddSingleton<IPipelineModuleHooks, TModuleHooks>();
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

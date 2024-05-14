@@ -1,24 +1,30 @@
-using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleContextProvider : IPipelineContextProvider
+internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly List<IServiceScope> _scopes = new();
 
     public ModuleContextProvider(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<IPipelineContext> GetModuleContext()
+    public IPipelineContext GetModuleContext()
     {
         var serviceScope = _serviceProvider.CreateAsyncScope();
-
-        await serviceScope.ServiceProvider.InitializeAsync();
-
+        
+        _scopes.Add(serviceScope);
+        
         return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
+    }
+
+    public IEnumerable<IServiceScope> GetScopes()
+    {
+        return _scopes;
     }
 }

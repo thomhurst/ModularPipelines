@@ -22,7 +22,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        if (!_options.Value.ShowProgressInConsole || !AnsiConsole.Profile.Capabilities.Interactive)
+        if (!_options.Value.ShowProgressInConsole)
         {
             return Task.CompletedTask;
         }
@@ -50,7 +50,7 @@ internal class ProgressPrinter : IProgressPrinter
                         return;
                     }
 
-                    await Task.Delay(100, CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                 }
 
                 if (cancellationToken.IsCancellationRequested)
@@ -168,14 +168,14 @@ internal class ProgressPrinter : IProgressPrinter
                 progressTask.StartTask();
                 var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
 
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
+                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
 
-                var ticksPerSecond = 1000 / totalEstimatedSeconds;
+                var ticksPerSecond = 100.0 / totalEstimatedSeconds;
 
                 progressTask.Description = moduleName;
-                while (progressTask is { IsFinished: false, Value: < 95 })
+                while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100), CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);
@@ -264,11 +264,11 @@ internal class ProgressPrinter : IProgressPrinter
 
                 var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
 
-                var ticksPerSecond = 1000 / totalEstimatedSeconds;
+                var ticksPerSecond = 100 / totalEstimatedSeconds;
 
                 while (progressTask is { IsFinished: false, Value: < 95 })
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100), CancellationToken.None);
+                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
             }, cancellationToken);

@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.UnitTests.Modules;
 using Moq;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -12,7 +13,9 @@ public class DependencyInjectionTests
     [Test]
     public async Task AllDependenciesCanBeBuilt()
     {
-        var host = await TestPipelineHostBuilder.Create().BuildHostAsync();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<TestModule1>()
+            .BuildHostAsync();
 
         var services = host.Services;
 

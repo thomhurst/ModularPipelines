@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <OutputType>exe</OutputType>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
-      <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
+        <PackageReference Include="coverlet.collector" Version="3.1.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.10.3" />
+      <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
+      <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     </ItemGroup>
 
 </Project>

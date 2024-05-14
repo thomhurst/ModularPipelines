@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -11,9 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="TUnit" Version="0.1.231-pullrequest0073-0041" />
-        <PackageReference Include="Azure.ResourceManager" Version="1.10.1" />
-        <PackageReference Include="Azure.Identity" Version="1.10.4" />
+        <PackageReference Include="TUnit" Version="0.1.232-alpha01" />
+        <PackageReference Include="Azure.ResourceManager" Version="1.11.0" />
+        <PackageReference Include="Azure.Identity" Version="1.11.0" />
     </ItemGroup>
 
 </Project>

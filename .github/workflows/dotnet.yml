@@ -36,16 +36,16 @@ jobs:
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
           echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
       - name: Cache NuGet
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -63,6 +63,7 @@ jobs:
         run: dotnet run -c Release --framework net7.0
         working-directory: "src/ModularPipelines.Build"
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
           GitHub__Actor: ${{ github.actor }}

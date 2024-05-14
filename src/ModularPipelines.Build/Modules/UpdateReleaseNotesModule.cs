@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
@@ -13,8 +14,11 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
+[RunOnlyOnBranch("main")]
+[RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
+[DependsOn<DependabotCommitsModule>]
 public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
@@ -59,11 +63,11 @@ public class UpdateReleaseNotesModule : Module
     {
         var releaseNotesFile = context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!;
 
-        var releaseNotesContents = await releaseNotesFile.ReadAsync(cancellationToken);
+        var releaseNotesContents = await GetReleaseNotesContents(cancellationToken, releaseNotesFile);
 
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
-
-        if (!releaseNotesContents.Trim().Equals("null", StringComparison.OrdinalIgnoreCase))
+        
+        if (!string.IsNullOrWhiteSpace(releaseNotesContents.Trim()))
         {
             await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
                 new NewRelease(versionInfoResult.Value)
@@ -76,6 +80,40 @@ public class UpdateReleaseNotesModule : Module
         await ResetReleaseNotesFile(releaseNotesFile, context, cancellationToken);
 
         return await NothingAsync();
+    }
+
+    private async Task<string> GetReleaseNotesContents(CancellationToken cancellationToken, File releaseNotesFile)
+    {
+        var customNotes = await releaseNotesFile.ReadAsync(cancellationToken);
+
+        if (string.Equals("null", customNotes, StringComparison.OrdinalIgnoreCase))
+        {
+            customNotes = string.Empty;
+        }
+
+        customNotes += await GetDependabotCommits();
+        
+        return customNotes.Trim();
+    }
+
+    private async Task<string> GetDependabotCommits()
+    {
+        var commits = await GetModule<DependabotCommitsModule>();
+
+        if (commits.Value?.Any() != true)
+        {
+            return string.Empty;
+        }
+
+        var splitCommits = string.Join(Environment.NewLine,
+            commits.Value.Select(x => $"*   {x}")
+        );
+
+        return $"""
+                ## Dependabot
+
+                {splitCommits}
+                """;
     }
 
     private async Task ResetReleaseNotesFile(File releaseNotesFile, IPipelineContext context,

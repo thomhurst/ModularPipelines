@@ -7,7 +7,8 @@ namespace ModularPipelines.Logging;
 
 internal abstract class ModuleLogger : IModuleLogger
 {
-    protected static readonly object Lock = new();
+    protected static readonly object DisposeLock = new();
+    protected static readonly object LogLock = new();
     protected Exception? _exception;
 
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
@@ -87,28 +88,31 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
     {
-        if (!IsEnabled(logLevel) || _isDisposed)
+        lock (LogLock)
         {
-            return;
+            if (!IsEnabled(logLevel) || _isDisposed)
+            {
+                return;
+            }
+
+            if (state?.GetType().FullName == "Microsoft.Extensions.Logging.FormattedLogValues")
+            {
+                TryObfuscateValues(state);
+            }
+
+            var mappedFormatter = MapFormatter(formatter);
+
+            var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
+
+            _stringOrLogEvents.Add(valueTuple!);
+
+            LastLogWritten = DateTime.UtcNow;
         }
-
-        if (state?.GetType().FullName == "Microsoft.Extensions.Logging.FormattedLogValues")
-        {
-            TryObfuscateValues(state);
-        }
-
-        var mappedFormatter = MapFormatter(formatter);
-
-        var valueTuple = (logLevel, eventId, state, exception, mappedFormatter);
-
-        _stringOrLogEvents.Add(valueTuple!);
-
-        LastLogWritten = DateTime.UtcNow;
     }
 
     public override void Dispose()
     {
-        lock (Lock)
+        lock (DisposeLock)
         {
             if (_isDisposed)
             {
