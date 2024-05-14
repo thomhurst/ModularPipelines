@@ -4,8 +4,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <OutputType>Exe</OutputType>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+<!--        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
+<!--        <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,12 +15,11 @@
     <ItemGroup>
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.7" />
-        <PackageReference Include="TUnit" Version="0.1.265-alpha01" />
+        <PackageReference Include="TUnit" Version="0.1.266-alpha01" />
         <PackageReference Include="coverlet.collector" Version="6.0.2">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="TUnit.Engine.SourceGenerator" Version="0.1.265-alpha01" />
     </ItemGroup>
 
     <ItemGroup>
