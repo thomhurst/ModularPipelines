@@ -5,16 +5,18 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="3.1.2"/>
+        <PackageReference Include="coverlet.collector" Version="3.1.2" />
         <PackageReference Include="TUnit" Version="0.1.282-alpha01" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
-      <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+        <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
+        <ProjectReference
+            Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     </ItemGroup>
 
 </Project>
