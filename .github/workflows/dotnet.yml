@@ -22,7 +22,7 @@ on:
         default: true
 
 env:
-  SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
+  SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
 
 jobs:
   pipeline:

@@ -4,8 +4,9 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions;
 
-namespace ModularPipelines.Azure.UnitTests;
+namespace ModularPipelines.UnitTests;
 
 public class AzureCommandTests : TestBase
 {
