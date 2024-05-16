@@ -26,6 +26,7 @@ public abstract class Module : Module<IDictionary<string, object>>;
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
+    private readonly TaskCompletionSource _initializationWaiter = new();
 
     internal IHistoryHandler<T> HistoryHandler { get; }
 
@@ -68,6 +69,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         context.InitializeLogger(GetType());
         Context = context;
+        _initializationWaiter.SetResult();
         return this;
     }
 
@@ -144,6 +146,8 @@ public abstract partial class Module<T> : ModuleBase<T>
             SkipTask.Start();
             return new SkippedModuleResult<T>(this, SkipResult);
         }
+
+        await _initializationWaiter.Task;
 
         try
         {
