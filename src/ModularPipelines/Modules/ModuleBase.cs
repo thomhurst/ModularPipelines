@@ -176,6 +176,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     public void SetSkipped(string message)
     {
         SkipResult = SkipDecision.Skip(message);
+        
+        // Start the lazy instance and set the skip result
+        _ = ExecutionTask;
     }
 }
 
@@ -188,9 +191,6 @@ public abstract class ModuleBase<T> : ModuleBase
     public ModuleBase()
     {
         LazyResult = new Lazy<Task<ModuleResult<T>>>(StartInternal, LazyThreadSafetyMode.ExecutionAndPublication);
-        
-        // Start it!
-        _ = LazyResult.Value;
     }
     
     /// <summary>

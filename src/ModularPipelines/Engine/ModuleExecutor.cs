@@ -75,7 +75,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         try
         {
-            return await ExecuteWithLockAsync(module);
+            return await _moduleExecutionTasks.GetOrAdd(module, @base => StartModule(module));
         }
         catch (TaskCanceledException)
         {
@@ -83,14 +83,6 @@ internal class ModuleExecutor : IModuleExecutor
             // So delay a bit to let the original exception throw first
             await Task.Delay(TimeSpan.FromMilliseconds(1500));
             throw;
-        }
-    }
-
-    private Task<ModuleBase> ExecuteWithLockAsync(ModuleBase module)
-    {
-        lock (module)
-        {
-            return _moduleExecutionTasks.GetOrAdd(module, @base => StartModule(module));
         }
     }
 
@@ -164,6 +156,9 @@ internal class ModuleExecutor : IModuleExecutor
         }
         finally
         {
+            // Guarantee that it has started
+            _ = module.ExecutionTask;
+            
             if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(module);
