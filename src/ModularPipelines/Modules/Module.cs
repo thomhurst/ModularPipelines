@@ -68,6 +68,10 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         context.InitializeLogger(GetType());
         Context = context;
+        
+        // Start the lazy execution
+        _ = LazyResult.Value;
+        
         return this;
     }
 

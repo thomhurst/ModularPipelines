@@ -66,9 +66,11 @@ internal class ModuleRetriever : IModuleRetriever
             })
             .ProcessInParallel(100, TimeSpan.FromSeconds(1));
 
-        return new OrganizedModules(
+        var organizedModules = new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,
             IgnoredModules: modulesToIgnore
         );
+        
+        return organizedModules;
     }
 }
