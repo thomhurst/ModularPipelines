@@ -15,7 +15,7 @@ public class HttpTests : TestBase
     {
         var http = await GetService<IHttp>();
 
-        await http.SendAsync(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html"));
+        await http.SendAsync(new Uri(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html")));
     }
 
     [Test]
@@ -33,7 +33,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html")))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html"))))
         {
             LoggingType = HttpLoggingType.Response,
         });
@@ -62,7 +62,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html")))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html"))))
         {
             LoggingType = HttpLoggingType.Request,
         });
@@ -97,11 +97,11 @@ public class HttpTests : TestBase
         {
             var loggingClient = result.T.GetLoggingHttpClient();
 
-            await loggingClient.GetAsync(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html"));
+            await loggingClient.GetAsync(new Uri(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html")));
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html")))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "LocalWebpage.html"))))
             {
                 HttpClient = new HttpClient()
             });
