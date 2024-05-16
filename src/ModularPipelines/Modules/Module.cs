@@ -27,11 +27,15 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     private readonly object _startCheckLock = new();
+    
+    internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
+    {
+        return DependentModules
+            .Select(dependsOnAttribute => (dependsOnAttribute.Type, dependsOnAttribute.IgnoreIfNotRegistered));
+    }
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
-
-    internal override IWaitHandler WaitHandler { get; }
-
+    
     internal override ICancellationHandler CancellationHandler { get; }
 
     internal override ISkipHandler SkipHandler { get; }
@@ -51,7 +55,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     [JsonConstructor]
     protected Module()
     {
-        WaitHandler = new WaitHandler<T>(this);
         CancellationHandler = new CancellationHandler<T>(this);
         SkipHandler = new SkipHandler<T>(this);
         HistoryHandler = new HistoryHandler<T>(this);
@@ -189,11 +192,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
-            {
-                return;
-            }
-
             CancellationHandler.SetupCancellation();
 
             if (await SkipHandler.HandleSkipped())

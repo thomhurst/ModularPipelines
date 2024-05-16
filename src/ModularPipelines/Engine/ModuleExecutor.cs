@@ -1,9 +1,12 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -15,18 +18,21 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
+    private readonly IEnumerable<ModuleBase> _allModules;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        IModuleDisposer moduleDisposer)
+        IModuleDisposer moduleDisposer,
+        IEnumerable<ModuleBase> allModules)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         _moduleDisposer = moduleDisposer;
+        _allModules = allModules;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
@@ -155,7 +161,23 @@ internal class ModuleExecutor : IModuleExecutor
             await module.ExecutionTask;
             return module;
         }
+        
+        var notInParallel = module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null;
 
+        var dependencies = module.GetModuleDependencies();
+
+        var dependencyExecutions = dependencies.ToAsyncProcessorBuilder()
+            .ForEachAsync(dependency => StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered));
+        
+        if (notInParallel)
+        {
+            await dependencyExecutions.ProcessOneAtATime();
+        }
+        else
+        {
+            await dependencyExecutions.ProcessInParallel();
+        }
+        
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
@@ -177,17 +199,38 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task<IEnumerable<ModuleBase>> ProcessGroup(
-        IGrouping<string?, ModuleBase> moduleBases,
-        ICollection<ModuleBase> moduleResults)
+    private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
     {
-        var executionProcessor = moduleBases.SelectAsync(ExecuteAsync);
+        var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
 
-        if (string.IsNullOrEmpty(moduleBases.Key))
+        if (module is null && ignoreIfNotRegistered)
         {
-            return await executionProcessor.ProcessInParallel().GetEnumerableTasks().ToArray().WhenAllFailFast();
+            requestingModule.Context.Logger.LogDebug("{Module} was not registered so not waiting", dependencyType.Name);
+            return;
         }
 
-        return await executionProcessor.ProcessOneAtATime();
+        if (module is null)
+        {
+            throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
+        }
+        
+        requestingModule.Context.Logger.LogDebug("Waiting for {Module}", dependencyType.Name);
+
+        try
+        {
+            await StartModule(module);
+        }
+        catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
+        {
+            requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+        }
+        catch (DependencyFailedException)
+        {
+            throw;
+        }
+        catch (Exception e)
+        {
+            throw new DependencyFailedException(e, module);
+        }
     }
 }
