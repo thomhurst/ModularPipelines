@@ -15,7 +15,7 @@ public class HttpTests : TestBase
     {
         var http = await GetService<IHttp>();
 
-        await http.SendAsync("https://www.github.com");
+        await http.SendAsync($"{TestContext.OutputDirectory}LocalWebpage.html");
     }
 
     [Test]
@@ -33,7 +33,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, $"{TestContext.OutputDirectory}LocalWebpage.html"))
         {
             LoggingType = HttpLoggingType.Response,
         });
@@ -42,7 +42,7 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Not.Contain("---Request---");
-        await Assert.That(logFile).Does.Not.Contain("GET https://www.github.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Not.Contain("GET LocalWebpage.html HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
         await Assert.That(logFile).Does.Contain("Server: GitHub.com");
     }
@@ -62,7 +62,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, $"{TestContext.OutputDirectory}LocalWebpage.html"))
         {
             LoggingType = HttpLoggingType.Request,
         });
@@ -71,7 +71,7 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("GET LocalWebpage.html/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
         await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
@@ -97,11 +97,11 @@ public class HttpTests : TestBase
         {
             var loggingClient = result.T.GetLoggingHttpClient();
 
-            await loggingClient.GetAsync("https://www.github.com");
+            await loggingClient.GetAsync($"{TestContext.OutputDirectory}LocalWebpage.html");
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.github.com"))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, $"{TestContext.OutputDirectory}LocalWebpage.html"))
             {
                 HttpClient = new HttpClient()
             });
