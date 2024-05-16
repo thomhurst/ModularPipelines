@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Schema;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -144,9 +145,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             SkipTask.Start();
             return new SkippedModuleResult<T>(this, SkipResult);
         }
-        
-        T? executeResult = default;
-        
+
         try
         {
             await WaitHandler.WaitForModuleDependencies();
@@ -169,7 +168,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             _stopwatch.Start();
 
-            executeResult = await ExecuteInternal();
+            var executeResult = await ExecuteInternal();
 
             SetEndTime();
 
@@ -182,6 +181,8 @@ public abstract partial class Module<T> : ModuleBase<T>
             await HistoryHandler.SaveResult(moduleResult);
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+
+            return moduleResult;
         }
         catch (Exception exception)
         {
@@ -194,8 +195,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             StatusHandler.LogModuleStatus();
         }
-
-        return new ModuleResult<T>(executeResult, this);
     }
     
     private void AddDependency(DependsOnAttribute dependsOnAttribute)
