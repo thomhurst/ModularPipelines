@@ -166,16 +166,9 @@ internal class ModuleExecutor : IModuleExecutor
 
         var dependencies = module.GetModuleDependencies();
 
-        var dependencyExecutions = dependencies.ToAsyncProcessorBuilder()
-            .ForEachAsync(dependency => StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered));
-        
-        if (notInParallel)
+        foreach (var dependency in dependencies)
         {
-            await dependencyExecutions.ProcessOneAtATime();
-        }
-        else
-        {
-            await dependencyExecutions.ProcessInParallel();
+            await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
         }
         
         try
