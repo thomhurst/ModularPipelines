@@ -19,6 +19,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IEnumerable<ModuleBase> _allModules;
+    private readonly IExceptionContainer _exceptionContainer;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
 
@@ -26,13 +27,15 @@ internal class ModuleExecutor : IModuleExecutor
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         IModuleDisposer moduleDisposer,
-        IEnumerable<ModuleBase> allModules)
+        IEnumerable<ModuleBase> allModules,
+        IExceptionContainer exceptionContainer)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         _moduleDisposer = moduleDisposer;
         _allModules = allModules;
+        _exceptionContainer = exceptionContainer;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
@@ -162,8 +165,6 @@ internal class ModuleExecutor : IModuleExecutor
             return module;
         }
         
-        var notInParallel = module.GetType().GetCustomAttribute<NotInParallelAttribute>() != null;
-
         var dependencies = module.GetModuleDependencies();
 
         foreach (var dependency in dependencies)
@@ -215,6 +216,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
         {
+            _exceptionContainer.RegisterException(e);
             requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
         catch (DependencyFailedException)
