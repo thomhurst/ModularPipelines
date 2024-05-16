@@ -163,6 +163,15 @@ internal class ModuleExecutor : IModuleExecutor
             {
                 await _moduleDisposer.DisposeAsync(module);
             }
+            
+            if (module.Exception == null)
+            {
+                module.CompleteTaskCompletionSource.SetResult();
+            }
+            else
+            {
+                module.CompleteTaskCompletionSource.SetException(module.Exception);
+            }
         }
     }
 
