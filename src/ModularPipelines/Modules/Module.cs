@@ -27,19 +27,19 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
 
-    internal override IHistoryHandler<T> HistoryHandler { get; }
+    internal virtual IHistoryHandler<T> HistoryHandler { get; }
 
     internal override IWaitHandler WaitHandler { get; }
 
     internal override ICancellationHandler CancellationHandler { get; }
 
-    internal override ISkipHandler<T> SkipHandler { get; }
+    internal virtual ISkipHandler<T> SkipHandler { get; }
 
     internal override IHookHandler HookHandler { get; }
 
     internal override IStatusHandler StatusHandler { get; }
 
-    internal override IErrorHandler<T> ErrorHandler { get; }
+    internal virtual IErrorHandler<T> ErrorHandler { get; }
 
     public async Task<ModuleResult<T>> GetResult() => await this;
 

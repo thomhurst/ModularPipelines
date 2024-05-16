@@ -193,16 +193,6 @@ public abstract class ModuleBase<T> : ModuleBase
         _ = LazyResult.Value;
     }
     
-    internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
-    
-    private protected abstract Task<ModuleResult<T>> StartInternal();
-
-    internal abstract ISkipHandler<T> SkipHandler { get; }
-
-    internal abstract IErrorHandler<T> ErrorHandler { get; }
-
-    internal abstract IHistoryHandler<T> HistoryHandler { get; }
-
     /// <summary>
     /// The awaiter used to return the result of the module when awaited.
     /// </summary>
@@ -211,7 +201,9 @@ public abstract class ModuleBase<T> : ModuleBase
     {
         return LazyResult.Value.GetAwaiter();
     }
-
+    
+    internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
+    
     /// <summary>
     /// Used to return no result in a module.
     /// </summary>
@@ -229,4 +221,6 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <returns>{T}.</returns>
     [ModuleMethodMarker]
     protected abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);
+    
+    private protected abstract Task<ModuleResult<T>> StartInternal();
 }
