@@ -188,6 +188,9 @@ public abstract class ModuleBase<T> : ModuleBase
     public ModuleBase()
     {
         LazyResult = new Lazy<Task<ModuleResult<T>>>(StartInternal, LazyThreadSafetyMode.ExecutionAndPublication);
+        
+        // Start it!
+        _ = LazyResult.Value;
     }
     
     internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
