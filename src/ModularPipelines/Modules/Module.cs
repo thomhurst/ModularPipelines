@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Xml.Schema;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
