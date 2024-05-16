@@ -78,6 +78,11 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         get
         {
+            if (LazyResult is { IsValueCreated: true, Value.IsCompleted: true })
+            {
+                return LazyResult.Value.Result;
+            }
+            
             return _result;
         }
 
