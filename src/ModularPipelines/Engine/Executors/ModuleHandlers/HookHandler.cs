@@ -5,7 +5,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class HookHandler<T> : BaseHandler<T>, IHookHandler
-    where T : class
 {
     public HookHandler(Module<T> module) : base(module)
     {

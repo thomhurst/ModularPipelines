@@ -24,7 +24,6 @@ public abstract class Module : Module<IDictionary<string, object>>;
 /// </summary>
 /// <typeparam name="T">The data to return which can be used within other modules, which is returned from its ExecuteAsync method..</typeparam>
 public abstract partial class Module<T> : ModuleBase<T>
-    where T : class
 {
     private readonly Stopwatch _stopwatch = new();
 
@@ -91,8 +90,54 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
     
-    [StackTraceHidden]
-    protected internal override async Task<ModuleResult<T>> StartInternal()
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleNotRegisteredException">Thrown if the module has not been registered.</exception>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
+    protected TModule GetModule<TModule>()
+        where TModule : ModuleBase
+    {
+        var module = GetModuleIfRegistered<TModule>();
+
+        if (module is null)
+        {
+            throw new ModuleNotRegisteredException(
+                $"The module {typeof(TModule)} has not been registered", null);
+        }
+
+        return module;
+    }
+
+    /// <summary>
+    /// Gets the Module of type <see cref="TModule">{TModule}</see>, or null if it is not registered.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to get.</typeparam>
+    /// <returns>{TModule}.</returns>
+    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
+    protected TModule? GetModuleIfRegistered<TModule>()
+        where TModule : ModuleBase
+    {
+        if (typeof(TModule) == GetType())
+        {
+            throw new ModuleReferencingSelfException("A module cannot get itself");
+        }
+
+        return Context.GetModule<TModule>();
+    }
+
+    /// <summary>
+    /// Creates a generic Retry policy that'll catch any exception and retry.
+    /// </summary>
+    /// <param name="count">The amount of times to retry.</param>
+    /// <returns>{T}.</returns>
+    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
+        Policy<T?>.Handle<Exception>()
+            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
+    
+    private protected override async Task<ModuleResult<T>> StartInternal()
     {
         if (SkipResult.ShouldSkip)
         {
@@ -100,7 +145,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             return new SkippedModuleResult<T>(this, SkipResult);
         }
         
-        T? executeResult = null;
+        T? executeResult = default;
         
         try
         {
@@ -152,53 +197,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         return new ModuleResult<T>(executeResult, this);
     }
-    
-    /// <summary>
-    /// Gets the Module of type <see cref="TModule">{TModule}</see>.
-    /// </summary>
-    /// <typeparam name="TModule">The type of module to get.</typeparam>
-    /// <returns>{TModule}.</returns>
-    /// <exception cref="ModuleNotRegisteredException">Thrown if the module has not been registered.</exception>
-    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
-    protected TModule GetModule<TModule>()
-        where TModule : ModuleBase
-    {
-        var module = GetModuleIfRegistered<TModule>();
-
-        if (module is null)
-        {
-            throw new ModuleNotRegisteredException(
-                $"The module {typeof(TModule)} has not been registered", null);
-        }
-
-        return module;
-    }
-
-    /// <summary>
-    /// Gets the Module of type <see cref="TModule">{TModule}</see>, or null if it is not registered.
-    /// </summary>
-    /// <typeparam name="TModule">The type of module to get.</typeparam>
-    /// <returns>{TModule}.</returns>
-    /// <exception cref="ModuleReferencingSelfException">Thrown if the module tries to get itself.</exception>
-    protected TModule? GetModuleIfRegistered<TModule>()
-        where TModule : ModuleBase
-    {
-        if (typeof(TModule) == GetType())
-        {
-            throw new ModuleReferencingSelfException("A module cannot get itself");
-        }
-
-        return Context.GetModule<TModule>();
-    }
-
-    /// <summary>
-    /// Creates a generic Retry policy that'll catch any exception and retry.
-    /// </summary>
-    /// <param name="count">The amount of times to retry.</param>
-    /// <returns>{T}.</returns>
-    protected AsyncRetryPolicy<T?> CreateRetryPolicy(int count) =>
-        Policy<T?>.Handle<Exception>()
-            .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
     
     private void AddDependency(DependsOnAttribute dependsOnAttribute)
     {

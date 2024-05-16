@@ -6,7 +6,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class HistoryHandler<T> : BaseHandler<T>, IHistoryHandler<T>
-    where T : class
 {
     public HistoryHandler(Module<T> module) : base(module)
     {

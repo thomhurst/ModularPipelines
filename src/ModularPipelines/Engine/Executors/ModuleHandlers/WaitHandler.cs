@@ -10,7 +10,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
-    where T : class
 {
     public WaitHandler(Module<T> module) : base(module)
     {

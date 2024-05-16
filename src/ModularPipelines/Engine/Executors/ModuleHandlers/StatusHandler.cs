@@ -5,7 +5,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class StatusHandler<T> : BaseHandler<T>, IStatusHandler
-    where T : class
 {
     public StatusHandler(Module<T> module) : base(module)
     {

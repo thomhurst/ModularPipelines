@@ -6,7 +6,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class BaseHandler<T>
-    where T : class
 {
     public Module<T> Module { get; }
     

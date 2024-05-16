@@ -4,7 +4,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class CancellationHandler<T> : BaseHandler<T>, ICancellationHandler
-    where T : class
 {
     public CancellationHandler(Module<T> module) : base(module)
     {

@@ -6,7 +6,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler<T>
-    where T : class
 {
     public Task CallbackTask { get; } = new(() => { });
 

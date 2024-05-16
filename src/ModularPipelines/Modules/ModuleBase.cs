@@ -194,7 +194,7 @@ public abstract class ModuleBase<T> : ModuleBase
     
     internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
     
-    protected internal abstract Task<ModuleResult<T>> StartInternal();
+    private protected abstract Task<ModuleResult<T>> StartInternal();
 
     internal abstract ISkipHandler<T> SkipHandler { get; }
 

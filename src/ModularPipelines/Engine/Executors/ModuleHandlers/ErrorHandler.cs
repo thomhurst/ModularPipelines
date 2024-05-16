@@ -7,7 +7,6 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
-    where T : class
 {
     public ErrorHandler(Module<T> module) : base(module)
     {
