@@ -76,30 +76,35 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
-
-        PipelineSummary? pipelineSummary = null;
         
-        try
+        var executePipelineTask = ExecutePipeline(runnableModules, organizedModules);
+
+        var onEnd = executePipelineTask.ContinueWith(t =>
+                OnEnd(organizedModules, stopWatch, start, t.IsCompletedSuccessfully ? t.Result : null),
+            CancellationToken.None);
+
+        await executePipelineTask;
+        
+        return await await onEnd;
+    }
+
+    private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
+        PipelineSummary? pipelineSummary)
+    {
+        var end = DateTimeOffset.UtcNow;
+        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+
+        _consolePrinter.PrintResults(pipelineSummary);
+
+        await Console.Out.FlushAsync();
+
+        if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
         {
-            pipelineSummary = await ExecutePipeline(runnableModules, organizedModules);
+            _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
         }
-        finally
-        {
-            var end = DateTimeOffset.UtcNow;
-            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-            _consolePrinter.PrintResults(pipelineSummary);
-
-            await Console.Out.FlushAsync();
-
-            if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
-            {
-                _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
-            }
             
-            _waitOrchestrator.NotifyFinish();
-        }
-
+        _waitOrchestrator.NotifyFinish();
+        
         return pipelineSummary;
     }
 
