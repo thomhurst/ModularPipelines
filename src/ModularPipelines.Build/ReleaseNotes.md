@@ -1,0 +1,1 @@
+- Simplified the execution and storing of module results by utilising lazy execution
