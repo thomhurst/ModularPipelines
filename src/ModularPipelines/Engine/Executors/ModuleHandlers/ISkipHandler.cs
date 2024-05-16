@@ -2,11 +2,7 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal interface ISkipHandler
+internal interface ISkipHandler<T>
 {
-    Task CallbackTask { get; }
-
-    Task SetSkipped(SkipDecision skipDecision);
-
-    Task<bool> HandleSkipped();
+    Task<ModuleResult<T>?> HandleSkipped();
 }

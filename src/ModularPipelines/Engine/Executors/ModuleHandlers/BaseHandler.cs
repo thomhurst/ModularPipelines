@@ -6,11 +6,10 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class BaseHandler<T>
+    where T : class
 {
     public Module<T> Module { get; }
-
-    public TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource => Module.ModuleResultTaskCompletionSource;
-
+    
     public IPipelineContext Context => Module.Context;
 
     public ILogger Logger => Context.Logger;

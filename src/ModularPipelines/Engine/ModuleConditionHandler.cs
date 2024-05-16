@@ -20,13 +20,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         if (IsIgnoreCategory(module))
         {
-            await module.SkipHandler.SetSkipped("A category of this module has been ignored");
+            module.SetSkipped("A category of this module has been ignored");
             return true;
         }
 
         if (!IsRunnableCategory(module))
         {
-            await module.SkipHandler.SetSkipped("The module was not in a runnable category");
+            module.SetSkipped("The module was not in a runnable category");
             return true;
         }
 
@@ -74,7 +74,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         if (mandatoryCondition != null)
         {
-            await module.SkipHandler.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
+            module.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
             return false;
         }
 
@@ -94,7 +94,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return true;
         }
 
-        await module.SkipHandler.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
+        module.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
 
         return false;
     }

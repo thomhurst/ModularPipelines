@@ -8,6 +8,7 @@ namespace ModularPipelines.Modules;
 /// </summary>
 /// <typeparam name="T">The data to return which can be used within other modules, which is returned from its ExecuteAsync method..</typeparam>
 public partial class Module<T>
+    where T : class
 {
     /// <summary>
     /// Gets a retry policy used to control how and if the module should retry if it fails.

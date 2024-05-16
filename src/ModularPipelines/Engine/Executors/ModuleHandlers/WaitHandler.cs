@@ -10,12 +10,13 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
+    where T : class
 {
     public WaitHandler(Module<T> module) : base(module)
     {
     }
 
-    public async Task<WaitResult> WaitForModuleDependencies()
+    public async Task WaitForModuleDependencies()
     {
         try
         {
@@ -23,12 +24,8 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
         }
         catch (DependencyFailedException) when (Context.EngineCancellationToken.IsCancellationRequested)
         {
-            ModuleResultTaskCompletionSource.TrySetCanceled();
-
-            return WaitResult.Abort;
+            Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
         }
-
-        return WaitResult.Continue;
     }
 
     private async Task WaitForDependencies()

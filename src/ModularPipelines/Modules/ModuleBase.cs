@@ -35,13 +35,11 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal bool IsStarted { get; private protected set; }
 
     internal List<DependsOnAttribute> DependentModules { get; } = [];
-
+    
     internal abstract IWaitHandler WaitHandler { get; }
 
     internal abstract ICancellationHandler CancellationHandler { get; }
-
-    internal abstract ISkipHandler SkipHandler { get; }
-
+    
     internal abstract IHookHandler HookHandler { get; }
 
     internal abstract IStatusHandler StatusHandler { get; }
@@ -73,7 +71,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             OnInitialised?.Invoke(this, EventArgs.Empty);
         }
     }
-
+    
+    internal readonly Task SkipTask = new(() => { }); 
     internal readonly Task StartTask = new(() => { });
 
     [JsonInclude]
@@ -175,6 +174,11 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     }
 
     protected EventHandler? OnInitialised { get; set; }
+    
+    public void SetSkipped(string message)
+    {
+        SkipResult = SkipDecision.Skip(message);
+    }
 }
 
 /// <summary>
@@ -183,7 +187,16 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 /// <typeparam name="T">Any data to return from the module.</typeparam>
 public abstract class ModuleBase<T> : ModuleBase
 {
-    internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
+    public ModuleBase()
+    {
+        LazyResult = new Lazy<Task<ModuleResult<T>>>(StartInternal, LazyThreadSafetyMode.ExecutionAndPublication);
+    }
+    
+    internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
+    
+    protected internal abstract Task<ModuleResult<T>> StartInternal();
+
+    internal abstract ISkipHandler<T> SkipHandler { get; }
 
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 
@@ -193,7 +206,7 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <returns>The result of the ExecuteAsync method.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
-        return ModuleResultTaskCompletionSource.Task.GetAwaiter();
+        return LazyResult.Value.GetAwaiter();
     }
 
     /// <summary>

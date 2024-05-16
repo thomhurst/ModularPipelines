@@ -81,7 +81,7 @@ internal class ModuleExecutor : IModuleExecutor
         {
             // If the pipeline failed, sometimes a TaskCanceledException can throw before the original exception
             // So delay a bit to let the original exception throw first
-            await Task.Delay(TimeSpan.FromMilliseconds(500));
+            await Task.Delay(TimeSpan.FromMilliseconds(1500));
             throw;
         }
     }
@@ -150,12 +150,6 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task<ModuleBase> StartModule(ModuleBase module)
     {
-        if (module.IsStarted || module.ExecutionTask.IsCompleted)
-        {
-            await module.ExecutionTask;
-            return module;
-        }
-
         try
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);

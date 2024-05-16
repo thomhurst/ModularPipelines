@@ -7,6 +7,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
+    where T : class
 {
     public ErrorHandler(Module<T> module) : base(module)
     {
@@ -75,13 +76,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
         Context.Logger.SetException(exception);
-
-        var moduleFailedException = new ModuleFailedException(Module, exception);
-
+        
         Context.EngineCancellationToken.Cancel();
-
-        ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
-
-        throw moduleFailedException;
+        
+        throw new ModuleFailedException(Module, exception);
     }
 }

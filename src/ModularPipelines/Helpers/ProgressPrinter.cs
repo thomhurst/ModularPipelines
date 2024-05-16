@@ -191,7 +191,7 @@ internal class ProgressPrinter : IProgressPrinter
         ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has been ignored
-        _ = moduleToProcess.Module.SkipHandler.CallbackTask.ContinueWith(t =>
+        _ = moduleToProcess.Module.SkipTask.ContinueWith(t =>
         {
             lock (moduleToProcess)
             {
