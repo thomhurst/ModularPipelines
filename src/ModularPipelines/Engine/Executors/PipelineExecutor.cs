@@ -36,12 +36,6 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             await _moduleExecutor.ExecuteAsync(runnableModules);
         }
-        catch
-        {
-            // Give time for the console to update modules to Failed
-            await Task.Delay(TimeSpan.FromMilliseconds(500));
-            throw;
-        }
         finally
         {
             exception = await WaitForAlwaysRunModules(runnableModules);

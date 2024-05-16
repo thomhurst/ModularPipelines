@@ -79,7 +79,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         
         var executePipelineTask = ExecutePipeline(runnableModules, organizedModules);
 
-        var onEnd = executePipelineTask.ContinueWith(t =>
+        var onEnd = await executePipelineTask.ContinueWith(t =>
                 OnEnd(organizedModules, stopWatch, start, t.IsCompletedSuccessfully ? t.Result : null),
             CancellationToken.None);
 
@@ -87,7 +87,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         await executePipelineTask;
         
-        return await await onEnd;
+        return await onEnd;
     }
 
     private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
