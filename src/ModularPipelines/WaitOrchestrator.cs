@@ -11,6 +11,6 @@ internal class WaitOrchestrator : IWaitOrchestrator
 
     public void NotifyFinish()
     {
-        _taskCompletionSource.TrySetResult();
+        _taskCompletionSource.SetResult();
     }
 }

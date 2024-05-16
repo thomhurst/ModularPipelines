@@ -83,6 +83,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 OnEnd(organizedModules, stopWatch, start, t.IsCompletedSuccessfully ? t.Result : null),
             CancellationToken.None);
 
+        _ = onEnd.ContinueWith(_ => _waitOrchestrator.NotifyFinish(), CancellationToken.None);
+
         await executePipelineTask;
         
         return await await onEnd;
@@ -102,8 +104,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
         }
-            
-        _waitOrchestrator.NotifyFinish();
         
         return pipelineSummary;
     }
