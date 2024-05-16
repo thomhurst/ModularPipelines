@@ -1,1 +1,1 @@
-- Refactor how modules wait for their dependencies
+*   Refactor how modules wait for their dependencies
