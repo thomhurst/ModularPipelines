@@ -216,7 +216,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
         {
-            _exceptionContainer.RegisterException(e);
+            _exceptionContainer.RegisterException(new AlwaysRunPostponedException($"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency", e));
             requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
         catch (DependencyFailedException)
