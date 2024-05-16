@@ -1,6 +1,8 @@
+using ModularPipelines.Models;
+
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal interface IErrorHandler
+internal interface IErrorHandler<T>
 {
-    Task Handle(Exception exception);
+    Task<ModuleResult<T>> Handle(Exception exception);
 }

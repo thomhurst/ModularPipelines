@@ -43,9 +43,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract IHookHandler HookHandler { get; }
 
     internal abstract IStatusHandler StatusHandler { get; }
-
-    internal abstract IErrorHandler ErrorHandler { get; }
-
+    
     private IPipelineContext? _context; // Late Initialisation
 
     /// <summary>
@@ -197,6 +195,8 @@ public abstract class ModuleBase<T> : ModuleBase
     private protected abstract Task<ModuleResult<T>> StartInternal();
 
     internal abstract ISkipHandler<T> SkipHandler { get; }
+
+    internal abstract IErrorHandler<T> ErrorHandler { get; }
 
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 

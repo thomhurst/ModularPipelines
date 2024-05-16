@@ -39,7 +39,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override IStatusHandler StatusHandler { get; }
 
-    internal override IErrorHandler ErrorHandler { get; }
+    internal override IErrorHandler<T> ErrorHandler { get; }
 
     public async Task<ModuleResult<T>> GetResult() => await this;
 
@@ -186,7 +186,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         catch (Exception exception)
         {
             SetEndTime();
-            await ErrorHandler.Handle(exception);
+            return await ErrorHandler.Handle(exception);
         }
         finally
         {
