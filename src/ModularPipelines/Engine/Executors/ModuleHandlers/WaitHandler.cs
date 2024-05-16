@@ -61,7 +61,7 @@ internal class WaitHandler<T> : BaseHandler<T>, IWaitHandler
 
                 try
                 {
-                    await module.ExecutionTask;
+                    await Context.Get<IModuleExecutor>()!.ExecuteAsync(module);
                 }
                 catch (Exception e) when (Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {

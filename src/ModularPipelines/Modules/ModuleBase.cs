@@ -76,7 +76,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract Task ExecutionTask { get; }
+    internal abstract Task Start();
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 

@@ -93,7 +93,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override Task ExecutionTask => LazyResult.Value;
+    internal override Task Start() => LazyResult.Value;
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
     
