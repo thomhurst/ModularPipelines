@@ -9,6 +9,7 @@ namespace ModularPipelines.Engine.Executors;
 internal class ExecutionOrchestrator : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer;
+    private readonly IWaitOrchestrator _waitOrchestrator;
     private readonly IModuleDisposeExecutor _moduleDisposeExecutor;
     private readonly IPrintModuleOutputExecutor _printModuleOutputExecutor;
     private readonly IPrintProgressExecutor _printProgressExecutor;
@@ -22,6 +23,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private bool _hasRun;
 
     public ExecutionOrchestrator(IPipelineInitializer pipelineInitializer,
+        IWaitOrchestrator waitOrchestrator,
         IModuleDisposeExecutor moduleDisposeExecutor,
         IPrintModuleOutputExecutor printModuleOutputExecutor,
         IPrintProgressExecutor printProgressExecutor,
@@ -31,6 +33,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
+        _waitOrchestrator = waitOrchestrator;
         _moduleDisposeExecutor = moduleDisposeExecutor;
         _printModuleOutputExecutor = printModuleOutputExecutor;
         _printProgressExecutor = printProgressExecutor;
@@ -41,6 +44,19 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await ExecuteInternal(cancellationToken);
+        }
+        catch
+        {
+            await _waitOrchestrator.WaitForFinish();
+            throw;
+        }
+    }
+
+    private async Task<PipelineSummary> ExecuteInternal(CancellationToken cancellationToken)
     {
         lock (_lock)
         {
@@ -62,6 +78,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         var stopWatch = Stopwatch.StartNew();
 
         PipelineSummary? pipelineSummary = null;
+        
         try
         {
             pipelineSummary = await ExecutePipeline(runnableModules, organizedModules);

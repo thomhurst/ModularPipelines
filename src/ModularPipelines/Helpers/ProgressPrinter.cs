@@ -14,10 +14,12 @@ namespace ModularPipelines.Helpers;
 internal class ProgressPrinter : IProgressPrinter
 {
     private readonly IOptions<PipelineOptions> _options;
+    private readonly IWaitOrchestrator _waitOrchestrator;
 
-    public ProgressPrinter(IOptions<PipelineOptions> options)
+    public ProgressPrinter(IOptions<PipelineOptions> options, IWaitOrchestrator waitOrchestrator)
     {
         _options = options;
+        _waitOrchestrator = waitOrchestrator;
     }
 
     public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
@@ -67,6 +69,7 @@ internal class ProgressPrinter : IProgressPrinter
     {
         if (!_options.Value.PrintResults)
         {
+            _waitOrchestrator.NotifyFinish();
             return;
         }
 
@@ -121,6 +124,8 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
         AnsiConsole.Write(table);
         Console.WriteLine();
+        
+        _waitOrchestrator.NotifyFinish();
     }
 
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
