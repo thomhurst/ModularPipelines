@@ -110,6 +110,7 @@ internal class ModuleExecutor : IModuleExecutor
     private async Task ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules)
     {
         await keyedNonParallelModules
+            .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
             .ForEachAsync(async module =>
             {
                 var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
