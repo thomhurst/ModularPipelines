@@ -165,10 +165,10 @@ public abstract partial class Module<T> : ModuleBase<T>
         ModuleResult<T> moduleResult;
         try
         {
-            await _startLock.Task;
-            
             CancellationHandler.SetupCancellation();
 
+            await _startLock.Task;
+            
             if (await SkipHandler.HandleSkipped() is { } handledResult)
             {
                 return handledResult;
