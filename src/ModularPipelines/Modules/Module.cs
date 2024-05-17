@@ -96,7 +96,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override Task Start()
     {
-        return ExecutionTask;
+        return LazyResult.Start();
     }
 
     internal override Task ExecutionTask => LazyResult.GetTask();
