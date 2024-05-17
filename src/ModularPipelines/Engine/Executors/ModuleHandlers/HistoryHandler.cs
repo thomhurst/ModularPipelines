@@ -30,6 +30,8 @@ internal class HistoryHandler<T> : BaseHandler<T>, IHistoryHandler<T>
 
         Module.Status = Status.UsedHistory;
 
+        Module.Result = result;
+
         return result;
     }
 
