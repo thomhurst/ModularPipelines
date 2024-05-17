@@ -189,8 +189,8 @@ public abstract class ModuleBase<T> : ModuleBase
 {
     public ModuleBase()
     {
-        LazyResult = new Lazy<Task<ModuleResult<T>>>(StartInternal, LazyThreadSafetyMode.ExecutionAndPublication);
-        OnInitialised += (_, _) => _ = LazyResult.Value;
+        LazyResult = new LazyModule<T>(StartInternal);
+        ModuleCancellationTokenSource.Token.Register(() => _ = LazyResult.Start());
     }
     
     /// <summary>
@@ -199,10 +199,10 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <returns>The result of the ExecuteAsync method.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
-        return LazyResult.Value.GetAwaiter();
+        return LazyResult.GetTask().GetAwaiter();
     }
     
-    internal readonly Lazy<Task<ModuleResult<T>>> LazyResult;
+    internal readonly LazyModule<T> LazyResult;
     
     /// <summary>
     /// Used to return no result in a module.

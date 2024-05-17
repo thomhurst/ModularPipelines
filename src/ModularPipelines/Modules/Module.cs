@@ -26,7 +26,6 @@ public abstract class Module : Module<IDictionary<string, object>>;
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly TaskCompletionSource _startLock = new();
     
     internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
     {
@@ -80,9 +79,9 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         get
         {
-            if (LazyResult is { IsValueCreated: true, Value.IsCompleted: true })
+            if (LazyResult.GetTask().IsCompleted)
             {
-                return LazyResult.Value.Result;
+                return LazyResult.GetTask().Result;
             }
             
             return _result;
@@ -97,11 +96,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override Task Start()
     {
-        _startLock.TrySetResult();
         return ExecutionTask;
     }
 
-    internal override Task ExecutionTask => LazyResult.Value;
+    internal override Task ExecutionTask => LazyResult.GetTask();
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
     
@@ -159,15 +157,11 @@ public abstract partial class Module<T> : ModuleBase<T>
             SkipTask.Start();
             return new SkippedModuleResult<T>(this, SkipResult);
         }
-
-        ModuleCancellationTokenSource.Token.Register(() => _startLock.TrySetCanceled());
-
+        
         ModuleResult<T> moduleResult;
         try
         {
             CancellationHandler.SetupCancellation();
-
-            await _startLock.Task;
             
             if (await SkipHandler.HandleSkipped() is { } handledResult)
             {
