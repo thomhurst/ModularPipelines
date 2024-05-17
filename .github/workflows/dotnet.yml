@@ -74,8 +74,8 @@ jobs:
           GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
           GitHub__PullRequest__Sha: ${{ github.event.pull_request.head.sha }}
           GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
-          Publish__ShouldPublish: ${{ github.event.inputs.publish-packages }}
-          Publish__IsAlpha: ${{ github.event.inputs.is-alpha }}
+          Publish__ShouldPublish: ${{ github.event.inputs.publish-packages || false}}
+          Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true}}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}

@@ -27,11 +27,15 @@ public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
     private readonly object _startCheckLock = new();
+    
+    internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
+    {
+        return DependentModules
+            .Select(dependsOnAttribute => (dependsOnAttribute.Type, dependsOnAttribute.IgnoreIfNotRegistered));
+    }
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
-
-    internal override IWaitHandler WaitHandler { get; }
-
+    
     internal override ICancellationHandler CancellationHandler { get; }
 
     internal override ISkipHandler SkipHandler { get; }
@@ -51,7 +55,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     [JsonConstructor]
     protected Module()
     {
-        WaitHandler = new WaitHandler<T>(this);
         CancellationHandler = new CancellationHandler<T>(this);
         SkipHandler = new SkipHandler<T>(this);
         HistoryHandler = new HistoryHandler<T>(this);
@@ -87,28 +90,65 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override Task ExecutionTask
-    {
-        [StackTraceHidden]
-        get
-        {
-            lock (_startCheckLock)
-            {
-                if (!IsStarted)
-                {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    StartInternal();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                }
-
-                IsStarted = true;
-
-                return ModuleResultTaskCompletionSource.Task;
-            }
-        }
-    }
+    internal override Task ExecutionTask => ModuleResultTaskCompletionSource.Task;
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
+    
+    internal override async Task StartInternal()
+    {
+        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
+        {
+            return;
+        }
+
+        IsStarted = true;
+
+        try
+        {
+            CancellationHandler.SetupCancellation();
+
+            if (await SkipHandler.HandleSkipped())
+            {
+                return;
+            }
+
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            await HookHandler.OnBeforeExecute(Context);
+
+            StartTask.Start(TaskScheduler.Default);
+
+            Status = Status.Processing;
+            StartTime = DateTimeOffset.UtcNow;
+
+            _stopwatch.Start();
+
+            var executeResult = await ExecuteInternal();
+
+            SetEndTime();
+
+            LogResult(executeResult);
+
+            Status = Status.Successful;
+
+            var moduleResult = new ModuleResult<T>(executeResult, this);
+
+            await HistoryHandler.SaveResult(moduleResult);
+
+            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+        }
+        catch (Exception exception)
+        {
+            SetEndTime();
+            await ErrorHandler.Handle(exception);
+        }
+        finally
+        {
+            await HookHandler.OnAfterExecute(Context);
+
+            StatusHandler.LogModuleStatus();
+        }
+    }
     
     /// <summary>
     /// Gets the Module of type <see cref="TModule">{TModule}</see>.
@@ -177,66 +217,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         };
 
         DependentModules.Add(dependsOnAttribute);
-    }
-
-    [StackTraceHidden]
-    private async Task StartInternal()
-    {
-        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
-        {
-            return;
-        }
-
-        try
-        {
-            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
-            {
-                return;
-            }
-
-            CancellationHandler.SetupCancellation();
-
-            if (await SkipHandler.HandleSkipped())
-            {
-                return;
-            }
-
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-            await HookHandler.OnBeforeExecute(Context);
-
-            StartTask.Start(TaskScheduler.Default);
-
-            Status = Status.Processing;
-            StartTime = DateTimeOffset.UtcNow;
-
-            _stopwatch.Start();
-
-            var executeResult = await ExecuteInternal();
-
-            SetEndTime();
-
-            LogResult(executeResult);
-
-            Status = Status.Successful;
-
-            var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            await HistoryHandler.SaveResult(moduleResult);
-
-            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
-        }
-        catch (Exception exception)
-        {
-            SetEndTime();
-            await ErrorHandler.Handle(exception);
-        }
-        finally
-        {
-            await HookHandler.OnAfterExecute(Context);
-
-            StatusHandler.LogModuleStatus();
-        }
     }
 
     private void LogResult(T? executeResult)

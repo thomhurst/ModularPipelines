@@ -1,9 +1,12 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -15,18 +18,24 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
+    private readonly IEnumerable<ModuleBase> _allModules;
+    private readonly IExceptionContainer _exceptionContainer;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        IModuleDisposer moduleDisposer)
+        IModuleDisposer moduleDisposer,
+        IEnumerable<ModuleBase> allModules,
+        IExceptionContainer exceptionContainer)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         _moduleDisposer = moduleDisposer;
+        _allModules = allModules;
+        _exceptionContainer = exceptionContainer;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
@@ -75,7 +84,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         try
         {
-            return await ExecuteWithLockAsync(module);
+            return await StartModule(module);
         }
         catch (TaskCanceledException)
         {
@@ -83,14 +92,6 @@ internal class ModuleExecutor : IModuleExecutor
             // So delay a bit to let the original exception throw first
             await Task.Delay(TimeSpan.FromMilliseconds(500));
             throw;
-        }
-    }
-
-    private Task<ModuleBase> ExecuteWithLockAsync(ModuleBase module)
-    {
-        lock (module)
-        {
-            return _moduleExecutionTasks.GetOrAdd(module, @base => StartModule(module));
         }
     }
 
@@ -150,44 +151,70 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task<ModuleBase> StartModule(ModuleBase module)
     {
-        if (module.IsStarted || module.ExecutionTask.IsCompleted)
+        return await _moduleExecutionTasks.GetOrAdd(module, async @base =>
         {
-            await module.ExecutionTask;
-            return module;
+            var dependencies = module.GetModuleDependencies();
+
+            foreach (var dependency in dependencies)
+            {
+                await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
+            }
+
+            try
+            {
+                await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+                await module.StartInternal();
+
+                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
+
+                await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+                return module;
+            }
+            finally
+            {
+                if (!_pipelineOptions.Value.ShowProgressInConsole)
+                {
+                    await _moduleDisposer.DisposeAsync(module);
+                }
+            }
+        });
+    }
+
+    private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
+    {
+        var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
+
+        if (module is null && ignoreIfNotRegistered)
+        {
+            requestingModule.Context.Logger.LogDebug("{Module} was not registered so not waiting", dependencyType.Name);
+            return;
         }
+
+        if (module is null)
+        {
+            throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
+        }
+        
+        requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
 
         try
         {
-            await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-            await module.ExecutionTask;
-
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-            await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-            return module;
+            await StartModule(module);
         }
-        finally
+        catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
         {
-            if (!_pipelineOptions.Value.ShowProgressInConsole)
-            {
-                await _moduleDisposer.DisposeAsync(module);
-            }
+            _exceptionContainer.RegisterException(new AlwaysRunPostponedException($"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency", e));
+            requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
-    }
-
-    private async Task<IEnumerable<ModuleBase>> ProcessGroup(
-        IGrouping<string?, ModuleBase> moduleBases,
-        ICollection<ModuleBase> moduleResults)
-    {
-        var executionProcessor = moduleBases.SelectAsync(ExecuteAsync);
-
-        if (string.IsNullOrEmpty(moduleBases.Key))
+        catch (DependencyFailedException)
         {
-            return await executionProcessor.ProcessInParallel().GetEnumerableTasks().ToArray().WhenAllFailFast();
+            throw;
         }
-
-        return await executionProcessor.ProcessOneAtATime();
+        catch (Exception e)
+        {
+            throw new DependencyFailedException(e, module);
+        }
     }
 }
