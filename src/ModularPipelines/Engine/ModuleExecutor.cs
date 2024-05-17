@@ -145,10 +145,10 @@ internal class ModuleExecutor : IModuleExecutor
     {
         lock (_moduleDictionaryLock)
         {
-            _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
-            
             return _moduleExecutionTasks.GetOrAdd(module, async @base =>
             {
+                _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
+
                 var dependencies = module.GetModuleDependencies();
 
                 foreach (var dependency in dependencies)
