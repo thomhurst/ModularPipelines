@@ -176,7 +176,7 @@ internal class ModuleExecutor : IModuleExecutor
         {
             await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
-            await module.ExecutionTask;
+            await module.StartInternal();
 
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
 

@@ -80,6 +80,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
     internal abstract Task ExecutionTask { get; }
+    
+    internal abstract Task StartInternal();
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
