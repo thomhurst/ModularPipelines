@@ -33,8 +33,8 @@ internal class PipelineExecutor : IPipelineExecutor
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
-        Exception? exception;
-        PipelineSummary pipelineSummary;
+        Exception? exception = null;
+        PipelineSummary? pipelineSummary = null;
         try
         {
             await _moduleExecutor.ExecuteAsync(runnableModules);
@@ -47,13 +47,20 @@ internal class PipelineExecutor : IPipelineExecutor
         }
         finally
         {
-            exception = await WaitForAlwaysRunModules(runnableModules);
+            try
+            {
+                await WaitForAlwaysRunModules(runnableModules);
 
-            var end = DateTimeOffset.UtcNow;
+                var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+                pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
 
-            await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
+                await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
         }
 
         if (exception != null)
@@ -63,21 +70,11 @@ internal class PipelineExecutor : IPipelineExecutor
         
         _exceptionContainer.ThrowExceptions();
 
-        return pipelineSummary;
+        return pipelineSummary!;
     }
 
-    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
+    private async Task WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
     {
-        try
-        {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
-        }
-        catch (Exception? e)
-        {
-            _logger.LogWarning(e, "Error while waiting for Always Run modules");
-            return e;
-        }
-
-        return null;
+        await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
     }
 }
