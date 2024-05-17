@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Reflection;
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
@@ -21,8 +22,11 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IExceptionContainer _exceptionContainer;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
-    private readonly object _dictionaryLock = new();
+    private readonly object _moduleDictionaryLock = new();
 
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _notInParallelKeyedLocks = new();
+    private readonly object _notInParallelDictionaryLock = new();
+    
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
@@ -42,8 +46,6 @@ internal class ModuleExecutor : IModuleExecutor
     {
         try
         {
-            var moduleResults = new List<ModuleBase>();
-
             var nonParallelModules = modules
                 .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
                 .OrderBy(x => x.DependentModules.Count)
@@ -55,16 +57,14 @@ internal class ModuleExecutor : IModuleExecutor
 
             foreach (var nonParallelModule in unKeyedNonParallelModules)
             {
-                moduleResults.Add(await StartModule(nonParallelModule));
+                await StartModule(nonParallelModule);
             }
 
             var keyedNonParallelModules = nonParallelModules
                 .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
                 .ToList();
-
-            moduleResults.AddRange(
-                await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
-            );
+            
+            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
 
             var parallelModuleTasks = modules.Except(nonParallelModules)
                 .Select(StartModule)
@@ -72,14 +72,14 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
             {
-                moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
+                await parallelModuleTasks.WhenAllFailFast();
             }
             else
             {
-                moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
+                await Task.WhenAll(parallelModuleTasks);
             }
 
-            return moduleResults;
+            return modules;
         }
         catch
         {
@@ -99,63 +99,45 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task<ModuleBase[]> ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules,
-        List<ModuleBase> moduleResults)
+    private SemaphoreSlim GetLockForKey(string key)
     {
-        var currentlyExecutingByKeysLock = new object();
-        var currentlyExecutingByKeys = new List<(string[] Keys, Task)>();
-
-        var executing = new List<Task<ModuleBase>>();
-
-        while (keyedNonParallelModules.Count > 0)
+        lock (_notInParallelDictionaryLock)
         {
-            // Reversing allows us to remove from the collection
-            for (var i = keyedNonParallelModules.Count - 1; i >= 0; i--)
-            {
-                var module = keyedNonParallelModules[i];
-
-                var notInParallelKeys =
-                    module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
-
-                lock (currentlyExecutingByKeysLock)
-                {
-                    if (currentlyExecutingByKeys.Any(x => x.Keys.Intersect(notInParallelKeys).Any()))
-                    {
-                        // There are currently executing tasks with that same 
-                        continue;
-                    }
-                }
-
-                // Remove from collection as we're now processing it
-                keyedNonParallelModules.RemoveAt(i);
-
-                var executionTask = StartModule(module);
-
-                var tuple = (notInParallelKeys, executionTask);
-
-                lock (currentlyExecutingByKeysLock)
-                {
-                    currentlyExecutingByKeys.Add(tuple);
-                }
-
-                _ = executionTask.ContinueWith(_ =>
-                {
-                    lock (currentlyExecutingByKeysLock)
-                    {
-                        return currentlyExecutingByKeys.Remove(tuple);
-                    }
-                });
-
-                executing.Add(executionTask);
-            }
+            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
         }
+    }
 
-        return await Task.WhenAll(executing);
+    private async Task ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules)
+    {
+        await keyedNonParallelModules
+            .ForEachAsync(async module =>
+            {
+                var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
+                
+                var locks = keys.Select(GetLockForKey).ToList();
+
+                try
+                {
+                    await Task.WhenAll(locks.Select(x => x.WaitAsync()));
+                }
+                catch
+                {
+                    foreach (var semaphoreSlim in locks)
+                    {
+                        semaphoreSlim.Release();
+                    }
+
+                    throw;
+                }
+
+                await StartModule(module);
+            })
+            .ProcessInParallel();
     }
 
     private Task<ModuleBase> StartModule(ModuleBase module)
     {
-        lock (_dictionaryLock)
+        lock (_moduleDictionaryLock)
         {
             return _moduleExecutionTasks.GetOrAdd(module, async @base =>
             {
