@@ -9,22 +9,31 @@ namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
 internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler<T>
 {
+    private readonly ILogger<ErrorHandler<T>> _logger;
+
     public ErrorHandler(Module<T> module) : base(module)
     {
+        _logger = module.Context.Get<ILogger<ErrorHandler<T>>>()!;
     }
 
     public async Task<ModuleResult<T>> Handle(Exception exception)
     {
+        _logger.LogDebug("{Module} has thrown {Exception}", Module.GetType().Name, exception.GetType().Name);
+        
         Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
 
         if (IsModuleTimedOutException(exception))
         {
+            _logger.LogDebug("{Module} has timed out", Module.GetType().Name);
+            
             Context.Logger.LogDebug("Module timed out: {ModuleType}", GetType().FullName);
 
             Module.Status = Status.TimedOut;
         }
         else if (IsPipelineCanceled(exception))
         {
+            _logger.LogDebug("{Module} has terminated because of pipeline cancellation", Module.GetType().Name);
+            
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
 
@@ -39,6 +48,8 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler<T>
 
         if (await Module.ShouldIgnoreFailures(Context, exception))
         {
+            _logger.LogDebug("{Module} is ignoring its exception and continuing the pipeline", Module.GetType().Name);
+            
             return await SaveFailedResult(exception);
         }
 
@@ -74,6 +85,8 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler<T>
     [DoesNotReturn]
     private Exception CancelPipelineAndThrow(Exception exception)
     {
+        _logger.LogDebug("{Module} is throwing its exception", Module.GetType().Name);
+        
         Context.Logger.LogDebug("Module failed. Cancelling the pipeline");
 
         Context.Logger.SetException(exception);
