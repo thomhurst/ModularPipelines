@@ -11,17 +11,20 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IModuleExecutor _moduleExecutor;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
+    private readonly IExceptionContainer _exceptionContainer;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
-        ILogger<PipelineExecutor> logger)
+        ILogger<PipelineExecutor> logger,
+        IExceptionContainer exceptionContainer)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
+        _exceptionContainer = exceptionContainer;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
@@ -57,6 +60,8 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             throw exception;
         }
+        
+        _exceptionContainer.ThrowExceptions();
 
         return pipelineSummary;
     }
