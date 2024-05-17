@@ -173,9 +173,8 @@ public abstract partial class Module<T> : ModuleBase<T>
                 while (!ExecutionTask.IsCompleted)
                 {
                     Context.Get<ILogger<Module>>()!.LogDebug("{Module} status is {Status}", GetType().Name, Status);
+                    await Task.Delay(TimeSpan.FromSeconds(10));
                 }
-
-                await Task.Delay(TimeSpan.FromSeconds(5));
             });
 
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
