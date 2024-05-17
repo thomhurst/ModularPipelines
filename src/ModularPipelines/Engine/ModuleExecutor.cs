@@ -84,7 +84,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         try
         {
-            return await ExecuteWithLockAsync(module);
+            return await StartModule(module);
         }
         catch (TaskCanceledException)
         {
@@ -92,14 +92,6 @@ internal class ModuleExecutor : IModuleExecutor
             // So delay a bit to let the original exception throw first
             await Task.Delay(TimeSpan.FromMilliseconds(500));
             throw;
-        }
-    }
-
-    private Task<ModuleBase> ExecuteWithLockAsync(ModuleBase module)
-    {
-        lock (module)
-        {
-            return _moduleExecutionTasks.GetOrAdd(module, @base => StartModule(module));
         }
     }
 
@@ -159,38 +151,35 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task<ModuleBase> StartModule(ModuleBase module)
     {
-        if (module.IsStarted || module.ExecutionTask.IsCompleted)
+        return await _moduleExecutionTasks.GetOrAdd(module, async @base =>
         {
-            await module.ExecutionTask;
-            return module;
-        }
-        
-        var dependencies = module.GetModuleDependencies();
+            var dependencies = module.GetModuleDependencies();
 
-        foreach (var dependency in dependencies)
-        {
-            await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
-        }
-        
-        try
-        {
-            await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-            await module.StartInternal();
-
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-            await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-            return module;
-        }
-        finally
-        {
-            if (!_pipelineOptions.Value.ShowProgressInConsole)
+            foreach (var dependency in dependencies)
             {
-                await _moduleDisposer.DisposeAsync(module);
+                await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
             }
-        }
+
+            try
+            {
+                await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+                await module.StartInternal();
+
+                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
+
+                await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+                return module;
+            }
+            finally
+            {
+                if (!_pipelineOptions.Value.ShowProgressInConsole)
+                {
+                    await _moduleDisposer.DisposeAsync(module);
+                }
+            }
+        });
     }
 
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
@@ -208,7 +197,7 @@ internal class ModuleExecutor : IModuleExecutor
             throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
         }
         
-        requestingModule.Context.Logger.LogDebug("Waiting for {Module}", dependencyType.Name);
+        requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
 
         try
         {
