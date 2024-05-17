@@ -167,6 +167,14 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 return handledResult;
             }
+            
+            _ = Task.Factory.StartNew(() =>
+            {
+                while (!ExecutionTask.IsCompleted)
+                {
+                    Context.Get<ILogger<Module>>()!.LogDebug("{Module} status is {Status}", GetType().Name, Status);
+                }
+            });
 
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
