@@ -290,7 +290,7 @@ internal class ProgressPrinter : IProgressPrinter
 
     private static void CompleteTotalWhenFinished(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)
     {
-        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.Start())).ContinueWith(x =>
+        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.ExecutionTask)).ContinueWith(x =>
         {
             totalTask.Increment(100);
             totalTask.StopTask();

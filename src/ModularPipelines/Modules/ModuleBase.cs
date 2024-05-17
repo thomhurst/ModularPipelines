@@ -36,7 +36,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal List<DependsOnAttribute> DependentModules { get; } = [];
     
-    internal abstract IWaitHandler WaitHandler { get; }
+    internal abstract IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies();
 
     internal abstract ICancellationHandler CancellationHandler { get; }
     
@@ -77,7 +77,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract Task Start();
+    internal abstract void Start();
+    
+    internal abstract Task ExecutionTask { get; }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -189,6 +191,7 @@ public abstract class ModuleBase<T> : ModuleBase
     public ModuleBase()
     {
         LazyResult = new Lazy<Task<ModuleResult<T>>>(StartInternal, LazyThreadSafetyMode.ExecutionAndPublication);
+        _ = LazyResult.Value;
     }
     
     /// <summary>

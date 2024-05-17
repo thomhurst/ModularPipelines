@@ -26,12 +26,16 @@ public abstract class Module : Module<IDictionary<string, object>>;
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly TaskCompletionSource _initializationWaiter = new();
-
+    private readonly TaskCompletionSource _startLock = new();
+    
+    internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
+    {
+        return DependentModules
+            .Select(dependsOnAttribute => (dependsOnAttribute.Type, dependsOnAttribute.IgnoreIfNotRegistered));
+    }
+    
     internal IHistoryHandler<T> HistoryHandler { get; }
-
-    internal override IWaitHandler WaitHandler { get; }
-
+    
     internal override ICancellationHandler CancellationHandler { get; }
 
     internal ISkipHandler<T> SkipHandler { get; }
@@ -51,7 +55,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     [JsonConstructor]
     protected Module()
     {
-        WaitHandler = new WaitHandler<T>(this);
         CancellationHandler = new CancellationHandler<T>(this);
         SkipHandler = new SkipHandler<T>(this);
         HistoryHandler = new HistoryHandler<T>(this);
@@ -69,7 +72,6 @@ public abstract partial class Module<T> : ModuleBase<T>
     {
         context.InitializeLogger(GetType());
         Context = context;
-        _initializationWaiter.SetResult();
         return this;
     }
 
@@ -93,7 +95,12 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override Task Start() => LazyResult.Value;
+    internal override void Start()
+    {
+        _startLock.TrySetResult();
+    }
+
+    internal override Task ExecutionTask => LazyResult.Value;
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
     
@@ -152,12 +159,10 @@ public abstract partial class Module<T> : ModuleBase<T>
             return new SkippedModuleResult<T>(this, SkipResult);
         }
 
-        await _initializationWaiter.Task;
+        await _startLock.Task;
 
         try
         {
-            await WaitHandler.WaitForModuleDependencies();
-
             CancellationHandler.SetupCancellation();
 
             if (await SkipHandler.HandleSkipped() is { } handledResult)
