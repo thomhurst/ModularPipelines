@@ -205,7 +205,7 @@ internal class ProgressPrinter : IProgressPrinter
         CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has finished
-        _ = moduleToProcess.Module.CompleteTaskCompletionSource.Task.ContinueWith(t =>
+        _ = moduleToProcess.Module.ExecutionTask.ContinueWith(t =>
         {
             lock (moduleToProcess)
             {

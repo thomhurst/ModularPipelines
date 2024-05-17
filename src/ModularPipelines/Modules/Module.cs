@@ -95,9 +95,10 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override void Start()
+    internal override Task Start()
     {
-        _startLock.TrySetResult();
+        _startLock.SetResult();
+        return ExecutionTask;
     }
 
     internal override Task ExecutionTask => LazyResult.Value;

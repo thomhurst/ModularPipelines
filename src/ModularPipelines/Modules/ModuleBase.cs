@@ -72,12 +72,11 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     
     internal readonly Task SkipTask = new(() => { }); 
     internal readonly Task StartTask = new(() => { });
-    internal readonly TaskCompletionSource CompleteTaskCompletionSource = new();
 
     [JsonInclude]
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
-    internal abstract void Start();
+    internal abstract Task Start();
     
     internal abstract Task ExecutionTask { get; }
 
