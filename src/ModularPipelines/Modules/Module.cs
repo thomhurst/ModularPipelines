@@ -97,7 +97,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override Task Start()
     {
-        _startLock.SetResult();
+        _startLock.TrySetResult();
         return ExecutionTask;
     }
 
@@ -160,11 +160,13 @@ public abstract partial class Module<T> : ModuleBase<T>
             return new SkippedModuleResult<T>(this, SkipResult);
         }
 
-        await _startLock.Task;
+        ModuleCancellationTokenSource.Token.Register(() => _startLock.TrySetCanceled());
 
         ModuleResult<T> moduleResult;
         try
         {
+            await _startLock.Task;
+            
             CancellationHandler.SetupCancellation();
 
             if (await SkipHandler.HandleSkipped() is { } handledResult)
