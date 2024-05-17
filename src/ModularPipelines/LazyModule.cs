@@ -2,7 +2,7 @@
 
 namespace ModularPipelines;
 
-public class LazyModule<T>
+internal class LazyModule<T>
 {
     private readonly Lazy<Task<ModuleResult<T>>> _lazy;
     private readonly TaskCompletionSource<ModuleResult<T>> _tcs = new();
