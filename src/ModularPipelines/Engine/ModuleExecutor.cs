@@ -20,6 +20,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IEnumerable<ModuleBase> _allModules;
     private readonly IExceptionContainer _exceptionContainer;
+    private readonly ILogger<ModuleExecutor> _logger;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
     private readonly object _moduleDictionaryLock = new();
@@ -32,7 +33,8 @@ internal class ModuleExecutor : IModuleExecutor
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         IModuleDisposer moduleDisposer,
         IEnumerable<ModuleBase> allModules,
-        IExceptionContainer exceptionContainer)
+        IExceptionContainer exceptionContainer,
+        ILogger<ModuleExecutor> logger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -40,6 +42,7 @@ internal class ModuleExecutor : IModuleExecutor
         _moduleDisposer = moduleDisposer;
         _allModules = allModules;
         _exceptionContainer = exceptionContainer;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
@@ -115,6 +118,8 @@ internal class ModuleExecutor : IModuleExecutor
             {
                 var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
                 
+                _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
+                
                 var locks = keys.Select(GetLockForKey).ToList();
 
                 try
@@ -140,6 +145,8 @@ internal class ModuleExecutor : IModuleExecutor
     {
         lock (_moduleDictionaryLock)
         {
+            _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
+            
             return _moduleExecutionTasks.GetOrAdd(module, async @base =>
             {
                 var dependencies = module.GetModuleDependencies();
@@ -174,6 +181,8 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
     {
+        _logger.LogDebug("Starting Dependency {Dependency} for Module {Module}", dependencyType.Name, requestingModule.GetType().Name);
+        
         var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
 
         if (module is null && ignoreIfNotRegistered)
