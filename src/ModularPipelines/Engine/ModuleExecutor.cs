@@ -40,44 +40,63 @@ internal class ModuleExecutor : IModuleExecutor
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
-        var moduleResults = new List<ModuleBase>();
-
-        var nonParallelModules = modules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
-            .OrderBy(x => x.DependentModules.Count)
-            .ToList();
-
-        var unKeyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
-            .ToList();
-
-        foreach (var nonParallelModule in unKeyedNonParallelModules)
+        try
         {
-            moduleResults.Add(await StartModule(nonParallelModule));
+            var moduleResults = new List<ModuleBase>();
+
+            var nonParallelModules = modules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+                .OrderBy(x => x.DependentModules.Count)
+                .ToList();
+
+            var unKeyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
+                .ToList();
+
+            foreach (var nonParallelModule in unKeyedNonParallelModules)
+            {
+                moduleResults.Add(await StartModule(nonParallelModule));
+            }
+
+            var keyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
+                .ToList();
+
+            moduleResults.AddRange(
+                await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
+            );
+
+            var parallelModuleTasks = modules.Except(nonParallelModules)
+                .Select(StartModule)
+                .ToArray();
+
+            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+            {
+                moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
+            }
+            else
+            {
+                moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
+            }
+
+            return moduleResults;
         }
-
-        var keyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
-            .ToList();
-
-        moduleResults.AddRange(
-            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
-        );
-
-        var parallelModuleTasks = modules.Except(nonParallelModules)
-            .Select(StartModule)
-            .ToArray();
-
-        if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+        catch
         {
-            moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
-        }
-        else
-        {
-            moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
-        }
+            foreach (var moduleBase in modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun))
+            {
+                try
+                {
+                    await StartModule(moduleBase);
+                }
+                catch
+                {
+                    // Ignored
+                }
+            }
 
-        return moduleResults;
+            throw;
+        }
     }
 
     private async Task<ModuleBase[]> ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules,
