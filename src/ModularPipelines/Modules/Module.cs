@@ -97,7 +97,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override Task Start()
     {
-        _startLock.TrySetResult();
+        _startLock.SetResult();
         return ExecutionTask;
     }
 

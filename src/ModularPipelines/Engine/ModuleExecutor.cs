@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Reflection;
-using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
@@ -22,6 +21,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IExceptionContainer _exceptionContainer;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
+    private readonly object _dictionaryLock = new();
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -149,37 +149,40 @@ internal class ModuleExecutor : IModuleExecutor
         return await Task.WhenAll(executing);
     }
 
-    private async Task<ModuleBase> StartModule(ModuleBase module)
+    private Task<ModuleBase> StartModule(ModuleBase module)
     {
-        return await _moduleExecutionTasks.GetOrAdd(module, async @base =>
+        lock (_dictionaryLock)
         {
-            var dependencies = module.GetModuleDependencies();
-
-            foreach (var dependency in dependencies)
+            return _moduleExecutionTasks.GetOrAdd(module, async @base =>
             {
-                await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
-            }
+                var dependencies = module.GetModuleDependencies();
 
-            try
-            {
-                await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-                await module.Start();
-
-                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-                await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-                return module;
-            }
-            finally
-            {
-                if (!_pipelineOptions.Value.ShowProgressInConsole)
+                foreach (var dependency in dependencies)
                 {
-                    await _moduleDisposer.DisposeAsync(module);
+                    await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
                 }
-            }
-        });
+
+                try
+                {
+                    await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+                    await module.Start();
+
+                    await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
+
+                    await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+                    return module;
+                }
+                finally
+                {
+                    if (!_pipelineOptions.Value.ShowProgressInConsole)
+                    {
+                        await _moduleDisposer.DisposeAsync(module);
+                    }
+                }
+            });
+        }
     }
 
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
