@@ -162,6 +162,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         await _startLock.Task;
 
+        ModuleResult<T> moduleResult;
         try
         {
             CancellationHandler.SetupCancellation();
@@ -190,13 +191,11 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             Status = Status.Successful;
 
-            var moduleResult = new ModuleResult<T>(executeResult, this);
+            moduleResult = new ModuleResult<T>(executeResult, this);
 
             await HistoryHandler.SaveResult(moduleResult);
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
-
-            return moduleResult;
         }
         catch (Exception exception)
         {
@@ -209,6 +208,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             StatusHandler.LogModuleStatus();
         }
+        
+        return moduleResult;
     }
     
     private void AddDependency(DependsOnAttribute dependsOnAttribute)
