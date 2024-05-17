@@ -40,57 +40,55 @@ internal class ModuleExecutor : IModuleExecutor
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
-        var moduleResults = new List<ModuleBase>();
-
-        var nonParallelModules = modules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
-            .OrderBy(x => x.DependentModules.Count)
-            .ToList();
-
-        var unKeyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
-            .ToList();
-
-        foreach (var nonParallelModule in unKeyedNonParallelModules)
-        {
-            moduleResults.Add(await ExecuteAsync(nonParallelModule));
-        }
-
-        var keyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
-            .ToList();
-
-        moduleResults.AddRange(
-            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
-        );
-
-        var parallelModuleTasks = modules.Except(nonParallelModules)
-            .Select(ExecuteAsync)
-            .ToArray();
-
-        if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-        {
-            moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
-        }
-        else
-        {
-            moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
-        }
-
-        return moduleResults;
-    }
-
-    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
-    {
         try
         {
-            return await StartModule(module);
+            var moduleResults = new List<ModuleBase>();
+
+            var nonParallelModules = modules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+                .OrderBy(x => x.DependentModules.Count)
+                .ToList();
+
+            var unKeyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
+                .ToList();
+
+            foreach (var nonParallelModule in unKeyedNonParallelModules)
+            {
+                moduleResults.Add(await StartModule(nonParallelModule));
+            }
+
+            var keyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
+                .ToList();
+
+            moduleResults.AddRange(
+                await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
+            );
+
+            var parallelModuleTasks = modules.Except(nonParallelModules)
+                .Select(StartModule)
+                .ToArray();
+
+            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+            {
+                moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
+            }
+            else
+            {
+                moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
+            }
+
+            return moduleResults;
         }
-        catch (TaskCanceledException)
+        catch
         {
-            // If the pipeline failed, sometimes a TaskCanceledException can throw before the original exception
-            // So delay a bit to let the original exception throw first
-            await Task.Delay(TimeSpan.FromMilliseconds(500));
+            // Guarantee everything has been started to avoid deadlocks
+            foreach (var module in modules)
+            {
+                _ = module.Start();
+            }
+
             throw;
         }
     }
@@ -125,7 +123,7 @@ internal class ModuleExecutor : IModuleExecutor
                 // Remove from collection as we're now processing it
                 keyedNonParallelModules.RemoveAt(i);
 
-                var executionTask = ExecuteAsync(module);
+                var executionTask = StartModule(module);
 
                 var tuple = (notInParallelKeys, executionTask);
 
