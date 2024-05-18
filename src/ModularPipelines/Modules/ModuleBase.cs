@@ -190,6 +190,7 @@ public abstract class ModuleBase<T> : ModuleBase
     public ModuleBase()
     {
         LazyResult = new LazyModule<T>(StartInternal);
+        ModuleCancellationTokenSource.Token.Register(() => LazyResult.Cancel());
     }
     
     /// <summary>
