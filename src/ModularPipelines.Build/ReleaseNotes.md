@@ -1,1 +1,1 @@
-*   Refactor how modules wait for their dependencies
+*   Refactor grabbing exclusive locks for Not-In-Parallel modules
