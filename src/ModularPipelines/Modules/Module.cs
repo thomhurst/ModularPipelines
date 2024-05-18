@@ -209,7 +209,7 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
         finally
         {
-            await HookHandler.OnAfterExecute(Context);
+            _ = HookHandler.OnAfterExecute(Context);
 
             StatusHandler.LogModuleStatus();
         }
