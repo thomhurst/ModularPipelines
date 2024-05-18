@@ -39,7 +39,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal ISkipHandler<T> SkipHandler { get; }
 
-    internal override IHookHandler HookHandler { get; }
+    internal IHookHandler<T> HookHandler { get; }
 
     internal override IStatusHandler StatusHandler { get; }
 
@@ -158,7 +158,8 @@ public abstract partial class Module<T> : ModuleBase<T>
             return new SkippedModuleResult<T>(this, SkipResult);
         }
         
-        ModuleResult<T> moduleResult;
+        var moduleResult = new ModuleResult<T>(default(T), this);
+        
         try
         {
             CancellationHandler.SetupCancellation();
@@ -201,20 +202,20 @@ public abstract partial class Module<T> : ModuleBase<T>
             await HistoryHandler.SaveResult(moduleResult);
 
             Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+            
+            return moduleResult;
         }
         catch (Exception exception)
         {
             SetEndTime();
-            return await ErrorHandler.Handle(exception);
+            return moduleResult = await ErrorHandler.Handle(exception);
         }
         finally
         {
-            _ = HookHandler.OnAfterExecute(Context);
+            _ = HookHandler.OnAfterExecute(Context, moduleResult);
 
             StatusHandler.LogModuleStatus();
         }
-        
-        return moduleResult;
     }
     
     private void AddDependency(DependsOnAttribute dependsOnAttribute)

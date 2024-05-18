@@ -1,10 +1,11 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors.ModuleHandlers;
 
-internal class HookHandler<T> : BaseHandler<T>, IHookHandler
+internal class HookHandler<T> : BaseHandler<T>, IHookHandler<T>
 {
     public HookHandler(Module<T> module) : base(module)
     {
@@ -23,16 +24,15 @@ internal class HookHandler<T> : BaseHandler<T>, IHookHandler
         }
     }
 
-    public async Task OnAfterExecute(IPipelineContext context)
+    public async Task OnAfterExecute(IPipelineContext context, ModuleResult<T> moduleResult)
     {
         try
         {
-            await Module.OnAfterExecute(context);
+            await Module.OnAfterExecute(context, moduleResult);
         }
         catch (Exception exception)
         {
             Logger.LogError(exception, "Error in OnAfterExecute");
-            throw;
         }
     }
 }

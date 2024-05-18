@@ -53,18 +53,26 @@ public partial class ModuleBase
     }
 
     /// <summary>
-    /// A hook that runs after the module has finished executing.
-    /// </summary>
-    /// <param name="context">A pipeline context object provided by the pipeline.</param>
-    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    [ModuleMethodMarker]
-    protected internal virtual Task OnAfterExecute(IPipelineContext context)
-    {
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
     /// Gets whether the Module should run even if the pipeline has failed.
     /// </summary>
     public virtual ModuleRunType ModuleRunType => ModuleRunType.OnSuccessfulDependencies;
+}
+
+/// <summary>
+/// A generic base class for all modules.
+/// </summary>
+/// /// <typeparam name="T">Any data to return from the module.</typeparam>
+public partial class ModuleBase<T>
+{
+    /// <summary>
+    /// A hook that runs after the module has finished executing.
+    /// </summary>
+    /// <param name="context">A pipeline context object provided by the pipeline.</param>
+    /// <param name="moduleResult"></param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    [ModuleMethodMarker]
+    protected internal virtual Task OnAfterExecute(IPipelineContext context, ModuleResult<T> moduleResult)
+    {
+        return Task.CompletedTask;
+    }
 }

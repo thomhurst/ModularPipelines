@@ -40,8 +40,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal abstract ICancellationHandler CancellationHandler { get; }
     
-    internal abstract IHookHandler HookHandler { get; }
-
     internal abstract IStatusHandler StatusHandler { get; }
     
     private IPipelineContext? _context; // Late Initialisation
@@ -185,7 +183,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 /// A base class for all modules.
 /// </summary>
 /// <typeparam name="T">Any data to return from the module.</typeparam>
-public abstract class ModuleBase<T> : ModuleBase
+public abstract partial class ModuleBase<T> : ModuleBase
 {
     public ModuleBase()
     {

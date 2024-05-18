@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
@@ -30,9 +31,9 @@ public class NugetVersionGeneratorModule : Module<string>
     }
 
     /// <inheritdoc/>
-    protected override async Task OnAfterExecute(IPipelineContext context)
+    protected override Task OnAfterExecute(IPipelineContext context, ModuleResult<string> moduleResult)
     {
-        var moduleResult = await this;
         context.Logger.LogInformation("NuGet Version to Package: {Version}", moduleResult.Value);
+        return Task.CompletedTask;
     }
 }
