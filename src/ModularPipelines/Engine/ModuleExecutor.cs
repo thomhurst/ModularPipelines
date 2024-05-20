@@ -25,7 +25,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
     private readonly object _moduleDictionaryLock = new();
 
-    private readonly ConcurrentDictionary<string, SemaphoreSlim> _notInParallelKeyedLocks = new();
+    private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
     private readonly object _notInParallelDictionaryLock = new();
     
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
@@ -102,11 +102,11 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private SemaphoreSlim GetLockForKey(string key)
+    private Semaphore GetLockForKey(string key)
     {
         lock (_notInParallelDictionaryLock)
         {
-            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new Semaphore(1, 1));
         }
     }
 
@@ -123,19 +123,12 @@ internal class ModuleExecutor : IModuleExecutor
                     .ToArray();
                 
                 _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
-
-                using var cts = new CancellationTokenSource();
                 
-                var locks = keys.Select(GetLockForKey).ToList();
-
-                try
+                var locks = keys.Select(GetLockForKey).ToArray();
+                
+                while (!WaitHandle.WaitAll(locks, TimeSpan.FromMilliseconds(100), false))
                 {
-                    await Task.WhenAll(locks.Select(x => x.WaitAsync(cts.Token)));
-                }
-                catch
-                {
-                    cts.Cancel();
-                    throw;
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
                 }
 
                 try
@@ -144,9 +137,9 @@ internal class ModuleExecutor : IModuleExecutor
                 }
                 finally
                 {
-                    foreach (var semaphoreSlim in locks)
+                    foreach (var semaphore in locks)
                     {
-                        semaphoreSlim.Release();
+                        semaphore.Release();
                     }
                 }
             })
