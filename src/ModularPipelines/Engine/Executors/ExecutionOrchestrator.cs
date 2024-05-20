@@ -76,36 +76,43 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
-        
-        var executePipelineTask = ExecutePipeline(runnableModules, organizedModules);
 
-        var onEnd = await executePipelineTask.ContinueWith(t =>
-                OnEnd(organizedModules, stopWatch, start, t.IsCompletedSuccessfully ? t.Result : null),
-            CancellationToken.None);
-
-        _ = onEnd.ContinueWith(_ => _waitOrchestrator.NotifyFinish(), CancellationToken.None);
-
-        await executePipelineTask;
-        
-        return await onEnd;
+        try
+        {
+            var result = await ExecutePipeline(runnableModules, organizedModules);
+            
+            return await OnEnd(organizedModules, stopWatch, start, result);
+        }
+        catch
+        {
+            await OnEnd(organizedModules, stopWatch, start, null);
+            throw;
+        }
     }
 
     private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
         PipelineSummary? pipelineSummary)
     {
-        var end = DateTimeOffset.UtcNow;
-        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-        _consolePrinter.PrintResults(pipelineSummary);
-
-        await Console.Out.FlushAsync();
-
-        if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+        try
         {
-            _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
-        }
+            var end = DateTimeOffset.UtcNow;
+            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+
+            _consolePrinter.PrintResults(pipelineSummary);
+
+            await Console.Out.FlushAsync();
+
+            if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+            {
+                _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
+            }
         
-        return pipelineSummary;
+            return pipelineSummary;
+        }
+        finally
+        {
+            _waitOrchestrator.NotifyFinish();
+        }
     }
 
     private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
