@@ -66,7 +66,6 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
-            .AddSingleton<IWaitOrchestrator, WaitOrchestrator>()
             .AddSingleton<IConsolePrinter, ConsolePrinter>()
             .AddSingleton<IExceptionContainer, ExceptionContainer>()
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()

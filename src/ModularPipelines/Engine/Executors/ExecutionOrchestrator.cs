@@ -9,7 +9,6 @@ namespace ModularPipelines.Engine.Executors;
 internal class ExecutionOrchestrator : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer;
-    private readonly IWaitOrchestrator _waitOrchestrator;
     private readonly IModuleDisposeExecutor _moduleDisposeExecutor;
     private readonly IPrintModuleOutputExecutor _printModuleOutputExecutor;
     private readonly IPrintProgressExecutor _printProgressExecutor;
@@ -23,7 +22,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private bool _hasRun;
 
     public ExecutionOrchestrator(IPipelineInitializer pipelineInitializer,
-        IWaitOrchestrator waitOrchestrator,
         IModuleDisposeExecutor moduleDisposeExecutor,
         IPrintModuleOutputExecutor printModuleOutputExecutor,
         IPrintProgressExecutor printProgressExecutor,
@@ -33,7 +31,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
-        _waitOrchestrator = waitOrchestrator;
         _moduleDisposeExecutor = moduleDisposeExecutor;
         _printModuleOutputExecutor = printModuleOutputExecutor;
         _printProgressExecutor = printProgressExecutor;
@@ -51,7 +48,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         catch
         {
-            await _waitOrchestrator.WaitForFinish();
+            await Task.Delay(TimeSpan.FromSeconds(1));
             throw;
         }
     }
@@ -93,29 +90,19 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
         PipelineSummary? pipelineSummary)
     {
-        try
+        var end = DateTimeOffset.UtcNow;
+        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+
+        _consolePrinter.PrintResults(pipelineSummary);
+
+        await Console.Out.FlushAsync();
+
+        if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
         {
-            var end = DateTimeOffset.UtcNow;
-            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-            _consolePrinter.PrintResults(pipelineSummary);
-
-            await Console.Out.FlushAsync();
-
-            if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
-            {
-                _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
-            }
+            _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
+        }
         
-            _waitOrchestrator.NotifyFinish();
-            
-            return pipelineSummary;
-        }
-        catch
-        {
-            _waitOrchestrator.NotifyFinish();
-            throw;
-        }
+        return pipelineSummary;
     }
 
     private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
