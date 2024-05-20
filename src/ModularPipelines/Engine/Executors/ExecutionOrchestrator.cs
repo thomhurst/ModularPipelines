@@ -51,7 +51,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         catch
         {
-            // await _waitOrchestrator.WaitForFinish();
+            await _waitOrchestrator.WaitForFinish();
             throw;
         }
     }
