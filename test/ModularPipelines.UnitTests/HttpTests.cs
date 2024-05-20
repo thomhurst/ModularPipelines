@@ -40,6 +40,7 @@ public class HttpTests : TestBase
 
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
         {
+            ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Response,
         });
 
@@ -69,6 +70,7 @@ public class HttpTests : TestBase
 
         await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
         {
+            ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Request,
         });
 
@@ -108,6 +110,7 @@ public class HttpTests : TestBase
         {
             await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
             {
+                ThrowOnNonSuccessStatusCode = false,
                 HttpClient = new HttpClient()
             });
         }
