@@ -29,12 +29,11 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     [Test]
     public async Task Module_Getting_Non_Registered_Module_Throws_Exception()
     {
-        var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(() =>
+        await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
             TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()
         );
-        await Assert.That(moduleFailedException.InnerException).Is.TypeOf<ModuleNotRegisteredException>();
     }
 
     [Test]
