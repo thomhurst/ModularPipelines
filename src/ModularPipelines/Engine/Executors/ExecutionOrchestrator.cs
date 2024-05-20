@@ -107,11 +107,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
             }
         
+            _waitOrchestrator.NotifyFinish();
+            
             return pipelineSummary;
         }
-        finally
+        catch
         {
             _waitOrchestrator.NotifyFinish();
+            throw;
         }
     }
 
