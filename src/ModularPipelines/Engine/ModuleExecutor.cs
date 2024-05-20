@@ -25,7 +25,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
     private readonly object _moduleDictionaryLock = new();
 
-    private readonly ConcurrentDictionary<string, SemaphoreSlim> _notInParallelKeyedLocks = new();
+    private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
     private readonly object _notInParallelDictionaryLock = new();
     
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
@@ -102,11 +102,11 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private SemaphoreSlim GetLockForKey(string key)
+    private Semaphore GetLockForKey(string key)
     {
         lock (_notInParallelDictionaryLock)
         {
-            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new SemaphoreSlim(1, 1));
+            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new Semaphore(1, 1));
         }
     }
 
@@ -116,27 +116,32 @@ internal class ModuleExecutor : IModuleExecutor
             .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
             .ForEachAsync(async module =>
             {
-                var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
+                var keys = module.GetType()
+                    .GetCustomAttribute<NotInParallelAttribute>()!
+                    .ConstraintKeys
+                    .OrderBy(x => x)
+                    .ToArray();
                 
                 _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
                 
-                var locks = keys.Select(GetLockForKey).ToList();
+                var locks = keys.Select(GetLockForKey).ToArray();
+                
+                while (!WaitHandle.WaitAll(locks, TimeSpan.FromMilliseconds(100), false))
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
+                }
 
                 try
                 {
-                    await Task.WhenAll(locks.Select(x => x.WaitAsync()));
+                    await StartModule(module);
                 }
-                catch
+                finally
                 {
-                    foreach (var semaphoreSlim in locks)
+                    foreach (var semaphore in locks)
                     {
-                        semaphoreSlim.Release();
+                        semaphore.Release();
                     }
-
-                    throw;
                 }
-
-                await StartModule(module);
             })
             .ProcessInParallel();
     }
