@@ -126,17 +126,25 @@ internal class ModuleExecutor : IModuleExecutor
                 {
                     await Task.WhenAll(locks.Select(x => x.WaitAsync()));
                 }
-                catch
+                finally
                 {
                     foreach (var semaphoreSlim in locks)
                     {
                         semaphoreSlim.Release();
                     }
-
-                    throw;
                 }
 
-                await StartModule(module);
+                try
+                {
+                    await StartModule(module);
+                }
+                finally
+                {
+                    foreach (var semaphoreSlim in locks)
+                    {
+                        semaphoreSlim.Release();
+                    }
+                }
             })
             .ProcessInParallel();
     }
