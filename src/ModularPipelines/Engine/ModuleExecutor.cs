@@ -119,19 +119,19 @@ internal class ModuleExecutor : IModuleExecutor
                 var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
                 
                 _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
+
+                using var cts = new CancellationTokenSource();
                 
                 var locks = keys.Select(GetLockForKey).ToList();
 
                 try
                 {
-                    await Task.WhenAll(locks.Select(x => x.WaitAsync()));
+                    await Task.WhenAll(locks.Select(x => x.WaitAsync(cts.Token)));
                 }
-                finally
+                catch
                 {
-                    foreach (var semaphoreSlim in locks)
-                    {
-                        semaphoreSlim.Release();
-                    }
+                    cts.Cancel();
+                    throw;
                 }
 
                 try
