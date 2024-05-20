@@ -1,13 +1,10 @@
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Engine;
-using ModularPipelines.Extensions;
-using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using RichardSzalay.MockHttp;
 using TUnit.Assertions.Extensions;
 using Vertical.SpectreLogger.Options;
 using File = System.IO.File;
@@ -23,7 +20,7 @@ public class HttpTests : TestBase
 
         var http = result.T;
         
-        await http.SendAsync(new Uri(GetLocalWebpagePath(result)));
+        await http.SendAsync(new Uri("https://www.tomlonghurst.com/"));
     }
 
     [Test]
@@ -41,7 +38,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
         {
             LoggingType = HttpLoggingType.Response,
         });
@@ -50,9 +47,9 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Not.Contain("---Request---");
-        await Assert.That(logFile).Does.Not.Contain("GET LocalWebpage.html HTTP/1.1");
+        await Assert.That(logFile).Does.Not.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Contain("Server: cloudflare");
     }
 
     [Test]
@@ -70,7 +67,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
         {
             LoggingType = HttpLoggingType.Request,
         });
@@ -79,9 +76,9 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET LocalWebpage.html/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
-        await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Not.Contain("Server: cloudflare");
     }
 
     [DataDrivenTest]
@@ -105,11 +102,11 @@ public class HttpTests : TestBase
         {
             var loggingClient = result.T.GetLoggingHttpClient();
 
-            await loggingClient.GetAsync(new Uri(Path.Combine(TestContext.OutputDirectory, "Data", "LocalWebpage.html")));
+            await loggingClient.GetAsync(new Uri("https://www.tomlonghurst.com"));
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
             {
                 HttpClient = new HttpClient()
             });
@@ -119,10 +116,10 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://www.github.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
         await Assert.That(logFile).Does.Contain("Headers");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Does.Contain("Server: cloudflare");
         await Assert.That(logFile).Does.Contain("Body");
         await Assert.That(logFile).Does.Contain("---Duration---");
         await Assert.That(logFile).Does.Contain("---HTTP Status Code---");
@@ -142,17 +139,26 @@ public class HttpTests : TestBase
         });
     }
 
-    private static FileSystem.File GetLocalWebpagePath((IHttp T, IPipelineHost Host) result)
+    private static HttpClient GetHttpClient()
     {
-        return result
-            .Host
-            .Services
-            .GetRequiredService<IPipelineContextProvider>()
-            .GetModuleContext()
-            .Git()
-            .RootDirectory
-            .AssertExists()
-            .FindFile(x => x.Name == "LocalWebpage.html")
-            .AssertExists();
+        var handler = new MockHttpMessageHandler();
+        
+        handler.When(HttpMethod.Get, "https://www.tomlonghurst.com/*")
+            .Respond(x => new StringContent(HtmlPage, MediaTypeHeaderValue.Parse("text/html")));
+
+        return handler.ToHttpClient();
     }
+
+    private const string HtmlPage = """
+                                    <!DOCTYPE html>
+                                    <html lang="en">
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <title>Foo bar!</title>
+                                    </head>
+                                    <body>
+                                    Foo bar!
+                                    </body>
+                                    </html>
+                                    """;
 }
