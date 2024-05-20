@@ -1,10 +1,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Git.Extensions;
+using ModularPipelines.Host;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using TUnit.Assertions.Extensions;
 using Vertical.SpectreLogger.Options;
+using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
 
@@ -13,9 +19,11 @@ public class HttpTests : TestBase
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
-        var http = await GetService<IHttp>();
+        var result = await GetService<IHttp>((context, collection) => {});
 
-        await http.SendAsync(new Uri(Path.Combine(TestContext.OutputDirectory, "Data", "LocalWebpage.html")));
+        var http = result.T;
+        
+        await http.SendAsync(new Uri(GetLocalWebpagePath(result)));
     }
 
     [Test]
@@ -33,7 +41,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "Data", "LocalWebpage.html"))))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
         {
             LoggingType = HttpLoggingType.Response,
         });
@@ -62,7 +70,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "Data", "LocalWebpage.html"))))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
         {
             LoggingType = HttpLoggingType.Request,
         });
@@ -101,7 +109,7 @@ public class HttpTests : TestBase
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(Path.Combine(TestContext.OutputDirectory, "Data", "LocalWebpage.html"))))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri(GetLocalWebpagePath(result))))
             {
                 HttpClient = new HttpClient()
             });
@@ -132,5 +140,19 @@ public class HttpTests : TestBase
             Assert.That(indexOfStatusCode).Is.LessThan(indexOfDuration);
             Assert.That(indexOfDuration).Is.LessThan(indexOfResponse);
         });
+    }
+
+    private static FileSystem.File GetLocalWebpagePath((IHttp T, IPipelineHost Host) result)
+    {
+        return result
+            .Host
+            .Services
+            .GetRequiredService<IPipelineContextProvider>()
+            .GetModuleContext()
+            .Git()
+            .RootDirectory
+            .AssertExists()
+            .FindFile(x => x.Name == "LocalWebpage.html")
+            .AssertExists();
     }
 }
