@@ -116,7 +116,11 @@ internal class ModuleExecutor : IModuleExecutor
             .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
             .ForEachAsync(async module =>
             {
-                var keys = module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
+                var keys = module.GetType()
+                    .GetCustomAttribute<NotInParallelAttribute>()!
+                    .ConstraintKeys
+                    .OrderBy(x => x)
+                    .ToArray();
                 
                 _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
 
