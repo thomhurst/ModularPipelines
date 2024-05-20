@@ -20,15 +20,21 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IEnumerable<ModuleBase> _allModules;
     private readonly IExceptionContainer _exceptionContainer;
+    private readonly ILogger<ModuleExecutor> _logger;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
+    private readonly object _moduleDictionaryLock = new();
 
+    private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
+    private readonly object _notInParallelDictionaryLock = new();
+    
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         IModuleDisposer moduleDisposer,
         IEnumerable<ModuleBase> allModules,
-        IExceptionContainer exceptionContainer)
+        IExceptionContainer exceptionContainer,
+        ILogger<ModuleExecutor> logger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -36,154 +42,152 @@ internal class ModuleExecutor : IModuleExecutor
         _moduleDisposer = moduleDisposer;
         _allModules = allModules;
         _exceptionContainer = exceptionContainer;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
-        var moduleResults = new List<ModuleBase>();
-
-        var nonParallelModules = modules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
-            .OrderBy(x => x.DependentModules.Count)
-            .ToList();
-
-        var unKeyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
-            .ToList();
-
-        foreach (var nonParallelModule in unKeyedNonParallelModules)
-        {
-            moduleResults.Add(await ExecuteAsync(nonParallelModule));
-        }
-
-        var keyedNonParallelModules = nonParallelModules
-            .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
-            .ToList();
-
-        moduleResults.AddRange(
-            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList(), moduleResults)
-        );
-
-        var parallelModuleTasks = modules.Except(nonParallelModules)
-            .Select(ExecuteAsync)
-            .ToArray();
-
-        if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-        {
-            moduleResults.AddRange(await parallelModuleTasks.WhenAllFailFast());
-        }
-        else
-        {
-            moduleResults.AddRange(await Task.WhenAll(parallelModuleTasks));
-        }
-
-        return moduleResults;
-    }
-
-    public async Task<ModuleBase> ExecuteAsync(ModuleBase module)
-    {
         try
         {
-            return await StartModule(module);
+            var nonParallelModules = modules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
+                .OrderBy(x => x.DependentModules.Count)
+                .ToList();
+
+            var unKeyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
+                .ToList();
+
+            foreach (var nonParallelModule in unKeyedNonParallelModules)
+            {
+                await StartModule(nonParallelModule);
+            }
+
+            var keyedNonParallelModules = nonParallelModules
+                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
+                .ToList();
+            
+            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
+
+            var parallelModuleTasks = modules.Except(nonParallelModules)
+                .Select(StartModule)
+                .ToArray();
+
+            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+            {
+                await parallelModuleTasks.WhenAllFailFast();
+            }
+            else
+            {
+                await Task.WhenAll(parallelModuleTasks);
+            }
+
+            return modules;
         }
-        catch (TaskCanceledException)
+        catch
         {
-            // If the pipeline failed, sometimes a TaskCanceledException can throw before the original exception
-            // So delay a bit to let the original exception throw first
-            await Task.Delay(TimeSpan.FromMilliseconds(500));
+            foreach (var moduleBase in modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun))
+            {
+                try
+                {
+                    await StartModule(moduleBase);
+                }
+                catch
+                {
+                    // Ignored
+                }
+            }
+
             throw;
         }
     }
 
-    private async Task<ModuleBase[]> ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules,
-        List<ModuleBase> moduleResults)
+    private Semaphore GetLockForKey(string key)
     {
-        var currentlyExecutingByKeysLock = new object();
-        var currentlyExecutingByKeys = new List<(string[] Keys, Task)>();
-
-        var executing = new List<Task<ModuleBase>>();
-
-        while (keyedNonParallelModules.Count > 0)
+        lock (_notInParallelDictionaryLock)
         {
-            // Reversing allows us to remove from the collection
-            for (var i = keyedNonParallelModules.Count - 1; i >= 0; i--)
-            {
-                var module = keyedNonParallelModules[i];
-
-                var notInParallelKeys =
-                    module.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys;
-
-                lock (currentlyExecutingByKeysLock)
-                {
-                    if (currentlyExecutingByKeys.Any(x => x.Keys.Intersect(notInParallelKeys).Any()))
-                    {
-                        // There are currently executing tasks with that same 
-                        continue;
-                    }
-                }
-
-                // Remove from collection as we're now processing it
-                keyedNonParallelModules.RemoveAt(i);
-
-                var executionTask = ExecuteAsync(module);
-
-                var tuple = (notInParallelKeys, executionTask);
-
-                lock (currentlyExecutingByKeysLock)
-                {
-                    currentlyExecutingByKeys.Add(tuple);
-                }
-
-                _ = executionTask.ContinueWith(_ =>
-                {
-                    lock (currentlyExecutingByKeysLock)
-                    {
-                        return currentlyExecutingByKeys.Remove(tuple);
-                    }
-                });
-
-                executing.Add(executionTask);
-            }
+            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new Semaphore(1, 1));
         }
-
-        return await Task.WhenAll(executing);
     }
 
-    private async Task<ModuleBase> StartModule(ModuleBase module)
+    private async Task ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules)
     {
-        return await _moduleExecutionTasks.GetOrAdd(module, async @base =>
-        {
-            var dependencies = module.GetModuleDependencies();
-
-            foreach (var dependency in dependencies)
+        await keyedNonParallelModules
+            .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
+            .ForEachAsync(async module =>
             {
-                await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
-            }
-
-            try
-            {
-                await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-                await module.StartInternal();
-
-                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-                await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-                return module;
-            }
-            finally
-            {
-                if (!_pipelineOptions.Value.ShowProgressInConsole)
+                var keys = module.GetType()
+                    .GetCustomAttribute<NotInParallelAttribute>()!
+                    .ConstraintKeys
+                    .OrderBy(x => x)
+                    .ToArray();
+                
+                _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
+                
+                var locks = keys.Select(GetLockForKey).ToArray();
+                
+                while (!WaitHandle.WaitAll(locks, TimeSpan.FromMilliseconds(100), false))
                 {
-                    await _moduleDisposer.DisposeAsync(module);
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
                 }
-            }
-        });
+
+                try
+                {
+                    await StartModule(module);
+                }
+                finally
+                {
+                    foreach (var semaphore in locks)
+                    {
+                        semaphore.Release();
+                    }
+                }
+            })
+            .ProcessInParallel();
+    }
+
+    private Task<ModuleBase> StartModule(ModuleBase module)
+    {
+        lock (_moduleDictionaryLock)
+        {
+            return _moduleExecutionTasks.GetOrAdd(module, async @base =>
+            {
+                _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
+
+                var dependencies = module.GetModuleDependencies();
+
+                foreach (var dependency in dependencies)
+                {
+                    await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
+                }
+
+                try
+                {
+                    await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+                    await module.StartInternal();
+
+                    await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
+
+                    await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+                    return module;
+                }
+                finally
+                {
+                    if (!_pipelineOptions.Value.ShowProgressInConsole)
+                    {
+                        await _moduleDisposer.DisposeAsync(module);
+                    }
+                }
+            });
+        }
     }
 
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
     {
+        _logger.LogDebug("Starting Dependency {Dependency} for Module {Module}", dependencyType.Name, requestingModule.GetType().Name);
+        
         var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
 
         if (module is null && ignoreIfNotRegistered)
