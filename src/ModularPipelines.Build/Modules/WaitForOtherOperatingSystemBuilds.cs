@@ -20,15 +20,12 @@ namespace ModularPipelines.Build.Modules;
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
-    private readonly IOptions<PublishSettings> _publishSettings;
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
 
     public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings,
-        IOptions<PublishSettings> publishSettings,
-        GitHubClient gitHubClient)
+        IGitHubClient gitHubClient)
     {
         _gitHubSettings = gitHubSettings;
-        _publishSettings = publishSettings;
         _gitHubClient = gitHubClient;
     }
 

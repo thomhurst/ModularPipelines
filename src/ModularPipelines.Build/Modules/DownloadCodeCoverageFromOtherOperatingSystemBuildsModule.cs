@@ -16,9 +16,9 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
 
-    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(GitHubClient gitHubClient)
+    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(IGitHubClient gitHubClient)
     {
         _gitHubClient = gitHubClient;
     }

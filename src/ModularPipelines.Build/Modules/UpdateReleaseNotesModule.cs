@@ -22,11 +22,11 @@ namespace ModularPipelines.Build.Modules;
 public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
     private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings,
-        GitHubClient gitHubClient,
+        IGitHubClient gitHubClient,
         IOptions<PublishSettings> publishSettings)
     {
         _githubSettings = githubSettings;
