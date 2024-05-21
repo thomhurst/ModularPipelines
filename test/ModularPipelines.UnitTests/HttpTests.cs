@@ -50,7 +50,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Does.Not.Contain("---Request---");
         await Assert.That(logFile).Does.Not.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com);
+        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Does.Contain("---Request---");
         await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
-        await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com);
+        await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
     }
 
     [DataDrivenTest]
@@ -122,7 +122,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
         await Assert.That(logFile).Does.Contain("Headers");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com);
+        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
         await Assert.That(logFile).Does.Contain("Body");
         await Assert.That(logFile).Does.Contain("---Duration---");
         await Assert.That(logFile).Does.Contain("---HTTP Status Code---");
