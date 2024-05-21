@@ -20,7 +20,7 @@ public class HttpTests : TestBase
 
         var http = result.T;
         
-        await http.SendAsync(new Uri("https://thomhurst.github.io/TUnit/"));
+        await http.SendAsync(new Uri("https://thomhurst.github.io/TUnit"));
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit/")))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
         {
             ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Response,
@@ -104,11 +104,11 @@ public class HttpTests : TestBase
         {
             var loggingClient = result.T.GetLoggingHttpClient();
 
-            await loggingClient.GetAsync(new Uri("https://thomhurst.github.io/TUnit/"));
+            await loggingClient.GetAsync(new Uri("https://thomhurst.github.io/TUnit"));
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit/")))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
             {
                 ThrowOnNonSuccessStatusCode = false,
                 HttpClient = new HttpClient()
@@ -146,7 +146,7 @@ public class HttpTests : TestBase
     {
         var handler = new MockHttpMessageHandler();
         
-        handler.When(HttpMethod.Get, "https://thomhurst.github.io/TUnit/*")
+        handler.When(HttpMethod.Get, "https://thomhurst.github.io/*")
             .Respond(x => new StringContent(HtmlPage, MediaTypeHeaderValue.Parse("text/html")));
 
         return handler.ToHttpClient();
