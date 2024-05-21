@@ -20,7 +20,7 @@ public class HttpTests : TestBase
 
         var http = result.T;
         
-        await http.SendAsync(new Uri("https://www.tomlonghurst.com/"));
+        await http.SendAsync(new Uri("https://thomhurst.github.io/TUnit/"));
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit/")))
         {
             ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Response,
@@ -48,7 +48,7 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Not.Contain("---Request---");
-        await Assert.That(logFile).Does.Not.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Not.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
         await Assert.That(logFile).Does.Contain("Server: cloudflare");
     }
@@ -68,7 +68,7 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
+        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
         {
             ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Request,
@@ -78,7 +78,7 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Not.Contain("---Response---");
         await Assert.That(logFile).Does.Not.Contain("Server: cloudflare");
     }
@@ -108,7 +108,7 @@ public class HttpTests : TestBase
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://www.tomlonghurst.com/")))
+            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit/")))
             {
                 ThrowOnNonSuccessStatusCode = false,
                 HttpClient = new HttpClient()
@@ -119,7 +119,7 @@ public class HttpTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://www.tomlonghurst.com/ HTTP/1.1");
+        await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit/ HTTP/1.1");
         await Assert.That(logFile).Does.Contain("---Response---");
         await Assert.That(logFile).Does.Contain("Headers");
         await Assert.That(logFile).Does.Contain("Server: cloudflare");
@@ -146,7 +146,7 @@ public class HttpTests : TestBase
     {
         var handler = new MockHttpMessageHandler();
         
-        handler.When(HttpMethod.Get, "https://www.tomlonghurst.com/*")
+        handler.When(HttpMethod.Get, "https://thomhurst.github.io/TUnit/*")
             .Respond(x => new StringContent(HtmlPage, MediaTypeHeaderValue.Parse("text/html")));
 
         return handler.ToHttpClient();
