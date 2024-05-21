@@ -6,9 +6,10 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class EnumValueAttributeTests
 {
-    [DataDrivenTest(Number.One, "1")]
-    [DataDrivenTest(Number.Two, "2")]
-    [DataDrivenTest(Number.Three, "3")]
+    [DataDrivenTest]
+    [Arguments(Number.One, "1")]
+    [Arguments(Number.Two, "2")]
+    [Arguments(Number.Three, "3")]
     public async Task Can_Parse_EnumValueAttribute(Number number, string expected)
     {
         var options = new NumberWrapper

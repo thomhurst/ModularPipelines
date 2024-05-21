@@ -49,8 +49,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             .ProcessInParallel();
 
         return zipFiles.Select(x => context.Zip.UnZipToFolder(x, Folder.CreateTemporaryFolder()))
-            .Select(x => x.FindFile(f => f.Name.Contains("coverage") && f.Extension == ".xml"))
-            .OfType<File>()
+            .SelectMany(x => x.GetFiles(f => f.Extension == ".xml" && f.Name.Contains("cobertura")))
             .ToList();
     }
 

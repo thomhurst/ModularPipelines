@@ -42,6 +42,19 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
     {
+        try
+        {
+            return await ExecuteInternal(cancellationToken);
+        }
+        catch
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            throw;
+        }
+    }
+
+    private async Task<PipelineSummary> ExecuteInternal(CancellationToken cancellationToken)
+    {
         lock (_lock)
         {
             if (_hasRun)
@@ -61,26 +74,34 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
-        PipelineSummary? pipelineSummary = null;
         try
         {
-            pipelineSummary = await ExecutePipeline(runnableModules, organizedModules);
+            var result = await ExecutePipeline(runnableModules, organizedModules);
+            
+            return await OnEnd(organizedModules, stopWatch, start, result);
         }
-        finally
+        catch
         {
-            var end = DateTimeOffset.UtcNow;
-            pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
-
-            _consolePrinter.PrintResults(pipelineSummary);
-
-            await Console.Out.FlushAsync();
-
-            if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
-            {
-                _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
-            }
+            await OnEnd(organizedModules, stopWatch, start, null);
+            throw;
         }
+    }
 
+    private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
+        PipelineSummary? pipelineSummary)
+    {
+        var end = DateTimeOffset.UtcNow;
+        pipelineSummary ??= new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+
+        _consolePrinter.PrintResults(pipelineSummary);
+
+        await Console.Out.FlushAsync();
+
+        if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+        {
+            _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
+        }
+        
         return pipelineSummary;
     }
 

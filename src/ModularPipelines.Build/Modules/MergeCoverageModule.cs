@@ -21,7 +21,7 @@ public class MergeCoverageModule : Module<File>
     protected override async Task<File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var coverageFilesFromThisRun = context.Git().RootDirectory
-            .GetFiles(x => x.Name.Contains("coverage") && x.Extension == ".xml");
+            .GetFiles(x => x.Name.Contains("cobertura") && x.Extension is ".xml");
 
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
@@ -40,7 +40,7 @@ public class MergeCoverageModule : Module<File>
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);
 
-        var outputPath = Folder.CreateTemporaryFolder().GetFile("coverage.cobertura.xml").Path;
+        var outputPath = Folder.CreateTemporaryFolder().GetFile("cobertura.xml").Path;
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet-coverage")
         {

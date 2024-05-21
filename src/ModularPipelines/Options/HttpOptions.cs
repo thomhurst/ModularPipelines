@@ -8,6 +8,11 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     /// Gets or sets and sets an optional HttpClient for handling the request.
     /// </summary>
     public HttpClient? HttpClient { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether to throw an exception if the request returns a bad HTTP status code.
+    /// </summary>
+    public bool ThrowOnNonSuccessStatusCode { get; set; }
 
     /// <summary>
     /// Gets and sets the logging for the HTTP request.

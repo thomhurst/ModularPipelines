@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.Azure.UnitTests;
+namespace ModularPipelines.UnitTests;
 
 public class AzureCommandTests : TestBase
 {
