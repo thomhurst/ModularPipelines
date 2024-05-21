@@ -1,10 +1,9 @@
-using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using RichardSzalay.MockHttp;
+using NReco.Logging.File;
 using TUnit.Assertions.Extensions;
 using Vertical.SpectreLogger.Options;
 using File = System.IO.File;
@@ -141,27 +140,4 @@ public class HttpTests : TestBase
             Assert.That(indexOfDuration).Is.LessThan(indexOfResponse);
         });
     }
-
-    private static HttpClient GetHttpClient()
-    {
-        var handler = new MockHttpMessageHandler();
-        
-        handler.When(HttpMethod.Get, "https://thomhurst.github.io/*")
-            .Respond(x => new StringContent(HtmlPage, MediaTypeHeaderValue.Parse("text/html")));
-
-        return handler.ToHttpClient();
-    }
-
-    private const string HtmlPage = """
-                                    <!DOCTYPE html>
-                                    <html lang="en">
-                                    <head>
-                                        <meta charset="UTF-8">
-                                        <title>Foo bar!</title>
-                                    </head>
-                                    <body>
-                                    Foo bar!
-                                    </body>
-                                    </html>
-                                    """;
 }
