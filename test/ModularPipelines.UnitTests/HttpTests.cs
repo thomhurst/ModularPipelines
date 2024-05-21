@@ -104,7 +104,7 @@ public class HttpTests : TestBase
         {
             var loggingClient = result.T.GetLoggingHttpClient();
 
-            await loggingClient.GetAsync(new Uri("https://www.tomlonghurst.com"));
+            await loggingClient.GetAsync(new Uri("https://thomhurst.github.io/TUnit/"));
         }
         else
         {
