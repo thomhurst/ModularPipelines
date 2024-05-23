@@ -17,12 +17,8 @@ internal abstract class ModuleLogger : IModuleLogger
 
     public abstract bool IsEnabled(LogLevel logLevel);
 
-#if NET6_0
-    public abstract IDisposable BeginScope<TState>(TState state);
-#else
     public abstract IDisposable? BeginScope<TState>(TState state)
         where TState : notnull;
-#endif
 
     public abstract void Dispose();
 
@@ -68,18 +64,11 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     {
         Dispose();
     }
-
-#if NET6_0
-    public override IDisposable BeginScope<TState>(TState state)
-    {
-        return new NoopDisposable();
-    }
-#else
+    
     public override IDisposable? BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
     }
-#endif
 
     public override bool IsEnabled(LogLevel logLevel)
     {
