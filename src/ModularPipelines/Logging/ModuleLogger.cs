@@ -177,7 +177,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     {
         var objArrayNullable = state.GetType()
             .GetField("_values", BindingFlags.NonPublic | BindingFlags.Instance)
-            ?.GetValue(state) as object?[] ?? Array.Empty<object>();
+            ?.GetValue(state) as object?[] ?? [];
 
         for (var index = 0; index < objArrayNullable.Length; index++)
         {

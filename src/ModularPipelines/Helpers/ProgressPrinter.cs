@@ -237,22 +237,16 @@ internal class ProgressPrinter : IProgressPrinter
     private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext,
         CancellationToken cancellationToken, ProgressTask parentModuleTask)
     {
-        var subModuleIndex = 0;
+        var lastTask = parentModuleTask;
+        
         moduleToProcess.Module.OnSubModuleCreated += (_, subModule) =>
         {
             var moduleName = moduleToProcess.Module.GetType().Name;
 
-            var progressTask = progressContext.AddTask($"- {subModule.Name}", new ProgressTaskSettings
+            var progressTask = lastTask = progressContext.AddTaskAfter($"- {subModule.Name}", new ProgressTaskSettings
             {
                 AutoStart = true,
-            });
-
-            var list = (List<ProgressTask>) progressContext.GetType()
-                .GetField("_tasks", BindingFlags.Instance | BindingFlags.NonPublic)!
-                .GetValue(progressContext)!;
-
-            list.Remove(progressTask);
-            list.Insert(list.IndexOf(parentModuleTask) + ++subModuleIndex, progressTask);
+            }, lastTask);
 
             Task.Run(async () =>
             {
