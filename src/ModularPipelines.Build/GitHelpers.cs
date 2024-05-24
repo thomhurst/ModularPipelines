@@ -43,14 +43,13 @@ public static class GitHelpers
         var options = context.Get<IOptions<GitHubSettings>>();
 
         var token = options!.Value.StandardToken;
-        var author = options?.Value?.PullRequest?.Author ?? "thomhurst";
 
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new[]
             {
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/{author}/ModularPipelines",
+                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines",
             },
         }, cancellationToken);
 
