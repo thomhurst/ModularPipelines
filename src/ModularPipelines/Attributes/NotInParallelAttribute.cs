@@ -25,6 +25,11 @@ public class NotInParallelAttribute : Attribute
 
     public NotInParallelAttribute(params string[] constraintKeys)
     {
+        if (constraintKeys.Length != constraintKeys.Distinct().Count())
+        {
+            throw new ArgumentException("Duplicate constraint keys are not allowed.");
+        }
+        
         ConstraintKeys = constraintKeys;
     }
 }
