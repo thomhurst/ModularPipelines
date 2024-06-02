@@ -67,7 +67,14 @@ public class AfterPipelineLoggerTests
             .AddModule<AfterPipelineLoggingWithExceptionModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        try
+        {
+            await host.ExecutePipelineAsync();
+        }
+        catch
+        {
+            // Ignored
+        }
 
         await host.DisposeAsync();
         
