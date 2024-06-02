@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -14,6 +15,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IPipelineExecutor _pipelineExecutor;
     private readonly IConsolePrinter _consolePrinter;
+    private readonly IAfterPipelineLogger _afterPipelineLogger;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<ExecutionOrchestrator> _logger;
 
@@ -27,6 +29,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IPrintProgressExecutor printProgressExecutor,
         IPipelineExecutor pipelineExecutor,
         IConsolePrinter consolePrinter,
+        IAfterPipelineLogger afterPipelineLogger,
         EngineCancellationToken engineCancellationToken,
         ILogger<ExecutionOrchestrator> logger)
     {
@@ -36,6 +39,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _printProgressExecutor = printProgressExecutor;
         _pipelineExecutor = pipelineExecutor;
         _consolePrinter = consolePrinter;
+        _afterPipelineLogger = afterPipelineLogger;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
     }
@@ -48,8 +52,12 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         catch
         {
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
             throw;
+        }
+        finally
+        {
+            _afterPipelineLogger.WriteLogs();
         }
     }
 
