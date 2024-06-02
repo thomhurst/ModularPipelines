@@ -1,31 +1,27 @@
 ﻿using Microsoft.Extensions.Logging;
-using ModularPipelines.Context;
-using ModularPipelines.Interfaces;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Logging;
 
-internal class AfterPipelineLogger : IPipelineGlobalHooks
+internal class AfterPipelineLogger : IAfterPipelineLogger
 {
+    private readonly ILogger<AfterPipelineLogger> _logger;
     private readonly List<string> _values = [];
+
+    public AfterPipelineLogger(ILogger<AfterPipelineLogger> logger)
+    {
+        _logger = logger;
+    }
     
     public void LogOnPipelineEnd(string value)
     {
         _values.Add(value);
     }
-    
-    public Task OnStartAsync(IPipelineHookContext pipelineContext)
-    {
-        return Task.CompletedTask;
-    }
 
-    public Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary)
+    public void WriteLogs()
     {
         foreach (var value in _values)
         {
-            pipelineContext.Logger.LogInformation("{Value}", value);
+            _logger.LogInformation("{Value}", value);
         }
-        
-        return Task.CompletedTask;
     }
 }

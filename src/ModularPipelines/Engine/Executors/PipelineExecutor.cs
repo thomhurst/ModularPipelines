@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -12,23 +13,38 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly IExceptionContainer _exceptionContainer;
+    private readonly IAfterPipelineLogger _afterPipelineLogger;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
-        IExceptionContainer exceptionContainer)
+        IExceptionContainer exceptionContainer,
+        IAfterPipelineLogger afterPipelineLogger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _exceptionContainer = exceptionContainer;
+        _afterPipelineLogger = afterPipelineLogger;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
         OrganizedModules organizedModules)
+    {
+        try
+        {
+            return await ExecuteInternal(runnableModules, organizedModules);
+        }
+        finally
+        {
+            _afterPipelineLogger.WriteLogs();
+        }
+    }
+
+    private async Task<PipelineSummary> ExecuteInternal(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
     {
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
