@@ -67,6 +67,7 @@ internal static class DependencyInjectionSetup
         // Singletons
         services
             .AddSingleton<IConsolePrinter, ConsolePrinter>()
+            .AddSingleton<IAfterPipelineLogger, AfterPipelineLogger>()
             .AddSingleton<IExceptionContainer, ExceptionContainer>()
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
             .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
