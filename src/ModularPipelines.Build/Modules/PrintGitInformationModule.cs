@@ -17,6 +17,7 @@ public class PrintGitInformationModule : Module
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             IgnoreReadOnlyFields = true,
+            WriteIndented = true,
         }));
         
         return null;

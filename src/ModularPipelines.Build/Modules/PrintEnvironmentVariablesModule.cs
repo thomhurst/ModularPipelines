@@ -16,6 +16,7 @@ public class PrintEnvironmentVariablesModule : Module
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             IgnoreReadOnlyFields = true,
+            WriteIndented = true,
         }));
         
         return null;
