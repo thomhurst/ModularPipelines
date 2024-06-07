@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -12,7 +13,10 @@ public class PrintGitInformationModule : Module
     {
         await Task.CompletedTask;
         
-        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Git().Information));
+        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Git().Information, new JsonSerializerOptions
+        {
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
+        }));
         
         return null;
     }
