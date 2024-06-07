@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.Json;
+namespace ModularPipelines.JsonUtils;
 
 public class FolderPathJsonConverter : JsonConverter<Folder>
 {

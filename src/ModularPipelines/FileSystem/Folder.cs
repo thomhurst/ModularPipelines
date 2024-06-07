@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
-using ModularPipelines.Json;
+using ModularPipelines.JsonUtils;
 
 namespace ModularPipelines.FileSystem;
 
