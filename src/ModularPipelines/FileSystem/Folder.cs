@@ -47,7 +47,18 @@ public class Folder : IEquatable<Folder>
         set => DirectoryInfo.Attributes = value;
     }
 
-    public Folder Root => DirectoryInfo.Root;
+    public Folder Root
+    {
+        get
+        {
+            if (DirectoryInfo.Root.FullName == Path)
+            {
+                return this;
+            }
+            
+            return DirectoryInfo.Root;
+        }
+    }
 
     public DateTimeOffset CreationTime => DirectoryInfo.CreationTime;
 
