@@ -1,2 +1,1 @@
-*   Throw an exception when defining duplicate constraint keys on the same NotInParallel attribute
-*   `context.LogOnPipelineEnd(...)` method to easily log information at the end of the pipeline where it's easier to find in logs
+*   DependsOnAllModulesInheritingFromAttribute to allow a module to wait on all modules inheriting from a base without needing to list each module explicitly
