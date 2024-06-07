@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -26,12 +27,24 @@ public abstract class Module : Module<IDictionary<string, object>>;
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly object _startCheckLock = new();
-    
+
     internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
     {
-        return DependentModules
-            .Select(dependsOnAttribute => (dependsOnAttribute.Type, dependsOnAttribute.IgnoreIfNotRegistered));
+        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        {
+            yield return AddDependency(customAttribute.Type, customAttribute.IgnoreIfNotRegistered);
+        }
+        
+        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        {
+            var types = Context.ServiceProvider.GetServices<ModuleBase>()
+                .Where(x => x.GetType() == customAttribute.Type);
+            
+            foreach (var moduleBase in types)
+            {
+                yield return AddDependency(moduleBase.GetType(), false);   
+            }
+        }
     }
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
@@ -61,11 +74,6 @@ public abstract partial class Module<T> : ModuleBase<T>
         HookHandler = new HookHandler<T>(this);
         StatusHandler = new StatusHandler<T>(this);
         ErrorHandler = new ErrorHandler<T>(this);
-
-        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
-        {
-            AddDependency(customAttribute);
-        }
     }
 
     internal override ModuleBase Initialize(IPipelineContext context)
@@ -197,10 +205,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         Policy<T?>.Handle<Exception>()
             .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 
-    private void AddDependency(DependsOnAttribute dependsOnAttribute)
+    private (Type Type, bool IgnoreIfNotRegistered) AddDependency(Type type, bool ignoreIfNotRegistered)
     {
-        var type = dependsOnAttribute.Type;
-
         if (type == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
@@ -213,10 +219,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         OnInitialised += (_, _) =>
         {
-            Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
+            Context.Logger.LogDebug("This module depends on {Module}", type.Name);
         };
 
-        DependentModules.Add(dependsOnAttribute);
+        return (type, ignoreIfNotRegistered);
     }
 
     private void LogResult(T? executeResult)

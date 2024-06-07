@@ -34,7 +34,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal bool IsStarted { get; private protected set; }
 
-    internal List<DependsOnAttribute> DependentModules { get; } = [];
+    internal List<Type> DependentModules { get; } = [];
 
     internal abstract IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies();
 
