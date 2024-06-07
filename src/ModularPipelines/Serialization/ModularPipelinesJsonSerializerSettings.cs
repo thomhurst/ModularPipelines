@@ -8,5 +8,6 @@ internal static class ModularPipelinesJsonSerializerSettings
     public static readonly JsonSerializerOptions Default = new()
     {
         ReferenceHandler = ReferenceHandler.IgnoreCycles,
+        WriteIndented = true,
     };
 }

@@ -234,7 +234,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
+            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().GetRealTypeName() ?? typeof(T).GetRealTypeName());
 
             if (executeResult is null)
             {
@@ -252,13 +252,13 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 foreach (var o in enumerable.Cast<object>())
                 {
-                    Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o, ModularPipelinesJsonSerializerSettings.Default));
+                    Context.Logger.LogDebug("{JsonUtils}", JsonSerializer.Serialize(o, ModularPipelinesJsonSerializerSettings.Default));
                 }
 
                 return;
             }
 
-            Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
+            Context.Logger.LogDebug("{JsonUtils}", JsonSerializer.Serialize(executeResult));
         }
         catch
         {
