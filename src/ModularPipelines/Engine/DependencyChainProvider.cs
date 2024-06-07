@@ -17,6 +17,8 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
         _moduleRetriever = moduleRetriever;
     }
 
+    public int Order => int.MaxValue;
+
     public async Task InitializeAsync()
     {
         var modules = await _moduleRetriever.GetOrganizedModules();
