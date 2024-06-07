@@ -15,7 +15,6 @@ public class PrintEnvironmentVariablesModule : Module
         context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), new JsonSerializerOptions
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            IgnoreReadOnlyProperties = true,
             IgnoreReadOnlyFields = true,
         }));
         
