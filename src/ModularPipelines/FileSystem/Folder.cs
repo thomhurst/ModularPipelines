@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using ModularPipelines.Json;
 
 namespace ModularPipelines.FileSystem;
 
@@ -35,6 +36,7 @@ public class Folder : IEquatable<Folder>
 
     public string Name => DirectoryInfo.Name;
 
+    [JsonConverter(typeof(FolderPathJsonConverter))]
     public Folder? Parent => DirectoryInfo.Parent;
 
     public string Path => DirectoryInfo.FullName;
@@ -47,6 +49,7 @@ public class Folder : IEquatable<Folder>
         set => DirectoryInfo.Attributes = value;
     }
 
+    [JsonConverter(typeof(FolderPathJsonConverter))]
     public Folder Root
     {
         get
