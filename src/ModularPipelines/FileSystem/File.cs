@@ -1,9 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace ModularPipelines.FileSystem;
 
 public class File : IEquatable<File>
 {
+    [JsonIgnore]
     private readonly FileInfo _fileInfo;
 
     private FileInfo FileInfo

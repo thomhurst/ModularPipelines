@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 
@@ -6,6 +7,7 @@ namespace ModularPipelines.FileSystem;
 
 public class Folder : IEquatable<Folder>
 {
+    [JsonIgnore]
     private readonly DirectoryInfo _directoryInfo;
 
     private DirectoryInfo DirectoryInfo
