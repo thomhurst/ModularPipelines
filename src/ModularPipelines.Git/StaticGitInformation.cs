@@ -171,7 +171,7 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(gitOptions with
             {
-                CommandLogging = CommandLogging.None,
+                CommandLogging = _logger.IsEnabled(LogLevel.Debug) ? CommandLogging.Default : CommandLogging.None,
             });
             return result.StandardOutput.Trim();
         }
