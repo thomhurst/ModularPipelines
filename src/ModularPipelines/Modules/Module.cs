@@ -234,7 +234,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
+            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().GetRealTypeName() ?? typeof(T).GetRealTypeName());
 
             if (executeResult is null)
             {
