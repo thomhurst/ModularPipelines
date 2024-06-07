@@ -45,6 +45,8 @@ await PipelineHostBuilder.Create()
             .AddModule<MergeCoverageModule>()
             .AddModule<ChangedFilesInPullRequestModule>()
             .AddModule<DependabotCommitsModule>()
+            .AddModule<PrintEnvironmentVariablesModule>()
+            .AddModule<PrintGitInformationModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
         collection.AddSingleton<IGitHubClient>(sp =>
