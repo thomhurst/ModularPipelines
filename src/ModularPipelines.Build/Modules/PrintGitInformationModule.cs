@@ -16,7 +16,7 @@ public class PrintGitInformationModule : Module
         context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Git().Information, new JsonSerializerOptions
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            MaxDepth = 2,
+            IgnoreReadOnlyProperties = true, 
         }));
         
         return null;
