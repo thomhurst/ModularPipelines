@@ -22,7 +22,7 @@ public class TimedDependencyTests
         var fiveSecondResult = await fiveSecondModule;
         var oneSecondModuleDependentOnFiveSecondResult = await oneSecondModuleDependentOnFiveSecondModule;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             // 5 + 1
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));

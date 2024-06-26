@@ -68,7 +68,7 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(context.ContentDirectory).Is.Not.Null();
             Assert.That(context.OperatingSystem.ToString()).Is.Not.Null();

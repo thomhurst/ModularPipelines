@@ -18,7 +18,7 @@ public class FileSystemContextTests : TestBase
 
         context.MoveFile(file, newLocation);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Path).Is.EqualTo(newLocation);
             Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
@@ -37,7 +37,7 @@ public class FileSystemContextTests : TestBase
 
         var newFile = context.CopyFile(file, newLocation);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Path).Is.Not.EqualTo(newLocation);
             Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
@@ -67,7 +67,7 @@ public class FileSystemContextTests : TestBase
 
         var file = await CreateRandomFile();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null();
             Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null().And.Is.Not.Empty();
@@ -85,7 +85,7 @@ public class FileSystemContextTests : TestBase
 
         context.MoveFolder(folder, newLocation);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
             Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
@@ -104,7 +104,7 @@ public class FileSystemContextTests : TestBase
 
         var newFile = context.CopyFolder(folder, newLocation);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
             Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
@@ -134,7 +134,7 @@ public class FileSystemContextTests : TestBase
 
         var folder = Folder.CreateTemporaryFolder();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null();
             Assert.That(context.CreateTemporaryFolder()).Is.Not.Null();

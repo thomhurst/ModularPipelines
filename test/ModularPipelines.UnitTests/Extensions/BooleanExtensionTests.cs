@@ -10,7 +10,7 @@ public class BooleanExtensionTests
     {
         var trueSkipDecision = true.AsSkipDecisionIfTrue("My reason");
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(trueSkipDecision.ShouldSkip).Is.True();
             Assert.That(trueSkipDecision.Reason).Is.EqualTo("My reason");
@@ -22,7 +22,7 @@ public class BooleanExtensionTests
     {
         var falseSkipDecision = false.AsSkipDecisionIfTrue("My reason");
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(falseSkipDecision.ShouldSkip).Is.False();
             Assert.That(falseSkipDecision.Reason).Is.Null();

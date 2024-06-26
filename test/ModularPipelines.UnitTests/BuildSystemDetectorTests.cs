@@ -44,7 +44,7 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public async Task Each_Property_Returns_Result()
     {
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
             Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();

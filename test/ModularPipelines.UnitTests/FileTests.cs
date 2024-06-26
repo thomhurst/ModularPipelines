@@ -3,9 +3,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
-using ModularPipelines.UnitTests.Extensions;
-using TUnit.Assertions.Extensions;
-using TUnit.Assertions.Extensions.Is;
+using TUnit.Assertions.Extensions.Numbers;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -29,7 +27,7 @@ public class FileTests : TestBase
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
@@ -37,7 +35,7 @@ public class FileTests : TestBase
 
         file.MoveTo(file2);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(new File(file.OriginalPath).Exists).Is.False();
 
@@ -51,7 +49,7 @@ public class FileTests : TestBase
     {
         var file = await CreateRandomFile();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
@@ -75,7 +73,7 @@ public class FileTests : TestBase
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
@@ -83,7 +81,7 @@ public class FileTests : TestBase
 
         file.CopyTo(file2);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.True();
@@ -112,7 +110,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(plainText).Is.Empty();
             Assert.That(lines).Is.Empty();
@@ -133,7 +131,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world");
             Assert.That(lines).Has.Count().EqualTo(2);
@@ -158,7 +156,7 @@ public class FileTests : TestBase
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
             Assert.That(lines).Has.Count().EqualTo(2);
@@ -265,7 +263,7 @@ public class FileTests : TestBase
         var file = new File(path);
         var file2 = new File(path);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file).Is.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.EqualTo(file2.GetHashCode());
@@ -280,7 +278,7 @@ public class FileTests : TestBase
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(file).Is.Not.EqualTo(file2);
             Assert.That(file.GetHashCode()).Is.Not.EqualTo(file2.GetHashCode());

@@ -88,7 +88,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -97,7 +97,7 @@ public class FolderTests : TestBase
 
         folder.MoveTo(folder2);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(new Folder(folder.OriginalPath).Exists).Is.False();
             Assert.That(folder.Exists).Is.True();
@@ -119,7 +119,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -128,7 +128,7 @@ public class FolderTests : TestBase
 
         folder.CopyTo(folder2);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
@@ -142,7 +142,7 @@ public class FolderTests : TestBase
     {
         var folder = CreateRandomFolder();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
@@ -191,7 +191,7 @@ public class FolderTests : TestBase
 
         var subfolder = folder.CreateFolder("Foo");
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(subfolder.Exists).Is.True();
             Assert.That(subfolder.Path).Is.Not.EqualTo(folder.Path);
@@ -254,7 +254,7 @@ public class FolderTests : TestBase
         var folder = new Folder(path);
         var folder2 = new Folder(path);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder).Is.EqualTo(folder2);
             Assert.That(folder.GetHashCode()).Is.EqualTo(folder2.GetHashCode());
@@ -269,7 +269,7 @@ public class FolderTests : TestBase
         var folder = new Folder(Path.GetRandomFileName());
         var folder2 = new Folder(Path.GetRandomFileName());
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(folder).Is.Not.EqualTo(folder2);
             Assert.That(folder.GetHashCode()).Is.Not.EqualTo(folder2.GetHashCode());

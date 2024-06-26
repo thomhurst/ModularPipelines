@@ -10,7 +10,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = true;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.Null();
@@ -22,7 +22,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = "Foo!";
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Foo!");
@@ -34,7 +34,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = false;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();
@@ -46,7 +46,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.Skip("Blah!");
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Blah!");
@@ -58,7 +58,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.DoNotSkip;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();
@@ -72,7 +72,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             Assert.That(skipDecision.ShouldSkip).Is.EqualTo(shouldSkip);
             Assert.That(skipDecision.Reason).Is.EqualTo(shouldSkip ? "Blah!" : null);
