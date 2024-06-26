@@ -12,8 +12,8 @@ public class BooleanExtensionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(trueSkipDecision.ShouldSkip).Is.True();
-            Assert.That(trueSkipDecision.Reason).Is.EqualTo("My reason");
+            await Assert.That(trueSkipDecision.ShouldSkip).Is.True();
+            await Assert.That(trueSkipDecision.Reason).Is.EqualTo("My reason");
         }
     }
 
@@ -24,8 +24,8 @@ public class BooleanExtensionTests
 
         await using (Assert.Multiple())
         {
-            Assert.That(falseSkipDecision.ShouldSkip).Is.False();
-            Assert.That(falseSkipDecision.Reason).Is.Null();
+            await Assert.That(falseSkipDecision.ShouldSkip).Is.False();
+            await Assert.That(falseSkipDecision.Reason).Is.Null();
         }
     }
 }

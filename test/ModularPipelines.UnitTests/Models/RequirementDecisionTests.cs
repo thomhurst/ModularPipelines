@@ -12,8 +12,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.True();
-            Assert.That(requirementDecision.Reason).Is.Null();
+            await Assert.That(requirementDecision.Success).Is.True();
+            await Assert.That(requirementDecision.Reason).Is.Null();
         }
     }
 
@@ -24,8 +24,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.False();
-            Assert.That(requirementDecision.Reason).Is.Null();
+            await Assert.That(requirementDecision.Success).Is.False();
+            await Assert.That(requirementDecision.Reason).Is.Null();
         }
     }
 
@@ -36,8 +36,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.False();
-            Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
+            await Assert.That(requirementDecision.Success).Is.False();
+            await Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
         }
     }
 
@@ -48,8 +48,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.False();
-            Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
+            await Assert.That(requirementDecision.Success).Is.False();
+            await Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
         }
     }
 
@@ -60,8 +60,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.True();
-            Assert.That(requirementDecision.Reason).Is.Null();
+            await Assert.That(requirementDecision.Success).Is.True();
+            await Assert.That(requirementDecision.Reason).Is.Null();
         }
     }
 
@@ -74,8 +74,8 @@ public class RequirementDecisionTests
         
         await using (Assert.Multiple())
         {
-            Assert.That(requirementDecision.Success).Is.EqualTo(success);
-            Assert.That(requirementDecision.Reason).Is.EqualTo(!success ? "Blah!" : null);
+            await Assert.That(requirementDecision.Success).Is.EqualTo(success);
+            await Assert.That(requirementDecision.Reason).Is.EqualTo(!success ? "Blah!" : null);
         }
     }
 }
