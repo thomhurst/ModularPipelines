@@ -351,7 +351,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
             
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
         }
     }
 
