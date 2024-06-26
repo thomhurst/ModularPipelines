@@ -67,7 +67,7 @@ public class JsonSerializationTests : TestBase
         {
             Assert.That(moduleJson).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(deserializedModule).Is.Not.Null();
-        });
+        }
 
         var pipelineJson = JsonSerializer.Serialize(pipelineSummary);
         var deserializedSummary = JsonSerializer.Deserialize<PipelineSummary>(pipelineJson);
@@ -76,7 +76,7 @@ public class JsonSerializationTests : TestBase
         {
             Assert.That(pipelineJson).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(deserializedSummary).Is.Not.Null();
-        });
+        }
 
         var module1Deserialized = deserializedSummary!.GetModule<Module1>();
         var module1DeserializedResult = await module1Deserialized;
@@ -107,6 +107,6 @@ public class JsonSerializationTests : TestBase
             Assert.That(module1DeserializedResult.ModuleDuration).Is.EqualTo(module.Duration);
             Assert.That(module1DeserializedResult.SkipDecision).Is.EqualTo(module.SkipResult);
             Assert.That(module1DeserializedResult.ModuleName).Is.EqualTo(module.GetType().Name);
-        });
+        }
     }
 }

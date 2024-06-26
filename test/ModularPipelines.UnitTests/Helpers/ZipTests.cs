@@ -42,7 +42,7 @@ public class ZipTests : TestBase
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -57,7 +57,7 @@ public class ZipTests : TestBase
         {
             Assert.That(expectedFile.Exists).Is.True();
             Assert.That(expectedFile.Length).Is.GreaterThan(5000);
-        });
+        }
     }
 
     private class UnZipModule : Module<string>
@@ -88,7 +88,7 @@ public class ZipTests : TestBase
         {
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -103,6 +103,6 @@ public class ZipTests : TestBase
         {
             Assert.That(expectedFolder.Exists).Is.True();
             Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Count().EqualTo(1);
-        });
+        }
     }
 }

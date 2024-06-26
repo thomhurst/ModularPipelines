@@ -16,7 +16,7 @@ public class CommandExtensionsTests
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
             Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1" });
-        });
+        }
     }
 
     [Test]
@@ -29,7 +29,7 @@ public class CommandExtensionsTests
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
             Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
-        });
+        }
     }
     
     [Test]
@@ -42,7 +42,7 @@ public class CommandExtensionsTests
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
             Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
-        });
+        }
     }
 
     [Test]
@@ -56,6 +56,6 @@ public class CommandExtensionsTests
         {
             Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
             Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });
-        });
+        }
     }
 }

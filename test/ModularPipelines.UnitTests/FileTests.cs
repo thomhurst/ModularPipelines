@@ -31,7 +31,7 @@ public class FileTests : TestBase
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
-        });
+        }
 
         file.MoveTo(file2);
         
@@ -41,7 +41,7 @@ public class FileTests : TestBase
 
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -63,7 +63,7 @@ public class FileTests : TestBase
             Assert.That(file.Name).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.NameWithoutExtension).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(file.IsReadOnly).Is.False();
-        });
+        }
     }
 
     [Test]
@@ -77,7 +77,7 @@ public class FileTests : TestBase
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.False();
-        });
+        }
 
         file.CopyTo(file2);
         
@@ -85,7 +85,7 @@ public class FileTests : TestBase
         {
             Assert.That(file.Exists).Is.True();
             Assert.That(file2.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -116,7 +116,7 @@ public class FileTests : TestBase
             Assert.That(lines).Is.Empty();
             Assert.That(bytes).Is.Empty();
             Assert.That(stream.Length).Is.Zero();
-        });
+        }
     }
 
     [Test]
@@ -139,7 +139,7 @@ public class FileTests : TestBase
             Assert.That(lines[1]).Is.EqualTo("world");
             Assert.That(bytes).Is.Not.Empty();
             Assert.That(stream.Length).Is.Not.Zero();
-        });
+        }
     }
 
     [Test]
@@ -162,7 +162,7 @@ public class FileTests : TestBase
             Assert.That(lines).Has.Count().EqualTo(2);
             Assert.That(lines[0]).Is.EqualTo("Hello");
             Assert.That(lines[1]).Is.EqualTo("world");
-        });
+        }
     }
 
     [Test]
@@ -269,7 +269,7 @@ public class FileTests : TestBase
             Assert.That(file.GetHashCode()).Is.EqualTo(file2.GetHashCode());
             Assert.That(file == file2).Is.True();
             Assert.That(file != file2).Is.False();
-        });
+        }
     }
 
     [Test]
@@ -284,7 +284,7 @@ public class FileTests : TestBase
             Assert.That(file.GetHashCode()).Is.Not.EqualTo(file2.GetHashCode());
             Assert.That(file == file2).Is.False();
             Assert.That(file != file2).Is.True();
-        });
+        }
     }
 
     [DataDrivenTest]

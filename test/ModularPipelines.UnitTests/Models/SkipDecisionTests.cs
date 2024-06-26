@@ -14,7 +14,7 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -26,7 +26,7 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Foo!");
-        });
+        }
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -50,7 +50,7 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.True();
             Assert.That(skipDecision.Reason).Is.EqualTo("Blah!");
-        });
+        }
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.False();
             Assert.That(skipDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [DataDrivenTest]
@@ -76,6 +76,6 @@ public class SkipDecisionTests
         {
             Assert.That(skipDecision.ShouldSkip).Is.EqualTo(shouldSkip);
             Assert.That(skipDecision.Reason).Is.EqualTo(shouldSkip ? "Blah!" : null);
-        });
+        }
     }
 }

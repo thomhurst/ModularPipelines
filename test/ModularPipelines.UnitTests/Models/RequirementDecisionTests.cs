@@ -14,7 +14,7 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -26,7 +26,7 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Foo!");
-        });
+        }
     }
 
     [Test]
@@ -50,7 +50,7 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.False();
             Assert.That(requirementDecision.Reason).Is.EqualTo("Blah!");
-        });
+        }
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.True();
             Assert.That(requirementDecision.Reason).Is.Null();
-        });
+        }
     }
 
     [DataDrivenTest]
@@ -76,6 +76,6 @@ public class RequirementDecisionTests
         {
             Assert.That(requirementDecision.Success).Is.EqualTo(success);
             Assert.That(requirementDecision.Reason).Is.EqualTo(!success ? "Blah!" : null);
-        });
+        }
     }
 }

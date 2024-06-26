@@ -54,7 +54,7 @@ public class BuildSystemDetectorTests : TestBase
             Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False();
             Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False();
             Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False();
-        });
+        }
     }
 
     [DataDrivenTest]

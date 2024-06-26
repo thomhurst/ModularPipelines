@@ -33,7 +33,7 @@ public class TimedDependencyTests
 
             Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).Is.GreaterThanOrEqualTo(fiveSecondModule.EndTime);
             Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
-        });
+        }
     }
 
     private class FiveSecondModule : Module

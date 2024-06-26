@@ -29,7 +29,7 @@ public class Sha1Tests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+        }
     }
 
     [Test]

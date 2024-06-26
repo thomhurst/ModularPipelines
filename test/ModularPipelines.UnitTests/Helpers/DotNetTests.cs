@@ -35,7 +35,7 @@ public class DotNetTests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+        }
     }
 
     [Test]
@@ -49,6 +49,6 @@ public class DotNetTests : TestBase
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
             Assert.That(moduleResult.Value.StandardOutput).Does.Match("\\d+");
-        });
+        }
     }
 }

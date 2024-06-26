@@ -24,7 +24,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
             Assert.That(new File(file.OriginalPath).Exists).Is.False();
             Assert.That(file.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -45,7 +45,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(newFile.OriginalPath).Is.EqualTo(newLocation);
             Assert.That(new File(file.OriginalPath).Exists).Is.True();
             Assert.That(file.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -72,7 +72,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null();
             Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(context.FileExists(file)).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -91,7 +91,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
             Assert.That(new Folder(folder.OriginalPath).Exists).Is.False();
             Assert.That(folder.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -112,7 +112,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(newFile.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
             Assert.That(new Folder(folder.OriginalPath).Exists).Is.True();
             Assert.That(folder.Exists).Is.True();
-        });
+        }
     }
 
     [Test]
@@ -139,7 +139,7 @@ public class FileSystemContextTests : TestBase
             Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null();
             Assert.That(context.CreateTemporaryFolder()).Is.Not.Null();
             Assert.That(context.FolderExists(folder)).Is.True();
-        });
+        }
     }
 
     private static async Task<File> CreateRandomFile()

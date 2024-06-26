@@ -65,7 +65,7 @@ public class EngineCancellationTokenTests : TestBase
         {
             Assert.That(async () => await host.ExecutePipelineAsync()).Throws.Exception();
             Assert.That(module1.Status).Is.EqualTo(Status.NotYetStarted).Or.Is.EqualTo(Status.Failed);
-        });
+        }
     }
 
     [Test, Retry(3)]
@@ -89,7 +89,7 @@ public class EngineCancellationTokenTests : TestBase
             Assert.That(async () => await pipelineTask).Throws.Exception();
             Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
             Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(30));
-        });
+        }
     }
 
     [Test, Retry(3)]
@@ -113,6 +113,6 @@ public class EngineCancellationTokenTests : TestBase
             Assert.That(async () => await pipelineTask).Throws.Exception();
             Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
             Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(2));
-        });
+        }
     }
 }

@@ -29,7 +29,7 @@ public class Base64Tests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+        }
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class Base64Tests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+        }
     }
 
     [Test]

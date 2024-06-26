@@ -14,7 +14,7 @@ public class KeyValueTests
         {
             Assert.That(keyValue.Key).Is.EqualTo("one");
             Assert.That(keyValue.Value).Is.EqualTo("two");
-        });
+        }
     }
 
     [Test]
@@ -26,7 +26,7 @@ public class KeyValueTests
         {
             Assert.That(keyValue.Key).Is.EqualTo("one");
             Assert.That(keyValue.Value).Is.EqualTo("two");
-        });
+        }
     }
 
     [Test]
@@ -38,6 +38,6 @@ public class KeyValueTests
         {
             Assert.That(keyValue.Key).Is.EqualTo("one");
             Assert.That(keyValue.Value).Is.EqualTo("two");
-        });
+        }
     }
 }

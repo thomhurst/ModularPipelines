@@ -34,7 +34,7 @@ public class GitTests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+        }
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class GitTests : TestBase
         {
             Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
             Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
-        });
+        }
     }
 
     [Test]
@@ -60,7 +60,7 @@ public class GitTests : TestBase
         {
             Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
             Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
-        });
+        }
     }
 
     [Test]

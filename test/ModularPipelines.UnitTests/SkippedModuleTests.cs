@@ -34,6 +34,6 @@ public class SkippedModuleTests : TestBase
             Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Skipped);
             Assert.That(moduleResult.Exception).Is.Null();
             Assert.That(() => moduleResult.Value).Throws.Exception();
-        });
+        }
     }
 }

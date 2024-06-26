@@ -78,6 +78,6 @@ public class EnvironmentContextTests : TestBase
             Assert.That(context.AppDomainDirectory).Is.Not.Null();
             Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null();
             Assert.That(context.EnvironmentName).Is.Not.Null();
-        });
+        }
     }
 }

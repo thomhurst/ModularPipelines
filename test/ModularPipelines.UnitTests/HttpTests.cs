@@ -138,6 +138,6 @@ public class HttpTests : TestBase
             Assert.That(indexOfRequest).Is.LessThan(indexOfStatusCode);
             Assert.That(indexOfStatusCode).Is.LessThan(indexOfDuration);
             Assert.That(indexOfDuration).Is.LessThan(indexOfResponse);
-        });
+        }
     }
 }

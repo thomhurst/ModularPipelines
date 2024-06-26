@@ -93,7 +93,7 @@ public class FolderTests : TestBase
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
             Assert.That(folder2.Exists).Is.False();
-        });
+        }
 
         folder.MoveTo(folder2);
         
@@ -103,7 +103,7 @@ public class FolderTests : TestBase
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder2.Exists).Is.True();
             Assert.That(folder2.ListFiles().ToList()).Has.Count().EqualTo(10);
-        });
+        }
     }
 
     [Test]
@@ -124,7 +124,7 @@ public class FolderTests : TestBase
             Assert.That(folder.Exists).Is.True();
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
             Assert.That(folder2.Exists).Is.False();
-        });
+        }
 
         folder.CopyTo(folder2);
         
@@ -134,7 +134,7 @@ public class FolderTests : TestBase
             Assert.That(folder.ListFiles().ToList()).Has.Count().EqualTo(10);
             Assert.That(folder2.Exists).Is.True();
             Assert.That(folder2.ListFiles().ToList()).Has.Count().EqualTo(10);
-        });
+        }
     }
 
     [Test]
@@ -155,7 +155,7 @@ public class FolderTests : TestBase
             Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
             Assert.That(folder.Hidden).Is.False();
             Assert.That(folder.Name).Is.Not.Null().And.Is.Not.Empty();
-        });
+        }
     }
 
     [Test]
@@ -196,7 +196,7 @@ public class FolderTests : TestBase
             Assert.That(subfolder.Exists).Is.True();
             Assert.That(subfolder.Path).Is.Not.EqualTo(folder.Path);
             Assert.That(subfolder.Parent).Is.EqualTo(folder);
-        });
+        }
     }
 
     [Test]
@@ -260,7 +260,7 @@ public class FolderTests : TestBase
             Assert.That(folder.GetHashCode()).Is.EqualTo(folder2.GetHashCode());
             Assert.That(folder == folder2).Is.True();
             Assert.That(folder != folder2).Is.False();
-        });
+        }
     }
 
     [Test]
@@ -275,7 +275,7 @@ public class FolderTests : TestBase
             Assert.That(folder.GetHashCode()).Is.Not.EqualTo(folder2.GetHashCode());
             Assert.That(folder == folder2).Is.False();
             Assert.That(folder != folder2).Is.True();
-        });
+        }
     }
 
     [Test]

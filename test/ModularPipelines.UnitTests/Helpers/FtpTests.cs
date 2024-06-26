@@ -33,7 +33,7 @@ public class FtpTests : TestBase
         {
             Assert.That(response).Is.EqualTo(FtpStatus.Success);
             Assert.That(fileContents).Does.StartWith("6jack");
-        });
+        }
     }
 
     [Test]

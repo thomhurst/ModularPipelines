@@ -86,7 +86,7 @@ public class RetryTests : TestBase
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(1);
             Assert.That(module.Exception).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -106,7 +106,7 @@ public class RetryTests : TestBase
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(4);
             Assert.That(module.Exception).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -122,7 +122,7 @@ public class RetryTests : TestBase
         {
             Assert.That(module.ExecutionCount).Is.EqualTo(4);
             Assert.That(module.Exception).Is.Null();
-        });
+        }
     }
 
     [Test]
@@ -142,7 +142,7 @@ public class RetryTests : TestBase
         {
             Assert.That(module?.ExecutionCount).Is.EqualTo(1);
             Assert.That(module!.Exception).Is.Not.Null();
-        });
+        }
     }
 
     [Test]
