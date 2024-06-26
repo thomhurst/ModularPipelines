@@ -28,7 +28,7 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
         var test = new Test
         {
             TestCode = source,
-            ReferenceAssemblies = Net.Net70,
+            ReferenceAssemblies = Net.Net80,
             TestState =
             {
                 AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },
