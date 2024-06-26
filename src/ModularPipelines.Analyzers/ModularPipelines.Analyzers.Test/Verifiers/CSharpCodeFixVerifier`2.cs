@@ -30,7 +30,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         var test = new Test
         {
             TestCode = source,
-            ReferenceAssemblies = Net.Net70,
+            ReferenceAssemblies = Net.Net80,
             CodeActionValidationMode = CodeActionValidationMode.SemanticStructure,
             TestState =
             {
@@ -57,7 +57,7 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         {
             TestCode = source,
             FixedCode = fixedSource,
-            ReferenceAssemblies = Net.Net70,
+            ReferenceAssemblies = Net.Net80,
             TestState =
             {
                 AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },

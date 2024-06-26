@@ -60,7 +60,7 @@ jobs:
             dotnet build $SOLUTION -c Release
           done
       - name: Run Pipeline
-        run: dotnet run -c Release --framework net7.0
+        run: dotnet run -c Release --framework net8.0
         working-directory: "src/ModularPipelines.Build"
         env:
           GITHUB_TOKEN: ${{ github.token }}

@@ -24,12 +24,12 @@ public class Sha1Tests : TestBase
 
         var moduleResult = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(moduleResult.Exception).Is.Null();
-            Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).Is.Null();
+            await Assert.That(moduleResult.Value).Is.Not.Null();
+        }
     }
 
     [Test]

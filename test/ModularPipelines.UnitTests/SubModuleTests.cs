@@ -160,12 +160,12 @@ public class SubModuleTests : TestBase
 
         var results = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.EquivalentTo(new List<string> { "1", "2", "3" });
-            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
-        });
+            await Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(results.Value).Is.EquivalentTo(new List<string> { "1", "2", "3" });
+            await Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
+        }
     }
 
     [Test]
@@ -175,12 +175,12 @@ public class SubModuleTests : TestBase
 
         var results = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.Null();
-            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
-        });
+            await Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(results.Value).Is.Null();
+            await Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
+        }
     }
 
     [Test]
@@ -190,12 +190,12 @@ public class SubModuleTests : TestBase
 
         var results = await module;
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value!).Is.EquivalentTo(new List<string> { "1", "2", "3" });
-            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
-        });
+            await Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(results.Value!).Is.EquivalentTo(new List<string> { "1", "2", "3" });
+            await Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
+        }
     }
 
     [Test]
@@ -205,12 +205,12 @@ public class SubModuleTests : TestBase
 
         var results = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(results.Value).Is.Null();
-            Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
-        });
+            await Assert.That(results.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(results.Value).Is.Null();
+            await Assert.That(module.SubModuleRunCount).Is.EqualTo(3);
+        }
     }
 
     [Test]
@@ -218,11 +218,11 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModule>);
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleFailedException.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That(moduleFailedException.InnerException).Has.Message().EqualTo("The Sub-Module 1 has failed.");
-        });
+            await Assert.That(moduleFailedException.InnerException).Is.TypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException.InnerException).Has.Message().EqualTo("The Sub-Module 1 has failed.");
+        }
     }
 
     [Test]
@@ -234,14 +234,14 @@ public class SubModuleTests : TestBase
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That(moduleFailedException!.InnerException!)
+            await Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException!.InnerException!)
                 .Has.Message().EqualTo("The Sub-Module 1 has failed.")
                 .Or.Has.Message().EqualTo("The Sub-Module 2 has failed.")
                 .Or.Has.Message().EqualTo("The Sub-Module 3 has failed.");
-        });
+        }
     }
 
     [Test]
@@ -249,11 +249,11 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithReturnTypeModuleSynchronous>);
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That(moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
-        });
+            await Assert.That(moduleFailedException?.InnerException).Is.TypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException!.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
+        }
     }
 
     [Test]
@@ -261,10 +261,10 @@ public class SubModuleTests : TestBase
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>);
 
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleFailedException.InnerException).Is.TypeOf<SubModuleFailedException>();
-            Assert.That(moduleFailedException.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
-        });
+            await Assert.That(moduleFailedException.InnerException).Is.TypeOf<SubModuleFailedException>();
+            await Assert.That(moduleFailedException.InnerException!).Has.Message().EqualTo("The Sub-Module 1 has failed.");
+        }
     }
 }

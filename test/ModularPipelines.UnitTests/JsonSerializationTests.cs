@@ -63,50 +63,50 @@ public class JsonSerializationTests : TestBase
         var moduleJson = JsonSerializer.Serialize(module);
         var deserializedModule = JsonSerializer.Deserialize<ModuleBase>(moduleJson);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleJson).Is.Not.Null().And.Is.Not.Empty();
-            Assert.That(deserializedModule).Is.Not.Null();
-        });
+            await Assert.That(moduleJson).Is.Not.Null().And.Is.Not.Empty();
+            await Assert.That(deserializedModule).Is.Not.Null();
+        }
 
         var pipelineJson = JsonSerializer.Serialize(pipelineSummary);
         var deserializedSummary = JsonSerializer.Deserialize<PipelineSummary>(pipelineJson);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(pipelineJson).Is.Not.Null().And.Is.Not.Empty();
-            Assert.That(deserializedSummary).Is.Not.Null();
-        });
+            await Assert.That(pipelineJson).Is.Not.Null().And.Is.Not.Empty();
+            await Assert.That(deserializedSummary).Is.Not.Null();
+        }
 
         var module1Deserialized = deserializedSummary!.GetModule<Module1>();
         var module1DeserializedResult = await module1Deserialized;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(module1Deserialized).Is.Not.Null();
-            Assert.That(module1DeserializedResult).Is.Not.Null();
+            await Assert.That(module1Deserialized).Is.Not.Null();
+            await Assert.That(module1DeserializedResult).Is.Not.Null();
 
-            Assert.That(module1DeserializedResult.Value!["Foo"].ToString()).Is.EqualTo("Bar");
-            Assert.That(module1DeserializedResult.Value!["Hello"].ToString()).Is.EqualTo("world!");
+            await Assert.That(module1DeserializedResult.Value!["Foo"].ToString()).Is.EqualTo("Bar");
+            await Assert.That(module1DeserializedResult.Value!["Hello"].ToString()).Is.EqualTo("world!");
 
-            Assert.That(deserializedSummary.Start).Is.EqualTo(pipelineSummary.Start);
-            Assert.That(deserializedSummary.End).Is.EqualTo(pipelineSummary.End);
-            Assert.That(deserializedSummary.TotalDuration).Is.EqualTo(pipelineSummary.TotalDuration);
-            Assert.That(deserializedSummary.Modules).Has.Count().EqualTo(pipelineSummary.Modules.Count);
-            Assert.That(deserializedSummary.Status).Is.EqualTo(pipelineSummary.Status);
+            await Assert.That(deserializedSummary.Start).Is.EqualTo(pipelineSummary.Start);
+            await Assert.That(deserializedSummary.End).Is.EqualTo(pipelineSummary.End);
+            await Assert.That(deserializedSummary.TotalDuration).Is.EqualTo(pipelineSummary.TotalDuration);
+            await Assert.That(deserializedSummary.Modules).Has.Count().EqualTo(pipelineSummary.Modules.Count);
+            await Assert.That(deserializedSummary.Status).Is.EqualTo(pipelineSummary.Status);
 
-            Assert.That(module1Deserialized.StartTime).Is.EqualTo(module.StartTime);
-            Assert.That(module1Deserialized.EndTime).Is.EqualTo(module.EndTime);
-            Assert.That(module1Deserialized.Duration).Is.EqualTo(module.Duration);
-            Assert.That(module1Deserialized.SkipResult).Is.EqualTo(module.SkipResult);
-            Assert.That(module1Deserialized.GetType().Name).Is.EqualTo(module.GetType().Name);
-            Assert.That(module1Deserialized.TypeDiscriminator).Is.EqualTo(module.GetType().AssemblyQualifiedName!);
+            await Assert.That(module1Deserialized.StartTime).Is.EqualTo(module.StartTime);
+            await Assert.That(module1Deserialized.EndTime).Is.EqualTo(module.EndTime);
+            await Assert.That(module1Deserialized.Duration).Is.EqualTo(module.Duration);
+            await Assert.That(module1Deserialized.SkipResult).Is.EqualTo(module.SkipResult);
+            await Assert.That(module1Deserialized.GetType().Name).Is.EqualTo(module.GetType().Name);
+            await Assert.That(module1Deserialized.TypeDiscriminator).Is.EqualTo(module.GetType().AssemblyQualifiedName!);
 
-            Assert.That(module1DeserializedResult.ModuleStart).Is.EqualTo(module.StartTime);
-            Assert.That(module1DeserializedResult.ModuleEnd).Is.EqualTo(module.EndTime);
-            Assert.That(module1DeserializedResult.ModuleDuration).Is.EqualTo(module.Duration);
-            Assert.That(module1DeserializedResult.SkipDecision).Is.EqualTo(module.SkipResult);
-            Assert.That(module1DeserializedResult.ModuleName).Is.EqualTo(module.GetType().Name);
-        });
+            await Assert.That(module1DeserializedResult.ModuleStart).Is.EqualTo(module.StartTime);
+            await Assert.That(module1DeserializedResult.ModuleEnd).Is.EqualTo(module.EndTime);
+            await Assert.That(module1DeserializedResult.ModuleDuration).Is.EqualTo(module.Duration);
+            await Assert.That(module1DeserializedResult.SkipDecision).Is.EqualTo(module.SkipResult);
+            await Assert.That(module1DeserializedResult.ModuleName).Is.EqualTo(module.GetType().Name);
+        }
     }
 }

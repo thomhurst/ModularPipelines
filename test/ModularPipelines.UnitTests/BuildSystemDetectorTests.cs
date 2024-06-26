@@ -44,17 +44,17 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public async Task Each_Property_Returns_Result()
     {
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnTeamCity).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).Is.True().Or.Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False();
-            Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False();
-        });
+            await Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnTeamCity).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).Is.True().Or.Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False();
+        }
     }
 
     [DataDrivenTest]
