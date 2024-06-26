@@ -44,7 +44,7 @@ jobs:
             dotnet build $SOLUTION -c Release
           }
       - name: Run Pipeline
-        run: dotnet run -c Release --framework net7.0
+        run: dotnet run -c Release --framework net8.0
         working-directory: "src/ModularPipelines.Build"
         env:
           DOTNET_ENVIRONMENT: 'Development'
