@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
@@ -25,8 +26,9 @@ public class MergeCoverageModule : Module<File>
 
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
-        if (coverageFilesFromOtherSystems.Value?.Any() != true)
+        if (coverageFilesFromOtherSystems.Value?.Count is null or < 1)
         {
+            context.Logger.LogInformation("No code coverage found from other operating systems");
             return null;
         }
 

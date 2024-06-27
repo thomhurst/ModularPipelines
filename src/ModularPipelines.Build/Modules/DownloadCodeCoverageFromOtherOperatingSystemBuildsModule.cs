@@ -1,4 +1,5 @@
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
@@ -28,8 +29,9 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     {
         var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
 
-        if (runs.Value?.Any() != true)
+        if (runs.Value?.Count is null or < 1)
         {
+            context.Logger.LogInformation("No runs found");
             return new List<File>();
         }
 

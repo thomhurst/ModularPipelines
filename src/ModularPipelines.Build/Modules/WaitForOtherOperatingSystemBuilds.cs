@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
@@ -73,10 +75,11 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         return list;
     }
 
-    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)
+    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken, [CallerArgumentExpression("workflowRun")] string expression = "")
     {
         if (workflowRun == null)
         {
+            Context.Logger.LogInformation("No workflow found for {Expression}", expression);
             return null;
         }
 
