@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -28,7 +29,7 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
     {
         var mergeCoverageModuleResult = await GetModule<MergeCoverageModule>();
 
-        if (mergeCoverageModuleResult.Value == null)
+        if (mergeCoverageModuleResult.ModuleStatus != Status.Successful)
         {
             return "Merge coverage did not run";
         }
