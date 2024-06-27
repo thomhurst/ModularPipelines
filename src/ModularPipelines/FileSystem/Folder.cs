@@ -1,11 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using ModularPipelines.JsonUtils;
 
 namespace ModularPipelines.FileSystem;
 
 public class Folder : IEquatable<Folder>
 {
+    [JsonIgnore]
     private readonly DirectoryInfo _directoryInfo;
 
     private DirectoryInfo DirectoryInfo
@@ -33,6 +36,7 @@ public class Folder : IEquatable<Folder>
 
     public string Name => DirectoryInfo.Name;
 
+    [JsonConverter(typeof(FolderPathJsonConverter))]
     public Folder? Parent => DirectoryInfo.Parent;
 
     public string Path => DirectoryInfo.FullName;
@@ -45,7 +49,19 @@ public class Folder : IEquatable<Folder>
         set => DirectoryInfo.Attributes = value;
     }
 
-    public Folder Root => DirectoryInfo.Root;
+    [JsonConverter(typeof(FolderPathJsonConverter))]
+    public Folder Root
+    {
+        get
+        {
+            if (DirectoryInfo.Root.FullName == Path)
+            {
+                return this;
+            }
+            
+            return DirectoryInfo.Root;
+        }
+    }
 
     public DateTimeOffset CreationTime => DirectoryInfo.CreationTime;
 

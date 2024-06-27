@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -11,17 +12,20 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IModuleExecutor _moduleExecutor;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
+    private readonly IExceptionContainer _exceptionContainer;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
-        ILogger<PipelineExecutor> logger)
+        ILogger<PipelineExecutor> logger,
+        IExceptionContainer exceptionContainer)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
+        _exceptionContainer = exceptionContainer;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
@@ -35,12 +39,6 @@ internal class PipelineExecutor : IPipelineExecutor
         try
         {
             await _moduleExecutor.ExecuteAsync(runnableModules);
-        }
-        catch
-        {
-            // Give time for the console to update modules to Failed
-            await Task.Delay(TimeSpan.FromMilliseconds(500));
-            throw;
         }
         finally
         {
@@ -57,6 +55,8 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             throw exception;
         }
+        
+        _exceptionContainer.ThrowExceptions();
 
         return pipelineSummary;
     }

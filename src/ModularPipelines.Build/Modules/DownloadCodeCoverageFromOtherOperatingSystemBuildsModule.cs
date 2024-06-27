@@ -1,4 +1,5 @@
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
@@ -16,9 +17,9 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<WaitForOtherOperatingSystemBuilds>]
 public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<List<File>>
 {
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
 
-    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(GitHubClient gitHubClient)
+    public DownloadCodeCoverageFromOtherOperatingSystemBuildsModule(IGitHubClient gitHubClient)
     {
         _gitHubClient = gitHubClient;
     }
@@ -28,8 +29,9 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
     {
         var runs = await GetModule<WaitForOtherOperatingSystemBuilds>();
 
-        if (runs.Value?.Any() != true)
+        if (runs.Value?.Count is null or < 1)
         {
+            context.Logger.LogInformation("No runs found");
             return new List<File>();
         }
 
@@ -49,8 +51,7 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
             .ProcessInParallel();
 
         return zipFiles.Select(x => context.Zip.UnZipToFolder(x, Folder.CreateTemporaryFolder()))
-            .Select(x => x.FindFile(f => f.Name.Contains("coverage") && f.Extension == ".xml"))
-            .OfType<File>()
+            .SelectMany(x => x.GetFiles(f => f.Extension == ".xml" && f.Name.Contains("cobertura")))
             .ToList();
     }
 
@@ -59,6 +60,11 @@ public class DownloadCodeCoverageFromOtherOperatingSystemBuildsModule : Module<L
         var zipStream = await _gitHubClient.Actions.Artifacts.DownloadArtifact(BuildConstants.Owner,
             BuildConstants.RepositoryName,
             artifact.Id, "zip");
+
+        if (zipStream is null)
+        {
+            throw new Exception($"Stream from artifact {artifact.Id} is null");
+        }
 
         var file = File.GetNewTemporaryFilePath();
 

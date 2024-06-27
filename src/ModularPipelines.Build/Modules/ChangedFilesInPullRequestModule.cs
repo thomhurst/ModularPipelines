@@ -1,12 +1,9 @@
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
-using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Modules;
-using Octokit;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
@@ -15,15 +12,6 @@ namespace ModularPipelines.Build.Modules;
 [SkipOnMainBranch]
 public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
 {
-    private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly GitHubClient _gitHubClient;
-
-    public ChangedFilesInPullRequestModule(IOptions<GitHubSettings> githubSettings, GitHubClient gitHubClient)
-    {
-        _githubSettings = githubSettings;
-        _gitHubClient = gitHubClient;
-    }
-
     protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var result = await context.Git().Commands.Diff(new GitDiffOptions()

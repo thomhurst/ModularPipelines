@@ -1,17 +1,28 @@
 using System.Reflection;
+using Initialization.Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-internal class DependencyChainProvider : IDependencyChainProvider
+internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 {
-    public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; }
+    private readonly IModuleRetriever _moduleRetriever;
+    
+    public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = null!;
 
-    public DependencyChainProvider(IEnumerable<ModuleBase> modules)
+    public DependencyChainProvider(IModuleRetriever moduleRetriever)
     {
-        ModuleDependencyModels = Detect(modules.Select(x => new ModuleDependencyModel(x)).ToList());
+        _moduleRetriever = moduleRetriever;
+    }
+
+    public int Order => int.MaxValue;
+
+    public async Task InitializeAsync()
+    {
+        var modules = await _moduleRetriever.GetOrganizedModules();
+        ModuleDependencyModels = Detect(modules.AllModules.Select(x => new ModuleDependencyModel(x)).ToList());
     }
 
     private List<ModuleDependencyModel> Detect(List<ModuleDependencyModel> allModules)
@@ -33,15 +44,15 @@ internal class DependencyChainProvider : IDependencyChainProvider
 
     private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
     {
-        var customAttributes = moduleDependencyModel.Module.GetType().GetCustomAttributes<DependsOnAttribute>(true);
+        var dependencies = moduleDependencyModel.Module.GetModuleDependencies();
 
-        foreach (var dependsOnAttribute in customAttributes)
+        foreach (var dependency in dependencies)
         {
-            var dependency = GetModuleDependencyModel(dependsOnAttribute.Type, allModules);
+            var dependencyModel = GetModuleDependencyModel(dependency.DependencyType, allModules);
 
-            if (dependency is not null)
+            if (dependencyModel is not null)
             {
-                yield return dependency;
+                yield return dependencyModel;
             }
         }
     }

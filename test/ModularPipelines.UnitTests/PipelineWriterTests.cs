@@ -47,7 +47,7 @@ public class PipelineWriterTests : TestBase
                 PipelineProjectPath = RandomFilePath.Path!,
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
-                DotNetRunFramework = "net7.0",
+                DotNetRunFramework = "net8.0",
                 ValuesToMask = new[]
                 {
                     "${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}", "${{ secrets.NuGet__ApiKey }}",
@@ -135,7 +135,7 @@ public class PipelineWriterTests : TestBase
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                                restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
-                             run: dotnet run -c Release --framework net7.0 {{{RandomFilePath}}}
+                             run: dotnet run -c Release --framework net8.0 {{{RandomFilePath}}}
                              env:
                                DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
                                NuGet__ApiKey: ${{ secrets.NuGet__ApiKey }}

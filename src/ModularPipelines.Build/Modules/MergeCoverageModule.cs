@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Context;
@@ -21,12 +22,13 @@ public class MergeCoverageModule : Module<File>
     protected override async Task<File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var coverageFilesFromThisRun = context.Git().RootDirectory
-            .GetFiles(x => x.Name.Contains("coverage") && x.Extension == ".xml");
+            .GetFiles(x => x.Name.Contains("cobertura") && x.Extension is ".xml");
 
         var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
 
-        if (coverageFilesFromOtherSystems.Value?.Any() != true)
+        if (coverageFilesFromOtherSystems.Value?.Count is null or < 1)
         {
+            context.Logger.LogInformation("No code coverage found from other operating systems");
             return null;
         }
 
@@ -40,7 +42,7 @@ public class MergeCoverageModule : Module<File>
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);
 
-        var outputPath = Folder.CreateTemporaryFolder().GetFile("coverage.cobertura.xml").Path;
+        var outputPath = Folder.CreateTemporaryFolder().GetFile("cobertura.xml").Path;
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet-coverage")
         {

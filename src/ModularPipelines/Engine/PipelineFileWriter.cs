@@ -1,6 +1,5 @@
 ﻿using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Engine;

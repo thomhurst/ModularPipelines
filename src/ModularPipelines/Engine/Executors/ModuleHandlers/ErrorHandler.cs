@@ -77,10 +77,12 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(Module, exception);
-
-        Context.EngineCancellationToken.Cancel();
-
-        ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
+        
+        Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(_ =>
+        {
+            Context.EngineCancellationToken.Cancel();
+            ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
+        });
 
         throw moduleFailedException;
     }

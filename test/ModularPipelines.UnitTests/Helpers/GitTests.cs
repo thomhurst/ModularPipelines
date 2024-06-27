@@ -29,12 +29,12 @@ public class GitTests : TestBase
 
         var moduleResult = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            Assert.That(moduleResult.Exception).Is.Null();
-            Assert.That(moduleResult.Value).Is.Not.Null();
-        });
+            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).Is.Null();
+            await Assert.That(moduleResult.Value).Is.Not.Null();
+        }
     }
 
     [Test]
@@ -44,11 +44,11 @@ public class GitTests : TestBase
 
         var moduleResult = await module;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
-            Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
-        });
+            await Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
+            await Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
+        }
     }
 
     [Test]
@@ -56,11 +56,11 @@ public class GitTests : TestBase
     {
         var git = await GetService<IGit>();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
-            Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
-        });
+            await Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
+            await Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
+        }
     }
 
     [Test]

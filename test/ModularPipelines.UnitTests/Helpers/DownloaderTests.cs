@@ -7,7 +7,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DownloaderTests : TestBase
 {
-    [Test]
+    [Test, Retry(3)]
     public async Task Can_Download()
     {
         var downloader = await GetService<IDownloader>();

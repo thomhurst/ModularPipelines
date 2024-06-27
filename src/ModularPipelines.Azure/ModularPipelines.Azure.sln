@@ -8,9 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines", "..\ModularPipelines\ModularPipelines.csproj", "{7A6FCCC1-A4A3-4F96-98EC-3401ABF6190E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure.UnitTests", "..\..\test\ModularPipelines.Azure.UnitTests\ModularPipelines.Azure.UnitTests.csproj", "{4F7E5E41-65A1-4815-8586-101E57643903}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TestHelpers", "..\..\test\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj", "{C1E644A6-6062-469D-AA5E-56225D99A9F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Azure.UnitTests", "..\..\test\ModularPipelines.Azure.UnitTests\ModularPipelines.Azure.UnitTests.csproj", "{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,8 +20,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9E9FAE42-6C1D-4A39-BA1B-CAD67760004A} = {02E7A396-8935-4E14-88EA-521C71A0717F}
 		{7A6FCCC1-A4A3-4F96-98EC-3401ABF6190E} = {02E7A396-8935-4E14-88EA-521C71A0717F}
-		{4F7E5E41-65A1-4815-8586-101E57643903} = {E298808D-9900-4C28-967A-4734996A7520}
 		{C1E644A6-6062-469D-AA5E-56225D99A9F4} = {E298808D-9900-4C28-967A-4734996A7520}
+		{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54} = {E298808D-9900-4C28-967A-4734996A7520}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9E9FAE42-6C1D-4A39-BA1B-CAD67760004A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,13 +32,13 @@ Global
 		{7A6FCCC1-A4A3-4F96-98EC-3401ABF6190E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A6FCCC1-A4A3-4F96-98EC-3401ABF6190E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A6FCCC1-A4A3-4F96-98EC-3401ABF6190E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F7E5E41-65A1-4815-8586-101E57643903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F7E5E41-65A1-4815-8586-101E57643903}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F7E5E41-65A1-4815-8586-101E57643903}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F7E5E41-65A1-4815-8586-101E57643903}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1E644A6-6062-469D-AA5E-56225D99A9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1E644A6-6062-469D-AA5E-56225D99A9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E644A6-6062-469D-AA5E-56225D99A9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E644A6-6062-469D-AA5E-56225D99A9F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1909B6E-68B6-4CD7-A0E6-8C54048FFE54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -3,7 +3,8 @@ using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions.Is;
+using TUnit.Assertions.Extensions.Numbers;
+using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -14,8 +15,7 @@ public class InstallerTests : TestBase
     {
         if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
         {
-            TestContext.Current!.SkipTest("Avoid installing things on people's machines");
-            return;
+            throw new SkipTestException("Avoid installing things on people's machines");
         }
         
         var downloader = await GetService<IDownloader>();

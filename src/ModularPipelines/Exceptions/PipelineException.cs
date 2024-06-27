@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace ModularPipelines.Exceptions;
 
 public class PipelineException : Exception

@@ -6,6 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
@@ -22,11 +23,11 @@ namespace ModularPipelines.Build.Modules;
 public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
     private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings,
-        GitHubClient gitHubClient,
+        IGitHubClient gitHubClient,
         IOptions<PublishSettings> publishSettings)
     {
         _githubSettings = githubSettings;
@@ -45,7 +46,7 @@ public class UpdateReleaseNotesModule : Module
     {
         if (!_publishSettings.Value.ShouldPublish)
         {
-            return true;
+            return "The 'ShouldPublish' flag is false";
         }
 
         var releaseNotesFile = context.Git()
@@ -69,7 +70,7 @@ public class UpdateReleaseNotesModule : Module
         
         if (!string.IsNullOrWhiteSpace(releaseNotesContents.Trim()))
         {
-            await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
+            await _gitHubClient.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
                 new NewRelease(versionInfoResult.Value)
                 {
                     Name = versionInfoResult.Value,
@@ -86,7 +87,7 @@ public class UpdateReleaseNotesModule : Module
     {
         var customNotes = await releaseNotesFile.ReadAsync(cancellationToken);
 
-        if (string.Equals("null", customNotes, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals("null", customNotes.Trim(), StringComparison.OrdinalIgnoreCase))
         {
             customNotes = string.Empty;
         }

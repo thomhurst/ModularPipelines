@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -26,12 +27,28 @@ public abstract class Module : Module<IDictionary<string, object>>;
 public abstract partial class Module<T> : ModuleBase<T>
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly object _startCheckLock = new();
+
+    internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
+    {
+        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        {
+            yield return AddDependency(customAttribute.Type, customAttribute.IgnoreIfNotRegistered);
+        }
+        
+        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        {
+            var types = Context.ServiceProvider.GetServices<ModuleBase>()
+                .Where(x => x.GetType().IsOrInheritsFrom(customAttribute.Type));
+            
+            foreach (var moduleBase in types)
+            {
+                yield return AddDependency(moduleBase.GetType(), false);   
+            }
+        }
+    }
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
-
-    internal override IWaitHandler WaitHandler { get; }
-
+    
     internal override ICancellationHandler CancellationHandler { get; }
 
     internal override ISkipHandler SkipHandler { get; }
@@ -51,18 +68,12 @@ public abstract partial class Module<T> : ModuleBase<T>
     [JsonConstructor]
     protected Module()
     {
-        WaitHandler = new WaitHandler<T>(this);
         CancellationHandler = new CancellationHandler<T>(this);
         SkipHandler = new SkipHandler<T>(this);
         HistoryHandler = new HistoryHandler<T>(this);
         HookHandler = new HookHandler<T>(this);
         StatusHandler = new StatusHandler<T>(this);
         ErrorHandler = new ErrorHandler<T>(this);
-
-        foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
-        {
-            AddDependency(customAttribute);
-        }
     }
 
     internal override ModuleBase Initialize(IPipelineContext context)
@@ -87,27 +98,66 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
     }
 
-    internal override Task ExecutionTask
+    internal override Task ExecutionTask => ModuleResultTaskCompletionSource.Task;
+
+    internal override async Task<IModuleResult> GetModuleResult() => await this;
+    
+    internal override async Task StartInternal()
     {
-        [StackTraceHidden]
-        get
+        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
         {
-            lock (_startCheckLock)
+            return;
+        }
+
+        IsStarted = true;
+
+        try
+        {
+            CancellationHandler.SetupCancellation();
+
+            if (await SkipHandler.HandleSkipped())
             {
-                if (!IsStarted)
-                {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    StartInternal();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                }
-
-                IsStarted = true;
-
-                return ModuleResultTaskCompletionSource.Task;
+                return;
             }
+
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            await HookHandler.OnBeforeExecute(Context);
+
+            StartTask.Start(TaskScheduler.Default);
+
+            Status = Status.Processing;
+            StartTime = DateTimeOffset.UtcNow;
+
+            _stopwatch.Start();
+
+            var executeResult = await ExecuteInternal();
+
+            SetEndTime();
+
+            LogResult(executeResult);
+
+            Status = Status.Successful;
+
+            var moduleResult = new ModuleResult<T>(executeResult, this);
+
+            await HistoryHandler.SaveResult(moduleResult);
+
+            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
+        }
+        catch (Exception exception)
+        {
+            SetEndTime();
+            await ErrorHandler.Handle(exception);
+        }
+        finally
+        {
+            await HookHandler.OnAfterExecute(Context);
+
+            StatusHandler.LogModuleStatus();
         }
     }
-
+    
     /// <summary>
     /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
@@ -155,10 +205,8 @@ public abstract partial class Module<T> : ModuleBase<T>
         Policy<T?>.Handle<Exception>()
             .WaitAndRetryAsync(count, i => TimeSpan.FromMilliseconds(i * i * 100));
 
-    private void AddDependency(DependsOnAttribute dependsOnAttribute)
+    private (Type Type, bool IgnoreIfNotRegistered) AddDependency(Type type, bool ignoreIfNotRegistered)
     {
-        var type = dependsOnAttribute.Type;
-
         if (type == GetType())
         {
             throw new ModuleReferencingSelfException("A module cannot depend on itself");
@@ -171,70 +219,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         OnInitialised += (_, _) =>
         {
-            Context.Logger.LogDebug("This module depends on {Module}", dependsOnAttribute.Type.Name);
+            Context.Logger.LogDebug("This module depends on {Module}", type.Name);
         };
 
-        DependentModules.Add(dependsOnAttribute);
-    }
-
-    [StackTraceHidden]
-    private async Task StartInternal()
-    {
-        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
-        {
-            return;
-        }
-
-        try
-        {
-            if (await WaitHandler.WaitForModuleDependencies() == WaitResult.Abort)
-            {
-                return;
-            }
-
-            CancellationHandler.SetupCancellation();
-
-            if (await SkipHandler.HandleSkipped())
-            {
-                return;
-            }
-
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-            await HookHandler.OnBeforeExecute(Context);
-
-            StartTask.Start(TaskScheduler.Default);
-
-            Status = Status.Processing;
-            StartTime = DateTimeOffset.UtcNow;
-
-            _stopwatch.Start();
-
-            var executeResult = await ExecuteInternal();
-
-            SetEndTime();
-
-            LogResult(executeResult);
-
-            Status = Status.Successful;
-
-            var moduleResult = new ModuleResult<T>(executeResult, this);
-
-            await HistoryHandler.SaveResult(moduleResult);
-
-            Context.Logger.LogDebug("Module Succeeded after {Duration}", Duration);
-        }
-        catch (Exception exception)
-        {
-            SetEndTime();
-            await ErrorHandler.Handle(exception);
-        }
-        finally
-        {
-            await HookHandler.OnAfterExecute(Context);
-
-            StatusHandler.LogModuleStatus();
-        }
+        return (type, ignoreIfNotRegistered);
     }
 
     private void LogResult(T? executeResult)
@@ -246,7 +234,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         try
         {
-            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().Name ?? typeof(T).Name);
+            Context.Logger.LogDebug("Module returned {Type}:", executeResult?.GetType().GetRealTypeName() ?? typeof(T).GetRealTypeName());
 
             if (executeResult is null)
             {
@@ -264,13 +252,13 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 foreach (var o in enumerable.Cast<object>())
                 {
-                    Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(o, ModularPipelinesJsonSerializerSettings.Default));
+                    Context.Logger.LogDebug("{JsonUtils}", JsonSerializer.Serialize(o, ModularPipelinesJsonSerializerSettings.Default));
                 }
 
                 return;
             }
 
-            Context.Logger.LogDebug("{Json}", JsonSerializer.Serialize(executeResult));
+            Context.Logger.LogDebug("{JsonUtils}", JsonSerializer.Serialize(executeResult));
         }
         catch
         {
@@ -314,12 +302,13 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (Timeout == TimeSpan.Zero)
         {
+            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, null));
             return await executeAsyncTask;
         }
 
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
-        var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
+        using var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
@@ -337,19 +326,33 @@ public abstract partial class Module<T> : ModuleBase<T>
                 throw new ModuleTimeoutException(this);
             }, CancellationToken.None);
 
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
 #if NET8_0_OR_GREATER
         await timeoutCancellationTokenSource.CancelAsync();
 #else
         timeoutCancellationTokenSource.Cancel();
 #endif
-        timeoutCancellationTokenSource.Dispose();
         
         // Will throw a timeout exception if configured and timeout is reached
         await finishedTask;
 
         return await executeAsyncTask;
+    }
+
+    private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask)
+    {
+        while (!mainExecutionTask.IsCompleted)
+        {
+            if (timeoutTask?.IsCompleted == true)
+            {
+                throw new ModuleTimeoutException(this);
+            }
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
+        }
     }
 
     private void SetEndTime()

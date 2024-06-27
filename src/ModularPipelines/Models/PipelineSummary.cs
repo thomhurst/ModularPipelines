@@ -57,6 +57,9 @@ public record PipelineSummary
         where T : ModuleBase
         => Modules.GetModule<T>();
 
+    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync() =>
+        await Task.WhenAll(Modules.Select(x => x.GetModuleResult()));
+
     private Status GetStatus()
     {
         if (Modules.Any(x => x.Status == Status.Failed))

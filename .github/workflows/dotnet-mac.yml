@@ -42,7 +42,7 @@ jobs:
             dotnet build $SOLUTION -c Release
           done
       - name: Run Pipeline
-        run: dotnet run -c Release --framework net7.0
+        run: dotnet run -c Release --framework net8.0
         working-directory: "src/ModularPipelines.Build"
         env:
           DOTNET_ENVIRONMENT: 'Development'
@@ -58,4 +58,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage
-          path: '**/coverage*.xml'
+          path: '**/*cobertura*'

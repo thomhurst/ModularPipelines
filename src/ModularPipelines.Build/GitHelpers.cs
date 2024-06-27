@@ -3,6 +3,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
+using ModularPipelines.GitHub.Extensions;
 
 namespace ModularPipelines.Build;
 
@@ -43,14 +44,13 @@ public static class GitHelpers
         var options = context.Get<IOptions<GitHubSettings>>();
 
         var token = options!.Value.StandardToken;
-        var author = options?.Value?.PullRequest?.Author ?? "thomhurst";
 
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments = new[]
             {
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/{author}/ModularPipelines",
+                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines",
             },
         }, cancellationToken);
 
@@ -72,8 +72,8 @@ public static class GitHelpers
         {
             Message = message,
         }, token: cancellationToken);
-
-        var author = context.Get<IOptions<GitHubSettings>>()?.Value?.PullRequest?.Author ?? "thomhurst";
+        
+        var author = context.GitHub().EnvironmentVariables.Actor ?? "thomhurst";
 
         var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };
 

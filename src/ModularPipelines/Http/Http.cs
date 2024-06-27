@@ -34,6 +34,11 @@ internal class Http : IHttp, IDisposable
 
         var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken);
 
+        if (!httpOptions.ThrowOnNonSuccessStatusCode)
+        {
+            return response;
+        }
+        
         return response.EnsureSuccessStatusCode();
     }
 
@@ -118,6 +123,11 @@ internal class Http : IHttp, IDisposable
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
         {
             await HttpLogger.PrintResponse(response, logger);
+        }
+        
+        if (!httpOptions.ThrowOnNonSuccessStatusCode)
+        {
+            return response;
         }
 
         return response.EnsureSuccessStatusCode();

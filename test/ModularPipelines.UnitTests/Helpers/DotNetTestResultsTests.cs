@@ -26,7 +26,7 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 ProjectSolutionDirectoryDllExe = testProject,
-                Framework = "net7.0",
+                Framework = "net8.0",
                 CommandLogging = CommandLogging.Error,
             }, token: cancellationToken);
         }
@@ -45,7 +45,7 @@ public class DotNetTestResultsTests : TestBase
             {
                 ProjectSolutionDirectoryDllExe = testProject,
                 Filter = "TestCategory=Pass",
-                Framework = "net7.0",
+                Framework = "net8.0",
                 CommandLogging = CommandLogging.Error,
                 Logger = [$"trx;LogFileName={TrxFile}"]
             }, token: cancellationToken);

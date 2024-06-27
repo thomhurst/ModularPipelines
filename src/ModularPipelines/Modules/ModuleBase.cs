@@ -34,9 +34,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal bool IsStarted { get; private protected set; }
 
-    internal List<DependsOnAttribute> DependentModules { get; } = [];
+    internal List<Type> DependentModules { get; } = [];
 
-    internal abstract IWaitHandler WaitHandler { get; }
+    internal abstract IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies();
 
     internal abstract ICancellationHandler CancellationHandler { get; }
 
@@ -80,6 +80,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
     internal abstract Task ExecutionTask { get; }
+    
+    internal abstract Task StartInternal();
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -114,6 +116,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
     internal EventHandler<SubModuleBase>? OnSubModuleCreated;
+    
+    internal abstract Task<IModuleResult> GetModuleResult(); 
 
     /// <summary>
     /// Starts a Sub Module which will display in the pipeline progress in the console.

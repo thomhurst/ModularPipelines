@@ -14,15 +14,15 @@ public class PipelineProgressTests
 {
     private static bool _originalInteractive;
 
-    [OnlyOnceSetUp]
+    [BeforeAllTestsInClass]
     public static void Setup()
     {
         _originalInteractive = AnsiConsole.Profile.Capabilities.Interactive;
         AnsiConsole.Profile.Capabilities.Interactive = true;
     }
 
-    [CleanUp]
-    public void CleanUp()
+    [AfterAllTestsInClass]
+    public static void CleanUp()
     {
         AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
     }
@@ -61,7 +61,7 @@ public class PipelineProgressTests
     {
         protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
-            return SkipDecision.Skip("Teting").AsTask();
+            return SkipDecision.Skip("Testing").AsTask();
         }
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

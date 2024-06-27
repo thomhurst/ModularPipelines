@@ -29,7 +29,7 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 
         ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
 
-        Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason);
+        Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason ?? "<No reason provided>");
     }
 
     public async Task<bool> HandleSkipped()

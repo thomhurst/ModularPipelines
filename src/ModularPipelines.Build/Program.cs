@@ -45,13 +45,23 @@ await PipelineHostBuilder.Create()
             .AddModule<MergeCoverageModule>()
             .AddModule<ChangedFilesInPullRequestModule>()
             .AddModule<DependabotCommitsModule>()
+            .AddModule<PrintEnvironmentVariablesModule>()
+            .AddModule<PrintGitInformationModule>()
             .AddPipelineModuleHooks<MyModuleHooks>();
 
-        collection.AddSingleton(sp =>
+        collection.AddSingleton<IGitHubClient>(sp =>
         {
             var githubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>();
+            
+            var githubToken = githubSettings.Value.StandardToken;
+
+            if (string.IsNullOrEmpty(githubToken))
+            {
+                githubToken = "token";
+            }
+            
             return new GitHubClient(new ProductHeaderValue("ModularPipelinesBuild"),
-                new InMemoryCredentialStore(new Credentials(githubSettings.Value.StandardToken ?? "token")));
+                new InMemoryCredentialStore(new Credentials(githubToken)));
         });
 
         if (context.HostingEnvironment.IsDevelopment())

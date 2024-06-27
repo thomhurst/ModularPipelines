@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
@@ -6,6 +8,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
@@ -19,23 +22,17 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
-    private readonly IOptions<GitHubSettings> _gitHubSettings;
-    private readonly IOptions<PublishSettings> _publishSettings;
-    private readonly GitHubClient _gitHubClient;
+    private readonly IGitHubClient _gitHubClient;
 
-    public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings,
-        IOptions<PublishSettings> publishSettings,
-        GitHubClient gitHubClient)
+    public WaitForOtherOperatingSystemBuilds(IGitHubClient gitHubClient)
     {
-        _gitHubSettings = gitHubSettings;
-        _publishSettings = publishSettings;
         _gitHubClient = gitHubClient;
     }
 
     /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return context.Git().Information.BranchName != "main" && _gitHubSettings.Value?.PullRequest?.Sha is null
+        return string.IsNullOrEmpty(context.GitHub().EnvironmentVariables.Sha)
             ? SkipDecision.Skip("No github commit sha found").AsTask()
             : SkipDecision.DoNotSkip.AsTask();
     }
@@ -43,14 +40,14 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     /// <inheritdoc/>
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
+        var commitSha = context.GitHub().EnvironmentVariables.Sha;
 
-        var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
+        var windowsRuns = await context.GitHub().Client.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,
         });
         
-        var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
+        var macRuns = await context.GitHub().Client.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,
         });
@@ -76,10 +73,11 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         return list;
     }
 
-    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken)
+    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken, [CallerArgumentExpression("workflowRun")] string expression = "")
     {
         if (workflowRun == null)
         {
+            Context.Logger.LogInformation("No workflow found for {Expression}", expression);
             return null;
         }
 

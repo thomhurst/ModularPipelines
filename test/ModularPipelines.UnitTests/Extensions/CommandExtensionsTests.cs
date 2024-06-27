@@ -12,11 +12,11 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", "arg1");
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1" });
-        });
+            await Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            await Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1" });
+        }
     }
 
     [Test]
@@ -25,11 +25,11 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
-        });
+            await Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            await Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
+        }
     }
     
     [Test]
@@ -38,11 +38,11 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
-        });
+            await Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            await Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2" });
+        }
     }
 
     [Test]
@@ -52,10 +52,10 @@ public class CommandExtensionsTests
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
             .WithArguments(["arg3", "arg4", "arg5"]);
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
-            Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });
-        });
+            await Assert.That(commandLineOptions.Tool).Is.EqualTo("mytool");
+            await Assert.That(commandLineOptions.Arguments!).Is.EquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });
+        }
     }
 }

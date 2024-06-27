@@ -51,7 +51,7 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
 
-        var directoryToAdd = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString("N"));
+        var directoryToAdd = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N"));
 
         var path = context.EnvironmentVariables.GetPath();
         await Assert.That(path).Is.Not.Empty();
@@ -68,16 +68,16 @@ public class EnvironmentContextTests : TestBase
     {
         var context = await GetService<IEnvironmentContext>();
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
-            Assert.That(context.ContentDirectory).Is.Not.Null();
-            Assert.That(context.OperatingSystem.ToString()).Is.Not.Null();
-            Assert.That(context.OperatingSystemVersion.ToString()).Is.Not.Null();
-            Assert.That(context.Is64BitOperatingSystem).Is.True().Or.Is.False();
-            Assert.That(context.WorkingDirectory).Is.Not.Null();
-            Assert.That(context.AppDomainDirectory).Is.Not.Null();
-            Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null();
-            Assert.That(context.EnvironmentName).Is.Not.Null();
-        });
+            await Assert.That(context.ContentDirectory).Is.Not.Null();
+            await Assert.That(context.OperatingSystem.ToString()).Is.Not.Null();
+            await Assert.That(context.OperatingSystemVersion.ToString()).Is.Not.Null();
+            await Assert.That(context.Is64BitOperatingSystem).Is.True().Or.Is.False();
+            await Assert.That(context.WorkingDirectory).Is.Not.Null();
+            await Assert.That(context.AppDomainDirectory).Is.Not.Null();
+            await Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).Is.Not.Null();
+            await Assert.That(context.EnvironmentName).Is.Not.Null();
+        }
     }
 }

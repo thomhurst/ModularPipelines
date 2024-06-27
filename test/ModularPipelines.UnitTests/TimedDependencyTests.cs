@@ -22,18 +22,18 @@ public class TimedDependencyTests
         var fiveSecondResult = await fiveSecondModule;
         var oneSecondModuleDependentOnFiveSecondResult = await oneSecondModuleDependentOnFiveSecondModule;
         
-        await Assert.Multiple(() =>
+        await using (Assert.Multiple())
         {
             // 5 + 1
-            Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
-            Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
 
-            Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).Is.GreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900));
-            Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).Is.GreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900));
 
-            Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).Is.GreaterThanOrEqualTo(fiveSecondModule.EndTime);
-            Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
-        });
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).Is.GreaterThanOrEqualTo(fiveSecondModule.EndTime);
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
+        }
     }
 
     private class FiveSecondModule : Module

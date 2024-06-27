@@ -17,15 +17,15 @@ internal static class Net
 
     public static ReferenceAssemblies Net60 => LazyNet60.Value;
 
-    private static readonly Lazy<ReferenceAssemblies> LazyNet70 = new(() =>
+    private static readonly Lazy<ReferenceAssemblies> LazyNet80 = new(() =>
         new ReferenceAssemblies(
-                "net7.0",
+                "net8.0",
                 new PackageIdentity(
                     "Microsoft.NETCore.App.Ref",
-                    "7.0.10"),
-                Path.Combine("ref", "net7.0"))
-            .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Extensions.Logging", "7.0.0")))
+                    "8.0.6"),
+                Path.Combine("ref", "net8.0"))
+            .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Extensions.Logging", "8.0.0")))
     );
 
-    public static ReferenceAssemblies Net70 => LazyNet70.Value;
+    public static ReferenceAssemblies Net80 => LazyNet80.Value;
 }

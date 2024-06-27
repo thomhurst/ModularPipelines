@@ -1,16 +1,17 @@
+using TUnit.Core.Exceptions;
 using TUnit.Core.Interfaces;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-public class LinuxOnlyTestAttribute : Attribute, ITestAttribute
+public class LinuxOnlyTestAttribute : Attribute, IApplicableTestAttribute
 {
     /// <inheritdoc/>
-    public Task ApplyToTest(TestContext testContext)
+    public Task Apply(TestContext testContext)
     {
         if (!OperatingSystem.IsLinux())
         {
-            testContext.SkipTest("Linux only test");
+            throw new SkipTestException("Linux only test");
         }
 
         return Task.CompletedTask;
