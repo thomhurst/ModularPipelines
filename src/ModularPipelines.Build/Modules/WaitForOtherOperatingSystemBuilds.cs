@@ -8,6 +8,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
@@ -34,7 +35,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return context.Git().Information.BranchName != "main" && _gitHubSettings.Value?.PullRequest?.Sha is null
+        return string.IsNullOrEmpty(context.GitHub().EnvironmentVariables.Sha)
             ? SkipDecision.Skip("No github commit sha found").AsTask()
             : SkipDecision.DoNotSkip.AsTask();
     }
@@ -42,14 +43,14 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     /// <inheritdoc/>
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var commitSha = _gitHubSettings.Value.PullRequest?.Sha ?? context.Git().Information.LastCommitSha;
+        var commitSha = context.GitHub().EnvironmentVariables.Sha;
 
-        var windowsRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
+        var windowsRuns = await context.GitHub().Client.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-windows.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,
         });
         
-        var macRuns = await _gitHubClient.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
+        var macRuns = await context.GitHub().Client.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,
         });

@@ -57,7 +57,7 @@ internal class GitHub : IGitHub
   private IGitHubClient InitializeClient()
   {
     var token = _options.AccessToken 
-                ?? Environment.GetEnvironmentVariable("GITHUB_TOKEN")
+                ?? EnvironmentVariables.Token
                 ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
     
     var client = new GitHubClient(new ProductHeaderValue("ModularPipelines"),
