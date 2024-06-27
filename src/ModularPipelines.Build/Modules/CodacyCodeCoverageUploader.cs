@@ -30,10 +30,15 @@ public class CodacyCodeCoverageUploader : Module<CommandResult>
 
         if (mergeCoverageModuleResult.Value == null)
         {
-            return true;
+            return "Merge coverage did not run";
         }
 
-        return string.IsNullOrEmpty(_options.Value.ApiKey);
+        if (string.IsNullOrEmpty(_options.Value.ApiKey))
+        {
+            return "No Codacy API key was found";
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>

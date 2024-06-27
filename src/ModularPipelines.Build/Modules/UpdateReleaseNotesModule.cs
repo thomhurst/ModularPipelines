@@ -45,7 +45,7 @@ public class UpdateReleaseNotesModule : Module
     {
         if (!_publishSettings.Value.ShouldPublish)
         {
-            return true;
+            return "The 'ShouldPublish' flag is false";
         }
 
         var releaseNotesFile = context.Git()

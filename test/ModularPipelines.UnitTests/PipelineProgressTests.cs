@@ -61,7 +61,7 @@ public class PipelineProgressTests
     {
         protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
-            return SkipDecision.Skip("Teting").AsTask();
+            return SkipDecision.Skip("Testing").AsTask();
         }
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
