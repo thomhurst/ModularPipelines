@@ -5,8 +5,10 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -27,6 +29,21 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
     public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
     {
         _githubSettings = githubSettings;
+    }
+
+    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    {
+        if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
+        {
+            return SkipDecision.Skip("Not a pull request").AsTask();
+        }
+        
+        if (string.IsNullOrEmpty(_githubSettings.Value.StandardToken))
+        {
+            return SkipDecision.Skip("No authentication token for git").AsTask();
+        }
+
+        return SkipDecision.DoNotSkip.AsTask();
     }
 
     /// <inheritdoc/>
@@ -80,7 +97,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 Severity = "info",
             }, cancellationToken);
 
-            var branchTriggeringPullRequest = _githubSettings.Value.PullRequest?.Branch!;
+            var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.RefName!;
 
             await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 

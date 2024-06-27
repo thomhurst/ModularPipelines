@@ -70,10 +70,6 @@ jobs:
           GitHub__Repository__Id: ${{ github.repository_id }}
           GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
           GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
-          GitHub__PullRequest__Number: ${{ github.event.number }}
-          GitHub__PullRequest__Branch: ${{ github.event.pull_request.head.ref }}
-          GitHub__PullRequest__Sha: ${{ github.event.pull_request.head.sha }}
-          GitHub__PullRequest__Author: ${{ github.event.pull_request.user.login }}
           Publish__ShouldPublish: ${{ github.event.inputs.publish-packages || false}}
           Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true}}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}

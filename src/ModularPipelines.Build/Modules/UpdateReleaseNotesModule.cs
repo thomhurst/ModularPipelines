@@ -6,6 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Octokit;
@@ -69,7 +70,7 @@ public class UpdateReleaseNotesModule : Module
         
         if (!string.IsNullOrWhiteSpace(releaseNotesContents.Trim()))
         {
-            await _gitHubClient.Repository.Release.Create(_githubSettings.Value.Repository!.Id!.Value,
+            await _gitHubClient.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
                 new NewRelease(versionInfoResult.Value)
                 {
                     Name = versionInfoResult.Value,
@@ -86,7 +87,7 @@ public class UpdateReleaseNotesModule : Module
     {
         var customNotes = await releaseNotesFile.ReadAsync(cancellationToken);
 
-        if (string.Equals("null", customNotes, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals("null", customNotes.Trim(), StringComparison.OrdinalIgnoreCase))
         {
             customNotes = string.Empty;
         }

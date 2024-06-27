@@ -6,6 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Node.Extensions;
@@ -32,7 +33,7 @@ public class FormatMarkdownModule : Module<CommandResult>
     /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        if (string.IsNullOrEmpty(_gitHubSettings.Value.PullRequest?.Branch))
+        if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
         {
             return SkipDecision.Skip("Not a pull request").AsTask();
         }
@@ -88,7 +89,7 @@ public class FormatMarkdownModule : Module<CommandResult>
             return await NothingAsync();
         }
 
-        var branchTriggeringPullRequest = _gitHubSettings.Value.PullRequest!.Branch!;
+        var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.RefName!;
 
         await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 

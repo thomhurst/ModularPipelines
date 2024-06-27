@@ -3,6 +3,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
+using ModularPipelines.GitHub.Extensions;
 
 namespace ModularPipelines.Build;
 
@@ -71,8 +72,8 @@ public static class GitHelpers
         {
             Message = message,
         }, token: cancellationToken);
-
-        var author = context.Get<IOptions<GitHubSettings>>()?.Value?.PullRequest?.Author ?? "thomhurst";
+        
+        var author = context.GitHub().EnvironmentVariables.Actor ?? "thomhurst";
 
         var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };
 

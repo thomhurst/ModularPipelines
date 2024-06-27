@@ -22,13 +22,10 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
-    private readonly IOptions<GitHubSettings> _gitHubSettings;
     private readonly IGitHubClient _gitHubClient;
 
-    public WaitForOtherOperatingSystemBuilds(IOptions<GitHubSettings> gitHubSettings,
-        IGitHubClient gitHubClient)
+    public WaitForOtherOperatingSystemBuilds(IGitHubClient gitHubClient)
     {
-        _gitHubSettings = gitHubSettings;
         _gitHubClient = gitHubClient;
     }
 
