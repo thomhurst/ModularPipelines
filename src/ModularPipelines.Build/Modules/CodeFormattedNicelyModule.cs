@@ -97,7 +97,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
                 Severity = "info",
             }, cancellationToken);
 
-            var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.RefName!;
+            var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.HeadRef!;
 
             await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 

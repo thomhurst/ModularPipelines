@@ -89,7 +89,7 @@ public class FormatMarkdownModule : Module<CommandResult>
             return await NothingAsync();
         }
 
-        var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.RefName!;
+        var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.HeadRef!;
 
         await GitHelpers.SetUserCommitInformation(context, cancellationToken);
 
