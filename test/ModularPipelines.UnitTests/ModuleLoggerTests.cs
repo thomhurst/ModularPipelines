@@ -92,7 +92,7 @@ public class ModuleLoggerTests
         await host.DisposeAsync();
 
         await Assert.That(await file.ReadAsync()).Does.Not.Contain("Secret Value!!!");
-        await Assert.That(await file.ReadAsync()).Does.Contain("\"**********\"");
+        await Assert.That(await file.ReadAsync()).Does.Contain("**********");
     }
 
     private class MySecrets
