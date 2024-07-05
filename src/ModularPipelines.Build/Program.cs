@@ -78,5 +78,5 @@ await PipelineHostBuilder.Create()
         }
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
-    .SetLogLevel(LogLevel.Debug)
+    .SetLogLevel(Environment.GetEnvironmentVariable("RUNNER_DEBUG") == "1" ? LogLevel.Debug : LogLevel.Information)
     .ExecutePipelineAsync();
