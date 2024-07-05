@@ -66,7 +66,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn(typeof(ModuleFailedException))]
+    [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
     private class DependsOnNonModule : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
