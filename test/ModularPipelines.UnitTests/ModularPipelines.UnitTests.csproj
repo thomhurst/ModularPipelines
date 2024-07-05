@@ -16,6 +16,7 @@
         <PackageReference Include="NReco.Logging.File" Version="1.2.1" />
         <PackageReference Include="RichardSzalay.MockHttp" Version="7.0.0" />
         <PackageReference Update="TUnit" Version="0.1.379-alpha01" />
+        <PackageReference Remove="Microsoft.Testing.Extensions.CodeCoverage" />
     </ItemGroup>
 
     <ItemGroup>

@@ -14,6 +14,7 @@
         <PackageReference Include="Azure.ResourceManager" Version="1.12.0" />
         <PackageReference Include="Azure.Identity" Version="1.12.0" />
         <PackageReference Update="TUnit" Version="0.1.379-alpha01" />
+        <PackageReference Remove="Microsoft.Testing.Extensions.CodeCoverage" />
     </ItemGroup>
 
 </Project>
