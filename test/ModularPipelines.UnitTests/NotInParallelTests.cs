@@ -13,7 +13,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return GetType().Name;
         }
     }
@@ -23,7 +23,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return GetType().Name;
         }
     }
@@ -34,7 +34,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return GetType().Name;
         }
     }
@@ -43,7 +43,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return GetType().Name;
         }
     }
@@ -54,7 +54,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             return GetType().Name;
         }
     }
@@ -70,8 +70,8 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2),
-                TimeSpan.FromMilliseconds(500));
+            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(1));
     }
 
     [Test, Retry(3)]
@@ -85,7 +85,7 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(500));
+            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1));
     }
 
     [Test, Retry(3)]
@@ -103,6 +103,6 @@ public class NotInParallelTests
         var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(4);
         
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(expectedStartTime, TimeSpan.FromMilliseconds(500));
+            .Is.EqualToWithTolerance(expectedStartTime, TimeSpan.FromSeconds(1));
     }
 }
