@@ -24,10 +24,10 @@ public abstract class TestBase
         }
     }
 
-    public async Task<T> RunModule<T>()
+    public async Task<T> RunModule<T>(TestHostSettings? testHostSettings = null)
         where T : ModuleBase
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create(testHostSettings)
             .AddModule<T>()
             .BuildHostAsync();
 

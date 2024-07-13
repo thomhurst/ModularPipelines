@@ -1,4 +1,5 @@
 ﻿using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
@@ -21,7 +22,10 @@ public class GitHubRepositoryInfoTests : TestBase
     [Test]
     public async Task GitHub_Repository_Information_Is_Populated()
     {
-        var gitRepoModule = await RunModule<GitRepoModule>();
+        var gitRepoModule = await RunModule<GitRepoModule>(new TestHostSettings
+        {
+            CommandLogging = CommandLogging.Default
+        });
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
