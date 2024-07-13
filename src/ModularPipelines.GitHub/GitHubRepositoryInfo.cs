@@ -15,6 +15,7 @@ namespace ModularPipelines.GitHub;
 internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
   private readonly IServiceProvider _serviceProvider;
+  private readonly ILogger<GitHubRepositoryInfo> _logger;
 
   public bool IsInitialized { get; private set; }
   
@@ -26,9 +27,10 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
   public string? RepositoryName { get; private set; }
 
-  public GitHubRepositoryInfo(IServiceProvider serviceProvider)
+  public GitHubRepositoryInfo(IServiceProvider serviceProvider, ILogger<GitHubRepositoryInfo> logger)
   {
     _serviceProvider = serviceProvider;
+    _logger = logger;
   }
   
   public async Task InitializeAsync()
@@ -58,6 +60,8 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     
     if (string.IsNullOrEmpty(remoteUrl))
     {
+      _logger.LogWarning("Error when detecting GitHub git repository: {Error}", remote.StandardError);
+      
       // Will not initialize as git repo is not setup
       return;
     }
