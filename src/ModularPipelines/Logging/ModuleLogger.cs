@@ -83,7 +83,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
             {
                 return;
             }
-
+            
             if (state?.GetType().FullName == "Microsoft.Extensions.Logging.FormattedLogValues")
             {
                 TryObfuscateValues(state);
@@ -141,15 +141,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 
     public override void LogToConsole(string value)
     {
-        foreach (var secret in _secretProvider.Secrets)
-        {
-            if (value.Contains(secret))
-            {
-                value = value.Replace(secret, "**********");
-            }
-        }
-
-        _stringOrLogEvents.Add(value);
+        _stringOrLogEvents.Add(_secretObfuscator.Obfuscate(value, null));
     }
 
     private void PrintStartBlock()
@@ -188,13 +180,8 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
             }
 
             var objString = obj.ToString() ?? string.Empty;
-            foreach (var secret in _secretProvider.Secrets)
-            {
-                if (objString.Contains(secret))
-                {
-                    objArrayNullable[index] = objString.Replace(secret, "**********");
-                }
-            }
+
+            objArrayNullable[index] = _secretObfuscator.Obfuscate(objString, null);
         }
     }
 
