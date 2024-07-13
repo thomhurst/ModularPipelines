@@ -30,16 +30,20 @@ public class GitHubRepositoryInfoTests : TestBase
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
         Console.WriteLine($"GitHub Repository Info is: {gitHubRepositoryInfo}");
-        
-        await Assert.That(gitHubRepositoryInfo.IsGitHub).Is.True();
-        await Assert.That(gitHubRepositoryInfo.IsInitialized).Is.True();
-        await Assert.That(gitHubRepositoryInfo.RepositoryName).Is.Not.Null()
-            .And.Is.Not.Empty();
-        await Assert.That(gitHubRepositoryInfo.Owner).Is.Not.Null()
-            .And.Is.Not.Empty();
-        await Assert.That(gitHubRepositoryInfo.Endpoint).Is.Not.Null()
-            .And.Is.Not.Empty();
-        await Assert.That(gitHubRepositoryInfo.Identifier).Is.Not.Null()
-            .And.Is.Not.Empty();
+
+        await using (Assert.Multiple())
+        {
+            await Assert.That(gitHubRepositoryInfo).Is.Not.Null();
+            await Assert.That(gitHubRepositoryInfo.IsInitialized).Is.True();
+            await Assert.That(gitHubRepositoryInfo.IsGitHub).Is.True();
+            await Assert.That(gitHubRepositoryInfo.RepositoryName).Is.Not.Null()
+                .And.Is.Not.Empty();
+            await Assert.That(gitHubRepositoryInfo.Owner).Is.Not.Null()
+                .And.Is.Not.Empty();
+            await Assert.That(gitHubRepositoryInfo.Endpoint).Is.Not.Null()
+                .And.Is.Not.Empty();
+            await Assert.That(gitHubRepositoryInfo.Identifier).Is.Not.Null()
+                .And.Is.Not.Empty();
+        }
     }
 }
