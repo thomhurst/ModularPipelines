@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Extensions;
@@ -24,7 +25,9 @@ public class GitHubRepositoryInfoTests : TestBase
     {
         var gitRepoModule = await RunModule<GitRepoModule>(new TestHostSettings
         {
-            CommandLogging = CommandLogging.Default
+            CommandLogging = CommandLogging.Default,
+            LogLevel = LogLevel.Debug,
+            ClearLogProviders = false
         });
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
