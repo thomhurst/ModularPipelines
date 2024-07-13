@@ -20,6 +20,7 @@ internal class OptionsProvider : IOptionsProvider
         var types = _pipelineServiceContainerWrapper.ServiceCollection
             .Select(sd => sd.ServiceType)
             .Where(t => t.IsGenericType)
+            .Where(x => x.IsConstructedGenericType)
             .Where(t =>
             {
                 var genericTypeDefinition = t.GetGenericTypeDefinition();
