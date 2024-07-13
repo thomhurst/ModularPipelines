@@ -10,10 +10,10 @@ namespace ModularPipelines.TestHelpers;
 
 public static class TestPipelineHostBuilder
 {
-    public static PipelineHostBuilder Create(TestHostSettings? testHostSettings = null)
+    public static PipelineHostBuilder Create() => Create(new TestHostSettings());
+    
+    public static PipelineHostBuilder Create(TestHostSettings testHostSettings)
     {
-        testHostSettings ??= new TestHostSettings();
-        
         return new PipelineHostBuilder()
             .SetLogLevel(LogLevel.Warning)
             .ConfigureServices((_, collection) =>
