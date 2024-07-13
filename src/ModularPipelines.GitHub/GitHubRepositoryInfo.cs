@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
@@ -38,12 +40,17 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     
     await using var scope = _serviceProvider.CreateAsyncScope();
     var git = scope.ServiceProvider.GetRequiredService<IGit>();
-    
+
     var options = new GitRemoteOptions
     {
       Arguments = ["get-url", "origin"],
       ThrowOnNonZeroExitCode = false,
-      CommandLogging = CommandLogging.None,
+      CommandLogging = scope.ServiceProvider
+                         .GetRequiredService<IOptions<LoggerFilterOptions>>()
+                         .Value
+                         .MinLevel == LogLevel.Debug
+        ? CommandLogging.Default
+        : CommandLogging.None,
     };
     
     var remote = await git.Commands.Remote(options);
