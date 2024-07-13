@@ -35,7 +35,7 @@ internal class OptionsProvider : IOptionsProvider
             .Select(s => s.GetGenericArguments()[0])
             .ToList();
 
-        foreach (var option in types.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType([t]))))
+        foreach (var option in types.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(t))).Distinct())
         {
             yield return option!.GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance)!.GetValue(option);
         }
