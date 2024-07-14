@@ -42,6 +42,13 @@ public record PipelineSummary
         TotalDuration = totalDuration;
         Start = start;
         End = end;
+        
+        // If the pipeline is errored, some modules could still be waiting or processing.
+        // But we're ending the pipeline so let's signal them to fail.
+        foreach (var moduleBase in modules)
+        {
+            moduleBase.TryCancel();
+        }
     }
 
     /// <summary>

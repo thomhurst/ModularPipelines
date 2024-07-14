@@ -49,6 +49,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal abstract IErrorHandler ErrorHandler { get; }
     
+    internal abstract void TryCancel();
+    
     private IPipelineContext? _context; // Late Initialisation
 
     /// <summary>
@@ -177,7 +179,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         await submodule.Task;
     }
 
-    protected EventHandler? OnInitialised { get; set; }
+    protected EventHandler? OnInitialised { get; set; } 
 }
 
 /// <summary>
@@ -187,7 +189,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 public abstract class ModuleBase<T> : ModuleBase
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
-    
+
+    internal override void TryCancel()
+    {
+        ModuleCancellationTokenSource.Cancel();
+        ModuleResultTaskCompletionSource.TrySetCanceled();
+    }
+
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 
     /// <summary>
