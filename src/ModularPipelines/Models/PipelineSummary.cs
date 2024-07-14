@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -41,6 +42,13 @@ public record PipelineSummary
         TotalDuration = totalDuration;
         Start = start;
         End = end;
+        
+        // If the pipeline is errored, some modules could still be waiting or processing.
+        // But we're ending the pipeline so let's signal them to fail.
+        foreach (var moduleBase in modules)
+        {
+            moduleBase.TryCancel();
+        }
     }
 
     /// <summary>
@@ -57,8 +65,25 @@ public record PipelineSummary
         where T : ModuleBase
         => Modules.GetModule<T>();
 
-    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync() =>
-        await Task.WhenAll(Modules.Select(x => x.GetModuleResult()));
+    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
+    {
+        return await Modules.SelectAsync(async x =>
+        {
+            if (x.Status is Status.Processing or Status.Unknown or Status.NotYetStarted)
+            {
+                return new ModuleResult(new TaskCanceledException(), x);
+            }
+
+            try
+            {
+                return await x.GetModuleResult();
+            }
+            catch (Exception e)
+            {
+                return new ModuleResult(e, x);
+            }
+        }).ProcessInParallel();
+    }
 
     private Status GetStatus()
     {

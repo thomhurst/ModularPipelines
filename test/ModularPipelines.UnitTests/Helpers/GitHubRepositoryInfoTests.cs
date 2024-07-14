@@ -23,17 +23,10 @@ public class GitHubRepositoryInfoTests : TestBase
     [Test]
     public async Task GitHub_Repository_Information_Is_Populated()
     {
-        var gitRepoModule = await RunModule<GitRepoModule>(new TestHostSettings
-        {
-            CommandLogging = CommandLogging.Default,
-            LogLevel = LogLevel.Debug,
-            ClearLogProviders = false
-        });
+        var gitRepoModule = await RunModule<GitRepoModule>();
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
-        Console.WriteLine($"GitHub Repository Info is: {gitHubRepositoryInfo}");
-
         await using (Assert.Multiple())
         {
             await Assert.That(gitHubRepositoryInfo).Is.Not.Null();

@@ -48,15 +48,14 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     private bool IsPipelineCanceled(Exception exception)
     {
-        return exception is TaskCanceledException or OperationCanceledException
+        return exception is TaskCanceledException or OperationCanceledException or ModuleTimeoutException
                && Context.EngineCancellationToken.IsCancelled;
     }
 
     private bool IsModuleTimedOutException(Exception exception)
     {
-        return exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException
-               && ModuleCancellationTokenSource.IsCancellationRequested
-               && !Context.EngineCancellationToken.IsCancelled;
+        var isTimeoutExceed = Module.EndTime - Module.StartTime >= Module.Timeout;
+        return isTimeoutExceed && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
     }
 
     private async Task SaveFailedResult(Exception exception)
