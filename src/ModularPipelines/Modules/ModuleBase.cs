@@ -192,7 +192,6 @@ public abstract class ModuleBase<T> : ModuleBase
 
     internal override void TryCancel()
     {
-        ModuleCancellationTokenSource.Cancel();
         ModuleResultTaskCompletionSource.TrySetCanceled();
     }
 

@@ -48,7 +48,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     private bool IsPipelineCanceled(Exception exception)
     {
-        return exception is TaskCanceledException or OperationCanceledException
+        return exception is TaskCanceledException or OperationCanceledException or ModuleTimeoutException
                && Context.EngineCancellationToken.IsCancelled;
     }
 
