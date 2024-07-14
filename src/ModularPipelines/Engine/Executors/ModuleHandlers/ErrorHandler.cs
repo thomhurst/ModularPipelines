@@ -54,9 +54,8 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     private bool IsModuleTimedOutException(Exception exception)
     {
-        return exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException
-               && ModuleCancellationTokenSource.IsCancellationRequested
-               && !Context.EngineCancellationToken.IsCancelled;
+        var isTimeoutExceed = Module.Timeout >= Module.EndTime - Module.StartTime;
+        return isTimeoutExceed && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
     }
 
     private async Task SaveFailedResult(Exception exception)

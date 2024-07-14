@@ -26,7 +26,7 @@ public static class TestPipelineHostBuilder
                     opt.PrintResults = false;
                 });
                 
-                if(testHostSettings.ClearLogProviders)
+                if (testHostSettings.ClearLogProviders)
                 {
                     collection.AddLogging(builder => builder.ClearProviders());
                 }
