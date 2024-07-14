@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -63,7 +64,17 @@ public record PipelineSummary
         => Modules.GetModule<T>();
 
     public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync() =>
-        await Task.WhenAll(Modules.Select(x => x.GetModuleResult()));
+        await Modules.SelectAsync(async x =>
+        {
+            try
+            {
+                return await x.GetModuleResult();
+            }
+            catch (Exception e)
+            {
+                return new ModuleResult(e, x);
+            }
+        }).ProcessInParallel();
 
     private Status GetStatus()
     {
