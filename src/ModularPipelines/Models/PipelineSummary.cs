@@ -41,6 +41,11 @@ public record PipelineSummary
         TotalDuration = totalDuration;
         Start = start;
         End = end;
+        
+        foreach (var moduleBase in Modules)
+        {
+            moduleBase.CancelIfStillRunning();
+        }
     }
 
     /// <summary>

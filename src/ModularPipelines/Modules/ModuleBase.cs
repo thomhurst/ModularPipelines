@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -47,6 +48,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract IStatusHandler StatusHandler { get; }
 
     internal abstract IErrorHandler ErrorHandler { get; }
+    
+    internal abstract void CancelIfStillRunning();
 
     private IPipelineContext? _context; // Late Initialisation
 
@@ -186,6 +189,11 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 public abstract class ModuleBase<T> : ModuleBase
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
+
+    internal override void CancelIfStillRunning()
+    {
+        ErrorHandler.Handle(new TaskCanceledException());
+    }
 
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 
