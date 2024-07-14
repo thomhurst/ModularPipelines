@@ -90,13 +90,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// Gets the start time of the module.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset StartTime { get; internal set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset StartTime { get; internal set; }
 
     /// <summary>
     /// Gets the end time of the module.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset EndTime { get; internal set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset EndTime { get; internal set; }
 
     /// <summary>
     /// Gets the duration of the module. This will be set after the module has finished.

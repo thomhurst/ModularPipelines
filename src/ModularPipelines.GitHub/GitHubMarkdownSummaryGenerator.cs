@@ -32,6 +32,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         var results = await pipelineSummary.GetModuleResultsAsync();
 
         var stepStringList = results
+            .Where(x => x.ModuleStart != DateTimeOffset.MinValue)
+            .Where(x => x.ModuleEnd != DateTimeOffset.MinValue)
             .OrderBy(x => x.ModuleEnd)
             .ThenBy(s => s.ModuleStart)
             .Select(x =>
