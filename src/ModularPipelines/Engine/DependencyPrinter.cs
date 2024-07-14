@@ -49,11 +49,11 @@ internal class DependencyPrinter : IDependencyPrinter
             return;
         }
         
-        Console.WriteLine();
+        _logger.LogInformation("\n");
         _collapsableLogging.StartConsoleLogGroupDirectToConsole("Dependency Chains");
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", value);
         _collapsableLogging.EndConsoleLogGroupDirectToConsole("Dependency Chains");
-        Console.WriteLine();
+        _logger.LogInformation("\n");
     }
 
     private void Append(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)

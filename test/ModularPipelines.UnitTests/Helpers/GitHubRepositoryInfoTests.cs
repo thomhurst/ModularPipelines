@@ -27,8 +27,6 @@ public class GitHubRepositoryInfoTests : TestBase
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
-        Console.WriteLine($"GitHub Repository Info is: {gitHubRepositoryInfo}");
-
         await using (Assert.Multiple())
         {
             await Assert.That(gitHubRepositoryInfo).Is.Not.Null();

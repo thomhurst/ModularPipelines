@@ -24,6 +24,7 @@ public static class TestPipelineHostBuilder
                     opt.DefaultCommandLogging = testHostSettings.CommandLogging;
                     opt.ShowProgressInConsole = false;
                     opt.PrintResults = false;
+                    opt.PrintLogo = false;
                 });
                 
                 if (testHostSettings.ClearLogProviders)
