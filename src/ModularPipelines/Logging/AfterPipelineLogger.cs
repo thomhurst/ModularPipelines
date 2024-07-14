@@ -17,6 +17,11 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
         _values.Add(value);
     }
 
+    public string GetOutput()
+    {
+        return string.Join(Environment.NewLine, _values);
+    }
+
     public void WriteLogs()
     {
         foreach (var value in _values)

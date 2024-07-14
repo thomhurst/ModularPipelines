@@ -1,12 +1,20 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.GitHub;
 
 internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 {
+    private readonly IAfterPipelineLogger _afterPipelineLogger;
+
+    public GitHubMarkdownSummaryGenerator(IAfterPipelineLogger afterPipelineLogger)
+    {
+        _afterPipelineLogger = afterPipelineLogger;
+    }
+    
     public Task OnStartAsync(IPipelineHookContext pipelineContext)
     {
         return Task.CompletedTask;
@@ -24,7 +32,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             return;
         }
 
-        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).WriteAsync($"{mermaid}\n\n{table}");
+        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).WriteAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}");
     }
 
     private async Task<string> GenerateMermaidSummary(PipelineSummary pipelineSummary)
