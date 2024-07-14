@@ -74,17 +74,20 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         
         var stepStringList = results.OrderBy(x => x.ModuleEnd)
             .ThenBy(s => s.ModuleStart)
-            .Select(stepContainer =>
+            .Select(module =>
                 {
-                    var (startTime, endTime, duration) = (stepContainer.ModuleStart, stepContainer.ModuleEnd, stepContainer.ModuleDuration);
-                    var text = $"| {stepContainer.ModuleName} | {GetStatusString(stepContainer.ModuleStatus)} | {startTime:HH:mm:ss} | {endTime:HH:mm:ss} | {duration} |";
+                    var isSameDay = module.ModuleStart.Date == module.ModuleEnd.Date;
+
+                    var (startTime, endTime, duration) = (module.ModuleStart, module.ModuleEnd, module.ModuleDuration);
+                    var text = $"| {module.ModuleName} | {GetStatusString(module.ModuleStatus)} | {GetTime(startTime, isSameDay)} | {GetTime(endTime, isSameDay)} | {duration} |";
                     return text;
                 }
             ).ToList();
-
+        
+        var isSameDay = pipelineSummary.Start.Date == pipelineSummary.End.Date;
         var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.Start, pipelineSummary.End, pipelineSummary.TotalDuration);
         var pipelineStatusString = GetStatusString(pipelineSummary.Status);
-        var overallSummaryString = $"| **Total** | **{pipelineStatusString}** | **{globalStartTime:HH:mm:ss}** | **{globalEndTime:HH:mm:ss}** | **{globalDuration}** |";
+        var overallSummaryString = $"| **Total** | **{pipelineStatusString}** | **{GetTime(globalStartTime, isSameDay)}** | **{GetTime(globalEndTime, isSameDay)}** | **{globalDuration}** |";
         var text = $"""
                     ### Run Summary
                     | Step | Status | Start | End | Duration |
@@ -114,5 +117,17 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                 $$$"""${\textsf{\color{red}{{{status}}}}}$""",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
+    }
+    
+    private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
+    {
+        if (dateTimeOffset == DateTimeOffset.MinValue)
+        {
+            return string.Empty;
+        }
+
+        return isSameDay
+            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
+            : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 }
