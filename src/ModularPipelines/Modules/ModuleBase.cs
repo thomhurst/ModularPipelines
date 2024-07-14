@@ -192,6 +192,7 @@ public abstract class ModuleBase<T> : ModuleBase
 
     internal override void CancelIfStillRunning()
     {
+        ModuleCancellationTokenSource.Cancel();
         ErrorHandler.Handle(new TaskCanceledException());
     }
 
