@@ -42,11 +42,6 @@ public record PipelineSummary
         TotalDuration = totalDuration;
         Start = start;
         End = end;
-        
-        foreach (var moduleBase in Modules)
-        {
-            moduleBase.CancelIfStillRunning();
-        }
     }
 
     /// <summary>
@@ -63,8 +58,14 @@ public record PipelineSummary
         where T : ModuleBase
         => Modules.GetModule<T>();
 
-    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync() =>
-        await Modules.SelectAsync(async x =>
+    public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
+    {
+        foreach (var moduleBase in Modules)
+        {
+            moduleBase.CancelIfStillRunning();
+        }
+        
+        return await Modules.SelectAsync(async x =>
         {
             try
             {
@@ -75,6 +76,7 @@ public record PipelineSummary
                 return new ModuleResult(e, x);
             }
         }).ProcessInParallel();
+    }
 
     private Status GetStatus()
     {

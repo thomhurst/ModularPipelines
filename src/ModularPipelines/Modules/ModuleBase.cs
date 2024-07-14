@@ -197,7 +197,12 @@ public abstract class ModuleBase<T> : ModuleBase
         Task.Run(async () =>
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
-            return ErrorHandler.Handle(new TaskCanceledException());
+            
+            var taskCanceledException = new TaskCanceledException();
+            
+            await ErrorHandler.Handle(taskCanceledException);
+
+            ModuleResultTaskCompletionSource.TrySetException(taskCanceledException);
         });
     }
 
