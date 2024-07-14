@@ -1,1 +1,0 @@
-- Automated GitHub Actions Markdown Summary - Thanks to @MattParkerDev !
