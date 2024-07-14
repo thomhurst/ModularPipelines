@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Options;
@@ -13,6 +15,7 @@ namespace ModularPipelines.GitHub;
 internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 {
   private readonly IServiceProvider _serviceProvider;
+  private readonly ILogger<GitHubRepositoryInfo> _logger;
 
   public bool IsInitialized { get; private set; }
   
@@ -24,9 +27,10 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
   public string? RepositoryName { get; private set; }
 
-  public GitHubRepositoryInfo(IServiceProvider serviceProvider)
+  public GitHubRepositoryInfo(IServiceProvider serviceProvider, ILogger<GitHubRepositoryInfo> logger)
   {
     _serviceProvider = serviceProvider;
+    _logger = logger;
   }
   
   public async Task InitializeAsync()
@@ -38,12 +42,17 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     
     await using var scope = _serviceProvider.CreateAsyncScope();
     var git = scope.ServiceProvider.GetRequiredService<IGit>();
-    
+
     var options = new GitRemoteOptions
     {
       Arguments = ["get-url", "origin"],
       ThrowOnNonZeroExitCode = false,
-      CommandLogging = CommandLogging.None,
+      CommandLogging = scope.ServiceProvider
+                         .GetRequiredService<IOptions<LoggerFilterOptions>>()
+                         .Value
+                         .MinLevel == LogLevel.Debug
+        ? CommandLogging.Default
+        : CommandLogging.None,
     };
     
     var remote = await git.Commands.Remote(options);
@@ -51,6 +60,8 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     
     if (string.IsNullOrEmpty(remoteUrl))
     {
+      _logger.LogWarning("Error when detecting GitHub git repository: {Error}", remote.StandardError);
+      
       // Will not initialize as git repo is not setup
       return;
     }
@@ -58,7 +69,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     // Parse owner and repository name from the remote URL
     var endpoint = "github";
     var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
-    var httpsPattern = $@"https://{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
+    var httpsPattern = $@"https://(.*@)?{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
 
     var match = Regex.Match(remoteUrl, sshPattern);
     if (!match.Success)

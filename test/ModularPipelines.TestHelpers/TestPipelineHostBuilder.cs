@@ -10,20 +10,26 @@ namespace ModularPipelines.TestHelpers;
 
 public static class TestPipelineHostBuilder
 {
-    public static PipelineHostBuilder Create()
+    public static PipelineHostBuilder Create() => Create(new TestHostSettings());
+    
+    public static PipelineHostBuilder Create(TestHostSettings testHostSettings)
     {
         return new PipelineHostBuilder()
-            .SetLogLevel(LogLevel.Warning)
+            .SetLogLevel(testHostSettings.LogLevel)
             .ConfigureServices((_, collection) =>
             {
                 collection.AddSingleton(new ArmClient(new DefaultAzureCredential()));
                 collection.Configure<PipelineOptions>(opt =>
                 {
-                    opt.DefaultCommandLogging = CommandLogging.Input | CommandLogging.Error;
+                    opt.DefaultCommandLogging = testHostSettings.CommandLogging;
                     opt.ShowProgressInConsole = false;
                     opt.PrintResults = false;
                 });
-                collection.AddLogging(builder => builder.ClearProviders());
+                
+                if(testHostSettings.ClearLogProviders)
+                {
+                    collection.AddLogging(builder => builder.ClearProviders());
+                }
             });
     }
 }

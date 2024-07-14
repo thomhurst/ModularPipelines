@@ -44,6 +44,11 @@ internal class DependencyPrinter : IDependencyPrinter
 
     private void Print(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+        
         Console.WriteLine();
         _collapsableLogging.StartConsoleLogGroupDirectToConsole("Dependency Chains");
         _logger.LogInformation("The following dependency chains have been detected:\r\n{Chain}", value);
