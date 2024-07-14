@@ -127,7 +127,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         }
 
         return isSameDay
-            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
+            ? dateTimeOffset.ToString("h:mm:ss tt")
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 }
