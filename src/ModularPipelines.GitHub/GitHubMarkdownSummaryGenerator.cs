@@ -33,13 +33,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
         var stepStringList = results
             .Where(x => x.ModuleDuration != TimeSpan.Zero)
-            .OrderBy(x => x.ModuleEnd)
-            .ThenBy(s => s.ModuleStart)
-            .Select(x =>
-            {
-                var (startTime, endTime) = (x.ModuleStart, x.ModuleEnd);
-                return $"{x.ModuleName} :{AddCritIfFailed(x)} {startTime:HH:mm:ss:fff}, {endTime:HH:mm:ss:fff}";
-            }).ToList();
+            .OrderBy(x => x.ModuleStart)
+            .ThenBy(s => s.ModuleEnd)
+            .Select(x => $"{x.ModuleName} :{AddCritIfFailed(x)} {x.ModuleStart:HH:mm:ss:fff}, {x.ModuleEnd:HH:mm:ss:fff}").ToList();
 
         var text = $"""
                     ```mermaid
@@ -47,11 +43,11 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                     config:
                       theme: base
                       themeVariables:
-                        primaryColor: "#007d15"
+                        primaryColor: "#2E7D32"
                         primaryTextColor: "#fff"
-                        primaryBorderColor: "#02ad1e"
-                        lineColor: "#F8B229"
-                        secondaryColor: "#006100"
+                        primaryBorderColor: "#558B2F"
+                        lineColor: "#FF8F00"
+                        secondaryColor: "#1B5E20"
                         tertiaryColor: "#fff"
                         darkmode: "true"
                         titleColor: "#fff"
@@ -63,7 +59,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                     gantt
                     	dateFormat  HH:mm:ss:SSS
                     	title       Run Summary
-                    	axisFormat %M:%S
+                    	axisFormat %H:%M:%S
 
                     {string.Join("\n", stepStringList)}
                     ```
