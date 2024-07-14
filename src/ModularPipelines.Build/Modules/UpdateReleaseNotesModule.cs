@@ -23,15 +23,12 @@ namespace ModularPipelines.Build.Modules;
 public class UpdateReleaseNotesModule : Module
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly IGitHubClient _gitHubClient;
     private readonly IOptions<PublishSettings> _publishSettings;
 
     public UpdateReleaseNotesModule(IOptions<GitHubSettings> githubSettings,
-        IGitHubClient gitHubClient,
         IOptions<PublishSettings> publishSettings)
     {
         _githubSettings = githubSettings;
-        _gitHubClient = gitHubClient;
         _publishSettings = publishSettings;
     }
 
@@ -70,7 +67,7 @@ public class UpdateReleaseNotesModule : Module
         
         if (!string.IsNullOrWhiteSpace(releaseNotesContents.Trim()))
         {
-            await _gitHubClient.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
+            await context.GitHub().Client.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
                 new NewRelease(versionInfoResult.Value)
                 {
                     Name = versionInfoResult.Value,
