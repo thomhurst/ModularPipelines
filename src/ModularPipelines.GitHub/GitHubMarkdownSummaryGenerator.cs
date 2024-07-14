@@ -32,14 +32,13 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         var results = await pipelineSummary.GetModuleResultsAsync();
 
         var stepStringList = results
-            .Where(x => x.ModuleStart != DateTimeOffset.MinValue)
-            .Where(x => x.ModuleEnd != DateTimeOffset.MinValue)
+            .Where(x => x.ModuleDuration != TimeSpan.Zero)
             .OrderBy(x => x.ModuleEnd)
             .ThenBy(s => s.ModuleStart)
             .Select(x =>
             {
                 var (startTime, endTime) = (x.ModuleStart, x.ModuleEnd);
-                return $"{x.ModuleName} :{AddCritIfFailed(x)} {startTime:mm:ss:fff}, {endTime:mm:ss:fff}";
+                return $"{x.ModuleName} :{AddCritIfFailed(x)} {startTime:HH:mm:ss:fff}, {endTime:HH:mm:ss:fff}";
             }).ToList();
 
         var text = $"""
@@ -62,7 +61,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                     ---
 
                     gantt
-                    	dateFormat  mm:ss:SSS
+                    	dateFormat  HH:mm:ss:SSS
                     	title       Run Summary
                     	axisFormat %M:%S
 
