@@ -79,7 +79,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var run = await _gitHubClient.Actions.Workflows.Runs.Get(BuildConstants.Owner, BuildConstants.RepositoryName, workflowRun.Id);
+            var run = await client.Actions.Workflows.Runs.Get(BuildConstants.Owner, BuildConstants.RepositoryName, workflowRun.Id);
 
             if (run?.Conclusion.HasValue is true)
             {
