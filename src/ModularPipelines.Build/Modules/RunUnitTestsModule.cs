@@ -33,6 +33,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
                     ["GITHUB_ACTIONS"] = null,
+                    ["GITHUB_STEP_SUMMARY"] = null,
                 },
                 Properties = new KeyValue[]
                 {
