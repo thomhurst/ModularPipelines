@@ -60,13 +60,13 @@ public record PipelineSummary
 
     public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
     {
-        foreach (var moduleBase in Modules)
-        {
-            moduleBase.CancelIfStillRunning();
-        }
-        
         return await Modules.SelectAsync(async x =>
         {
+            if (x.Status is Status.Processing or Status.Unknown or Status.NotYetStarted)
+            {
+                return new ModuleResult(new TaskCanceledException(), x);
+            }
+
             try
             {
                 return await x.GetModuleResult();

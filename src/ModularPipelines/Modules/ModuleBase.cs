@@ -49,8 +49,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal abstract IErrorHandler ErrorHandler { get; }
     
-    internal abstract void CancelIfStillRunning();
-
     private IPipelineContext? _context; // Late Initialisation
 
     /// <summary>
@@ -189,28 +187,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 public abstract class ModuleBase<T> : ModuleBase
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
-
-    internal override void CancelIfStillRunning()
-    {
-        ModuleCancellationTokenSource.Cancel();
-        
-        Task.Run(async () =>
-        {
-            await Task.Delay(TimeSpan.FromSeconds(1));
-            
-            var taskCanceledException = new TaskCanceledException();
-
-            try
-            {
-                await ErrorHandler.Handle(taskCanceledException);
-            }
-            finally
-            {
-                ModuleResultTaskCompletionSource.TrySetException(taskCanceledException);
-            }
-        });
-    }
-
+    
     internal abstract IHistoryHandler<T> HistoryHandler { get; }
 
     /// <summary>
