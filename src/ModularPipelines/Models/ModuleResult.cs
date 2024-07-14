@@ -109,9 +109,9 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     {
         Module = module;
         ModuleName = module.GetType().Name;
-        ModuleDuration = module.Duration;
-        ModuleStart = module.StartTime;
-        ModuleEnd = module.EndTime;
+        ModuleStart = module.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.StartTime;
+        ModuleEnd = module.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.EndTime;
+        ModuleDuration = ModuleEnd - ModuleStart;
         SkipDecision = module.SkipResult;
         TypeDiscriminator = GetType().FullName!;
         ModuleStatus = module.Status;
