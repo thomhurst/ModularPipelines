@@ -48,7 +48,7 @@ internal class PipelineInitializer : IPipelineInitializer
 
         PrintEnvironmentVariables();
 
-        _logger.LogInformation("\nDetected Build System: {BuildSystem}"\n, _buildSystemDetector.GetCurrentBuildSystem());
+        _logger.LogInformation("\nDetected Build System: {BuildSystem}\n", _buildSystemDetector.GetCurrentBuildSystem());
 
         await _pipelineFileWriter.WritePipelineFiles();
 
