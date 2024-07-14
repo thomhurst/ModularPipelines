@@ -8,6 +8,7 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
+using ModularPipelines.GitHub.Options;
 using ModularPipelines.Host;
 using Octokit;
 using Octokit.Internal;
@@ -26,6 +27,11 @@ await PipelineHostBuilder.Create()
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
         collection.Configure<CodeCovSettings>(context.Configuration.GetSection("CodeCov"));
+        collection.Configure<GitHubOptions>(opt =>
+        {
+            var githubSettings = context.Configuration.GetSection("GitHub").Get<GitHubSettings>()!;
+            opt.AccessToken = githubSettings.StandardToken;
+        });
 
         collection
             .AddModule<RunUnitTestsModule>()
