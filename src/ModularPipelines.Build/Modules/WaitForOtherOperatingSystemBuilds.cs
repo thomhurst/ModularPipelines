@@ -22,13 +22,6 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<PackProjectsModule>]
 public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
 {
-    private readonly IGitHubClient _gitHubClient;
-
-    public WaitForOtherOperatingSystemBuilds(IGitHubClient gitHubClient)
-    {
-        _gitHubClient = gitHubClient;
-    }
-
     /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
@@ -55,8 +48,8 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         var windowsRun = windowsRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
         var macRun = macRuns.WorkflowRuns.FirstOrDefault(x => x.HeadSha == commitSha);
 
-        var waitForWindows = await WaitFor(windowsRun, cancellationToken);
-        var waitForMac = await WaitFor(macRun, cancellationToken);
+        var waitForWindows = await WaitFor(context.GitHub().Client, windowsRun, cancellationToken);
+        var waitForMac = await WaitFor(context.GitHub().Client, macRun, cancellationToken);
 
         var list = new List<WorkflowRun>();
 
@@ -73,7 +66,8 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         return list;
     }
 
-    private async Task<WorkflowRun?> WaitFor(WorkflowRun? workflowRun, CancellationToken cancellationToken, [CallerArgumentExpression("workflowRun")] string expression = "")
+    private async Task<WorkflowRun?> WaitFor(IGitHubClient client, WorkflowRun? workflowRun,
+        CancellationToken cancellationToken, [CallerArgumentExpression("workflowRun")] string expression = "")
     {
         if (workflowRun == null)
         {
