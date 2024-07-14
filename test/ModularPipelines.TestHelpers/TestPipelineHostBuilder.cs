@@ -25,6 +25,7 @@ public static class TestPipelineHostBuilder
                     opt.ShowProgressInConsole = false;
                     opt.PrintResults = false;
                     opt.PrintLogo = false;
+                    opt.PrintDependencyChains = false;
                 });
                 
                 if (testHostSettings.ClearLogProviders)

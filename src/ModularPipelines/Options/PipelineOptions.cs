@@ -25,6 +25,8 @@ public record PipelineOptions
 
     public bool PrintLogo { get; set; } = true;
 
+    public bool PrintDependencyChains { get; set; } = true;
+
     public int DefaultRetryCount { get; set; }
 
     public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;

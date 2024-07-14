@@ -1,7 +1,9 @@
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
@@ -10,18 +12,26 @@ internal class DependencyPrinter : IDependencyPrinter
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly ILogger<DependencyPrinter> _logger;
     private readonly IInternalCollapsableLogging _collapsableLogging;
+    private readonly IOptions<PipelineOptions> _options;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         ILogger<DependencyPrinter> logger,
-        IInternalCollapsableLogging collapsableLogging)
+        IInternalCollapsableLogging collapsableLogging,
+        IOptions<PipelineOptions> options)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
         _collapsableLogging = collapsableLogging;
+        _options = options;
     }
 
     public void PrintDependencyChains()
     {
+        if (!_options.Value.PrintDependencyChains)
+        {
+            return;
+        }
+        
         var alreadyPrinted = new HashSet<ModuleDependencyModel>();
 
         var stringBuilder = new StringBuilder();
