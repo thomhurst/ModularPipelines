@@ -30,6 +30,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         {
             return _moduleLogger;
         }
+
+        if (ModuleLogger.Values.Value != null)
+        {
+            return _moduleLogger = ModuleLogger.Values.Value;
+        }
         
         var stackFrames = new StackTrace().GetFrames().ToList();
 
