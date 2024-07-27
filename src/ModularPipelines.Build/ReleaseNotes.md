@@ -1,0 +1,1 @@
+- Show exception (if one was thrown) within the GitHub markdown summary

@@ -24,6 +24,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     {
         var mermaid = await GenerateMermaidSummary(pipelineSummary);
         var table = await GenerateTableSummary(pipelineSummary);
+        var exception = await GetException(pipelineSummary);
 
         var stepSummaryVariable = pipelineContext.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
         
@@ -32,7 +33,24 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             return;
         }
 
-        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).WriteAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}");
+        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).WriteAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}");
+    }
+
+    private async Task<string> GetException(PipelineSummary pipelineSummary)
+    {
+        var results = await pipelineSummary.GetModuleResultsAsync();
+
+        var exception = results
+                            .FirstOrDefault(x => x.ModuleStatus == Status.Failed)
+                            ?.Exception
+                        ?? results.Select(x => x.Exception).FirstOrDefault();
+
+        if (exception is null)
+        {
+            return string.Empty;
+        }
+        
+        return $"\n\n```\n{exception}\n```";
     }
 
     private async Task<string> GenerateMermaidSummary(PipelineSummary pipelineSummary)
