@@ -5,7 +5,6 @@ using ModularPipelines.Modules;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

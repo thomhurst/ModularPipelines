@@ -1,7 +1,6 @@
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.UnitTests.Extensions;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

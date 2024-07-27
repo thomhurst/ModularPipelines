@@ -2,7 +2,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.TestHelpers;
 using Moq;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

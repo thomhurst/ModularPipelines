@@ -3,7 +3,6 @@ using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 using Disposer = ModularPipelines.Helpers.Disposer;
 using File = ModularPipelines.FileSystem.File;
 
