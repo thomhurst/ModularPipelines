@@ -1,1 +1,0 @@
-- Use `AsyncLocal` to find the correct `IModuleLogger` when using the `IModuleLoggerProvider` helper.
