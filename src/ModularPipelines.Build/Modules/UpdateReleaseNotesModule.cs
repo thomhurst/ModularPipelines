@@ -108,6 +108,7 @@ public class UpdateReleaseNotesModule : Module
         );
 
         return $"""
+                
                 ## Dependabot
 
                 {splitCommits}
