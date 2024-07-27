@@ -43,7 +43,11 @@ internal class GitVersioning : IGitVersioning
             {
                 Arguments = new[]
                 {
-                    "tool", "install", "--tool-path", _temporaryFolder.Path, "GitVersion.Tool",
+                    "tool", 
+                    "install", 
+                    "--tool-path", _temporaryFolder.Path, 
+                    "GitVersion.Tool", 
+                    "--version", "6.*",
                 },
             });
 
