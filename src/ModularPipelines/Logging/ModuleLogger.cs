@@ -7,10 +7,12 @@ namespace ModularPipelines.Logging;
 
 internal abstract class ModuleLogger : IModuleLogger
 {
+    internal static readonly AsyncLocal<IModuleLogger> Values = new();
+
     protected static readonly object DisposeLock = new();
     protected static readonly object LogLock = new();
     protected Exception? _exception;
-
+    
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
@@ -34,7 +36,6 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
 {
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
-    private readonly ISecretProvider _secretProvider;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ISmartCollapsableLoggingStringBlockProvider _collapsableLoggingStringBlockProvider;
 
@@ -46,13 +47,11 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     public ModuleLogger(ILogger<T> defaultLogger,
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
-        ISecretProvider secretProvider,
         IConsoleWriter consoleWriter,
         ISmartCollapsableLoggingStringBlockProvider collapsableLoggingStringBlockProvider)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
-        _secretProvider = secretProvider;
         _consoleWriter = consoleWriter;
         _collapsableLoggingStringBlockProvider = collapsableLoggingStringBlockProvider;
         moduleLoggerContainer.AddLogger(this);

@@ -63,6 +63,8 @@ public static class GitHelpers
     public static async Task CommitAndPush(IPipelineContext context, string? branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
+        await context.Git().Commands.Pull(token: cancellationToken);
+
         await context.Git().Commands.Add(new GitAddOptions
         {
             All = true,

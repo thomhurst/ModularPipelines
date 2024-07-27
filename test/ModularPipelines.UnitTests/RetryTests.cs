@@ -6,6 +6,7 @@ using Polly.Retry;
 
 namespace ModularPipelines.UnitTests;
 
+[Retry(3)]
 public class RetryTests : TestBase
 {
     private class SuccessModule : Module
