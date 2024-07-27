@@ -37,7 +37,7 @@ public record GitVersionInformation
     
     public string? PreReleaseLabelWithDash { get; init; }
     
-    public int PreReleaseNumber { get; init; }
+    public int? PreReleaseNumber { get; init; }
     
     public string? PreReleaseTag { get; init; }
     
@@ -53,7 +53,7 @@ public record GitVersionInformation
     
     public string? VersionSourceSha { get; init; }
     
-    public int WeightedPreReleaseNumber { get; init; }
+    public int? WeightedPreReleaseNumber { get; init; }
 
     public string CommitsSinceVersionSourcePadded => CommitsSinceVersionSource.ToString().PadLeft(4, '0');
 }
