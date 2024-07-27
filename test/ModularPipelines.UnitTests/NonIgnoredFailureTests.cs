@@ -1,11 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 
 namespace ModularPipelines.UnitTests;

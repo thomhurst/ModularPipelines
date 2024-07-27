@@ -1,5 +1,4 @@
 using ModularPipelines.Extensions;
-using TUnit.Assertions.Extensions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Extensions;

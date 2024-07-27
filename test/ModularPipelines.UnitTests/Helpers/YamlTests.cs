@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace ModularPipelines.UnitTests.Helpers;

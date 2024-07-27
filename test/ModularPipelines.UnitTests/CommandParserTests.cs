@@ -4,7 +4,6 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

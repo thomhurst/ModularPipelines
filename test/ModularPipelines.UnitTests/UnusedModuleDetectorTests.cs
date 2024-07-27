@@ -6,7 +6,6 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Moq;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

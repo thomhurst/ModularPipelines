@@ -1,7 +1,6 @@
 ﻿using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

@@ -4,7 +4,6 @@ using MimeKit;
 using ModularPipelines.Email;
 using ModularPipelines.Email.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions;
 using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.UnitTests.Helpers;

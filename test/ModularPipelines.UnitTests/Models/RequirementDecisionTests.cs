@@ -1,5 +1,4 @@
 using ModularPipelines.Models;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Models;
 

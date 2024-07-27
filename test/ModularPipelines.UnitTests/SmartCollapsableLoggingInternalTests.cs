@@ -4,7 +4,6 @@ using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
 using Moq;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests;
 

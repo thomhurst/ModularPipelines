@@ -1,6 +1,5 @@
 ﻿using ModularPipelines.Extensions;
 using ModularPipelines.Options;
-using TUnit.Assertions.Extensions;
 
 namespace ModularPipelines.UnitTests.Extensions;
 

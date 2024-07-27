@@ -4,7 +4,6 @@ using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
-using TUnit.Assertions.Extensions;
 using Vertical.SpectreLogger.Options;
 using File = System.IO.File;
 
