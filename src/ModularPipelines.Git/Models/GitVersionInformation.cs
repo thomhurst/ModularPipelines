@@ -39,9 +39,9 @@ public record GitVersionInformation
     
     public int PreReleaseNumber { get; init; }
     
-    public string? PreReleainitag { get; init; }
+    public string? PreReleaseTag { get; init; }
     
-    public string? PreReleainitagWithDash { get; init; }
+    public string? PreReleaseTagWithDash { get; init; }
     
     public string? SemVer { get; init; }
     
