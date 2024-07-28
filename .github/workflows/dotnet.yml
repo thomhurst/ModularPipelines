@@ -50,7 +50,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+            ${{ matrix.os }}-nuget }}
       - name: Build ModularPipelines.Analyzers.sln
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
