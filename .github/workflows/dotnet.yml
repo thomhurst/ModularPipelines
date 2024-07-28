@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || format('{0}/{1}', github.workspace, '.nuget/packages') }}"
+      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || '$HOME/.nuget/packages' }}"
 
     steps:
       - name: Add mask
