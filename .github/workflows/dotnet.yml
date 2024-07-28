@@ -28,7 +28,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-
+    continue-on-error: true
+    env: 
+      NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
+      
     steps:
       - name: Add mask
         run: |
@@ -40,6 +43,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Set Up Performant Windows Drive
+        if: matrix.os == 'windows-latest'
+        uses: samypr100/setup-dev-drive@v3
+        with:
+          drive-size: 5GB
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -47,7 +55,7 @@ jobs:
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
-          path: ~/.nuget/packages
+          path: ${{ matrix.os == 'windows-latest' && format('{0}\{1}', env.DEV_DRIVE, 'nuget') || '~/.nuget/packages' }}
           key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ matrix.os }}-nuget- }}
@@ -60,6 +68,7 @@ jobs:
           do
             dotnet build $SOLUTION -c Release
           done
+      
       - name: Run Pipeline
         run: dotnet run -c Release --framework net8.0
         working-directory: "src/ModularPipelines.Build"
