@@ -29,6 +29,9 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
+    env:
+      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:\nuget-packages' || 'path: ~/.nuget/packages' }}"
+
     steps:
       - name: Add mask
         run: |
@@ -40,6 +43,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Set Windows NuGet Package Location to D drive for performance boost
+        if: matrix.os == 'windows-latest'
+        run: echo "NUGET_PACKAGES=${{ env.NuGetGlobalPackagesLocation }}" >> $GITHUB_ENV
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -47,7 +53,7 @@ jobs:
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
-          path: ~/.nuget/packages
+          path: ${{ env.NuGetGlobalPackagesLocation }}
           key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ matrix.os }}-nuget- }}
