@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:\nuget-packages' || 'path: ~/.nuget/packages' }}"
+      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || '~/.nuget/packages' }}"
 
     steps:
       - name: Add mask
