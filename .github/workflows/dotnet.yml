@@ -56,9 +56,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ matrix.os == 'windows-latest' && format('{0}\{1}', env.DEV_DRIVE, 'nuget') || '~/.nuget/packages' }}
-          key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            ${{ matrix.os }}-nuget- }}
+            ${{ runner.os }}-nuget- }}
       - name: Build ModularPipelines.Analyzers.sln
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Build
