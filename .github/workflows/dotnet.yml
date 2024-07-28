@@ -46,7 +46,7 @@ jobs:
         uses: samypr100/setup-dev-drive@v3
       - name: Set Windows NuGet Package Location to D drive for performance boost
         if: matrix.os == 'windows-latest'
-        run: echo "NUGET_PACKAGES=${{ env.DEV_DRIVE_WORKSPACE }}" >> $GITHUB_ENV
+        run: echo "NUGET_PACKAGES=${{ env.DEV_DRIVE }}" >> $GITHUB_ENV
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
