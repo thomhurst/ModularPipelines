@@ -29,7 +29,9 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     continue-on-error: true
-
+    env: 
+      NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
+      
     steps:
       - name: Add mask
         run: |
@@ -44,11 +46,6 @@ jobs:
       - name: Set Up Performant Windows Drive
         if: matrix.os == 'windows-latest'
         uses: samypr100/setup-dev-drive@v3
-      - name: Set Windows NuGet Package Location to Dev Drive for performance boost
-        id: windows-nuget-location
-        if: matrix.os == 'windows-latest'
-        run: |
-          echo "NUGET_PACKAGES=${{ format('{0}\{1}', env.DEV_DRIVE, 'nuget') }}" >> $GITHUB_ENV
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
