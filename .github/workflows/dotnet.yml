@@ -44,7 +44,7 @@ jobs:
       - name: Set Up Performant Windows Drive
         if: matrix.os == 'windows-latest'
         uses: samypr100/setup-dev-drive@v3
-      - name: Set Windows NuGet Package Location to D drive for performance boost
+      - name: Set Windows NuGet Package Location to Dev Drive for performance boost
         if: matrix.os == 'windows-latest'
         run: echo "NUGET_PACKAGES=${{ env.DEV_DRIVE }}" >> $GITHUB_ENV
       - name: Setup .NET
@@ -54,7 +54,7 @@ jobs:
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
-          path: ${{ env.DEV_DRIVE_WORKSPACE || '~/.nuget/packages' }}
+          path: ${{ env.DEV_DRIVE || '~/.nuget/packages' }}
           key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ matrix.os }}-nuget- }}
