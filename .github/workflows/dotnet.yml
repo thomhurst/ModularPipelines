@@ -30,9 +30,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
-    env:
-      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || '/github/home/.nuget/packages' }}"
-
     steps:
       - name: Add mask
         run: |
@@ -44,23 +41,22 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Set Windows NuGet Package Location to D drive for performance boost
+        if: matrix.os == 'windows-latest'
+        run: echo "NUGET_PACKAGES=D:/nuget-packages" >> $GITHUB_ENV
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-        env:
-          NUGET_PACKAGES: ${{ env.NuGetGlobalPackagesLocation }}
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
-          path: ${{ env.NuGetGlobalPackagesLocation }}
+          path: ${{ env.NUGET_PACKAGES || '~/.nuget/packages' }}
           key: ${{ matrix.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ matrix.os }}-nuget- }}
       - name: Build ModularPipelines.Analyzers.sln
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
-        env:
-          NUGET_PACKAGES: ${{ env.NuGetGlobalPackagesLocation }}
       - name: Build
         shell: bash
         run: |
@@ -68,14 +64,11 @@ jobs:
           do
             dotnet build $SOLUTION -c Release
           done
-        env:
-          NUGET_PACKAGES: ${{ env.NuGetGlobalPackagesLocation }}
       
       - name: Run Pipeline
         run: dotnet run -c Release --framework net8.0
         working-directory: "src/ModularPipelines.Build"
         env:
-          NUGET_PACKAGES: ${{ env.NuGetGlobalPackagesLocation }}
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ github.ref == 'refs/heads/main' && secrets.NuGet__ApiKey || null }}
