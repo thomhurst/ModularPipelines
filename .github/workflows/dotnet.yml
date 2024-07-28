@@ -31,7 +31,7 @@ jobs:
     continue-on-error: true
 
     env:
-      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || '/home/.nuget/packages' }}"
+      NuGetGlobalPackagesLocation: "${{ matrix.os == 'windows-latest' && 'D:/nuget-packages' || '/github/home/.nuget/packages' }}"
 
     steps:
       - name: Add mask
