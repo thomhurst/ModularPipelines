@@ -70,7 +70,7 @@ public class ModuleLoggerTests
         await Assert.That(await file.ReadAsync()).Does.Not.Contain(RandomString);
     }
     
-    [DataDrivenTest]
+    [Test]
     [Arguments(typeof(Module2))]
     [Arguments(typeof(Module3))]
     public async Task Can_Obfuscate_Secret(Type moduleType)

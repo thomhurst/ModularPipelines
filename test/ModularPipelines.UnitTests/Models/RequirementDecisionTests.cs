@@ -64,7 +64,7 @@ public class RequirementDecisionTests
         }
     }
 
-    [DataDrivenTest]
+    [Test]
     [Arguments(true)]
     [Arguments(false)]
     public async Task Of(bool success)
