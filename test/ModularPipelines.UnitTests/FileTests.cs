@@ -287,7 +287,7 @@ public class FileTests : TestBase
         }
     }
 
-    [DataDrivenTest]
+    [Test]
     [Arguments("**/Nest2/**/*.txt")]
     [Arguments("**/blah.txt")]
     [Arguments("**/Blah.txt")]

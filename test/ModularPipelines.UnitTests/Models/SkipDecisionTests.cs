@@ -64,7 +64,7 @@ public class SkipDecisionTests
         }
     }
 
-    [DataDrivenTest]
+    [Test]
     [Arguments(true)]
     [Arguments(false)]
     public async Task Of(bool shouldSkip)

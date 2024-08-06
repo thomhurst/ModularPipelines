@@ -34,7 +34,7 @@ public class LoggingSecretTests
         }
     }
 
-    [DataDrivenTest]
+    [Test]
     [Arguments("Shh!")]
     [Arguments("SuperSecret!")]
     [Arguments("🤐")]

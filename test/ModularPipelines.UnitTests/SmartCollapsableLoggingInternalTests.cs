@@ -45,7 +45,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
                        """);
     }
 
-    [DataDrivenTest]
+    [Test]
     [Arguments(BuildSystem.Jenkins)]
     [Arguments(BuildSystem.GitLab)]
     [Arguments(BuildSystem.Bitbucket)]

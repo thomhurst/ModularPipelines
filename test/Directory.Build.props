@@ -9,6 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.TestsForTests'">
-        <PackageReference Include="TUnit" Version="0.1.442" />
+        <PackageReference Include="TUnit" Version="0.1.460" />
     </ItemGroup>
 </Project>
