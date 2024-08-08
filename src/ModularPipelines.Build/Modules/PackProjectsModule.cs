@@ -16,6 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>]
 [DependsOn<FindProjectDependenciesModule>]
 [DependsOn<ChangedFilesInPullRequestModule>]
+[DependsOn<RunUnitTestsModule>]
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
 {
