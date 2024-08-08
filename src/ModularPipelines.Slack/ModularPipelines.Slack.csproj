@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    
   <PropertyGroup>
     <Description>Helpers for sending Slack cards.</Description>
   </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <PackageReference Include="Slack.Webhooks" Version="1.1.5" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Slack.Webhooks" />
+  </ItemGroup>
 </Project>

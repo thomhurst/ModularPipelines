@@ -1,14 +1,12 @@
 <Project>
-    <!-- Only here so that the default Directory.Build.props will not be used. -->
-
-    <PropertyGroup>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>preview</LangVersion>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.TestsForTests'">
-        <PackageReference Include="TUnit" Version="0.1.460" />
-    </ItemGroup>
+  <!-- Only here so that the default Directory.Build.props will not be used. -->
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.TestsForTests'">
+    <PackageReference Include="TUnit" />
+  </ItemGroup>
 </Project>

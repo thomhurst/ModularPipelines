@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Description>Helpers for downloading and uploading via FTP.</Description>
   </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FluentFTP" Version="51.0.0" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="FluentFTP" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
 </Project>
