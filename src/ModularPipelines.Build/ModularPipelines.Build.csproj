@@ -1,38 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <UserSecretsId>c8652339-706e-43c2-8afb-cf5f9dd1bb45</UserSecretsId>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
-      <ProjectReference Include="..\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Node\ModularPipelines.Node.csproj" />
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="FluentAssertions" Version="6.12.0" />
-      <PackageReference Include="Microsoft.Build" Version="17.3.2" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj"
-                          ReferenceOutputAssembly="false"
-                          OutputItemType="Analyzer"
-                          SetTargetFramework="TargetFramework=netstandard2.0" />
-        
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>c8652339-706e-43c2-8afb-cf5f9dd1bb45</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+    <ProjectReference Include="..\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
+    <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\ModularPipelines.Node\ModularPipelines.Node.csproj" />
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Build" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

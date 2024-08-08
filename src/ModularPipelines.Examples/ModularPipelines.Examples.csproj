@@ -1,36 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
-      <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
-      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj"
-                          ReferenceOutputAssembly="false"
-                          OutputItemType="Analyzer"
-                          SetTargetFramework="TargetFramework=netstandard2.0" />
-        
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="appsettings.Development.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Azure.ResourceManager" Version="1.12.0" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
+    <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+    <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.ResourceManager" />
+  </ItemGroup>
 </Project>

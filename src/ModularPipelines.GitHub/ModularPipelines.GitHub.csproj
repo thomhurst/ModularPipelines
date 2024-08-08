@@ -1,16 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    
   <PropertyGroup>
     <Description>Helpers for interacting with GitHub Actions build agents.</Description>
   </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
-      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="Octokit" Version="13.0.1" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Octokit" />
+  </ItemGroup>
 </Project>
