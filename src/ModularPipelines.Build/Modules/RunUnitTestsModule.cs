@@ -11,7 +11,6 @@ using Polly.Retry;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>]
-[DependsOn<PackProjectsModule>]
 public class RunUnitTestsModule : Module<CommandResult[]>
 {
     protected override AsyncRetryPolicy<CommandResult[]?> RetryPolicy => CreateRetryPolicy(0);
