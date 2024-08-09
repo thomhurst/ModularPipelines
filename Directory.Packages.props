@@ -42,11 +42,11 @@
         <PackageVersion Include="Microsoft.Build" Version="17.3.2" />
         <PackageVersion Include="Microsoft.CodeAnalysis" Version="4.1.0" />
         <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
+        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.MSTest" Version="1.1.1" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing.MSTest" Version="1.1.1" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeRefactoring.Testing.MSTest" Version="1.1.1" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.1.0" />
+        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.1" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
@@ -68,7 +68,7 @@
         <PackageVersion Include="Spectre.Console" Version="0.49.1" />
         <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
         <PackageVersion Include="System.Text.Json" Version="8.0.4" />
-        <PackageVersion Include="TUnit" Version="0.1.481" />
+        <PackageVersion Include="TUnit" Version="0.1.486" />
         <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240326.31" />
         <PackageVersion Include="YamlDotNet" Version="16.0.0" />
     </ItemGroup>
