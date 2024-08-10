@@ -9,7 +9,7 @@ updates:
     groups:
       docusaurus:
         patterns:
-          - *docusaurus*
+          - "*docusaurus*"
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
