@@ -11,7 +11,7 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/"
     groups:
-      aws-dependencies:
+      docusaurus:
         patterns:
           - *docusaurus*
     open-pull-requests-limit: 20
