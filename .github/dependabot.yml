@@ -10,6 +10,10 @@ updates:
       interval: "daily"
   - package-ecosystem: "nuget"
     directory: "/"
+    groups:
+      aws-dependencies:
+        patterns:
+          - *docusaurus*
     open-pull-requests-limit: 20
     schedule:
       interval: "daily"
