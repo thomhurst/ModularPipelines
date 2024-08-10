@@ -6,14 +6,14 @@ updates:
       interval: "daily"
   - package-ecosystem: "npm"
     directory: "/docs"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "nuget"
-    directory: "/"
     groups:
       docusaurus:
         patterns:
           - *docusaurus*
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget"
+    directory: "/"
     open-pull-requests-limit: 20
     schedule:
       interval: "daily"
