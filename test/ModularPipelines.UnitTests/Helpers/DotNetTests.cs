@@ -21,11 +21,37 @@ public class DotNetTests : TestBase
             }, token: cancellationToken);
         }
     }
+    
+    private class DotNetFormatModule : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            return await context.DotNet().Format(new DotNetFormatOptions
+            {
+                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Name.Contains("TestsForTests")).AssertExists(),
+            }, token: cancellationToken);
+        }
+    }
 
     [Test]
     public async Task Has_Not_Errored()
     {
         var module = await RunModule<DotNetVersionModule>();
+
+        var moduleResult = await module;
+        
+        await using (Assert.Multiple())
+        {
+            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).Is.Null();
+            await Assert.That(moduleResult.Value).Is.Not.Null();
+        }
+    }
+    
+    [Test]
+    public async Task Format_Has_Not_Errored()
+    {
+        var module = await RunModule<DotNetFormatModule>();
 
         var moduleResult = await module;
         

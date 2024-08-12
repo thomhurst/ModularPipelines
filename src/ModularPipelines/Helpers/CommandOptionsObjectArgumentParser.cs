@@ -50,9 +50,10 @@ public static class CommandOptionsObjectArgumentParser
             var indexOfMatchingPrecedingArgumentPlaceholder =
                 precedingArguments.FindIndex(x => x == placeholderName);
 
-            if (indexOfMatchingPrecedingArgumentPlaceholder < 0)
+            if (indexOfMatchingPrecedingArgumentPlaceholder < 0 && !string.IsNullOrEmpty(value))
             {
-                throw new ArgumentException($"No matching placeholder found for property {positionalPlaceholderArgument.Name}");
+                precedingArguments.Add(value);
+                continue;
             }
 
             if (string.IsNullOrWhiteSpace(value) && precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder].StartsWith('<'))
