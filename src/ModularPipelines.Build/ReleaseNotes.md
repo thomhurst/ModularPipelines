@@ -1,1 +1,0 @@
-Fix running `dotnet format` via `context.DotNet().Format()`
