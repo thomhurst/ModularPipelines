@@ -10,14 +10,14 @@ public record DotNetFormatOptions : DotNetOptions
         string projectSolution
     )
     {
-        CommandParts = ["format", "[options]", "[<PROJECT | SOLUTION>]"];
+        CommandParts = ["format", "[<PROJECT | SOLUTION>]"];
 
         ProjectSolution = projectSolution;
     }
 
     public DotNetFormatOptions()
     {
-        CommandParts = ["format", "[options]", "[<PROJECT | SOLUTION>]"];
+        CommandParts = ["format"];
     }
 
     [PositionalArgument(PlaceholderName = "[<PROJECT | SOLUTION>]")]

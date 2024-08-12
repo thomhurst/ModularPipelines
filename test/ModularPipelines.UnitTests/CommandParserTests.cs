@@ -148,12 +148,14 @@ public class CommandParserTests : TestBase
     }
 
     [Test]
-    public async Task No_Matching_Placeholder_Positional_Throws()
+    public async Task No_Matching_Placeholder_Positional_Is_Appended()
     {
-        await Assert.That(() => GetResult(new PlaceholderToolOptions2("ThisPackage", "MyProject.csproj")
+        var result = await GetResult(new PlaceholderToolOptions3()
         {
-            Source = "nuget.org"
-        })).Throws.Exception().OfType<ArgumentException>();
+            Project = "MyProject.csproj"
+        });
+        
+        await Assert.That(result.CommandInput).Is.EqualTo("dotnet add MyProject.csproj");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
@@ -214,6 +216,16 @@ public class CommandParserTests : TestBase
 
         [PositionalArgument(PlaceholderName = "<WRONG_PLACEHOLDER>")]
         public string Package { get; set; } = Package;
+
+        [CommandSwitch("--source")]
+        public string? Source { get; set; }
+    }
+    
+    [CommandPrecedingArguments("add")]
+    private record PlaceholderToolOptions3() : CommandLineToolOptions("dotnet")
+    {
+        [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+        public string? Project { get; set; }
 
         [CommandSwitch("--source")]
         public string? Source { get; set; }
