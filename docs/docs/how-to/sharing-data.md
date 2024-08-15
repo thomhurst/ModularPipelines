@@ -1,5 +1,6 @@
 ---
 title: Sharing data across modules
+sidebar_position: 4
 ---
 
 # Sharing data across modules

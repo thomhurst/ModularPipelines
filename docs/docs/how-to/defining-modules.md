@@ -1,5 +1,6 @@
 ---
 title: Defining Modules
+sidebar_position: 2
 ---
 
 ## Defining Modules

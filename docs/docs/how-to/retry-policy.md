@@ -1,5 +1,6 @@
 ---
 title: Retry Policies
+sidebar_position: 6
 ---
 
 # Retry Policies

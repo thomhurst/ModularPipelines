@@ -1,5 +1,6 @@
 ---
 title: Skipping Modules
+sidebar_position: 7
 ---
 
 # Skipping Modules

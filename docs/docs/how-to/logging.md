@@ -1,5 +1,6 @@
 ---
 title: Logging
+sidebar_position: 8
 ---
 
 # Logging
