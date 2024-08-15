@@ -5,6 +5,12 @@ sidebar_position: 1
 
 # Fundamentals
 
+## Pipeline Host
+
+Your pipeline is hosted by a `PipelineHost`. This is built off the back off the Microsoft Generic Host, meaning in-built `IConfiguration` and dependency injection. Set up should feel familiar. To start you create a `PipelineHostBuilder` object, register modules, then call `ExecutePipelineAsync()`.
+
+## Modules
+
 The building blocks of your pipelines are called Modules. Modules can be as big or as small as you decide, though it's recommended to make them as small as possible. That way we can speed up execution by utilizing parallelization and we are able to more clearly see what failed and where it failed.
 
 > a self-contained unit or item, such as an assembly of electronic components and associated wiring or a segment of computer software, which itself performs a defined task and can be linked with other such units to form a larger system

@@ -1,5 +1,6 @@
 ---
 title: Pipeline Host
+sidebar_position: 1
 ---
 
 # Pipeline Host
