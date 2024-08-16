@@ -6,6 +6,7 @@
     <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Slack.Webhooks" />
   </ItemGroup>
 </Project>
