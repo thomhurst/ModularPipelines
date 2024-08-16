@@ -11,5 +11,6 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="NUnit.Analyzers" />
     <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 </Project>
