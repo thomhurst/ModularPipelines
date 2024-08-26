@@ -36,17 +36,17 @@ public class CommandLoggerTests : TestBase
 
         if (logInput)
         {
-            await Assert.That(logFile).Does.Contain("""
+            await Assert.That(logFile).Does.Contain($"""
                                               ---Executing Command---
-                                              pwsh -Command "echo Hello world!
+                                              {Environment.CurrentDirectory}> pwsh -Command "echo Hello world!
                                               throw \"Error!\""
                                               """);
         }
         else
         {
-            await Assert.That(logFile).Does.Contain("""
+            await Assert.That(logFile).Does.Contain($"""
                                               ---Executing Command---
-                                              ********
+                                              {Environment.CurrentDirectory}> ********
                                               """);
         }
 

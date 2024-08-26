@@ -25,7 +25,8 @@ internal class CommandLogger : ICommandLogger
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public void Log(CommandLineToolOptions options, string? inputToLog, int? exitCode, TimeSpan? runTime, string standardOutput, string standardError)
+    public void Log(CommandLineToolOptions options, string? inputToLog, int? exitCode, TimeSpan? runTime,
+        string standardOutput, string standardError, string commandWorkingDirPath)
     {
         if (options.CommandLogging == CommandLogging.None)
         {
@@ -38,7 +39,7 @@ internal class CommandLogger : ICommandLogger
         {
             if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
             {
-                Logger.LogInformation("---Executing Command---\r\n\t{Input}", inputToLog);
+                Logger.LogInformation("---Executing Command---\r\n\t{WorkingDirectory}> {Input}", commandWorkingDirPath, inputToLog);
                 Logger.LogInformation("---Dry-Run Command - No Output---");
                 return;
             }
@@ -47,16 +48,17 @@ internal class CommandLogger : ICommandLogger
             {
                 Logger.LogInformation("""
                                       ---Executing Command---
-                                      {Input}
+                                      {WorkingDirectory}> {Input}
                                       """,
+                    commandWorkingDirPath,
                     _secretObfuscator.Obfuscate(inputToLog, options));
             }
             else
             {
                 Logger.LogInformation("""
                                       ---Executing Command---
-                                      ********
-                                      """);
+                                      {WorkingDirectory}> ********
+                                      """, commandWorkingDirPath);
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
