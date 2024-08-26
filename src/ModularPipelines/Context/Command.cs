@@ -66,7 +66,8 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
                 exitCode: 0,
                 runTime: TimeSpan.Zero,
                 standardOutput: "Dummy Output Response",
-                standardError: "Dummy Error Response"
+                standardError: "Dummy Error Response",
+                command.WorkingDirPath
             );
 
             return new CommandResult(command);
@@ -116,10 +117,11 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
 
             _commandLogger.Log(options: options,
                 inputToLog: inputToLog,
-                result.ExitCode,
-                result.RunTime,
-                standardOutput,
-                standardError
+                exitCode: result.ExitCode,
+                runTime: result.RunTime,
+                standardOutput: standardOutput,
+                standardError: standardError,
+                commandWorkingDirPath: command.WorkingDirPath
             );
 
             if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
@@ -134,10 +136,11 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         {
             _commandLogger.Log(options: options,
                 inputToLog: inputToLog,
-                e.ExitCode,
-                stopwatch.Elapsed,
-                standardOutput,
-                standardError
+                exitCode: e.ExitCode,
+                runTime: stopwatch.Elapsed,
+                standardOutput: standardOutput,
+                standardError: standardError,
+                commandWorkingDirPath: command.WorkingDirPath
             );
             throw;
         }
@@ -145,10 +148,11 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         {
             _commandLogger.Log(options: options,
                 inputToLog: inputToLog,
-                -1,
-                stopwatch.Elapsed,
-                standardOutput,
-                standardError
+                exitCode: -1,
+                runTime: stopwatch.Elapsed,
+                standardOutput: standardOutput,
+                standardError: standardError,
+                commandWorkingDirPath: command.WorkingDirPath
             );
 
             throw;

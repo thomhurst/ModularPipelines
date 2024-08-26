@@ -1,0 +1,1 @@
+* Show working directory when logging command inputs

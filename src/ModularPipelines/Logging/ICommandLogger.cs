@@ -9,6 +9,5 @@ public interface ICommandLogger
         int? exitCode,
         TimeSpan? runTime,
         string standardOutput,
-        string standardError
-    );
+        string standardError, string commandWorkingDirPath);
 }
