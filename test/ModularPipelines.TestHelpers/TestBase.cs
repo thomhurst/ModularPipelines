@@ -129,7 +129,7 @@ public abstract class TestBase
         return (serviceProvider.GetRequiredService<T>(), host);
     }
 
-    [After(EachTest)]
+    [After(Test)]
     public async Task DisposeCreatedHost()
     {
         await _hosts.ToAsyncProcessorBuilder()
