@@ -27,6 +27,7 @@ jobs:
     strategy: 
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     env: 
       NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
