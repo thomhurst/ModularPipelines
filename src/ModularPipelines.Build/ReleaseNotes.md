@@ -1,1 +1,0 @@
-- Better control over parallelism with a new `[ParallelLimiter<T>]` attribute
