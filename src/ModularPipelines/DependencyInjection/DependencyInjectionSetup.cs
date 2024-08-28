@@ -107,6 +107,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
-            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>();
+            .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
+            .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>();
     }
 }

@@ -23,6 +23,7 @@
     </AssemblyAttribute>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsyncSemaphore" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Http" />
