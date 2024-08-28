@@ -27,7 +27,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
                 Framework = "net8.0",
-                Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
+                Arguments = ["--coverage", "--coverage-output-format", "cobertura", "--fail-fast"],
                 Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {

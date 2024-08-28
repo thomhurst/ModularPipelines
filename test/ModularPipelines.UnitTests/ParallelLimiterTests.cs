@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
