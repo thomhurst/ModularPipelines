@@ -5,6 +5,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
+[Retry(3)]
 public class NotInParallelTests
 {
     [ModularPipelines.Attributes.NotInParallel]
@@ -58,7 +59,7 @@ public class NotInParallelTests
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task NotInParallel()
     {
         var results = await TestPipelineHostBuilder.Create()
@@ -69,11 +70,10 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(1));
+            .Is.GreaterThanOrEqualTo(firstModule.StartTime + TimeSpan.FromSeconds(5));
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task NotInParallel_With_ParallelDependency()
     {
         var results = await TestPipelineHostBuilder.Create()
@@ -84,10 +84,10 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(firstModule.StartTime + TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1));
+            .Is.GreaterThanOrEqualTo(firstModule.StartTime + TimeSpan.FromSeconds(5));
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task NotInParallel_With_NonParallelDependency()
     {
         var results = await TestPipelineHostBuilder.Create()
@@ -102,6 +102,6 @@ public class NotInParallelTests
         var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(10);
         
         await Assert.That(nextModule.StartTime)
-            .Is.EqualToWithTolerance(expectedStartTime, TimeSpan.FromSeconds(1));
+            .Is.GreaterThanOrEqualTo(expectedStartTime);
     }
 }

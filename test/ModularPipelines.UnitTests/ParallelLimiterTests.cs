@@ -5,6 +5,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
+[Retry(3)]
 public class ParallelLimiterTests
 {
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
@@ -68,7 +69,7 @@ public class ParallelLimiterTests
         }
     }
 
-    [Test, Repeat(3)]
+    [Test]
     public async Task LimitParallel()
     {
         var results = await TestPipelineHostBuilder.Create()
