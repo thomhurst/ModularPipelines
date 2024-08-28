@@ -17,7 +17,7 @@ public class ParallelLimiterAttribute : Attribute
 
     public ParallelLimiterAttribute(Type type)
     {
-        if (type.IsAssignableTo(typeof(IParallelLimit)))
+        if (!type.IsAssignableTo(typeof(IParallelLimit)))
         {
             throw new Exception("Type must be of IParallelLimit");
         }
