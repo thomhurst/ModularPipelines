@@ -15,7 +15,7 @@ public record DotNetToolInstallOptions : DotNetOptions
 
         PackageName = packageName;
 
-        Path = path;
+        ToolPath = path;
     }
 
     public DotNetToolInstallOptions(
@@ -70,10 +70,7 @@ public record DotNetToolInstallOptions : DotNetOptions
     public string? VersionNumber { get; set; }
 
     [BooleanCommandSwitch("--tool-path")]
-    public bool? ToolPath { get; set; }
-
-    [PositionalArgument(PlaceholderName = "<PATH>")]
-    public string? Path { get; set; }
+    public string? ToolPath { get; set; }
 
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }

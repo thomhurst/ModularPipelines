@@ -47,7 +47,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             tool = options.Tool;
         }
 
-        var command = Cli.Wrap(tool).WithArguments(parsedArgs);
+        var command = Cli.Wrap(tool).WithArguments(SantiseArguments(parsedArgs));
 
         if (options.WorkingDirectory != null)
         {
@@ -74,6 +74,13 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         }
 
         return await Of(command, options, cancellationToken);
+    }
+
+    private List<string> SantiseArguments(List<string> parsedArgs)
+    {
+        parsedArgs.RemoveAll(x => x.StartsWith("<"));
+        
+        return parsedArgs;
     }
 
     private static List<string> GetPrecedingArguments(object optionsObject)

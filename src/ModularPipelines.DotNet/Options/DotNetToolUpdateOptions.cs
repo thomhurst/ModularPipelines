@@ -8,14 +8,13 @@ public record DotNetToolUpdateOptions : DotNetOptions
 {
     public DotNetToolUpdateOptions(
         string packageId,
-        string path
+        string toolPath
     )
     {
         CommandParts = ["tool", "update", "<PACKAGE_ID>"];
 
         PackageId = packageId;
-
-        Path = path;
+        ToolPath = toolPath;
     }
 
     public DotNetToolUpdateOptions(
@@ -64,10 +63,7 @@ public record DotNetToolUpdateOptions : DotNetOptions
     public string? Version { get; set; }
 
     [BooleanCommandSwitch("--tool-path")]
-    public bool? ToolPath { get; set; }
-
-    [PositionalArgument(PlaceholderName = "<PATH>")]
-    public string? Path { get; set; }
+    public string? ToolPath { get; set; }
 
     [BooleanCommandSwitch("--local")]
     public bool? Local { get; set; }

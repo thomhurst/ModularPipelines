@@ -1,0 +1,1 @@
+- Fix ToolPath on DotnetToolUpdateOptions
