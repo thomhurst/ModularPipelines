@@ -15,7 +15,7 @@ public record DotNetToolUninstallOptions : DotNetOptions
 
         PackageName = packageName;
 
-        Path = path;
+        ToolPath = path;
     }
 
     public DotNetToolUninstallOptions(
@@ -34,10 +34,7 @@ public record DotNetToolUninstallOptions : DotNetOptions
     public bool? Global { get; set; }
 
     [BooleanCommandSwitch("--tool-path")]
-    public bool? ToolPath { get; set; }
-
-    [PositionalArgument(PlaceholderName = "<PATH>")]
-    public string? Path { get; set; }
+    public string? ToolPath { get; set; }
 
     [CommandSwitch("--tool-manifest")]
     public string? ToolManifest { get; set; }

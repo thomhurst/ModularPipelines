@@ -61,12 +61,17 @@ public static class CommandOptionsObjectArgumentParser
                 throw new ArgumentException($"No value provided for property {positionalPlaceholderArgument.Name}");
             }
 
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value) && indexOfMatchingPrecedingArgumentPlaceholder >= 0)
             {
                 precedingArguments.RemoveAt(indexOfMatchingPrecedingArgumentPlaceholder);
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+            
             precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder] = value;
         }
     }
