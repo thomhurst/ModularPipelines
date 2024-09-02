@@ -141,7 +141,7 @@ public class Folder : IEquatable<Folder>
             .AddInclude(globPattern)
             .Execute(new DirectoryInfoWrapper(DirectoryInfo))
             .Files
-            .Select(x => new File(x.Path))
+            .Select(x => new File(System.IO.Path.Combine(this, x.Path)))
             .Distinct();
     }
 
