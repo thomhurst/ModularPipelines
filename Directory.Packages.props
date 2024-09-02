@@ -70,6 +70,6 @@
     <PackageVersion Include="System.Text.Json" Version="8.0.4" />
     <PackageVersion Include="TUnit" Version="0.1.512" />
     <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240326.31" />
-    <PackageVersion Include="YamlDotNet" Version="16.0.0" />
+    <PackageVersion Include="YamlDotNet" Version="16.1.0" />
   </ItemGroup>
 </Project>
