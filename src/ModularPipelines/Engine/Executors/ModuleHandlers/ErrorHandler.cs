@@ -27,6 +27,9 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
 
+            // Wait so this exception isn't propogated first and the actual exception from another module is
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
             throw new PipelineCancelledException(Context.EngineCancellationToken);
         }
         else
