@@ -1,0 +1,1 @@
+- Fix a bug where Folder.GetFiles(string globPattern) was returning the wrong relative paths
