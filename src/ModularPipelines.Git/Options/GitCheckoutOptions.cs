@@ -5,8 +5,24 @@ namespace ModularPipelines.Git.Options;
 
 [CommandPrecedingArguments("checkout")]
 [ExcludeFromCodeCoverage]
-public record GitCheckoutOptions([property: PositionalArgument] string BranchName) : GitOptions
+public record GitCheckoutOptions : GitOptions
 {
+    public GitCheckoutOptions(string branchName) : this(branchName, false)
+    {
+    }
+    
+    public GitCheckoutOptions(string branchName, bool create)
+    {
+        if (create)
+        {
+            NewBranchName = branchName;
+        }
+        else
+        {
+            BranchName = branchName;
+        }
+    }
+
     [BooleanCommandSwitch("--quiet")]
     public bool? Quiet { get; set; }
 
@@ -81,4 +97,10 @@ public record GitCheckoutOptions([property: PositionalArgument] string BranchNam
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
+
+    [PositionalArgument] 
+    public string? BranchName { get; set; }
+    
+    [CommandEqualsSeparatorSwitch("-b")] 
+    public string? NewBranchName { get; set; }
 }

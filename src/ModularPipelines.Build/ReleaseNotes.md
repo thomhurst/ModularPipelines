@@ -1,0 +1,1 @@
+- GitCheckoutOptions now has a constructor to create a new branch with the `-b` flag
