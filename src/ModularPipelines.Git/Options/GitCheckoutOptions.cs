@@ -56,7 +56,7 @@ public record GitCheckoutOptions : GitOptions
     [BooleanCommandSwitch("--detach")]
     public bool? Detach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--orphan")]
+    [CommandSwitch("--orphan")]
     public string? Orphan { get; set; }
 
     [BooleanCommandSwitch("--ignore-skip-worktree-bits")]
@@ -101,6 +101,6 @@ public record GitCheckoutOptions : GitOptions
     [PositionalArgument] 
     public string? BranchName { get; set; }
     
-    [CommandEqualsSeparatorSwitch("-b")] 
+    [CommandSwitch("-b")] 
     public string? NewBranchName { get; set; }
 }
