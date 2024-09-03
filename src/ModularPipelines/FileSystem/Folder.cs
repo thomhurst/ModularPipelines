@@ -1,8 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
 
@@ -71,14 +74,23 @@ public class Folder : IEquatable<Folder>
 
     public Folder Create()
     {
+        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", this);
+        
         Directory.CreateDirectory(Path);
         return this;
     }
 
-    public void Delete() => DirectoryInfo.Delete(true);
+    public void Delete()
+    {
+        ModuleLogger.Current.LogInformation("Deleting Folder: {Path}", this);
+        
+        DirectoryInfo.Delete(true);
+    }
 
     public void Clean()
     {
+        ModuleLogger.Current.LogInformation("Cleaning Folder: {Path}", this);
+        
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             directory.Delete(true);
@@ -103,40 +115,80 @@ public class Folder : IEquatable<Folder>
         {
             System.IO.File.Copy(newPath, newPath.Replace(this, targetPath), true);
         }
+        
+        ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);
 
         return new Folder(targetPath);
     }
 
     public Folder MoveTo(string path)
     {
+        ModuleLogger.Current.LogInformation("Moving Folder: {Source} > {Destination}", this, path);
+
         DirectoryInfo.MoveTo(path);
         return this;
     }
 
-    public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
+    public Folder GetFolder(string name)
+    {
+        var directoryInfo = new DirectoryInfo(System.IO.Path.Combine(Path, name));
+        
+        ModuleLogger.Current.LogInformation("Getting Folder: {Path}", directoryInfo.FullName);
+        
+        return directoryInfo;
+    }
 
-    public Folder CreateFolder(string name) => GetFolder(name).Create();
+    public Folder CreateFolder(string name)
+    {
+        var folder = GetFolder(name).Create();
+        
+        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", folder);
+        
+        return folder;
+    }
 
-    public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
+    public File GetFile(string name)
+    {
+        var fileInfo = new FileInfo(System.IO.Path.Combine(Path, name));
+        
+        ModuleLogger.Current.LogInformation("Getting File: {Path}", fileInfo.FullName);
+        
+        return fileInfo;
+    }
 
-    public File CreateFile(string name) => GetFile(name).Create();
+    public File CreateFile(string name)
+    {
+        return GetFile(name).Create();
+    }
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => GetFolders(predicate, _ => false);
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, _ => false, predicateExpression);
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate) => GetFiles(predicate, _ => false);
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, _ => false, predicateExpression);
 
-    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters) => SafeWalk.EnumerateFolders(this, exclusionFilters)
-        .Select(x => new Folder(x))
-        .Distinct()
-        .Where(predicate);
+    public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
+    {
+        ModuleLogger.Current.LogInformation("Searching Folders in: {Path} > {Expression}", this, predicate);
 
-    public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
-        .Select(x => new File(x))
-        .Distinct()
-        .Where(predicate);
+        return SafeWalk.EnumerateFolders(this, exclusionFilters)
+            .Select(x => new Folder(x))
+            .Distinct()
+            .Where(predicate);
+    }
+
+    public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
+    {
+        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Expression}", this, predicate);
+        
+        return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
+            .Select(x => new File(x))
+            .Distinct()
+            .Where(predicate);
+    }
 
     public IEnumerable<File> GetFiles(string globPattern)
     {
+        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Glob}", this, globPattern);
+
         return new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(globPattern)
             .Execute(new DirectoryInfoWrapper(DirectoryInfo))
@@ -145,13 +197,13 @@ public class Folder : IEquatable<Folder>
             .Distinct();
     }
 
-    public File? FindFile(Func<File, bool> predicate) => FindFile(predicate, _ => false);
+    public File? FindFile(Func<File, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFile(predicate, _ => false, predicateExpression);
 
-    public Folder? FindFolder(Func<Folder, bool> predicate) => FindFolder(predicate, _ => false);
+    public Folder? FindFolder(Func<Folder, bool> predicate, [CallerArgumentExpression("predicate")] string predicateExpression = "") => FindFolder(predicate, _ => false, predicateExpression);
 
-    public File? FindFile(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFiles(predicate, directoryExclusionFilters).FirstOrDefault();
+    public File? FindFile(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFiles(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
 
-    public Folder? FindFolder(Func<Folder, bool> predicate, Func<Folder, bool> directoryExclusionFilters) => GetFolders(predicate, directoryExclusionFilters).FirstOrDefault();
+    public Folder? FindFolder(Func<Folder, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "") => GetFolders(predicate, directoryExclusionFilters, predicateExpression).FirstOrDefault();
 
     public IEnumerable<File> ListFiles()
     {
@@ -171,6 +223,9 @@ public class Folder : IEquatable<Folder>
     {
         var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
+        
+        ModuleLogger.Current.LogInformation("Creating Temporary Folder: {Path}", tempDirectory);
+        
         return tempDirectory!;
     }
 
