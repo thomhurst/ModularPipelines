@@ -2,7 +2,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
 
@@ -71,14 +73,23 @@ public class Folder : IEquatable<Folder>
 
     public Folder Create()
     {
+        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", this);
+        
         Directory.CreateDirectory(Path);
         return this;
     }
 
-    public void Delete() => DirectoryInfo.Delete(true);
+    public void Delete()
+    {
+        ModuleLogger.Current.LogInformation("Deleting Folder: {Path}", this);
+        
+        DirectoryInfo.Delete(true);
+    }
 
     public void Clean()
     {
+        ModuleLogger.Current.LogInformation("Cleaning Folder: {Path}", this);
+        
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             directory.Delete(true);
@@ -103,23 +114,51 @@ public class Folder : IEquatable<Folder>
         {
             System.IO.File.Copy(newPath, newPath.Replace(this, targetPath), true);
         }
+        
+        ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);
 
         return new Folder(targetPath);
     }
 
     public Folder MoveTo(string path)
     {
+        ModuleLogger.Current.LogInformation("Moving Folder: {Source} > {Destination}", this, path);
+
         DirectoryInfo.MoveTo(path);
         return this;
     }
 
-    public Folder GetFolder(string name) => new DirectoryInfo(System.IO.Path.Combine(Path, name));
+    public Folder GetFolder(string name)
+    {
+        var directoryInfo = new DirectoryInfo(System.IO.Path.Combine(Path, name));
+        
+        ModuleLogger.Current.LogInformation("Getting Folder: {Path}", directoryInfo.FullName);
+        
+        return directoryInfo;
+    }
 
-    public Folder CreateFolder(string name) => GetFolder(name).Create();
+    public Folder CreateFolder(string name)
+    {
+        var folder = GetFolder(name).Create();
+        
+        ModuleLogger.Current.LogInformation("Creating Folder: {Path}", folder);
+        
+        return folder;
+    }
 
-    public File GetFile(string name) => new FileInfo(System.IO.Path.Combine(Path, name));
+    public File GetFile(string name)
+    {
+        var fileInfo = new FileInfo(System.IO.Path.Combine(Path, name));
+        
+        ModuleLogger.Current.LogInformation("Getting File: {Path}", fileInfo.FullName);
+        
+        return fileInfo;
+    }
 
-    public File CreateFile(string name) => GetFile(name).Create();
+    public File CreateFile(string name)
+    {
+        return GetFile(name).Create();
+    }
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate) => GetFolders(predicate, _ => false);
 
@@ -137,6 +176,8 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(string globPattern)
     {
+        ModuleLogger.Current.LogInformation("Searching Folder: {Path} > {Glob}", this, globPattern);
+
         return new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(globPattern)
             .Execute(new DirectoryInfoWrapper(DirectoryInfo))
@@ -171,6 +212,9 @@ public class Folder : IEquatable<Folder>
     {
         var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
+        
+        ModuleLogger.Current.LogInformation("Creating Temporary Folder: {Path}", tempDirectory);
+        
         return tempDirectory!;
     }
 

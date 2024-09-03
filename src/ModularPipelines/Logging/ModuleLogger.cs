@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 
@@ -7,7 +8,9 @@ namespace ModularPipelines.Logging;
 
 internal abstract class ModuleLogger : IModuleLogger
 {
-    internal static readonly AsyncLocal<IModuleLogger> Values = new();
+    internal static readonly AsyncLocal<IModuleLogger?> Values = new();
+
+    internal static ILogger Current => (Values.Value as ILogger) ?? NullLogger.Instance;
 
     protected static readonly object DisposeLock = new();
     protected static readonly object LogLock = new();

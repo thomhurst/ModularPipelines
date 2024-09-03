@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
 
@@ -30,16 +32,22 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
     public Task<string> ReadAsync(CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        
         return System.IO.File.ReadAllTextAsync(Path, cancellationToken);
     }
 
     public Task<string[]> ReadLinesAsync(CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        
         return System.IO.File.ReadAllLinesAsync(Path, cancellationToken);
     }
 
     public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        
         return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
     }
 
@@ -50,27 +58,37 @@ public class File : IEquatable<File>
 
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        
         return System.IO.File.WriteAllTextAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(byte[] contents, CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        
         return System.IO.File.WriteAllBytesAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        
         return System.IO.File.WriteAllLinesAsync(Path, contents, cancellationToken);
     }
 
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        
         await using var fileStream = System.IO.File.Create(Path);
         await fileStream.WriteAsync(contents, cancellationToken);
     }
 
     public async Task WriteAsync(Stream contents, CancellationToken cancellationToken = default)
     {
+        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        
         await using var fileStream = System.IO.File.Create(Path);
 
         if (contents.CanSeek)
@@ -102,6 +120,8 @@ public class File : IEquatable<File>
 
     public File Create()
     {
+        ModuleLogger.Current.LogInformation("Creating File: {Path}", this);
+        
         var fileStream = System.IO.File.Create(Path);
         fileStream.Dispose();
         return this;
@@ -126,11 +146,18 @@ public class File : IEquatable<File>
     public string Extension => FileInfo.Extension;
 
     /// <inheritdoc cref="FileInfo.Delete"/>>
-    public void Delete() => FileInfo.Delete();
+    public void Delete()
+    {
+        ModuleLogger.Current.LogInformation("Deleting File: {File}", this);
+        
+        FileInfo.Delete();
+    }
 
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(string path)
     {
+        ModuleLogger.Current.LogInformation("Moving File: {Source} > {Destination}", this, path);
+        
         FileInfo.MoveTo(path);
         return this;
     }
@@ -138,22 +165,35 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(Folder folder)
     {
+        ModuleLogger.Current.LogInformation("Moving File: {Source} > {Destination}", this, folder);
+
         folder.Create();
         return MoveTo(System.IO.Path.Combine(folder.Path, Name));
     }
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
-    public File CopyTo(string path) => FileInfo.CopyTo(path);
-    
+    public File CopyTo(string path)
+    {
+        ModuleLogger.Current.LogInformation("Copying File: {Source} > {Destination}", this, path);
+
+        return FileInfo.CopyTo(path);
+    }
+
     public File CopyTo(Folder folder)
     {
+        ModuleLogger.Current.LogInformation("Copying File: {Source} > {Destination}", this, folder);
+        
         folder.Create();
         return CopyTo(System.IO.Path.Combine(folder.Path, Name));
     }
 
     public static File GetNewTemporaryFilePath()
     {
-        return System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName())!;
+        var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        
+        ModuleLogger.Current.LogInformation("Temporary File Path: {Path}", path);
+        
+        return path!;
     }
 
     public static implicit operator File?(string? path)
