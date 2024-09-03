@@ -50,14 +50,14 @@ internal class PipelineExecutor : IPipelineExecutor
 
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }
+        
+        _exceptionContainer.ThrowExceptions();
 
         if (exception != null)
         {
             throw exception;
         }
         
-        _exceptionContainer.ThrowExceptions();
-
         return pipelineSummary;
     }
 
