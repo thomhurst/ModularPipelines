@@ -1,2 +1,0 @@
-- Tweak exception throwing to simplify stacktraces 
-- File and folder operations will log their actions
