@@ -119,7 +119,7 @@ internal class ProgressPrinter : IProgressPrinter
             "...");
 
         Console.WriteLine();
-        AnsiConsole.Write(table);
+        AnsiConsole.Write(table.Expand());
         Console.WriteLine();
     }
 
