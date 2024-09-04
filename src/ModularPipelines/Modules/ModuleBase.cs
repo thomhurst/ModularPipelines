@@ -182,29 +182,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    protected async Task SubModule(string name, Func<Task> action)
+    protected Task SubModule(string name, Func<Task> action)
     {
-        var existingSubModule = SubModuleBases.Find(x => x.Name == name);
-        if (existingSubModule != null)
+        return SubModule(name, async () =>
         {
-            if (existingSubModule.Status == Status.Successful)
-            {
-                return;
-            }
-
-            if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
-            {
-                throw new Exception("Use Distinct names for SubModules");
-            }
-        }
-        
-        var submodule = new SubModule(GetType(), name, action);
-
-        SubModuleBases.Add(submodule);
-        
-        OnSubModuleCreated?.Invoke(this, submodule);
-
-        await submodule.Task;
+            await action();
+            return 0;
+        });
     }
 
     protected EventHandler? OnInitialised { get; set; } 
