@@ -29,15 +29,24 @@ internal class SubModule<T> : SubModuleBase
                 throw new SubModuleFailedException(this, e);
             }
         });
+        
+        try
+        {
+            var result = await Task;
 
-        _ = Task.ContinueWith(t =>
+            Duration = stopwatch.Elapsed;
+            EndTime = DateTimeOffset.UtcNow;
+            Status = Status.Successful;
+            
+            return result;
+        }
+        catch
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
-            Status = t.IsCompletedSuccessfully ? Status.Successful : Status.Failed;
-        });
-
-        return await Task;
+            Status = Status.Failed;
+            throw;
+        }
     }
 
     public override Task CallbackTask => Task;
