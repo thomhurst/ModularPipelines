@@ -165,24 +165,29 @@ public class SubModuleTests : TestBase
 
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
-                .ForEachAsync(name => SubModule(name, () =>
+            foreach (var name in new[] { "1", "2", "3" })
+            {
+                await SubModule<string>(name, () =>
                 {
                     if (name == "1")
                     {
                         _oneCount++;
                     }
+
                     if (name == "2")
                     {
                         _twoCount++;
                     }
+
                     if (name == "3")
                     {
                         _threeCount++;
                         throw new Exception();
                     }
-                }))
-                .ProcessOneAtATime();
+
+                    return "";
+                });
+            }
 
             return null;
         }
@@ -199,17 +204,20 @@ public class SubModuleTests : TestBase
 
         protected override async Task<string[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
-                .ForEachAsync(name => SubModule<string>(name, () =>
+            foreach (var name in new[] { "1", "2", "3" })
+            {
+                await SubModule<string>(name, () =>
                 {
                     if (name == "1")
                     {
                         _oneCount++;
                     }
+
                     if (name == "2")
                     {
                         _twoCount++;
                     }
+
                     if (name == "3")
                     {
                         _threeCount++;
@@ -217,8 +225,8 @@ public class SubModuleTests : TestBase
                     }
 
                     return "";
-                }))
-                .ProcessOneAtATime();
+                });
+            }
 
             return null;
         }
