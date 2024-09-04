@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
@@ -115,6 +116,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal abstract ModuleBase Initialize(IPipelineContext context);
 
+    internal readonly object SubModuleBasesLock = new();
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
     internal EventHandler<SubModuleBase>? OnSubModuleCreated;
@@ -128,29 +130,32 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-    protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
+    protected Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
-        var existingSubModule = SubModuleBases.Find(x => x.Name == name);
-        if (existingSubModule != null)
+        lock (SubModuleBasesLock)
         {
-            if (existingSubModule.Status == Status.Successful && existingSubModule is SubModule<T> typedSubmodule)
+            var existingSubModule = SubModuleBases.Find(x => x.Name == name);
+            if (existingSubModule != null)
             {
-                return await typedSubmodule.Task;
+                if (existingSubModule.Status == Status.Successful && existingSubModule is SubModule<T> typedSubmodule)
+                {
+                    return typedSubmodule.Task;
+                }
+
+                if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
+                {
+                    throw new Exception("Use Distinct names for SubModules");
+                }
             }
 
-            if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
-            {
-                throw new Exception("Use Distinct names for SubModules");
-            }
+            var submodule = new SubModule<T>(GetType(), name);
+
+            SubModuleBases.Add(submodule);
+
+            OnSubModuleCreated?.Invoke(this, submodule);
+
+            return submodule.Execute(action);
         }
-        
-        var submodule = new SubModule<T>(GetType(), name, action);
-
-        SubModuleBases.Add(submodule);
-        
-        OnSubModuleCreated?.Invoke(this, submodule);
-
-        return await submodule.Task;
     }
 
     /// <summary>

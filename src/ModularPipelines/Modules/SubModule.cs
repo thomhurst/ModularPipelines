@@ -6,9 +6,13 @@ namespace ModularPipelines.Modules;
 
 internal class SubModule<T> : SubModuleBase
 {
-    internal Task<T> Task { get; }
+    internal Task<T> Task { get; private set; } = null!;
 
-    internal SubModule(Type parentModule, string name, Func<Task<T>> action) : base(parentModule, name)
+    internal SubModule(Type parentModule, string name) : base(parentModule, name)
+    {
+    }
+
+    public async Task<T> Execute(Func<Task<T>> action)
     {
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
@@ -26,12 +30,14 @@ internal class SubModule<T> : SubModuleBase
             }
         });
 
-        Task.ContinueWith(t =>
+        _ = Task.ContinueWith(t =>
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
             Status = t.IsCompletedSuccessfully ? Status.Successful : Status.Failed;
         });
+
+        return await Task;
     }
 
     public override Task CallbackTask => Task;

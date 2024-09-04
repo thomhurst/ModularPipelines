@@ -46,6 +46,9 @@ internal class StatusHandler<T> : BaseHandler<T>, IStatusHandler
             case Status.UsedHistory:
                 Context.Logger.LogError("Module {Module} has been constructed from historical data", moduleName);
                 return;
+            case Status.Retried:
+                Context.Logger.LogError("Module {Module} retried", moduleName);
+                break;
             default:
                 Context.Logger.LogError("Module {Module} status is: {Status}", moduleName, Module.Status);
                 return;

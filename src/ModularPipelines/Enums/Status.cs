@@ -54,6 +54,11 @@ public enum Status
     Skipped,
 
     /// <summary>
+    /// The module was retried.
+    /// </summary>
+    Retried,
+    
+    /// <summary>
     /// Unknown module status.
     /// </summary>
     Unknown,
