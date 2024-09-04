@@ -7,7 +7,6 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers.Extensions;
-using TUnit.Core;
 
 namespace ModularPipelines.TestHelpers;
 

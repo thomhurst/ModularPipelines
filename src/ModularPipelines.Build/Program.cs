@@ -8,7 +8,6 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
-using ModularPipelines.GitHub.Options;
 using ModularPipelines.Host;
 using Octokit;
 using Octokit.Internal;
