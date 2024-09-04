@@ -293,6 +293,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             if (isRetry)
             {
                 Context.Logger.LogWarning("An error occurred. Retrying...");
+                SubModuleBases.RemoveAll(x => x.Status != Status.Successful);
             }
 
             isRetry = true;
