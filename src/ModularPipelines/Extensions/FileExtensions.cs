@@ -26,7 +26,7 @@ public static class FileExtensions
     /// Turns a nullable File object in a non-nullable File object if the file exists.
     /// </summary>
     /// <param name="file">The file to check.</param>
-    /// <param name="message">Helper message</param>
+    /// <param name="message">Helper message.</param>
     /// <returns>The input object if not null.</returns>
     public static File AssertExists(this File? file, string? message = null)
     {
