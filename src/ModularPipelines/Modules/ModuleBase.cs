@@ -131,11 +131,25 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
+        var existingSubModule = SubModuleBases.Find(x => x.Name == name);
+        if (existingSubModule != null)
+        {
+            if (existingSubModule.Status == Status.Successful && existingSubModule is SubModule<T> typedSubmodule)
+            {
+                return await typedSubmodule.Task;
+            }
+
+            if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
+            {
+                throw new Exception("Use Distinct names for SubModules");
+            }
+        }
+        
         var submodule = new SubModule<T>(GetType(), name, action);
 
-        OnSubModuleCreated?.Invoke(this, submodule);
-
         SubModuleBases.Add(submodule);
+        
+        OnSubModuleCreated?.Invoke(this, submodule);
 
         return await submodule.Task;
     }
@@ -168,15 +182,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    protected async Task SubModule(string name, Func<Task> action)
+    protected Task SubModule(string name, Func<Task> action)
     {
-        var submodule = new SubModule(GetType(), name, action);
-
-        OnSubModuleCreated?.Invoke(this, submodule);
-
-        SubModuleBases.Add(submodule);
-
-        await submodule.Task;
+        return SubModule(name, async () =>
+        {
+            await action();
+            return 0;
+        });
     }
 
     protected EventHandler? OnInitialised { get; set; } 
