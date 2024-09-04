@@ -182,7 +182,7 @@ public class SubModuleTests : TestBase
                         throw new Exception();
                     }
                 }))
-                .ProcessInParallel();
+                .ProcessOneAtATime();
 
             return null;
         }
@@ -218,7 +218,7 @@ public class SubModuleTests : TestBase
 
                     return "";
                 }))
-                .ProcessInParallel();
+                .ProcessOneAtATime();
 
             return null;
         }
