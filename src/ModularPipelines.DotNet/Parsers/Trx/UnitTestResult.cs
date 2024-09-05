@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using ModularPipelines.DotNet.Enums;
 
-namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
+namespace ModularPipelines.DotNet.Parsers.Trx;
 
 [Serializable]
 [XmlRoot(ElementName = "UnitTestResult")]

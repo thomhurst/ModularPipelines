@@ -1,7 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.DotNet.Parsers.NUnitTrx;
+using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Extensions;
