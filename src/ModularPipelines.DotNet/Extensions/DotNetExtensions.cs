@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Parsers.NUnitTrx;
+using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.DotNet.Services;
 using ModularPipelines.Engine;
 

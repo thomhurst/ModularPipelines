@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
-namespace ModularPipelines.DotNet.Parsers.NUnitTrx;
+namespace ModularPipelines.DotNet.Parsers.Trx;
 
 [XmlRoot(ElementName = "Output")]
 [ExcludeFromCodeCoverage]
