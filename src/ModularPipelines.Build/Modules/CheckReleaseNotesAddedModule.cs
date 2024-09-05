@@ -12,6 +12,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinux]
 [SkipOnMainBranch]
 [SkipIfDependabot]
+[SkipIfDependencyPullRequest]
 [DependsOn<ChangedFilesInPullRequestModule>]
 public class CheckReleaseNotesAddedModule : Module
 {
