@@ -4,6 +4,6 @@
   "automerge": true,
   "automergeStrategy": "squash",
   "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
+  "prHourlyLimit": 5,
   "autoApprove": true
 }
