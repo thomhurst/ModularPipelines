@@ -1,8 +1,8 @@
 name: Renovate
 
 on:
-  push:
-    branches: [ "main" ]
+  schedule:
+    - cron: "0 */1 * * *"
 
 jobs:
 
