@@ -1,2 +1,0 @@
-- The namespace for the TrxParser has changed
-- The TrxParser now parses the ResultSummary tag
