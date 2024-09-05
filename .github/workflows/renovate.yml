@@ -20,3 +20,5 @@ jobs:
       # You may pin to the exact commit or the version.
       # uses: renovatebot/github-action@aa150c86873c3e1326734d9c1390064fbc646148
       uses: renovatebot/github-action@v36.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
