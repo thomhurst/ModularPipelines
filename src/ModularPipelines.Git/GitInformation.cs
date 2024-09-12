@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
+using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
@@ -22,7 +23,7 @@ internal class GitInformation : IGitInformation
         _gitCommitMapper = gitCommitMapper;
     }
 
-    public Folder Root => _staticGitInformation.Root;
+    public Folder Root => _staticGitInformation.Root.AssertExists();
 
     public string? BranchName => _staticGitInformation.BranchName;
 
@@ -32,9 +33,9 @@ internal class GitInformation : IGitInformation
 
     public GitCommit? PreviousCommit => _staticGitInformation.PreviousCommit;
 
-    public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch;
+    public int CommitsOnBranch => _staticGitInformation.CommitsOnBranch ?? 0;
 
-    public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime;
+    public DateTimeOffset LastCommitDateTime => _staticGitInformation.LastCommitDateTime ?? DateTimeOffset.MinValue;
 
     public string? LastCommitSha => _staticGitInformation.LastCommitSha;
 
