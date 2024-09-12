@@ -1,1 +1,0 @@
-- Attempt to log command results when exceptions are thrown. E.g. Timeout TaskCanceledExceptions
