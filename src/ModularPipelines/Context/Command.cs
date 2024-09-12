@@ -141,6 +141,9 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         }
         catch (CommandExecutionException e)
         {
+            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+
             _commandLogger.Log(options: options,
                 inputToLog: inputToLog,
                 exitCode: e.ExitCode,
@@ -153,6 +156,9 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         }
         catch (Exception e) when (e is not CommandExecutionException)
         {
+            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+
             _commandLogger.Log(options: options,
                 inputToLog: inputToLog,
                 exitCode: -1,
