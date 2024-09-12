@@ -55,7 +55,7 @@ internal class StaticGitInformation : IInitializer
         Async(async () =>
             LastCommitSha = await GetOutput(new GitRevParseOptions
             {
-                Arguments = new[] { "HEAD" },
+                Arguments = ["HEAD"],
             })
         );
 
@@ -63,7 +63,7 @@ internal class StaticGitInformation : IInitializer
             LastCommitShortSha = await GetOutput(new GitRevParseOptions
             {
                 Short = true,
-                Arguments = new[] { "HEAD" },
+                Arguments = ["HEAD"],
             })
         );
 
@@ -75,22 +75,25 @@ internal class StaticGitInformation : IInitializer
         );
 
         Async(async () =>
-            CommitsOnBranch =
-                int.Parse(await GetOutput(new GitRevListOptions
-                {
-                    Count = true,
-                    Arguments = new[] { "HEAD" },
-                }) ?? "0")
-        );
+        {
+            int.TryParse(await GetOutput(new GitRevListOptions
+            {
+                Count = true,
+                Arguments = ["HEAD"],
+            }) ?? "0", out var commitsOnBranch);
+            CommitsOnBranch = commitsOnBranch;
+        });
 
         Async(async () =>
-            LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(
-                long.Parse(await GetOutput(new GitLogOptions
-                {
-                    Format = "%at",
-                    Arguments = new[] { "-1" },
-                }) ?? "0"))
-        );
+        {
+            long.TryParse(await GetOutput(new GitLogOptions
+            {
+                Format = "%at",
+                Arguments = ["-1"],
+            }) ?? "0", out var lastCommitDateTime);
+
+            LastCommitDateTime = DateTimeOffset.FromUnixTimeSeconds(lastCommitDateTime);
+        });
 
         Async(async () =>
             PreviousCommit = await LastCommits(1).FirstOrDefaultAsync()
@@ -127,7 +130,7 @@ internal class StaticGitInformation : IInitializer
         {
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
             {
-                Arguments = new[] { "version" },
+                Arguments = ["version"],
                 CommandLogging = CommandLogging.None,
             });
 
@@ -145,7 +148,7 @@ internal class StaticGitInformation : IInitializer
         {
             var output = await GetOutput(new GitRemoteOptions
             {
-                Arguments = new[] { "show", "origin" },
+                Arguments = ["show", "origin"],
             });
 
             return output!.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
@@ -156,7 +159,7 @@ internal class StaticGitInformation : IInitializer
         {
             var output = await GetOutput(new GitRevParseOptions
             {
-                Arguments = new[] { "origin/HEAD" },
+                Arguments = ["origin/HEAD"],
                 AbbrevRef = true,
                 ThrowOnNonZeroExitCode = false,
             });

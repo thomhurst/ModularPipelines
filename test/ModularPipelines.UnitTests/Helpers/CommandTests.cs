@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -29,12 +30,12 @@ public class CommandTests : TestBase
             try
             {
                 using var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(5));
+                cts.CancelAfter(TimeSpan.FromSeconds(30));
                 
                 return (await context.Command.ExecuteCommandLineTool(
                     new CommandLineToolOptions(
-                        "bash",
-                        "echo 'Foo bar!' && sleep 30"
+                        "pwsh",
+                        "-Command", "echo 'Foo bar!'; Start-Sleep -Seconds 60"
                     ),
                     cancellationToken: cts.Token)).StandardOutput;
             }
