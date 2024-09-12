@@ -35,13 +35,13 @@ internal class StaticGitInformation : IInitializer
         var tasks = new List<Task>();
 
         Async(async () =>
-            Root = (await GetOutput(new GitRevParseOptions
+            Root ??= (await GetOutput(new GitRevParseOptions
             {
                 ShowToplevel = true,
             }))!);
 
         Async(async () =>
-            BranchName = await GetOutput(new GitBranchOptions
+            BranchName ??= await GetOutput(new GitBranchOptions
             {
                 ShowCurrent = true,
             })
@@ -49,18 +49,18 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
         {
-            DefaultBranchName = await GetDefaultBranchName();
+            DefaultBranchName ??= await GetDefaultBranchName();
         });
 
         Async(async () =>
-            LastCommitSha = await GetOutput(new GitRevParseOptions
+            LastCommitSha ??= await GetOutput(new GitRevParseOptions
             {
                 Arguments = ["HEAD"],
             })
         );
 
         Async(async () =>
-            LastCommitShortSha = await GetOutput(new GitRevParseOptions
+            LastCommitShortSha ??= await GetOutput(new GitRevParseOptions
             {
                 Short = true,
                 Arguments = ["HEAD"],
@@ -68,7 +68,7 @@ internal class StaticGitInformation : IInitializer
         );
 
         Async(async () =>
-            Tag = await GetOutput(new GitDescribeOptions
+            Tag ??= await GetOutput(new GitDescribeOptions
             {
                 Tags = true,
             })
@@ -76,6 +76,11 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
         {
+            if (CommitsOnBranch == null)
+            {
+                return;
+            }
+            
             int.TryParse(await GetOutput(new GitRevListOptions
             {
                 Count = true,
@@ -86,6 +91,11 @@ internal class StaticGitInformation : IInitializer
 
         Async(async () =>
         {
+            if (LastCommitDateTime == null)
+            {
+                return;
+            }
+
             long.TryParse(await GetOutput(new GitLogOptions
             {
                 Format = "%at",
@@ -96,7 +106,7 @@ internal class StaticGitInformation : IInitializer
         });
 
         Async(async () =>
-            PreviousCommit = await LastCommits(1).FirstOrDefaultAsync()
+            PreviousCommit ??= await LastCommits(1).FirstOrDefaultAsync()
         );
 
         await Task.WhenAll(tasks);
@@ -187,19 +197,19 @@ internal class StaticGitInformation : IInitializer
 
     public GitCommit? PreviousCommit { get; private set; }
 
-    public Folder Root { get; private set; } = null!;
+    public Folder? Root { get; private set; }
 
-    public string? BranchName { get; private set; } = null!;
+    public string? BranchName { get; private set; }
 
-    public string? DefaultBranchName { get; private set; } = null!;
+    public string? DefaultBranchName { get; private set; }
 
-    public string? Tag { get; private set; } = null!;
+    public string? Tag { get; private set; }
 
-    public int CommitsOnBranch { get; private set; }
+    public int? CommitsOnBranch { get; private set; }
 
-    public DateTimeOffset LastCommitDateTime { get; private set; }
+    public DateTimeOffset? LastCommitDateTime { get; private set; }
 
-    public string? LastCommitSha { get; private set; } = null!;
+    public string? LastCommitSha { get; private set; }
 
-    public string? LastCommitShortSha { get; private set; } = null!;
+    public string? LastCommitShortSha { get; private set; }
 }
