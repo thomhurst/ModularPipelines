@@ -152,7 +152,8 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
                 standardError: standardError,
                 commandWorkingDirPath: command.WorkingDirPath
             );
-            throw;
+            
+            throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
         }
         catch (Exception e) when (e is not CommandExecutionException)
         {
@@ -168,7 +169,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
                 commandWorkingDirPath: command.WorkingDirPath
             );
 
-            throw;
+            throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
         }
     }
 }

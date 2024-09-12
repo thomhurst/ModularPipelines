@@ -2,7 +2,7 @@ namespace ModularPipelines.Exceptions;
 
 public class CommandException : PipelineException
 {
-    public CommandException(string input, int exitCode, TimeSpan executionTime, string standardOutput, string standardError) : base(GenerateMessage(input, exitCode, executionTime, standardOutput, standardError))
+    public CommandException(string input, int exitCode, TimeSpan executionTime, string standardOutput, string standardError, Exception? innerException = null) : base(GenerateMessage(input, exitCode, executionTime, standardOutput, standardError), innerException)
     {
         ExitCode = exitCode;
         ExecutionTime = executionTime;
