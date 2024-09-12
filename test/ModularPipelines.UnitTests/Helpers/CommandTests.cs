@@ -15,8 +15,8 @@ public class CommandTests : TestBase
         {
             return await context.Command.ExecuteCommandLineTool(
                 new CommandLineToolOptions(
-                    "pwsh",
-                    "-Command", "echo 'Foo bar!'"
+                    "bash",
+                    "echo 'Foo bar!' && sleep 30"
                 ),
                 cancellationToken: cancellationToken);
         }
