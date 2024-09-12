@@ -15,8 +15,8 @@ public class CommandTests : TestBase
         {
             return await context.Command.ExecuteCommandLineTool(
                 new CommandLineToolOptions(
-                    "bash",
-                    "echo 'Foo bar!' && sleep 30"
+                    "pwsh",
+                    "-Command", "echo 'Foo bar!'"
                 ),
                 cancellationToken: cancellationToken);
         }
@@ -33,8 +33,8 @@ public class CommandTests : TestBase
                 
                 return (await context.Command.ExecuteCommandLineTool(
                     new CommandLineToolOptions(
-                        "pwsh",
-                        "-Command", "echo 'Foo bar!'; Start-Sleep -Seconds 30"
+                        "bash",
+                        "echo 'Foo bar!' && sleep 30"
                     ),
                     cancellationToken: cts.Token)).StandardOutput;
             }
