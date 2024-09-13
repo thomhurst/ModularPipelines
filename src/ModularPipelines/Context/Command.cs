@@ -115,9 +115,16 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         
         cancellationToken.Register(() =>
         {
-            if (forcefulCancellationToken.Token.CanBeCanceled)
+            try
             {
-                forcefulCancellationToken.CancelAfter(TimeSpan.FromSeconds(30));
+                if (forcefulCancellationToken.Token.CanBeCanceled)
+                {
+                    forcefulCancellationToken.CancelAfter(TimeSpan.FromSeconds(30));
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignored
             }
         });
         
