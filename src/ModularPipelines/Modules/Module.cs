@@ -26,8 +26,6 @@ public abstract class Module : Module<IDictionary<string, object>>;
 /// <typeparam name="T">The data to return which can be used within other modules, which is returned from its ExecuteAsync method..</typeparam>
 public abstract partial class Module<T> : ModuleBase<T>
 {
-    private readonly Stopwatch _stopwatch = new();
-
     internal override IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies()
     {
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
@@ -129,7 +127,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
 
-            _stopwatch.Start();
+            Stopwatch.Start();
 
             var executeResult = await ExecuteInternal();
 
@@ -365,8 +363,8 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     private void SetEndTime()
     {
-        _stopwatch.Stop();
+        Stopwatch.Stop();
         EndTime = DateTimeOffset.UtcNow;
-        Duration = _stopwatch.Elapsed;
+        Duration = Stopwatch.Elapsed;
     }
 }

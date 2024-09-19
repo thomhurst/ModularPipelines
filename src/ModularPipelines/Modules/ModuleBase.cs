@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
@@ -88,6 +89,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
+    internal readonly Stopwatch Stopwatch = new();
+    
     /// <summary>
     /// Gets the start time of the module.
     /// </summary>

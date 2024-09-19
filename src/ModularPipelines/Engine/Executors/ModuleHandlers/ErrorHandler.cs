@@ -57,12 +57,12 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     private bool IsModuleTimedOutException(Exception exception)
     {
-        if (Module.StartTime == default)
+        if (Module.Timeout == TimeSpan.Zero)
         {
             return false;
         }
         
-        var isTimeoutExceed = Module.EndTime - Module.StartTime >= Module.Timeout;
+        var isTimeoutExceed = Module.Stopwatch.Elapsed >= Module.Timeout;
         return isTimeoutExceed && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
     }
 
