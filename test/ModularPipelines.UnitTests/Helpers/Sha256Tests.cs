@@ -25,9 +25,9 @@ public class Sha256Tests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -37,6 +37,6 @@ public class Sha256Tests : TestBase
         var module = await RunModule<ToSha256Module>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("d80c14a132a9ae008c78db4ee4cbc46b015b5e0f018f6b0a3e4ea5041176b852");
+        await Assert.That(moduleResult.Value).IsEqualTo("d80c14a132a9ae008c78db4ee4cbc46b015b5e0f018f6b0a3e4ea5041176b852");
     }
 }

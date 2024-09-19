@@ -15,6 +15,6 @@ public class GitInformationTests : TestBase
 
         var branch = gitInformation.BranchName;
         
-        await Assert.That(branch).Is.Not.Null().And.Is.Not.Empty();
+        await Assert.That(branch).IsNotNull().And.IsNotEmpty();
     }
 }

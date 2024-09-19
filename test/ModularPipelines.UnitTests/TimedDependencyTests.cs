@@ -24,14 +24,14 @@ public class TimedDependencyTests
         await using (Assert.Multiple())
         {
             // 5 + 1
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
 
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).Is.GreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).IsGreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900));
 
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).Is.GreaterThanOrEqualTo(fiveSecondModule.EndTime);
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).Is.GreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).IsGreaterThanOrEqualTo(fiveSecondModule.EndTime);
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
         }
     }
 

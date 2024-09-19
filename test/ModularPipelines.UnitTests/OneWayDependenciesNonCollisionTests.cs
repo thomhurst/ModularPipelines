@@ -16,7 +16,7 @@ public class OneWayDependenciesNonCollisionTests
             .AddModule<DependencyConflictModule3>()
             .AddModule<DependencyConflictModule4>()
             .AddModule<DependencyConflictModule5>()
-            .ExecutePipelineAsync()).Throws.Nothing();
+            .ExecutePipelineAsync()).ThrowsNothing();
     }
 
     [DependsOn<DependencyConflictModule2>]

@@ -84,8 +84,8 @@ public class ParallelLimiterTests
         var start = results.Modules.MinBy(x => x.StartTime)!.StartTime.DateTime;
         var end = results.Modules.MaxBy(x => x.EndTime)!.EndTime.DateTime;
 
-        await Assert.That(end - start).Is.GreaterThan(TimeSpan.FromSeconds(10));
-        await Assert.That(end - start).Is.LessThan(TimeSpan.FromSeconds(30));
+        await Assert.That(end - start).IsGreaterThan(TimeSpan.FromSeconds(10));
+        await Assert.That(end - start).IsLessThan(TimeSpan.FromSeconds(30));
     }
 
     private record MyParallelLimit : IParallelLimit

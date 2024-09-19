@@ -45,10 +45,10 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Not.Contain("---Request---");
-        await Assert.That(logFile).Does.Not.Contain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).Does.Contain("---Response---");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
+        await Assert.That(logFile).DoesNotContain("---Request---");
+        await Assert.That(logFile).DoesNotContain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).Contains("---Response---");
+        await Assert.That(logFile).Contains("Server: GitHub.com");
     }
 
     [Test]
@@ -75,10 +75,10 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).Does.Not.Contain("---Response---");
-        await Assert.That(logFile).Does.Not.Contain("Server: GitHub.com");
+        await Assert.That(logFile).Contains("---Request---");
+        await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).DoesNotContain("---Response---");
+        await Assert.That(logFile).DoesNotContain("Server: GitHub.com");
     }
 
     [Test]
@@ -116,14 +116,14 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Does.Contain("---Request---");
-        await Assert.That(logFile).Does.Contain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).Does.Contain("---Response---");
-        await Assert.That(logFile).Does.Contain("Headers");
-        await Assert.That(logFile).Does.Contain("Server: GitHub.com");
-        await Assert.That(logFile).Does.Contain("Body");
-        await Assert.That(logFile).Does.Contain("---Duration---");
-        await Assert.That(logFile).Does.Contain("---HTTP Status Code---");
+        await Assert.That(logFile).Contains("---Request---");
+        await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).Contains("---Response---");
+        await Assert.That(logFile).Contains("Headers");
+        await Assert.That(logFile).Contains("Server: GitHub.com");
+        await Assert.That(logFile).Contains("Body");
+        await Assert.That(logFile).Contains("---Duration---");
+        await Assert.That(logFile).Contains("---HTTP Status Code---");
 
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
@@ -134,9 +134,9 @@ public class HttpTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(indexOfRequest).Is.LessThan(indexOfStatusCode);
-            await Assert.That(indexOfStatusCode).Is.LessThan(indexOfDuration);
-            await Assert.That(indexOfDuration).Is.LessThan(indexOfResponse);
+            await Assert.That(indexOfRequest).IsLessThan(indexOfStatusCode);
+            await Assert.That(indexOfStatusCode).IsLessThan(indexOfDuration);
+            await Assert.That(indexOfDuration).IsLessThan(indexOfResponse);
         }
     }
 }

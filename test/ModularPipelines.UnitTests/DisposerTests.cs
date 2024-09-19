@@ -29,19 +29,19 @@ public class DisposerTests
     public async Task Disposer_Calls_Async()
     {
         var myClass = new MyClass();
-        await Assert.That(myClass.DisposedAsync).Is.False();
+        await Assert.That(myClass.DisposedAsync).IsFalse();
 
         await Disposer.DisposeObjectAsync(myClass);
-        await Assert.That(myClass.DisposedAsync).Is.True();
+        await Assert.That(myClass.DisposedAsync).IsTrue();
     }
 
     [Test]
     public async Task Disposer_Calls_Sync()
     {
         var myClass = new MyClass2();
-        await Assert.That(myClass.Disposed).Is.False();
+        await Assert.That(myClass.Disposed).IsFalse();
 
         await Disposer.DisposeObjectAsync(myClass);
-        await Assert.That(myClass.Disposed).Is.True();
+        await Assert.That(myClass.Disposed).IsTrue();
     }
 }

@@ -20,7 +20,7 @@ public class BuildSystemDetectorTests : TestBase
     [Test]
     public async Task When_No_Known_BuildAgent_Variable_Then_IsKnownBuildAgent_Returns_False()
     {
-        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.False();
+        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).IsFalse();
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).Is.True();
+        await Assert.That(_buildSystemDetector.IsKnownBuildAgent).IsTrue();
     }
 
     [Test]
@@ -45,14 +45,14 @@ public class BuildSystemDetectorTests : TestBase
     {
         await using (Assert.Multiple())
         {
-            await Assert.That(_buildSystemDetector.IsRunningOnBitbucket).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnJenkins).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnTeamCity).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).Is.True().Or.Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnGitLab).Is.False();
-            await Assert.That(_buildSystemDetector.IsRunningOnTravisCI).Is.False();
+            await Assert.That(_buildSystemDetector.IsRunningOnBitbucket).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnJenkins).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnAzurePipelines).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnTeamCity).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnGitHubActions).IsTrue().Or.IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnAppVeyor).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnGitLab).IsFalse();
+            await Assert.That(_buildSystemDetector.IsRunningOnTravisCI).IsFalse();
         }
     }
 
@@ -71,6 +71,6 @@ public class BuildSystemDetectorTests : TestBase
         _environmentVariables
             .Setup(x => x.GetEnvironmentVariable(environmentVariableName, It.IsAny<EnvironmentVariableTarget>()))
             .Returns("dummy value");
-        await Assert.That(_buildSystemDetector.GetCurrentBuildSystem()).Is.EqualTo(expectedBuildSystem);
+        await Assert.That(_buildSystemDetector.GetCurrentBuildSystem()).IsEqualTo(expectedBuildSystem);
     }
 }

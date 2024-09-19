@@ -30,9 +30,9 @@ public class GitTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -45,8 +45,8 @@ public class GitTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
-            await Assert.That(moduleResult.Value.StandardOutput).Does.Match("git version \\d+.*");
+            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
+            await Assert.That(moduleResult.Value.StandardOutput).DoesMatch("git version \\d+.*");
         }
     }
 
@@ -57,8 +57,8 @@ public class GitTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(git.RootDirectory.Name).Is.EqualTo("ModularPipelines");
-            await Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Does.Contain("README.md");
+            await Assert.That(git.RootDirectory.Name).IsEqualTo("ModularPipelines");
+            await Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Contains("README.md");
         }
     }
 
@@ -66,6 +66,6 @@ public class GitTests : TestBase
     public async Task DefaultBranchName()
     {
         var git = await GetService<IGit>();
-        await Assert.That(git.Information.DefaultBranchName).Is.EqualTo("main");
+        await Assert.That(git.Information.DefaultBranchName).IsEqualTo("main");
     }
 }

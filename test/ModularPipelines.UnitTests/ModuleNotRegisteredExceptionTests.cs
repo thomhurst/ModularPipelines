@@ -44,6 +44,6 @@ public class ModuleNotRegisteredExceptionTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync()
-        ).Throws.Nothing();
+        ).ThrowsNothing();
     }
 }

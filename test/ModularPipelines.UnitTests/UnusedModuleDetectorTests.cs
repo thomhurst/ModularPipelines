@@ -52,8 +52,8 @@ public class UnusedModuleDetectorTests
             .Returns(serviceCollection);
 
         _unusedModuleDetector.Log();
-        await Assert.That(_sb.ToString()).Is.Not.Empty();
-        await Assert.That(_sb.ToString().Trim()).Is.EqualTo("""
+        await Assert.That(_sb.ToString()).IsNotEmpty();
+        await Assert.That(_sb.ToString().Trim()).IsEqualTo("""
 Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
 ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
 """);

@@ -82,7 +82,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -92,7 +92,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -101,7 +101,7 @@ public class DependsOnTests : TestBase
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
                 .ExecutePipelineAsync())
-            .Throws.Exception().OfAnyType();
+            .ThrowsException().OfAnyType();
     }
 
     [Test]
@@ -110,7 +110,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -119,7 +119,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<Module3WithGetIfRegistered>()
             .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
     [Test]

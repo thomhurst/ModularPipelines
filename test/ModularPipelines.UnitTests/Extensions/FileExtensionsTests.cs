@@ -15,9 +15,9 @@ public class FileExtensionsTests
         }.AsEnumerable();
 
         var paths = files.AsPaths();
-        await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
-        await Assert.That(paths).Is.Not.AssignableTo<List<string>>();
-        await Assert.That(paths).Is.EquivalentTo(new List<string>
+        await Assert.That(paths).IsAssignableTo<IEnumerable<string>>();
+        await Assert.That(paths).IsNotAssignableTo<List<string>>();
+        await Assert.That(paths).IsEquivalentTo(new List<string>
         {
             Path.Combine(TestContext.WorkingDirectory, "File1.txt"),
             Path.Combine(TestContext.WorkingDirectory, "File2.txt"),
@@ -34,9 +34,9 @@ public class FileExtensionsTests
         };
 
         var paths = files.AsPaths();
-        await Assert.That(paths).Is.AssignableTo<IEnumerable<string>>();
-        await Assert.That(paths).Is.AssignableTo<List<string>>();
-        await Assert.That(paths).Is.EquivalentTo(new List<string>
+        await Assert.That(paths).IsAssignableTo<IEnumerable<string>>();
+        await Assert.That(paths).IsAssignableTo<List<string>>();
+        await Assert.That(paths).IsEquivalentTo(new List<string>
         {
             Path.Combine(TestContext.WorkingDirectory, "File1.txt"),
             Path.Combine(TestContext.WorkingDirectory, "File2.txt"),

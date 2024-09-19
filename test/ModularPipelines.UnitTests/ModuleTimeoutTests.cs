@@ -44,19 +44,19 @@ public class ModuleTimeoutTests : TestBase
     public async Task Throws_TaskException_When_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
-        await Assert.That(exception.InnerException).Is.TypeOf<ModuleTimeoutException>().Or.Is.TypeOf<TaskCanceledException>();
+        await Assert.That(exception.InnerException).IsTypeOf<ModuleTimeoutException>().Or.IsTypeOf<TaskCanceledException>();
     }
 
     [Test]
     public async Task Throws_Timeout_Exception_When_Not_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_NotUsingCancellationToken>);
-        await Assert.That(exception.InnerException).Is.TypeOf<ModuleTimeoutException>().Or.Is.TypeOf<OperationCanceledException>().Or.Is.TypeOf<TaskCanceledException>();
+        await Assert.That(exception.InnerException).IsTypeOf<ModuleTimeoutException>().Or.IsTypeOf<OperationCanceledException>().Or.IsTypeOf<TaskCanceledException>();
     }
 
     [Test]
     public async Task No_Timeout_Does_Not_Throw_Exception()
     {
-        await Assert.That(RunModule<NoTimeoutModule>).Throws.Nothing();
+        await Assert.That(RunModule<NoTimeoutModule>).ThrowsNothing();
     }
 }

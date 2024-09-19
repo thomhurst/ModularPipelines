@@ -62,10 +62,10 @@ public class AlwaysRunTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(myModule1.Status).Is.EqualTo(Status.Failed);
-            await Assert.That(myModule2.Status).Is.EqualTo(Status.Failed);
-            await Assert.That(myModule3.Status).Is.EqualTo(Status.Failed);
-            await Assert.That(myModule4.Status).Is.Not.EqualTo(Status.NotYetStarted);
+            await Assert.That(myModule1.Status).IsEqualTo(Status.Failed);
+            await Assert.That(myModule2.Status).IsEqualTo(Status.Failed);
+            await Assert.That(myModule3.Status).IsEqualTo(Status.Failed);
+            await Assert.That(myModule4.Status).IsNotEqualTo(Status.NotYetStarted);
         }
     }
 }

@@ -19,10 +19,10 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Path).Is.EqualTo(newLocation);
-            await Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
-            await Assert.That(new File(file.OriginalPath).Exists).Is.False();
-            await Assert.That(file.Exists).Is.True();
+            await Assert.That(file.Path).IsEqualTo(newLocation);
+            await Assert.That(file.OriginalPath).IsNotEqualTo(newLocation);
+            await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
+            await Assert.That(file.Exists).IsTrue();
         }
     }
 
@@ -38,12 +38,12 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Path).Is.Not.EqualTo(newLocation);
-            await Assert.That(file.OriginalPath).Is.Not.EqualTo(newLocation);
-            await Assert.That(newFile.Path).Is.EqualTo(newLocation);
-            await Assert.That(newFile.OriginalPath).Is.EqualTo(newLocation);
-            await Assert.That(new File(file.OriginalPath).Exists).Is.True();
-            await Assert.That(file.Exists).Is.True();
+            await Assert.That(file.Path).IsNotEqualTo(newLocation);
+            await Assert.That(file.OriginalPath).IsNotEqualTo(newLocation);
+            await Assert.That(newFile.Path).IsEqualTo(newLocation);
+            await Assert.That(newFile.OriginalPath).IsEqualTo(newLocation);
+            await Assert.That(new File(file.OriginalPath).Exists).IsTrue();
+            await Assert.That(file.Exists).IsTrue();
         }
     }
 
@@ -53,10 +53,10 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        await Assert.That(context.FileExists(file)).Is.True();
+        await Assert.That(context.FileExists(file)).IsTrue();
 
         file.Delete();
-        await Assert.That(context.FileExists(file)).Is.False();
+        await Assert.That(context.FileExists(file)).IsFalse();
     }
 
     [Test]
@@ -68,9 +68,9 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(context.GetFileAttributes(file).ToString()).Is.Not.Null();
-            await Assert.That(context.GetNewTemporaryFilePath()).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(context.FileExists(file)).Is.True();
+            await Assert.That(context.GetFileAttributes(file).ToString()).IsNotNull();
+            await Assert.That(context.GetNewTemporaryFilePath()).IsNotNull().And.IsNotEmpty();
+            await Assert.That(context.FileExists(file)).IsTrue();
         }
     }
 
@@ -86,10 +86,10 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
-            await Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
-            await Assert.That(new Folder(folder.OriginalPath).Exists).Is.False();
-            await Assert.That(folder.Exists).Is.True();
+            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsEqualTo(newLocation);
+            await Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).IsNotEqualTo(newLocation);
+            await Assert.That(new Folder(folder.OriginalPath).Exists).IsFalse();
+            await Assert.That(folder.Exists).IsTrue();
         }
     }
 
@@ -105,12 +105,12 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
-            await Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.Not.EqualTo(newLocation);
-            await Assert.That(newFile.Path.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
-            await Assert.That(newFile.OriginalPath.TrimEnd('\\').TrimEnd('/')).Is.EqualTo(newLocation);
-            await Assert.That(new Folder(folder.OriginalPath).Exists).Is.True();
-            await Assert.That(folder.Exists).Is.True();
+            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsNotEqualTo(newLocation);
+            await Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).IsNotEqualTo(newLocation);
+            await Assert.That(newFile.Path.TrimEnd('\\').TrimEnd('/')).IsEqualTo(newLocation);
+            await Assert.That(newFile.OriginalPath.TrimEnd('\\').TrimEnd('/')).IsEqualTo(newLocation);
+            await Assert.That(new Folder(folder.OriginalPath).Exists).IsTrue();
+            await Assert.That(folder.Exists).IsTrue();
         }
     }
 
@@ -120,10 +120,10 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        await Assert.That(context.FolderExists(folder)).Is.True();
+        await Assert.That(context.FolderExists(folder)).IsTrue();
 
         folder.Delete();
-        await Assert.That(context.FolderExists(folder)).Is.False();
+        await Assert.That(context.FolderExists(folder)).IsFalse();
     }
 
     [Test]
@@ -135,9 +135,9 @@ public class FileSystemContextTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(context.GetFolderAttributes(folder).ToString()).Is.Not.Null();
-            await Assert.That(context.CreateTemporaryFolder()).Is.Not.Null();
-            await Assert.That(context.FolderExists(folder)).Is.True();
+            await Assert.That(context.GetFolderAttributes(folder).ToString()).IsNotNull();
+            await Assert.That(context.CreateTemporaryFolder()).IsNotNull();
+            await Assert.That(context.FolderExists(folder)).IsTrue();
         }
     }
 

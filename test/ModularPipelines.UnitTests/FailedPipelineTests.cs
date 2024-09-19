@@ -46,7 +46,7 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module2>()
                 .AddModule<Module3>()
-                .ExecutePipelineAsync()).Throws.Exception()
+                .ExecutePipelineAsync()).ThrowsException()
             .OfAnyType();
     }
 
@@ -75,6 +75,6 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module3>()
                 .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Status).Is.EqualTo(Status.Successful);
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 }

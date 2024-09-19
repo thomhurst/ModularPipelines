@@ -25,9 +25,9 @@ public class HexTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -37,7 +37,7 @@ public class HexTests : TestBase
         var module = await RunModule<ToHexModule>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("466f6f2062617221");
+        await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
     }
 
     private class FromHexModule : Module<string>
@@ -58,9 +58,9 @@ public class HexTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -70,6 +70,6 @@ public class HexTests : TestBase
         var module = await RunModule<FromHexModule>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("Foo bar!");
+        await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

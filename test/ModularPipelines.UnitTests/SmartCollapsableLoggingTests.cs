@@ -62,7 +62,7 @@ public class SmartCollapsableLoggingTests : TestBase
     public async Task UnsupportedLogGroupSystems(BuildSystem buildSystem)
     {
         var stringBuilder = await Execute(buildSystem);
-        await Assert.That(stringBuilder.ToString().Trim()).Is.EqualTo("""
+        await Assert.That(stringBuilder.ToString().Trim()).IsEqualTo("""
                                                                       ----------SmartCollapsableLoggingTests Start----------
                                                                      
                                                                       ----------MyGroup Start----------

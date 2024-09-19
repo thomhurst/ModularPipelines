@@ -25,9 +25,9 @@ public class Md5Tests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -37,6 +37,6 @@ public class Md5Tests : TestBase
         var module = await RunModule<ToMd5Module>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd");
+        await Assert.That(moduleResult.Value).IsEqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd");
     }
 }
