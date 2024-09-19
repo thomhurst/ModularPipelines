@@ -1,7 +1,13 @@
 using System.Globalization;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git;
+using ModularPipelines.Git.Extensions;
+using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 using TUnit.Assertions.Extensions.Throws;
@@ -26,6 +32,16 @@ public class FolderTests : TestBase
 
         folder.Clean();
         await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(0);
+    }
+
+    private class FindFileModule : Module<ModularPipelines.FileSystem.File>
+    {
+        protected override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        {
+            await Task.CompletedTask;
+            
+            return context.Git().RootDirectory.FindFile(x => x.Name == "README.md");
+        }
     }
 
     [Test]
@@ -53,6 +69,25 @@ public class FolderTests : TestBase
         var readme = git.RootDirectory.FindFile(x => x.Name == "README.md");
         await Assert.That(readme).IsNotNull();
         await Assert.That(readme!.Exists).IsTrue();
+    }
+
+    [Test]
+    public async Task FindFileLogs()
+    {
+            var stringBuilder = new StringBuilder();
+
+            await TestPipelineHostBuilder.Create()
+                .ConfigureServices((_, collection) =>
+                {
+                    collection
+                        .AddSingleton<ILogger<FindFileModule>>(
+                            new StringLogger<FindFileModule>(stringBuilder))
+                        .AddModule<FindFileModule>();
+                })
+                .ExecutePipelineAsync();
+
+            var actualLogResult = stringBuilder.ToString().Trim();
+            await Assert.That(actualLogResult).Contains("x => x.Name == \"README.md\"");
     }
 
     [Test]

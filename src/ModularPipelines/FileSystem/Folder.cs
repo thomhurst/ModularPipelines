@@ -167,7 +167,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        ModuleLogger.Current.LogInformation("Searching Folders in: {Path} > {Expression}", this, predicate);
+        ModuleLogger.Current.LogInformation("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
 
         return SafeWalk.EnumerateFolders(this, exclusionFilters)
             .Select(x => new Folder(x))
@@ -177,7 +177,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Expression}", this, predicate);
+        ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Expression}", this, predicateExpression);
         
         return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
             .Select(x => new File(x))
