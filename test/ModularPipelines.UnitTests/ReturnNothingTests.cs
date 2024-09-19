@@ -67,10 +67,10 @@ public class ReturnNothingTests : TestBase
     {
         await using (TUnit.Assertions.Assert.Multiple())
         {
-            await TUnit.Assertions.Assert.That(result.HasValue).Is.False();
-            await TUnit.Assertions.Assert.That(result.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await TUnit.Assertions.Assert.That(result.Value).Is.Null();
-            await TUnit.Assertions.Assert.That(result.Exception).Is.Null();
+            await TUnit.Assertions.Assert.That(result.HasValue).IsFalse();
+            await TUnit.Assertions.Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await TUnit.Assertions.Assert.That(result.Value).IsNull();
+            await TUnit.Assertions.Assert.That(result.Exception).IsNull();
         }
     }
 }

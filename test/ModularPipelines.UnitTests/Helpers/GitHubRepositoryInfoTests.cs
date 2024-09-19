@@ -26,17 +26,17 @@ public class GitHubRepositoryInfoTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(gitHubRepositoryInfo).Is.Not.Null();
-            await Assert.That(gitHubRepositoryInfo.IsInitialized).Is.True();
-            await Assert.That(gitHubRepositoryInfo.IsGitHub).Is.True();
-            await Assert.That(gitHubRepositoryInfo.RepositoryName).Is.Not.Null()
-                .And.Is.Not.Empty();
-            await Assert.That(gitHubRepositoryInfo.Owner).Is.Not.Null()
-                .And.Is.Not.Empty();
-            await Assert.That(gitHubRepositoryInfo.Endpoint).Is.Not.Null()
-                .And.Is.Not.Empty();
-            await Assert.That(gitHubRepositoryInfo.Identifier).Is.Not.Null()
-                .And.Is.Not.Empty();
+            await Assert.That(gitHubRepositoryInfo).IsNotNull();
+            await Assert.That(gitHubRepositoryInfo.IsInitialized).IsTrue();
+            await Assert.That(gitHubRepositoryInfo.IsGitHub).IsTrue();
+            await Assert.That(gitHubRepositoryInfo.RepositoryName).IsNotNull()
+                .And.IsNotEmpty();
+            await Assert.That(gitHubRepositoryInfo.Owner).IsNotNull()
+                .And.IsNotEmpty();
+            await Assert.That(gitHubRepositoryInfo.Endpoint).IsNotNull()
+                .And.IsNotEmpty();
+            await Assert.That(gitHubRepositoryInfo.Identifier).IsNotNull()
+                .And.IsNotEmpty();
         }
     }
 }

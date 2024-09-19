@@ -25,9 +25,9 @@ public class Base64Tests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -37,7 +37,7 @@ public class Base64Tests : TestBase
         var module = await RunModule<ToBase64Module>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("Rm9vIGJhciE=");
+        await Assert.That(moduleResult.Value).IsEqualTo("Rm9vIGJhciE=");
     }
 
     private class FromBase64Module : Module<string>
@@ -58,9 +58,9 @@ public class Base64Tests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -70,6 +70,6 @@ public class Base64Tests : TestBase
         var module = await RunModule<FromBase64Module>();
 
         var moduleResult = await module;
-        await Assert.That(moduleResult.Value).Is.EqualTo("Foo bar!");
+        await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

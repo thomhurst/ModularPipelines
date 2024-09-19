@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions.Throws;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
@@ -63,8 +64,8 @@ public class EngineCancellationTokenTests : TestBase
 
         await using (Assert.Multiple())
         {
-            await Assert.That(async () => await host.ExecutePipelineAsync()).Throws.Exception().OfAnyType();
-            await Assert.That(module1.Status).Is.EqualTo(Status.NotYetStarted).Or.Is.EqualTo(Status.Failed);
+            await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException().OfAnyType();
+            await Assert.That(module1.Status).IsEqualTo(Status.NotYetStarted).Or.IsEqualTo(Status.Failed);
         }
     }
 
@@ -86,9 +87,9 @@ public class EngineCancellationTokenTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(async () => await pipelineTask).Throws.Exception().OfAnyType();
-            await Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(30));
+            await Assert.That(async () => await pipelineTask).ThrowsException().OfAnyType();
+            await Assert.That(longRunningModule.Status).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(longRunningModule.Duration).IsLessThan(TimeSpan.FromSeconds(30));
         }
     }
 
@@ -110,9 +111,9 @@ public class EngineCancellationTokenTests : TestBase
 
         await using (Assert.Multiple())
         {
-            await Assert.That(async () => await pipelineTask).Throws.Exception().OfAnyType();
-            await Assert.That(longRunningModule.Status).Is.EqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModule.Duration).Is.LessThan(TimeSpan.FromSeconds(30));
+            await Assert.That(async () => await pipelineTask).ThrowsException().OfAnyType();
+            await Assert.That(longRunningModule.Status).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(longRunningModule.Duration).IsLessThan(TimeSpan.FromSeconds(30));
         }
     }
 }

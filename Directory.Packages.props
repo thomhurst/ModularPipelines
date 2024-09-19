@@ -52,6 +52,8 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.12.4" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="1.4.0" />
     <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.11.435" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.6.0" />
@@ -68,7 +70,9 @@
     <PackageVersion Include="Spectre.Console" Version="0.49.1" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="System.Text.Json" Version="8.0.4" />
-    <PackageVersion Include="TUnit" Version="0.1.691" />
+    <PackageVersion Include="TUnit" Version="0.1.763" />
+    <PackageVersion Include="TUnit.Assertions" Version="0.1.763" />
+    <PackageVersion Include="TUnit.Core" Version="0.1.763" />
     <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240326.31" />
     <PackageVersion Include="YamlDotNet" Version="16.1.2" />
   </ItemGroup>

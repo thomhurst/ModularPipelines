@@ -30,8 +30,8 @@ public class FtpTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(response).Is.EqualTo(FtpStatus.Success);
-            await Assert.That(fileContents).Does.StartWith("6jack");
+            await Assert.That(response).IsEqualTo(FtpStatus.Success);
+            await Assert.That(fileContents).StartsWith("6jack");
         }
     }
 
@@ -44,9 +44,9 @@ public class FtpTests : TestBase
         {
             ClientConfigurator = client => { },
         });
-        await Assert.That(client.IsDisposed).Is.False();
+        await Assert.That(client.IsDisposed).IsFalse();
 
         await Disposer.DisposeObjectAsync(ftp);
-        await Assert.That(client.IsDisposed).Is.True();
+        await Assert.That(client.IsDisposed).IsTrue();
     }
 }

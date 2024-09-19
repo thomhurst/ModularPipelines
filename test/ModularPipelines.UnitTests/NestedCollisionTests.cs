@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions.Throws;
 
 namespace ModularPipelines.UnitTests;
 
@@ -18,8 +19,8 @@ public class NestedCollisionTests
                 .AddModule<DependencyConflictModule4>()
                 .AddModule<DependencyConflictModule5>()
                 .ExecutePipelineAsync()).
-            Throws.Exception().OfType<DependencyCollisionException>()
-                .And.Throws.Exception().With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
+            ThrowsException().OfType<DependencyCollisionException>()
+                .And.ThrowsException().With.Message.EqualTo("Dependency collision detected: **DependencyConflictModule2** -> DependencyConflictModule3 -> DependencyConflictModule4 -> DependencyConflictModule5 -> **DependencyConflictModule2**");
     }
 
     [DependsOn<DependencyConflictModule2>]

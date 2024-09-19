@@ -8,6 +8,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
 using File = ModularPipelines.FileSystem.File;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests;
 
@@ -66,8 +67,8 @@ public class ModuleLoggerTests
         await host.DisposeAsync();
 
         var stringOutput = consoleStringBuilder.ToString();
-        await Assert.That(stringOutput).Does.Contain(RandomString);
-        await Assert.That(await file.ReadAsync()).Does.Not.Contain(RandomString);
+        await Assert.That(stringOutput).Contains(RandomString);
+        await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
     }
     
     [Test]
@@ -91,8 +92,8 @@ public class ModuleLoggerTests
 
         await host.DisposeAsync();
 
-        await Assert.That(await file.ReadAsync()).Does.Not.Contain("Secret Value!!!");
-        await Assert.That(await file.ReadAsync()).Does.Contain("**********");
+        await Assert.That(await file.ReadAsync()).DoesNotContain("Secret Value!!!");
+        await Assert.That(await file.ReadAsync()).Contains("**********");
     }
 
     private class MySecrets

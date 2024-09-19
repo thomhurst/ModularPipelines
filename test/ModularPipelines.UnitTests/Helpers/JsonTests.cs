@@ -12,7 +12,7 @@ public class JsonTests : TestBase
         var json = await GetService<IJson>();
 
         var result = json.ToJson(new JsonModel { Foo = "Bar!", Hello = "World!" });
-        await Assert.That(result).Is.EqualTo("""
+        await Assert.That(result).IsEqualTo("""
                                        {"Foo":"Bar!","Hello":"World!"}
                                        """);
     }
@@ -26,7 +26,7 @@ public class JsonTests : TestBase
         {
             WriteIndented = true,
         });
-        await Assert.That(result).Is.EqualTo("""
+        await Assert.That(result).IsEqualTo("""
                                        {
                                          "Foo": "Bar!",
                                          "Hello": "World!"
@@ -42,7 +42,7 @@ public class JsonTests : TestBase
         var result = json.FromJson<JsonModel>("""
                                               {"Foo":"Bar!","Hello":"World!"}
                                               """);
-        await Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
+        await Assert.That(result).IsEqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class JsonTests : TestBase
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
-        await Assert.That(result).Is.EqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
+        await Assert.That(result).IsEqualTo(new JsonModel { Foo = "Bar!", Hello = "World!" });
     }
 
     private record JsonModel

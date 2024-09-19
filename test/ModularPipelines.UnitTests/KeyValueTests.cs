@@ -11,8 +11,8 @@ public class KeyValueTests
         
         await using (Assert.Multiple())
         {
-            await Assert.That(keyValue.Key).Is.EqualTo("one");
-            await Assert.That(keyValue.Value).Is.EqualTo("two");
+            await Assert.That(keyValue.Key).IsEqualTo("one");
+            await Assert.That(keyValue.Value).IsEqualTo("two");
         }
     }
 
@@ -23,8 +23,8 @@ public class KeyValueTests
         
         await using (Assert.Multiple())
         {
-            await Assert.That(keyValue.Key).Is.EqualTo("one");
-            await Assert.That(keyValue.Value).Is.EqualTo("two");
+            await Assert.That(keyValue.Key).IsEqualTo("one");
+            await Assert.That(keyValue.Value).IsEqualTo("two");
         }
     }
 
@@ -35,8 +35,8 @@ public class KeyValueTests
         
         await using (Assert.Multiple())
         {
-            await Assert.That(keyValue.Key).Is.EqualTo("one");
-            await Assert.That(keyValue.Value).Is.EqualTo("two");
+            await Assert.That(keyValue.Key).IsEqualTo("one");
+            await Assert.That(keyValue.Value).IsEqualTo("two");
         }
     }
 }

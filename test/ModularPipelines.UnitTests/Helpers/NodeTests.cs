@@ -25,9 +25,9 @@ public class NodeTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
-            await Assert.That(moduleResult.Value).Is.Not.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
 
@@ -40,8 +40,8 @@ public class NodeTests : TestBase
 
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Value!.StandardError).Is.Null().Or.Is.Empty();
-            await Assert.That(moduleResult.Value.StandardOutput).Does.Match("v\\d+");
+            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
+            await Assert.That(moduleResult.Value.StandardOutput).Matches("v\\d+");
         }
     }
 }

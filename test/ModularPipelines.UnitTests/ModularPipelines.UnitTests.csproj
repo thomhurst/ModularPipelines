@@ -8,13 +8,17 @@
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     <PackageReference Include="Moq" />
     <PackageReference Include="NReco.Logging.File" />
     <PackageReference Include="RichardSzalay.MockHttp" />
     <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="TUnit" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
+    <ProjectReference
+      Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
@@ -23,12 +27,15 @@
     <ProjectReference Include="..\..\src\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Helm\ModularPipelines.Helm.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
+    <ProjectReference
+      Include="..\..\src\ModularPipelines.Kubernetes\ModularPipelines.Kubernetes.csproj" />
+    <ProjectReference
+      Include="..\..\src\ModularPipelines.MicrosoftTeams\ModularPipelines.MicrosoftTeams.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Node\ModularPipelines.Node.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Slack\ModularPipelines.Slack.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.TeamCity\ModularPipelines.TeamCity.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
+    <ProjectReference
+      Include="..\..\src\ModularPipelines.Terraform\ModularPipelines.Terraform.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>

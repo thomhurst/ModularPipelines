@@ -84,8 +84,8 @@ public class RetryTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).Is.EqualTo(1);
-            await Assert.That(module.Exception).Is.Null();
+            await Assert.That(module.ExecutionCount).IsEqualTo(1);
+            await Assert.That(module.Exception).IsNull();
         }
     }
 
@@ -104,8 +104,8 @@ public class RetryTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).Is.EqualTo(4);
-            await Assert.That(module.Exception).Is.Null();
+            await Assert.That(module.ExecutionCount).IsEqualTo(4);
+            await Assert.That(module.Exception).IsNull();
         }
     }
 
@@ -120,8 +120,8 @@ public class RetryTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(module.ExecutionCount).Is.EqualTo(4);
-            await Assert.That(module.Exception).Is.Null();
+            await Assert.That(module.ExecutionCount).IsEqualTo(4);
+            await Assert.That(module.Exception).IsNull();
         }
     }
 
@@ -140,8 +140,8 @@ public class RetryTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(module?.ExecutionCount).Is.EqualTo(1);
-            await Assert.That(module!.Exception).Is.Not.Null();
+            await Assert.That(module?.ExecutionCount).IsEqualTo(1);
+            await Assert.That(module!.Exception).IsNotNull();
         }
     }
 
@@ -155,6 +155,6 @@ public class RetryTests : TestBase
             })
             .AddModule<FailedModuleWithTimeout>()
             .ExecutePipelineAsync());
-        await Assert.That(moduleFailedException?.InnerException).Is.TypeOf<ModuleTimeoutException>();
+        await Assert.That(moduleFailedException?.InnerException).IsTypeOf(typeof(ModuleTimeoutException));
     }
 }

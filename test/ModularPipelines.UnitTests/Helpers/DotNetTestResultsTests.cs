@@ -8,6 +8,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -61,7 +62,7 @@ public class DotNetTestResultsTests : TestBase
     public async Task Has_Not_Errored()
     {
         await Assert.That(RunModule<DotNetTestWithoutFailureModule>)
-            .Throws.Nothing();
+            .ThrowsNothing();
     }
 
     [Test]
@@ -70,7 +71,7 @@ public class DotNetTestResultsTests : TestBase
         var module = await RunModule<DotNetTestWithoutFailureModule>();
         var parsedResults = new TrxParser().ParseTrxContents(await module.TrxFile.ReadAsync());
 
-        await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
+        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }
     
     [Test]
@@ -80,6 +81,6 @@ public class DotNetTestResultsTests : TestBase
         
         var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
 
-        await Assert.That(parsedResults.UnitTestResults).Has.Count().EqualTo(2);
+        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }
 }

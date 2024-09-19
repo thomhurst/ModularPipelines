@@ -28,6 +28,6 @@ public class NonIgnoredFailureTests : TestBase
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
         await Task.Delay(TimeSpan.FromSeconds(10));
-        await Assert.That(engineCancellationToken.IsCancellationRequested).Is.True();
+        await Assert.That(engineCancellationToken.IsCancellationRequested).IsTrue();
     }
 }

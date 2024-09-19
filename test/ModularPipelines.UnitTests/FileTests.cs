@@ -4,6 +4,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 using TUnit.Assertions.Extensions.Numbers;
+using TUnit.Assertions.Extensions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -14,10 +15,10 @@ public class FileTests : TestBase
     public async Task Delete()
     {
         var file = await CreateRandomFile();
-        await Assert.That(file.Exists).Is.True();
+        await Assert.That(file.Exists).IsTrue();
 
         file.Delete();
-        await Assert.That(file.Exists).Is.False();
+        await Assert.That(file.Exists).IsFalse();
     }
 
     [Test]
@@ -29,18 +30,18 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Exists).Is.True();
-            await Assert.That(file2.Exists).Is.False();
+            await Assert.That(file.Exists).IsTrue();
+            await Assert.That(file2.Exists).IsFalse();
         }
 
         file.MoveTo(file2);
         
         await using (Assert.Multiple())
         {
-            await Assert.That(new File(file.OriginalPath).Exists).Is.False();
+            await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
 
-            await Assert.That(file.Exists).Is.True();
-            await Assert.That(file2.Exists).Is.True();
+            await Assert.That(file.Exists).IsTrue();
+            await Assert.That(file2.Exists).IsTrue();
         }
     }
 
@@ -51,18 +52,18 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Exists).Is.True();
-            await Assert.That(file.Attributes.ToString()).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.Path).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.OriginalPath).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.Extension).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.Folder?.ToString()).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.Hidden).Is.False();
-            await Assert.That(file.Name).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.NameWithoutExtension).Is.Not.Null().And.Is.Not.Empty();
-            await Assert.That(file.IsReadOnly).Is.False();
+            await Assert.That(file.Exists).IsTrue();
+            await Assert.That(file.Attributes.ToString()).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.Path).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.OriginalPath).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.Extension).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.Folder?.ToString()).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.Hidden).IsFalse();
+            await Assert.That(file.Name).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.NameWithoutExtension).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.IsReadOnly).IsFalse();
         }
     }
 
@@ -75,16 +76,16 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Exists).Is.True();
-            await Assert.That(file2.Exists).Is.False();
+            await Assert.That(file.Exists).IsTrue();
+            await Assert.That(file2.Exists).IsFalse();
         }
 
         file.CopyTo(file2);
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file.Exists).Is.True();
-            await Assert.That(file2.Exists).Is.True();
+            await Assert.That(file.Exists).IsTrue();
+            await Assert.That(file2.Exists).IsTrue();
         }
     }
 
@@ -92,10 +93,10 @@ public class FileTests : TestBase
     public async Task CreateFile()
     {
         var file = File.GetNewTemporaryFilePath();
-        await Assert.That(file.Exists).Is.False();
+        await Assert.That(file.Exists).IsFalse();
 
         file.Create();
-        await Assert.That(file.Exists).Is.True();
+        await Assert.That(file.Exists).IsTrue();
     }
 
     [Test]
@@ -112,10 +113,10 @@ public class FileTests : TestBase
 
         await using (Assert.Multiple())
         {
-            await Assert.That(plainText).Is.Empty();
-            await Assert.That(lines).Is.Empty();
-            await Assert.That(bytes).Is.Empty();
-            await Assert.That(stream.Length).Is.Zero();
+            await Assert.That(plainText).IsEmpty();
+            await Assert.That(lines).IsEmpty();
+            await Assert.That(bytes).IsEmpty();
+            await Assert.That(stream.Length).IsZero();
         }
     }
 
@@ -133,12 +134,12 @@ public class FileTests : TestBase
 
         await using (Assert.Multiple())
         {
-            await Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world");
-            await Assert.That(lines).Has.Count().EqualTo(2);
-            await Assert.That(lines[0]).Is.EqualTo("Hello");
-            await Assert.That(lines[1]).Is.EqualTo("world");
-            await Assert.That(bytes).Is.Not.Empty();
-            await Assert.That(stream.Length).Is.Not.Zero();
+            await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world");
+            await Assert.That(lines).HasCount().EqualTo(2);
+            await Assert.That(lines[0]).IsEqualTo("Hello");
+            await Assert.That(lines[1]).IsEqualTo("world");
+            await Assert.That(bytes).IsNotEmpty();
+            await Assert.That(stream.Length).IsNotZero();
         }
     }
 
@@ -158,10 +159,10 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(plainText).Is.EqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
-            await Assert.That(lines).Has.Count().EqualTo(2);
-            await Assert.That(lines[0]).Is.EqualTo("Hello");
-            await Assert.That(lines[1]).Is.EqualTo("world");
+            await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
+            await Assert.That(lines).HasCount().EqualTo(2);
+            await Assert.That(lines[0]).IsEqualTo("Hello");
+            await Assert.That(lines[1]).IsEqualTo("world");
         }
     }
 
@@ -173,7 +174,7 @@ public class FileTests : TestBase
         await file.WriteAsync("Hello world!"u8.ToArray());
 
         var plainText = await file.ReadAsync();
-        await Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).IsEqualTo("Hello world!");
     }
 
     [Test]
@@ -184,7 +185,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-        await Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).IsEqualTo("Hello world!");
     }
 
     [Test]
@@ -195,7 +196,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new ReadOnlyMemory<byte>("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-        await Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).IsEqualTo("Hello world!");
     }
 
     [Test]
@@ -206,7 +207,7 @@ public class FileTests : TestBase
         await file.WriteAsync(new MemoryStream("Hello world!"u8.ToArray()));
 
         var plainText = await file.ReadAsync();
-        await Assert.That(plainText).Is.EqualTo("Hello world!");
+        await Assert.That(plainText).IsEqualTo("Hello world!");
     }
 
     [Test]
@@ -215,7 +216,7 @@ public class FileTests : TestBase
         FileInfo? fileInfo = null;
 
         File? file = fileInfo;
-        await Assert.That(file).Is.Null();
+        await Assert.That(file).IsNull();
     }
 
     [Test]
@@ -224,7 +225,7 @@ public class FileTests : TestBase
         string? fileInfo = null;
 
         File? file = fileInfo;
-        await Assert.That(file).Is.Null();
+        await Assert.That(file).IsNull();
     }
 
     [Test]
@@ -233,7 +234,7 @@ public class FileTests : TestBase
         var fileInfo = new FileInfo(Path.GetTempFileName());
 
         File file = fileInfo;
-        await Assert.That(file).Is.Not.Null();
+        await Assert.That(file).IsNotNull();
     }
 
     [Test]
@@ -242,7 +243,7 @@ public class FileTests : TestBase
         var fileInfo = Path.GetTempFileName();
 
         File file = fileInfo!;
-        await Assert.That(file).Is.Not.Null();
+        await Assert.That(file).IsNotNull();
     }
 
     [Test]
@@ -250,10 +251,10 @@ public class FileTests : TestBase
     public async Task Attributes()
     {
         var file = await CreateRandomFile();
-        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.False();
+        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).IsFalse();
 
         file.Attributes = FileAttributes.Hidden;
-        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).Is.True();
+        await Assert.That(file.Attributes.HasFlag(FileAttributes.Hidden)).IsTrue();
     }
 
     [Test]
@@ -265,10 +266,10 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file).Is.EqualTo(file2);
-            await Assert.That(file.GetHashCode()).Is.EqualTo(file2.GetHashCode());
-            await Assert.That(file == file2).Is.True();
-            await Assert.That(file != file2).Is.False();
+            await Assert.That(file).IsEqualTo(file2);
+            await Assert.That(file.GetHashCode()).IsEqualTo(file2.GetHashCode());
+            await Assert.That(file == file2).IsTrue();
+            await Assert.That(file != file2).IsFalse();
         }
     }
 
@@ -280,10 +281,10 @@ public class FileTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(file).Is.Not.EqualTo(file2);
-            await Assert.That(file.GetHashCode()).Is.Not.EqualTo(file2.GetHashCode());
-            await Assert.That(file == file2).Is.False();
-            await Assert.That(file != file2).Is.True();
+            await Assert.That(file).IsNotEqualTo(file2);
+            await Assert.That(file.GetHashCode()).IsNotEqualTo(file2.GetHashCode());
+            await Assert.That(file == file2).IsFalse();
+            await Assert.That(file != file2).IsTrue();
         }
     }
 
@@ -296,8 +297,8 @@ public class FileTests : TestBase
     {
         var workingDirectory = new Folder(TestContext.OutputDirectory).AssertExists();
         var files = workingDirectory.GetFiles(globPattern).ToList();
-        await Assert.That(files).Has.Count().EqualTo(1);
-        await Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
+        await Assert.That(files).HasCount().EqualTo(1);
+        await Assert.That(files[0].Name).IsEqualTo("Blah.txt");
     }
 
     [Test]
@@ -308,29 +309,29 @@ public class FileTests : TestBase
             .FindFolder(x => x.Name == "Nest5")!;
 
         var files = folder.GetFiles("Blah.txt").ToList();
-        await Assert.That(files).Has.Count().EqualTo(1);
-        await Assert.That(files[0].Name).Is.EqualTo("Blah.txt");
+        await Assert.That(files).HasCount().EqualTo(1);
+        await Assert.That(files[0].Name).IsEqualTo("Blah.txt");
     }
 
     [Test]
     public async Task AssertExists()
     {
         var file = (File?) await CreateRandomFile();
-        await Assert.That(() => file.AssertExists()).Throws.Nothing();
+        await Assert.That(() => file.AssertExists()).ThrowsNothing();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
-        await Assert.That(() => file.AssertExists()).Throws.Exception().OfType<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).ThrowsException().OfType<FileNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-        await Assert.That(() => file.AssertExists()).Throws.Exception().OfType<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).ThrowsException().OfType<FileNotFoundException>();
     }
 
     [Test]

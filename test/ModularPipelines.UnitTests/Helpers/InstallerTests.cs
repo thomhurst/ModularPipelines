@@ -28,7 +28,7 @@ public class InstallerTests : TestBase
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(file));
-            await Assert.That(result.ExitCode).Is.Zero();
+            await Assert.That(result.ExitCode).IsZero();
         }
         else if (OperatingSystem.IsLinux())
         {
@@ -37,7 +37,7 @@ public class InstallerTests : TestBase
             var file = await downloader.DownloadFileAsync(new DownloadFileOptions(uri));
 
             var result = await installer.LinuxInstaller.InstallFromDpkg(new DpkgInstallOptions(file));
-            await Assert.That(result.ExitCode).Is.Zero();
+            await Assert.That(result.ExitCode).IsZero();
         }
     }
 }

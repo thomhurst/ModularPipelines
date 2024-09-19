@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.Extensions.Throws;
 
 namespace ModularPipelines.UnitTests;
 
@@ -16,7 +17,7 @@ public class OneWayDependenciesNonCollisionTests
             .AddModule<DependencyConflictModule3>()
             .AddModule<DependencyConflictModule4>()
             .AddModule<DependencyConflictModule5>()
-            .ExecutePipelineAsync()).Throws.Nothing();
+            .ExecutePipelineAsync()).ThrowsNothing();
     }
 
     [DependsOn<DependencyConflictModule2>]

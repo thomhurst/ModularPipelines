@@ -21,6 +21,6 @@ public class ModuleReferencingSelfTests : TestBase
     public async Task Throws_Exception()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<ModuleReferencingSelf>());
-        await Assert.That(exception.InnerException).Is.TypeOf<ModuleReferencingSelfException>();
+        await Assert.That(exception.InnerException).IsTypeOf(typeof(ModuleReferencingSelfException));
     }
 }

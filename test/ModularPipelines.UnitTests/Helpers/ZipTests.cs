@@ -39,8 +39,8 @@ public class ZipTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
         }
     }
 
@@ -54,8 +54,8 @@ public class ZipTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(expectedFile.Exists).Is.True();
-            await Assert.That(expectedFile.Length).Is.GreaterThan(5000);
+            await Assert.That(expectedFile.Exists).IsTrue();
+            await Assert.That(expectedFile.Length).IsGreaterThan(5000);
         }
     }
 
@@ -85,8 +85,8 @@ public class ZipTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ModuleResultType).Is.EqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).Is.Null();
+            await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(moduleResult.Exception).IsNull();
         }
     }
 
@@ -100,8 +100,8 @@ public class ZipTests : TestBase
         
         await using (Assert.Multiple())
         {
-            await Assert.That(expectedFolder.Exists).Is.True();
-            await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Has.Count().EqualTo(1);
+            await Assert.That(expectedFolder.Exists).IsTrue();
+            await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).HasCount().EqualTo(1);
         }
     }
 }
