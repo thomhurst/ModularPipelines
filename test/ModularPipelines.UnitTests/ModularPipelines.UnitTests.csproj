@@ -12,6 +12,7 @@
     <PackageReference Include="NReco.Logging.File" />
     <PackageReference Include="RichardSzalay.MockHttp" />
     <PackageReference Include="System.Text.Json" />
+      <PackageReference Include="TUnit" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Azure.Pipelines\ModularPipelines.Azure.Pipelines.csproj" />

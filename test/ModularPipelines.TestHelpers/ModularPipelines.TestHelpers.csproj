@@ -11,5 +11,6 @@
     <PackageReference Include="Azure.ResourceManager" />
     <PackageReference Include="Azure.Identity" />
     <PackageReference Include="System.Text.Json" />
+      <PackageReference Include="TUnit.Core" />
   </ItemGroup>
 </Project>
