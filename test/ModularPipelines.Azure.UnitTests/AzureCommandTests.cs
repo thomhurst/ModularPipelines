@@ -37,7 +37,7 @@ public class AzureCommandTests : TestBase
         var result = await RunModule<AzureCommandModule>();
         
         await Assert.That(result.Result.Value!.CommandInput)
-            .Is.EqualTo("az account alias create --name MyName");
+            .IsEqualTo("az account alias create --name MyName");
     }
 
     [Test]
@@ -45,6 +45,6 @@ public class AzureCommandTests : TestBase
     {
         var result = await RunModule<AzureCommandModule2>();
         await Assert.That(result.Result.Value!.CommandInput)
-            .Is.EqualTo("az account management-group subscription add --name MyName --subscription MySub");
+            .IsEqualTo("az account management-group subscription add --name MyName --subscription MySub");
     }
 }
