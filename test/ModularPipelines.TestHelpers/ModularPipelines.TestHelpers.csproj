@@ -12,5 +12,6 @@
     <PackageReference Include="Azure.Identity" />
     <PackageReference Include="System.Text.Json" />
       <PackageReference Include="TUnit.Core" />
+      <PackageReference Include="TUnit.Assertions" />
   </ItemGroup>
 </Project>

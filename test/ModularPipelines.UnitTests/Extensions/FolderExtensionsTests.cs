@@ -11,14 +11,14 @@ public class FolderExtensionsTests
     {
         var folders = new List<Folder>
         {
-            new Folder(Path.Combine(TestContext.WorkingDirectory, "Folder1")),
-            new Folder(Path.Combine(TestContext.WorkingDirectory, "Folder2")),
+            new(Path.Combine(TestContext.WorkingDirectory, "Folder1")),
+            new(Path.Combine(TestContext.WorkingDirectory, "Folder2")),
         }.AsEnumerable();
 
         var paths = folders.AsPaths();
-        await Assert.That(paths).IsAssignableTo(typeof(IEnumerable<string>));
-        await Assert.That(paths).IsNotAssignableTo(typeof(List<string>));
-        await Assert.That(paths).IsEquivalentTo(new List<string>
+        await Assert.That(paths).IsAssignableTo(typeof(IEnumerable<string>))
+            .And.IsNotAssignableTo(typeof(List<string>))
+            .And.IsEquivalentTo(new List<string>
         {
             Path.Combine(TestContext.WorkingDirectory, "Folder1"),
             Path.Combine(TestContext.WorkingDirectory, "Folder2"),
