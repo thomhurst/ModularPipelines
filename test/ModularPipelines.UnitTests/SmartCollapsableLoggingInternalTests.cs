@@ -14,7 +14,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
@@ -26,7 +26,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
@@ -38,7 +38,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
@@ -57,7 +57,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
     {
         var stringBuilder = await Execute(buildSystem);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ----------MyGroup Start----------
                        Foo bar!
                        -----------MyGroup End-----------

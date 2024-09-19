@@ -73,7 +73,7 @@ public class DotNetTests : TestBase
         await using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).DoesMatch("\\d+");
+            await Assert.That(moduleResult.Value.StandardOutput).Matches("\\d+");
         }
     }
 }

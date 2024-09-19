@@ -14,7 +14,7 @@ public class SmartCollapsableLoggingTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ##[group]SmartCollapsableLoggingTests
                        ##[group]MyGroup
                        Foo bar!
@@ -28,7 +28,7 @@ public class SmartCollapsableLoggingTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ::group::SmartCollapsableLoggingTests
                        ::group::MyGroup
                        Foo bar!
@@ -42,7 +42,7 @@ public class SmartCollapsableLoggingTests : TestBase
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ##teamcity[blockOpened name='SmartCollapsableLoggingTests']
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!

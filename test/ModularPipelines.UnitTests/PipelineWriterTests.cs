@@ -83,7 +83,7 @@ public class PipelineWriterTests : TestBase
             .AddPipelineFileWriter<GitHubYamlWriter>()
             .ExecutePipelineAsync();
         await Assert.That((await RandomFilePath.ReadAsync()).Trim()).
-            Is.EqualTo($$$"""
+            IsEqualTo($$$"""
                        name: Test
                        on:
                          push:

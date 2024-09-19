@@ -47,7 +47,7 @@ public class AfterPipelineLoggerTests
 
         await host.DisposeAsync();
         
-        await Assert.That(stringBuilder.ToString().Trim()).EndWiths("Blah!");
+        await Assert.That(stringBuilder.ToString().Trim()).EndsWith("Blah!");
     }
     
     [Test]

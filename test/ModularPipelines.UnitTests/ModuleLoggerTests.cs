@@ -8,6 +8,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
 using File = ModularPipelines.FileSystem.File;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests;
 

@@ -28,7 +28,7 @@ public class EnvironmentContextTests : TestBase
         var context = await GetService<IEnvironmentContext>();
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
-        await Assert.That(result).IsNotNull().And.IsAssignableTo<IDictionary<string, string>>();
+        await Assert.That(result).IsNotNull().And.IsAssignableTo(typeof(IDictionary<string, string>));
         await Assert.That(result[guid]).IsEqualTo("Foo bar!");
     }
 

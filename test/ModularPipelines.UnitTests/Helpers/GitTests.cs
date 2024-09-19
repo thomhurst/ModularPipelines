@@ -46,7 +46,7 @@ public class GitTests : TestBase
         await using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).DoesMatch("git version \\d+.*");
+            await Assert.That(moduleResult.Value.StandardOutput).Matches("git version \\d+.*");
         }
     }
 

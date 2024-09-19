@@ -6,6 +6,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
+using TUnit.Assertions.Extensions.Throws;
 
 namespace ModularPipelines.UnitTests;
 
@@ -131,6 +132,6 @@ public class PipelineProgressTests
                     .AddModule<Module6>()
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
-            Throws.Exception().OfType<ModuleFailedException>();
+            ThrowsException().OfType<ModuleFailedException>();
     }
 }

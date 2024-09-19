@@ -6,6 +6,7 @@ using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
 using Vertical.SpectreLogger.Options;
 using File = System.IO.File;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests;
 

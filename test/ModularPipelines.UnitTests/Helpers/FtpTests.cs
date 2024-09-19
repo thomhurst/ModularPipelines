@@ -31,7 +31,7 @@ public class FtpTests : TestBase
         await using (Assert.Multiple())
         {
             await Assert.That(response).IsEqualTo(FtpStatus.Success);
-            await Assert.That(fileContents).DoesStartWith("6jack");
+            await Assert.That(fileContents).StartsWith("6jack");
         }
     }
 

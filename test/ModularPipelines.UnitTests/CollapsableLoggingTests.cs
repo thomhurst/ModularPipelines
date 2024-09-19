@@ -23,7 +23,7 @@ public class CollapsableLoggingTests : TestBase
 
         await azurePipelines.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ----------CollapsableLoggingTests Start----------
                        ##[group]MyGroup
                        Foo bar!
@@ -46,7 +46,7 @@ public class CollapsableLoggingTests : TestBase
 
         await gitHub.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ----------CollapsableLoggingTests Start----------
                        ::group::MyGroup
                        Foo bar!
@@ -69,7 +69,7 @@ public class CollapsableLoggingTests : TestBase
 
         await teamCity.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
-            Is.EqualTo("""
+            IsEqualTo("""
                        ----------CollapsableLoggingTests Start----------
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!

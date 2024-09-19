@@ -4,6 +4,7 @@ using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 using TUnit.Assertions.Extensions.Numbers;
+using TUnit.Assertions.Extensions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;

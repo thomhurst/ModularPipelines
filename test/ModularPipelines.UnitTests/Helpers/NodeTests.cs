@@ -41,7 +41,7 @@ public class NodeTests : TestBase
         await using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).DoesMatch("v\\d+");
+            await Assert.That(moduleResult.Value.StandardOutput).Matches("v\\d+");
         }
     }
 }
