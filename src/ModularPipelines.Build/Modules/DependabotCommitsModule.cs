@@ -26,7 +26,7 @@ public class DependabotCommitsModule : Module<List<string>>
             });
         
         var commits = commitsSinceRelease
-            .Where(x => x.Author.Login.StartsWith("dependabot"))
+            .Where(x => x.Author.Login.StartsWith("dependabot") || x.Author.Login.StartsWith("renovate-bot"))
             .Select(x => x.Commit.Message.Split(Environment.NewLine))
             .Select(x => x.FirstOrDefault())
             .OfType<string>()
