@@ -52,7 +52,7 @@ public static class FileExtensions
             sb.Append($" - {file}");
         }
         
-        if (file is not null)
+        if (message is not null)
         {
             sb.Append($" - {message}");
         }
