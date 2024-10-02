@@ -50,7 +50,7 @@ public class FileExtensionsTests
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
         
-        var exception = Assert.ThrowsAsync<FileNotFoundException>(() => file.AssertExists("My message"));
+        var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists("My message"));
 
         await Assert.That(exception.Message).IsEqualTo("The file does not exist - My message");
     }
@@ -60,7 +60,7 @@ public class FileExtensionsTests
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
         
-        var exception = Assert.ThrowsAsync<FileNotFoundException>(() => file.AssertExists());
+        var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists());
 
         await Assert.That(exception.Message).IsEqualTo("The file does not exist");
     }
