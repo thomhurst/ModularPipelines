@@ -10,7 +10,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
-using TUnit.Assertions.Extensions.Throws;
 using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
