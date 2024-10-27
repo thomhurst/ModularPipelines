@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
@@ -79,7 +80,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
 
-        azurePipelines.T.WriteConsoleLogGroupInternal("MyGroup", "Foo bar!");
+        azurePipelines.T.WriteConsoleLogGroupInternal("MyGroup", "Foo bar!", LogLevel.Information);
 
         await azurePipelines.Host.DisposeAsync();
 

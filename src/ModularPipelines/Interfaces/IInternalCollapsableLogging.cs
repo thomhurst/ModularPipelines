@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace ModularPipelines.Interfaces;
 
 internal interface IInternalCollapsableLogging
@@ -6,13 +8,15 @@ internal interface IInternalCollapsableLogging
     /// Start a collapsable log group.
     /// </summary>
     /// <param name="name">The name of the log group.</param>
-    void StartConsoleLogGroupDirectToConsole(string name);
+    /// <param name="logLevel"></param>
+    void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel);
 
     /// <summary>
     /// Ends a collapsable log group.
     /// </summary>
     /// <param name="name">The name of the log group.</param>
-    void EndConsoleLogGroupDirectToConsole(string name);
+    /// <param name="logLevel"></param>
+    void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel);
 
     /// <summary>
     /// Log to the console.
@@ -25,10 +29,11 @@ internal interface IInternalCollapsableLogging
     /// </summary>
     /// <param name="groupName">The name of the log group.</param>
     /// <param name="value">The value to write inside the log group.</param>
-    void WriteConsoleLogGroupInternal(string groupName, string value)
+    /// <param name="logLevel"></param>
+    void WriteConsoleLogGroupInternal(string groupName, string value, LogLevel logLevel)
     {
-        StartConsoleLogGroupDirectToConsole(groupName);
+        StartConsoleLogGroupDirectToConsole(groupName, logLevel);
         LogToConsoleDirect(value);
-        EndConsoleLogGroupDirectToConsole(groupName);
+        EndConsoleLogGroupDirectToConsole(groupName, logLevel);
     }
 }

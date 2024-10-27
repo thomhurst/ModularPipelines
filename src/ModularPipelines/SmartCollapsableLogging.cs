@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 
@@ -9,6 +10,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     private readonly IServiceProvider _serviceProvider;
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
     private readonly IConsoleWriter _consoleWriter;
+    private readonly ILogger _logger;
     private readonly List<IServiceScope> _scopes = new();
 
     private IModuleLogger ModuleLogger
@@ -26,11 +28,13 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        ILogger logger)
     {
         _serviceProvider = serviceProvider;
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
         _consoleWriter = consoleWriter;
+        _logger = logger;
     }
 
     public void StartConsoleLogGroup(string name)
@@ -38,9 +42,12 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         StartGroup(name, ModuleLogger);
     }
 
-    public void StartConsoleLogGroupDirectToConsole(string name)
+    public void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
-        StartGroup(name, _consoleWriter);
+        if (_logger.IsEnabled(logLevel))
+        {
+            StartGroup(name, _consoleWriter);
+        }
     }
 
     public void EndConsoleLogGroup(string name)
@@ -48,9 +55,12 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         EndGroup(name, ModuleLogger);
     }
 
-    public void EndConsoleLogGroupDirectToConsole(string name)
+    public void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
-        EndGroup(name, _consoleWriter);
+        if (_logger.IsEnabled(logLevel))
+        {
+            EndGroup(name, _consoleWriter);
+        }
     }
 
     public void LogToConsole(string value)
