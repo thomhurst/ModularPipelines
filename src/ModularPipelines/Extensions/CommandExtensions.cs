@@ -36,7 +36,7 @@ public static class CommandExtensions
 
     public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, IEnumerable<string>? arguments)
     {
-        return WithArguments(options, arguments?.ToArray() ?? Array.Empty<string>());
+        return WithArguments(options, arguments?.ToArray() ?? []);
     }
 
     public static CommandLineToolOptions WithArguments(this CommandLineToolOptions options, params string[] arguments)

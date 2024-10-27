@@ -58,7 +58,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         {
             await context.DotNet().Format(new DotNetFormatOptions
             {
-                Arguments = new[] { "whitespace" },
+                Arguments = ["whitespace"],
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = true,
                 Severity = "info",
@@ -91,7 +91,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
 
             await context.DotNet().Format(new DotNetFormatOptions
             {
-                Arguments = new[] { "whitespace" },
+                Arguments = ["whitespace"],
                 WorkingDirectory = context.Git().RootDirectory,
                 VerifyNoChanges = false,
                 Severity = "info",

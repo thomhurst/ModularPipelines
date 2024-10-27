@@ -146,11 +146,10 @@ public class FileTests : TestBase
     {
         var file = File.GetNewTemporaryFilePath();
 
-        await file.WriteAsync(new[]
-        {
+        await file.WriteAsync([
             "Hello",
-            "world",
-        });
+            "world"
+        ]);
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();

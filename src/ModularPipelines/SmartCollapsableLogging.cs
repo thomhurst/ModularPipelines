@@ -11,14 +11,16 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ILogger _logger;
-    private readonly List<IServiceScope> _scopes = new();
+    private readonly List<IServiceScope> _scopes = [];
 
     private IModuleLogger ModuleLogger
     {
         get
         {
             var scope = _serviceProvider.CreateScope();
+            
             _scopes.Add(scope);
+            
             return scope
                 .ServiceProvider
                 .GetRequiredService<IModuleLoggerProvider>()
@@ -44,7 +46,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     public void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
-        if (_logger.IsEnabled(logLevel))
+        if (IsEnabled(logLevel))
         {
             StartGroup(name, _consoleWriter);
         }
@@ -57,7 +59,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     public void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
-        if (_logger.IsEnabled(logLevel))
+        if (IsEnabled(logLevel))
         {
             EndGroup(name, _consoleWriter);
         }
@@ -72,10 +74,22 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     {
         LogToConsole(value, _consoleWriter);
     }
-    
+
     public IEnumerable<IServiceScope> GetScopes()
     {
         return _scopes;
+    }
+
+    private bool IsEnabled(LogLevel logLevel)
+    {
+        try
+        {
+            return _logger.IsEnabled(logLevel);
+        }
+        catch
+        {
+            return true;
+        }
     }
 
     private void StartGroup(string name, IConsoleWriter writer)

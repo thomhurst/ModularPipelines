@@ -38,10 +38,9 @@ public class FolderExtensionsTests
         await Assert.That(paths).IsAssignableTo(typeof(IEnumerable));
         await Assert.That(paths).IsAssignableTo(typeof(IEnumerable<string>));
         await Assert.That(paths).IsAssignableTo(typeof(List<string>));
-        await Assert.That(paths).IsEquivalentTo(new List<string>
-        {
+        await Assert.That(paths).IsEquivalentTo([
             Path.Combine(TestContext.WorkingDirectory, "Folder1"),
-            Path.Combine(TestContext.WorkingDirectory, "Folder2"),
-        });
+            Path.Combine(TestContext.WorkingDirectory, "Folder2")
+        ]);
     }
 }

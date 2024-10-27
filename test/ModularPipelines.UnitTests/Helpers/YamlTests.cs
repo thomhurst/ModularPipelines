@@ -27,7 +27,7 @@ public class YamlTests : TestBase
         {
             Foo = "Bar!",
             Hello = "World!",
-            Items = new List<string> { "One", "Two", "3" },
+            Items = ["One", "Two", "3"],
         });
         await Assert.That(result.Trim()).IsEqualTo("""
                                               foo: Bar!

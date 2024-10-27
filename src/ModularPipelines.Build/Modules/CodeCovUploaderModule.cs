@@ -46,7 +46,7 @@ public class CodeCovUploaderModule : Module<CommandResult>
 
             await context.Installer.WindowsInstaller.InstallExe(new ExeInstallerOptions(exeFile)
             {
-                Arguments = new[] { "-t", _codeCovSettings.Value.Token! },
+                Arguments = ["-t", _codeCovSettings.Value.Token!],
             });
         }
 

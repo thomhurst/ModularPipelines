@@ -27,7 +27,7 @@ internal class EnvironmentVariables : IEnvironmentVariables
 
     public IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        return GetEnvironmentVariable(PathVariableName, target)?.Split(Delimiter) ?? Array.Empty<string>();
+        return GetEnvironmentVariable(PathVariableName, target)?.Split(Delimiter) ?? [];
     }
 
     public void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)

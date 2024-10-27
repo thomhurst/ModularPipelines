@@ -47,12 +47,12 @@ public class PipelineWriterTests : TestBase
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
                 DotNetRunFramework = "net8.0",
-                ValuesToMask = new[]
-                {
+                ValuesToMask =
+                [
                     "${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}", "${{ secrets.NuGet__ApiKey }}",
                     "${{ secrets.ADMIN_TOKEN }}",
-                    "${{ secrets.CODACY_APIKEY }}",
-                },
+                    "${{ secrets.CODACY_APIKEY }}"
+                ],
                 EnvironmentVariables = new Dictionary<string, string>
                 {
                     ["DOTNET_ENVIRONMENT"] = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}",

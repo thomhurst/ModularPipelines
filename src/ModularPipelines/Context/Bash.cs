@@ -31,7 +31,7 @@ internal class Bash : IBash
         {
             var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
             {
-                Arguments = new[] { "wslpath", "-a", path.Replace("\\", "\\\\") },
+                Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
             });
 
             return result.StandardOutput.Trim();

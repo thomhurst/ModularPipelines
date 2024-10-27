@@ -12,7 +12,7 @@ namespace ModularPipelines.TestHelpers;
 
 public abstract class TestBase
 {
-    private readonly List<IPipelineHost> _hosts = new();
+    private readonly List<IPipelineHost> _hosts = [];
 
     private class DummyModule : Module
     {

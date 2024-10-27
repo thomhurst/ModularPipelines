@@ -19,7 +19,7 @@ internal class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "use", version },
+            Arguments = ["use", version],
         }, cancellationToken);
     }
 
@@ -27,7 +27,7 @@ internal class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "install", version },
+            Arguments = ["install", version],
         }, cancellationToken);
     }
 
@@ -35,7 +35,7 @@ internal class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "version" },
+            Arguments = ["version"],
         }, cancellationToken);
     }
 
@@ -43,7 +43,7 @@ internal class Nvm : INvm
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
-            Arguments = new[] { "which" },
+            Arguments = ["which"],
         }, cancellationToken);
     }
 }

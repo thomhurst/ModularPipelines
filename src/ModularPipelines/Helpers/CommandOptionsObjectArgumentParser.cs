@@ -180,7 +180,7 @@ public static class CommandOptionsObjectArgumentParser
 
         if (singleValue is not null)
         {
-            return new[] { singleValue };
+            return [singleValue];
         }
 
         return GetValues(rawValue);

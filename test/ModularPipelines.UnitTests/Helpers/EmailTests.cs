@@ -26,7 +26,7 @@ public class EmailTests : TestBase
         var response = await email.SendAsync(
             new EmailSendOptions(
                 From: EmailAddress,
-                To: new[] { EmailAddress },
+                To: [EmailAddress],
                 Subject: "Email Test",
                 Body: new TextPart { Text = "This is an email test." },
                 SmtpServerHost: "smtp-relay.brevo.com"

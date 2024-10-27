@@ -51,13 +51,13 @@ public class FormatMarkdownModule : Module<CommandResult>
     {
         await context.Node().Npm.Install(new NpmInstallOptions
         {
-            Arguments = new[]
-            {
+            Arguments =
+            [
                 "remark-cli",
                 "remark-preset-lint-consistent",
                 "remark-preset-lint-recommended",
-                "remark-lint-list-item-indent",
-            },
+                "remark-lint-list-item-indent"
+            ],
             SaveDev = true,
         }, cancellationToken);
 
@@ -72,15 +72,15 @@ public class FormatMarkdownModule : Module<CommandResult>
         {
             await context.Node().Npx.ExecuteAsync(new NpxOptions
             {
-                Arguments = new[]
-                {
+                Arguments =
+                [
                     "remark",
                     fileToFormat,
                     "--use", "remark-lint",
                     "--use", "remark-preset-lint-consistent",
                     "--use", "remark-preset-lint-recommended",
-                    "--output",
-                },
+                    "--output"
+                ],
             }, cancellationToken);
         }
 

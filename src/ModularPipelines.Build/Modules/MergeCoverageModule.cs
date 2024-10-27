@@ -39,7 +39,7 @@ public class MergeCoverageModule : Module<File>
 
         await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
         {
-            Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
+            Arguments = ["tool", "install", "--global", "dotnet-coverage"],
         }, cancellationToken);
 
         var outputPath = Folder.CreateTemporaryFolder().GetFile("cobertura.xml").Path;

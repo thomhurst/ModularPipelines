@@ -47,11 +47,11 @@ public static class GitHelpers
 
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
-            Arguments = new[]
-            {
+            Arguments =
+            [
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines",
-            },
+                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines"
+            ],
         }, cancellationToken);
 
         await context.Git().Commands.Fetch(new GitFetchOptions(), token: cancellationToken);
