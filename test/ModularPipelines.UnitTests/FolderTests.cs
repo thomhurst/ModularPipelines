@@ -10,7 +10,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
-using TUnit.Assertions.Extensions.Throws;
 using File = System.IO.File;
 
 namespace ModularPipelines.UnitTests;
@@ -123,7 +122,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
@@ -132,7 +131,7 @@ public class FolderTests : TestBase
 
         folder.MoveTo(folder2);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(new Folder(folder.OriginalPath).Exists).IsFalse();
             await Assert.That(folder.Exists).IsTrue();
@@ -154,7 +153,7 @@ public class FolderTests : TestBase
             await File.WriteAllTextAsync(Path.Combine(folder, fileName), "Foo bar!");
         }
 
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
@@ -163,7 +162,7 @@ public class FolderTests : TestBase
 
         folder.CopyTo(folder2);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
@@ -177,7 +176,7 @@ public class FolderTests : TestBase
     {
         var folder = CreateRandomFolder();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.Attributes.ToString()).IsNotNull().And.IsNotEmpty();
@@ -226,7 +225,7 @@ public class FolderTests : TestBase
 
         var subfolder = folder.CreateFolder("Foo");
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(subfolder.Exists).IsTrue();
             await Assert.That(subfolder.Path).IsNotEqualTo(folder.Path);
@@ -289,7 +288,7 @@ public class FolderTests : TestBase
         var folder = new Folder(path);
         var folder2 = new Folder(path);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder).IsEqualTo(folder2);
             await Assert.That(folder.GetHashCode()).IsEqualTo(folder2.GetHashCode());
@@ -304,7 +303,7 @@ public class FolderTests : TestBase
         var folder = new Folder(Path.GetRandomFileName());
         var folder2 = new Folder(Path.GetRandomFileName());
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(folder).IsNotEqualTo(folder2);
             await Assert.That(folder.GetHashCode()).IsNotEqualTo(folder2.GetHashCode());
@@ -324,14 +323,14 @@ public class FolderTests : TestBase
     public async Task AssertExists_ThrowsWhenNotExists()
     {
         Folder folder = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath().Path!;
-        await Assert.That(() => folder.AssertExists()).ThrowsException().OfType<DirectoryNotFoundException>();
+        await Assert.That(() => folder.AssertExists()).Throws<DirectoryNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
         var folder = null as Folder;
-        await Assert.That(() => folder.AssertExists()).ThrowsException().OfType<DirectoryNotFoundException>();
+        await Assert.That(() => folder.AssertExists()).Throws<DirectoryNotFoundException>();
     }
 
     [Test, WindowsOnlyTest]

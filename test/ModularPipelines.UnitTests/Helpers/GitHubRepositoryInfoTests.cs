@@ -24,7 +24,7 @@ public class GitHubRepositoryInfoTests : TestBase
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(gitHubRepositoryInfo).IsNotNull();
             await Assert.That(gitHubRepositoryInfo.IsInitialized).IsTrue();

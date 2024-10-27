@@ -3,7 +3,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions.Throws;
 
 namespace ModularPipelines.UnitTests;
 

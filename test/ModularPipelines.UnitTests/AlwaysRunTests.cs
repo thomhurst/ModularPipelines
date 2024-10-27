@@ -60,7 +60,7 @@ public class AlwaysRunTests : TestBase
         var (myModule1, myModule2, myModule3, myModule4)
             = await RunModules<MyModule1, MyModule2, MyModule3, MyModule4>();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(myModule1.Status).IsEqualTo(Status.Failed);
             await Assert.That(myModule2.Status).IsEqualTo(Status.Failed);

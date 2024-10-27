@@ -9,7 +9,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = true;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsTrue();
             await Assert.That(skipDecision.Reason).IsNull();
@@ -21,7 +21,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = "Foo!";
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsTrue();
             await Assert.That(skipDecision.Reason).IsEqualTo("Foo!");
@@ -33,7 +33,7 @@ public class SkipDecisionTests
     {
         SkipDecision skipDecision = false;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsFalse();
             await Assert.That(skipDecision.Reason).IsNull();
@@ -45,7 +45,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.Skip("Blah!");
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsTrue();
             await Assert.That(skipDecision.Reason).IsEqualTo("Blah!");
@@ -57,7 +57,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.DoNotSkip;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsFalse();
             await Assert.That(skipDecision.Reason).IsNull();
@@ -71,7 +71,7 @@ public class SkipDecisionTests
     {
         var skipDecision = SkipDecision.Of(shouldSkip, "Blah!");
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(skipDecision.ShouldSkip).IsEqualTo(shouldSkip);
             await Assert.That(skipDecision.Reason).IsEqualTo(shouldSkip ? "Blah!" : null);

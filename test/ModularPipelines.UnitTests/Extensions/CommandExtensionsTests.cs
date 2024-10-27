@@ -11,7 +11,7 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", "arg1");
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
             await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(new[] { "arg1" });
@@ -24,7 +24,7 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
             await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(new[] { "arg1", "arg2" });
@@ -37,7 +37,7 @@ public class CommandExtensionsTests
         var commandLineOptions = new CommandLineOptions()
             .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
             await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(new[] { "arg1", "arg2" });
@@ -51,7 +51,7 @@ public class CommandExtensionsTests
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
             .WithArguments(["arg3", "arg4", "arg5"]);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
             await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(new[] { "arg1", "arg2", "arg3", "arg4", "arg5" });

@@ -23,7 +23,7 @@ public class Md5Tests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
             await Assert.That(moduleResult.Exception).IsNull();

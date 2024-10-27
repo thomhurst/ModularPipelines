@@ -28,7 +28,7 @@ public class GitTests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
             await Assert.That(moduleResult.Exception).IsNull();
@@ -43,7 +43,7 @@ public class GitTests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
             await Assert.That(moduleResult.Value.StandardOutput).Matches("git version \\d+.*");
@@ -55,7 +55,7 @@ public class GitTests : TestBase
     {
         var git = await GetService<IGit>();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(git.RootDirectory.Name).IsEqualTo("ModularPipelines");
             await Assert.That(git.RootDirectory.ListFiles().Select(x => x.Name)).Contains("README.md");

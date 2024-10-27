@@ -14,7 +14,7 @@ public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
 {
     protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var result = await context.Git().Commands.Diff(new GitDiffOptions()
+        var result = await context.Git().Commands.Diff(new GitDiffOptions
         {
             NameOnly = true,
             Arguments = ["origin/main"],

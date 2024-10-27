@@ -62,7 +62,7 @@ public class JsonSerializationTests : TestBase
         var moduleJson = JsonSerializer.Serialize(module);
         var deserializedModule = JsonSerializer.Deserialize<ModuleBase>(moduleJson);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleJson).IsNotNull().And.IsNotEmpty();
             await Assert.That(deserializedModule).IsNotNull();
@@ -71,7 +71,7 @@ public class JsonSerializationTests : TestBase
         var pipelineJson = JsonSerializer.Serialize(pipelineSummary);
         var deserializedSummary = JsonSerializer.Deserialize<PipelineSummary>(pipelineJson);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(pipelineJson).IsNotNull().And.IsNotEmpty();
             await Assert.That(deserializedSummary).IsNotNull();
@@ -80,7 +80,7 @@ public class JsonSerializationTests : TestBase
         var module1Deserialized = deserializedSummary!.GetModule<Module1>();
         var module1DeserializedResult = await module1Deserialized;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(module1Deserialized).IsNotNull();
             await Assert.That(module1DeserializedResult).IsNotNull();

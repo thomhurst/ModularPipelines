@@ -3,7 +3,6 @@ using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
 using ModularPipelines.Options.Windows;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions.Numbers;
 using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.UnitTests.Helpers;

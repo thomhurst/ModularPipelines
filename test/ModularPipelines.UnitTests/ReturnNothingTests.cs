@@ -65,7 +65,7 @@ public class ReturnNothingTests : TestBase
 
     private static async Task Assert(ModuleResult<CommandResult> result)
     {
-        await using (TUnit.Assertions.Assert.Multiple())
+        using (TUnit.Assertions.Assert.Multiple())
         {
             await TUnit.Assertions.Assert.That(result.HasValue).IsFalse();
             await TUnit.Assertions.Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);

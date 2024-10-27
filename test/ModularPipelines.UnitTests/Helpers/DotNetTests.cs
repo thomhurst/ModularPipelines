@@ -40,7 +40,7 @@ public class DotNetTests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
             await Assert.That(moduleResult.Exception).IsNull();
@@ -55,7 +55,7 @@ public class DotNetTests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
             await Assert.That(moduleResult.Exception).IsNull();
@@ -70,7 +70,7 @@ public class DotNetTests : TestBase
 
         var moduleResult = await module;
 
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
             await Assert.That(moduleResult.Value.StandardOutput).Matches("\\d+");

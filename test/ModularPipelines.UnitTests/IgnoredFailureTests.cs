@@ -33,7 +33,7 @@ public class IgnoredFailureTests : TestBase
 
         var moduleResult = await module;
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Failure);
             await Assert.That(moduleResult.Exception).IsNotNull();

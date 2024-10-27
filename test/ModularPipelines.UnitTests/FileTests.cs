@@ -3,8 +3,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
-using TUnit.Assertions.Extensions.Numbers;
-using TUnit.Assertions.Extensions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -28,7 +26,7 @@ public class FileTests : TestBase
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
             await Assert.That(file2.Exists).IsFalse();
@@ -36,7 +34,7 @@ public class FileTests : TestBase
 
         file.MoveTo(file2);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
 
@@ -50,7 +48,7 @@ public class FileTests : TestBase
     {
         var file = await CreateRandomFile();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
             await Assert.That(file.Attributes.ToString()).IsNotNull().And.IsNotEmpty();
@@ -74,7 +72,7 @@ public class FileTests : TestBase
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
             await Assert.That(file2.Exists).IsFalse();
@@ -82,7 +80,7 @@ public class FileTests : TestBase
 
         file.CopyTo(file2);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
             await Assert.That(file2.Exists).IsTrue();
@@ -111,7 +109,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEmpty();
             await Assert.That(lines).IsEmpty();
@@ -132,7 +130,7 @@ public class FileTests : TestBase
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world");
             await Assert.That(lines).HasCount().EqualTo(2);
@@ -157,7 +155,7 @@ public class FileTests : TestBase
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
             await Assert.That(lines).HasCount().EqualTo(2);
@@ -264,7 +262,7 @@ public class FileTests : TestBase
         var file = new File(path);
         var file2 = new File(path);
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file).IsEqualTo(file2);
             await Assert.That(file.GetHashCode()).IsEqualTo(file2.GetHashCode());
@@ -279,7 +277,7 @@ public class FileTests : TestBase
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(file).IsNotEqualTo(file2);
             await Assert.That(file.GetHashCode()).IsNotEqualTo(file2.GetHashCode());
@@ -324,14 +322,14 @@ public class FileTests : TestBase
     public async Task AssertExists_ThrowsWhenNotExists()
     {
         var file = File.GetNewTemporaryFilePath();
-        await Assert.That(() => file.AssertExists()).ThrowsException().OfType<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws<FileNotFoundException>();
     }
 
     [Test]
     public async Task AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-        await Assert.That(() => file.AssertExists()).ThrowsException().OfType<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws<FileNotFoundException>();
     }
 
     [Test]

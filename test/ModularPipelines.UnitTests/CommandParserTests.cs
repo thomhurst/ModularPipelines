@@ -4,7 +4,6 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
-using TUnit.Assertions.Extensions.Throws;
 
 namespace ModularPipelines.UnitTests;
 
@@ -145,13 +144,13 @@ public class CommandParserTests : TestBase
         await Assert.That(() => GetResult(new PlaceholderToolOptions(package!, "MyProject.csproj")
         {
             Source = "nuget.org"
-        })).ThrowsException().OfType<ArgumentException>();
+        })).Throws<ArgumentException>();
     }
 
     [Test]
     public async Task No_Matching_Placeholder_Positional_Is_Appended()
     {
-        var result = await GetResult(new PlaceholderToolOptions3()
+        var result = await GetResult(new PlaceholderToolOptions3
         {
             Project = "MyProject.csproj"
         });

@@ -28,7 +28,7 @@ public class FtpTests : TestBase
 
         var fileContents = await localPath.ReadAsync();
         
-        await using (Assert.Multiple())
+        using (Assert.Multiple())
         {
             await Assert.That(response).IsEqualTo(FtpStatus.Success);
             await Assert.That(fileContents).StartsWith("6jack");
