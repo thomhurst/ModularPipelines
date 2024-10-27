@@ -109,7 +109,7 @@ public class UpdateReleaseNotesModule : Module
 
         return $"""
                 
-                ## Dependabot
+                ## Dependencies
 
                 {splitCommits}
                 """;
