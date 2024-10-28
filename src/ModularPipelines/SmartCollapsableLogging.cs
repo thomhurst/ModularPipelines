@@ -10,7 +10,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     private readonly IServiceProvider _serviceProvider;
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
     private readonly IConsoleWriter _consoleWriter;
-    private readonly ILogger _logger;
+    private readonly ILogger<SmartCollapsableLogging> _logger;
     private readonly List<IServiceScope> _scopes = [];
 
     private IModuleLogger ModuleLogger
@@ -31,7 +31,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter,
-        ILogger logger)
+        ILogger<SmartCollapsableLogging> logger)
     {
         _serviceProvider = serviceProvider;
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
