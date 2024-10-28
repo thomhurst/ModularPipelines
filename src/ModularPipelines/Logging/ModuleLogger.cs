@@ -126,8 +126,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
                     }
                     else if (stringOrLogEvent.LogEvent != null)
                     {
-                        var (logLevel, eventId, state, exception, formatter) = stringOrLogEvent.LogEvent.Value;
-                        _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+                        Log(stringOrLogEvent.LogEvent.Value);
                     }
                 }
 
@@ -164,6 +163,21 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         if (endConsoleLogGroup != null)
         {
             _consoleWriter.LogToConsole(endConsoleLogGroup);
+        }
+    }
+
+    private void Log((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) logEvent)
+    {
+        var (logLevel, eventId, state, exception, formatter) = logEvent;
+
+        try
+        {
+            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine($"{logLevel}: {eventId} - {state}{exception}");
         }
     }
 
