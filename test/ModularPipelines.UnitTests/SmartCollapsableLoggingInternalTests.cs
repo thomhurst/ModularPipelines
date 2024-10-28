@@ -71,18 +71,24 @@ public class SmartCollapsableLoggingInternalTests : TestBase
 
         var buildSystemDetectorMock = new Mock<IBuildSystemDetector>();
 
+        var loggerMock = new Mock<ILogger<SmartCollapsableLogging>>();
+
+        loggerMock.Setup(x => x.IsEnabled(LogLevel.Information))
+            .Returns(true);
+        
         buildSystemDetectorMock.Setup(x => x.GetCurrentBuildSystem())
             .Returns(buildSystem);
 
-        var azurePipelines = await GetService<IInternalCollapsableLogging>((_, collection) =>
+        var buildSystemLogger = await GetService<IInternalCollapsableLogging>((_, collection) =>
         {
+            collection.AddSingleton(loggerMock.Object);
             collection.AddSingleton(buildSystemDetectorMock.Object);
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
         });
 
-        azurePipelines.T.WriteConsoleLogGroupInternal("MyGroup", "Foo bar!", LogLevel.Information);
+        buildSystemLogger.T.WriteConsoleLogGroupInternal("MyGroup", "Foo bar!", LogLevel.Information);
 
-        await azurePipelines.Host.DisposeAsync();
+        await buildSystemLogger.Host.DisposeAsync();
 
         return stringBuilder;
     }
