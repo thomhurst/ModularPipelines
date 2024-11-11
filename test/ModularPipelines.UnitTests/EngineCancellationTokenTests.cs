@@ -22,7 +22,7 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    [DependsOn<BadModule>]
+    [ModularPipelines.Attributes.DependsOn<BadModule>]
     private class Module1 : Module
     {
         protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
