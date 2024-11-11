@@ -18,7 +18,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [DependsOn<MyModule1>]
+    [ModularPipelines.Attributes.DependsOn<MyModule1>]
     public class MyModule2 : Module
     {
         public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
@@ -30,7 +30,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [DependsOn<MyModule2>]
+    [ModularPipelines.Attributes.DependsOn<MyModule2>]
     public class MyModule3 : Module
     {
         public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
@@ -42,7 +42,7 @@ public class AlwaysRunTests : TestBase
         }
     }
 
-    [DependsOn<MyModule3>]
+    [ModularPipelines.Attributes.DependsOn<MyModule3>]
     public class MyModule4 : Module
     {
         public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;

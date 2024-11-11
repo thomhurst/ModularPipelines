@@ -20,7 +20,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [DependsOn<Module1>]
+    [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : BaseModule
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [DependsOn<Module1>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3 : BaseModule
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -40,7 +40,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [DependsOnAllModulesInheritingFrom<BaseModule>]
+    [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
     private class Module4 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

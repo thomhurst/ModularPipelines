@@ -19,7 +19,7 @@ public class OneWayDependenciesNonCollisionTests
             .ExecutePipelineAsync()).ThrowsNothing();
     }
 
-    [DependsOn<DependencyConflictModule2>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class OneWayDependenciesNonCollisionTests
         }
     }
 
-    [DependsOn<DependencyConflictModule3>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ public class OneWayDependenciesNonCollisionTests
         }
     }
 
-    [DependsOn<DependencyConflictModule4>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ public class OneWayDependenciesNonCollisionTests
         }
     }
 
-    [DependsOn<DependencyConflictModule5>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

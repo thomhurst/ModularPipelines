@@ -17,7 +17,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn<Module1>]
+    [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn<Module1>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn<Module1>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3WithGetIfRegistered : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn<Module1>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3WithGet : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ public class DependsOnTests : TestBase
         }
     }
 
-    [DependsOn<DependsOnSelfModule>]
+    [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
     private class DependsOnSelfModule : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

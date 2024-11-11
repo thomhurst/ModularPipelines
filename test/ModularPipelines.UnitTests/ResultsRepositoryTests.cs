@@ -39,7 +39,7 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    [DependsOn<Module1>]
+    [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : Module
     {
         protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

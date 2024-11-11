@@ -19,7 +19,7 @@ public class DirectCollisionTests
                 .And.HasMessageEqualTo("Dependency collision detected: **DependencyConflictModule1** -> DependencyConflictModule2 -> **DependencyConflictModule1**");
     }
 
-    [DependsOn<DependencyConflictModule2>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ public class DirectCollisionTests
         }
     }
 
-    [DependsOn<DependencyConflictModule1>]
+    [ModularPipelines.Attributes.DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
