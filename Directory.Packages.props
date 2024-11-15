@@ -5,8 +5,8 @@
   <ItemGroup>
     <PackageVersion Include="AdaptiveCards" Version="3.1.0" />
     <PackageVersion Include="AsyncSemaphore" Version="1.2.2" />
-    <PackageVersion Include="AWSSDK.Lambda" Version="3.7.408.1" />
-    <PackageVersion Include="AWSSDK.S3" Version="3.7.405.13" />
+    <PackageVersion Include="AWSSDK.Lambda" Version="3.7.408.5" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.406.2" />
     <PackageVersion Include="Azure.Identity" Version="1.13.1" />
     <PackageVersion Include="Azure.ResourceManager" Version="1.13.0" />
     <PackageVersion Include="Azure.ResourceManager.AlertsManagement" Version="1.1.0" />
