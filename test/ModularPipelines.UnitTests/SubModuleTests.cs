@@ -233,6 +233,21 @@ public class SubModuleTests : TestBase
     }
 
     [Test]
+    public async Task Submodule_With_Progress()
+    {
+        var module = await RunModule<SubModulesWithReturnTypeModule>(new TestHostSettings { ShowProgressInConsole = true });
+
+        var results = await module;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
+            await Assert.That(results.Value).IsEquivalentCollectionTo(new List<string> { "1", "2", "3" });
+            await Assert.That(module.SubModuleRunCount).IsEqualTo(3);
+        }
+    }
+
+    [Test]
     public async Task Submodule_With_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
         var module = await RunModule<SubModulesWithReturnTypeModule>();
