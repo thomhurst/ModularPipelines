@@ -75,7 +75,7 @@
     <PackageVersion Include="TUnit" Version="0.3.20" />
     <PackageVersion Include="TUnit.Assertions" Version="0.3.20" />
     <PackageVersion Include="TUnit.Core" Version="0.3.20" />
-    <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20240326.31" />
+    <PackageVersion Include="vertical-spectreconsolelogger" Version="0.10.1-dev.20241117.32" />
     <PackageVersion Include="YamlDotNet" Version="16.2.0" />
   </ItemGroup>
 </Project>
