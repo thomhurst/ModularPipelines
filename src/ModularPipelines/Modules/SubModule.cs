@@ -6,7 +6,7 @@ namespace ModularPipelines.Modules;
 
 internal class SubModule<T> : SubModuleBase
 {
-    internal Task<T> Task { get; private set; } = null!;
+    internal readonly TaskCompletionSource<T> SubModuleResultTaskCompletionSource = new();
 
     internal SubModule(Type parentModule, string name) : base(parentModule, name)
     {
@@ -17,37 +17,27 @@ internal class SubModule<T> : SubModuleBase
         StartTime = DateTimeOffset.UtcNow;
         var stopwatch = Stopwatch.StartNew();
 
-        Task = System.Threading.Tasks.Task.Run(async () =>
-        {
-            try
-            {
-                Status = Status.Processing;
-                return await action();
-            }
-            catch (Exception e)
-            {
-                throw new SubModuleFailedException(this, e);
-            }
-        });
-        
         try
         {
-            var result = await Task;
+            Status = Status.Processing;
+
+            var result = await action();
 
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
             Status = Status.Successful;
-            
-            return result;
+            SubModuleResultTaskCompletionSource.SetResult(result);
         }
-        catch
+        catch (Exception ex)
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
             Status = Status.Failed;
-            throw;
+            SubModuleResultTaskCompletionSource.SetException(new SubModuleFailedException(this, ex));
         }
+
+        return await SubModuleResultTaskCompletionSource.Task;
     }
 
-    public override Task CallbackTask => Task;
+    public override Task CallbackTask => SubModuleResultTaskCompletionSource.Task;
 }

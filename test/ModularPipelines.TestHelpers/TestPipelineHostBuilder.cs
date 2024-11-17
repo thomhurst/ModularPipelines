@@ -21,7 +21,7 @@ public static class TestPipelineHostBuilder
                 collection.Configure<PipelineOptions>(opt =>
                 {
                     opt.DefaultCommandLogging = testHostSettings.CommandLogging;
-                    opt.ShowProgressInConsole = false;
+                    opt.ShowProgressInConsole = testHostSettings.ShowProgressInConsole;
                     opt.PrintResults = false;
                     opt.PrintLogo = false;
                     opt.PrintDependencyChains = false;
