@@ -1,1 +1,0 @@
-- Fix NRE when using submodules and ShowProgressInConsole is true
