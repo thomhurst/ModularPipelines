@@ -242,7 +242,7 @@ public class SubModuleTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(results.Value).IsEquivalentCollectionTo(new List<string> { "1", "2", "3" });
+            await Assert.That(results.Value).IsEquivalentTo(new List<string> { "1", "2", "3" });
             await Assert.That(module.SubModuleRunCount).IsEqualTo(3);
         }
     }
@@ -257,7 +257,7 @@ public class SubModuleTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(results.Value).IsEquivalentCollectionTo(new List<string> { "1", "2", "3" });
+            await Assert.That(results.Value).IsEquivalentTo(new List<string> { "1", "2", "3" });
             await Assert.That(module.SubModuleRunCount).IsEqualTo(3);
         }
     }
@@ -287,7 +287,7 @@ public class SubModuleTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(results.Value!).IsEquivalentCollectionTo(new List<string> { "1", "2", "3" });
+            await Assert.That(results.Value!).IsEquivalentTo(new List<string> { "1", "2", "3" });
             await Assert.That(module.SubModuleRunCount).IsEqualTo(3);
         }
     }
