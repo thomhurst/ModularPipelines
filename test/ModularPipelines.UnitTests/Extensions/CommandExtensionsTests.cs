@@ -14,7 +14,7 @@ public class CommandExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentCollectionTo(["arg1"]);
+            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1"]);
         }
     }
 
@@ -27,7 +27,7 @@ public class CommandExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentCollectionTo(["arg1", "arg2"]);
+            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2"]);
         }
     }
     
@@ -40,7 +40,7 @@ public class CommandExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentCollectionTo(["arg1", "arg2"]);
+            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2"]);
         }
     }
 
@@ -54,7 +54,7 @@ public class CommandExtensionsTests
         using (Assert.Multiple())
         {
             await Assert.That(commandLineOptions.Tool).IsEqualTo("mytool");
-            await Assert.That(commandLineOptions.Arguments!).IsEquivalentCollectionTo(["arg1", "arg2", "arg3", "arg4", "arg5"]);
+            await Assert.That(commandLineOptions.Arguments!).IsEquivalentTo(["arg1", "arg2", "arg3", "arg4", "arg5"]);
         }
     }
 }
