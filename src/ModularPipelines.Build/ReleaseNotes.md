@@ -1,0 +1,1 @@
+- Use Task.Run for more eager starting of parallel tasks
