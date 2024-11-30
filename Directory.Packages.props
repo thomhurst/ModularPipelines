@@ -37,7 +37,7 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="1.3.2" />
     <PackageVersion Include="FluentAssertions" Version="6.12.2" />
-    <PackageVersion Include="FluentFTP" Version="51.1.0" />
+    <PackageVersion Include="FluentFTP" Version="52.0.0" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
     <PackageVersion Include="MailKit" Version="4.8.0" />
     <PackageVersion Include="Microsoft.Build" Version="17.3.2" />
