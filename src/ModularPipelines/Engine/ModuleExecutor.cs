@@ -75,7 +75,7 @@ internal class ModuleExecutor : IModuleExecutor
             await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
 
             var parallelModuleTasks = modules.Except(nonParallelModules)
-                .Select(x => StartModule(x, false))
+                .Select(x => Task.Run(() => StartModule(x, false)))
                 .ToArray();
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
@@ -119,18 +119,18 @@ internal class ModuleExecutor : IModuleExecutor
     {
         await keyedNonParallelModules
             .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
-            .ForEachAsync(async module =>
+            .ForEachAsync(module => Task.Run(async () =>
             {
                 var keys = module.GetType()
                     .GetCustomAttribute<NotInParallelAttribute>()!
                     .ConstraintKeys
                     .OrderBy(x => x)
                     .ToArray();
-                
+
                 _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
-                
+
                 var locks = keys.Select(GetLockForKey).ToArray();
-                
+
                 while (!WaitHandle.WaitAll(locks, TimeSpan.FromMilliseconds(100), false))
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(500));
@@ -147,7 +147,7 @@ internal class ModuleExecutor : IModuleExecutor
                         semaphore.Release();
                     }
                 }
-            })
+            }))
             .ProcessInParallel();
     }
 
