@@ -26,7 +26,7 @@ public class TrxParsingTests : TestBase
             await context.DotNet().Test(new DotNetTestOptions
             {
                 ProjectSolutionDirectoryDllExe = testProject,
-                Framework = "net8.0",
+                Framework = "net9.0",
                 CommandLogging = CommandLogging.Error,
                 Logger = [$"trx;logfilename={trxFile}"],
                 ThrowOnNonZeroExitCode = false
