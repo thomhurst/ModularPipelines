@@ -24,7 +24,7 @@
     <PackageVersion Include="Azure.ResourceManager.ManagedServiceIdentities" Version="1.2.3" />
     <PackageVersion Include="Azure.ResourceManager.Network" Version="1.9.0" />
     <PackageVersion Include="Azure.ResourceManager.OperationalInsights" Version="1.2.2" />
-    <PackageVersion Include="Azure.ResourceManager.Redis" Version="1.4.0" />
+    <PackageVersion Include="Azure.ResourceManager.Redis" Version="1.5.0" />
     <PackageVersion Include="Azure.ResourceManager.SecurityCenter" Version="1.1.0" />
     <PackageVersion Include="Azure.ResourceManager.ServiceBus" Version="1.1.0" />
     <PackageVersion Include="Azure.ResourceManager.Sql" Version="1.2.1" />
