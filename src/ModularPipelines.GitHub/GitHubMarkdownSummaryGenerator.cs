@@ -33,7 +33,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             return;
         }
 
-        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).WriteAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}");
+        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).AppendAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}");
     }
 
     private async Task<string> GetException(PipelineSummary pipelineSummary)
