@@ -1,1 +1,0 @@
-* Add File.AppendAsync method
