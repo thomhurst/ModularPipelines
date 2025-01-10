@@ -159,6 +159,9 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileSystemInfo.Extension"/>>
     public string Extension => FileInfo.Extension;
 
+    /// <inheritdoc cref="System.IO.FileInfo.Length"/>>
+    public long Length => FileInfo.Length;
+
     /// <inheritdoc cref="FileInfo.Delete"/>>
     public void Delete()
     {

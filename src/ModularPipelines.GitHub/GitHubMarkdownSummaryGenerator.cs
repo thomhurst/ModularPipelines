@@ -1,4 +1,5 @@
-﻿using ModularPipelines.Context;
+﻿using System.Text;
+using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
@@ -8,6 +9,8 @@ namespace ModularPipelines.GitHub;
 
 internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 {
+    private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
+
     private readonly IAfterPipelineLogger _afterPipelineLogger;
 
     public GitHubMarkdownSummaryGenerator(IAfterPipelineLogger afterPipelineLogger)
@@ -33,7 +36,25 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             return;
         }
 
-        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).AppendAsync($"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}");
+        await WriteFile(pipelineContext, stepSummaryVariable, mermaid, table, exception);
+    }
+
+    private async Task WriteFile(IPipelineHookContext pipelineContext, string stepSummaryVariable, string mermaid,
+        string table, string exception)
+    {
+        var fileInfo = pipelineContext.FileSystem.GetFile(stepSummaryVariable);
+        var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
+        var contents = $"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}";
+        long newContentSize = Encoding.UTF8.GetByteCount(contents);
+        var newSize = currentFileSize + newContentSize;
+
+        if (newSize > MaxFileSizeInBytes)
+        {
+            Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
+            return;
+        }
+        
+        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).AppendAsync(contents);
     }
 
     private async Task<string> GetException(PipelineSummary pipelineSummary)
