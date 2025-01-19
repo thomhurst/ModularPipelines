@@ -68,8 +68,7 @@ await PipelineHostBuilder.Create()
         {
             collection.AddModule<CreateLocalNugetFolderModule>()
                 .AddModule<AddLocalNugetSourceModule>()
-                .AddModule<UploadPackagesToLocalNuGetModule>()
-                .AddModule<CheckReleaseNotesAddedModule>();
+                .AddModule<UploadPackagesToLocalNuGetModule>();
         }
         else
         {
