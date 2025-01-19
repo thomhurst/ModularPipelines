@@ -74,7 +74,7 @@ await PipelineHostBuilder.Create()
         else
         {
             collection.AddModule<UploadPackagesToNugetModule>()
-                .AddModule<UpdateReleaseNotesModule>();
+                .AddModule<CreateReleaseModule>();
         }
     })
     .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
