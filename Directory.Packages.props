@@ -36,7 +36,6 @@
     <PackageVersion Include="CliWrap" Version="3.7.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.3" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="2.0.6" />
-    <PackageVersion Include="FluentAssertions" Version="8.0.0" />
     <PackageVersion Include="FluentFTP" Version="52.0.0" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
     <PackageVersion Include="MailKit" Version="4.9.0" />
