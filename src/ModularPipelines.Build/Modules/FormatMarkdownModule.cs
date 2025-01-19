@@ -65,7 +65,6 @@ public class FormatMarkdownModule : Module<CommandResult>
         {
             context.Git().RootDirectory.FindFile(x => x.Name == "README.md")!.Path,
             context.Git().RootDirectory.FindFile(x => x.Name == "README_Template.md")!.Path,
-            context.Git().RootDirectory.FindFile(x => x.Name == "ReleaseNotes.md")!.Path,
         };
 
         foreach (var fileToFormat in filesToFormat)
