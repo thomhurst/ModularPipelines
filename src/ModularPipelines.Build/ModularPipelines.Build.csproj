@@ -14,7 +14,6 @@
     <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.Build" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Text.Json" />
