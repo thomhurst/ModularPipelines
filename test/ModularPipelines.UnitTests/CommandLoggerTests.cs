@@ -13,6 +13,7 @@ namespace ModularPipelines.UnitTests;
 public class CommandLoggerTests : TestBase
 {
     [Test]
+    [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
         [Matrix(true, false)] bool logInput,
         [Matrix(true, false)] bool logOutput,
