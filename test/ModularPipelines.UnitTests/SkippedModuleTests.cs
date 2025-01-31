@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.AssertConditions.Throws;
 
 namespace ModularPipelines.UnitTests;
 

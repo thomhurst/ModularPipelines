@@ -3,6 +3,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
+using TUnit.Assertions.AssertConditions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;

@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using TUnit.Assertions.AssertConditions.Throws;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests;
