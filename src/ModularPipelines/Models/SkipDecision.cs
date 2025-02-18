@@ -37,4 +37,6 @@ public sealed record SkipDecision
     public static implicit operator SkipDecision(bool shouldSkip) => shouldSkip ? Skip(null) : DoNotSkip;
 
     public static implicit operator SkipDecision(string reason) => Skip(reason);
+
+    public static implicit operator Task<SkipDecision>(SkipDecision skipDecision) => Task.FromResult(skipDecision);
 }
