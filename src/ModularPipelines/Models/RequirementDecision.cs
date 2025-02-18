@@ -37,4 +37,6 @@ public sealed record RequirementDecision
     public static implicit operator RequirementDecision(bool passed) => passed ? Passed : Failed(null);
 
     public static implicit operator RequirementDecision(string reason) => Failed(reason);
+
+    public static implicit operator Task<RequirementDecision>(RequirementDecision decision) => Task.FromResult(decision);
 }
