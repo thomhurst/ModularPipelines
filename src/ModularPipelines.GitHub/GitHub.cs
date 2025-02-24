@@ -1,5 +1,7 @@
+using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.GitHub.Options;
+using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using Octokit;
 using Octokit.Internal;
@@ -60,8 +62,27 @@ internal class GitHub : IGitHub
                 ?? EnvironmentVariables.Token
                 ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
     
-    var client = new GitHubClient(new ProductHeaderValue("ModularPipelines"),
-      new InMemoryCredentialStore(new Credentials(token)));
+    var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
+      new HttpClientAdapter(() =>
+      {
+        var moduleLogger = _moduleLoggerProvider.GetLogger();
+
+        return new RequestLoggingHttpHandler(moduleLogger)
+        {
+          InnerHandler = new ResponseLoggingHttpHandler(moduleLogger)
+          {
+            InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger)
+            {
+              InnerHandler = new HttpClientHandler(),
+            },
+          },
+        };
+      }));
+
+    var client = new GitHubClient(connection)
+    {
+      Credentials = new Credentials(token),
+    };
 
     return client;
   }
