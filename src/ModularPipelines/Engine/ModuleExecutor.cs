@@ -163,7 +163,7 @@ internal class ModuleExecutor : IModuleExecutor
 
                 var dependencies = module.GetModuleDependencies();
 
-                foreach (var dependency in dependencies)
+                foreach (var dependency in dependencies.Reverse())
                 {
                     await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
                 }
