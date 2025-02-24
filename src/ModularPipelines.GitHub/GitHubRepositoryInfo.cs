@@ -39,55 +39,62 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
     {
       return;
     }
-    
-    await using var scope = _serviceProvider.CreateAsyncScope();
-    var git = scope.ServiceProvider.GetRequiredService<IGit>();
 
-    var options = new GitRemoteOptions
+    try
     {
-      Arguments = ["get-url", "origin"],
-      ThrowOnNonZeroExitCode = false,
-      CommandLogging = scope.ServiceProvider
-                         .GetRequiredService<IOptions<LoggerFilterOptions>>()
-                         .Value
-                         .MinLevel == LogLevel.Debug
-        ? CommandLogging.Default
-        : CommandLogging.None,
-    };
+      await using var scope = _serviceProvider.CreateAsyncScope();
+      var git = scope.ServiceProvider.GetRequiredService<IGit>();
+
+      var options = new GitRemoteOptions
+      {
+        Arguments = ["get-url", "origin"],
+        ThrowOnNonZeroExitCode = false,
+        CommandLogging = scope.ServiceProvider
+          .GetRequiredService<IOptions<LoggerFilterOptions>>()
+          .Value
+          .MinLevel == LogLevel.Debug
+          ? CommandLogging.Default
+          : CommandLogging.None,
+      };
     
-    var remote = await git.Commands.Remote(options);
-    var remoteUrl = remote.StandardOutput;
+      var remote = await git.Commands.Remote(options);
+      var remoteUrl = remote.StandardOutput;
     
-    if (string.IsNullOrEmpty(remoteUrl))
-    {
-      _logger.LogWarning("Error when detecting GitHub git repository: {Error}", remote.StandardError);
+      if (string.IsNullOrEmpty(remoteUrl))
+      {
+        _logger.LogWarning("Error when detecting GitHub git repository: {Error}", remote.StandardError);
       
-      // Will not initialize as git repo is not setup
-      return;
+        // Will not initialize as git repo is not setup
+        return;
+      }
+
+      // Parse owner and repository name from the remote URL
+      var endpoint = "github";
+      var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
+      var httpsPattern = $@"https://(.*@)?{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
+
+      var match = Regex.Match(remoteUrl, sshPattern);
+      if (!match.Success)
+      {
+        match = Regex.Match(remoteUrl, httpsPattern);
+      }
+
+      if (!match.Success)
+      {
+        // Will not initialize as git repo is not setup
+        return;
+      }
+
+      Url = remoteUrl;
+      Endpoint = endpoint;
+      Owner = match.Groups["owner"].Value;
+      RepositoryName = match.Groups["name"].Value;
+
+      IsInitialized = true;
     }
-
-    // Parse owner and repository name from the remote URL
-    var endpoint = "github";
-    var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
-    var httpsPattern = $@"https://(.*@)?{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
-
-    var match = Regex.Match(remoteUrl, sshPattern);
-    if (!match.Success)
+    catch (Exception e)
     {
-      match = Regex.Match(remoteUrl, httpsPattern);
+      Console.WriteLine(e);
     }
-
-    if (!match.Success)
-    {
-      // Will not initialize as git repo is not setup
-      return;
-    }
-
-    Url = remoteUrl;
-    Endpoint = endpoint;
-    Owner = match.Groups["owner"].Value;
-    RepositoryName = match.Groups["name"].Value;
-
-    IsInitialized = true;
   }
 }
