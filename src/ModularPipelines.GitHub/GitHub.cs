@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.GitHub.Options;
 using ModularPipelines.Logging;
@@ -59,9 +60,14 @@ internal class GitHub : IGitHub
     var token = _options.AccessToken 
                 ?? EnvironmentVariables.Token
                 ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
-    
-    var client = new GitHubClient(new ProductHeaderValue("ModularPipelines"),
-      new InMemoryCredentialStore(new Credentials(token)));
+
+    var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
+      new HttpClientAdapter(() => new LoggingHttpMessageHandler(_moduleLoggerProvider.GetLogger())));
+
+    var client = new GitHubClient(connection)
+    {
+      Credentials = new Credentials(token),
+    };
 
     return client;
   }
