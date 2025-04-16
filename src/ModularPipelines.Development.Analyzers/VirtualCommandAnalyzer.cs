@@ -53,16 +53,16 @@ public class VirtualCommandAnalyzer : DiagnosticAnalyzer
         }
 
         var task = context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task`1");
-        
+
         var commandResult = context.Compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandResult");
-        
+
         if (task is null || commandResult is null)
         {
             return;
         }
 
         var commandResultTask = task.Construct(commandResult);
-        
+
         if (!SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, commandResultTask))
         {
             return;

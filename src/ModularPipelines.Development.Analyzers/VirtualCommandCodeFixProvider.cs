@@ -64,8 +64,16 @@ public class VirtualCommandCodeFixProvider : CodeFixProvider
     private static async Task<Document> AddVirtualKeyword(Document document,
         MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        var newPropertyDeclarationSyntax = methodDeclarationSyntax.WithModifiers(
-            SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Insert(0, SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
+        var accessibilityModifier = methodDeclarationSyntax.Modifiers.LastOrDefault(modifier =>
+            modifier.IsKind(SyntaxKind.PublicKeyword) ||
+            modifier.IsKind(SyntaxKind.ProtectedKeyword) ||
+            modifier.IsKind(SyntaxKind.InternalKeyword) ||
+            modifier.IsKind(SyntaxKind.PrivateKeyword));
+
+        var index = Math.Max(0, methodDeclarationSyntax.Modifiers.IndexOf(accessibilityModifier) + 1);
+
+        var newMethodDeclarationSyntax = methodDeclarationSyntax.WithModifiers(
+            SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Insert(index, SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
 
         var root = await document.GetSyntaxRootAsync(cancellationToken);
 
@@ -74,6 +82,6 @@ public class VirtualCommandCodeFixProvider : CodeFixProvider
             return document;
         }
 
-        return document.WithSyntaxRoot(root.ReplaceNode(methodDeclarationSyntax, newPropertyDeclarationSyntax));
+        return document.WithSyntaxRoot(root.ReplaceNode(methodDeclarationSyntax, newMethodDeclarationSyntax));
     }
 }
