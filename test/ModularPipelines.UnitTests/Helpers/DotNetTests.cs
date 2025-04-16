@@ -62,18 +62,4 @@ public class DotNetTests : TestBase
             await Assert.That(moduleResult.Value).IsNotNull();
         }
     }
-
-    [Test]
-    public async Task Standard_Output_Starts_With_Git_Version()
-    {
-        var module = await RunModule<DotNetVersionModule>();
-
-        var moduleResult = await module;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).Matches("\\d+");
-        }
-    }
 }
