@@ -66,7 +66,7 @@ public class EnvironmentContextTests : TestBase
     public async Task Assert_Values_Populated()
     {
         var context = await GetService<IEnvironmentContext>();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(context.ContentDirectory).IsNotNull();

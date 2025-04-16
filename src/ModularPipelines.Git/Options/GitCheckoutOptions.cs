@@ -10,7 +10,7 @@ public record GitCheckoutOptions : GitOptions
     public GitCheckoutOptions(string branchName) : this(branchName, false)
     {
     }
-    
+
     public GitCheckoutOptions(string branchName, bool create)
     {
         if (create)
@@ -98,9 +98,9 @@ public record GitCheckoutOptions : GitOptions
     [BooleanCommandSwitch("--pathspec-file-nul")]
     public bool? PathspecFileNul { get; set; }
 
-    [PositionalArgument] 
+    [PositionalArgument]
     public string? BranchName { get; set; }
-    
-    [CommandSwitch("-b")] 
+
+    [CommandSwitch("-b")]
     public string? NewBranchName { get; set; }
 }

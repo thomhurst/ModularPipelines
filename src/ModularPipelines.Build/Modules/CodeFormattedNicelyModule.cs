@@ -37,7 +37,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         {
             return SkipDecision.Skip("Not a pull request").AsTask();
         }
-        
+
         if (string.IsNullOrEmpty(_githubSettings.Value.StandardToken))
         {
             return SkipDecision.Skip("No authentication token for git").AsTask();

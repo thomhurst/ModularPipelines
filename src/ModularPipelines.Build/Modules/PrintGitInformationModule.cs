@@ -12,14 +12,14 @@ public class PrintGitInformationModule : Module
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(context.Git().Information, new JsonSerializerOptions
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             IgnoreReadOnlyFields = true,
             WriteIndented = true,
         }));
-        
+
         return null;
     }
 }

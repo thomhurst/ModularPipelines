@@ -21,7 +21,7 @@ public class ParallelLimiterAttribute : Attribute
         {
             throw new Exception("Type must be of IParallelLimit");
         }
-        
+
         Type = type;
     }
 }

@@ -11,14 +11,14 @@ public class PrintEnvironmentVariablesModule : Module
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), new JsonSerializerOptions
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             IgnoreReadOnlyFields = true,
             WriteIndented = true,
         }));
-        
+
         return null;
     }
 }

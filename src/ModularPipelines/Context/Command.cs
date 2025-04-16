@@ -79,7 +79,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
     private List<string> SantiseArguments(List<string> parsedArgs)
     {
         parsedArgs.RemoveAll(x => x.StartsWith("<"));
-        
+
         return parsedArgs;
     }
 
@@ -112,7 +112,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         var inputToLog = options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString());
 
         using var forcefulCancellationToken = new CancellationTokenSource();
-        
+
         cancellationToken.Register(() =>
         {
             try
@@ -127,7 +127,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
                 // Ignored
             }
         });
-        
+
         try
         {
             var result = await command
@@ -169,7 +169,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
                 standardError: standardError,
                 commandWorkingDirPath: command.WorkingDirPath
             );
-            
+
             throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
         }
         catch (Exception e) when (e is not CommandExecutionException and not CommandException)

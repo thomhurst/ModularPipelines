@@ -35,7 +35,7 @@ public abstract class TestBase
         _hosts.Add(host);
 
         var results = await host.ExecutePipelineAsync();
-        
+
         return results.Modules.OfType<T>().Single();
     }
 

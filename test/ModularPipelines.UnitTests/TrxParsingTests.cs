@@ -22,7 +22,7 @@ public class TrxParsingTests : TestBase
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
             var trxFile = File.GetNewTemporaryFilePath();
-            
+
             await context.DotNet().Test(new DotNetTestOptions
             {
                 ProjectSolutionDirectoryDllExe = testProject,
@@ -44,13 +44,13 @@ public class TrxParsingTests : TestBase
         var result = await RunModule<NUnitModule>();
 
         await Assert.That(result.Result.Value!.Successful).IsFalse();
-        
+
         await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
             .HasCount().EqualTo(1);
-        
+
         await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
             .HasCount().EqualTo(1);
-        
+
         await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
             .HasCount().EqualTo(2);
     }

@@ -61,7 +61,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         {
             return false;
         }
-        
+
         var isTimeoutExceed = Module.Stopwatch.Elapsed >= Module.Timeout;
         return isTimeoutExceed && exception is ModuleTimeoutException or TaskCanceledException or OperationCanceledException;
     }
@@ -84,7 +84,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(Module, exception);
-        
+
         Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(_ =>
         {
             Context.EngineCancellationToken.Cancel();

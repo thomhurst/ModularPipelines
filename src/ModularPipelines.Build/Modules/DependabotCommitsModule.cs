@@ -15,7 +15,7 @@ public class DependabotCommitsModule : Module<List<string>>
     protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = context.GitHub().RepositoryInfo;
-        
+
         var latestRelease = await context.GitHub().Client.Repository.Release.GetLatest(repositoryInfo.Owner, repositoryInfo.RepositoryName);
 
         var commitsSinceRelease = await context.GitHub().Client.Repository.Commit.GetAll(repositoryInfo.Owner,
@@ -24,14 +24,14 @@ public class DependabotCommitsModule : Module<List<string>>
                 Sha = "main",
                 Since = latestRelease.CreatedAt.AddMinutes(-2),
             });
-        
+
         var commits = commitsSinceRelease
             .Where(x => x.Author.Login.StartsWith("dependabot") || x.Author.Login.StartsWith("renovate-bot"))
             .Select(x => x.Commit.Message.Split(Environment.NewLine))
             .Select(x => x.FirstOrDefault())
             .OfType<string>()
             .ToList();
-        
+
         context.Logger.LogInformation("Commits: {Commits}", string.Join(Environment.NewLine, commits));
 
         return commits;

@@ -48,7 +48,7 @@ public class ParallelLimiterTests
             return GetType().Name;
         }
     }
-    
+
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
     public class Module5 : Module<string>
     {
@@ -58,7 +58,7 @@ public class ParallelLimiterTests
             return GetType().Name;
         }
     }
-    
+
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
     public class Module6 : Module<string>
     {

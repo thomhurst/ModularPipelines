@@ -15,7 +15,7 @@ internal class ParallelLimitProvider : IParallelLimitProvider
         {
             throw new Exception("Parallel Limit must be positive");
         }
-        
+
         return Locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));
     }
 }

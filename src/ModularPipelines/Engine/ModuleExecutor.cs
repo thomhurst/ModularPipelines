@@ -30,7 +30,7 @@ internal class ModuleExecutor : IModuleExecutor
 
     private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
     private readonly object _notInParallelDictionaryLock = new();
-    
+
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
@@ -71,7 +71,7 @@ internal class ModuleExecutor : IModuleExecutor
             var keyedNonParallelModules = nonParallelModules
                 .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
                 .ToList();
-            
+
             await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
 
             var parallelModuleTasks = modules.Except(nonParallelModules)
@@ -158,7 +158,7 @@ internal class ModuleExecutor : IModuleExecutor
             return _moduleExecutionTasks.GetOrAdd(module, @base => Task.Run(async () =>
             {
                 using var semaphoreHandle = await WaitForParallelLimiter(module, isStartedAsDependencyForOtherModule);
-                
+
                 _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
 
                 var dependencies = module.GetModuleDependencies();
@@ -171,7 +171,7 @@ internal class ModuleExecutor : IModuleExecutor
                 try
                 {
                     ModuleLogger.Values.Value = module.Context.Logger;
-                    
+
                     await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
                     await module.StartInternal();
@@ -192,12 +192,12 @@ internal class ModuleExecutor : IModuleExecutor
             }));
         }
     }
-    
+
     private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module, bool isStartedAsDependencyForAnotherTest)
     {
         var parallelLimitAttributeType =
             module.GetType().GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault()?.Type;
-        
+
         if (parallelLimitAttributeType != null)
         {
             return await _parallelLimitProvider.GetLock(parallelLimitAttributeType).WaitAsync();
@@ -209,7 +209,7 @@ internal class ModuleExecutor : IModuleExecutor
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
     {
         _logger.LogDebug("Starting Dependency {Dependency} for Module {Module}", dependencyType.Name, requestingModule.GetType().Name);
-        
+
         var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
 
         if (module is null && ignoreIfNotRegistered)
@@ -222,7 +222,7 @@ internal class ModuleExecutor : IModuleExecutor
         {
             throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
         }
-        
+
         requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
 
         try

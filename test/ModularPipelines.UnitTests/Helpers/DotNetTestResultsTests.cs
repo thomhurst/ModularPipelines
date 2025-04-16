@@ -35,7 +35,7 @@ public class DotNetTestResultsTests : TestBase
     private class DotNetTestWithoutFailureModule : Module<CommandResult>
     {
         public File TrxFile { get; } = File.GetNewTemporaryFilePath();
-        
+
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
@@ -73,12 +73,12 @@ public class DotNetTestResultsTests : TestBase
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }
-    
+
     [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
         var module = await RunModule<DotNetTestWithoutFailureModule>();
-        
+
         var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);

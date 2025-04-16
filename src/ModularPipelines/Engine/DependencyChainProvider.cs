@@ -6,7 +6,7 @@ namespace ModularPipelines.Engine;
 internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 {
     private readonly IModuleRetriever _moduleRetriever;
-    
+
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = null!;
 
     public DependencyChainProvider(IModuleRetriever moduleRetriever)

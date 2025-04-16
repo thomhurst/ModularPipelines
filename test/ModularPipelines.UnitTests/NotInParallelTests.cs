@@ -100,7 +100,7 @@ public class NotInParallelTests
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
         var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(10);
-        
+
         await Assert.That(nextModule.StartTime)
             .IsGreaterThanOrEqualTo(expectedStartTime);
     }

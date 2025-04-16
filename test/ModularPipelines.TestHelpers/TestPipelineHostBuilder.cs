@@ -10,7 +10,7 @@ namespace ModularPipelines.TestHelpers;
 public static class TestPipelineHostBuilder
 {
     public static PipelineHostBuilder Create() => Create(new TestHostSettings());
-    
+
     public static PipelineHostBuilder Create(TestHostSettings testHostSettings)
     {
         return new PipelineHostBuilder()
@@ -26,7 +26,7 @@ public static class TestPipelineHostBuilder
                     opt.PrintLogo = false;
                     opt.PrintDependencyChains = false;
                 });
-                
+
                 if (testHostSettings.ClearLogProviders)
                 {
                     collection.AddLogging(builder => builder.ClearProviders());

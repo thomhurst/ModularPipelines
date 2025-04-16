@@ -52,14 +52,14 @@ await PipelineHostBuilder.Create()
         collection.AddSingleton<IGitHubClient>(sp =>
         {
             var githubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>();
-            
+
             var githubToken = githubSettings.Value.StandardToken;
 
             if (string.IsNullOrEmpty(githubToken))
             {
                 githubToken = "token";
             }
-            
+
             return new GitHubClient(new ProductHeaderValue("ModularPipelinesBuild"),
                 new InMemoryCredentialStore(new Credentials(githubToken)));
         });

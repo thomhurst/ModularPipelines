@@ -22,7 +22,7 @@ public class CommandTests : TestBase
                 cancellationToken: cancellationToken);
         }
     }
-    
+
     private class CommandEchoTimeoutModule : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ public class CommandTests : TestBase
             {
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(TimeSpan.FromSeconds(30));
-                
+
                 return (await context.Command.ExecuteCommandLineTool(
                     new CommandLineToolOptions(
                         "pwsh",
@@ -52,7 +52,7 @@ public class CommandTests : TestBase
         var module = await RunModule<CommandEchoModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -67,21 +67,21 @@ public class CommandTests : TestBase
         var module = await RunModule<CommandEchoModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
             await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo("Foo bar!");
         }
     }
-    
+
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar_With_Timeout()
     {
         var module = await RunModule<CommandEchoTimeoutModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.Value!.Trim()).IsEqualTo("Foo bar!");

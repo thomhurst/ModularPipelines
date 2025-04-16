@@ -17,7 +17,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     {
         _afterPipelineLogger = afterPipelineLogger;
     }
-    
+
     public Task OnStartAsync(IPipelineHookContext pipelineContext)
     {
         return Task.CompletedTask;
@@ -30,7 +30,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         var exception = await GetException(pipelineSummary);
 
         var stepSummaryVariable = pipelineContext.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
-        
+
         if (string.IsNullOrEmpty(stepSummaryVariable))
         {
             return;
@@ -53,7 +53,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
             return;
         }
-        
+
         await pipelineContext.FileSystem.GetFile(stepSummaryVariable).AppendAsync(contents);
     }
 
@@ -70,7 +70,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         {
             return string.Empty;
         }
-        
+
         return $"\n\n```\n{exception}\n```";
     }
 
@@ -118,7 +118,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private async Task<string> GenerateTableSummary(PipelineSummary pipelineSummary)
     {
         var results = await pipelineSummary.GetModuleResultsAsync();
-        
+
         var stepStringList = results.OrderBy(x => x.ModuleEnd)
             .ThenBy(s => s.ModuleStart)
             .Select(module =>
@@ -130,7 +130,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
                     return text;
                 }
             ).ToList();
-        
+
         var isSameDay = pipelineSummary.Start.Date == pipelineSummary.End.Date;
         var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.Start, pipelineSummary.End, pipelineSummary.TotalDuration);
         var pipelineStatusString = GetStatusString(pipelineSummary.Status);
@@ -152,7 +152,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             ? "crit,"
             : string.Empty;
     }
-    
+
     private static string GetStatusString(Status status)
     {
         return status switch
@@ -165,7 +165,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
     }
-    
+
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
     {
         if (dateTimeOffset == DateTimeOffset.MinValue)

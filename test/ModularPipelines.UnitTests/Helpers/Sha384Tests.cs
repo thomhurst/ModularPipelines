@@ -22,7 +22,7 @@ public class Sha384Tests : TestBase
         var module = await RunModule<ToSha384Module>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);

@@ -51,7 +51,7 @@ public static class FileExtensions
         {
             sb.Append($" - {file}");
         }
-        
+
         if (message is not null)
         {
             sb.Append($" - {message}");

@@ -153,7 +153,7 @@ public class SubModuleTests : TestBase
             return await NothingAsync();
         }
     }
-    
+
     private class SucceedingSubModulesDoNotRetryModule : Module<string[]>
     {
         public int _oneCount;
@@ -192,7 +192,7 @@ public class SubModuleTests : TestBase
             return null;
         }
     }
-    
+
     private class SucceedingSubModulesDoNotRetryModule_WithReturnType : Module<string[]>
     {
         public int _oneCount;
@@ -253,7 +253,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithReturnTypeModule>();
 
         var results = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -268,7 +268,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithoutReturnTypeModule>();
 
         var results = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -298,7 +298,7 @@ public class SubModuleTests : TestBase
         var module = await RunModule<SubModulesWithoutReturnTypeModuleSynchronous>();
 
         var results = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(results.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -323,7 +323,7 @@ public class SubModuleTests : TestBase
     public async Task Failing_Submodule_Without_Return_Type_Fails()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
-            
+
         await Assert.That(exception.InnerException).IsTypeOf(typeof(SubModuleFailedException));
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
@@ -361,14 +361,14 @@ public class SubModuleTests : TestBase
             await Assert.That(moduleFailedException.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }
-    
+
     [Test]
     public async Task Succeeding_Submodules_Do_Not_Retry()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<SucceedingSubModulesDoNotRetryModule>);
 
         var module = (SucceedingSubModulesDoNotRetryModule) moduleFailedException.Module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(module._oneCount).IsEqualTo(1);
@@ -376,14 +376,14 @@ public class SubModuleTests : TestBase
             await Assert.That(module._threeCount).IsEqualTo(4);
         }
     }
-    
+
     [Test]
     public async Task Succeeding_Submodules_Do_Not_Retry_With_Return_Type()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<SucceedingSubModulesDoNotRetryModule_WithReturnType>);
 
         var module = (SucceedingSubModulesDoNotRetryModule_WithReturnType) moduleFailedException.Module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(module._oneCount).IsEqualTo(1);

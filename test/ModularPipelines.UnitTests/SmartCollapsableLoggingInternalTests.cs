@@ -75,7 +75,7 @@ public class SmartCollapsableLoggingInternalTests : TestBase
 
         loggerMock.Setup(x => x.IsEnabled(LogLevel.Information))
             .Returns(true);
-        
+
         buildSystemDetectorMock.Setup(x => x.GetCurrentBuildSystem())
             .Returns(buildSystem);
 

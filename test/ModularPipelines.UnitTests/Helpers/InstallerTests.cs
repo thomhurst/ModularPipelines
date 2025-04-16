@@ -16,7 +16,7 @@ public class InstallerTests : TestBase
         {
             throw new SkipTestException("Avoid installing things on people's machines");
         }
-        
+
         var downloader = await GetService<IDownloader>();
         var installer = await GetService<IInstaller>();
 

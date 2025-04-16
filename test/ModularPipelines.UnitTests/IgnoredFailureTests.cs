@@ -32,7 +32,7 @@ public class IgnoredFailureTests : TestBase
         var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Failure);

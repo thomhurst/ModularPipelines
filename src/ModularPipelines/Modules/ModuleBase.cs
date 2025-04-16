@@ -49,9 +49,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract IStatusHandler StatusHandler { get; }
 
     internal abstract IErrorHandler ErrorHandler { get; }
-    
+
     internal abstract void TryCancel();
-    
+
     private IPipelineContext? _context; // Late Initialisation
 
     /// <summary>
@@ -84,13 +84,13 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 
     internal abstract Task ExecutionTask { get; }
-    
+
     internal abstract Task StartInternal();
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
     internal readonly Stopwatch Stopwatch = new();
-    
+
     /// <summary>
     /// Gets the start time of the module.
     /// </summary>
@@ -123,8 +123,8 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
     internal EventHandler<SubModuleBase>? OnSubModuleCreated;
-    
-    internal abstract Task<IModuleResult> GetModuleResult(); 
+
+    internal abstract Task<IModuleResult> GetModuleResult();
 
     /// <summary>
     /// Starts a Sub Module which will display in the pipeline progress in the console.
@@ -198,7 +198,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         });
     }
 
-    protected EventHandler? OnInitialised { get; set; } 
+    protected EventHandler? OnInitialised { get; set; }
 }
 
 /// <summary>

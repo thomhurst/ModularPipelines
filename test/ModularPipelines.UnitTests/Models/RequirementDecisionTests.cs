@@ -8,7 +8,7 @@ public class RequirementDecisionTests
     public async Task True_Implicit_Cast()
     {
         RequirementDecision requirementDecision = true;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsTrue();
@@ -20,7 +20,7 @@ public class RequirementDecisionTests
     public async Task False_Implicit_Cast()
     {
         RequirementDecision requirementDecision = false;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsFalse();
@@ -32,7 +32,7 @@ public class RequirementDecisionTests
     public async Task String_Implicit_Cast()
     {
         RequirementDecision requirementDecision = "Foo!";
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsFalse();
@@ -44,7 +44,7 @@ public class RequirementDecisionTests
     public async Task Failed()
     {
         var requirementDecision = RequirementDecision.Failed("Blah!");
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsFalse();
@@ -56,7 +56,7 @@ public class RequirementDecisionTests
     public async Task Passed()
     {
         var requirementDecision = RequirementDecision.Passed;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsTrue();
@@ -70,7 +70,7 @@ public class RequirementDecisionTests
     public async Task Of(bool success)
     {
         var requirementDecision = RequirementDecision.Of(success, "Blah!");
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(requirementDecision.Success).IsEqualTo(success);

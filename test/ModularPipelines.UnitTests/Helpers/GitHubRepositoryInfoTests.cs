@@ -16,14 +16,14 @@ public class GitHubRepositoryInfoTests : TestBase
             return context.GitHub().RepositoryInfo;
         }
     }
-    
+
     [Test]
     public async Task GitHub_Repository_Information_Is_Populated()
     {
         var gitRepoModule = await RunModule<GitRepoModule>();
 
         var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(gitHubRepositoryInfo).IsNotNull();

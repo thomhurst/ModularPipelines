@@ -11,7 +11,7 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     {
         _logger = logger;
     }
-    
+
     public void LogOnPipelineEnd(string value)
     {
         _values.Add(value);

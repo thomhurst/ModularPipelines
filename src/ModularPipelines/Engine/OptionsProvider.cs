@@ -24,7 +24,7 @@ internal class OptionsProvider : IOptionsProvider
             .Where(t =>
             {
                 var genericTypeDefinition = t.GetGenericTypeDefinition();
-                
+
                 return genericTypeDefinition.IsAssignableTo(typeof(IConfigureOptions<>))
                        || genericTypeDefinition.IsAssignableTo(typeof(IPostConfigureOptions<>))
                        || genericTypeDefinition.IsAssignableTo(typeof(IOptions<>))

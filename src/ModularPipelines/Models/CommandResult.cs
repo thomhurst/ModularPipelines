@@ -13,7 +13,7 @@ public record CommandResult
     public IReadOnlyDictionary<string, string?> EnvironmentVariables { get; }
 
     public string WorkingDirectory { get; }
-    
+
     public CommandResult(
         string commandInput,
         string workingDirectory,

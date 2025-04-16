@@ -84,7 +84,7 @@ public class EngineCancellationTokenTests : TestBase
         var pipelineTask = host.ExecutePipelineAsync();
 
         await Task.Delay(TimeSpan.FromSeconds(10));
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(async () => await pipelineTask).ThrowsException();
