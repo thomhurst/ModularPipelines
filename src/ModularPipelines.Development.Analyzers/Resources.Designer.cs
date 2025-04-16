@@ -62,36 +62,72 @@ namespace ModularPipelines.Development.Analyzers {
         /// <summary>
         ///   Looks up a localized string similar to Add `virtual` keyword.
         /// </summary>
-        internal static string AB0001CodeFixTitle {
+        internal static string MPD0001CodeFixTitle {
             get {
-                return ResourceManager.GetString("AB0001CodeFixTitle", resourceCulture);
+                return ResourceManager.GetString("MPD0001CodeFixTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Properties should be virtual to allow overriding.
         /// </summary>
-        internal static string AB0001Description {
+        internal static string MPD0001Description {
             get {
-                return ResourceManager.GetString("AB0001Description", resourceCulture);
+                return ResourceManager.GetString("MPD0001Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Properties should be virtual to allow overriding.
         /// </summary>
-        internal static string AB0001MessageFormat {
+        internal static string MPD0001MessageFormat {
             get {
-                return ResourceManager.GetString("AB0001MessageFormat", resourceCulture);
+                return ResourceManager.GetString("MPD0001MessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Properties should be virtual to allow overriding.
         /// </summary>
-        internal static string AB0001Title {
+        internal static string MPD0001Title {
             get {
-                return ResourceManager.GetString("AB0001Title", resourceCulture);
+                return ResourceManager.GetString("MPD0001Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add `virtual` keyword.
+        /// </summary>
+        internal static string MPD0002CodeFixTitle {
+            get {
+                return ResourceManager.GetString("MPD0002CodeFixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method should be virtual to allow overriding.
+        /// </summary>
+        internal static string MPD0002Description {
+            get {
+                return ResourceManager.GetString("MPD0002Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method should be virtual to allow overriding.
+        /// </summary>
+        internal static string MPD0002MessageFormat {
+            get {
+                return ResourceManager.GetString("MPD0002MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method should be virtual to allow overriding.
+        /// </summary>
+        internal static string MPD0002Title {
+            get {
+                return ResourceManager.GetString("MPD0002Title", resourceCulture);
             }
         }
     }

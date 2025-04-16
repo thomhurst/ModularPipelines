@@ -7,21 +7,21 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace ModularPipelines.Development.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class VirtualSwitchPropertyAnalyzer : DiagnosticAnalyzer
+public class VirtualCommandAnalyzer : DiagnosticAnalyzer
 {
     private const string Category = "Usage";
 
-    public const string DiagnosticId = "MPD0001";
+    public const string DiagnosticId = "MPD0002";
 
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MPD0001Title),
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MPD0002Title),
         Resources.ResourceManager, typeof(Resources));
 
     private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Resources.MPD0001MessageFormat), Resources.ResourceManager,
+        new LocalizableResourceString(nameof(Resources.MPD0002MessageFormat), Resources.ResourceManager,
             typeof(Resources));
 
     private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Resources.MPD0001Description), Resources.ResourceManager,
+        new LocalizableResourceString(nameof(Resources.MPD0002Description), Resources.ResourceManager,
             typeof(Resources));
 
     private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category,
@@ -35,33 +35,40 @@ public class VirtualSwitchPropertyAnalyzer : DiagnosticAnalyzer
 
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeSyntax, SyntaxKind.PropertyDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeSyntax, SyntaxKind.MethodDeclaration);
     }
 
     private void AnalyzeSyntax(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not PropertyDeclarationSyntax property)
+        if (context.Node is not MethodDeclarationSyntax method)
         {
             return;
         }
 
-        var propertySymbol = context.SemanticModel.GetDeclaredSymbol(property);
+        var methodSymbol = context.SemanticModel.GetDeclaredSymbol(method);
 
-        if (propertySymbol is null)
+        if (methodSymbol is null)
         {
             return;
         }
 
-        var attributes = propertySymbol.GetAttributes()
-            .Where(x => x.AttributeClass?.Interfaces.Any(i => i.Name == "ICommandSwitchAttribute") is true)
-            .ToList();
-
-        if (attributes.Count == 0 || propertySymbol.IsVirtual)
+        var task = context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task`1");
+        
+        var commandResult = context.Compilation.GetTypeByMetadataName("ModularPipelines.Models.CommandResult");
+        
+        if (task is null || commandResult is null)
         {
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, property.GetLocation());
+        var commandResultTask = task.Construct(commandResult);
+        
+        if (!SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, commandResultTask))
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, method.GetLocation());
 
         context.ReportDiagnostic(diagnostic);
     }

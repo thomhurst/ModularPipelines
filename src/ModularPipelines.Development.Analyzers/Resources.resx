@@ -18,16 +18,28 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="AB0001Description" xml:space="preserve">
+    <data name="MPD0001Description" xml:space="preserve">
         <value>Properties should be virtual to allow overriding</value><comment>An optional longer localizable description of the diagnostic.</comment>
     </data>
-    <data name="AB0001MessageFormat" xml:space="preserve">
+    <data name="MPD0001MessageFormat" xml:space="preserve">
         <value>Properties should be virtual to allow overriding</value><comment>The format-able message the diagnostic displays.</comment>
     </data>
-    <data name="AB0001Title" xml:space="preserve">
+    <data name="MPD0001Title" xml:space="preserve">
         <value>Properties should be virtual to allow overriding</value><comment>The title of the diagnostic.</comment>
     </data>
-    <data name="AB0001CodeFixTitle" xml:space="preserve">
+    <data name="MPD0001CodeFixTitle" xml:space="preserve">
+        <value>Add `virtual` keyword</value><comment>The title of the code fix.</comment>
+    </data>
+    <data name="MPD0002Description" xml:space="preserve">
+        <value>Method should be virtual to allow overriding</value><comment>An optional longer localizable description of the diagnostic.</comment>
+    </data>
+    <data name="MPD0002MessageFormat" xml:space="preserve">
+        <value>Method should be virtual to allow overriding</value><comment>The format-able message the diagnostic displays.</comment>
+    </data>
+    <data name="MPD0002Title" xml:space="preserve">
+        <value>Method should be virtual to allow overriding</value><comment>The title of the diagnostic.</comment>
+    </data>
+    <data name="MPD0002CodeFixTitle" xml:space="preserve">
         <value>Add `virtual` keyword</value><comment>The title of the code fix.</comment>
     </data>
 </root>

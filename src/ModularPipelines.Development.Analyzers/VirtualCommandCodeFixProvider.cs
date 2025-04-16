@@ -14,13 +14,13 @@ namespace ModularPipelines.Development.Analyzers;
 /// A sample code fix provider that renames classes with the company name in their definition.
 /// All code fixes must  be linked to specific analyzers.
 /// </summary>
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(VirtualSwitchPropertyCodeFixProvider)), Shared]
-public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(VirtualCommandCodeFixProvider)), Shared]
+public class VirtualCommandCodeFixProvider : CodeFixProvider
 {
     private const string CommonName = "Common";
 
     // Specify the diagnostic IDs of analyzers that are expected to be linked.
-    public override sealed ImmutableArray<string> FixableDiagnosticIds { get; } = [VirtualSwitchPropertyAnalyzer.DiagnosticId];
+    public override sealed ImmutableArray<string> FixableDiagnosticIds { get; } = [VirtualCommandAnalyzer.DiagnosticId];
 
     // If you don't need the 'fix all' behaviour, return null.
     public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -40,7 +40,7 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
         var diagnosticNode = root?.FindNode(diagnosticSpan);
 
         // To get the required metadata, we should match the Node to the specific type: 'ClassDeclarationSyntax'.
-        if (diagnosticNode is not PropertyDeclarationSyntax declaration)
+        if (diagnosticNode is not MethodDeclarationSyntax declaration)
         {
             return;
         }
@@ -48,9 +48,9 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: Resources.MPD0001CodeFixTitle,
+                title: Resources.MPD0002CodeFixTitle,
                 createChangedDocument: c => AddVirtualKeyword(context.Document, declaration, c),
-                equivalenceKey: nameof(Resources.MPD0001CodeFixTitle)),
+                equivalenceKey: nameof(Resources.MPD0002CodeFixTitle)),
             diagnostic);
     }
 
@@ -58,14 +58,14 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
     /// Executed on the quick fix action raised by the user.
     /// </summary>
     /// <param name="document">Affected source file.</param>
-    /// <param name="propertyDeclarationSyntax">Highlighted property declaration Syntax Node.</param>
+    /// <param name="methodDeclarationSyntax">Highlighted property declaration Syntax Node.</param>
     /// <param name="cancellationToken">Any fix is cancellable by the user, so we should support the cancellation token.</param>
     /// <returns>Clone of the solution with updates: renamed class.</returns>
     private static async Task<Document> AddVirtualKeyword(Document document,
-        PropertyDeclarationSyntax propertyDeclarationSyntax, CancellationToken cancellationToken)
+        MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        var newPropertyDeclarationSyntax = propertyDeclarationSyntax.WithModifiers(
-            SyntaxFactory.TokenList(propertyDeclarationSyntax.Modifiers.Add(SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
+        var newPropertyDeclarationSyntax = methodDeclarationSyntax.WithModifiers(
+            SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Add(SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
 
         var root = await document.GetSyntaxRootAsync(cancellationToken);
 
@@ -74,6 +74,6 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
             return document;
         }
 
-        return document.WithSyntaxRoot(root.ReplaceNode(propertyDeclarationSyntax, newPropertyDeclarationSyntax));
+        return document.WithSyntaxRoot(root.ReplaceNode(methodDeclarationSyntax, newPropertyDeclarationSyntax));
     }
 }
