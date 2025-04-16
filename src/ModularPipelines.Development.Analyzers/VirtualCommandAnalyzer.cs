@@ -47,10 +47,16 @@ public class VirtualCommandAnalyzer : DiagnosticAnalyzer
 
         var methodSymbol = context.SemanticModel.GetDeclaredSymbol(method);
 
-        if (methodSymbol is null || methodSymbol.IsVirtual)
+        if (methodSymbol is null 
+            || methodSymbol.IsVirtual
+            || methodSymbol.ContainingType.TypeKind != TypeKind.Class
+            || methodSymbol.ContainingType.IsAbstract
+            || methodSymbol.ContainingType.IsStatic)
         {
             return;
         }
+        
+        
 
         var task = context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task`1");
 
