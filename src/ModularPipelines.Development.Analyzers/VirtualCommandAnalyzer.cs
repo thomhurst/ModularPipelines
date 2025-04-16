@@ -51,15 +51,14 @@ public class VirtualCommandAnalyzer : DiagnosticAnalyzer
             || methodSymbol.IsVirtual
             || methodSymbol.DeclaredAccessibility == Accessibility.Private
             || methodSymbol.ContainingType.TypeKind != TypeKind.Class
-            || methodSymbol.ContainingType.IsAbstract
-            || methodSymbol.ContainingType.IsStatic
+            || methodSymbol.IsAbstract
+            || methodSymbol.IsStatic
             || methodSymbol.IsOverride
-            || methodSymbol.ContainingType.IsSealed)
+            || methodSymbol.ContainingType.IsSealed
+            || methodSymbol.IsSealed)
         {
             return;
         }
-
-
 
         var task = context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task`1");
 

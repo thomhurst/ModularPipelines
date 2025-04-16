@@ -70,7 +70,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return true;
     }
 
-    private virtual static async Task<CommandResult> Pack(IPipelineContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
+    private static async Task<CommandResult> Pack(IPipelineContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
     {
         return await context.DotNet().Pack(new DotNetPackOptions
         {
