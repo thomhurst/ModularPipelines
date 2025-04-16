@@ -34,23 +34,23 @@ public record DotNetAddPackageOptions : DotNetOptions
     public string? PackageName { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; set; }
+    public virtual bool? NoRestore { get; set; }
 
     [CommandSwitch("--package-directory")]
-    public string? PackageDirectory { get; set; }
+    public virtual string? PackageDirectory { get; set; }
 
     [BooleanCommandSwitch("--prerelease")]
-    public bool? Prerelease { get; set; }
+    public virtual bool? Prerelease { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CommandSwitch("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

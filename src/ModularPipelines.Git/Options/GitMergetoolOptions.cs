@@ -11,17 +11,17 @@ public record GitMergetoolOptions : GitOptions
     public string? MergeTool { get; set; }
 
     [BooleanCommandSwitch("--tool-help")]
-    public bool? ToolHelp { get; set; }
+    public virtual bool? ToolHelp { get; set; }
 
     [BooleanCommandSwitch("--no-prompt")]
-    public bool? NoPrompt { get; set; }
+    public virtual bool? NoPrompt { get; set; }
 
     [BooleanCommandSwitch("--prompt")]
-    public bool? Prompt { get; set; }
+    public virtual bool? Prompt { get; set; }
 
     [BooleanCommandSwitch("--gui")]
-    public bool? Gui { get; set; }
+    public virtual bool? Gui { get; set; }
 
     [BooleanCommandSwitch("--no-gui")]
-    public bool? NoGui { get; set; }
+    public virtual bool? NoGui { get; set; }
 }

@@ -8,26 +8,26 @@ namespace ModularPipelines.Node.Models;
 public record NpmRebuildOptions : NpmOptions
 {
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [BooleanCommandSwitch("--bin-links")]
-    public bool? BinLinks { get; set; }
+    public virtual bool? BinLinks { get; set; }
 
     [BooleanCommandSwitch("--foreground-scripts")]
-    public bool? ForegroundScripts { get; set; }
+    public virtual bool? ForegroundScripts { get; set; }
 
     [BooleanCommandSwitch("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
+    public virtual bool? IgnoreScripts { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [BooleanCommandSwitch("--include-workspace-root")]
-    public bool? IncludeWorkspaceRoot { get; set; }
+    public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [BooleanCommandSwitch("--install-links")]
-    public bool? InstallLinks { get; set; }
+    public virtual bool? InstallLinks { get; set; }
 }

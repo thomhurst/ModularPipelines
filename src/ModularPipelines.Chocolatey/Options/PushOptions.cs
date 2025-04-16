@@ -10,23 +10,23 @@ public record PushOptions(
 ) : ChocoOptions
 {
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CommandSwitch("--api-key")]
-    public string? ApiKey { get; set; }
+    public virtual string? ApiKey { get; set; }
 
     [CommandSwitch("--code")]
-    public string? Code { get; set; }
+    public virtual string? Code { get; set; }
 
     [CommandSwitch("--redirecturl")]
-    public string? Redirecturl { get; set; }
+    public virtual string? Redirecturl { get; set; }
 
     [CommandSwitch("--endpoint")]
-    public string? Endpoint { get; set; }
+    public virtual string? Endpoint { get; set; }
 
     [BooleanCommandSwitch("--skip-cleanup")]
-    public bool? SkipCleanup { get; set; }
+    public virtual bool? SkipCleanup { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

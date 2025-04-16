@@ -40,7 +40,7 @@ public class CreateReleaseModule : Module<Release>
     protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         await Task.CompletedTask;
-        
+
         if (!_publishSettings.Value.ShouldPublish)
         {
             return "The 'ShouldPublish' flag is false";
@@ -53,7 +53,7 @@ public class CreateReleaseModule : Module<Release>
     protected override async Task<Release?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
-        
+
         return await context.GitHub().Client.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
             new NewRelease($"v{versionInfoResult.Value}")
             {

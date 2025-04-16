@@ -10,29 +10,29 @@ public record ImportOptions(
 ) : WingetOptions
 {
     [BooleanCommandSwitch("--ignore-unavailable")]
-    public bool? IgnoreUnavailable { get; set; }
+    public virtual bool? IgnoreUnavailable { get; set; }
 
     [BooleanCommandSwitch("--ignore-versions")]
-    public bool? IgnoreVersions { get; set; }
+    public virtual bool? IgnoreVersions { get; set; }
 
     [BooleanCommandSwitch("--no-upgrade")]
-    public bool? NoUpgrade { get; set; }
+    public virtual bool? NoUpgrade { get; set; }
 
     [BooleanCommandSwitch("--accept-package-agreements")]
-    public bool? AcceptPackageAgreements { get; set; }
+    public virtual bool? AcceptPackageAgreements { get; set; }
 
     [CommandSwitch("--accept-source-agreements")]
-    public string? AcceptSourceAgreements { get; set; }
+    public virtual string? AcceptSourceAgreements { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

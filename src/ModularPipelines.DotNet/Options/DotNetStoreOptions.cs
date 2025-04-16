@@ -22,35 +22,35 @@ public record DotNetStoreOptions : DotNetOptions
     }
 
     [BooleanCommandSwitch("--manifest")]
-    public bool? Manifest { get; set; }
+    public virtual bool? Manifest { get; set; }
 
     [PositionalArgument(PlaceholderName = "<PATH_TO_MANIFEST_FILE>")]
     public string? PathToManifestFile { get; set; }
 
     [BooleanCommandSwitch("--framework")]
-    public bool? Framework { get; set; }
+    public virtual bool? Framework { get; set; }
 
     [PositionalArgument(PlaceholderName = "<FRAMEWORK_VERSION>")]
     public string? FrameworkVersion { get; set; }
 
     [BooleanCommandSwitch("--runtime")]
-    public bool? Runtime { get; set; }
+    public virtual bool? Runtime { get; set; }
 
     [PositionalArgument(PlaceholderName = "<RUNTIME_IDENTIFIER>")]
     public string? RuntimeIdentifier { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [BooleanCommandSwitch("--skip-optimization")]
-    public bool? SkipOptimization { get; set; }
+    public virtual bool? SkipOptimization { get; set; }
 
     [BooleanCommandSwitch("--skip-symbols")]
-    public bool? SkipSymbols { get; set; }
+    public virtual bool? SkipSymbols { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 
     [CommandSwitch("--working-dir")]
-    public string? StoreWorkingDirectory { get; set; }
+    public virtual string? StoreWorkingDirectory { get; set; }
 }

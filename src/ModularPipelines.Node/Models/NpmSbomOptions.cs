@@ -8,20 +8,20 @@ namespace ModularPipelines.Node.Models;
 public record NpmSbomOptions : NpmOptions
 {
     [CommandSwitch("--omit")]
-    public string? Omit { get; set; }
+    public virtual string? Omit { get; set; }
 
     [BooleanCommandSwitch("--package-lock-only")]
-    public bool? PackageLockOnly { get; set; }
+    public virtual bool? PackageLockOnly { get; set; }
 
     [CommandSwitch("--sbom-format")]
-    public string? SbomFormat { get; set; }
+    public virtual string? SbomFormat { get; set; }
 
     [CommandSwitch("--sbom-type")]
-    public string? SbomType { get; set; }
+    public virtual string? SbomType { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 }

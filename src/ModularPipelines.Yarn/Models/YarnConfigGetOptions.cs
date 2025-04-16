@@ -10,11 +10,11 @@ public record YarnConfigGetOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--why")]
-    public bool? Why { get; set; }
+    public virtual bool? Why { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--no-redacted")]
-    public bool? NoRedacted { get; set; }
+    public virtual bool? NoRedacted { get; set; }
 }

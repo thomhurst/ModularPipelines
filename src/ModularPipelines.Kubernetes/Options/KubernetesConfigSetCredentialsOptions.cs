@@ -14,7 +14,7 @@ public record KubernetesConfigSetCredentialsOptions([property: PositionalArgumen
     public string[]? AuthProviderArg { get; set; }
 
     [BooleanCommandSwitch("--embed-certs")]
-    public bool? EmbedCerts { get; set; }
+    public virtual bool? EmbedCerts { get; set; }
 
     [CommandEqualsSeparatorSwitch("--exec-api-version", SwitchValueSeparator = " ")]
     public string? ExecApiVersion { get; set; }

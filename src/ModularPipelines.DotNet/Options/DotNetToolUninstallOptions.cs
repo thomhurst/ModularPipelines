@@ -31,11 +31,11 @@ public record DotNetToolUninstallOptions : DotNetOptions
     public string? PackageName { get; set; }
 
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [BooleanCommandSwitch("--tool-path")]
-    public string? ToolPath { get; set; }
+    public virtual string? ToolPath { get; set; }
 
     [CommandSwitch("--tool-manifest")]
-    public string? ToolManifest { get; set; }
+    public virtual string? ToolManifest { get; set; }
 }

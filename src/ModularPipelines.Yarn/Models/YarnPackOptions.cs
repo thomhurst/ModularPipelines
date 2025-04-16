@@ -8,14 +8,14 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnPackOptions : YarnOptions
 {
     [BooleanCommandSwitch("--install-if-needed")]
-    public bool? InstallIfNeeded { get; set; }
+    public virtual bool? InstallIfNeeded { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--out")]
-    public string? Out { get; set; }
+    public virtual string? Out { get; set; }
 }

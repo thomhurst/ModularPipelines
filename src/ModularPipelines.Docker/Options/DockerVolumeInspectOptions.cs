@@ -19,5 +19,5 @@ public record DockerVolumeInspectOptions : DockerOptions
     public IEnumerable<string>? Volume { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

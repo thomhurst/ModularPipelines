@@ -10,23 +10,23 @@ public record ExportOptions(
 ) : WingetOptions
 {
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [BooleanCommandSwitch("--include-versions")]
-    public bool? IncludeVersions { get; set; }
+    public virtual bool? IncludeVersions { get; set; }
 
     [CommandSwitch("--accept-source-agreements")]
-    public string? AcceptSourceAgreements { get; set; }
+    public virtual string? AcceptSourceAgreements { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

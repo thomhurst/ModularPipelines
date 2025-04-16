@@ -8,43 +8,43 @@ namespace ModularPipelines.Node.Models;
 public record NpmDiffOptions : NpmOptions
 {
     [CommandSwitch("--diff")]
-    public string[]? Diff { get; set; }
+    public virtual string[]? Diff { get; set; }
 
     [BooleanCommandSwitch("--diff-name-only")]
-    public bool? DiffNameOnly { get; set; }
+    public virtual bool? DiffNameOnly { get; set; }
 
     [CommandSwitch("--diff-unified")]
-    public int? DiffUnified { get; set; }
+    public virtual int? DiffUnified { get; set; }
 
     [BooleanCommandSwitch("--diff-ignore-all-space")]
-    public bool? DiffIgnoreAllSpace { get; set; }
+    public virtual bool? DiffIgnoreAllSpace { get; set; }
 
     [BooleanCommandSwitch("--diff-no-prefix")]
-    public bool? DiffNoPrefix { get; set; }
+    public virtual bool? DiffNoPrefix { get; set; }
 
     [CommandSwitch("--diff-src-prefix")]
-    public string? DiffSrcPrefix { get; set; }
+    public virtual string? DiffSrcPrefix { get; set; }
 
     [CommandSwitch("--diff-dst-prefix")]
-    public string? DiffDstPrefix { get; set; }
+    public virtual string? DiffDstPrefix { get; set; }
 
     [BooleanCommandSwitch("--diff-text")]
-    public bool? DiffText { get; set; }
+    public virtual bool? DiffText { get; set; }
 
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [BooleanCommandSwitch("--include-workspace-root")]
-    public bool? IncludeWorkspaceRoot { get; set; }
+    public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Paths { get; set; }

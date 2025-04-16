@@ -10,8 +10,8 @@ public record YarnPatchOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--update")]
-    public bool? Update { get; set; }
+    public virtual bool? Update { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

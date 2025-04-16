@@ -8,17 +8,17 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnWorkspacesListOptions : YarnOptions
 {
     [BooleanCommandSwitch("--since")]
-    public bool? Since { get; set; }
+    public virtual bool? Since { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--no-private")]
-    public bool? NoPrivate { get; set; }
+    public virtual bool? NoPrivate { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

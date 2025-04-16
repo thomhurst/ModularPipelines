@@ -20,7 +20,7 @@ public class TimedDependencyTests
 
         var fiveSecondResult = await fiveSecondModule;
         var oneSecondModuleDependentOnFiveSecondResult = await oneSecondModuleDependentOnFiveSecondModule;
-        
+
         using (Assert.Multiple())
         {
             // 5 + 1

@@ -45,7 +45,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> Chocolatey()
+    public virtual async Task<CommandResult> Chocolatey()
     {
         return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("cmd")
         {
@@ -67,7 +67,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> Powershell7()
+    public async virtual Task<CommandResult> Powershell7()
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
@@ -131,7 +131,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> Node(string version = "--lts")
+    public virtual async Task<CommandResult> Node(string version = "--lts")
     {
         await Nvm();
 

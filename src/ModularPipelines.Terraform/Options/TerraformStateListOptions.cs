@@ -8,8 +8,8 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformStateListOptions : TerraformOptions
 {
     [CommandSwitch("-state")]
-    public string? State { get; set; }
+    public virtual string? State { get; set; }
 
     [CommandSwitch("-id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 }

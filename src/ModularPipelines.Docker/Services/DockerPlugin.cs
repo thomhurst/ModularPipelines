@@ -17,47 +17,47 @@ public class DockerPlugin
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Create(DockerPluginCreateOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Create(DockerPluginCreateOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Disable(DockerPluginDisableOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Disable(DockerPluginDisableOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Enable(DockerPluginEnableOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Enable(DockerPluginEnableOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Inspect(DockerPluginInspectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Inspect(DockerPluginInspectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Install(DockerPluginInstallOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Install(DockerPluginInstallOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Ls(DockerPluginLsOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Ls(DockerPluginLsOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginLsOptions(), token);
     }
 
-    public async Task<CommandResult> Rm(DockerPluginRmOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Rm(DockerPluginRmOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Set(DockerPluginSetOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Set(DockerPluginSetOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPluginSetOptions(), token);
     }
 
-    public async Task<CommandResult> Upgrade(DockerPluginUpgradeOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Upgrade(DockerPluginUpgradeOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

@@ -31,25 +31,25 @@ public record DotNetWatchOptions : DotNetOptions
     public string? Command { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("--no-hot-reload")]
-    public bool? NoHotReload { get; set; }
+    public virtual bool? NoHotReload { get; set; }
 
     [BooleanCommandSwitch("--non-interactive")]
-    public bool? NonInteractive { get; set; }
+    public virtual bool? NonInteractive { get; set; }
 
     [CommandSwitch("--project")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
+    public virtual bool? Version { get; set; }
 
     [PositionalArgument(PlaceholderName = "<forwarded arguments>")]
     public string? ForwardedArguments { get; set; }

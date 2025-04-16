@@ -8,26 +8,26 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContainerLsOptions : DockerOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--last")]
-    public int? Last { get; set; }
+    public virtual int? Last { get; set; }
 
     [CommandSwitch("--latest")]
-    public string? Latest { get; set; }
+    public virtual string? Latest { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--size")]
-    public string? Size { get; set; }
+    public virtual string? Size { get; set; }
 }

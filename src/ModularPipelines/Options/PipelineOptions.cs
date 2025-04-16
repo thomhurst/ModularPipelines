@@ -14,7 +14,7 @@ public record PipelineOptions
     public ICollection<string>? IgnoreCategories { get; set; }
 
     private bool _showProgressInConsole = AnsiConsole.Profile.Capabilities.Interactive;
-    
+
     public bool ShowProgressInConsole
     {
         get => _showProgressInConsole;

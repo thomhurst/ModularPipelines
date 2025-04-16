@@ -11,20 +11,20 @@ public record DockerImageLsOptions : DockerOptions
     public string? Repository { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--digests")]
-    public bool? Digests { get; set; }
+    public virtual bool? Digests { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

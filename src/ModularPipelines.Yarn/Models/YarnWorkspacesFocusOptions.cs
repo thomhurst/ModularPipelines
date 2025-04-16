@@ -8,11 +8,11 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnWorkspacesFocusOptions : YarnOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--production")]
-    public bool? Production { get; set; }
+    public virtual bool? Production { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 }

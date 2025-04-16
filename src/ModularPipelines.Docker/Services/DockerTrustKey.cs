@@ -17,12 +17,12 @@ public class DockerTrustKey
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Generate(DockerTrustKeyGenerateOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Generate(DockerTrustKeyGenerateOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustKeyGenerateOptions(), token);
     }
 
-    public async Task<CommandResult> Load(DockerTrustKeyLoadOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Load(DockerTrustKeyLoadOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

@@ -24,83 +24,83 @@ public record DotNetTestOptions : DotNetOptions
     public string? ProjectSolutionDirectoryDllExe { get; set; }
 
     [CommandSwitch("--test-adapter-path")]
-    public string? TestAdapterPath { get; set; }
+    public virtual string? TestAdapterPath { get; set; }
 
     [CommandSwitch("--arch")]
-    public string? Architecture { get; set; }
+    public virtual string? Architecture { get; set; }
 
     [BooleanCommandSwitch("--blame")]
-    public bool? Blame { get; set; }
+    public virtual bool? Blame { get; set; }
 
     [BooleanCommandSwitch("--blame-crash")]
-    public bool? BlameCrash { get; set; }
+    public virtual bool? BlameCrash { get; set; }
 
     [CommandSwitch("--blame-crash-dump-type")]
-    public string? BlameCrashDumpType { get; set; }
+    public virtual string? BlameCrashDumpType { get; set; }
 
     [BooleanCommandSwitch("--blame-crash-collect-always")]
-    public bool? BlameCrashCollectAlways { get; set; }
+    public virtual bool? BlameCrashCollectAlways { get; set; }
 
     [BooleanCommandSwitch("--blame-hang")]
-    public bool? BlameHang { get; set; }
+    public virtual bool? BlameHang { get; set; }
 
     [CommandSwitch("--blame-hang-dump-type")]
-    public string? BlameHangDumpType { get; set; }
+    public virtual string? BlameHangDumpType { get; set; }
 
     [CommandSwitch("--blame-hang-timeout")]
-    public string? BlameHangTimeout { get; set; }
+    public virtual string? BlameHangTimeout { get; set; }
 
     [CommandSwitch("--configuration")]
-    public string? Configuration { get; set; }
+    public virtual string? Configuration { get; set; }
 
     [CommandSwitch("--collect")]
-    public string? Collect { get; set; }
+    public virtual string? Collect { get; set; }
 
     [CommandSwitch("--diag")]
-    public string? Diag { get; set; }
+    public virtual string? Diag { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [CommandSwitch("--environment")]
-    public IEnumerable<string>? Environment { get; set; }
+    public virtual IEnumerable<string>? Environment { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--logger")]
-    public IEnumerable<string>? Logger { get; set; }
+    public virtual IEnumerable<string>? Logger { get; set; }
 
     [BooleanCommandSwitch("--no-build")]
-    public bool? NoBuild { get; set; }
+    public virtual bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? Nologo { get; set; }
+    public virtual bool? Nologo { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; set; }
+    public virtual bool? NoRestore { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CommandSwitch("--os")]
-    public string? Os { get; set; }
+    public virtual string? Os { get; set; }
 
     [CommandSwitch("--results-directory")]
-    public string? ResultsDirectory { get; set; }
+    public virtual string? ResultsDirectory { get; set; }
 
     [CommandSwitch("--runtime")]
-    public string? RuntimeIdentifier { get; set; }
+    public virtual string? RuntimeIdentifier { get; set; }
 
     [CommandSwitch("--settings")]
-    public string? SettingsFile { get; set; }
+    public virtual string? SettingsFile { get; set; }
 
     [BooleanCommandSwitch("--list-tests")]
-    public bool? ListTests { get; set; }
+    public virtual bool? ListTests { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

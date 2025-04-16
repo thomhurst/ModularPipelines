@@ -71,7 +71,7 @@ public static class CommandOptionsObjectArgumentParser
             {
                 return;
             }
-            
+
             precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder] = value;
         }
     }

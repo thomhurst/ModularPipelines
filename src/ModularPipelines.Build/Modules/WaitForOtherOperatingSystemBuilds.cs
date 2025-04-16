@@ -36,7 +36,7 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
         {
             HeadSha = commitSha,
         });
-        
+
         var macRuns = await context.GitHub().Client.Actions.Workflows.Runs.ListByWorkflow(BuildConstants.Owner, BuildConstants.RepositoryName, "dotnet-mac.yml", new WorkflowRunsRequest
         {
             HeadSha = commitSha,

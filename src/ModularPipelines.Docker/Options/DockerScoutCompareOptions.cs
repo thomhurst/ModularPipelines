@@ -11,65 +11,65 @@ public record DockerScoutCompareOptions : DockerOptions
     public string? ImageOrDirectoryOrArchive { get; set; }
 
     [CommandSwitch("--exit-code")]
-    public string? ExitCode { get; set; }
+    public virtual string? ExitCode { get; set; }
 
     [CommandSwitch("--exit-on")]
-    public string? ExitOn { get; set; }
+    public virtual string? ExitOn { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--hide-policies")]
-    public string? HidePolicies { get; set; }
+    public virtual string? HidePolicies { get; set; }
 
     [CommandSwitch("--ignore-base")]
-    public string? IgnoreBase { get; set; }
+    public virtual string? IgnoreBase { get; set; }
 
     [CommandSwitch("--ignore-unchanged")]
-    public string? IgnoreUnchanged { get; set; }
+    public virtual string? IgnoreUnchanged { get; set; }
 
     [CommandSwitch("--multi-stage")]
-    public string? MultiStage { get; set; }
+    public virtual string? MultiStage { get; set; }
 
     [CommandSwitch("--only-fixed")]
-    public string? OnlyFixed { get; set; }
+    public virtual string? OnlyFixed { get; set; }
 
     [CommandSwitch("--only-package-type")]
-    public string? OnlyPackageType { get; set; }
+    public virtual string? OnlyPackageType { get; set; }
 
     [CommandSwitch("--only-severity")]
-    public string? OnlySeverity { get; set; }
+    public virtual string? OnlySeverity { get; set; }
 
     [CommandSwitch("--only-stage")]
-    public string? OnlyStage { get; set; }
+    public virtual string? OnlyStage { get; set; }
 
     [CommandSwitch("--only-unfixed")]
-    public string? OnlyUnfixed { get; set; }
+    public virtual string? OnlyUnfixed { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--ref")]
-    public string? Ref { get; set; }
+    public virtual string? Ref { get; set; }
 
     [CommandSwitch("--to")]
-    public string? To { get; set; }
+    public virtual string? To { get; set; }
 
     [CommandSwitch("--to-env")]
-    public string? ToEnv { get; set; }
+    public virtual string? ToEnv { get; set; }
 
     [CommandSwitch("--to-latest")]
-    public string? ToLatest { get; set; }
+    public virtual string? ToLatest { get; set; }
 
     [CommandSwitch("--to-ref")]
-    public string? ToRef { get; set; }
+    public virtual string? ToRef { get; set; }
 
     [CommandSwitch("--to-stream")]
-    public string? ToStream { get; set; }
+    public virtual string? ToStream { get; set; }
 }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
@@ -20,7 +20,7 @@ public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgumen
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }

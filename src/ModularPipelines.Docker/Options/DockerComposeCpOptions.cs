@@ -46,14 +46,14 @@ public record DockerComposeCpOptions : DockerOptions
     public string? SrcPath { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--archive")]
-    public string? Archive { get; set; }
+    public virtual string? Archive { get; set; }
 
     [CommandSwitch("--follow-link")]
-    public string? FollowLink { get; set; }
+    public virtual string? FollowLink { get; set; }
 
     [CommandSwitch("--index")]
-    public string? Index { get; set; }
+    public virtual string? Index { get; set; }
 }

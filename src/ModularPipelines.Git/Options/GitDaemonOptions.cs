@@ -8,22 +8,22 @@ namespace ModularPipelines.Git.Options;
 public record GitDaemonOptions : GitOptions
 {
     [BooleanCommandSwitch("--strict-paths")]
-    public bool? StrictPaths { get; set; }
+    public virtual bool? StrictPaths { get; set; }
 
     [CommandEqualsSeparatorSwitch("--base-path")]
     public string? BasePath { get; set; }
 
     [BooleanCommandSwitch("--base-path-relaxed")]
-    public bool? BasePathRelaxed { get; set; }
+    public virtual bool? BasePathRelaxed { get; set; }
 
     [CommandEqualsSeparatorSwitch("--interpolated-path")]
     public string? InterpolatedPath { get; set; }
 
     [BooleanCommandSwitch("--export-all")]
-    public bool? ExportAll { get; set; }
+    public virtual bool? ExportAll { get; set; }
 
     [BooleanCommandSwitch("--inetd")]
-    public bool? Inetd { get; set; }
+    public virtual bool? Inetd { get; set; }
 
     [CommandEqualsSeparatorSwitch("--listen")]
     public string? Listen { get; set; }
@@ -41,22 +41,22 @@ public record GitDaemonOptions : GitOptions
     public string? MaxConnections { get; set; }
 
     [BooleanCommandSwitch("--syslog")]
-    public bool? Syslog { get; set; }
+    public virtual bool? Syslog { get; set; }
 
     [CommandEqualsSeparatorSwitch("--log-destination")]
     public string? LogDestination { get; set; }
 
     [BooleanCommandSwitch("--user-path")]
-    public bool? UserPath { get; set; }
+    public virtual bool? UserPath { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--reuseaddr")]
-    public bool? Reuseaddr { get; set; }
+    public virtual bool? Reuseaddr { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandEqualsSeparatorSwitch("--pid-file")]
     public string? PidFile { get; set; }
@@ -80,10 +80,10 @@ public record GitDaemonOptions : GitOptions
     public string? ForbidOverride { get; set; }
 
     [BooleanCommandSwitch("--no-informative-errors")]
-    public bool? NoInformativeErrors { get; set; }
+    public virtual bool? NoInformativeErrors { get; set; }
 
     [BooleanCommandSwitch("--informative-errors")]
-    public bool? InformativeErrors { get; set; }
+    public virtual bool? InformativeErrors { get; set; }
 
     [CommandEqualsSeparatorSwitch("--access-hook")]
     public string? AccessHook { get; set; }

@@ -11,23 +11,23 @@ public record DockerScoutRecommendationsOptions : DockerOptions
     public string? ImageOrDirectoryOrArchive { get; set; }
 
     [CommandSwitch("--only-refresh")]
-    public string? OnlyRefresh { get; set; }
+    public virtual string? OnlyRefresh { get; set; }
 
     [CommandSwitch("--only-update")]
-    public string? OnlyUpdate { get; set; }
+    public virtual string? OnlyUpdate { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--ref")]
-    public string? Ref { get; set; }
+    public virtual string? Ref { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 }

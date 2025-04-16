@@ -11,17 +11,17 @@ public record DockerNodePsOptions : DockerOptions
     public IEnumerable<string>? Node { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--no-resolve")]
-    public bool? NoResolve { get; set; }
+    public virtual bool? NoResolve { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

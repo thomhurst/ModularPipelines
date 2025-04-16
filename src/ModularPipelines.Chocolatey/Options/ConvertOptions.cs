@@ -10,14 +10,14 @@ public record ConvertOptions(
 ) : ChocoOptions
 {
     [CommandSwitch("--to-format")]
-    public string? ToFormat { get; set; }
+    public virtual string? ToFormat { get; set; }
 
     [BooleanCommandSwitch("--includeall")]
-    public bool? Includeall { get; set; }
+    public virtual bool? Includeall { get; set; }
 
     [BooleanCommandSwitch("--ignore-dependencies")]
-    public bool? IgnoreDependencies { get; set; }
+    public virtual bool? IgnoreDependencies { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

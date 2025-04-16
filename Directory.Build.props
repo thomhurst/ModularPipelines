@@ -32,4 +32,8 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and '$(GITHUB_ACTIONS)' != 'true'" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'ModularPipelines.Development.Analyzers'">
+      <ProjectReference Include="$(MSBuildThisFileDirectory)src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
 </Project>

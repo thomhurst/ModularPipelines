@@ -8,26 +8,26 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnInstallOptions : YarnOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--immutable")]
-    public bool? Immutable { get; set; }
+    public virtual bool? Immutable { get; set; }
 
     [BooleanCommandSwitch("--immutable-cache")]
-    public bool? ImmutableCache { get; set; }
+    public virtual bool? ImmutableCache { get; set; }
 
     [BooleanCommandSwitch("--refresh-lockfile")]
-    public bool? RefreshLockfile { get; set; }
+    public virtual bool? RefreshLockfile { get; set; }
 
     [BooleanCommandSwitch("--check-cache")]
-    public bool? CheckCache { get; set; }
+    public virtual bool? CheckCache { get; set; }
 
     [BooleanCommandSwitch("--check-resolutions")]
-    public bool? CheckResolutions { get; set; }
+    public virtual bool? CheckResolutions { get; set; }
 
     [BooleanCommandSwitch("--inline-builds")]
-    public bool? InlineBuilds { get; set; }
+    public virtual bool? InlineBuilds { get; set; }
 
     [CommandSwitch("--mode")]
-    public string? Mode { get; set; }
+    public virtual string? Mode { get; set; }
 }

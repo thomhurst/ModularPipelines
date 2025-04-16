@@ -8,44 +8,44 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeOptions : DockerOptions
 {
     [CommandSwitch("--ansi")]
-    public string? Ansi { get; set; }
+    public virtual string? Ansi { get; set; }
 
     [CommandSwitch("--compatibility")]
-    public string? Compatibility { get; set; }
+    public virtual string? Compatibility { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [CommandSwitch("--env-file")]
-    public string? EnvFile { get; set; }
+    public virtual string? EnvFile { get; set; }
 
     [CommandSwitch("--file")]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CommandSwitch("--no-ansi")]
-    public string? NoAnsi { get; set; }
+    public virtual string? NoAnsi { get; set; }
 
     [CommandSwitch("--parallel")]
-    public int? Parallel { get; set; }
+    public virtual int? Parallel { get; set; }
 
     [CommandSwitch("--profile")]
-    public string? Profile { get; set; }
+    public virtual string? Profile { get; set; }
 
     [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [CommandSwitch("--project-directory")]
-    public string? ProjectDirectory { get; set; }
+    public virtual string? ProjectDirectory { get; set; }
 
     [CommandSwitch("--project-name")]
-    public string? ProjectName { get; set; }
+    public virtual string? ProjectName { get; set; }
 
     [CommandSwitch("--verbose")]
-    public string? Verbose { get; set; }
+    public virtual string? Verbose { get; set; }
 
     [CommandSwitch("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CommandSwitch("--workdir")]
-    public string? Workdir { get; set; }
+    public virtual string? Workdir { get; set; }
 }

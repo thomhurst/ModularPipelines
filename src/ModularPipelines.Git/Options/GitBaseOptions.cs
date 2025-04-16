@@ -7,7 +7,7 @@ namespace ModularPipelines.Git.Options;
 public record GitBaseOptions : GitOptions
 {
     [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
+    public virtual bool? Version { get; set; }
 
     [CommandEqualsSeparatorSwitch("--config-env")]
     public string[]? ConfigEnv { get; set; }
@@ -16,19 +16,19 @@ public record GitBaseOptions : GitOptions
     public string? ExecPath { get; set; }
 
     [BooleanCommandSwitch("--html-path")]
-    public bool? HtmlPath { get; set; }
+    public virtual bool? HtmlPath { get; set; }
 
     [BooleanCommandSwitch("--man-path")]
-    public bool? ManPath { get; set; }
+    public virtual bool? ManPath { get; set; }
 
     [BooleanCommandSwitch("--info-path")]
-    public bool? InfoPath { get; set; }
+    public virtual bool? InfoPath { get; set; }
 
     [BooleanCommandSwitch("--paginate")]
-    public bool? Paginate { get; set; }
+    public virtual bool? Paginate { get; set; }
 
     [BooleanCommandSwitch("--no-pager")]
-    public bool? NoPager { get; set; }
+    public virtual bool? NoPager { get; set; }
 
     [CommandEqualsSeparatorSwitch("--git-dir")]
     public string? GitDir { get; set; }
@@ -40,28 +40,28 @@ public record GitBaseOptions : GitOptions
     public string? Namespace { get; set; }
 
     [BooleanCommandSwitch("--bare")]
-    public bool? Bare { get; set; }
+    public virtual bool? Bare { get; set; }
 
     [BooleanCommandSwitch("--no-replace-objects")]
-    public bool? NoReplaceObjects { get; set; }
+    public virtual bool? NoReplaceObjects { get; set; }
 
     [BooleanCommandSwitch("--literal-pathspecs")]
-    public bool? LiteralPathspecs { get; set; }
+    public virtual bool? LiteralPathspecs { get; set; }
 
     [BooleanCommandSwitch("--glob-pathspecs")]
-    public bool? GlobPathspecs { get; set; }
+    public virtual bool? GlobPathspecs { get; set; }
 
     [BooleanCommandSwitch("--noglob-pathspecs")]
-    public bool? NoglobPathspecs { get; set; }
+    public virtual bool? NoglobPathspecs { get; set; }
 
     [BooleanCommandSwitch("--icase-pathspecs")]
-    public bool? IcasePathspecs { get; set; }
+    public virtual bool? IcasePathspecs { get; set; }
 
     [BooleanCommandSwitch("--no-optional-locks")]
-    public bool? NoOptionalLocks { get; set; }
+    public virtual bool? NoOptionalLocks { get; set; }
 
     [BooleanCommandSwitch("--list-cmds")]
-    public bool? ListCmds { get; set; }
+    public virtual bool? ListCmds { get; set; }
 
     [CommandEqualsSeparatorSwitch("--attr-source")]
     public string? AttrSource { get; set; }

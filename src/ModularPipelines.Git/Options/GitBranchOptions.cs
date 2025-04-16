@@ -8,85 +8,85 @@ namespace ModularPipelines.Git.Options;
 public record GitBranchOptions : GitOptions
 {
     [BooleanCommandSwitch("--delete")]
-    public bool? Delete { get; set; }
+    public virtual bool? Delete { get; set; }
 
     [BooleanCommandSwitch("--create-reflog")]
-    public bool? CreateReflog { get; set; }
+    public virtual bool? CreateReflog { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--move")]
-    public bool? Move { get; set; }
+    public virtual bool? Move { get; set; }
 
     [BooleanCommandSwitch("--c")]
-    public bool? C { get; set; }
+    public virtual bool? C { get; set; }
 
     [BooleanCommandSwitch("--copy")]
-    public bool? Copy { get; set; }
+    public virtual bool? Copy { get; set; }
 
     [CommandEqualsSeparatorSwitch("--color")]
     public string? Color { get; set; }
 
     [BooleanCommandSwitch("--no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [BooleanCommandSwitch("--ignore-case")]
-    public bool? IgnoreCase { get; set; }
+    public virtual bool? IgnoreCase { get; set; }
 
     [BooleanCommandSwitch("--omit-empty")]
-    public bool? OmitEmpty { get; set; }
+    public virtual bool? OmitEmpty { get; set; }
 
     [CommandEqualsSeparatorSwitch("--column")]
     public string? Column { get; set; }
 
     [BooleanCommandSwitch("--no-column")]
-    public bool? NoColumn { get; set; }
+    public virtual bool? NoColumn { get; set; }
 
     [BooleanCommandSwitch("--remotes")]
-    public bool? Remotes { get; set; }
+    public virtual bool? Remotes { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("--show-current")]
-    public bool? ShowCurrent { get; set; }
+    public virtual bool? ShowCurrent { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
     [BooleanCommandSwitch("--no-abbrev")]
-    public bool? NoAbbrev { get; set; }
+    public virtual bool? NoAbbrev { get; set; }
 
     [BooleanCommandSwitch("--track")]
-    public bool? Track { get; set; }
+    public virtual bool? Track { get; set; }
 
     [BooleanCommandSwitch("--no-track")]
-    public bool? NoTrack { get; set; }
+    public virtual bool? NoTrack { get; set; }
 
     [BooleanCommandSwitch("--recurse-submodules")]
-    public bool? RecurseSubmodules { get; set; }
+    public virtual bool? RecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--set-upstream")]
-    public bool? SetUpstream { get; set; }
+    public virtual bool? SetUpstream { get; set; }
 
     [CommandEqualsSeparatorSwitch("--set-upstream-to")]
     public string? SetUpstreamTo { get; set; }
 
     [BooleanCommandSwitch("--unset-upstream")]
-    public bool? UnsetUpstream { get; set; }
+    public virtual bool? UnsetUpstream { get; set; }
 
     [BooleanCommandSwitch("--edit-description")]
-    public bool? EditDescription { get; set; }
+    public virtual bool? EditDescription { get; set; }
 
     [CommandEqualsSeparatorSwitch("--contains")]
     public string? Contains { get; set; }

@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnCacheCleanOptions : YarnOptions
 {
     [BooleanCommandSwitch("--mirror")]
-    public bool? Mirror { get; set; }
+    public virtual bool? Mirror { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 }

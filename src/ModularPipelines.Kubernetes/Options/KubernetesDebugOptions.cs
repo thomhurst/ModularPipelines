@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesDebugOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--arguments-only")]
-    public bool? ArgumentsOnly { get; set; }
+    public virtual bool? ArgumentsOnly { get; set; }
 
     [BooleanCommandSwitch("--attach")]
-    public bool? Attach { get; set; }
+    public virtual bool? Attach { get; set; }
 
     [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
     public string? Container { get; set; }
@@ -29,26 +29,26 @@ public record KubernetesDebugOptions([property: PositionalArgument] string Name)
     public string? ImagePullPolicy { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--replace")]
-    public bool? Replace { get; set; }
+    public virtual bool? Replace { get; set; }
 
     [BooleanCommandSwitch("--same-node")]
-    public bool? SameNode { get; set; }
+    public virtual bool? SameNode { get; set; }
 
     [CommandEqualsSeparatorSwitch("--set-image", SwitchValueSeparator = " ")]
     public string[]? SetImage { get; set; }
 
     [BooleanCommandSwitch("--share-processes")]
-    public bool? ShareProcesses { get; set; }
+    public virtual bool? ShareProcesses { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [CommandEqualsSeparatorSwitch("--target", SwitchValueSeparator = " ")]
     public string? Target { get; set; }
 
     [BooleanCommandSwitch("--tty")]
-    public bool? Tty { get; set; }
+    public virtual bool? Tty { get; set; }
 }

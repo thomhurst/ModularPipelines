@@ -8,16 +8,16 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesAuthCanIOptions([property: PositionalArgument] string Verb) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]
-    public bool? AllNamespaces { get; set; }
+    public virtual bool? AllNamespaces { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("--no-headers")]
-    public bool? NoHeaders { get; set; }
+    public virtual bool? NoHeaders { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandEqualsSeparatorSwitch("--subresource", SwitchValueSeparator = " ")]
     public string? Subresource { get; set; }

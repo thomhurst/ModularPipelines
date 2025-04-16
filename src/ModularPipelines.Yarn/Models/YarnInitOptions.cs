@@ -8,14 +8,14 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnInitOptions : YarnOptions
 {
     [BooleanCommandSwitch("--private")]
-    public bool? Private { get; set; }
+    public virtual bool? Private { get; set; }
 
     [BooleanCommandSwitch("--workspace")]
-    public bool? Workspace { get; set; }
+    public virtual bool? Workspace { get; set; }
 
     [BooleanCommandSwitch("--install")]
-    public bool? Install { get; set; }
+    public virtual bool? Install { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 }

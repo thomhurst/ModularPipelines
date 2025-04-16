@@ -8,26 +8,26 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnSetVersionFromSourcesOptions : YarnOptions
 {
     [CommandSwitch("--path")]
-    public string? Path { get; set; }
+    public virtual string? Path { get; set; }
 
     [CommandSwitch("--repository")]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [CommandSwitch("--branch")]
-    public string? Branch { get; set; }
+    public virtual string? Branch { get; set; }
 
     [CommandSwitch("--plugin")]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--no-minify")]
-    public bool? NoMinify { get; set; }
+    public virtual bool? NoMinify { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--skip-plugins")]
-    public bool? SkipPlugins { get; set; }
+    public virtual bool? SkipPlugins { get; set; }
 }

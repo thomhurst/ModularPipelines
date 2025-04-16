@@ -25,308 +25,308 @@ public record DockerContainerCreateOptions : DockerOptions
     public IEnumerable<string>? Arg { get; set; }
 
     [CommandSwitch("--add-host")]
-    public string? AddHost { get; set; }
+    public virtual string? AddHost { get; set; }
 
     [CommandSwitch("--annotation")]
-    public string? Annotation { get; set; }
+    public virtual string? Annotation { get; set; }
 
     [BooleanCommandSwitch("--attach")]
-    public bool? Attach { get; set; }
+    public virtual bool? Attach { get; set; }
 
     [CommandSwitch("--blkio-weight")]
-    public string? BlkioWeight { get; set; }
+    public virtual string? BlkioWeight { get; set; }
 
     [CommandSwitch("--blkio-weight-device")]
-    public string? BlkioWeightDevice { get; set; }
+    public virtual string? BlkioWeightDevice { get; set; }
 
     [CommandSwitch("--cap-add")]
-    public string? CapAdd { get; set; }
+    public virtual string? CapAdd { get; set; }
 
     [CommandSwitch("--cap-drop")]
-    public string? CapDrop { get; set; }
+    public virtual string? CapDrop { get; set; }
 
     [CommandSwitch("--cgroup-parent")]
-    public string? CgroupParent { get; set; }
+    public virtual string? CgroupParent { get; set; }
 
     [CommandSwitch("--cgroupns")]
-    public string? Cgroupns { get; set; }
+    public virtual string? Cgroupns { get; set; }
 
     [CommandSwitch("--cidfile")]
-    public string? Cidfile { get; set; }
+    public virtual string? Cidfile { get; set; }
 
     [CommandSwitch("--cpu-count")]
-    public string? CpuCount { get; set; }
+    public virtual string? CpuCount { get; set; }
 
     [CommandSwitch("--cpu-percent")]
-    public string? CpuPercent { get; set; }
+    public virtual string? CpuPercent { get; set; }
 
     [CommandSwitch("--cpu-period")]
-    public string? CpuPeriod { get; set; }
+    public virtual string? CpuPeriod { get; set; }
 
     [CommandSwitch("--cpu-quota")]
-    public string? CpuQuota { get; set; }
+    public virtual string? CpuQuota { get; set; }
 
     [CommandSwitch("--cpu-rt-period")]
-    public string? CpuRtPeriod { get; set; }
+    public virtual string? CpuRtPeriod { get; set; }
 
     [CommandSwitch("--cpu-rt-runtime")]
-    public string? CpuRtRuntime { get; set; }
+    public virtual string? CpuRtRuntime { get; set; }
 
     [CommandSwitch("--cpu-shares")]
-    public string? CpuShares { get; set; }
+    public virtual string? CpuShares { get; set; }
 
     [CommandSwitch("--cpus")]
-    public string? Cpus { get; set; }
+    public virtual string? Cpus { get; set; }
 
     [CommandSwitch("--cpuset-cpus")]
-    public string? CpusetCpus { get; set; }
+    public virtual string? CpusetCpus { get; set; }
 
     [CommandSwitch("--cpuset-mems")]
-    public string? CpusetMems { get; set; }
+    public virtual string? CpusetMems { get; set; }
 
     [CommandSwitch("--device")]
-    public string? Device { get; set; }
+    public virtual string? Device { get; set; }
 
     [CommandSwitch("--device-cgroup-rule")]
-    public string? DeviceCgroupRule { get; set; }
+    public virtual string? DeviceCgroupRule { get; set; }
 
     [CommandSwitch("--device-read-bps")]
-    public string? DeviceReadBps { get; set; }
+    public virtual string? DeviceReadBps { get; set; }
 
     [CommandSwitch("--device-read-iops")]
-    public string? DeviceReadIops { get; set; }
+    public virtual string? DeviceReadIops { get; set; }
 
     [CommandSwitch("--device-write-bps")]
-    public string? DeviceWriteBps { get; set; }
+    public virtual string? DeviceWriteBps { get; set; }
 
     [CommandSwitch("--device-write-iops")]
-    public string? DeviceWriteIops { get; set; }
+    public virtual string? DeviceWriteIops { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [CommandSwitch("--dns")]
-    public string? Dns { get; set; }
+    public virtual string? Dns { get; set; }
 
     [CommandSwitch("--dns-opt")]
-    public string? DnsOpt { get; set; }
+    public virtual string? DnsOpt { get; set; }
 
     [CommandSwitch("--dns-option")]
-    public string? DnsOption { get; set; }
+    public virtual string? DnsOption { get; set; }
 
     [CommandSwitch("--dns-search")]
-    public string? DnsSearch { get; set; }
+    public virtual string? DnsSearch { get; set; }
 
     [CommandSwitch("--domainname")]
-    public string? Domainname { get; set; }
+    public virtual string? Domainname { get; set; }
 
     [CommandSwitch("--entrypoint")]
-    public string? Entrypoint { get; set; }
+    public virtual string? Entrypoint { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [CommandSwitch("--env-file")]
-    public string? EnvFile { get; set; }
+    public virtual string? EnvFile { get; set; }
 
     [CommandSwitch("--expose")]
-    public string? Expose { get; set; }
+    public virtual string? Expose { get; set; }
 
     [CommandSwitch("--gpus")]
-    public string? Gpus { get; set; }
+    public virtual string? Gpus { get; set; }
 
     [CommandSwitch("--group-add")]
-    public string? GroupAdd { get; set; }
+    public virtual string? GroupAdd { get; set; }
 
     [CommandSwitch("--health-cmd")]
-    public string? HealthCmd { get; set; }
+    public virtual string? HealthCmd { get; set; }
 
     [CommandSwitch("--health-interval")]
-    public string? HealthInterval { get; set; }
+    public virtual string? HealthInterval { get; set; }
 
     [CommandSwitch("--health-retries")]
-    public string? HealthRetries { get; set; }
+    public virtual string? HealthRetries { get; set; }
 
     [CommandSwitch("--health-start-interval")]
-    public string? HealthStartInterval { get; set; }
+    public virtual string? HealthStartInterval { get; set; }
 
     [CommandSwitch("--health-start-period")]
-    public string? HealthStartPeriod { get; set; }
+    public virtual string? HealthStartPeriod { get; set; }
 
     [CommandSwitch("--health-timeout")]
-    public string? HealthTimeout { get; set; }
+    public virtual string? HealthTimeout { get; set; }
 
     [CommandSwitch("--hostname")]
-    public string? Hostname { get; set; }
+    public virtual string? Hostname { get; set; }
 
     [CommandSwitch("--init")]
-    public string? Init { get; set; }
+    public virtual string? Init { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--io-maxbandwidth")]
-    public string? IoMaxbandwidth { get; set; }
+    public virtual string? IoMaxbandwidth { get; set; }
 
     [CommandSwitch("--io-maxiops")]
-    public string? IoMaxiops { get; set; }
+    public virtual string? IoMaxiops { get; set; }
 
     [CommandSwitch("--ip")]
-    public string? Ip { get; set; }
+    public virtual string? Ip { get; set; }
 
     [CommandSwitch("--ip6")]
-    public string? Ip6 { get; set; }
+    public virtual string? Ip6 { get; set; }
 
     [CommandSwitch("--ipc")]
-    public string? Ipc { get; set; }
+    public virtual string? Ipc { get; set; }
 
     [BooleanCommandSwitch("--isolation")]
-    public bool? Isolation { get; set; }
+    public virtual bool? Isolation { get; set; }
 
     [CommandSwitch("--kernel-memory")]
-    public string? KernelMemory { get; set; }
+    public virtual string? KernelMemory { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--label-file")]
-    public string? LabelFile { get; set; }
+    public virtual string? LabelFile { get; set; }
 
     [CommandSwitch("--link")]
-    public string? Link { get; set; }
+    public virtual string? Link { get; set; }
 
     [CommandSwitch("--link-local-ip")]
-    public string? LinkLocalIp { get; set; }
+    public virtual string? LinkLocalIp { get; set; }
 
     [CommandSwitch("--log-driver")]
-    public string? LogDriver { get; set; }
+    public virtual string? LogDriver { get; set; }
 
     [CommandSwitch("--log-opt")]
-    public string? LogOpt { get; set; }
+    public virtual string? LogOpt { get; set; }
 
     [CommandSwitch("--mac-address")]
-    public string? MacAddress { get; set; }
+    public virtual string? MacAddress { get; set; }
 
     [CommandSwitch("--memory")]
-    public string? Memory { get; set; }
+    public virtual string? Memory { get; set; }
 
     [CommandSwitch("--memory-reservation")]
-    public string? MemoryReservation { get; set; }
+    public virtual string? MemoryReservation { get; set; }
 
     [CommandSwitch("--memory-swap")]
-    public string? MemorySwap { get; set; }
+    public virtual string? MemorySwap { get; set; }
 
     [CommandSwitch("--memory-swappiness")]
-    public int? MemorySwappiness { get; set; }
+    public virtual int? MemorySwappiness { get; set; }
 
     [CommandSwitch("--mount")]
-    public string? Mount { get; set; }
+    public virtual string? Mount { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--net")]
-    public string? Net { get; set; }
+    public virtual string? Net { get; set; }
 
     [CommandSwitch("--net-alias")]
-    public string? NetAlias { get; set; }
+    public virtual string? NetAlias { get; set; }
 
     [CommandSwitch("--network")]
-    public string? Network { get; set; }
+    public virtual string? Network { get; set; }
 
     [CommandSwitch("--network-alias")]
-    public string? NetworkAlias { get; set; }
+    public virtual string? NetworkAlias { get; set; }
 
     [BooleanCommandSwitch("--no-healthcheck")]
-    public bool? NoHealthcheck { get; set; }
+    public virtual bool? NoHealthcheck { get; set; }
 
     [BooleanCommandSwitch("--oom-kill-disable")]
-    public bool? OomKillDisable { get; set; }
+    public virtual bool? OomKillDisable { get; set; }
 
     [CommandSwitch("--oom-score-adj")]
-    public string? OomScoreAdj { get; set; }
+    public virtual string? OomScoreAdj { get; set; }
 
     [CommandSwitch("--pid")]
-    public string? Pid { get; set; }
+    public virtual string? Pid { get; set; }
 
     [CommandSwitch("--pids-limit")]
-    public string? PidsLimit { get; set; }
+    public virtual string? PidsLimit { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [BooleanCommandSwitch("--privileged")]
-    public bool? Privileged { get; set; }
+    public virtual bool? Privileged { get; set; }
 
     [CommandSwitch("--publish")]
-    public string? Publish { get; set; }
+    public virtual string? Publish { get; set; }
 
     [CommandSwitch("--publish-all")]
-    public string? PublishAll { get; set; }
+    public virtual string? PublishAll { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--read-only")]
-    public bool? ReadOnly { get; set; }
+    public virtual bool? ReadOnly { get; set; }
 
     [CommandSwitch("--restart")]
-    public string? Restart { get; set; }
+    public virtual string? Restart { get; set; }
 
     [BooleanCommandSwitch("--rm")]
-    public bool? Rm { get; set; }
+    public virtual bool? Rm { get; set; }
 
     [CommandSwitch("--runtime")]
-    public string? Runtime { get; set; }
+    public virtual string? Runtime { get; set; }
 
     [CommandSwitch("--security-opt")]
-    public string? SecurityOpt { get; set; }
+    public virtual string? SecurityOpt { get; set; }
 
     [CommandSwitch("--shm-size")]
-    public string? ShmSize { get; set; }
+    public virtual string? ShmSize { get; set; }
 
     [CommandSwitch("--stop-signal")]
-    public string? StopSignal { get; set; }
+    public virtual string? StopSignal { get; set; }
 
     [CommandSwitch("--stop-timeout")]
-    public string? StopTimeout { get; set; }
+    public virtual string? StopTimeout { get; set; }
 
     [CommandSwitch("--storage-opt")]
-    public string? StorageOpt { get; set; }
+    public virtual string? StorageOpt { get; set; }
 
     [CommandSwitch("--sysctl")]
-    public string? Sysctl { get; set; }
+    public virtual string? Sysctl { get; set; }
 
     [CommandSwitch("--tmpfs")]
-    public string? Tmpfs { get; set; }
+    public virtual string? Tmpfs { get; set; }
 
     [CommandSwitch("--tty")]
-    public string? Tty { get; set; }
+    public virtual string? Tty { get; set; }
 
     [CommandSwitch("--ulimit")]
-    public string? Ulimit { get; set; }
+    public virtual string? Ulimit { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--userns")]
-    public string? Userns { get; set; }
+    public virtual string? Userns { get; set; }
 
     [CommandSwitch("--uts")]
-    public string? Uts { get; set; }
+    public virtual string? Uts { get; set; }
 
     [CommandSwitch("--volume")]
-    public string? Volume { get; set; }
+    public virtual string? Volume { get; set; }
 
     [CommandSwitch("--volume-driver")]
-    public string? VolumeDriver { get; set; }
+    public virtual string? VolumeDriver { get; set; }
 
     [CommandSwitch("--volumes-from")]
-    public string? VolumesFrom { get; set; }
+    public virtual string? VolumesFrom { get; set; }
 
     [CommandSwitch("--workdir")]
-    public string? Workdir { get; set; }
+    public virtual string? Workdir { get; set; }
 }

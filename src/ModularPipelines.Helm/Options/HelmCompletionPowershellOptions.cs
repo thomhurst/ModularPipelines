@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmCompletionPowershellOptions : HelmOptions
 {
     [BooleanCommandSwitch("--no-descriptions")]
-    public bool? NoDescriptions { get; set; }
+    public virtual bool? NoDescriptions { get; set; }
 }

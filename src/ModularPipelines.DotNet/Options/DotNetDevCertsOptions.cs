@@ -8,35 +8,35 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetDevCertsOptions : DotNetOptions
 {
     [BooleanCommandSwitch("--check")]
-    public bool? Check { get; set; }
+    public virtual bool? Check { get; set; }
 
     [BooleanCommandSwitch("--clean")]
-    public bool? Clean { get; set; }
+    public virtual bool? Clean { get; set; }
 
     [CommandSwitch("--export-path")]
-    public string? ExportPath { get; set; }
+    public virtual string? ExportPath { get; set; }
 
     [BooleanCommandSwitch("--format")]
-    public bool? Format { get; set; }
+    public virtual bool? Format { get; set; }
 
     [BooleanCommandSwitch("--import")]
-    public bool? Import { get; set; }
+    public virtual bool? Import { get; set; }
 
     [BooleanCommandSwitch("--no-password")]
-    public bool? NoPassword { get; set; }
+    public virtual bool? NoPassword { get; set; }
 
     [BooleanCommandSwitch("--password")]
-    public bool? Password { get; set; }
+    public virtual bool? Password { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--trust")]
-    public bool? Trust { get; set; }
+    public virtual bool? Trust { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
+    public virtual bool? Version { get; set; }
 }

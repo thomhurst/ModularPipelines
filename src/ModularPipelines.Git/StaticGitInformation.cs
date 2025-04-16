@@ -80,7 +80,7 @@ internal class StaticGitInformation : IInitializer
             {
                 return;
             }
-            
+
             int.TryParse(await GetOutput(new GitRevListOptions
             {
                 Count = true,

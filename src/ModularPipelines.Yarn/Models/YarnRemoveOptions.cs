@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnRemoveOptions : YarnOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--mode")]
-    public string? Mode { get; set; }
+    public virtual string? Mode { get; set; }
 }

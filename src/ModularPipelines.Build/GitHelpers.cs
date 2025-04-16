@@ -74,7 +74,7 @@ public static class GitHelpers
         {
             Message = message,
         }, token: cancellationToken);
-        
+
         var author = context.GitHub().EnvironmentVariables.Actor ?? "thomhurst";
 
         var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };

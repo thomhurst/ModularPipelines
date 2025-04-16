@@ -8,19 +8,19 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesLogsOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-containers")]
-    public bool? AllContainers { get; set; }
+    public virtual bool? AllContainers { get; set; }
 
     [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
     public string? Container { get; set; }
 
     [BooleanCommandSwitch("--follow")]
-    public bool? Follow { get; set; }
+    public virtual bool? Follow { get; set; }
 
     [BooleanCommandSwitch("--ignore-errors")]
-    public bool? IgnoreErrors { get; set; }
+    public virtual bool? IgnoreErrors { get; set; }
 
     [BooleanCommandSwitch("--insecure-skip-tls-verify-backend")]
-    public bool? InsecureSkipTlsVerifyBackend { get; set; }
+    public virtual bool? InsecureSkipTlsVerifyBackend { get; set; }
 
     [CommandEqualsSeparatorSwitch("--limit-bytes", SwitchValueSeparator = " ")]
     public int? LimitBytes { get; set; }
@@ -32,10 +32,10 @@ public record KubernetesLogsOptions([property: PositionalArgument] string Name) 
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--prefix")]
-    public bool? Prefix { get; set; }
+    public virtual bool? Prefix { get; set; }
 
     [BooleanCommandSwitch("--previous")]
-    public bool? Previous { get; set; }
+    public virtual bool? Previous { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
@@ -50,5 +50,5 @@ public record KubernetesLogsOptions([property: PositionalArgument] string Name) 
     public int? Tail { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
-    public bool? Timestamps { get; set; }
+    public virtual bool? Timestamps { get; set; }
 }

@@ -8,17 +8,17 @@ namespace ModularPipelines.Git.Options;
 public record GitSymbolicRefOptions : GitOptions
 {
     [BooleanCommandSwitch("--delete")]
-    public bool? Delete { get; set; }
+    public virtual bool? Delete { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--short")]
-    public bool? Short { get; set; }
+    public virtual bool? Short { get; set; }
 
     [BooleanCommandSwitch("--recurse")]
-    public bool? Recurse { get; set; }
+    public virtual bool? Recurse { get; set; }
 
     [BooleanCommandSwitch("--no-recurse")]
-    public bool? NoRecurse { get; set; }
+    public virtual bool? NoRecurse { get; set; }
 }

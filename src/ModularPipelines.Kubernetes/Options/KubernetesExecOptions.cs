@@ -17,11 +17,11 @@ public record KubernetesExecOptions([property: PositionalArgument] string Name) 
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [BooleanCommandSwitch("--tty")]
-    public bool? Tty { get; set; }
+    public virtual bool? Tty { get; set; }
 }

@@ -8,16 +8,16 @@ namespace ModularPipelines.Git.Options;
 public record GitFastImportOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--stats")]
-    public bool? Stats { get; set; }
+    public virtual bool? Stats { get; set; }
 
     [BooleanCommandSwitch("--allow-unsafe-features")]
-    public bool? AllowUnsafeFeatures { get; set; }
+    public virtual bool? AllowUnsafeFeatures { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cat-blob-fd")]
     public string? CatBlobFd { get; set; }
@@ -26,7 +26,7 @@ public record GitFastImportOptions : GitOptions
     public string? DateFormat { get; set; }
 
     [BooleanCommandSwitch("--done")]
-    public bool? Done { get; set; }
+    public virtual bool? Done { get; set; }
 
     [CommandEqualsSeparatorSwitch("--export-marks")]
     public string? ExportMarks { get; set; }
@@ -38,10 +38,10 @@ public record GitFastImportOptions : GitOptions
     public string? ImportMarksIfExists { get; set; }
 
     [BooleanCommandSwitch("--no-relative-marks")]
-    public bool? NoRelativeMarks { get; set; }
+    public virtual bool? NoRelativeMarks { get; set; }
 
     [BooleanCommandSwitch("--relative-marks")]
-    public bool? RelativeMarks { get; set; }
+    public virtual bool? RelativeMarks { get; set; }
 
     [CommandEqualsSeparatorSwitch("--rewrite-submodules-from")]
     public string? RewriteSubmodulesFrom { get; set; }

@@ -24,5 +24,5 @@ public record DotNetMsbuildOptions : DotNetOptions
     public string? MsbuildArguments { get; set; }
 
     [BooleanCommandSwitch("-h")]
-    public bool? H { get; set; }
+    public virtual bool? H { get; set; }
 }

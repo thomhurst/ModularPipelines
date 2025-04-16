@@ -8,11 +8,11 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmLogoutOptions : YarnOptions
 {
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [BooleanCommandSwitch("--publish")]
-    public bool? Publish { get; set; }
+    public virtual bool? Publish { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 }

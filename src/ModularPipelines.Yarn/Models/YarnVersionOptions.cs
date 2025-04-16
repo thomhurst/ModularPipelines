@@ -10,8 +10,8 @@ public record YarnVersionOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--deferred")]
-    public bool? Deferred { get; set; }
+    public virtual bool? Deferred { get; set; }
 
     [BooleanCommandSwitch("--immediate")]
-    public bool? Immediate { get; set; }
+    public virtual bool? Immediate { get; set; }
 }

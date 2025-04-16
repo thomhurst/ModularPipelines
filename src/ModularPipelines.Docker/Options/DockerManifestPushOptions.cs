@@ -19,8 +19,8 @@ public record DockerManifestPushOptions : DockerOptions
     public string? ManifestList { get; set; }
 
     [CommandSwitch("--insecure")]
-    public string? Insecure { get; set; }
+    public virtual string? Insecure { get; set; }
 
     [CommandSwitch("--purge")]
-    public string? Purge { get; set; }
+    public virtual string? Purge { get; set; }
 }

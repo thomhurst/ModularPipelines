@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutCachePruneOptions : DockerOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandSwitch("--sboms")]
-    public string? Sboms { get; set; }
+    public virtual string? Sboms { get; set; }
 }

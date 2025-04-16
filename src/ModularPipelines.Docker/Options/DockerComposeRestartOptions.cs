@@ -11,8 +11,8 @@ public record DockerComposeRestartOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--no-deps")]
-    public bool? NoDeps { get; set; }
+    public virtual bool? NoDeps { get; set; }
 
     [CommandSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 }

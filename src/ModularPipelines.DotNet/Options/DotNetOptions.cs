@@ -9,5 +9,5 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetOptions() : CommandLineToolOptions("dotnet")
 {
     [CommandSwitch("--property:", SwitchValueSeparator = "")]
-    public IEnumerable<KeyValue>? Properties { get; set; }
+    public virtual IEnumerable<KeyValue>? Properties { get; set; }
 }

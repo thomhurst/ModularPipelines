@@ -24,47 +24,47 @@ public record DotNetPackOptions : DotNetOptions
     public string? ProjectSolution { get; set; }
 
     [CommandSwitch("--configuration")]
-    public string? Configuration { get; set; }
+    public virtual string? Configuration { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--include-source")]
-    public bool? IncludeSource { get; set; }
+    public virtual bool? IncludeSource { get; set; }
 
     [BooleanCommandSwitch("--include-symbols")]
-    public bool? IncludeSymbols { get; set; }
+    public virtual bool? IncludeSymbols { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--no-build")]
-    public bool? NoBuild { get; set; }
+    public virtual bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--no-dependencies")]
-    public bool? NoDependencies { get; set; }
+    public virtual bool? NoDependencies { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; set; }
+    public virtual bool? NoRestore { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? Nologo { get; set; }
+    public virtual bool? Nologo { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CommandSwitch("--runtime")]
-    public string? RuntimeIdentifier { get; set; }
+    public virtual string? RuntimeIdentifier { get; set; }
 
     [BooleanCommandSwitch("--serviceable")]
-    public bool? Serviceable { get; set; }
+    public virtual bool? Serviceable { get; set; }
 
     [BooleanCommandSwitch("--tl")]
-    public bool? Tl { get; set; }
+    public virtual bool? Tl { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 
     [CommandSwitch("--version-suffix")]
-    public string? VersionSuffix { get; set; }
+    public virtual string? VersionSuffix { get; set; }
 }

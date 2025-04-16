@@ -11,77 +11,77 @@ public record DockerScoutCvesOptions : DockerOptions
     public string? ImageOrDirectoryOrArchive { get; set; }
 
     [BooleanCommandSwitch("--details")]
-    public bool? Details { get; set; }
+    public virtual bool? Details { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [CommandSwitch("--exit-code")]
-    public string? ExitCode { get; set; }
+    public virtual string? ExitCode { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--ignore-base")]
-    public string? IgnoreBase { get; set; }
+    public virtual string? IgnoreBase { get; set; }
 
     [CommandSwitch("--locations")]
-    public string? Locations { get; set; }
+    public virtual string? Locations { get; set; }
 
     [CommandSwitch("--multi-stage")]
-    public string? MultiStage { get; set; }
+    public virtual string? MultiStage { get; set; }
 
     [CommandSwitch("--only-cve-id")]
-    public string? OnlyCveId { get; set; }
+    public virtual string? OnlyCveId { get; set; }
 
     [CommandSwitch("--only-fixed")]
-    public string? OnlyFixed { get; set; }
+    public virtual string? OnlyFixed { get; set; }
 
     [CommandSwitch("--only-metric")]
-    public string? OnlyMetric { get; set; }
+    public virtual string? OnlyMetric { get; set; }
 
     [CommandSwitch("--only-package")]
-    public string? OnlyPackage { get; set; }
+    public virtual string? OnlyPackage { get; set; }
 
     [CommandSwitch("--only-package-type")]
-    public string? OnlyPackageType { get; set; }
+    public virtual string? OnlyPackageType { get; set; }
 
     [CommandSwitch("--only-severity")]
-    public string? OnlySeverity { get; set; }
+    public virtual string? OnlySeverity { get; set; }
 
     [CommandSwitch("--only-stage")]
-    public string? OnlyStage { get; set; }
+    public virtual string? OnlyStage { get; set; }
 
     [CommandSwitch("--only-unfixed")]
-    public string? OnlyUnfixed { get; set; }
+    public virtual string? OnlyUnfixed { get; set; }
 
     [CommandSwitch("--only-vex-affected")]
-    public string? OnlyVexAffected { get; set; }
+    public virtual string? OnlyVexAffected { get; set; }
 
     [CommandSwitch("--only-vuln-packages")]
-    public string? OnlyVulnPackages { get; set; }
+    public virtual string? OnlyVulnPackages { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--ref")]
-    public string? Ref { get; set; }
+    public virtual string? Ref { get; set; }
 
     [CommandSwitch("--stream")]
-    public string? Stream { get; set; }
+    public virtual string? Stream { get; set; }
 
     [CommandSwitch("--vex")]
-    public string? Vex { get; set; }
+    public virtual string? Vex { get; set; }
 
     [CommandSwitch("--vex-author")]
-    public string? VexAuthor { get; set; }
+    public virtual string? VexAuthor { get; set; }
 
     [CommandSwitch("--vex-location")]
-    public string? VexLocation { get; set; }
+    public virtual string? VexLocation { get; set; }
 }

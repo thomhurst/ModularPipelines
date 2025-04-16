@@ -22,7 +22,7 @@ public class Sha256Tests : TestBase
         var module = await RunModule<ToSha256Module>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);

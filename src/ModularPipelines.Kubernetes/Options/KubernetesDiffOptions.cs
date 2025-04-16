@@ -14,17 +14,17 @@ public record KubernetesDiffOptions : KubernetesOptions
     public string[]? Filename { get; set; }
 
     [BooleanCommandSwitch("--force-conflicts")]
-    public bool? ForceConflicts { get; set; }
+    public virtual bool? ForceConflicts { get; set; }
 
     [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--server-side")]
-    public bool? ServerSide { get; set; }
+    public virtual bool? ServerSide { get; set; }
 }

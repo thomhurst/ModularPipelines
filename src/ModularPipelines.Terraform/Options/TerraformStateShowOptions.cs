@@ -9,5 +9,5 @@ public record TerraformStateShowOptions([property: PositionalArgument(Position =
     string Address) : TerraformOptions
 {
     [CommandSwitch("-state")]
-    public string? State { get; set; }
+    public virtual string? State { get; set; }
 }

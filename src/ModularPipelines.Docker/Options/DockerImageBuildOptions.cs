@@ -20,92 +20,92 @@ public record DockerImageBuildOptions : DockerOptions
     public string? PathOrUrl { get; set; }
 
     [CommandSwitch("--add-host")]
-    public string? AddHost { get; set; }
+    public virtual string? AddHost { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public IEnumerable<KeyValue>? BuildArg { get; set; }
+    public virtual IEnumerable<KeyValue>? BuildArg { get; set; }
 
     [CommandSwitch("--cache-from")]
-    public string? CacheFrom { get; set; }
+    public virtual string? CacheFrom { get; set; }
 
     [CommandSwitch("--cgroup-parent")]
-    public string? CgroupParent { get; set; }
+    public virtual string? CgroupParent { get; set; }
 
     [BooleanCommandSwitch("--compress")]
-    public bool? Compress { get; set; }
+    public virtual bool? Compress { get; set; }
 
     [CommandSwitch("--cpu-period")]
-    public string? CpuPeriod { get; set; }
+    public virtual string? CpuPeriod { get; set; }
 
     [CommandSwitch("--cpu-quota")]
-    public string? CpuQuota { get; set; }
+    public virtual string? CpuQuota { get; set; }
 
     [CommandSwitch("--cpu-shares")]
-    public string? CpuShares { get; set; }
+    public virtual string? CpuShares { get; set; }
 
     [CommandSwitch("--cpuset-cpus")]
-    public string? CpusetCpus { get; set; }
+    public virtual string? CpusetCpus { get; set; }
 
     [CommandSwitch("--cpuset-mems")]
-    public string? CpusetMems { get; set; }
+    public virtual string? CpusetMems { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [CommandSwitch("--file")]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [BooleanCommandSwitch("--force-rm")]
-    public bool? ForceRm { get; set; }
+    public virtual bool? ForceRm { get; set; }
 
     [CommandSwitch("--iidfile")]
-    public string? Iidfile { get; set; }
+    public virtual string? Iidfile { get; set; }
 
     [BooleanCommandSwitch("--isolation")]
-    public bool? Isolation { get; set; }
+    public virtual bool? Isolation { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--memory")]
-    public string? Memory { get; set; }
+    public virtual string? Memory { get; set; }
 
     [CommandSwitch("--memory-swap")]
-    public string? MemorySwap { get; set; }
+    public virtual string? MemorySwap { get; set; }
 
     [CommandSwitch("--network")]
-    public string? Network { get; set; }
+    public virtual string? Network { get; set; }
 
     [BooleanCommandSwitch("--no-cache")]
-    public bool? NoCache { get; set; }
+    public virtual bool? NoCache { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--rm")]
-    public bool? Rm { get; set; }
+    public virtual bool? Rm { get; set; }
 
     [CommandSwitch("--security-opt")]
-    public string? SecurityOpt { get; set; }
+    public virtual string? SecurityOpt { get; set; }
 
     [CommandSwitch("--shm-size")]
-    public string? ShmSize { get; set; }
+    public virtual string? ShmSize { get; set; }
 
     [BooleanCommandSwitch("--squash")]
-    public bool? Squash { get; set; }
+    public virtual bool? Squash { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 
     [CommandSwitch("--target")]
-    public string? Target { get; set; }
+    public virtual string? Target { get; set; }
 
     [CommandSwitch("--ulimit")]
-    public string? Ulimit { get; set; }
+    public virtual string? Ulimit { get; set; }
 }

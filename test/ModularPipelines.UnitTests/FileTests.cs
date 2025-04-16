@@ -26,7 +26,7 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
@@ -34,7 +34,7 @@ public class FileTests : TestBase
         }
 
         file.MoveTo(file2);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
@@ -48,7 +48,7 @@ public class FileTests : TestBase
     public async Task Data_Is_Populated()
     {
         var file = await CreateRandomFile();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
@@ -72,7 +72,7 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
 
         var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
@@ -80,7 +80,7 @@ public class FileTests : TestBase
         }
 
         file.CopyTo(file2);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
@@ -154,7 +154,7 @@ public class FileTests : TestBase
 
         var plainText = await file.ReadAsync();
         var lines = await file.ReadLinesAsync();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(plainText).IsEqualTo($"Hello{Environment.NewLine}world{Environment.NewLine}");
@@ -261,7 +261,7 @@ public class FileTests : TestBase
         var path = Path.GetRandomFileName();
         var file = new File(path);
         var file2 = new File(path);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file).IsEqualTo(file2);
@@ -276,7 +276,7 @@ public class FileTests : TestBase
     {
         var file = new File(Path.GetRandomFileName());
         var file2 = new File(Path.GetRandomFileName());
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file).IsNotEqualTo(file2);
@@ -338,7 +338,7 @@ public class FileTests : TestBase
         var file = await CreateRandomFile();
         file.MoveTo(new Folder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
     }
-    
+
     [Test]
     public async Task CopyTo_Folder()
     {

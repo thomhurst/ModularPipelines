@@ -8,23 +8,23 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmCaOptions : DockerOptions
 {
     [CommandSwitch("--ca-cert")]
-    public string? CaCert { get; set; }
+    public virtual string? CaCert { get; set; }
 
     [CommandSwitch("--ca-key")]
-    public string? CaKey { get; set; }
+    public virtual string? CaKey { get; set; }
 
     [CommandSwitch("--cert-expiry")]
-    public string? CertExpiry { get; set; }
+    public virtual string? CertExpiry { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--external-ca")]
-    public string? ExternalCa { get; set; }
+    public virtual string? ExternalCa { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--rotate")]
-    public string? Rotate { get; set; }
+    public virtual string? Rotate { get; set; }
 }

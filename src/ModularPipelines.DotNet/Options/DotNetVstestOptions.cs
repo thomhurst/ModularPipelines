@@ -36,53 +36,53 @@ public record DotNetVstestOptions : DotNetOptions
     public string? TestFileNames { get; set; }
 
     [BooleanCommandSwitch("--Blame")]
-    public bool? Blame { get; set; }
+    public virtual bool? Blame { get; set; }
 
     [CommandSwitch("--Diag")]
-    public string? Diag { get; set; }
+    public virtual string? Diag { get; set; }
 
     [CommandSwitch("--Framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--InIsolation")]
-    public bool? InIsolation { get; set; }
+    public virtual bool? InIsolation { get; set; }
 
     [CommandSwitch("--ListTests")]
-    public string? ListTests { get; set; }
+    public virtual string? ListTests { get; set; }
 
     [CommandSwitch("--logger")]
-    public string? LoggerUriOrFriendlyName { get; set; }
+    public virtual string? LoggerUriOrFriendlyName { get; set; }
 
     [BooleanCommandSwitch("--Parallel")]
-    public bool? Parallel { get; set; }
+    public virtual bool? Parallel { get; set; }
 
     [CommandSwitch("--ParentProcessId")]
-    public string? ParentProcessId { get; set; }
+    public virtual string? ParentProcessId { get; set; }
 
     [BooleanCommandSwitch("--Platform")]
-    public bool? Platform { get; set; }
+    public virtual bool? Platform { get; set; }
 
     [PositionalArgument(PlaceholderName = "<PLATFORM_TYPE>")]
     public string? PlatformType { get; set; }
 
     [CommandSwitch("--Port")]
-    public string? Port { get; set; }
+    public virtual string? Port { get; set; }
 
     [CommandSwitch("--ResultsDirectory<PATH>")]
-    public string? ResultsDirectoryPATH { get; set; }
+    public virtual string? ResultsDirectoryPATH { get; set; }
 
     [CommandSwitch("--Settings")]
-    public string? SettingsFile { get; set; }
+    public virtual string? SettingsFile { get; set; }
 
     [CommandSwitch("--TestAdapterPath")]
-    public string? TestAdapterPath { get; set; }
+    public virtual string? TestAdapterPath { get; set; }
 
     [CommandSwitch("--TestCaseFilter")]
-    public string? TestCaseFilter { get; set; }
+    public virtual string? TestCaseFilter { get; set; }
 
     [CommandSwitch("--Tests")]
-    public string? Tests { get; set; }
+    public virtual string? Tests { get; set; }
 
     [BooleanCommandSwitch("--Help")]
-    public bool? Help { get; set; }
+    public virtual bool? Help { get; set; }
 }

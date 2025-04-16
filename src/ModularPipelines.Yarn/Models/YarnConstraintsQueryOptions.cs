@@ -10,5 +10,5 @@ public record YarnConstraintsQueryOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

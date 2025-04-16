@@ -8,5 +8,5 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformConsoleOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-state")]
-    public bool? State { get; set; }
+    public virtual bool? State { get; set; }
 }

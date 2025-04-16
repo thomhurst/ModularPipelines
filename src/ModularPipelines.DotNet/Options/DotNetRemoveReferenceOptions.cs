@@ -31,7 +31,7 @@ public record DotNetRemoveReferenceOptions : DotNetOptions
     public string? Project { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [PositionalArgument(PlaceholderName = "<PROJECT_REFERENCES>")]
     public string? ProjectReferences { get; set; }

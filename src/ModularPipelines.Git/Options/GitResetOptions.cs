@@ -8,38 +8,38 @@ namespace ModularPipelines.Git.Options;
 public record GitResetOptions : GitOptions
 {
     [BooleanCommandSwitch("--soft")]
-    public bool? Soft { get; set; }
+    public virtual bool? Soft { get; set; }
 
     [BooleanCommandSwitch("--mixed")]
-    public bool? Mixed { get; set; }
+    public virtual bool? Mixed { get; set; }
 
     [BooleanCommandSwitch("--hard")]
-    public bool? Hard { get; set; }
+    public virtual bool? Hard { get; set; }
 
     [BooleanCommandSwitch("--merge")]
-    public bool? Merge { get; set; }
+    public virtual bool? Merge { get; set; }
 
     [BooleanCommandSwitch("--keep")]
-    public bool? Keep { get; set; }
+    public virtual bool? Keep { get; set; }
 
     [BooleanCommandSwitch("--no-recurse-submodules")]
-    public bool? NoRecurseSubmodules { get; set; }
+    public virtual bool? NoRecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--recurse-submodules")]
-    public bool? RecurseSubmodules { get; set; }
+    public virtual bool? RecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--refresh")]
-    public bool? Refresh { get; set; }
+    public virtual bool? Refresh { get; set; }
 
     [BooleanCommandSwitch("--no-refresh")]
-    public bool? NoRefresh { get; set; }
+    public virtual bool? NoRefresh { get; set; }
 
     [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
-    public bool? PathspecFileNul { get; set; }
+    public virtual bool? PathspecFileNul { get; set; }
 }

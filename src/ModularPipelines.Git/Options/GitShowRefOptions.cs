@@ -8,28 +8,28 @@ namespace ModularPipelines.Git.Options;
 public record GitShowRefOptions : GitOptions
 {
     [BooleanCommandSwitch("--head")]
-    public bool? Head { get; set; }
+    public virtual bool? Head { get; set; }
 
     [BooleanCommandSwitch("--heads")]
-    public bool? Heads { get; set; }
+    public virtual bool? Heads { get; set; }
 
     [BooleanCommandSwitch("--tags")]
-    public bool? Tags { get; set; }
+    public virtual bool? Tags { get; set; }
 
     [BooleanCommandSwitch("--dereference")]
-    public bool? Dereference { get; set; }
+    public virtual bool? Dereference { get; set; }
 
     [CommandEqualsSeparatorSwitch("--hash")]
     public string? Hash { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandEqualsSeparatorSwitch("--exclude-existing")]
     public string? ExcludeExisting { get; set; }

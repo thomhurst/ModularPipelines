@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImageLoadOptions : DockerOptions
 {
     [CommandSwitch("--input")]
-    public string? Input { get; set; }
+    public virtual string? Input { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

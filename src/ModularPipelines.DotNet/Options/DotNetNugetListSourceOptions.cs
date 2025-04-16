@@ -8,8 +8,8 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetNugetListSourceOptions : DotNetOptions
 {
     [BooleanCommandSwitch("--format")]
-    public bool? Format { get; set; }
+    public virtual bool? Format { get; set; }
 
     [CommandSwitch("--configfile")]
-    public string? Configfile { get; set; }
+    public virtual string? Configfile { get; set; }
 }

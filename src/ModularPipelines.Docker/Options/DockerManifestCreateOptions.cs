@@ -11,8 +11,8 @@ public record DockerManifestCreateOptions : DockerOptions
     public IEnumerable<string>? Manifest { get; set; }
 
     [CommandSwitch("--amend")]
-    public string? Amend { get; set; }
+    public virtual string? Amend { get; set; }
 
     [CommandSwitch("--insecure")]
-    public string? Insecure { get; set; }
+    public virtual string? Insecure { get; set; }
 }

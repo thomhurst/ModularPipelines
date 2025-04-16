@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeWaitOptions : DockerOptions
 {
     [CommandSwitch("--down-project")]
-    public string? DownProject { get; set; }
+    public virtual string? DownProject { get; set; }
 }

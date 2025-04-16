@@ -19,5 +19,5 @@ public record DockerTrustRevokeOptions : DockerOptions
     public string? Image { get; set; }
 
     [BooleanCommandSwitch("--yes")]
-    public bool? Yes { get; set; }
+    public virtual bool? Yes { get; set; }
 }

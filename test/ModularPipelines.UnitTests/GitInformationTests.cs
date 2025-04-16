@@ -10,11 +10,11 @@ public class GitInformationTests : TestBase
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
         var context = await GetService<IPipelineContext>();
-        
+
         var gitInformation = context.Git().Information;
 
         var branch = gitInformation.BranchName;
-        
+
         await Assert.That(branch).IsNotNull().And.IsNotEmpty();
     }
 }

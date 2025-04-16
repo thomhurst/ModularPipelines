@@ -8,13 +8,13 @@ namespace ModularPipelines.Git.Options;
 public record GitDifftoolOptions : GitOptions
 {
     [BooleanCommandSwitch("--dir-diff")]
-    public bool? DirDiff { get; set; }
+    public virtual bool? DirDiff { get; set; }
 
     [BooleanCommandSwitch("--no-prompt")]
-    public bool? NoPrompt { get; set; }
+    public virtual bool? NoPrompt { get; set; }
 
     [BooleanCommandSwitch("--prompt")]
-    public bool? Prompt { get; set; }
+    public virtual bool? Prompt { get; set; }
 
     [CommandEqualsSeparatorSwitch("--rotate-to")]
     public string? RotateTo { get; set; }
@@ -26,26 +26,26 @@ public record GitDifftoolOptions : GitOptions
     public string? GitTool { get; set; }
 
     [BooleanCommandSwitch("--tool-help")]
-    public bool? ToolHelp { get; set; }
+    public virtual bool? ToolHelp { get; set; }
 
     [BooleanCommandSwitch("--no-symlinks")]
-    public bool? NoSymlinks { get; set; }
+    public virtual bool? NoSymlinks { get; set; }
 
     [BooleanCommandSwitch("--symlinks")]
-    public bool? Symlinks { get; set; }
+    public virtual bool? Symlinks { get; set; }
 
     [CommandEqualsSeparatorSwitch("--extcmd")]
     public string? Extcmd { get; set; }
 
     [BooleanCommandSwitch("--no-gui")]
-    public bool? NoGui { get; set; }
+    public virtual bool? NoGui { get; set; }
 
     [BooleanCommandSwitch("--gui")]
-    public bool? Gui { get; set; }
+    public virtual bool? Gui { get; set; }
 
     [BooleanCommandSwitch("--no-trust-exit-code")]
-    public bool? NoTrustExitCode { get; set; }
+    public virtual bool? NoTrustExitCode { get; set; }
 
     [BooleanCommandSwitch("--trust-exit-code")]
-    public bool? TrustExitCode { get; set; }
+    public virtual bool? TrustExitCode { get; set; }
 }

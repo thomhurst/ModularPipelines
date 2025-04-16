@@ -22,8 +22,8 @@ public record DockerManifestInspectOptions : DockerOptions
     public string? Manifest { get; set; }
 
     [CommandSwitch("--insecure")]
-    public string? Insecure { get; set; }
+    public virtual string? Insecure { get; set; }
 
     [CommandSwitch("--verbose")]
-    public string? Verbose { get; set; }
+    public virtual string? Verbose { get; set; }
 }

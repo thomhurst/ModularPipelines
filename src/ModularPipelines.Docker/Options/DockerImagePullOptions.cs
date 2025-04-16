@@ -19,14 +19,14 @@ public record DockerImagePullOptions : DockerOptions
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("--all-tags")]
-    public bool? AllTags { get; set; }
+    public virtual bool? AllTags { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

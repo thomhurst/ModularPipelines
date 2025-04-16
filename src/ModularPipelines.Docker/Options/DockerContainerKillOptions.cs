@@ -19,5 +19,5 @@ public record DockerContainerKillOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [CommandSwitch("--signal")]
-    public string? Signal { get; set; }
+    public virtual string? Signal { get; set; }
 }

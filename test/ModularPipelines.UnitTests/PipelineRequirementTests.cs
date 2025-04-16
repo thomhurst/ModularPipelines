@@ -30,7 +30,7 @@ public class PipelineRequirementTests
             .AddModule<DummyModule>()
             .AddRequirement<FailingRequirement>()
             .ExecutePipelineAsync();
-        
+
         await Assert.That(executePipelineDelegate)
             .Throws<FailedRequirementsException>()
             .And.HasMessageEqualTo("Requirements failed:\r\nFailingRequirement");

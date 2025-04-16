@@ -11,8 +11,8 @@ public record DockerComposeWatchOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--no-up")]
-    public string? NoUp { get; set; }
+    public virtual string? NoUp { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

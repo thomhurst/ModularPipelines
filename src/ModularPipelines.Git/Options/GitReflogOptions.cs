@@ -8,10 +8,10 @@ namespace ModularPipelines.Git.Options;
 public record GitReflogOptions : GitOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--single-worktree")]
-    public bool? SingleWorktree { get; set; }
+    public virtual bool? SingleWorktree { get; set; }
 
     [CommandEqualsSeparatorSwitch("--expire")]
     public string? Expire { get; set; }
@@ -20,17 +20,17 @@ public record GitReflogOptions : GitOptions
     public string? ExpireUnreachable { get; set; }
 
     [BooleanCommandSwitch("--updateref")]
-    public bool? Updateref { get; set; }
+    public virtual bool? Updateref { get; set; }
 
     [BooleanCommandSwitch("--rewrite")]
-    public bool? Rewrite { get; set; }
+    public virtual bool? Rewrite { get; set; }
 
     [BooleanCommandSwitch("--stale-fix")]
-    public bool? StaleFix { get; set; }
+    public virtual bool? StaleFix { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 }

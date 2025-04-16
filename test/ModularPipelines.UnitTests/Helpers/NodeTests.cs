@@ -22,7 +22,7 @@ public class NodeTests : TestBase
         var module = await RunModule<NodeVersionModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);

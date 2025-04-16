@@ -17,37 +17,37 @@ public class DockerNetwork
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Connect(DockerNetworkConnectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Connect(DockerNetworkConnectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(DockerNetworkCreateOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Create(DockerNetworkCreateOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Disconnect(DockerNetworkDisconnectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Disconnect(DockerNetworkDisconnectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Inspect(DockerNetworkInspectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Inspect(DockerNetworkInspectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Ls(DockerNetworkLsOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Ls(DockerNetworkLsOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkLsOptions(), token);
     }
 
-    public async Task<CommandResult> Prune(DockerNetworkPruneOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Prune(DockerNetworkPruneOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkPruneOptions(), token);
     }
 
-    public async Task<CommandResult> Rm(DockerNetworkRmOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Rm(DockerNetworkRmOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkRmOptions(), token);
     }

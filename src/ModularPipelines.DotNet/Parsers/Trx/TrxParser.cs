@@ -21,7 +21,7 @@ public class TrxParser : ITrxParser
     private ResultSummary ParseResultSummary(XElement element)
     {
         var outcome = element.Attribute("outcome")!.Value;
-        
+
         var counters = ParseCounters(element.Descendants().First(e => e.Name.LocalName == "Counters"));
 
         return new ResultSummary(outcome, counters);

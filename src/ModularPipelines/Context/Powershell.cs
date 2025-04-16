@@ -12,12 +12,12 @@ internal class Powershell : IPowershell
         _command = command;
     }
 
-    public Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineTool(options, cancellationToken);
     }
 
-    public Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineTool(options, cancellationToken);
     }

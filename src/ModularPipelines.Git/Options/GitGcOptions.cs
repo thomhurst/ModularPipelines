@@ -8,29 +8,29 @@ namespace ModularPipelines.Git.Options;
 public record GitGcOptions : GitOptions
 {
     [BooleanCommandSwitch("--aggressive")]
-    public bool? Aggressive { get; set; }
+    public virtual bool? Aggressive { get; set; }
 
     [BooleanCommandSwitch("--auto")]
-    public bool? Auto { get; set; }
+    public virtual bool? Auto { get; set; }
 
     [BooleanCommandSwitch("--no-cruft")]
-    public bool? NoCruft { get; set; }
+    public virtual bool? NoCruft { get; set; }
 
     [BooleanCommandSwitch("--cruft")]
-    public bool? Cruft { get; set; }
+    public virtual bool? Cruft { get; set; }
 
     [CommandEqualsSeparatorSwitch("--prune")]
     public string? Prune { get; set; }
 
     [BooleanCommandSwitch("--no-prune")]
-    public bool? NoPrune { get; set; }
+    public virtual bool? NoPrune { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--keep-largest-pack")]
-    public bool? KeepLargestPack { get; set; }
+    public virtual bool? KeepLargestPack { get; set; }
 }

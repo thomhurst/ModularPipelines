@@ -10,65 +10,65 @@ public record UninstallOptions(
 ) : WingetOptions
 {
     [CommandSwitch("--manifest")]
-    public string? Manifest { get; set; }
+    public virtual string? Manifest { get; set; }
 
     [CommandSwitch("--id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--moniker")]
-    public string? Moniker { get; set; }
+    public virtual string? Moniker { get; set; }
 
     [BooleanCommandSwitch("--product-code")]
-    public bool? ProductCode { get; set; }
+    public virtual bool? ProductCode { get; set; }
 
     [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
+    public virtual bool? Version { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [BooleanCommandSwitch("--exact")]
-    public bool? Exact { get; set; }
+    public virtual bool? Exact { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--silent")]
-    public bool? Silent { get; set; } = true;
+    public virtual bool? Silent { get; set; } = true;
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--purge")]
-    public bool? Purge { get; set; }
+    public virtual bool? Purge { get; set; }
 
     [BooleanCommandSwitch("--preserve")]
-    public bool? Preserve { get; set; }
+    public virtual bool? Preserve { get; set; }
 
     [CommandSwitch("--log")]
-    public string? Log { get; set; }
+    public virtual string? Log { get; set; }
 
     [CommandSwitch("--header")]
-    public string? Header { get; set; }
+    public virtual string? Header { get; set; }
 
     [CommandSwitch("--accept-source-agreements")]
-    public string? AcceptSourceAgreements { get; set; }
+    public virtual string? AcceptSourceAgreements { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

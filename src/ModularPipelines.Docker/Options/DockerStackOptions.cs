@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerStackOptions : DockerOptions
 {
     [CommandSwitch("--orchestrator")]
-    public string? Orchestrator { get; set; }
+    public virtual string? Orchestrator { get; set; }
 }

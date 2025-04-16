@@ -11,20 +11,20 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     public string? Source { get; set; }
 
     [CommandSwitch("--annotation")]
-    public string? Annotation { get; set; }
+    public virtual string? Annotation { get; set; }
 
     [CommandSwitch("--append")]
-    public string? Append { get; set; }
+    public virtual string? Append { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [CommandSwitch("--file")]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 }

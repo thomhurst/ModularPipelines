@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesReplaceOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
     public string? Cascade { get; set; }
@@ -23,7 +23,7 @@ public record KubernetesReplaceOptions : KubernetesOptions
     public string[]? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
     public int? GracePeriod { get; set; }
@@ -38,13 +38,13 @@ public record KubernetesReplaceOptions : KubernetesOptions
     public string? Raw { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
-    public bool? SaveConfig { get; set; }
+    public virtual bool? SaveConfig { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
@@ -53,8 +53,8 @@ public record KubernetesReplaceOptions : KubernetesOptions
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--validate")]
-    public bool? Validate { get; set; }
+    public virtual bool? Validate { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 }

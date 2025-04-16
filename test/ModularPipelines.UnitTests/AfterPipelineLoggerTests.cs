@@ -19,7 +19,7 @@ public class AfterPipelineLoggerTests
             return null;
         }
     }
-    
+
     private class AfterPipelineLoggingWithExceptionModule : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class AfterPipelineLoggerTests
             throw new Exception();
         }
     }
-    
+
     [Test]
     public async Task LogsAfterPipeline()
     {
@@ -46,10 +46,10 @@ public class AfterPipelineLoggerTests
         await host.ExecutePipelineAsync();
 
         await host.DisposeAsync();
-        
+
         await Assert.That(stringBuilder.ToString().Trim()).EndsWith("Blah!");
     }
-    
+
     [Test]
     public async Task LogsAfterPipelineWithException()
     {
@@ -73,7 +73,7 @@ public class AfterPipelineLoggerTests
         }
 
         await host.DisposeAsync();
-        
+
         await Assert.That(stringBuilder.ToString().Trim()).EndsWith("Blah!");
     }
 }

@@ -19,8 +19,8 @@ public record DockerSwarmJoinTokenOptions : DockerOptions
     public string? WorkerOrManager { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--rotate")]
-    public string? Rotate { get; set; }
+    public virtual string? Rotate { get; set; }
 }

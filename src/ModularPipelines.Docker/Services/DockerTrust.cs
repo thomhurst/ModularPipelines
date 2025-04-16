@@ -25,27 +25,27 @@ public class DockerTrust
 
     public DockerTrustKey TrustKey { get; }
 
-    public async Task<CommandResult> Inspect(DockerTrustInspectOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Inspect(DockerTrustInspectOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustInspectOptions(), token);
     }
 
-    public async Task<CommandResult> Key(DockerTrustKeyOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Key(DockerTrustKeyOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustKeyOptions(), token);
     }
 
-    public async Task<CommandResult> Revoke(DockerTrustRevokeOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Revoke(DockerTrustRevokeOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Sign(DockerTrustSignOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Sign(DockerTrustSignOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustSignOptions(), token);
     }
 
-    public async Task<CommandResult> Signer(DockerTrustSignerOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Signer(DockerTrustSignerOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustSignerOptions(), token);
     }

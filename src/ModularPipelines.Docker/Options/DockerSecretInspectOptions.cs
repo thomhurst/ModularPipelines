@@ -19,8 +19,8 @@ public record DockerSecretInspectOptions : DockerOptions
     public IEnumerable<string>? Secret { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--pretty")]
-    public string? Pretty { get; set; }
+    public virtual string? Pretty { get; set; }
 }

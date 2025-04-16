@@ -11,5 +11,5 @@ public record DockerScoutOptions : DockerOptions
     public string? Command { get; set; }
 
     [CommandSwitch("--verbose-debug")]
-    public string? VerboseDebug { get; set; }
+    public virtual string? VerboseDebug { get; set; }
 }

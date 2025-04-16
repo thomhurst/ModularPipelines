@@ -8,5 +8,5 @@ namespace ModularPipelines.Chocolatey.Options;
 public record FeatureEnableOptions : ChocoOptions
 {
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 }

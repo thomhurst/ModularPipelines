@@ -61,7 +61,7 @@ public class Folder : IEquatable<Folder>
             {
                 return this;
             }
-            
+
             return DirectoryInfo.Root;
         }
     }
@@ -75,7 +75,7 @@ public class Folder : IEquatable<Folder>
     public Folder Create()
     {
         ModuleLogger.Current.LogInformation("Creating Folder: {Path}", this);
-        
+
         Directory.CreateDirectory(Path);
         return this;
     }
@@ -83,14 +83,14 @@ public class Folder : IEquatable<Folder>
     public void Delete()
     {
         ModuleLogger.Current.LogInformation("Deleting Folder: {Path}", this);
-        
+
         DirectoryInfo.Delete(true);
     }
 
     public void Clean()
     {
         ModuleLogger.Current.LogInformation("Cleaning Folder: {Path}", this);
-        
+
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             directory.Delete(true);
@@ -115,7 +115,7 @@ public class Folder : IEquatable<Folder>
         {
             System.IO.File.Copy(newPath, newPath.Replace(this, targetPath), true);
         }
-        
+
         ModuleLogger.Current.LogInformation("Copying Folder: {Source} > {Destination}", this, targetPath);
 
         return new Folder(targetPath);
@@ -132,27 +132,27 @@ public class Folder : IEquatable<Folder>
     public Folder GetFolder(string name)
     {
         var directoryInfo = new DirectoryInfo(System.IO.Path.Combine(Path, name));
-        
+
         ModuleLogger.Current.LogInformation("Getting Folder: {Path}", directoryInfo.FullName);
-        
+
         return directoryInfo;
     }
 
     public Folder CreateFolder(string name)
     {
         var folder = GetFolder(name).Create();
-        
+
         ModuleLogger.Current.LogInformation("Creating Folder: {Path}", folder);
-        
+
         return folder;
     }
 
     public File GetFile(string name)
     {
         var fileInfo = new FileInfo(System.IO.Path.Combine(Path, name));
-        
+
         ModuleLogger.Current.LogInformation("Getting File: {Path}", fileInfo.FullName);
-        
+
         return fileInfo;
     }
 
@@ -178,7 +178,7 @@ public class Folder : IEquatable<Folder>
     public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
         ModuleLogger.Current.LogInformation("Searching Files in: {Path} > {Expression}", this, predicateExpression);
-        
+
         return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
             .Select(x => new File(x))
             .Distinct()
@@ -223,9 +223,9 @@ public class Folder : IEquatable<Folder>
     {
         var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
         Directory.CreateDirectory(tempDirectory);
-        
+
         ModuleLogger.Current.LogInformation("Creating Temporary Folder: {Path}", tempDirectory);
-        
+
         return tempDirectory!;
     }
 

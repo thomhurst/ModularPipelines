@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--create-annotation")]
-    public bool? CreateAnnotation { get; set; }
+    public virtual bool? CreateAnnotation { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
@@ -23,7 +23,7 @@ public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

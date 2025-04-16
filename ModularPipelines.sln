@@ -54,6 +54,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.WinGet", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.TestHelpers", "test\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj", "{5C0A5600-4CFF-49C1-8E20-40C28F870C28}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{22EEBEC3-F653-4054-A282-3C7F818186CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Development.Analyzers", "src\ModularPipelines.Development.Analyzers\ModularPipelines.Development.Analyzers.csproj", "{B5D34368-1061-4621-ABC0-27677BF3FB1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +156,10 @@ Global
 		{5C0A5600-4CFF-49C1-8E20-40C28F870C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C0A5600-4CFF-49C1-8E20-40C28F870C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C0A5600-4CFF-49C1-8E20-40C28F870C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5D34368-1061-4621-ABC0-27677BF3FB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5D34368-1061-4621-ABC0-27677BF3FB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5D34368-1061-4621-ABC0-27677BF3FB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5D34368-1061-4621-ABC0-27677BF3FB1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +188,7 @@ Global
 		{4F9D2311-5B31-4A4C-BA8F-7A21B3E36C66} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{AA41FF20-E41B-4219-A0CE-55007105C2D2} = {87E9D101-2B57-4D04-9488-CF8E720AF379}
 		{5C0A5600-4CFF-49C1-8E20-40C28F870C28} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
+		{B5D34368-1061-4621-ABC0-27677BF3FB1B} = {22EEBEC3-F653-4054-A282-3C7F818186CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}

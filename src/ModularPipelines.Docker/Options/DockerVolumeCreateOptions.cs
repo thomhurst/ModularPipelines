@@ -11,44 +11,44 @@ public record DockerVolumeCreateOptions : DockerOptions
     public string? Volume { get; set; }
 
     [CommandSwitch("--availability")]
-    public string? Availability { get; set; }
+    public virtual string? Availability { get; set; }
 
     [CommandSwitch("--driver")]
-    public string? Driver { get; set; }
+    public virtual string? Driver { get; set; }
 
     [CommandSwitch("--group")]
-    public string? Group { get; set; }
+    public virtual string? Group { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--limit-bytes")]
-    public string? LimitBytes { get; set; }
+    public virtual string? LimitBytes { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--opt")]
-    public string? Opt { get; set; }
+    public virtual string? Opt { get; set; }
 
     [CommandSwitch("--required-bytes")]
-    public string? RequiredBytes { get; set; }
+    public virtual string? RequiredBytes { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [CommandSwitch("--secret")]
-    public string? Secret { get; set; }
+    public virtual string? Secret { get; set; }
 
     [CommandSwitch("--sharing")]
-    public string? Sharing { get; set; }
+    public virtual string? Sharing { get; set; }
 
     [CommandSwitch("--topology-preferred")]
-    public string? TopologyPreferred { get; set; }
+    public virtual string? TopologyPreferred { get; set; }
 
     [CommandSwitch("--topology-required")]
-    public string? TopologyRequired { get; set; }
+    public virtual string? TopologyRequired { get; set; }
 
     [CommandSwitch("--type")]
-    public string? Type { get; set; }
+    public virtual string? Type { get; set; }
 }

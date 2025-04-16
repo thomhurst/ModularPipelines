@@ -17,22 +17,22 @@ public class DockerSystem
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Info(DockerSystemInfoOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Info(DockerSystemInfoOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemInfoOptions(), token);
     }
 
-    public async Task<CommandResult> Df(DockerSystemDfOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Df(DockerSystemDfOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemDfOptions(), token);
     }
 
-    public async Task<CommandResult> Events(DockerSystemEventsOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Events(DockerSystemEventsOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemEventsOptions(), token);
     }
 
-    public async Task<CommandResult> Prune(DockerSystemPruneOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Prune(DockerSystemPruneOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemPruneOptions(), token);
     }

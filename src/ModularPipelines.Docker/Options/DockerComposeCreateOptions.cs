@@ -11,23 +11,23 @@ public record DockerComposeCreateOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--build")]
-    public bool? Build { get; set; }
+    public virtual bool? Build { get; set; }
 
     [BooleanCommandSwitch("--force-recreate")]
-    public bool? ForceRecreate { get; set; }
+    public virtual bool? ForceRecreate { get; set; }
 
     [BooleanCommandSwitch("--no-build")]
-    public bool? NoBuild { get; set; }
+    public virtual bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--no-recreate")]
-    public bool? NoRecreate { get; set; }
+    public virtual bool? NoRecreate { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--remove-orphans")]
-    public bool? RemoveOrphans { get; set; }
+    public virtual bool? RemoveOrphans { get; set; }
 
     [CommandSwitch("--scale")]
-    public string? Scale { get; set; }
+    public virtual string? Scale { get; set; }
 }

@@ -58,7 +58,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
             .ExecutePipelineAsync();
 
         var results = await resultsTask;
-        
+
         var one = results.Modules.OfType<Module1>().First();
         var two = results.Modules.OfType<Module2>().First();
         var three = results.Modules.OfType<Module3>().First();
@@ -75,7 +75,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         var modules = new[] { one, two };
         var firstModule = modules.OrderBy(x => x.StartTime).First();
         var secondModule = modules.OrderBy(x => x.StartTime).Last();
-        
+
         await Assert.That(secondModule.StartTime)
             .IsGreaterThan(firstModule.StartTime + TimeSpan.FromSeconds(1));
     }

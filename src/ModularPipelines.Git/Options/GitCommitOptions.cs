@@ -8,10 +8,10 @@ namespace ModularPipelines.Git.Options;
 public record GitCommitOptions : GitOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--patch")]
-    public bool? Patch { get; set; }
+    public virtual bool? Patch { get; set; }
 
     [CommandEqualsSeparatorSwitch("--reuse-message")]
     public string? ReuseMessage { get; set; }
@@ -26,22 +26,22 @@ public record GitCommitOptions : GitOptions
     public string? Squash { get; set; }
 
     [BooleanCommandSwitch("--reset-author")]
-    public bool? ResetAuthor { get; set; }
+    public virtual bool? ResetAuthor { get; set; }
 
     [BooleanCommandSwitch("--short")]
-    public bool? Short { get; set; }
+    public virtual bool? Short { get; set; }
 
     [BooleanCommandSwitch("--branch")]
-    public bool? Branch { get; set; }
+    public virtual bool? Branch { get; set; }
 
     [BooleanCommandSwitch("--porcelain")]
-    public bool? Porcelain { get; set; }
+    public virtual bool? Porcelain { get; set; }
 
     [BooleanCommandSwitch("--long")]
-    public bool? Long { get; set; }
+    public virtual bool? Long { get; set; }
 
     [BooleanCommandSwitch("--null")]
-    public bool? Null { get; set; }
+    public virtual bool? Null { get; set; }
 
     [CommandEqualsSeparatorSwitch("--file")]
     public string? File { get; set; }
@@ -59,74 +59,74 @@ public record GitCommitOptions : GitOptions
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--signoff")]
-    public bool? Signoff { get; set; }
+    public virtual bool? Signoff { get; set; }
 
     [BooleanCommandSwitch("--no-signoff")]
-    public bool? NoSignoff { get; set; }
+    public virtual bool? NoSignoff { get; set; }
 
     [CommandEqualsSeparatorSwitch("--trailer")]
     public string? Trailer { get; set; }
 
     [BooleanCommandSwitch("--no-verify")]
-    public bool? NoVerify { get; set; }
+    public virtual bool? NoVerify { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [BooleanCommandSwitch("--allow-empty")]
-    public bool? AllowEmpty { get; set; }
+    public virtual bool? AllowEmpty { get; set; }
 
     [BooleanCommandSwitch("--allow-empty-message")]
-    public bool? AllowEmptyMessage { get; set; }
+    public virtual bool? AllowEmptyMessage { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
     [BooleanCommandSwitch("--edit")]
-    public bool? Edit { get; set; }
+    public virtual bool? Edit { get; set; }
 
     [BooleanCommandSwitch("--no-edit")]
-    public bool? NoEdit { get; set; }
+    public virtual bool? NoEdit { get; set; }
 
     [BooleanCommandSwitch("--amend")]
-    public bool? Amend { get; set; }
+    public virtual bool? Amend { get; set; }
 
     [BooleanCommandSwitch("--no-post-rewrite")]
-    public bool? NoPostRewrite { get; set; }
+    public virtual bool? NoPostRewrite { get; set; }
 
     [BooleanCommandSwitch("--include")]
-    public bool? Include { get; set; }
+    public virtual bool? Include { get; set; }
 
     [BooleanCommandSwitch("--only")]
-    public bool? Only { get; set; }
+    public virtual bool? Only { get; set; }
 
     [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
     public string? PathspecFromFile { get; set; }
 
     [BooleanCommandSwitch("--pathspec-file-nul")]
-    public bool? PathspecFileNul { get; set; }
+    public virtual bool? PathspecFileNul { get; set; }
 
     [CommandEqualsSeparatorSwitch("--untracked-files")]
     public string? UntrackedFiles { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--status")]
-    public bool? Status { get; set; }
+    public virtual bool? Status { get; set; }
 
     [BooleanCommandSwitch("--no-status")]
-    public bool? NoStatus { get; set; }
+    public virtual bool? NoStatus { get; set; }
 
     [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
     [BooleanCommandSwitch("--no-gpg-sign")]
-    public bool? NoGpgSign { get; set; }
+    public virtual bool? NoGpgSign { get; set; }
 }

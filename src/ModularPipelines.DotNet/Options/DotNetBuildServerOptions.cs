@@ -8,11 +8,11 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetBuildServerOptions : DotNetOptions
 {
     [BooleanCommandSwitch("--msbuild")]
-    public bool? Msbuild { get; set; }
+    public virtual bool? Msbuild { get; set; }
 
     [BooleanCommandSwitch("--razor")]
-    public bool? Razor { get; set; }
+    public virtual bool? Razor { get; set; }
 
     [BooleanCommandSwitch("--vbcscompiler")]
-    public bool? Vbcscompiler { get; set; }
+    public virtual bool? Vbcscompiler { get; set; }
 }

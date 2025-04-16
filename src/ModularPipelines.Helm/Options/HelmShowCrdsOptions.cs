@@ -14,10 +14,10 @@ public record HelmShowCrdsOptions : HelmOptions
     public string? CertFile { get; set; }
 
     [BooleanCommandSwitch("--devel")]
-    public bool? Devel { get; set; }
+    public virtual bool? Devel { get; set; }
 
     [BooleanCommandSwitch("--insecure-skip-tls-verify")]
-    public bool? InsecureSkipTlsVerify { get; set; }
+    public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }
@@ -26,7 +26,7 @@ public record HelmShowCrdsOptions : HelmOptions
     public string? Keyring { get; set; }
 
     [BooleanCommandSwitch("--pass-credentials")]
-    public bool? PassCredentials { get; set; }
+    public virtual bool? PassCredentials { get; set; }
 
     [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
     public string? Password { get; set; }
@@ -38,7 +38,7 @@ public record HelmShowCrdsOptions : HelmOptions
     public string? Username { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }

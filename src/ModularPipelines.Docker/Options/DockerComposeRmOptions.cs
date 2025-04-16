@@ -11,14 +11,14 @@ public record DockerComposeRmOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandSwitch("--stop")]
-    public string? Stop { get; set; }
+    public virtual string? Stop { get; set; }
 
     [CommandSwitch("--volumes")]
-    public string? Volumes { get; set; }
+    public virtual string? Volumes { get; set; }
 }

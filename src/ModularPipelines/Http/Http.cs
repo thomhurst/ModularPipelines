@@ -38,7 +38,7 @@ internal class Http : IHttp, IDisposable
         {
             return response;
         }
-        
+
         return response.EnsureSuccessStatusCode();
     }
 
@@ -124,7 +124,7 @@ internal class Http : IHttp, IDisposable
         {
             await HttpLogger.PrintResponse(response, logger);
         }
-        
+
         if (!httpOptions.ThrowOnNonSuccessStatusCode)
         {
             return response;

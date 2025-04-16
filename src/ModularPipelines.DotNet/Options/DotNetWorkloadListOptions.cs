@@ -8,5 +8,5 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetWorkloadListOptions : DotNetOptions
 {
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

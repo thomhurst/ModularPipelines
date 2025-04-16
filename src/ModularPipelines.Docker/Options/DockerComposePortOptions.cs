@@ -25,8 +25,8 @@ public record DockerComposePortOptions : DockerOptions
     public string? PrivatePort { get; set; }
 
     [CommandSwitch("--index")]
-    public string? Index { get; set; }
+    public virtual string? Index { get; set; }
 
     [CommandSwitch("--protocol")]
-    public string? Protocol { get; set; }
+    public virtual string? Protocol { get; set; }
 }

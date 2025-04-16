@@ -8,16 +8,16 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
 {
     [BooleanCommandSwitch("--as-current-user")]
-    public bool? AsCurrentUser { get; set; }
+    public virtual bool? AsCurrentUser { get; set; }
 
     [BooleanCommandSwitch("--enable-alpha-plugins")]
-    public bool? EnableAlphaPlugins { get; set; }
+    public virtual bool? EnableAlphaPlugins { get; set; }
 
     [BooleanCommandSwitch("--enable-helm")]
-    public bool? EnableHelm { get; set; }
+    public virtual bool? EnableHelm { get; set; }
 
     [BooleanCommandSwitch("--enable-managedby-label")]
-    public bool? EnableManagedbyLabel { get; set; }
+    public virtual bool? EnableManagedbyLabel { get; set; }
 
     [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
     public string[]? Env { get; set; }
@@ -32,7 +32,7 @@ public record KubernetesKustomizeOptions([property: PositionalArgument] string D
     public string[]? Mount { get; set; }
 
     [BooleanCommandSwitch("--network")]
-    public bool? Network { get; set; }
+    public virtual bool? Network { get; set; }
 
     [CommandEqualsSeparatorSwitch("--network-name", SwitchValueSeparator = " ")]
     public string? NetworkName { get; set; }

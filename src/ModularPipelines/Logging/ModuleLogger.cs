@@ -15,7 +15,7 @@ internal abstract class ModuleLogger : IModuleLogger
     protected static readonly object DisposeLock = new();
     protected static readonly object LogLock = new();
     protected Exception? _exception;
-    
+
     internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
@@ -66,7 +66,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     {
         Dispose();
     }
-    
+
     public override IDisposable? BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
@@ -85,7 +85,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
             {
                 return;
             }
-            
+
             if (state?.GetType().FullName == "Microsoft.Extensions.Logging.FormattedLogValues")
             {
                 TryObfuscateValues(state);

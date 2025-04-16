@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerTrustKeyGenerateOptions : DockerOptions
 {
     [CommandSwitch("--dir")]
-    public string? Dir { get; set; }
+    public virtual string? Dir { get; set; }
 }

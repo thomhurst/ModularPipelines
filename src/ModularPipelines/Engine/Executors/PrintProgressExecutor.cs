@@ -11,7 +11,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
     private readonly IConsolePrinter _consolePrinter;
     private readonly IModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
-    
+
     private Task? _printProgressTask;
     private CancellationTokenSource? _printProgressCancellationTokenSource;
 
@@ -25,7 +25,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _moduleRetriever = moduleRetriever;
         _logger = logger;
     }
-    
+
     public async Task<IPrintProgressExecutor> InitializeAsync()
     {
         _printProgressCancellationTokenSource =

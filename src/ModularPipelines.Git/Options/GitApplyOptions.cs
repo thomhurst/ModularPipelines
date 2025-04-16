@@ -8,52 +8,52 @@ namespace ModularPipelines.Git.Options;
 public record GitApplyOptions : GitOptions
 {
     [BooleanCommandSwitch("--stat")]
-    public bool? Stat { get; set; }
+    public virtual bool? Stat { get; set; }
 
     [BooleanCommandSwitch("--numstat")]
-    public bool? Numstat { get; set; }
+    public virtual bool? Numstat { get; set; }
 
     [BooleanCommandSwitch("--summary")]
-    public bool? Summary { get; set; }
+    public virtual bool? Summary { get; set; }
 
     [BooleanCommandSwitch("--check")]
-    public bool? Check { get; set; }
+    public virtual bool? Check { get; set; }
 
     [BooleanCommandSwitch("--index")]
-    public bool? Index { get; set; }
+    public virtual bool? Index { get; set; }
 
     [BooleanCommandSwitch("--cached")]
-    public bool? Cached { get; set; }
+    public virtual bool? Cached { get; set; }
 
     [BooleanCommandSwitch("--intent-to-add")]
-    public bool? IntentToAdd { get; set; }
+    public virtual bool? IntentToAdd { get; set; }
 
     [BooleanCommandSwitch("--3way")]
-    public bool? ThreeWay { get; set; }
+    public virtual bool? ThreeWay { get; set; }
 
     [CommandEqualsSeparatorSwitch("--build-fake-ancestor")]
     public string? BuildFakeAncestor { get; set; }
 
     [BooleanCommandSwitch("--reverse")]
-    public bool? Reverse { get; set; }
+    public virtual bool? Reverse { get; set; }
 
     [BooleanCommandSwitch("--reject")]
-    public bool? Reject { get; set; }
+    public virtual bool? Reject { get; set; }
 
     [BooleanCommandSwitch("--unidiff-zero")]
-    public bool? UnidiffZero { get; set; }
+    public virtual bool? UnidiffZero { get; set; }
 
     [BooleanCommandSwitch("--apply")]
-    public bool? Apply { get; set; }
+    public virtual bool? Apply { get; set; }
 
     [BooleanCommandSwitch("--no-add")]
-    public bool? NoAdd { get; set; }
+    public virtual bool? NoAdd { get; set; }
 
     [BooleanCommandSwitch("--allow-binary-replacement")]
-    public bool? AllowBinaryReplacement { get; set; }
+    public virtual bool? AllowBinaryReplacement { get; set; }
 
     [BooleanCommandSwitch("--binary")]
-    public bool? Binary { get; set; }
+    public virtual bool? Binary { get; set; }
 
     [CommandEqualsSeparatorSwitch("--exclude")]
     public string? Exclude { get; set; }
@@ -62,32 +62,32 @@ public record GitApplyOptions : GitOptions
     public string? Include { get; set; }
 
     [BooleanCommandSwitch("--ignore-space-change")]
-    public bool? IgnoreSpaceChange { get; set; }
+    public virtual bool? IgnoreSpaceChange { get; set; }
 
     [BooleanCommandSwitch("--ignore-whitespace")]
-    public bool? IgnoreWhitespace { get; set; }
+    public virtual bool? IgnoreWhitespace { get; set; }
 
     [CommandEqualsSeparatorSwitch("--whitespace")]
     public string? Whitespace { get; set; }
 
     [BooleanCommandSwitch("--inaccurate-eof")]
-    public bool? InaccurateEof { get; set; }
+    public virtual bool? InaccurateEof { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--recount")]
-    public bool? Recount { get; set; }
+    public virtual bool? Recount { get; set; }
 
     [CommandEqualsSeparatorSwitch("--directory")]
     public string? Directory { get; set; }
 
     [BooleanCommandSwitch("--unsafe-paths")]
-    public bool? UnsafePaths { get; set; }
+    public virtual bool? UnsafePaths { get; set; }
 
     [BooleanCommandSwitch("--allow-empty")]
-    public bool? AllowEmpty { get; set; }
+    public virtual bool? AllowEmpty { get; set; }
 }

@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesClusterInfoDumpOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]
-    public bool? AllNamespaces { get; set; }
+    public virtual bool? AllNamespaces { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--namespaces", SwitchValueSeparator = " ")]
     public string[]? Namespaces { get; set; }
@@ -26,7 +26,7 @@ public record KubernetesClusterInfoDumpOptions : KubernetesOptions
     public string? PodRunningTimeout { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

@@ -8,47 +8,47 @@ namespace ModularPipelines.Git.Options;
 public record GitCatFileOptions : GitOptions
 {
     [BooleanCommandSwitch("--no-mailmap")]
-    public bool? NoMailmap { get; set; }
+    public virtual bool? NoMailmap { get; set; }
 
     [BooleanCommandSwitch("--mailmap")]
-    public bool? Mailmap { get; set; }
+    public virtual bool? Mailmap { get; set; }
 
     [BooleanCommandSwitch("--no-use-mailmap")]
-    public bool? NoUseMailmap { get; set; }
+    public virtual bool? NoUseMailmap { get; set; }
 
     [BooleanCommandSwitch("--use-mailmap")]
-    public bool? UseMailmap { get; set; }
+    public virtual bool? UseMailmap { get; set; }
 
     [BooleanCommandSwitch("--textconv")]
-    public bool? Textconv { get; set; }
+    public virtual bool? Textconv { get; set; }
 
     [BooleanCommandSwitch("--filters")]
-    public bool? Filters { get; set; }
+    public virtual bool? Filters { get; set; }
 
     [CommandEqualsSeparatorSwitch("--path")]
     public string? Path { get; set; }
 
     [BooleanCommandSwitch("--batch")]
-    public bool? Batch { get; set; }
+    public virtual bool? Batch { get; set; }
 
     [BooleanCommandSwitch("--batch-check")]
-    public bool? BatchCheck { get; set; }
+    public virtual bool? BatchCheck { get; set; }
 
     [BooleanCommandSwitch("--batch-command")]
-    public bool? BatchCommand { get; set; }
+    public virtual bool? BatchCommand { get; set; }
 
     [BooleanCommandSwitch("--batch-all-objects")]
-    public bool? BatchAllObjects { get; set; }
+    public virtual bool? BatchAllObjects { get; set; }
 
     [BooleanCommandSwitch("--buffer")]
-    public bool? Buffer { get; set; }
+    public virtual bool? Buffer { get; set; }
 
     [BooleanCommandSwitch("--unordered")]
-    public bool? Unordered { get; set; }
+    public virtual bool? Unordered { get; set; }
 
     [BooleanCommandSwitch("--allow-unknown-type")]
-    public bool? AllowUnknownType { get; set; }
+    public virtual bool? AllowUnknownType { get; set; }
 
     [BooleanCommandSwitch("--follow-symlinks")]
-    public bool? FollowSymlinks { get; set; }
+    public virtual bool? FollowSymlinks { get; set; }
 }

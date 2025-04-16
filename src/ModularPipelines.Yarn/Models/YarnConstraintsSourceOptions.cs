@@ -8,5 +8,5 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnConstraintsSourceOptions : YarnOptions
 {
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 }

@@ -8,38 +8,38 @@ namespace ModularPipelines.Git.Options;
 public record GitHelpOptions : GitOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--no-external-commands")]
-    public bool? NoExternalCommands { get; set; }
+    public virtual bool? NoExternalCommands { get; set; }
 
     [BooleanCommandSwitch("--no-aliases")]
-    public bool? NoAliases { get; set; }
+    public virtual bool? NoAliases { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--c")]
-    public bool? C { get; set; }
+    public virtual bool? C { get; set; }
 
     [BooleanCommandSwitch("--config")]
-    public bool? Config { get; set; }
+    public virtual bool? Config { get; set; }
 
     [BooleanCommandSwitch("--guides")]
-    public bool? Guides { get; set; }
+    public virtual bool? Guides { get; set; }
 
     [BooleanCommandSwitch("--user-interfaces")]
-    public bool? UserInterfaces { get; set; }
+    public virtual bool? UserInterfaces { get; set; }
 
     [BooleanCommandSwitch("--developer-interfaces")]
-    public bool? DeveloperInterfaces { get; set; }
+    public virtual bool? DeveloperInterfaces { get; set; }
 
     [BooleanCommandSwitch("--info")]
-    public bool? Info { get; set; }
+    public virtual bool? Info { get; set; }
 
     [BooleanCommandSwitch("--man")]
-    public bool? Man { get; set; }
+    public virtual bool? Man { get; set; }
 
     [BooleanCommandSwitch("--web")]
-    public bool? Web { get; set; }
+    public virtual bool? Web { get; set; }
 }

@@ -155,7 +155,7 @@ public class CommandParserTests : TestBase
         {
             Project = "MyProject.csproj"
         });
-        
+
         await Assert.That(result.CommandInput).IsEqualTo("dotnet add MyProject.csproj");
     }
 
@@ -221,7 +221,7 @@ public class CommandParserTests : TestBase
         [CommandSwitch("--source")]
         public string? Source { get; set; }
     }
-    
+
     [CommandPrecedingArguments("add")]
     private record PlaceholderToolOptions3() : CommandLineToolOptions("dotnet")
     {

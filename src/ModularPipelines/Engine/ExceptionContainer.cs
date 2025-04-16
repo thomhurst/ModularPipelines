@@ -3,7 +3,7 @@ namespace ModularPipelines.Engine;
 internal class ExceptionContainer : IExceptionContainer
 {
     private readonly List<Exception> _exceptions = [];
-    
+
     public void RegisterException(Exception exception)
     {
         _exceptions.Add(exception);

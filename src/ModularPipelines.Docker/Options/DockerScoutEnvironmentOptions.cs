@@ -14,11 +14,11 @@ public record DockerScoutEnvironmentOptions : DockerOptions
     public string? Image { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 }

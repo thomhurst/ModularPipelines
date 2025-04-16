@@ -1,7 +1,7 @@
 namespace ModularPipelines.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class BooleanCommandSwitchAttribute : Attribute
+public class BooleanCommandSwitchAttribute : Attribute, ICommandSwitchAttribute
 {
     public BooleanCommandSwitchAttribute(string switchName)
     {

@@ -11,7 +11,7 @@ public record HelmTestOptions : HelmOptions
     public string[]? Filter { get; set; }
 
     [BooleanCommandSwitch("--logs")]
-    public bool? Logs { get; set; }
+    public virtual bool? Logs { get; set; }
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }

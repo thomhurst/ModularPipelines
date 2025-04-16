@@ -11,7 +11,7 @@ public record HelmOptions() : CommandLineToolOptions("helm")
     public int? BurstLimit { get; set; }
 
     [BooleanCommandSwitch("--debug")]
-    public bool? Debug { get; set; }
+    public virtual bool? Debug { get; set; }
 
     [CommandEqualsSeparatorSwitch("--kube-apiserver")]
     public string? KubeApiServer { get; set; }

@@ -48,17 +48,17 @@ public class FileExtensionsTests
     public async Task NotFoundMessage()
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
-        
+
         var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists("My message"));
 
         await Assert.That(exception.Message).IsEqualTo("The file does not exist - My message");
     }
-    
+
     [Test]
     public async Task NotFoundWithoutMessage()
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
-        
+
         var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists());
 
         await Assert.That(exception.Message).IsEqualTo("The file does not exist");

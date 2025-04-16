@@ -36,7 +36,7 @@ public class ModuleLoggerTests
             return await NothingAsync();
         }
     }
-    
+
     public class Module3 : Module
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ public class ModuleLoggerTests
         await Assert.That(stringOutput).Contains(RandomString);
         await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
     }
-    
+
     [Test]
     [Arguments(typeof(Module2))]
     [Arguments(typeof(Module3))]

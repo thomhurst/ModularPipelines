@@ -11,26 +11,26 @@ public record DockerComposePsOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 
     [BooleanCommandSwitch("--orphans")]
-    public bool? Orphans { get; set; }
+    public virtual bool? Orphans { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--services")]
-    public string? Services { get; set; }
+    public virtual string? Services { get; set; }
 
     [CommandSwitch("--status")]
-    public string? Status { get; set; }
+    public virtual string? Status { get; set; }
 }

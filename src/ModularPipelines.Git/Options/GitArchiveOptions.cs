@@ -11,10 +11,10 @@ public record GitArchiveOptions : GitOptions
     public string? Format { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
@@ -29,7 +29,7 @@ public record GitArchiveOptions : GitOptions
     public string? AddVirtualFile { get; set; }
 
     [BooleanCommandSwitch("--worktree-attributes")]
-    public bool? WorktreeAttributes { get; set; }
+    public virtual bool? WorktreeAttributes { get; set; }
 
     [CommandEqualsSeparatorSwitch("--mtime")]
     public string? Mtime { get; set; }

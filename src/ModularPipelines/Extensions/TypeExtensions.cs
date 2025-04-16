@@ -8,7 +8,7 @@ internal static class TypeExtensions
     {
         return type == otherType || type.IsSubclassOf(otherType);
     }
-    
+
     public static string GetRealTypeName(this Type type)
     {
         if (!type.IsGenericType)
@@ -17,12 +17,12 @@ internal static class TypeExtensions
         }
 
         var stringBuilder = new StringBuilder();
-        
+
         stringBuilder.Append(type.Name.AsSpan(0, type.Name.IndexOf('`')));
         stringBuilder.Append('<');
-        
+
         var appendComma = false;
-        
+
         foreach (var genericTypeArgument in type.GetGenericArguments())
         {
             if (appendComma)
@@ -33,9 +33,9 @@ internal static class TypeExtensions
             stringBuilder.Append(GetRealTypeName(genericTypeArgument));
             appendComma = true;
         }
-        
+
         stringBuilder.Append('>');
-        
+
         return stringBuilder.ToString();
     }
 }

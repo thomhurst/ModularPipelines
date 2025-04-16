@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnConfigOptions : YarnOptions
 {
     [BooleanCommandSwitch("--no-defaults")]
-    public bool? NoDefaults { get; set; }
+    public virtual bool? NoDefaults { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

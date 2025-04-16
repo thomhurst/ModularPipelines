@@ -8,32 +8,32 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutWatchOptions : DockerOptions
 {
     [CommandSwitch("--all-images")]
-    public string? AllImages { get; set; }
+    public virtual string? AllImages { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [CommandSwitch("--interval")]
-    public int? Interval { get; set; }
+    public virtual int? Interval { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--refresh-registry")]
-    public string? RefreshRegistry { get; set; }
+    public virtual string? RefreshRegistry { get; set; }
 
     [CommandSwitch("--registry")]
-    public string? Registry { get; set; }
+    public virtual string? Registry { get; set; }
 
     [CommandSwitch("--repository")]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [BooleanCommandSwitch("--sbom")]
-    public bool? Sbom { get; set; }
+    public virtual bool? Sbom { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 
     [CommandSwitch("--workers")]
-    public int? Workers { get; set; }
+    public virtual int? Workers { get; set; }
 }

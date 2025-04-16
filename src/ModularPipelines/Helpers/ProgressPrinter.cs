@@ -240,7 +240,7 @@ internal class ProgressPrinter : IProgressPrinter
         CancellationToken cancellationToken, ProgressTask parentModuleTask)
     {
         var lastTask = parentModuleTask;
-        
+
         moduleToProcess.Module.OnSubModuleCreated += (_, subModule) =>
         {
             var moduleName = moduleToProcess.Module.GetType().Name;

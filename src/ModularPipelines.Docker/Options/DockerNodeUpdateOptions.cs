@@ -19,14 +19,14 @@ public record DockerNodeUpdateOptions : DockerOptions
     public string? Node { get; set; }
 
     [CommandSwitch("--availability")]
-    public string? Availability { get; set; }
+    public virtual string? Availability { get; set; }
 
     [CommandSwitch("--label-add")]
-    public string? LabelAdd { get; set; }
+    public virtual string? LabelAdd { get; set; }
 
     [CommandSwitch("--label-rm")]
-    public string? LabelRm { get; set; }
+    public virtual string? LabelRm { get; set; }
 
     [CommandSwitch("--role")]
-    public string? Role { get; set; }
+    public virtual string? Role { get; set; }
 }

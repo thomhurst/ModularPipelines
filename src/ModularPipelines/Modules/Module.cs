@@ -32,21 +32,21 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             yield return AddDependency(customAttribute.Type, customAttribute.IgnoreIfNotRegistered);
         }
-        
+
         foreach (var customAttribute in GetType().GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
         {
             var types = Context.ServiceProvider.GetServices<ModuleBase>()
                 .Where(x => x.GetType().IsOrInheritsFrom(customAttribute.Type));
-            
+
             foreach (var moduleBase in types)
             {
-                yield return AddDependency(moduleBase.GetType(), false);   
+                yield return AddDependency(moduleBase.GetType(), false);
             }
         }
     }
 
     internal override IHistoryHandler<T> HistoryHandler { get; }
-    
+
     internal override ICancellationHandler CancellationHandler { get; }
 
     internal override ISkipHandler SkipHandler { get; }
@@ -99,7 +99,7 @@ public abstract partial class Module<T> : ModuleBase<T>
     internal override Task ExecutionTask => ModuleResultTaskCompletionSource.Task;
 
     internal override async Task<IModuleResult> GetModuleResult() => await this;
-    
+
     internal override async Task StartInternal()
     {
         if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
@@ -155,7 +155,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             StatusHandler.LogModuleStatus();
         }
     }
-    
+
     /// <summary>
     /// Gets the Module of type <see cref="TModule">{TModule}</see>.
     /// </summary>
@@ -291,7 +291,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             if (isRetry)
             {
                 Context.Logger.LogWarning("An error occurred. Retrying...");
-                
+
                 lock (SubModuleBasesLock)
                 {
                     foreach (var subModuleBase in SubModuleBases.Where(x => x.Status != Status.Successful))
@@ -323,7 +323,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 {
                     return;
                 }
-                
+
                 if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
                 {
                     Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
@@ -339,7 +339,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 #else
         timeoutCancellationTokenSource.Cancel();
 #endif
-        
+
         // Will throw a timeout exception if configured and timeout is reached
         await finishedTask;
 
@@ -354,9 +354,9 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 throw new ModuleTimeoutException(this);
             }
-            
+
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-            
+
             await Task.Delay(TimeSpan.FromMilliseconds(500));
         }
     }

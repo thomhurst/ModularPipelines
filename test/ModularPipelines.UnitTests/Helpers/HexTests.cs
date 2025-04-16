@@ -22,7 +22,7 @@ public class HexTests : TestBase
         var module = await RunModule<ToHexModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -55,7 +55,7 @@ public class HexTests : TestBase
         var module = await RunModule<FromHexModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);

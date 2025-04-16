@@ -8,25 +8,25 @@ namespace ModularPipelines.Git.Options;
 public record GitBlameOptions : GitOptions
 {
     [BooleanCommandSwitch("--root")]
-    public bool? Root { get; set; }
+    public virtual bool? Root { get; set; }
 
     [BooleanCommandSwitch("--show-stats")]
-    public bool? ShowStats { get; set; }
+    public virtual bool? ShowStats { get; set; }
 
     [CommandEqualsSeparatorSwitch("--reverse")]
     public string? Reverse { get; set; }
 
     [BooleanCommandSwitch("--first-parent")]
-    public bool? FirstParent { get; set; }
+    public virtual bool? FirstParent { get; set; }
 
     [BooleanCommandSwitch("--porcelain")]
-    public bool? Porcelain { get; set; }
+    public virtual bool? Porcelain { get; set; }
 
     [BooleanCommandSwitch("--line-porcelain")]
-    public bool? LinePorcelain { get; set; }
+    public virtual bool? LinePorcelain { get; set; }
 
     [BooleanCommandSwitch("--incremental")]
-    public bool? Incremental { get; set; }
+    public virtual bool? Incremental { get; set; }
 
     [CommandEqualsSeparatorSwitch("--encoding")]
     public string? Encoding { get; set; }
@@ -38,10 +38,10 @@ public record GitBlameOptions : GitOptions
     public string? Date { get; set; }
 
     [BooleanCommandSwitch("--no-progress")]
-    public bool? NoProgress { get; set; }
+    public virtual bool? NoProgress { get; set; }
 
     [BooleanCommandSwitch("--progress")]
-    public bool? Progress { get; set; }
+    public virtual bool? Progress { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ignore-rev")]
     public string? IgnoreRev { get; set; }
@@ -50,25 +50,25 @@ public record GitBlameOptions : GitOptions
     public string? IgnoreRevsFile { get; set; }
 
     [BooleanCommandSwitch("--color-lines")]
-    public bool? ColorLines { get; set; }
+    public virtual bool? ColorLines { get; set; }
 
     [BooleanCommandSwitch("--color-by-age")]
-    public bool? ColorByAge { get; set; }
+    public virtual bool? ColorByAge { get; set; }
 
     [BooleanCommandSwitch("--c")]
-    public bool? C { get; set; }
+    public virtual bool? C { get; set; }
 
     [BooleanCommandSwitch("--score-debug")]
-    public bool? ScoreDebug { get; set; }
+    public virtual bool? ScoreDebug { get; set; }
 
     [BooleanCommandSwitch("--show-name")]
-    public bool? ShowName { get; set; }
+    public virtual bool? ShowName { get; set; }
 
     [BooleanCommandSwitch("--show-number")]
-    public bool? ShowNumber { get; set; }
+    public virtual bool? ShowNumber { get; set; }
 
     [BooleanCommandSwitch("--show-email")]
-    public bool? ShowEmail { get; set; }
+    public virtual bool? ShowEmail { get; set; }
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }

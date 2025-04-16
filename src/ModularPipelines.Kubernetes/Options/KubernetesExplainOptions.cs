@@ -11,5 +11,5 @@ public record KubernetesExplainOptions([property: PositionalArgument] string Res
     public string? ApiVersion { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 }

@@ -11,74 +11,74 @@ public record DockerComposeUpOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--abort-on-container-exit")]
-    public bool? AbortOnContainerExit { get; set; }
+    public virtual bool? AbortOnContainerExit { get; set; }
 
     [BooleanCommandSwitch("--always-recreate-deps")]
-    public bool? AlwaysRecreateDeps { get; set; }
+    public virtual bool? AlwaysRecreateDeps { get; set; }
 
     [BooleanCommandSwitch("--attach")]
-    public bool? Attach { get; set; }
+    public virtual bool? Attach { get; set; }
 
     [CommandSwitch("--attach-dependencies")]
-    public string? AttachDependencies { get; set; }
+    public virtual string? AttachDependencies { get; set; }
 
     [BooleanCommandSwitch("--build")]
-    public bool? Build { get; set; }
+    public virtual bool? Build { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--exit-code-from")]
-    public string? ExitCodeFrom { get; set; }
+    public virtual string? ExitCodeFrom { get; set; }
 
     [BooleanCommandSwitch("--force-recreate")]
-    public bool? ForceRecreate { get; set; }
+    public virtual bool? ForceRecreate { get; set; }
 
     [CommandSwitch("--no-attach")]
-    public string? NoAttach { get; set; }
+    public virtual string? NoAttach { get; set; }
 
     [BooleanCommandSwitch("--no-build")]
-    public bool? NoBuild { get; set; }
+    public virtual bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [BooleanCommandSwitch("--no-deps")]
-    public bool? NoDeps { get; set; }
+    public virtual bool? NoDeps { get; set; }
 
     [CommandSwitch("--no-log-prefix")]
-    public string? NoLogPrefix { get; set; }
+    public virtual string? NoLogPrefix { get; set; }
 
     [BooleanCommandSwitch("--no-recreate")]
-    public bool? NoRecreate { get; set; }
+    public virtual bool? NoRecreate { get; set; }
 
     [BooleanCommandSwitch("--no-start")]
-    public bool? NoStart { get; set; }
+    public virtual bool? NoStart { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--quiet-pull")]
-    public bool? QuietPull { get; set; }
+    public virtual bool? QuietPull { get; set; }
 
     [BooleanCommandSwitch("--remove-orphans")]
-    public bool? RemoveOrphans { get; set; }
+    public virtual bool? RemoveOrphans { get; set; }
 
     [BooleanCommandSwitch("--renew-anon-volumes")]
-    public bool? RenewAnonVolumes { get; set; }
+    public virtual bool? RenewAnonVolumes { get; set; }
 
     [CommandSwitch("--scale")]
-    public string? Scale { get; set; }
+    public virtual string? Scale { get; set; }
 
     [CommandSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
-    public bool? Timestamps { get; set; }
+    public virtual bool? Timestamps { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [CommandSwitch("--wait-timeout")]
-    public string? WaitTimeout { get; set; }
+    public virtual string? WaitTimeout { get; set; }
 }

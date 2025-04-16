@@ -11,5 +11,5 @@ public record DockerBuildxInspectOptions : DockerOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--bootstrap")]
-    public string? Bootstrap { get; set; }
+    public virtual string? Bootstrap { get; set; }
 }

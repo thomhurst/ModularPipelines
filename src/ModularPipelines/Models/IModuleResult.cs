@@ -23,7 +23,7 @@ public interface IModuleResult
     /// Gets when the module ended.
     /// </summary>
     public DateTimeOffset ModuleEnd { get; }
-    
+
     /// <summary>
     /// Gets the exception that occurred in the module, if one was thrown.
     /// </summary>
@@ -38,7 +38,7 @@ public interface IModuleResult
     /// Gets the type of result that is held.
     /// </summary>
     public ModuleResultType ModuleResultType { get; }
-    
+
     /// <summary>
     /// Gets the status of the module.
     /// </summary>

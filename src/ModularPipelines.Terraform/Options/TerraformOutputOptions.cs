@@ -11,14 +11,14 @@ public record TerraformOutputOptions : TerraformOptions
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("-json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("-raw")]
-    public bool? Raw { get; set; }
+    public virtual bool? Raw { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [CommandSwitch("-state")]
-    public string? State { get; set; }
+    public virtual string? State { get; set; }
 }

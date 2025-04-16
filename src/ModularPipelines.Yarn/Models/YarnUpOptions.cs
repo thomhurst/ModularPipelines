@@ -8,23 +8,23 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnUpOptions : YarnOptions
 {
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--fixed")]
-    public bool? Fixed { get; set; }
+    public virtual bool? Fixed { get; set; }
 
     [BooleanCommandSwitch("--exact")]
-    public bool? Exact { get; set; }
+    public virtual bool? Exact { get; set; }
 
     [BooleanCommandSwitch("--tilde")]
-    public bool? Tilde { get; set; }
+    public virtual bool? Tilde { get; set; }
 
     [BooleanCommandSwitch("--caret")]
-    public bool? Caret { get; set; }
+    public virtual bool? Caret { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandSwitch("--mode")]
-    public string? Mode { get; set; }
+    public virtual string? Mode { get; set; }
 }

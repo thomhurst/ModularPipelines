@@ -14,13 +14,13 @@ public record GitDescribeOptions : GitOptions
     public string? Broken { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--tags")]
-    public bool? Tags { get; set; }
+    public virtual bool? Tags { get; set; }
 
     [BooleanCommandSwitch("--contains")]
-    public bool? Contains { get; set; }
+    public virtual bool? Contains { get; set; }
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
@@ -29,13 +29,13 @@ public record GitDescribeOptions : GitOptions
     public string? Candidates { get; set; }
 
     [BooleanCommandSwitch("--exact-match")]
-    public bool? ExactMatch { get; set; }
+    public virtual bool? ExactMatch { get; set; }
 
     [BooleanCommandSwitch("--debug")]
-    public bool? Debug { get; set; }
+    public virtual bool? Debug { get; set; }
 
     [BooleanCommandSwitch("--long")]
-    public bool? Long { get; set; }
+    public virtual bool? Long { get; set; }
 
     [CommandEqualsSeparatorSwitch("--match")]
     public string? Match { get; set; }
@@ -44,8 +44,8 @@ public record GitDescribeOptions : GitOptions
     public string? Exclude { get; set; }
 
     [BooleanCommandSwitch("--always")]
-    public bool? Always { get; set; }
+    public virtual bool? Always { get; set; }
 
     [BooleanCommandSwitch("--first-parent")]
-    public bool? FirstParent { get; set; }
+    public virtual bool? FirstParent { get; set; }
 }

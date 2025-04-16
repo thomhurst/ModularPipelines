@@ -8,44 +8,44 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformApplyOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-auto-approve")]
-    public bool? AutoApprove { get; set; }
+    public virtual bool? AutoApprove { get; set; }
 
     [BooleanCommandSwitch("-destroy")]
-    public bool? Destroy { get; set; }
+    public virtual bool? Destroy { get; set; }
 
     [BooleanCommandSwitch("-refresh-only")]
-    public bool? RefreshOnly { get; set; }
+    public virtual bool? RefreshOnly { get; set; }
 
     [BooleanCommandSwitch("-compact-warnings")]
-    public bool? CompactWarnings { get; set; }
+    public virtual bool? CompactWarnings { get; set; }
 
     [BooleanCommandSwitch("-input")]
-    public bool? Input { get; set; }
+    public virtual bool? Input { get; set; }
 
     [BooleanCommandSwitch("-json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("-lock")]
-    public bool? Lock { get; set; }
+    public virtual bool? Lock { get; set; }
 
     [CommandSwitch("-lock-timeout")]
-    public string? LockTimeout { get; set; }
+    public virtual string? LockTimeout { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [CommandSwitch("-parallelism")]
-    public int? Parallelism { get; set; }
+    public virtual int? Parallelism { get; set; }
 
     [BooleanCommandSwitch("-state")]
-    public bool? State { get; set; }
+    public virtual bool? State { get; set; }
 
     [BooleanCommandSwitch("-state-out")]
-    public bool? StateOut { get; set; }
+    public virtual bool? StateOut { get; set; }
 
     [BooleanCommandSwitch("-backup")]
-    public bool? Backup { get; set; }
+    public virtual bool? Backup { get; set; }
 
     [BooleanCommandSwitch("-chdir")]
-    public bool? Chdir { get; set; }
+    public virtual bool? Chdir { get; set; }
 }

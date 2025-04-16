@@ -40,7 +40,7 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
     public string? ApiUrl { get; } = Get("API_URL");
 
     public string? GraphQlUrl { get; } = Get("GRAPHQL_URL");
-    
+
     public string? RefName { get; } = Get("REF_NAME");
 
     public string? RefType { get; } = Get("REF_TYPE");
@@ -48,7 +48,7 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
     public string? Token { get; } = Get("TOKEN");
 
     public string? Job { get; } = Get("JOB");
-    
+
     public string? State { get; } = Get("STATE");
 
     public string? ActorId { get; } = Get("ACTOR_ID");
@@ -66,10 +66,10 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
     public string? RunAttempt { get; } = Get("RUN_ATTEMPT");
 
     public string? TriggeringActor { get; } = Get("TRIGGERING_ACTOR");
-    
+
     public string? WorkflowSha { get; } = Get("WORKFLOW_SHA");
 
     public string? WorkflowRef { get; } = Get("WORKFLOW_REF");
-    
+
     private static string Get(string name) => Environment.GetEnvironmentVariable($"GITHUB_{name}")!;
 }

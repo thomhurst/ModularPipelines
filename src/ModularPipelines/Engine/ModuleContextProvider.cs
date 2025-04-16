@@ -17,9 +17,9 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer
     public IPipelineContext GetModuleContext()
     {
         var serviceScope = _serviceProvider.CreateAsyncScope();
-        
+
         _scopes.Add(serviceScope);
-        
+
         return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
     }
 

@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerInitOptions : DockerOptions
 {
     [CommandSwitch("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

@@ -8,7 +8,7 @@ public class BooleanExtensionTests
     public async Task True()
     {
         var trueSkipDecision = true.AsSkipDecisionIfTrue("My reason");
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(trueSkipDecision.ShouldSkip).IsTrue();

@@ -19,17 +19,17 @@ public record DockerContainerStartOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [BooleanCommandSwitch("--attach")]
-    public bool? Attach { get; set; }
+    public virtual bool? Attach { get; set; }
 
     [CommandSwitch("--checkpoint")]
-    public string? Checkpoint { get; set; }
+    public virtual string? Checkpoint { get; set; }
 
     [CommandSwitch("--checkpoint-dir")]
-    public string? CheckpointDir { get; set; }
+    public virtual string? CheckpointDir { get; set; }
 
     [CommandSwitch("--detach-keys")]
-    public string? DetachKeys { get; set; }
+    public virtual string? DetachKeys { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 }

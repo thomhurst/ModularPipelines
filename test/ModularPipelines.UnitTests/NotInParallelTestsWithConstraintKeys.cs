@@ -73,7 +73,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         var modules = new[] { one, two };
         var firstModule = modules.OrderBy(x => x.StartTime).First();
         var secondModule = modules.OrderBy(x => x.StartTime).Last();
-        
+
         await Assert.That(secondModule.StartTime)
             .IsGreaterThanOrEqualTo(firstModule.EndTime);
     }

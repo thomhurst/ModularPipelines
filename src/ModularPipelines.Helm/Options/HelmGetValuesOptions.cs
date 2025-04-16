@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmGetValuesOptions : HelmOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }

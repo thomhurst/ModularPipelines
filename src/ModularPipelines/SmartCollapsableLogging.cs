@@ -18,9 +18,9 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         get
         {
             var scope = _serviceProvider.CreateScope();
-            
+
             _scopes.Add(scope);
-            
+
             return scope
                 .ServiceProvider
                 .GetRequiredService<IModuleLoggerProvider>()

@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxOptions : DockerOptions
 {
     [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
+    public virtual string? Builder { get; set; }
 }

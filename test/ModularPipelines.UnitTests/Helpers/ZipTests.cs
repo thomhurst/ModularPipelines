@@ -36,7 +36,7 @@ public class ZipTests : TestBase
         var module = await RunModule<ZipModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -51,7 +51,7 @@ public class ZipTests : TestBase
         await RunModule<ZipModule>();
 
         var expectedFile = new FileInfo(Path.Combine(TestContext.WorkingDirectory, "LoremData.zip"));
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(expectedFile.Exists).IsTrue();
@@ -82,7 +82,7 @@ public class ZipTests : TestBase
         var module = await RunModule<UnZipModule>();
 
         var moduleResult = await module;
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
@@ -97,7 +97,7 @@ public class ZipTests : TestBase
         await RunModule<UnZipModule>();
 
         var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped"));
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(expectedFolder.Exists).IsTrue();

@@ -17,7 +17,7 @@ public class DotNetSdk
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Check(DotNetSdkCheckOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Check(DotNetSdkCheckOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetSdkCheckOptions(), token);
     }

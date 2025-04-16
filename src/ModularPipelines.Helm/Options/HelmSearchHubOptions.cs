@@ -11,7 +11,7 @@ public record HelmSearchHubOptions : HelmOptions
     public string? Endpoint { get; set; }
 
     [BooleanCommandSwitch("--list-repo-url")]
-    public bool? ListRepoUrl { get; set; }
+    public virtual bool? ListRepoUrl { get; set; }
 
     [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
     public string? MaxColWidth { get; set; }

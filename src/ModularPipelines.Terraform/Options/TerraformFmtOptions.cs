@@ -8,17 +8,17 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformFmtOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("-write")]
-    public bool? Write { get; set; }
+    public virtual bool? Write { get; set; }
 
     [BooleanCommandSwitch("-check")]
-    public bool? Check { get; set; }
+    public virtual bool? Check { get; set; }
 
     [BooleanCommandSwitch("-diff")]
-    public bool? Diff { get; set; }
+    public virtual bool? Diff { get; set; }
 
     [BooleanCommandSwitch("-recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 }

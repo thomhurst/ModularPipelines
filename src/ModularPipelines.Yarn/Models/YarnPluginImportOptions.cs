@@ -10,5 +10,5 @@ public record YarnPluginImportOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--checksum")]
-    public bool? Checksum { get; set; }
+    public virtual bool? Checksum { get; set; }
 }

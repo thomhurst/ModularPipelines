@@ -8,34 +8,34 @@ namespace ModularPipelines.Node.Models;
 public record NpmPruneOptions : NpmOptions
 {
     [CommandSwitch("--omit")]
-    public string? Omit { get; set; }
+    public virtual string? Omit { get; set; }
 
     [CommandSwitch("--include")]
-    public string? Include { get; set; }
+    public virtual string? Include { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--foreground-scripts")]
-    public bool? ForegroundScripts { get; set; }
+    public virtual bool? ForegroundScripts { get; set; }
 
     [BooleanCommandSwitch("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
+    public virtual bool? IgnoreScripts { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [BooleanCommandSwitch("--include-workspace-root")]
-    public bool? IncludeWorkspaceRoot { get; set; }
+    public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [BooleanCommandSwitch("--install-links")]
-    public bool? InstallLinks { get; set; }
+    public virtual bool? InstallLinks { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Pkg { get; set; }

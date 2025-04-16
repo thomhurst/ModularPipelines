@@ -8,5 +8,5 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnVersionCheckOptions : YarnOptions
 {
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 }

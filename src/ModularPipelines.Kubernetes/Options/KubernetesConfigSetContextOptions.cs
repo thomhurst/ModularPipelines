@@ -8,5 +8,5 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesConfigSetContextOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--current")]
-    public bool? Current { get; set; }
+    public virtual bool? Current { get; set; }
 }

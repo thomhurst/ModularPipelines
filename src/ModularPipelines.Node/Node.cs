@@ -22,7 +22,7 @@ internal class Node : INode
         Nvm = nvm;
     }
 
-    public Task<CommandResult> Version(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Version(CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("node")
         {

@@ -24,35 +24,35 @@ public record DotNetNugetPushOptions : DotNetOptions
     public string? Path { get; set; }
 
     [BooleanCommandSwitch("--disable-buffering")]
-    public bool? DisableBuffering { get; set; }
+    public virtual bool? DisableBuffering { get; set; }
 
     [BooleanCommandSwitch("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
+    public virtual bool? ForceEnglishOutput { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--api-key")]
-    public string? ApiKey { get; set; }
+    public virtual string? ApiKey { get; set; }
 
     [BooleanCommandSwitch("--no-symbols")]
-    public bool? NoSymbols { get; set; }
+    public virtual bool? NoSymbols { get; set; }
 
     [BooleanCommandSwitch("--no-service-endpoint")]
-    public bool? NoServiceEndpoint { get; set; }
+    public virtual bool? NoServiceEndpoint { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [BooleanCommandSwitch("--skip-duplicate")]
-    public bool? SkipDuplicate { get; set; }
+    public virtual bool? SkipDuplicate { get; set; }
 
     [CommandSwitch("--symbol-api-key")]
-    public string? SymbolApiKey { get; set; }
+    public virtual string? SymbolApiKey { get; set; }
 
     [CommandSwitch("--symbol-source")]
-    public string? SymbolSource { get; set; }
+    public virtual string? SymbolSource { get; set; }
 
     [CommandSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 }

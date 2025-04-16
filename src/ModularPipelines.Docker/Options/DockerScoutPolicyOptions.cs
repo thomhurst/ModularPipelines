@@ -11,23 +11,23 @@ public record DockerScoutPolicyOptions : DockerOptions
     public string? ImageOrRepo { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [CommandSwitch("--exit-code")]
-    public string? ExitCode { get; set; }
+    public virtual string? ExitCode { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--to-env")]
-    public string? ToEnv { get; set; }
+    public virtual string? ToEnv { get; set; }
 
     [CommandSwitch("--to-latest")]
-    public string? ToLatest { get; set; }
+    public virtual string? ToLatest { get; set; }
 }

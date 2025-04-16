@@ -16,7 +16,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         context.MoveFile(file, newLocation);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Path).IsEqualTo(newLocation);
@@ -35,7 +35,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         var newFile = context.CopyFile(file, newLocation);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(file.Path).IsNotEqualTo(newLocation);
@@ -65,7 +65,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(context.GetFileAttributes(file).ToString()).IsNotNull();
@@ -83,7 +83,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         context.MoveFolder(folder, newLocation);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsEqualTo(newLocation);
@@ -102,7 +102,7 @@ public class FileSystemContextTests : TestBase
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         var newFile = context.CopyFolder(folder, newLocation);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsNotEqualTo(newLocation);
@@ -132,7 +132,7 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(context.GetFolderAttributes(folder).ToString()).IsNotNull();

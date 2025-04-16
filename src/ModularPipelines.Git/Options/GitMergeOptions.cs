@@ -8,64 +8,64 @@ namespace ModularPipelines.Git.Options;
 public record GitMergeOptions : GitOptions
 {
     [BooleanCommandSwitch("--commit")]
-    public bool? Commit { get; set; }
+    public virtual bool? Commit { get; set; }
 
     [BooleanCommandSwitch("--no-commit")]
-    public bool? NoCommit { get; set; }
+    public virtual bool? NoCommit { get; set; }
 
     [BooleanCommandSwitch("--edit")]
-    public bool? Edit { get; set; }
+    public virtual bool? Edit { get; set; }
 
     [BooleanCommandSwitch("--no-edit")]
-    public bool? NoEdit { get; set; }
+    public virtual bool? NoEdit { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
     [BooleanCommandSwitch("--ff")]
-    public bool? Ff { get; set; }
+    public virtual bool? Ff { get; set; }
 
     [BooleanCommandSwitch("--no-ff")]
-    public bool? NoFf { get; set; }
+    public virtual bool? NoFf { get; set; }
 
     [BooleanCommandSwitch("--ff-only")]
-    public bool? FfOnly { get; set; }
+    public virtual bool? FfOnly { get; set; }
 
     [CommandEqualsSeparatorSwitch("--gpg-sign")]
     public string? GpgSign { get; set; }
 
     [BooleanCommandSwitch("--no-gpg-sign")]
-    public bool? NoGpgSign { get; set; }
+    public virtual bool? NoGpgSign { get; set; }
 
     [CommandEqualsSeparatorSwitch("--log")]
     public string? Log { get; set; }
 
     [BooleanCommandSwitch("--no-log")]
-    public bool? NoLog { get; set; }
+    public virtual bool? NoLog { get; set; }
 
     [BooleanCommandSwitch("--signoff")]
-    public bool? Signoff { get; set; }
+    public virtual bool? Signoff { get; set; }
 
     [BooleanCommandSwitch("--no-signoff")]
-    public bool? NoSignoff { get; set; }
+    public virtual bool? NoSignoff { get; set; }
 
     [BooleanCommandSwitch("--stat")]
-    public bool? Stat { get; set; }
+    public virtual bool? Stat { get; set; }
 
     [BooleanCommandSwitch("--no-stat")]
-    public bool? NoStat { get; set; }
+    public virtual bool? NoStat { get; set; }
 
     [BooleanCommandSwitch("--squash")]
-    public bool? Squash { get; set; }
+    public virtual bool? Squash { get; set; }
 
     [BooleanCommandSwitch("--no-squash")]
-    public bool? NoSquash { get; set; }
+    public virtual bool? NoSquash { get; set; }
 
     [BooleanCommandSwitch("--no-verify")]
-    public bool? NoVerify { get; set; }
+    public virtual bool? NoVerify { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
@@ -74,37 +74,37 @@ public record GitMergeOptions : GitOptions
     public string? StrategyOption { get; set; }
 
     [BooleanCommandSwitch("--verify-signatures")]
-    public bool? VerifySignatures { get; set; }
+    public virtual bool? VerifySignatures { get; set; }
 
     [BooleanCommandSwitch("--no-verify-signatures")]
-    public bool? NoVerifySignatures { get; set; }
+    public virtual bool? NoVerifySignatures { get; set; }
 
     [BooleanCommandSwitch("--summary")]
-    public bool? Summary { get; set; }
+    public virtual bool? Summary { get; set; }
 
     [BooleanCommandSwitch("--no-summary")]
-    public bool? NoSummary { get; set; }
+    public virtual bool? NoSummary { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--progress")]
-    public bool? Progress { get; set; }
+    public virtual bool? Progress { get; set; }
 
     [BooleanCommandSwitch("--no-progress")]
-    public bool? NoProgress { get; set; }
+    public virtual bool? NoProgress { get; set; }
 
     [BooleanCommandSwitch("--autostash")]
-    public bool? Autostash { get; set; }
+    public virtual bool? Autostash { get; set; }
 
     [BooleanCommandSwitch("--no-autostash")]
-    public bool? NoAutostash { get; set; }
+    public virtual bool? NoAutostash { get; set; }
 
     [BooleanCommandSwitch("--allow-unrelated-histories")]
-    public bool? AllowUnrelatedHistories { get; set; }
+    public virtual bool? AllowUnrelatedHistories { get; set; }
 
     [CommandEqualsSeparatorSwitch("--into-name")]
     public string? IntoName { get; set; }
@@ -113,23 +113,23 @@ public record GitMergeOptions : GitOptions
     public string? File { get; set; }
 
     [BooleanCommandSwitch("--rerere-autoupdate")]
-    public bool? RerereAutoupdate { get; set; }
+    public virtual bool? RerereAutoupdate { get; set; }
 
     [BooleanCommandSwitch("--no-rerere-autoupdate")]
-    public bool? NoRerereAutoupdate { get; set; }
+    public virtual bool? NoRerereAutoupdate { get; set; }
 
     [BooleanCommandSwitch("--overwrite-ignore")]
-    public bool? OverwriteIgnore { get; set; }
+    public virtual bool? OverwriteIgnore { get; set; }
 
     [BooleanCommandSwitch("--no-overwrite-ignore")]
-    public bool? NoOverwriteIgnore { get; set; }
+    public virtual bool? NoOverwriteIgnore { get; set; }
 
     [BooleanCommandSwitch("--abort")]
-    public bool? Abort { get; set; }
+    public virtual bool? Abort { get; set; }
 
     [BooleanCommandSwitch("--quit")]
-    public bool? Quit { get; set; }
+    public virtual bool? Quit { get; set; }
 
     [BooleanCommandSwitch("--continue")]
-    public bool? Continue { get; set; }
+    public virtual bool? Continue { get; set; }
 }

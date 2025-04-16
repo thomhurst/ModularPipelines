@@ -17,7 +17,7 @@ public class FileInstaller : IFileInstaller
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
+    public virtual async Task<CommandResult> InstallFromFileAsync(InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
         if (OperatingSystem.IsWindows())
@@ -34,7 +34,7 @@ public class FileInstaller : IFileInstaller
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
+    public virtual async Task<CommandResult> InstallFromWebAsync(WebInstallerOptions options,
         CancellationToken cancellationToken = default)
     {
         var file = await _downloader.DownloadFileAsync(new DownloadFileOptions(options.DownloadUri), cancellationToken);

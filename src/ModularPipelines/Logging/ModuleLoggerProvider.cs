@@ -13,7 +13,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
 
     private IModuleLogger? _moduleLogger;
-    
+
     public ModuleLoggerProvider(IServiceProvider serviceProvider,
         IModuleLoggerContainer moduleLoggerContainer)
     {
@@ -35,7 +35,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         {
             return _moduleLogger = ModuleLogger.Values.Value;
         }
-        
+
         var stackFrames = new StackTrace().GetFrames().ToList();
 
         var module = GetModuleFromMarkerAttributes(stackFrames)

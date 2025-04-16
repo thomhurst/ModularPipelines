@@ -8,13 +8,13 @@ namespace ModularPipelines.Node.Models;
 public record NpmAccessGetStatusOptions : NpmOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Package { get; set; }

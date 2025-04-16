@@ -12,5 +12,5 @@ public record DockerComposeAlphaScaleOptions : DockerOptions
     public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
     [BooleanCommandSwitch("--no-deps")]
-    public bool? NoDeps { get; set; }
+    public virtual bool? NoDeps { get; set; }
 }

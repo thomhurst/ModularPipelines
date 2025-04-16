@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesConfigGetClustersOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--no-headers")]
-    public bool? NoHeaders { get; set; }
+    public virtual bool? NoHeaders { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }

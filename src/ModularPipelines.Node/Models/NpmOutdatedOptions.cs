@@ -8,20 +8,20 @@ namespace ModularPipelines.Node.Models;
 public record NpmOutdatedOptions : NpmOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--long")]
-    public bool? Long { get; set; }
+    public virtual bool? Long { get; set; }
 
     [BooleanCommandSwitch("--parseable")]
-    public bool? Parseable { get; set; }
+    public virtual bool? Parseable { get; set; }
 
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 }

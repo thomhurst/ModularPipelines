@@ -10,5 +10,5 @@ public record YarnConfigUnsetOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--home")]
-    public bool? Home { get; set; }
+    public virtual bool? Home { get; set; }
 }

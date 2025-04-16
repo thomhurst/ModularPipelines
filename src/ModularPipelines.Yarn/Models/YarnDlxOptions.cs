@@ -10,8 +10,8 @@ public record YarnDlxOptions(
 ) : YarnOptions
 {
     [CommandSwitch("--package")]
-    public string? Package { get; set; }
+    public virtual string? Package { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

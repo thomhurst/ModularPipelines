@@ -11,8 +11,8 @@ public record DockerComposeImagesOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

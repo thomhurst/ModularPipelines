@@ -19,5 +19,5 @@ public record DockerContainerExportOptions : DockerOptions
     public string? Container { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

@@ -19,5 +19,5 @@ public record DockerPluginEnableOptions : DockerOptions
     public string? Plugin { get; set; }
 
     [CommandSwitch("--timeout")]
-    public int? Timeout { get; set; }
+    public virtual int? Timeout { get; set; }
 }

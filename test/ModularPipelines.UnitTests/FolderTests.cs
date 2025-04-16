@@ -39,7 +39,7 @@ public class FolderTests : TestBase
         protected override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
-            
+
             return context.Git().RootDirectory.FindFile(x => x.Name == "README.md");
         }
     }
@@ -74,20 +74,20 @@ public class FolderTests : TestBase
     [Test]
     public async Task FindFileLogs()
     {
-            var stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder();
 
-            await TestPipelineHostBuilder.Create()
-                .ConfigureServices((_, collection) =>
-                {
-                    collection
-                        .AddSingleton<ILogger<FindFileModule>>(
-                            new StringLogger<FindFileModule>(stringBuilder))
-                        .AddModule<FindFileModule>();
-                })
-                .ExecutePipelineAsync();
+        await TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, collection) =>
+            {
+                collection
+                    .AddSingleton<ILogger<FindFileModule>>(
+                        new StringLogger<FindFileModule>(stringBuilder))
+                    .AddModule<FindFileModule>();
+            })
+            .ExecutePipelineAsync();
 
-            var actualLogResult = stringBuilder.ToString().Trim();
-            await Assert.That(actualLogResult).Contains("x => x.Name == \"README.md\"");
+        var actualLogResult = stringBuilder.ToString().Trim();
+        await Assert.That(actualLogResult).Contains("x => x.Name == \"README.md\"");
     }
 
     [Test]
@@ -131,7 +131,7 @@ public class FolderTests : TestBase
         }
 
         folder.MoveTo(folder2);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(new Folder(folder.OriginalPath).Exists).IsFalse();
@@ -162,7 +162,7 @@ public class FolderTests : TestBase
         }
 
         folder.CopyTo(folder2);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
@@ -176,7 +176,7 @@ public class FolderTests : TestBase
     public async Task Data_Is_Populated()
     {
         var folder = CreateRandomFolder();
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder.Exists).IsTrue();
@@ -225,7 +225,7 @@ public class FolderTests : TestBase
         await Assert.That(folderBeforeCreation.Exists).IsFalse();
 
         var subfolder = folder.CreateFolder("Foo");
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(subfolder.Exists).IsTrue();
@@ -288,7 +288,7 @@ public class FolderTests : TestBase
         var path = Path.GetRandomFileName();
         var folder = new Folder(path);
         var folder2 = new Folder(path);
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder).IsEqualTo(folder2);
@@ -303,7 +303,7 @@ public class FolderTests : TestBase
     {
         var folder = new Folder(Path.GetRandomFileName());
         var folder2 = new Folder(Path.GetRandomFileName());
-        
+
         using (Assert.Multiple())
         {
             await Assert.That(folder).IsNotEqualTo(folder2);

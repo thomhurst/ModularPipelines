@@ -10,7 +10,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     private abstract class BaseModule : Module
     {
     }
-    
+
     private class Module1 : BaseModule
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
@@ -63,13 +63,13 @@ public class DependsOnAllInheritingFromTests : TestBase
         var module2 = pipelineSummary.GetModule<Module2>();
         var module3 = pipelineSummary.GetModule<Module3>();
         var module4 = pipelineSummary.GetModule<Module4>();
-        
+
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module1.StartTime.Add(TimeSpan.FromSeconds(1)));
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module1.EndTime);
-        
+
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module2.StartTime.Add(TimeSpan.FromSeconds(1)));
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module2.EndTime);
-        
+
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module3.StartTime.Add(TimeSpan.FromSeconds(1)));
         await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module3.EndTime);
     }

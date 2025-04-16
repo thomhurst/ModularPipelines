@@ -14,7 +14,7 @@ public record HelmPushOptions : HelmOptions
     public string? CertFile { get; set; }
 
     [BooleanCommandSwitch("--insecure-skip-tls-verify")]
-    public bool? InsecureSkipTlsVerify { get; set; }
+    public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }

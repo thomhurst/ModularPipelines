@@ -11,5 +11,5 @@ public record DockerTrustInspectOptions : DockerOptions
     public IEnumerable<string>? Image { get; set; }
 
     [CommandSwitch("--pretty")]
-    public string? Pretty { get; set; }
+    public virtual string? Pretty { get; set; }
 }

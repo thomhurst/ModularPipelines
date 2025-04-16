@@ -19,5 +19,5 @@ public record DockerImageSaveOptions : DockerOptions
     public IEnumerable<string>? Image { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

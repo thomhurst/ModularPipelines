@@ -8,7 +8,7 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmTagListOptions : YarnOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Package { get; set; }

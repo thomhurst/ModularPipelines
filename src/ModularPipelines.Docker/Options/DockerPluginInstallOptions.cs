@@ -23,14 +23,14 @@ public record DockerPluginInstallOptions : DockerOptions
     public IEnumerable<KeyValue>? KeyValue { get; set; }
 
     [CommandSwitch("--alias")]
-    public string? Alias { get; set; }
+    public virtual string? Alias { get; set; }
 
     [CommandSwitch("--disable")]
-    public string? Disable { get; set; }
+    public virtual string? Disable { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [CommandSwitch("--grant-all-permissions")]
-    public string? GrantAllPermissions { get; set; }
+    public virtual string? GrantAllPermissions { get; set; }
 }

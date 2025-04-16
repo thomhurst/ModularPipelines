@@ -12,12 +12,12 @@ internal class WindowsInstaller : IWindowsInstaller
         _command = command;
     }
 
-    public async Task<CommandResult> InstallMsi(MsiInstallerOptions msiInstallerOptions)
+    public virtual async Task<CommandResult> InstallMsi(MsiInstallerOptions msiInstallerOptions)
     {
         return await _command.ExecuteCommandLineTool(msiInstallerOptions);
     }
 
-    public async Task<CommandResult> InstallExe(ExeInstallerOptions exeInstallerOptions)
+    public virtual async Task<CommandResult> InstallExe(ExeInstallerOptions exeInstallerOptions)
     {
         return await _command.ExecuteCommandLineTool(exeInstallerOptions);
     }

@@ -25,65 +25,65 @@ public record DockerComposeRunOptions : DockerOptions
     public IEnumerable<string>? Args { get; set; }
 
     [BooleanCommandSwitch("--build")]
-    public bool? Build { get; set; }
+    public virtual bool? Build { get; set; }
 
     [CommandSwitch("--cap-add")]
-    public string? CapAdd { get; set; }
+    public virtual string? CapAdd { get; set; }
 
     [CommandSwitch("--cap-drop")]
-    public string? CapDrop { get; set; }
+    public virtual string? CapDrop { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--entrypoint")]
-    public string? Entrypoint { get; set; }
+    public virtual string? Entrypoint { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [BooleanCommandSwitch("--no-TTY")]
-    public bool? NoTty { get; set; }
+    public virtual bool? NoTty { get; set; }
 
     [BooleanCommandSwitch("--no-deps")]
-    public bool? NoDeps { get; set; }
+    public virtual bool? NoDeps { get; set; }
 
     [CommandSwitch("--publish")]
-    public string? Publish { get; set; }
+    public virtual string? Publish { get; set; }
 
     [BooleanCommandSwitch("--quiet-pull")]
-    public bool? QuietPull { get; set; }
+    public virtual bool? QuietPull { get; set; }
 
     [BooleanCommandSwitch("--remove-orphans")]
-    public bool? RemoveOrphans { get; set; }
+    public virtual bool? RemoveOrphans { get; set; }
 
     [BooleanCommandSwitch("--rm")]
-    public bool? Rm { get; set; }
+    public virtual bool? Rm { get; set; }
 
     [CommandSwitch("--service-ports")]
-    public string? ServicePorts { get; set; }
+    public virtual string? ServicePorts { get; set; }
 
     [BooleanCommandSwitch("--tty")]
-    public bool? Tty { get; set; }
+    public virtual bool? Tty { get; set; }
 
     [CommandSwitch("--use-aliases")]
-    public string? UseAliases { get; set; }
+    public virtual string? UseAliases { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--volume")]
-    public string? Volume { get; set; }
+    public virtual string? Volume { get; set; }
 
     [CommandSwitch("--workdir")]
-    public string? Workdir { get; set; }
+    public virtual string? Workdir { get; set; }
 }

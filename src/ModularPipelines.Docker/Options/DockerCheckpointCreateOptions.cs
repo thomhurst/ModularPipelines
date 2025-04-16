@@ -25,8 +25,8 @@ public record DockerCheckpointCreateOptions : DockerOptions
     public string? Checkpoint { get; set; }
 
     [CommandSwitch("--checkpoint-dir")]
-    public string? CheckpointDir { get; set; }
+    public virtual string? CheckpointDir { get; set; }
 
     [CommandSwitch("--leave-running")]
-    public string? LeaveRunning { get; set; }
+    public virtual string? LeaveRunning { get; set; }
 }

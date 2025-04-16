@@ -16,7 +16,7 @@ internal class LinuxInstaller : ILinuxInstaller
         _aptGet = aptGet;
     }
 
-    public async Task<CommandResult> InstallFromDpkg(DpkgInstallOptions options)
+    public virtual async Task<CommandResult> InstallFromDpkg(DpkgInstallOptions options)
     {
         var linuxInstallationResult = await _command.ExecuteCommandLineTool(options);
 

@@ -8,11 +8,11 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnLinkOptions : YarnOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--private")]
-    public bool? Private { get; set; }
+    public virtual bool? Private { get; set; }
 
     [BooleanCommandSwitch("--relative")]
-    public bool? Relative { get; set; }
+    public virtual bool? Relative { get; set; }
 }

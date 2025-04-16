@@ -11,11 +11,11 @@ public record DockerLoginOptions : DockerOptions
     public string? Server { get; set; }
 
     [CommandSwitch("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CommandSwitch("--password-stdin")]
-    public string? PasswordStdin { get; set; }
+    public virtual string? PasswordStdin { get; set; }
 
     [CommandSwitch("--username")]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 }

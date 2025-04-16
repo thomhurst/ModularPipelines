@@ -8,8 +8,8 @@ namespace ModularPipelines.Git.Options;
 public record GitCountObjectsOptions : GitOptions
 {
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--human-readable")]
-    public bool? HumanReadable { get; set; }
+    public virtual bool? HumanReadable { get; set; }
 }

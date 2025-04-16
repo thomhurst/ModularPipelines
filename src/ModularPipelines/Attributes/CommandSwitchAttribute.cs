@@ -1,7 +1,7 @@
 namespace ModularPipelines.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class CommandSwitchAttribute : Attribute
+public class CommandSwitchAttribute : Attribute, ICommandSwitchAttribute
 {
     public CommandSwitchAttribute(string switchName)
     {

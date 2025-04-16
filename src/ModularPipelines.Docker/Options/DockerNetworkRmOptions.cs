@@ -11,5 +11,5 @@ public record DockerNetworkRmOptions : DockerOptions
     public IEnumerable<string>? Network { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

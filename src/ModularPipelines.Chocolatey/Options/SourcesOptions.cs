@@ -8,32 +8,32 @@ namespace ModularPipelines.Chocolatey.Options;
 public record SourcesOptions : ChocoOptions
 {
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CommandSwitch("--cert")]
-    public string? Cert { get; set; }
+    public virtual string? Cert { get; set; }
 
     [CommandSwitch("--certpassword")]
-    public string? Certpassword { get; set; }
+    public virtual string? Certpassword { get; set; }
 
     [CommandSwitch("--priority")]
-    public string? Priority { get; set; }
+    public virtual string? Priority { get; set; }
 
     [BooleanCommandSwitch("--bypass-proxy")]
-    public bool? BypassProxy { get; set; }
+    public virtual bool? BypassProxy { get; set; }
 
     [BooleanCommandSwitch("--allow-self-service")]
-    public bool? AllowSelfService { get; set; }
+    public virtual bool? AllowSelfService { get; set; }
 
     [BooleanCommandSwitch("--admin-only")]
-    public bool? AdminOnly { get; set; }
+    public virtual bool? AdminOnly { get; set; }
 }

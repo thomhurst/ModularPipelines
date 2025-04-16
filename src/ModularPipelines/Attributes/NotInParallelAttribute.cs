@@ -29,7 +29,7 @@ public class NotInParallelAttribute : Attribute
         {
             throw new ArgumentException("Duplicate constraint keys are not allowed.");
         }
-        
+
         ConstraintKeys = constraintKeys;
     }
 }

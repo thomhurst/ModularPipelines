@@ -17,12 +17,12 @@ public class DockerScoutCache
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Df(DockerScoutCacheDfOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Df(DockerScoutCacheDfOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerScoutCacheDfOptions(), token);
     }
 
-    public async Task<CommandResult> Prune(DockerScoutCachePruneOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Prune(DockerScoutCachePruneOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerScoutCachePruneOptions(), token);
     }

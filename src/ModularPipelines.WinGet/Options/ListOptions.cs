@@ -10,50 +10,50 @@ public record ListOptions(
 ) : WingetOptions
 {
     [CommandSwitch("--id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--moniker")]
-    public string? Moniker { get; set; }
+    public virtual string? Moniker { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [BooleanCommandSwitch("--tag")]
-    public bool? Tag { get; set; }
+    public virtual bool? Tag { get; set; }
 
     [BooleanCommandSwitch("--command")]
-    public bool? Command { get; set; }
+    public virtual bool? Command { get; set; }
 
     [BooleanCommandSwitch("--count")]
-    public bool? Count { get; set; }
+    public virtual bool? Count { get; set; }
 
     [BooleanCommandSwitch("--exact")]
-    public bool? Exact { get; set; }
+    public virtual bool? Exact { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [CommandSwitch("--header")]
-    public string? Header { get; set; }
+    public virtual string? Header { get; set; }
 
     [CommandSwitch("--accept-source-agreements")]
-    public string? AcceptSourceAgreements { get; set; }
+    public virtual string? AcceptSourceAgreements { get; set; }
 
     [BooleanCommandSwitch("--upgrade-available")]
-    public bool? UpgradeAvailable { get; set; }
+    public virtual bool? UpgradeAvailable { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

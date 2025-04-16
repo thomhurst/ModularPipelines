@@ -8,8 +8,8 @@ namespace ModularPipelines.Git.Options;
 public record GitCheckIgnoreOptions : GitOptions
 {
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [BooleanCommandSwitch("--no-index")]
-    public bool? NoIndex { get; set; }
+    public virtual bool? NoIndex { get; set; }
 }

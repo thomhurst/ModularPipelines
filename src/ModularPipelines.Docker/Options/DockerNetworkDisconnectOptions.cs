@@ -25,5 +25,5 @@ public record DockerNetworkDisconnectOptions : DockerOptions
     public string? Container { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

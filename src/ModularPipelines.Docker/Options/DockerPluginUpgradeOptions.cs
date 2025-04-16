@@ -22,11 +22,11 @@ public record DockerPluginUpgradeOptions : DockerOptions
     public string? Remote { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [CommandSwitch("--grant-all-permissions")]
-    public string? GrantAllPermissions { get; set; }
+    public virtual string? GrantAllPermissions { get; set; }
 
     [CommandSwitch("--skip-remote-check")]
-    public string? SkipRemoteCheck { get; set; }
+    public virtual string? SkipRemoteCheck { get; set; }
 }

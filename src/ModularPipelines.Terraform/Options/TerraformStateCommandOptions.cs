@@ -8,5 +8,5 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformStateCommandOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-backup")]
-    public bool? Backup { get; set; }
+    public virtual bool? Backup { get; set; }
 }

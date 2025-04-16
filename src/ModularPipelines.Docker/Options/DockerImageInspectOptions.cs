@@ -19,5 +19,5 @@ public record DockerImageInspectOptions : DockerOptions
     public IEnumerable<string>? Image { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

@@ -9,5 +9,5 @@ public record TerraformForceUnlockOptions([property: PositionalArgument(Position
     string Lockid) : TerraformOptions
 {
     [BooleanCommandSwitch("-force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

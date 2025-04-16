@@ -10,80 +10,80 @@ namespace ModularPipelines.GitHub;
 
 internal class GitHub : IGitHub
 {
-  private readonly GitHubOptions _options;
-  private readonly IModuleLoggerProvider _moduleLoggerProvider;
-  private readonly Lazy<IGitHubClient> _client;
+    private readonly GitHubOptions _options;
+    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly Lazy<IGitHubClient> _client;
 
-  public IGitHubClient Client => _client.Value;
+    public IGitHubClient Client => _client.Value;
 
-  public IGitHubRepositoryInfo RepositoryInfo { get; }
-  
-  public IGitHubEnvironmentVariables EnvironmentVariables { get; }
+    public IGitHubRepositoryInfo RepositoryInfo { get; }
 
-  public GitHub(
-    IOptions<GitHubOptions> options,
-    IGitHubEnvironmentVariables environmentVariables,
-    IGitHubRepositoryInfo gitHubRepositoryInfo,
-    IModuleLoggerProvider moduleLoggerProvider)
-  {
-    _options = options.Value;
-    _moduleLoggerProvider = moduleLoggerProvider;
-    EnvironmentVariables = environmentVariables;
-    
-    _client = new Lazy<IGitHubClient>(InitializeClient);
-    RepositoryInfo = gitHubRepositoryInfo;
-  }
-  
-  public void StartConsoleLogGroup(string name)
-  {
-    LogToConsole(BuildSystemValues.GitHub.StartBlock(name));
-  }
+    public IGitHubEnvironmentVariables EnvironmentVariables { get; }
 
-  public void EndConsoleLogGroup(string name)
-  {
-    LogToConsole(BuildSystemValues.GitHub.EndBlock);
-  }
-
-  public void LogToConsole(string value)
-  {
-    _moduleLoggerProvider.GetLogger().LogToConsole(value);
-  }
-  
-  // PRIVATE METHODS
-  // --------------------------------------------------------------------------------
-
-  /// <summary>
-  /// Initializes the GitHub client.
-  /// </summary>
-  /// <returns>An instance of <see cref="IGitHubClient"/>.</returns>
-  private IGitHubClient InitializeClient()
-  {
-    var token = _options.AccessToken 
-                ?? EnvironmentVariables.Token
-                ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
-    
-    var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
-      new HttpClientAdapter(() =>
-      {
-        var moduleLogger = _moduleLoggerProvider.GetLogger();
-
-        return new RequestLoggingHttpHandler(moduleLogger)
-        {
-          InnerHandler = new ResponseLoggingHttpHandler(moduleLogger)
-          {
-            InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger)
-            {
-              InnerHandler = new HttpClientHandler(),
-            },
-          },
-        };
-      }));
-
-    var client = new GitHubClient(connection)
+    public GitHub(
+      IOptions<GitHubOptions> options,
+      IGitHubEnvironmentVariables environmentVariables,
+      IGitHubRepositoryInfo gitHubRepositoryInfo,
+      IModuleLoggerProvider moduleLoggerProvider)
     {
-      Credentials = new Credentials(token),
-    };
+        _options = options.Value;
+        _moduleLoggerProvider = moduleLoggerProvider;
+        EnvironmentVariables = environmentVariables;
 
-    return client;
-  }
+        _client = new Lazy<IGitHubClient>(InitializeClient);
+        RepositoryInfo = gitHubRepositoryInfo;
+    }
+
+    public void StartConsoleLogGroup(string name)
+    {
+        LogToConsole(BuildSystemValues.GitHub.StartBlock(name));
+    }
+
+    public void EndConsoleLogGroup(string name)
+    {
+        LogToConsole(BuildSystemValues.GitHub.EndBlock);
+    }
+
+    public void LogToConsole(string value)
+    {
+        _moduleLoggerProvider.GetLogger().LogToConsole(value);
+    }
+
+    // PRIVATE METHODS
+    // --------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Initializes the GitHub client.
+    /// </summary>
+    /// <returns>An instance of <see cref="IGitHubClient"/>.</returns>
+    private IGitHubClient InitializeClient()
+    {
+        var token = _options.AccessToken
+                    ?? EnvironmentVariables.Token
+                    ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
+
+        var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
+          new HttpClientAdapter(() =>
+          {
+              var moduleLogger = _moduleLoggerProvider.GetLogger();
+
+              return new RequestLoggingHttpHandler(moduleLogger)
+              {
+                  InnerHandler = new ResponseLoggingHttpHandler(moduleLogger)
+                  {
+                      InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger)
+                      {
+                          InnerHandler = new HttpClientHandler(),
+                      },
+                  },
+              };
+          }));
+
+        var client = new GitHubClient(connection)
+        {
+            Credentials = new Credentials(token),
+        };
+
+        return client;
+    }
 }

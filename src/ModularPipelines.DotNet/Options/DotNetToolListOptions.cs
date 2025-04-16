@@ -21,13 +21,13 @@ public record DotNetToolListOptions : DotNetOptions
     }
 
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [BooleanCommandSwitch("--tool-path")]
-    public bool? ToolPath { get; set; }
+    public virtual bool? ToolPath { get; set; }
 
     [BooleanCommandSwitch("--local")]
-    public bool? Local { get; set; }
+    public virtual bool? Local { get; set; }
 
     [PositionalArgument(PlaceholderName = "[<PACKAGE_ID>]")]
     public string? PackageId { get; set; }

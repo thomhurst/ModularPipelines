@@ -22,14 +22,14 @@ public record DockerContainerCommitOptions : DockerOptions
     public string? Repository { get; set; }
 
     [CommandSwitch("--author")]
-    public string? Author { get; set; }
+    public virtual string? Author { get; set; }
 
     [CommandSwitch("--change")]
-    public string? Change { get; set; }
+    public virtual string? Change { get; set; }
 
     [CommandSwitch("--message")]
-    public string? Message { get; set; }
+    public virtual string? Message { get; set; }
 
     [BooleanCommandSwitch("--pause")]
-    public bool? Pause { get; set; }
+    public virtual bool? Pause { get; set; }
 }
