@@ -67,7 +67,7 @@ public class PredefinedInstallers : IPredefinedInstallers
     }
 
     /// <inheritdoc/>
-    public async Task<CommandResult> Powershell7()
+    public async virtual Task<CommandResult> Powershell7()
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 

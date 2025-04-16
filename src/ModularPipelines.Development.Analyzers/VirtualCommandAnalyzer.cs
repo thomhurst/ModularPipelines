@@ -47,7 +47,7 @@ public class VirtualCommandAnalyzer : DiagnosticAnalyzer
 
         var methodSymbol = context.SemanticModel.GetDeclaredSymbol(method);
 
-        if (methodSymbol is null)
+        if (methodSymbol is null || methodSymbol.IsVirtual)
         {
             return;
         }

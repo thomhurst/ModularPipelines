@@ -65,7 +65,7 @@ public class VirtualCommandCodeFixProvider : CodeFixProvider
         MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
         var newPropertyDeclarationSyntax = methodDeclarationSyntax.WithModifiers(
-            SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Add(SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
+            SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Insert(0, SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
 
         var root = await document.GetSyntaxRootAsync(cancellationToken);
 
