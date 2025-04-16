@@ -172,7 +172,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             
             throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
         }
-        catch (Exception e) when (e is not CommandExecutionException or CommandException)
+        catch (Exception e) when (e is not CommandExecutionException and not CommandException)
         {
             standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
