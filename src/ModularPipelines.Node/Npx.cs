@@ -15,7 +15,7 @@ internal class Npx : INpx
         _command = command;
     }
 
-    public async Task<CommandResult> ExecuteAsync(NpxOptions npxOptions, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ExecuteAsync(NpxOptions npxOptions, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(npxOptions, cancellationToken);
     }

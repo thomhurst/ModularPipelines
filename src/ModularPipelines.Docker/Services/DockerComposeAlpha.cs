@@ -17,22 +17,22 @@ public class DockerComposeAlpha
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DryRun(DockerComposeAlphaDryRunOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> DryRun(DockerComposeAlphaDryRunOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerComposeAlphaDryRunOptions(), token);
     }
 
-    public async Task<CommandResult> Publish(DockerComposeAlphaPublishOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Publish(DockerComposeAlphaPublishOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerComposeAlphaPublishOptions(), token);
     }
 
-    public async Task<CommandResult> Scale(DockerComposeAlphaScaleOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Scale(DockerComposeAlphaScaleOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerComposeAlphaScaleOptions(), token);
     }
 
-    public async Task<CommandResult> Viz(DockerComposeAlphaVizOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Viz(DockerComposeAlphaVizOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerComposeAlphaVizOptions(), token);
     }

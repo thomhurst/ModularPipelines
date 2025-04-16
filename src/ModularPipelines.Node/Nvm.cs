@@ -15,7 +15,7 @@ internal class Nvm : INvm
         _context = context;
     }
 
-    public Task<CommandResult> Use(string version, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Use(string version, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
@@ -23,7 +23,7 @@ internal class Nvm : INvm
         }, cancellationToken);
     }
 
-    public Task<CommandResult> Install(string version, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Install(string version, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
@@ -31,7 +31,7 @@ internal class Nvm : INvm
         }, cancellationToken);
     }
 
-    public Task<CommandResult> Version(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Version(CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {
@@ -39,7 +39,7 @@ internal class Nvm : INvm
         }, cancellationToken);
     }
 
-    public Task<CommandResult> Which(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Which(CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
         {

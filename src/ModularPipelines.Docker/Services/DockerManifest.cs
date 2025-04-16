@@ -17,27 +17,27 @@ public class DockerManifest
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Annotate(DockerManifestAnnotateOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Annotate(DockerManifestAnnotateOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Create(DockerManifestCreateOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Create(DockerManifestCreateOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Inspect(DockerManifestInspectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Inspect(DockerManifestInspectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Push(DockerManifestPushOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Push(DockerManifestPushOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Rm(DockerManifestRmOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Rm(DockerManifestRmOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestRmOptions(), token);
     }

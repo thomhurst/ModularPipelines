@@ -17,12 +17,12 @@ public class DockerBuildxImagetools
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Create(DockerBuildxImagetoolsCreateOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Create(DockerBuildxImagetoolsCreateOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxImagetoolsCreateOptions(), token);
     }
 
-    public async Task<CommandResult> Inspect(DockerBuildxImagetoolsInspectOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Inspect(DockerBuildxImagetoolsInspectOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

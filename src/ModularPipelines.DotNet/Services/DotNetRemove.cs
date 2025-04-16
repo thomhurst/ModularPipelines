@@ -17,12 +17,12 @@ public class DotNetRemove
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Package(DotNetRemovePackageOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Package(DotNetRemovePackageOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
 
-    public async Task<CommandResult> Reference(DotNetRemoveReferenceOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Reference(DotNetRemoveReferenceOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }

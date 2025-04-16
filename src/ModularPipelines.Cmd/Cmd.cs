@@ -13,7 +13,7 @@ internal class Cmd : ICmd
         _context = context;
     }
 
-    public Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
     {
         return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
     }

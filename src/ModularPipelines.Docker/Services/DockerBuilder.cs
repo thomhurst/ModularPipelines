@@ -17,7 +17,7 @@ public class DockerBuilder
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Prune(DockerBuilderPruneOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Prune(DockerBuilderPruneOptions? options = default, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuilderPruneOptions(), token);
     }

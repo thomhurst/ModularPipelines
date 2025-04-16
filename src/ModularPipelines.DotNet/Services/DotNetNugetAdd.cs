@@ -17,7 +17,7 @@ public class DotNetNugetAdd
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Source(DotNetNugetAddSourceOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Source(DotNetNugetAddSourceOptions options, CancellationToken token = default)
     {
         return await _command.ExecuteCommandLineTool(options, token);
     }
