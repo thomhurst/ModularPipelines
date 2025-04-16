@@ -12,44 +12,44 @@ public record DockerComposeBuildOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--build-arg")]
-    public IEnumerable<KeyValue>? BuildArg { get; set; }
+    public virtual IEnumerable<KeyValue>? BuildArg { get; set; }
 
     [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
+    public virtual string? Builder { get; set; }
 
     [BooleanCommandSwitch("--compress")]
-    public bool? Compress { get; set; }
+    public virtual bool? Compress { get; set; }
 
     [BooleanCommandSwitch("--force-rm")]
-    public bool? ForceRm { get; set; }
+    public virtual bool? ForceRm { get; set; }
 
     [CommandSwitch("--memory")]
-    public string? Memory { get; set; }
+    public virtual string? Memory { get; set; }
 
     [BooleanCommandSwitch("--no-cache")]
-    public bool? NoCache { get; set; }
+    public virtual bool? NoCache { get; set; }
 
     [CommandSwitch("--no-rm")]
-    public string? NoRm { get; set; }
+    public virtual string? NoRm { get; set; }
 
     [BooleanCommandSwitch("--parallel")]
-    public bool? Parallel { get; set; }
+    public virtual bool? Parallel { get; set; }
 
     [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--push")]
-    public bool? Push { get; set; }
+    public virtual bool? Push { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--ssh")]
-    public string? Ssh { get; set; }
+    public virtual string? Ssh { get; set; }
 
     [CommandSwitch("--with-dependencies")]
-    public string? WithDependencies { get; set; }
+    public virtual string? WithDependencies { get; set; }
 }

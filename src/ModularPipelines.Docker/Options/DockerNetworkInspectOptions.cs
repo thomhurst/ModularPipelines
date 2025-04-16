@@ -19,8 +19,8 @@ public record DockerNetworkInspectOptions : DockerOptions
     public IEnumerable<string>? Network { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--verbose")]
-    public string? Verbose { get; set; }
+    public virtual string? Verbose { get; set; }
 }

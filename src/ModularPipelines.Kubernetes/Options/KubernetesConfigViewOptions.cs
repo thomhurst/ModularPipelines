@@ -8,25 +8,25 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesConfigViewOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--flatten")]
-    public bool? Flatten { get; set; }
+    public virtual bool? Flatten { get; set; }
 
     [BooleanCommandSwitch("--merge")]
-    public bool? Merge { get; set; }
+    public virtual bool? Merge { get; set; }
 
     [BooleanCommandSwitch("--minify")]
-    public bool? Minify { get; set; }
+    public virtual bool? Minify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--raw")]
-    public bool? Raw { get; set; }
+    public virtual bool? Raw { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

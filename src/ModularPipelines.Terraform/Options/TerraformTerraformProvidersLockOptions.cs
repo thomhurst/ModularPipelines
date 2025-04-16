@@ -8,11 +8,11 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformTerraformProvidersLockOptions : TerraformOptions
 {
     [CommandSwitch("-fs-mirror")]
-    public string? FsMirror { get; set; }
+    public virtual string? FsMirror { get; set; }
 
     [CommandSwitch("-net-mirror")]
-    public string? NetMirror { get; set; }
+    public virtual string? NetMirror { get; set; }
 
     [CommandSwitch("-platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 }

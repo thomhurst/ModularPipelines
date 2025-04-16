@@ -10,5 +10,5 @@ public record YarnPatchCommitOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--save")]
-    public bool? Save { get; set; }
+    public virtual bool? Save { get; set; }
 }

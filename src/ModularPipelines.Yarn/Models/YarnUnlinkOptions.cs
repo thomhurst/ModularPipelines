@@ -8,5 +8,5 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnUnlinkOptions : YarnOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 }

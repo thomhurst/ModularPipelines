@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNetworkPruneOptions : DockerOptions
 {
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

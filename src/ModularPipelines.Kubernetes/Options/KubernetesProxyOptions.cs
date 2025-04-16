@@ -20,7 +20,7 @@ public record KubernetesProxyOptions : KubernetesOptions
     public string? ApiPrefix { get; set; }
 
     [BooleanCommandSwitch("--disable-filter")]
-    public bool? DisableFilter { get; set; }
+    public virtual bool? DisableFilter { get; set; }
 
     [CommandEqualsSeparatorSwitch("--keepalive", SwitchValueSeparator = " ")]
     public string? Keepalive { get; set; }

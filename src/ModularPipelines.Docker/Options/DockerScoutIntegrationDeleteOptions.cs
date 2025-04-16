@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutIntegrationDeleteOptions : DockerOptions
 {
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 }

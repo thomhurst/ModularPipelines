@@ -19,14 +19,14 @@ public record DockerImageHistoryOptions : DockerOptions
     public string? Image { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--human")]
-    public bool? Human { get; set; }
+    public virtual bool? Human { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

@@ -25,212 +25,212 @@ public record DockerServiceCreateOptions : DockerOptions
     public IEnumerable<string>? Arg { get; set; }
 
     [CommandSwitch("--cap-add")]
-    public string? CapAdd { get; set; }
+    public virtual string? CapAdd { get; set; }
 
     [CommandSwitch("--cap-drop")]
-    public string? CapDrop { get; set; }
+    public virtual string? CapDrop { get; set; }
 
     [CommandSwitch("--constraint")]
-    public string? Constraint { get; set; }
+    public virtual string? Constraint { get; set; }
 
     [CommandSwitch("--container-label")]
-    public string? ContainerLabel { get; set; }
+    public virtual string? ContainerLabel { get; set; }
 
     [CommandSwitch("--credential-spec")]
-    public string? CredentialSpec { get; set; }
+    public virtual string? CredentialSpec { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--dns")]
-    public string? Dns { get; set; }
+    public virtual string? Dns { get; set; }
 
     [CommandSwitch("--dns-option")]
-    public string? DnsOption { get; set; }
+    public virtual string? DnsOption { get; set; }
 
     [CommandSwitch("--dns-search")]
-    public string? DnsSearch { get; set; }
+    public virtual string? DnsSearch { get; set; }
 
     [CommandSwitch("--endpoint-mode")]
-    public string? EndpointMode { get; set; }
+    public virtual string? EndpointMode { get; set; }
 
     [CommandSwitch("--entrypoint")]
-    public string? Entrypoint { get; set; }
+    public virtual string? Entrypoint { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [CommandSwitch("--env-file")]
-    public string? EnvFile { get; set; }
+    public virtual string? EnvFile { get; set; }
 
     [CommandSwitch("--generic-resource")]
-    public string? GenericResource { get; set; }
+    public virtual string? GenericResource { get; set; }
 
     [CommandSwitch("--group")]
-    public string? Group { get; set; }
+    public virtual string? Group { get; set; }
 
     [CommandSwitch("--health-cmd")]
-    public string? HealthCmd { get; set; }
+    public virtual string? HealthCmd { get; set; }
 
     [CommandSwitch("--health-interval")]
-    public string? HealthInterval { get; set; }
+    public virtual string? HealthInterval { get; set; }
 
     [CommandSwitch("--health-retries")]
-    public string? HealthRetries { get; set; }
+    public virtual string? HealthRetries { get; set; }
 
     [CommandSwitch("--health-start-interval")]
-    public string? HealthStartInterval { get; set; }
+    public virtual string? HealthStartInterval { get; set; }
 
     [CommandSwitch("--health-start-period")]
-    public string? HealthStartPeriod { get; set; }
+    public virtual string? HealthStartPeriod { get; set; }
 
     [CommandSwitch("--health-timeout")]
-    public string? HealthTimeout { get; set; }
+    public virtual string? HealthTimeout { get; set; }
 
     [CommandSwitch("--hostname")]
-    public string? Hostname { get; set; }
+    public virtual string? Hostname { get; set; }
 
     [CommandSwitch("--init")]
-    public string? Init { get; set; }
+    public virtual string? Init { get; set; }
 
     [BooleanCommandSwitch("--isolation")]
-    public bool? Isolation { get; set; }
+    public virtual bool? Isolation { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--limit-cpu")]
-    public string? LimitCpu { get; set; }
+    public virtual string? LimitCpu { get; set; }
 
     [CommandSwitch("--limit-memory")]
-    public string? LimitMemory { get; set; }
+    public virtual string? LimitMemory { get; set; }
 
     [CommandSwitch("--limit-pids")]
-    public string? LimitPids { get; set; }
+    public virtual string? LimitPids { get; set; }
 
     [CommandSwitch("--log-driver")]
-    public string? LogDriver { get; set; }
+    public virtual string? LogDriver { get; set; }
 
     [CommandSwitch("--log-opt")]
-    public string? LogOpt { get; set; }
+    public virtual string? LogOpt { get; set; }
 
     [CommandSwitch("--max-concurrent")]
-    public string? MaxConcurrent { get; set; }
+    public virtual string? MaxConcurrent { get; set; }
 
     [CommandSwitch("--mode")]
-    public string? Mode { get; set; }
+    public virtual string? Mode { get; set; }
 
     [CommandSwitch("--mount")]
-    public string? Mount { get; set; }
+    public virtual string? Mount { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--network")]
-    public string? Network { get; set; }
+    public virtual string? Network { get; set; }
 
     [BooleanCommandSwitch("--no-healthcheck")]
-    public bool? NoHealthcheck { get; set; }
+    public virtual bool? NoHealthcheck { get; set; }
 
     [CommandSwitch("--no-resolve-image")]
-    public string? NoResolveImage { get; set; }
+    public virtual string? NoResolveImage { get; set; }
 
     [CommandSwitch("--placement-pref")]
-    public string? PlacementPref { get; set; }
+    public virtual string? PlacementPref { get; set; }
 
     [CommandSwitch("--publish")]
-    public string? Publish { get; set; }
+    public virtual string? Publish { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--read-only")]
-    public bool? ReadOnly { get; set; }
+    public virtual bool? ReadOnly { get; set; }
 
     [CommandSwitch("--replicas")]
-    public string? Replicas { get; set; }
+    public virtual string? Replicas { get; set; }
 
     [CommandSwitch("--replicas-max-per-node")]
-    public string? ReplicasMaxPerNode { get; set; }
+    public virtual string? ReplicasMaxPerNode { get; set; }
 
     [CommandSwitch("--reserve-cpu")]
-    public string? ReserveCpu { get; set; }
+    public virtual string? ReserveCpu { get; set; }
 
     [CommandSwitch("--reserve-memory")]
-    public string? ReserveMemory { get; set; }
+    public virtual string? ReserveMemory { get; set; }
 
     [CommandSwitch("--restart-condition")]
-    public string? RestartCondition { get; set; }
+    public virtual string? RestartCondition { get; set; }
 
     [CommandSwitch("--restart-delay")]
-    public string? RestartDelay { get; set; }
+    public virtual string? RestartDelay { get; set; }
 
     [CommandSwitch("--restart-max-attempts")]
-    public string? RestartMaxAttempts { get; set; }
+    public virtual string? RestartMaxAttempts { get; set; }
 
     [CommandSwitch("--restart-window")]
-    public string? RestartWindow { get; set; }
+    public virtual string? RestartWindow { get; set; }
 
     [CommandSwitch("--rollback-delay")]
-    public string? RollbackDelay { get; set; }
+    public virtual string? RollbackDelay { get; set; }
 
     [CommandSwitch("--rollback-failure-action")]
-    public string? RollbackFailureAction { get; set; }
+    public virtual string? RollbackFailureAction { get; set; }
 
     [CommandSwitch("--rollback-max-failure-ratio")]
-    public string? RollbackMaxFailureRatio { get; set; }
+    public virtual string? RollbackMaxFailureRatio { get; set; }
 
     [CommandSwitch("--rollback-monitor")]
-    public string? RollbackMonitor { get; set; }
+    public virtual string? RollbackMonitor { get; set; }
 
     [CommandSwitch("--rollback-order")]
-    public string? RollbackOrder { get; set; }
+    public virtual string? RollbackOrder { get; set; }
 
     [CommandSwitch("--rollback-parallelism")]
-    public int? RollbackParallelism { get; set; }
+    public virtual int? RollbackParallelism { get; set; }
 
     [CommandSwitch("--secret")]
-    public string? Secret { get; set; }
+    public virtual string? Secret { get; set; }
 
     [CommandSwitch("--stop-grace-period")]
-    public string? StopGracePeriod { get; set; }
+    public virtual string? StopGracePeriod { get; set; }
 
     [CommandSwitch("--stop-signal")]
-    public string? StopSignal { get; set; }
+    public virtual string? StopSignal { get; set; }
 
     [CommandSwitch("--sysctl")]
-    public string? Sysctl { get; set; }
+    public virtual string? Sysctl { get; set; }
 
     [CommandSwitch("--tty")]
-    public string? Tty { get; set; }
+    public virtual string? Tty { get; set; }
 
     [CommandSwitch("--ulimit")]
-    public string? Ulimit { get; set; }
+    public virtual string? Ulimit { get; set; }
 
     [CommandSwitch("--update-delay")]
-    public string? UpdateDelay { get; set; }
+    public virtual string? UpdateDelay { get; set; }
 
     [CommandSwitch("--update-failure-action")]
-    public string? UpdateFailureAction { get; set; }
+    public virtual string? UpdateFailureAction { get; set; }
 
     [CommandSwitch("--update-max-failure-ratio")]
-    public string? UpdateMaxFailureRatio { get; set; }
+    public virtual string? UpdateMaxFailureRatio { get; set; }
 
     [CommandSwitch("--update-monitor")]
-    public string? UpdateMonitor { get; set; }
+    public virtual string? UpdateMonitor { get; set; }
 
     [CommandSwitch("--update-order")]
-    public string? UpdateOrder { get; set; }
+    public virtual string? UpdateOrder { get; set; }
 
     [CommandSwitch("--update-parallelism")]
-    public int? UpdateParallelism { get; set; }
+    public virtual int? UpdateParallelism { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--with-registry-auth")]
-    public string? WithRegistryAuth { get; set; }
+    public virtual string? WithRegistryAuth { get; set; }
 
     [CommandSwitch("--workdir")]
-    public string? Workdir { get; set; }
+    public virtual string? Workdir { get; set; }
 }

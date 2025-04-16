@@ -19,8 +19,8 @@ public record DockerContainerRestartOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [CommandSwitch("--signal")]
-    public string? Signal { get; set; }
+    public virtual string? Signal { get; set; }
 
     [CommandSwitch("--time")]
-    public string? Time { get; set; }
+    public virtual string? Time { get; set; }
 }

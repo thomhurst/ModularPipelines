@@ -8,5 +8,5 @@ namespace ModularPipelines.Node.Models;
 public record NpmExploreOptions : NpmOptions
 {
     [CommandSwitch("--shell")]
-    public string? Shell { get; set; }
+    public virtual string? Shell { get; set; }
 }

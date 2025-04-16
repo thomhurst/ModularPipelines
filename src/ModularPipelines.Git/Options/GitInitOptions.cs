@@ -8,10 +8,10 @@ namespace ModularPipelines.Git.Options;
 public record GitInitOptions : GitOptions
 {
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--bare")]
-    public bool? Bare { get; set; }
+    public virtual bool? Bare { get; set; }
 
     [CommandEqualsSeparatorSwitch("--object-format")]
     public string? ObjectFormat { get; set; }

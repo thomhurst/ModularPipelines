@@ -10,17 +10,17 @@ public record YarnRunOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--inspect")]
-    public bool? Inspect { get; set; }
+    public virtual bool? Inspect { get; set; }
 
     [BooleanCommandSwitch("--inspect-brk")]
-    public bool? InspectBrk { get; set; }
+    public virtual bool? InspectBrk { get; set; }
 
     [BooleanCommandSwitch("--top-level")]
-    public bool? TopLevel { get; set; }
+    public virtual bool? TopLevel { get; set; }
 
     [BooleanCommandSwitch("--binaries-only")]
-    public bool? BinariesOnly { get; set; }
+    public virtual bool? BinariesOnly { get; set; }
 
     [CommandSwitch("--require")]
-    public string? Require { get; set; }
+    public virtual string? Require { get; set; }
 }

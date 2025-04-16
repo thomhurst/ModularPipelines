@@ -24,26 +24,26 @@ public record DotNetCleanOptions : DotNetOptions
     public string? ProjectSolution { get; set; }
 
     [CommandSwitch("--configuration")]
-    public string? Configuration { get; set; }
+    public virtual string? Configuration { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--nologo")]
-    public bool? Nologo { get; set; }
+    public virtual bool? Nologo { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CommandSwitch("--runtime")]
-    public string? RuntimeIdentifier { get; set; }
+    public virtual string? RuntimeIdentifier { get; set; }
 
     [BooleanCommandSwitch("--tl")]
-    public bool? Tl { get; set; }
+    public virtual bool? Tl { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

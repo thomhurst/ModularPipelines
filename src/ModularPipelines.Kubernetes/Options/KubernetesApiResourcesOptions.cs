@@ -11,13 +11,13 @@ public record KubernetesApiResourcesOptions : KubernetesOptions
     public string? ApiGroup { get; set; }
 
     [BooleanCommandSwitch("--cached")]
-    public bool? Cached { get; set; }
+    public virtual bool? Cached { get; set; }
 
     [BooleanCommandSwitch("--namespaced")]
-    public bool? Namespaced { get; set; }
+    public virtual bool? Namespaced { get; set; }
 
     [BooleanCommandSwitch("--no-headers")]
-    public bool? NoHeaders { get; set; }
+    public virtual bool? NoHeaders { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }

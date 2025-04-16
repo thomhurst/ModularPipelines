@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnConstraintsOptions : YarnOptions
 {
     [BooleanCommandSwitch("--fix")]
-    public bool? Fix { get; set; }
+    public virtual bool? Fix { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

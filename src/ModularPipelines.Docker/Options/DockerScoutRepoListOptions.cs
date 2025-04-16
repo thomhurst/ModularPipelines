@@ -8,17 +8,17 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutRepoListOptions : DockerOptions
 {
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--only-disabled")]
-    public string? OnlyDisabled { get; set; }
+    public virtual string? OnlyDisabled { get; set; }
 
     [CommandSwitch("--only-enabled")]
-    public string? OnlyEnabled { get; set; }
+    public virtual string? OnlyEnabled { get; set; }
 
     [CommandSwitch("--only-registry")]
-    public string? OnlyRegistry { get; set; }
+    public virtual string? OnlyRegistry { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 }

@@ -8,14 +8,14 @@ namespace ModularPipelines.Chocolatey.Options;
 public record PinAddOptions : ChocoOptions
 {
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CommandSwitch("--note")]
-    public string? Note { get; set; }
+    public virtual string? Note { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

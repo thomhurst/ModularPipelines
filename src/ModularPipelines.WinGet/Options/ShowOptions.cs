@@ -10,56 +10,56 @@ public record ShowOptions(
 ) : WingetOptions
 {
     [CommandSwitch("--manifest")]
-    public string? Manifest { get; set; }
+    public virtual string? Manifest { get; set; }
 
     [CommandSwitch("--id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--moniker")]
-    public string? Moniker { get; set; }
+    public virtual string? Moniker { get; set; }
 
     [BooleanCommandSwitch("--version")]
-    public bool? Version { get; set; }
+    public virtual bool? Version { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [BooleanCommandSwitch("--exact")]
-    public bool? Exact { get; set; }
+    public virtual bool? Exact { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [CommandSwitch("--architecture")]
-    public string? Architecture { get; set; }
+    public virtual string? Architecture { get; set; }
 
     [CommandSwitch("--installer-type")]
-    public string? InstallerType { get; set; }
+    public virtual string? InstallerType { get; set; }
 
     [CommandSwitch("--locale")]
-    public string? Locale { get; set; }
+    public virtual string? Locale { get; set; }
 
     [BooleanCommandSwitch("--versions")]
-    public bool? Versions { get; set; }
+    public virtual bool? Versions { get; set; }
 
     [CommandSwitch("--header")]
-    public string? Header { get; set; }
+    public virtual string? Header { get; set; }
 
     [CommandSwitch("--accept-source-agreements")]
-    public string? AcceptSourceAgreements { get; set; }
+    public virtual string? AcceptSourceAgreements { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

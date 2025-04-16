@@ -11,35 +11,35 @@ public record DockerBuildxCreateOptions : DockerOptions
     public string? ContextOrEndpoint { get; set; }
 
     [CommandSwitch("--append")]
-    public string? Append { get; set; }
+    public virtual string? Append { get; set; }
 
     [CommandSwitch("--bootstrap")]
-    public string? Bootstrap { get; set; }
+    public virtual string? Bootstrap { get; set; }
 
     [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
+    public virtual string? Builder { get; set; }
 
     [CommandSwitch("--buildkitd-flags")]
-    public string? BuildkitdFlags { get; set; }
+    public virtual string? BuildkitdFlags { get; set; }
 
     [CommandSwitch("--driver")]
-    public string? Driver { get; set; }
+    public virtual string? Driver { get; set; }
 
     [CommandSwitch("--driver-opt")]
-    public string? DriverOpt { get; set; }
+    public virtual string? DriverOpt { get; set; }
 
     [CommandSwitch("--leave")]
-    public string? Leave { get; set; }
+    public virtual string? Leave { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--node")]
-    public string? Node { get; set; }
+    public virtual string? Node { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--use")]
-    public string? Use { get; set; }
+    public virtual string? Use { get; set; }
 }

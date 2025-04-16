@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitNotesOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--message")]
     public string? Message { get; set; }
@@ -23,32 +23,32 @@ public record GitNotesOptions : GitOptions
     public string? ReeditMessage { get; set; }
 
     [BooleanCommandSwitch("--allow-empty")]
-    public bool? AllowEmpty { get; set; }
+    public virtual bool? AllowEmpty { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ref")]
     public string? Ref { get; set; }
 
     [BooleanCommandSwitch("--ignore-missing")]
-    public bool? IgnoreMissing { get; set; }
+    public virtual bool? IgnoreMissing { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [CommandEqualsSeparatorSwitch("--strategy")]
     public string? Strategy { get; set; }
 
     [BooleanCommandSwitch("--commit")]
-    public bool? Commit { get; set; }
+    public virtual bool? Commit { get; set; }
 
     [BooleanCommandSwitch("--abort")]
-    public bool? Abort { get; set; }
+    public virtual bool? Abort { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 }

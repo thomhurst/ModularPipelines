@@ -11,8 +11,8 @@ public record HelmDependencyBuildOptions : HelmOptions
     public string? Keyring { get; set; }
 
     [BooleanCommandSwitch("--skip-refresh")]
-    public bool? SkipRefresh { get; set; }
+    public virtual bool? SkipRefresh { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 }

@@ -8,11 +8,11 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesVersionOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--client")]
-    public bool? Client { get; set; }
+    public virtual bool? Client { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--short")]
-    public bool? Short { get; set; }
+    public virtual bool? Short { get; set; }
 }

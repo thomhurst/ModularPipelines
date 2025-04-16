@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
@@ -23,17 +23,17 @@ public record KubernetesApplyEditLastAppliedOptions([property: PositionalArgumen
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--record")]
-    public bool? Record { get; set; }
+    public virtual bool? Record { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--windows-line-endings")]
-    public bool? WindowsLineEndings { get; set; }
+    public virtual bool? WindowsLineEndings { get; set; }
 }

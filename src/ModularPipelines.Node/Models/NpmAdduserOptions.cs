@@ -8,11 +8,11 @@ namespace ModularPipelines.Node.Models;
 public record NpmAdduserOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [CommandSwitch("--auth-type")]
-    public string? AuthType { get; set; }
+    public virtual string? AuthType { get; set; }
 }

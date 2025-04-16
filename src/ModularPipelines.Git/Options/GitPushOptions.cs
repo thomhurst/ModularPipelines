@@ -8,43 +8,43 @@ namespace ModularPipelines.Git.Options;
 public record GitPushOptions : GitOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--branches")]
-    public bool? Branches { get; set; }
+    public virtual bool? Branches { get; set; }
 
     [BooleanCommandSwitch("--prune")]
-    public bool? Prune { get; set; }
+    public virtual bool? Prune { get; set; }
 
     [BooleanCommandSwitch("--mirror")]
-    public bool? Mirror { get; set; }
+    public virtual bool? Mirror { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--porcelain")]
-    public bool? Porcelain { get; set; }
+    public virtual bool? Porcelain { get; set; }
 
     [BooleanCommandSwitch("--delete")]
-    public bool? Delete { get; set; }
+    public virtual bool? Delete { get; set; }
 
     [BooleanCommandSwitch("--tags")]
-    public bool? Tags { get; set; }
+    public virtual bool? Tags { get; set; }
 
     [BooleanCommandSwitch("--follow-tags")]
-    public bool? FollowTags { get; set; }
+    public virtual bool? FollowTags { get; set; }
 
     [BooleanCommandSwitch("--no-signed")]
-    public bool? NoSigned { get; set; }
+    public virtual bool? NoSigned { get; set; }
 
     [BooleanCommandSwitch("--signed")]
-    public bool? Signed { get; set; }
+    public virtual bool? Signed { get; set; }
 
     [BooleanCommandSwitch("--no-atomic")]
-    public bool? NoAtomic { get; set; }
+    public virtual bool? NoAtomic { get; set; }
 
     [BooleanCommandSwitch("--atomic")]
-    public bool? Atomic { get; set; }
+    public virtual bool? Atomic { get; set; }
 
     [CommandEqualsSeparatorSwitch("--push-option")]
     public string? PushOption { get; set; }
@@ -56,56 +56,56 @@ public record GitPushOptions : GitOptions
     public string? Exec { get; set; }
 
     [BooleanCommandSwitch("--no-force-with-lease")]
-    public bool? NoForceWithLease { get; set; }
+    public virtual bool? NoForceWithLease { get; set; }
 
     [BooleanCommandSwitch("--force-with-lease")]
-    public bool? ForceWithLease { get; set; }
+    public virtual bool? ForceWithLease { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--no-force-if-includes")]
-    public bool? NoForceIfIncludes { get; set; }
+    public virtual bool? NoForceIfIncludes { get; set; }
 
     [BooleanCommandSwitch("--force-if-includes")]
-    public bool? ForceIfIncludes { get; set; }
+    public virtual bool? ForceIfIncludes { get; set; }
 
     [CommandEqualsSeparatorSwitch("--repo")]
     public string? Repo { get; set; }
 
     [BooleanCommandSwitch("--set-upstream")]
-    public bool? SetUpstream { get; set; }
+    public virtual bool? SetUpstream { get; set; }
 
     [BooleanCommandSwitch("--no-thin")]
-    public bool? NoThin { get; set; }
+    public virtual bool? NoThin { get; set; }
 
     [BooleanCommandSwitch("--thin")]
-    public bool? Thin { get; set; }
+    public virtual bool? Thin { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--progress")]
-    public bool? Progress { get; set; }
+    public virtual bool? Progress { get; set; }
 
     [BooleanCommandSwitch("--no-recurse-submodules")]
-    public bool? NoRecurseSubmodules { get; set; }
+    public virtual bool? NoRecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--recurse-submodules")]
-    public bool? RecurseSubmodules { get; set; }
+    public virtual bool? RecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--no-verify")]
-    public bool? NoVerify { get; set; }
+    public virtual bool? NoVerify { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [BooleanCommandSwitch("--ipv4")]
-    public bool? Ipv4 { get; set; }
+    public virtual bool? Ipv4 { get; set; }
 
     [BooleanCommandSwitch("--ipv6")]
-    public bool? Ipv6 { get; set; }
+    public virtual bool? Ipv6 { get; set; }
 }

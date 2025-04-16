@@ -19,8 +19,8 @@ public record DockerContextUpdateOptions : DockerOptions
     public string? UpdateContext { get; set; }
 
     [CommandSwitch("--description")]
-    public string? Description { get; set; }
+    public virtual string? Description { get; set; }
 
     [CommandSwitch("--docker")]
-    public string? Docker { get; set; }
+    public virtual string? Docker { get; set; }
 }

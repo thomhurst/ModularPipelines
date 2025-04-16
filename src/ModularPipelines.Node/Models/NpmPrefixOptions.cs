@@ -8,5 +8,5 @@ namespace ModularPipelines.Node.Models;
 public record NpmPrefixOptions : NpmOptions
 {
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 }

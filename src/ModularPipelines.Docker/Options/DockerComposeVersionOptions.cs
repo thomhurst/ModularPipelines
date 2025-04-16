@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeVersionOptions : DockerOptions
 {
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--short")]
-    public string? Short { get; set; }
+    public virtual string? Short { get; set; }
 }

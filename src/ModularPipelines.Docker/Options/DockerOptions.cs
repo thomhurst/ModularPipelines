@@ -8,35 +8,35 @@ namespace ModularPipelines.Docker.Options;
 public record DockerOptions() : CommandLineToolOptions("docker")
 {
     [CommandSwitch("--config")]
-    public string? Config { get; set; }
+    public virtual string? Config { get; set; }
 
     [CommandSwitch("--context")]
-    public string? Context { get; set; }
+    public virtual string? Context { get; set; }
 
     [CommandSwitch("--debug")]
-    public string? Debug { get; set; }
+    public virtual string? Debug { get; set; }
 
     [CommandSwitch("--help")]
-    public string? Help { get; set; }
+    public virtual string? Help { get; set; }
 
     [CommandSwitch("--host")]
-    public string? Host { get; set; }
+    public virtual string? Host { get; set; }
 
     [CommandSwitch("--log-level")]
-    public string? LogLevel { get; set; }
+    public virtual string? LogLevel { get; set; }
 
     [CommandSwitch("--tls")]
-    public string? Tls { get; set; }
+    public virtual string? Tls { get; set; }
 
     [CommandSwitch("--tlscacert")]
-    public string? Tlscacert { get; set; }
+    public virtual string? Tlscacert { get; set; }
 
     [CommandSwitch("--tlscert")]
-    public string? Tlscert { get; set; }
+    public virtual string? Tlscert { get; set; }
 
     [CommandSwitch("--tlskey")]
-    public string? Tlskey { get; set; }
+    public virtual string? Tlskey { get; set; }
 
     [CommandSwitch("--tlsverify")]
-    public string? Tlsverify { get; set; }
+    public virtual string? Tlsverify { get; set; }
 }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmVersionOptions : HelmOptions
 {
     [BooleanCommandSwitch("--short")]
-    public bool? Short { get; set; }
+    public virtual bool? Short { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

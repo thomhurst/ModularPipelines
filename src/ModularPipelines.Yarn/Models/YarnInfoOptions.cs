@@ -8,29 +8,29 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnInfoOptions : YarnOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandSwitch("--extra")]
-    public string? Extra { get; set; }
+    public virtual string? Extra { get; set; }
 
     [BooleanCommandSwitch("--cache")]
-    public bool? Cache { get; set; }
+    public virtual bool? Cache { get; set; }
 
     [BooleanCommandSwitch("--dependents")]
-    public bool? Dependents { get; set; }
+    public virtual bool? Dependents { get; set; }
 
     [BooleanCommandSwitch("--manifest")]
-    public bool? Manifest { get; set; }
+    public virtual bool? Manifest { get; set; }
 
     [BooleanCommandSwitch("--name-only")]
-    public bool? NameOnly { get; set; }
+    public virtual bool? NameOnly { get; set; }
 
     [BooleanCommandSwitch("--virtuals")]
-    public bool? Virtuals { get; set; }
+    public virtual bool? Virtuals { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

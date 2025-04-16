@@ -24,23 +24,23 @@ public record DotNetMigrateOptions : DotNetOptions
     public string? SolutionFileProjectDir { get; set; }
 
     [CommandSwitch("--format-report-file-json")]
-    public string? FormatReportFileJson { get; set; }
+    public virtual string? FormatReportFileJson { get; set; }
 
     [CommandSwitch("--report-file")]
-    public string? ReportFile { get; set; }
+    public virtual string? ReportFile { get; set; }
 
     [BooleanCommandSwitch("--skip-project-references")]
-    public bool? SkipProjectReferences { get; set; }
+    public virtual bool? SkipProjectReferences { get; set; }
 
     [BooleanCommandSwitch("--skip-backup")]
-    public bool? SkipBackup { get; set; }
+    public virtual bool? SkipBackup { get; set; }
 
     [CommandSwitch("--template-file")]
-    public string? TemplateFile { get; set; }
+    public virtual string? TemplateFile { get; set; }
 
     [BooleanCommandSwitch("--sdk-package-version")]
-    public bool? SdkPackageVersion { get; set; }
+    public virtual bool? SdkPackageVersion { get; set; }
 
     [BooleanCommandSwitch("--xproj-file")]
-    public bool? XprojFile { get; set; }
+    public virtual bool? XprojFile { get; set; }
 }

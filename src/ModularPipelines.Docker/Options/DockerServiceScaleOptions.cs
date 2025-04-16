@@ -12,5 +12,5 @@ public record DockerServiceScaleOptions : DockerOptions
     public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 }

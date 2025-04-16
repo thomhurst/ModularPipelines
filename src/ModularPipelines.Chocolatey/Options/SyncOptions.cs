@@ -8,14 +8,14 @@ namespace ModularPipelines.Chocolatey.Options;
 public record SyncOptions : ChocoOptions
 {
     [CommandSwitch("--id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [CommandSwitch("--package-id")]
-    public string? PackageId { get; set; }
+    public virtual string? PackageId { get; set; }
 
     [CommandSwitch("--output-directory")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

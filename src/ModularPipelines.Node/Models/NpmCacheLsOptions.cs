@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmCacheLsOptions : NpmOptions
 {
     [CommandSwitch("--cache")]
-    public string? Cache { get; set; }
+    public virtual string? Cache { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Name { get; set; }

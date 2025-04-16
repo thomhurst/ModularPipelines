@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesTaintOptions([property: PositionalArgument] string Node) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
@@ -23,17 +23,17 @@ public record KubernetesTaintOptions([property: PositionalArgument] string Node)
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--overwrite")]
-    public bool? Overwrite { get; set; }
+    public virtual bool? Overwrite { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]
-    public bool? Validate { get; set; }
+    public virtual bool? Validate { get; set; }
 }

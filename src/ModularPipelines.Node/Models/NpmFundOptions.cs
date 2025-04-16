@@ -8,17 +8,17 @@ namespace ModularPipelines.Node.Models;
 public record NpmFundOptions : NpmOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--browser")]
-    public string? Browser { get; set; }
+    public virtual string? Browser { get; set; }
 
     [BooleanCommandSwitch("--unicode")]
-    public bool? Unicode { get; set; }
+    public virtual bool? Unicode { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [CommandSwitch("--which")]
-    public int? Which { get; set; }
+    public virtual int? Which { get; set; }
 }

@@ -8,16 +8,16 @@ namespace ModularPipelines.Git.Options;
 public record GitRangeDiffOptions : GitOptions
 {
     [BooleanCommandSwitch("--no-dual-color")]
-    public bool? NoDualColor { get; set; }
+    public virtual bool? NoDualColor { get; set; }
 
     [CommandEqualsSeparatorSwitch("--creation-factor")]
     public string? CreationFactor { get; set; }
 
     [BooleanCommandSwitch("--left-only")]
-    public bool? LeftOnly { get; set; }
+    public virtual bool? LeftOnly { get; set; }
 
     [BooleanCommandSwitch("--right-only")]
-    public bool? RightOnly { get; set; }
+    public virtual bool? RightOnly { get; set; }
 
     [CommandEqualsSeparatorSwitch("--no-notes")]
     public string? NoNotes { get; set; }

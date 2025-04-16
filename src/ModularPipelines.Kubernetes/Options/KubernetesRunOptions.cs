@@ -8,19 +8,19 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesRunOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--annotations", SwitchValueSeparator = " ")]
     public string[]? Annotations { get; set; }
 
     [BooleanCommandSwitch("--attach")]
-    public bool? Attach { get; set; }
+    public virtual bool? Attach { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
     public string? Cascade { get; set; }
 
     [BooleanCommandSwitch("--command")]
-    public bool? Command { get; set; }
+    public virtual bool? Command { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
@@ -29,7 +29,7 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string[]? Env { get; set; }
 
     [BooleanCommandSwitch("--expose")]
-    public bool? Expose { get; set; }
+    public virtual bool? Expose { get; set; }
 
     [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
     public string? FieldManager { get; set; }
@@ -38,7 +38,7 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string[]? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
     public int? GracePeriod { get; set; }
@@ -59,7 +59,7 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string? Labels { get; set; }
 
     [BooleanCommandSwitch("--leave-stdin-open")]
-    public bool? LeaveStdinOpen { get; set; }
+    public virtual bool? LeaveStdinOpen { get; set; }
 
     [CommandEqualsSeparatorSwitch("--limits", SwitchValueSeparator = " ")]
     public string? Limits { get; set; }
@@ -77,16 +77,16 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string? Port { get; set; }
 
     [BooleanCommandSwitch("--privileged")]
-    public bool? Privileged { get; set; }
+    public virtual bool? Privileged { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--record")]
-    public bool? Record { get; set; }
+    public virtual bool? Record { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--requests", SwitchValueSeparator = " ")]
     public string? Requests { get; set; }
@@ -95,19 +95,19 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string? Restart { get; set; }
 
     [BooleanCommandSwitch("--rm")]
-    public bool? Rm { get; set; }
+    public virtual bool? Rm { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
-    public bool? SaveConfig { get; set; }
+    public virtual bool? SaveConfig { get; set; }
 
     [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
     public string? Serviceaccount { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
@@ -116,8 +116,8 @@ public record KubernetesRunOptions([property: PositionalArgument] string Name) :
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--tty")]
-    public bool? Tty { get; set; }
+    public virtual bool? Tty { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 }

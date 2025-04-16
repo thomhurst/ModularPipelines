@@ -25,20 +25,20 @@ public record DockerNetworkConnectOptions : DockerOptions
     public string? Container { get; set; }
 
     [CommandSwitch("--alias")]
-    public string? Alias { get; set; }
+    public virtual string? Alias { get; set; }
 
     [CommandSwitch("--driver-opt")]
-    public string? DriverOpt { get; set; }
+    public virtual string? DriverOpt { get; set; }
 
     [CommandSwitch("--ip")]
-    public string? Ip { get; set; }
+    public virtual string? Ip { get; set; }
 
     [CommandSwitch("--ip6")]
-    public string? Ip6 { get; set; }
+    public virtual string? Ip6 { get; set; }
 
     [CommandSwitch("--link")]
-    public string? Link { get; set; }
+    public virtual string? Link { get; set; }
 
     [CommandSwitch("--link-local-ip")]
-    public string? LinkLocalIp { get; set; }
+    public virtual string? LinkLocalIp { get; set; }
 }

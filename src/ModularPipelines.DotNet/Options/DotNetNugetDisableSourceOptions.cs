@@ -19,5 +19,5 @@ public record DotNetNugetDisableSourceOptions : DotNetOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--configfile")]
-    public string? Configfile { get; set; }
+    public virtual string? Configfile { get; set; }
 }

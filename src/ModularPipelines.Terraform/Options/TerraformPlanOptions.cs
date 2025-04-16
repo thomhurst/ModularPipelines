@@ -9,59 +9,59 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformPlanOptions : TerraformOptions
 {
     [CommandSwitch("-out")]
-    public string? Out { get; set; }
+    public virtual string? Out { get; set; }
 
     [BooleanCommandSwitch("-destroy")]
-    public bool? Destroy { get; set; }
+    public virtual bool? Destroy { get; set; }
 
     [BooleanCommandSwitch("-refresh-only")]
-    public bool? RefreshOnly { get; set; }
+    public virtual bool? RefreshOnly { get; set; }
 
     [BooleanCommandSwitch("-refresh")]
-    public bool? Refresh { get; set; }
+    public virtual bool? Refresh { get; set; }
 
     [CommandSwitch("-replace")]
-    public string? Replace { get; set; }
+    public virtual string? Replace { get; set; }
 
     [CommandSwitch("-target")]
-    public string? Target { get; set; }
+    public virtual string? Target { get; set; }
 
     [CommandSwitch("-var")]
-    public IEnumerable<KeyValue>? Vars { get; set; }
+    public virtual IEnumerable<KeyValue>? Vars { get; set; }
 
     [CommandSwitch("-var-file")]
-    public string? VarFile { get; set; }
+    public virtual string? VarFile { get; set; }
 
     [BooleanCommandSwitch("-compact-warnings")]
-    public bool? CompactWarnings { get; set; }
+    public virtual bool? CompactWarnings { get; set; }
 
     [BooleanCommandSwitch("-detailed-exitcode")]
-    public bool? DetailedExitcode { get; set; }
+    public virtual bool? DetailedExitcode { get; set; }
 
     [CommandSwitch("-generate-config-out")]
-    public string? GenerateConfigOut { get; set; }
+    public virtual string? GenerateConfigOut { get; set; }
 
     [BooleanCommandSwitch("-input")]
-    public bool? Input { get; set; }
+    public virtual bool? Input { get; set; }
 
     [BooleanCommandSwitch("-json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("-lock")]
-    public bool? Lock { get; set; }
+    public virtual bool? Lock { get; set; }
 
     [CommandSwitch("-lock-timeout")]
-    public string? LockTimeout { get; set; }
+    public virtual string? LockTimeout { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [CommandSwitch("-parallelism")]
-    public int? Parallelism { get; set; }
+    public virtual int? Parallelism { get; set; }
 
     [BooleanCommandSwitch("-state")]
-    public bool? State { get; set; }
+    public virtual bool? State { get; set; }
 
     [BooleanCommandSwitch("-chdir")]
-    public bool? Chdir { get; set; }
+    public virtual bool? Chdir { get; set; }
 }

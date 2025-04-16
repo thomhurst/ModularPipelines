@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesRolloutUndoOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
     public string? DryRun { get; set; }
@@ -23,10 +23,10 @@ public record KubernetesRolloutUndoOptions([property: PositionalArgument] string
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

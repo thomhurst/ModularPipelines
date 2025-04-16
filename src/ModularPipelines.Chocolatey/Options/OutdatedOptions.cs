@@ -8,32 +8,32 @@ namespace ModularPipelines.Chocolatey.Options;
 public record OutdatedOptions : ChocoOptions
 {
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CommandSwitch("--cert")]
-    public string? Cert { get; set; }
+    public virtual string? Cert { get; set; }
 
     [CommandSwitch("--certpassword")]
-    public string? Certpassword { get; set; }
+    public virtual string? Certpassword { get; set; }
 
     [BooleanCommandSwitch("--prerelease")]
-    public bool? Prerelease { get; set; }
+    public virtual bool? Prerelease { get; set; }
 
     [BooleanCommandSwitch("--ignore-pinned")]
-    public bool? IgnorePinned { get; set; }
+    public virtual bool? IgnorePinned { get; set; }
 
     [BooleanCommandSwitch("--ignore-unfound")]
-    public bool? IgnoreUnfound { get; set; }
+    public virtual bool? IgnoreUnfound { get; set; }
 
     [BooleanCommandSwitch("--disable-package-repository-optimizations")]
-    public bool? DisablePackageRepositoryOptimizations { get; set; }
+    public virtual bool? DisablePackageRepositoryOptimizations { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

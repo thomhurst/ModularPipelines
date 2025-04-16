@@ -7,32 +7,32 @@ namespace ModularPipelines.Options.Windows;
 public record MsiInstallerOptions([property: CommandSwitch("/package")] string MsiPath) : CommandLineToolOptions("msiexec.exe")
 {
     [BooleanCommandSwitch("/exenoui")]
-    public bool? DisableUserInterface { get; set; } = true;
+    public virtual bool? DisableUserInterface { get; set; } = true;
 
     [BooleanCommandSwitch("/norestart")]
-    public bool NoRestart { get; init; } = true;
+    public virtual bool NoRestart { get; init; } = true;
 
     [BooleanCommandSwitch("/restartapplications")]
-    public bool RestartApplications { get; init; } = true;
+    public virtual bool RestartApplications { get; init; } = true;
 
     [BooleanCommandSwitch("/qn")]
-    internal bool? DisableUserInterface2 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface2 => DisableUserInterface;
 
     [BooleanCommandSwitch("/quiet")]
-    internal bool? DisableUserInterface3 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface3 => DisableUserInterface;
 
     [BooleanCommandSwitch("/silent")]
-    internal bool? DisableUserInterface4 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface4 => DisableUserInterface;
 
     [BooleanCommandSwitch("/verysilent")]
-    internal bool? DisableUserInterface5 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface5 => DisableUserInterface;
 
     [BooleanCommandSwitch("/suppressmsgboxes")]
-    internal bool? DisableUserInterface6 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface6 => DisableUserInterface;
 
     [BooleanCommandSwitch("/passive")]
-    internal bool? DisableUserInterface7 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface7 => DisableUserInterface;
 
     [BooleanCommandSwitch("/sp-")]
-    internal bool? DisableUserInterface8 => DisableUserInterface;
+    internal virtual bool? DisableUserInterface8 => DisableUserInterface;
 }

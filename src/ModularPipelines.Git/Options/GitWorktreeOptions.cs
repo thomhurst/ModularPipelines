@@ -8,43 +8,43 @@ namespace ModularPipelines.Git.Options;
 public record GitWorktreeOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [BooleanCommandSwitch("--no-checkout")]
-    public bool? NoCheckout { get; set; }
+    public virtual bool? NoCheckout { get; set; }
 
     [BooleanCommandSwitch("--checkout")]
-    public bool? Checkout { get; set; }
+    public virtual bool? Checkout { get; set; }
 
     [BooleanCommandSwitch("--no-guess-remote")]
-    public bool? NoGuessRemote { get; set; }
+    public virtual bool? NoGuessRemote { get; set; }
 
     [BooleanCommandSwitch("--guess-remote")]
-    public bool? GuessRemote { get; set; }
+    public virtual bool? GuessRemote { get; set; }
 
     [BooleanCommandSwitch("--no-track")]
-    public bool? NoTrack { get; set; }
+    public virtual bool? NoTrack { get; set; }
 
     [BooleanCommandSwitch("--track")]
-    public bool? Track { get; set; }
+    public virtual bool? Track { get; set; }
 
     [BooleanCommandSwitch("--lock")]
-    public bool? Lock { get; set; }
+    public virtual bool? Lock { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--porcelain")]
-    public bool? Porcelain { get; set; }
+    public virtual bool? Porcelain { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [CommandEqualsSeparatorSwitch("--expire")]
     public string? Expire { get; set; }

@@ -11,35 +11,35 @@ public record DockerBuildxBakeOptions : DockerOptions
     public IEnumerable<string>? Target { get; set; }
 
     [CommandSwitch("--file")]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CommandSwitch("--load")]
-    public string? Load { get; set; }
+    public virtual string? Load { get; set; }
 
     [CommandSwitch("--metadata-file")]
-    public string? MetadataFile { get; set; }
+    public virtual string? MetadataFile { get; set; }
 
     [BooleanCommandSwitch("--no-cache")]
-    public bool? NoCache { get; set; }
+    public virtual bool? NoCache { get; set; }
 
     [CommandSwitch("--print")]
-    public string? Print { get; set; }
+    public virtual string? Print { get; set; }
 
     [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [CommandSwitch("--provenance")]
-    public string? Provenance { get; set; }
+    public virtual string? Provenance { get; set; }
 
     [BooleanCommandSwitch("--pull")]
-    public bool? Pull { get; set; }
+    public virtual bool? Pull { get; set; }
 
     [BooleanCommandSwitch("--push")]
-    public bool? Push { get; set; }
+    public virtual bool? Push { get; set; }
 
     [BooleanCommandSwitch("--sbom")]
-    public bool? Sbom { get; set; }
+    public virtual bool? Sbom { get; set; }
 
     [CommandSwitch("--set")]
-    public string? Set { get; set; }
+    public virtual string? Set { get; set; }
 }

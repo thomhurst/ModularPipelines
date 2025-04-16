@@ -14,7 +14,7 @@ public record HelmRegistryLoginOptions : HelmOptions
     public string? CertFile { get; set; }
 
     [BooleanCommandSwitch("--insecure")]
-    public bool? Insecure { get; set; }
+    public virtual bool? Insecure { get; set; }
 
     [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }
@@ -23,7 +23,7 @@ public record HelmRegistryLoginOptions : HelmOptions
     public string? Password { get; set; }
 
     [BooleanCommandSwitch("--password-stdin")]
-    public bool? PasswordStdin { get; set; }
+    public virtual bool? PasswordStdin { get; set; }
 
     [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
     public string? Username { get; set; }

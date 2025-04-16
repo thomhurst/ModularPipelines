@@ -19,11 +19,11 @@ public record DockerContextCreateOptions : DockerOptions
     public string? CreateContext { get; set; }
 
     [CommandSwitch("--description")]
-    public string? Description { get; set; }
+    public virtual string? Description { get; set; }
 
     [CommandSwitch("--docker")]
-    public string? Docker { get; set; }
+    public virtual string? Docker { get; set; }
 
     [CommandSwitch("--from")]
-    public string? From { get; set; }
+    public virtual string? From { get; set; }
 }

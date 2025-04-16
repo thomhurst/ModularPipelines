@@ -8,5 +8,5 @@ namespace ModularPipelines.Node.Models;
 public record NpmCacheVerifyOptions : NpmOptions
 {
     [CommandSwitch("--cache")]
-    public string? Cache { get; set; }
+    public virtual string? Cache { get; set; }
 }

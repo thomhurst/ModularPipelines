@@ -28,29 +28,29 @@ public record DockerContainerExecOptions : DockerOptions
     public IEnumerable<string>? Arg { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--detach-keys")]
-    public string? DetachKeys { get; set; }
+    public virtual string? DetachKeys { get; set; }
 
     [CommandSwitch("--env")]
-    public string? Env { get; set; }
+    public virtual string? Env { get; set; }
 
     [CommandSwitch("--env-file")]
-    public string? EnvFile { get; set; }
+    public virtual string? EnvFile { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [BooleanCommandSwitch("--privileged")]
-    public bool? Privileged { get; set; }
+    public virtual bool? Privileged { get; set; }
 
     [CommandSwitch("--tty")]
-    public string? Tty { get; set; }
+    public virtual string? Tty { get; set; }
 
     [CommandSwitch("--user")]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CommandSwitch("--workdir")]
-    public string? Workdir { get; set; }
+    public virtual string? Workdir { get; set; }
 }

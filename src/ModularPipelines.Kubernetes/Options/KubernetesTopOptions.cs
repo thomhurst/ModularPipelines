@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesTopOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--no-headers")]
-    public bool? NoHeaders { get; set; }
+    public virtual bool? NoHeaders { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
@@ -17,5 +17,5 @@ public record KubernetesTopOptions : KubernetesOptions
     public string? SortBy { get; set; }
 
     [BooleanCommandSwitch("--use-protocol-buffers")]
-    public bool? UseProtocolBuffers { get; set; }
+    public virtual bool? UseProtocolBuffers { get; set; }
 }

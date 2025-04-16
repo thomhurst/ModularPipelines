@@ -31,10 +31,10 @@ public record DotNetAddReferenceOptions : DotNetOptions
     public string? Project { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [PositionalArgument(PlaceholderName = "<PROJECT_REFERENCES>")]
     public string? ProjectReferences { get; set; }

@@ -14,17 +14,17 @@ public record HelmUninstallOptions : HelmOptions
     public string? Description { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--keep-history")]
-    public bool? KeepHistory { get; set; }
+    public virtual bool? KeepHistory { get; set; }
 
     [BooleanCommandSwitch("--no-hooks")]
-    public bool? NoHooks { get; set; }
+    public virtual bool? NoHooks { get; set; }
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 }

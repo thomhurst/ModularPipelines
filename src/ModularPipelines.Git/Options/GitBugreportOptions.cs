@@ -14,7 +14,7 @@ public record GitBugreportOptions : GitOptions
     public string? Suffix { get; set; }
 
     [BooleanCommandSwitch("--no-diagnose")]
-    public bool? NoDiagnose { get; set; }
+    public virtual bool? NoDiagnose { get; set; }
 
     [CommandEqualsSeparatorSwitch("--diagnose")]
     public string? Diagnose { get; set; }

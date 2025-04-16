@@ -8,8 +8,8 @@ namespace ModularPipelines.Node.Models;
 public record NpmLogoutOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 }

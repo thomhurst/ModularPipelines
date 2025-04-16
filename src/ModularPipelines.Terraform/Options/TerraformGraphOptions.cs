@@ -8,14 +8,14 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformGraphOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-type")]
-    public bool? Type { get; set; }
+    public virtual bool? Type { get; set; }
 
     [CommandSwitch("-plan")]
-    public string? Plan { get; set; }
+    public virtual string? Plan { get; set; }
 
     [BooleanCommandSwitch("-draw-cycles")]
-    public bool? DrawCycles { get; set; }
+    public virtual bool? DrawCycles { get; set; }
 
     [CommandSwitch("-module-depth")]
-    public int? ModuleDepth { get; set; }
+    public virtual int? ModuleDepth { get; set; }
 }

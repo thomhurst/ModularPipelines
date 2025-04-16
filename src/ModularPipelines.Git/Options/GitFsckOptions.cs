@@ -8,47 +8,47 @@ namespace ModularPipelines.Git.Options;
 public record GitFsckOptions : GitOptions
 {
     [BooleanCommandSwitch("--unreachable")]
-    public bool? Unreachable { get; set; }
+    public virtual bool? Unreachable { get; set; }
 
     [BooleanCommandSwitch("--no-dangling")]
-    public bool? NoDangling { get; set; }
+    public virtual bool? NoDangling { get; set; }
 
     [BooleanCommandSwitch("--dangling")]
-    public bool? Dangling { get; set; }
+    public virtual bool? Dangling { get; set; }
 
     [BooleanCommandSwitch("--root")]
-    public bool? Root { get; set; }
+    public virtual bool? Root { get; set; }
 
     [BooleanCommandSwitch("--tags")]
-    public bool? Tags { get; set; }
+    public virtual bool? Tags { get; set; }
 
     [BooleanCommandSwitch("--cache")]
-    public bool? Cache { get; set; }
+    public virtual bool? Cache { get; set; }
 
     [BooleanCommandSwitch("--no-reflogs")]
-    public bool? NoReflogs { get; set; }
+    public virtual bool? NoReflogs { get; set; }
 
     [BooleanCommandSwitch("--full")]
-    public bool? Full { get; set; }
+    public virtual bool? Full { get; set; }
 
     [BooleanCommandSwitch("--connectivity-only")]
-    public bool? ConnectivityOnly { get; set; }
+    public virtual bool? ConnectivityOnly { get; set; }
 
     [BooleanCommandSwitch("--strict")]
-    public bool? Strict { get; set; }
+    public virtual bool? Strict { get; set; }
 
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--lost-found")]
-    public bool? LostFound { get; set; }
+    public virtual bool? LostFound { get; set; }
 
     [BooleanCommandSwitch("--name-objects")]
-    public bool? NameObjects { get; set; }
+    public virtual bool? NameObjects { get; set; }
 
     [BooleanCommandSwitch("--no-progress")]
-    public bool? NoProgress { get; set; }
+    public virtual bool? NoProgress { get; set; }
 
     [BooleanCommandSwitch("--progress")]
-    public bool? Progress { get; set; }
+    public virtual bool? Progress { get; set; }
 }

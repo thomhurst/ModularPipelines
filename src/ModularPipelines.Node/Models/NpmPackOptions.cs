@@ -8,20 +8,20 @@ namespace ModularPipelines.Node.Models;
 public record NpmPackOptions : NpmOptions
 {
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--pack-destination")]
-    public string? PackDestination { get; set; }
+    public virtual string? PackDestination { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [BooleanCommandSwitch("--include-workspace-root")]
-    public bool? IncludeWorkspaceRoot { get; set; }
+    public virtual bool? IncludeWorkspaceRoot { get; set; }
 }

@@ -24,14 +24,14 @@ public record DotNetNugetVerifyOptions : DotNetOptions
     public string? PackagePath { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--certificate-fingerprint")]
-    public IEnumerable<string>? CertificateFingerprint { get; set; }
+    public virtual IEnumerable<string>? CertificateFingerprint { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 
     [CommandSwitch("--configfile")]
-    public string? Configfile { get; set; }
+    public virtual string? Configfile { get; set; }
 }

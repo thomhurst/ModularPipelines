@@ -10,8 +10,8 @@ public record YarnSetVersionOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--yarn-path")]
-    public bool? YarnPath { get; set; }
+    public virtual bool? YarnPath { get; set; }
 
     [BooleanCommandSwitch("--only-if-needed")]
-    public bool? OnlyIfNeeded { get; set; }
+    public virtual bool? OnlyIfNeeded { get; set; }
 }

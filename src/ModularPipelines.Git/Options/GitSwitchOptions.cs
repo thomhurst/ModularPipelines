@@ -14,50 +14,50 @@ public record GitSwitchOptions : GitOptions
     public string? ForceCreate { get; set; }
 
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [BooleanCommandSwitch("--guess")]
-    public bool? Guess { get; set; }
+    public virtual bool? Guess { get; set; }
 
     [BooleanCommandSwitch("--no-guess")]
-    public bool? NoGuess { get; set; }
+    public virtual bool? NoGuess { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--discard-changes")]
-    public bool? DiscardChanges { get; set; }
+    public virtual bool? DiscardChanges { get; set; }
 
     [BooleanCommandSwitch("--merge")]
-    public bool? Merge { get; set; }
+    public virtual bool? Merge { get; set; }
 
     [CommandEqualsSeparatorSwitch("--conflict")]
     public string? Conflict { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--progress")]
-    public bool? Progress { get; set; }
+    public virtual bool? Progress { get; set; }
 
     [BooleanCommandSwitch("--no-progress")]
-    public bool? NoProgress { get; set; }
+    public virtual bool? NoProgress { get; set; }
 
     [BooleanCommandSwitch("--track")]
-    public bool? Track { get; set; }
+    public virtual bool? Track { get; set; }
 
     [BooleanCommandSwitch("--no-track")]
-    public bool? NoTrack { get; set; }
+    public virtual bool? NoTrack { get; set; }
 
     [CommandEqualsSeparatorSwitch("--orphan")]
     public string? Orphan { get; set; }
 
     [BooleanCommandSwitch("--ignore-other-worktrees")]
-    public bool? IgnoreOtherWorktrees { get; set; }
+    public virtual bool? IgnoreOtherWorktrees { get; set; }
 
     [BooleanCommandSwitch("--recurse-submodules")]
-    public bool? RecurseSubmodules { get; set; }
+    public virtual bool? RecurseSubmodules { get; set; }
 
     [BooleanCommandSwitch("--no-recurse-submodules")]
-    public bool? NoRecurseSubmodules { get; set; }
+    public virtual bool? NoRecurseSubmodules { get; set; }
 }

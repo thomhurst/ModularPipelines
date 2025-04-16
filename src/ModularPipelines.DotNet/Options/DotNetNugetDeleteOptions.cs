@@ -24,20 +24,20 @@ public record DotNetNugetDeleteOptions : DotNetOptions
     public string? PackageNamePackageVersion { get; set; }
 
     [BooleanCommandSwitch("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
+    public virtual bool? ForceEnglishOutput { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--api-key")]
-    public string? ApiKey { get; set; }
+    public virtual string? ApiKey { get; set; }
 
     [BooleanCommandSwitch("--no-service-endpoint")]
-    public bool? NoServiceEndpoint { get; set; }
+    public virtual bool? NoServiceEndpoint { get; set; }
 
     [BooleanCommandSwitch("--non-interactive")]
-    public bool? NonInteractive { get; set; }
+    public virtual bool? NonInteractive { get; set; }
 
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 }

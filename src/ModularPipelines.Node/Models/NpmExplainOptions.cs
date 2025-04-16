@@ -8,8 +8,8 @@ namespace ModularPipelines.Node.Models;
 public record NpmExplainOptions : NpmOptions
 {
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 }

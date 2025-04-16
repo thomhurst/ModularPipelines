@@ -8,8 +8,8 @@ namespace ModularPipelines.Git.Options;
 public record GitBisectOptions : GitOptions
 {
     [BooleanCommandSwitch("--no-checkout")]
-    public bool? NoCheckout { get; set; }
+    public virtual bool? NoCheckout { get; set; }
 
     [BooleanCommandSwitch("--first-parent")]
-    public bool? FirstParent { get; set; }
+    public virtual bool? FirstParent { get; set; }
 }

@@ -19,5 +19,5 @@ public record DockerPluginInspectOptions : DockerOptions
     public IEnumerable<string>? Plugin { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

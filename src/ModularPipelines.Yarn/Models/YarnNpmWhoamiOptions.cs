@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmWhoamiOptions : YarnOptions
 {
     [CommandSwitch("--scope")]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 
     [BooleanCommandSwitch("--publish")]
-    public bool? Publish { get; set; }
+    public virtual bool? Publish { get; set; }
 }

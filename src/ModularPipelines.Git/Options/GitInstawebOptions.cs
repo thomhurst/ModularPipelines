@@ -8,26 +8,26 @@ namespace ModularPipelines.Git.Options;
 public record GitInstawebOptions : GitOptions
 {
     [BooleanCommandSwitch("--local")]
-    public bool? Local { get; set; }
+    public virtual bool? Local { get; set; }
 
     [BooleanCommandSwitch("--httpd")]
-    public bool? Httpd { get; set; }
+    public virtual bool? Httpd { get; set; }
 
     [BooleanCommandSwitch("--module-path")]
-    public bool? ModulePath { get; set; }
+    public virtual bool? ModulePath { get; set; }
 
     [BooleanCommandSwitch("--port")]
-    public bool? Port { get; set; }
+    public virtual bool? Port { get; set; }
 
     [BooleanCommandSwitch("--browser")]
-    public bool? Browser { get; set; }
+    public virtual bool? Browser { get; set; }
 
     [BooleanCommandSwitch("--start")]
-    public bool? Start { get; set; }
+    public virtual bool? Start { get; set; }
 
     [BooleanCommandSwitch("--stop")]
-    public bool? Stop { get; set; }
+    public virtual bool? Stop { get; set; }
 
     [BooleanCommandSwitch("--restart")]
-    public bool? Restart { get; set; }
+    public virtual bool? Restart { get; set; }
 }

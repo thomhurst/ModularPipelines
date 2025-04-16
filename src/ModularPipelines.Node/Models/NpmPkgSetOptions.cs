@@ -10,16 +10,16 @@ public record NpmPkgSetOptions(
 ) : NpmOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Key { get; set; }

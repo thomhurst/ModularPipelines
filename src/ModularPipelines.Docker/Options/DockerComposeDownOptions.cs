@@ -11,14 +11,14 @@ public record DockerComposeDownOptions : DockerOptions
     public string? Services { get; set; }
 
     [BooleanCommandSwitch("--remove-orphans")]
-    public bool? RemoveOrphans { get; set; }
+    public virtual bool? RemoveOrphans { get; set; }
 
     [BooleanCommandSwitch("--rmi")]
-    public bool? Rmi { get; set; }
+    public virtual bool? Rmi { get; set; }
 
     [CommandSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CommandSwitch("--volumes")]
-    public string? Volumes { get; set; }
+    public virtual string? Volumes { get; set; }
 }

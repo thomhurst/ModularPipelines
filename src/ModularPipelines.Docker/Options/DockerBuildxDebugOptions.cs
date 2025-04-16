@@ -8,20 +8,20 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxDebugOptions : DockerOptions
 {
     [BooleanCommandSwitch("--detach")]
-    public bool? Detach { get; set; }
+    public virtual bool? Detach { get; set; }
 
     [CommandSwitch("--invoke")]
-    public string? Invoke { get; set; }
+    public virtual string? Invoke { get; set; }
 
     [CommandSwitch("--on")]
-    public string? On { get; set; }
+    public virtual string? On { get; set; }
 
     [CommandSwitch("--progress")]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [CommandSwitch("--root")]
-    public string? Root { get; set; }
+    public virtual string? Root { get; set; }
 
     [CommandSwitch("--server-config")]
-    public string? ServerConfig { get; set; }
+    public virtual string? ServerConfig { get; set; }
 }

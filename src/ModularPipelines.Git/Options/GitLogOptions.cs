@@ -8,13 +8,13 @@ namespace ModularPipelines.Git.Options;
 public record GitLogOptions : GitOptions
 {
     [BooleanCommandSwitch("--follow")]
-    public bool? Follow { get; set; }
+    public virtual bool? Follow { get; set; }
 
     [BooleanCommandSwitch("--no-decorate")]
-    public bool? NoDecorate { get; set; }
+    public virtual bool? NoDecorate { get; set; }
 
     [BooleanCommandSwitch("--decorate")]
-    public bool? Decorate { get; set; }
+    public virtual bool? Decorate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--decorate-refs")]
     public string? DecorateRefs { get; set; }
@@ -23,28 +23,28 @@ public record GitLogOptions : GitOptions
     public string? DecorateRefsExclude { get; set; }
 
     [BooleanCommandSwitch("--clear-decorations")]
-    public bool? ClearDecorations { get; set; }
+    public virtual bool? ClearDecorations { get; set; }
 
     [BooleanCommandSwitch("--source")]
-    public bool? Source { get; set; }
+    public virtual bool? Source { get; set; }
 
     [BooleanCommandSwitch("--no-mailmap")]
-    public bool? NoMailmap { get; set; }
+    public virtual bool? NoMailmap { get; set; }
 
     [BooleanCommandSwitch("--mailmap")]
-    public bool? Mailmap { get; set; }
+    public virtual bool? Mailmap { get; set; }
 
     [BooleanCommandSwitch("--no-use-mailmap")]
-    public bool? NoUseMailmap { get; set; }
+    public virtual bool? NoUseMailmap { get; set; }
 
     [BooleanCommandSwitch("--use-mailmap")]
-    public bool? UseMailmap { get; set; }
+    public virtual bool? UseMailmap { get; set; }
 
     [BooleanCommandSwitch("--full-diff")]
-    public bool? FullDiff { get; set; }
+    public virtual bool? FullDiff { get; set; }
 
     [BooleanCommandSwitch("--log-size")]
-    public bool? LogSize { get; set; }
+    public virtual bool? LogSize { get; set; }
 
     [CommandEqualsSeparatorSwitch("--max-count")]
     public string? MaxCount { get; set; }
@@ -80,34 +80,34 @@ public record GitLogOptions : GitOptions
     public string? Grep { get; set; }
 
     [BooleanCommandSwitch("--all-match")]
-    public bool? AllMatch { get; set; }
+    public virtual bool? AllMatch { get; set; }
 
     [BooleanCommandSwitch("--invert-grep")]
-    public bool? InvertGrep { get; set; }
+    public virtual bool? InvertGrep { get; set; }
 
     [BooleanCommandSwitch("--regexp-ignore-case")]
-    public bool? RegexpIgnoreCase { get; set; }
+    public virtual bool? RegexpIgnoreCase { get; set; }
 
     [BooleanCommandSwitch("--basic-regexp")]
-    public bool? BasicRegexp { get; set; }
+    public virtual bool? BasicRegexp { get; set; }
 
     [BooleanCommandSwitch("--extended-regexp")]
-    public bool? ExtendedRegexp { get; set; }
+    public virtual bool? ExtendedRegexp { get; set; }
 
     [BooleanCommandSwitch("--fixed-strings")]
-    public bool? FixedStrings { get; set; }
+    public virtual bool? FixedStrings { get; set; }
 
     [BooleanCommandSwitch("--perl-regexp")]
-    public bool? PerlRegexp { get; set; }
+    public virtual bool? PerlRegexp { get; set; }
 
     [BooleanCommandSwitch("--remove-empty")]
-    public bool? RemoveEmpty { get; set; }
+    public virtual bool? RemoveEmpty { get; set; }
 
     [BooleanCommandSwitch("--merges")]
-    public bool? Merges { get; set; }
+    public virtual bool? Merges { get; set; }
 
     [BooleanCommandSwitch("--no-merges")]
-    public bool? NoMerges { get; set; }
+    public virtual bool? NoMerges { get; set; }
 
     [CommandEqualsSeparatorSwitch("--min-parents")]
     public string? MinParents { get; set; }
@@ -116,22 +116,22 @@ public record GitLogOptions : GitOptions
     public string? MaxParents { get; set; }
 
     [BooleanCommandSwitch("--no-min-parents")]
-    public bool? NoMinParents { get; set; }
+    public virtual bool? NoMinParents { get; set; }
 
     [BooleanCommandSwitch("--no-max-parents")]
-    public bool? NoMaxParents { get; set; }
+    public virtual bool? NoMaxParents { get; set; }
 
     [BooleanCommandSwitch("--first-parent")]
-    public bool? FirstParent { get; set; }
+    public virtual bool? FirstParent { get; set; }
 
     [BooleanCommandSwitch("--exclude-first-parent-only")]
-    public bool? ExcludeFirstParentOnly { get; set; }
+    public virtual bool? ExcludeFirstParentOnly { get; set; }
 
     [BooleanCommandSwitch("--not")]
-    public bool? Not { get; set; }
+    public virtual bool? Not { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandEqualsSeparatorSwitch("--branches")]
     public string? Branches { get; set; }
@@ -149,88 +149,88 @@ public record GitLogOptions : GitOptions
     public string? Exclude { get; set; }
 
     [BooleanCommandSwitch("--exclude-hidden")]
-    public bool? ExcludeHidden { get; set; }
+    public virtual bool? ExcludeHidden { get; set; }
 
     [BooleanCommandSwitch("--reflog")]
-    public bool? Reflog { get; set; }
+    public virtual bool? Reflog { get; set; }
 
     [BooleanCommandSwitch("--alternate-refs")]
-    public bool? AlternateRefs { get; set; }
+    public virtual bool? AlternateRefs { get; set; }
 
     [BooleanCommandSwitch("--single-worktree")]
-    public bool? SingleWorktree { get; set; }
+    public virtual bool? SingleWorktree { get; set; }
 
     [BooleanCommandSwitch("--ignore-missing")]
-    public bool? IgnoreMissing { get; set; }
+    public virtual bool? IgnoreMissing { get; set; }
 
     [BooleanCommandSwitch("--bisect")]
-    public bool? Bisect { get; set; }
+    public virtual bool? Bisect { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [BooleanCommandSwitch("--cherry-mark")]
-    public bool? CherryMark { get; set; }
+    public virtual bool? CherryMark { get; set; }
 
     [BooleanCommandSwitch("--cherry-pick")]
-    public bool? CherryPick { get; set; }
+    public virtual bool? CherryPick { get; set; }
 
     [BooleanCommandSwitch("--left-only")]
-    public bool? LeftOnly { get; set; }
+    public virtual bool? LeftOnly { get; set; }
 
     [BooleanCommandSwitch("--right-only")]
-    public bool? RightOnly { get; set; }
+    public virtual bool? RightOnly { get; set; }
 
     [BooleanCommandSwitch("--cherry")]
-    public bool? Cherry { get; set; }
+    public virtual bool? Cherry { get; set; }
 
     [BooleanCommandSwitch("--walk-reflogs")]
-    public bool? WalkReflogs { get; set; }
+    public virtual bool? WalkReflogs { get; set; }
 
     [BooleanCommandSwitch("--merge")]
-    public bool? Merge { get; set; }
+    public virtual bool? Merge { get; set; }
 
     [BooleanCommandSwitch("--boundary")]
-    public bool? Boundary { get; set; }
+    public virtual bool? Boundary { get; set; }
 
     [BooleanCommandSwitch("--simplify-by-decoration")]
-    public bool? SimplifyByDecoration { get; set; }
+    public virtual bool? SimplifyByDecoration { get; set; }
 
     [BooleanCommandSwitch("--show-pulls")]
-    public bool? ShowPulls { get; set; }
+    public virtual bool? ShowPulls { get; set; }
 
     [BooleanCommandSwitch("--full-history")]
-    public bool? FullHistory { get; set; }
+    public virtual bool? FullHistory { get; set; }
 
     [BooleanCommandSwitch("--dense")]
-    public bool? Dense { get; set; }
+    public virtual bool? Dense { get; set; }
 
     [BooleanCommandSwitch("--sparse")]
-    public bool? Sparse { get; set; }
+    public virtual bool? Sparse { get; set; }
 
     [BooleanCommandSwitch("--simplify-merges")]
-    public bool? SimplifyMerges { get; set; }
+    public virtual bool? SimplifyMerges { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ancestry-path")]
     public string? AncestryPath { get; set; }
 
     [BooleanCommandSwitch("--date-order")]
-    public bool? DateOrder { get; set; }
+    public virtual bool? DateOrder { get; set; }
 
     [BooleanCommandSwitch("--author-date-order")]
-    public bool? AuthorDateOrder { get; set; }
+    public virtual bool? AuthorDateOrder { get; set; }
 
     [BooleanCommandSwitch("--topo-order")]
-    public bool? TopoOrder { get; set; }
+    public virtual bool? TopoOrder { get; set; }
 
     [BooleanCommandSwitch("--reverse")]
-    public bool? Reverse { get; set; }
+    public virtual bool? Reverse { get; set; }
 
     [BooleanCommandSwitch("--no-walk")]
-    public bool? NoWalk { get; set; }
+    public virtual bool? NoWalk { get; set; }
 
     [BooleanCommandSwitch("--do-walk")]
-    public bool? DoWalk { get; set; }
+    public virtual bool? DoWalk { get; set; }
 
     [CommandEqualsSeparatorSwitch("--pretty")]
     public string? Pretty { get; set; }
@@ -239,13 +239,13 @@ public record GitLogOptions : GitOptions
     public string? Format { get; set; }
 
     [BooleanCommandSwitch("--abbrev-commit")]
-    public bool? AbbrevCommit { get; set; }
+    public virtual bool? AbbrevCommit { get; set; }
 
     [BooleanCommandSwitch("--no-abbrev-commit")]
-    public bool? NoAbbrevCommit { get; set; }
+    public virtual bool? NoAbbrevCommit { get; set; }
 
     [BooleanCommandSwitch("--oneline")]
-    public bool? Oneline { get; set; }
+    public virtual bool? Oneline { get; set; }
 
     [CommandEqualsSeparatorSwitch("--encoding")]
     public string? Encoding { get; set; }
@@ -254,70 +254,70 @@ public record GitLogOptions : GitOptions
     public string? ExpandTabs { get; set; }
 
     [BooleanCommandSwitch("--no-expand-tabs")]
-    public bool? NoExpandTabs { get; set; }
+    public virtual bool? NoExpandTabs { get; set; }
 
     [CommandEqualsSeparatorSwitch("--notes")]
     public string? Notes { get; set; }
 
     [BooleanCommandSwitch("--no-notes")]
-    public bool? NoNotes { get; set; }
+    public virtual bool? NoNotes { get; set; }
 
     [CommandEqualsSeparatorSwitch("--show-notes")]
     public string? ShowNotes { get; set; }
 
     [BooleanCommandSwitch("--no-standard-notes")]
-    public bool? NoStandardNotes { get; set; }
+    public virtual bool? NoStandardNotes { get; set; }
 
     [BooleanCommandSwitch("--standard-notes")]
-    public bool? StandardNotes { get; set; }
+    public virtual bool? StandardNotes { get; set; }
 
     [BooleanCommandSwitch("--show-signature")]
-    public bool? ShowSignature { get; set; }
+    public virtual bool? ShowSignature { get; set; }
 
     [BooleanCommandSwitch("--relative-date")]
-    public bool? RelativeDate { get; set; }
+    public virtual bool? RelativeDate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--date")]
     public string? Date { get; set; }
 
     [BooleanCommandSwitch("--parents")]
-    public bool? Parents { get; set; }
+    public virtual bool? Parents { get; set; }
 
     [BooleanCommandSwitch("--children")]
-    public bool? Children { get; set; }
+    public virtual bool? Children { get; set; }
 
     [BooleanCommandSwitch("--left-right")]
-    public bool? LeftRight { get; set; }
+    public virtual bool? LeftRight { get; set; }
 
     [BooleanCommandSwitch("--graph")]
-    public bool? Graph { get; set; }
+    public virtual bool? Graph { get; set; }
 
     [CommandEqualsSeparatorSwitch("--show-linear-break")]
     public string? ShowLinearBreak { get; set; }
 
     [BooleanCommandSwitch("--patch")]
-    public bool? Patch { get; set; }
+    public virtual bool? Patch { get; set; }
 
     [BooleanCommandSwitch("--no-patch")]
-    public bool? NoPatch { get; set; }
+    public virtual bool? NoPatch { get; set; }
 
     [BooleanCommandSwitch("--diff-merges")]
-    public bool? DiffMerges { get; set; }
+    public virtual bool? DiffMerges { get; set; }
 
     [BooleanCommandSwitch("--no-diff-merges")]
-    public bool? NoDiffMerges { get; set; }
+    public virtual bool? NoDiffMerges { get; set; }
 
     [BooleanCommandSwitch("--remerge-diff")]
-    public bool? RemergeDiff { get; set; }
+    public virtual bool? RemergeDiff { get; set; }
 
     [BooleanCommandSwitch("--c")]
-    public bool? C { get; set; }
+    public virtual bool? C { get; set; }
 
     [BooleanCommandSwitch("--cc")]
-    public bool? Cc { get; set; }
+    public virtual bool? Cc { get; set; }
 
     [BooleanCommandSwitch("--combined-all-paths")]
-    public bool? CombinedAllPaths { get; set; }
+    public virtual bool? CombinedAllPaths { get; set; }
 
     [CommandEqualsSeparatorSwitch("--unified")]
     public string? Unified { get; set; }
@@ -335,64 +335,64 @@ public record GitLogOptions : GitOptions
     public string? OutputIndicatorContext { get; set; }
 
     [BooleanCommandSwitch("--raw")]
-    public bool? Raw { get; set; }
+    public virtual bool? Raw { get; set; }
 
     [BooleanCommandSwitch("--patch-with-raw")]
-    public bool? PatchWithRaw { get; set; }
+    public virtual bool? PatchWithRaw { get; set; }
 
     [BooleanCommandSwitch("--indent-heuristic")]
-    public bool? IndentHeuristic { get; set; }
+    public virtual bool? IndentHeuristic { get; set; }
 
     [BooleanCommandSwitch("--no-indent-heuristic")]
-    public bool? NoIndentHeuristic { get; set; }
+    public virtual bool? NoIndentHeuristic { get; set; }
 
     [BooleanCommandSwitch("--minimal")]
-    public bool? Minimal { get; set; }
+    public virtual bool? Minimal { get; set; }
 
     [BooleanCommandSwitch("--patience")]
-    public bool? Patience { get; set; }
+    public virtual bool? Patience { get; set; }
 
     [BooleanCommandSwitch("--histogram")]
-    public bool? Histogram { get; set; }
+    public virtual bool? Histogram { get; set; }
 
     [CommandEqualsSeparatorSwitch("--anchored")]
     public string? Anchored { get; set; }
 
     [BooleanCommandSwitch("--diff-algorithm")]
-    public bool? DiffAlgorithm { get; set; }
+    public virtual bool? DiffAlgorithm { get; set; }
 
     [CommandEqualsSeparatorSwitch("--stat")]
     public string? Stat { get; set; }
 
     [BooleanCommandSwitch("--compact-summary")]
-    public bool? CompactSummary { get; set; }
+    public virtual bool? CompactSummary { get; set; }
 
     [BooleanCommandSwitch("--numstat")]
-    public bool? Numstat { get; set; }
+    public virtual bool? Numstat { get; set; }
 
     [BooleanCommandSwitch("--shortstat")]
-    public bool? Shortstat { get; set; }
+    public virtual bool? Shortstat { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dirstat")]
     public string? Dirstat { get; set; }
 
     [BooleanCommandSwitch("--cumulative")]
-    public bool? Cumulative { get; set; }
+    public virtual bool? Cumulative { get; set; }
 
     [CommandEqualsSeparatorSwitch("--dirstat-by-file")]
     public string? DirstatByFile { get; set; }
 
     [BooleanCommandSwitch("--summary")]
-    public bool? Summary { get; set; }
+    public virtual bool? Summary { get; set; }
 
     [BooleanCommandSwitch("--patch-with-stat")]
-    public bool? PatchWithStat { get; set; }
+    public virtual bool? PatchWithStat { get; set; }
 
     [BooleanCommandSwitch("--name-only")]
-    public bool? NameOnly { get; set; }
+    public virtual bool? NameOnly { get; set; }
 
     [BooleanCommandSwitch("--name-status")]
-    public bool? NameStatus { get; set; }
+    public virtual bool? NameStatus { get; set; }
 
     [CommandEqualsSeparatorSwitch("--submodule")]
     public string? Submodule { get; set; }
@@ -401,19 +401,19 @@ public record GitLogOptions : GitOptions
     public string? Color { get; set; }
 
     [BooleanCommandSwitch("--no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [CommandEqualsSeparatorSwitch("--color-moved")]
     public string? ColorMoved { get; set; }
 
     [BooleanCommandSwitch("--no-color-moved")]
-    public bool? NoColorMoved { get; set; }
+    public virtual bool? NoColorMoved { get; set; }
 
     [CommandEqualsSeparatorSwitch("--color-moved-ws")]
     public string? ColorMovedWs { get; set; }
 
     [BooleanCommandSwitch("--no-color-moved-ws")]
-    public bool? NoColorMovedWs { get; set; }
+    public virtual bool? NoColorMovedWs { get; set; }
 
     [CommandEqualsSeparatorSwitch("--word-diff")]
     public string? WordDiff { get; set; }
@@ -425,25 +425,25 @@ public record GitLogOptions : GitOptions
     public string? ColorWords { get; set; }
 
     [BooleanCommandSwitch("--no-renames")]
-    public bool? NoRenames { get; set; }
+    public virtual bool? NoRenames { get; set; }
 
     [BooleanCommandSwitch("--no-rename-empty")]
-    public bool? NoRenameEmpty { get; set; }
+    public virtual bool? NoRenameEmpty { get; set; }
 
     [BooleanCommandSwitch("--rename-empty")]
-    public bool? RenameEmpty { get; set; }
+    public virtual bool? RenameEmpty { get; set; }
 
     [BooleanCommandSwitch("--check")]
-    public bool? Check { get; set; }
+    public virtual bool? Check { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ws-error-highlight")]
     public string? WsErrorHighlight { get; set; }
 
     [BooleanCommandSwitch("--full-index")]
-    public bool? FullIndex { get; set; }
+    public virtual bool? FullIndex { get; set; }
 
     [BooleanCommandSwitch("--binary")]
-    public bool? Binary { get; set; }
+    public virtual bool? Binary { get; set; }
 
     [CommandEqualsSeparatorSwitch("--abbrev")]
     public string? Abbrev { get; set; }
@@ -458,22 +458,22 @@ public record GitLogOptions : GitOptions
     public string? FindCopies { get; set; }
 
     [BooleanCommandSwitch("--find-copies-harder")]
-    public bool? FindCopiesHarder { get; set; }
+    public virtual bool? FindCopiesHarder { get; set; }
 
     [BooleanCommandSwitch("--irreversible-delete")]
-    public bool? IrreversibleDelete { get; set; }
+    public virtual bool? IrreversibleDelete { get; set; }
 
     [BooleanCommandSwitch("--diff-filter")]
-    public bool? DiffFilter { get; set; }
+    public virtual bool? DiffFilter { get; set; }
 
     [CommandEqualsSeparatorSwitch("--find-object")]
     public string? FindObject { get; set; }
 
     [BooleanCommandSwitch("--pickaxe-all")]
-    public bool? PickaxeAll { get; set; }
+    public virtual bool? PickaxeAll { get; set; }
 
     [BooleanCommandSwitch("--pickaxe-regex")]
-    public bool? PickaxeRegex { get; set; }
+    public virtual bool? PickaxeRegex { get; set; }
 
     [CommandEqualsSeparatorSwitch("--skip-to")]
     public string? SkipTo { get; set; }
@@ -485,25 +485,25 @@ public record GitLogOptions : GitOptions
     public string? Relative { get; set; }
 
     [BooleanCommandSwitch("--no-relative")]
-    public bool? NoRelative { get; set; }
+    public virtual bool? NoRelative { get; set; }
 
     [BooleanCommandSwitch("--text")]
-    public bool? Text { get; set; }
+    public virtual bool? Text { get; set; }
 
     [BooleanCommandSwitch("--ignore-cr-at-eol")]
-    public bool? IgnoreCrAtEol { get; set; }
+    public virtual bool? IgnoreCrAtEol { get; set; }
 
     [BooleanCommandSwitch("--ignore-space-at-eol")]
-    public bool? IgnoreSpaceAtEol { get; set; }
+    public virtual bool? IgnoreSpaceAtEol { get; set; }
 
     [BooleanCommandSwitch("--ignore-space-change")]
-    public bool? IgnoreSpaceChange { get; set; }
+    public virtual bool? IgnoreSpaceChange { get; set; }
 
     [BooleanCommandSwitch("--ignore-all-space")]
-    public bool? IgnoreAllSpace { get; set; }
+    public virtual bool? IgnoreAllSpace { get; set; }
 
     [BooleanCommandSwitch("--ignore-blank-lines")]
-    public bool? IgnoreBlankLines { get; set; }
+    public virtual bool? IgnoreBlankLines { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ignore-matching-lines")]
     public string? IgnoreMatchingLines { get; set; }
@@ -512,19 +512,19 @@ public record GitLogOptions : GitOptions
     public string? InterHunkContext { get; set; }
 
     [BooleanCommandSwitch("--function-context")]
-    public bool? FunctionContext { get; set; }
+    public virtual bool? FunctionContext { get; set; }
 
     [BooleanCommandSwitch("--ext-diff")]
-    public bool? ExtDiff { get; set; }
+    public virtual bool? ExtDiff { get; set; }
 
     [BooleanCommandSwitch("--no-ext-diff")]
-    public bool? NoExtDiff { get; set; }
+    public virtual bool? NoExtDiff { get; set; }
 
     [BooleanCommandSwitch("--textconv")]
-    public bool? Textconv { get; set; }
+    public virtual bool? Textconv { get; set; }
 
     [BooleanCommandSwitch("--no-textconv")]
-    public bool? NoTextconv { get; set; }
+    public virtual bool? NoTextconv { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ignore-submodules")]
     public string? IgnoreSubmodules { get; set; }
@@ -536,14 +536,14 @@ public record GitLogOptions : GitOptions
     public string? DstPrefix { get; set; }
 
     [BooleanCommandSwitch("--no-prefix")]
-    public bool? NoPrefix { get; set; }
+    public virtual bool? NoPrefix { get; set; }
 
     [BooleanCommandSwitch("--default-prefix")]
-    public bool? DefaultPrefix { get; set; }
+    public virtual bool? DefaultPrefix { get; set; }
 
     [CommandEqualsSeparatorSwitch("--line-prefix")]
     public string? LinePrefix { get; set; }
 
     [BooleanCommandSwitch("--ita-invisible-in-index")]
-    public bool? ItaInvisibleInIndex { get; set; }
+    public virtual bool? ItaInvisibleInIndex { get; set; }
 }

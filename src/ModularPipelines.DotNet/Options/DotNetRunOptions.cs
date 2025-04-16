@@ -8,47 +8,47 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetRunOptions : DotNetOptions
 {
     [CommandSwitch("--arch")]
-    public string? Architecture { get; set; }
+    public virtual string? Architecture { get; set; }
 
     [CommandSwitch("--configuration")]
-    public string? Configuration { get; set; }
+    public virtual string? Configuration { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--interactive")]
-    public bool? Interactive { get; set; }
+    public virtual bool? Interactive { get; set; }
 
     [CommandSwitch("--launch-profile")]
-    public string? LaunchProfile { get; set; }
+    public virtual string? LaunchProfile { get; set; }
 
     [BooleanCommandSwitch("--no-build")]
-    public bool? NoBuild { get; set; }
+    public virtual bool? NoBuild { get; set; }
 
     [BooleanCommandSwitch("--no-dependencies")]
-    public bool? NoDependencies { get; set; }
+    public virtual bool? NoDependencies { get; set; }
 
     [BooleanCommandSwitch("--no-launch-profile")]
-    public bool? NoLaunchProfile { get; set; }
+    public virtual bool? NoLaunchProfile { get; set; }
 
     [BooleanCommandSwitch("--no-restore")]
-    public bool? NoRestore { get; set; }
+    public virtual bool? NoRestore { get; set; }
 
     [CommandSwitch("--os")]
-    public string? Os { get; set; }
+    public virtual string? Os { get; set; }
 
     [CommandSwitch("--project")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 
     [CommandSwitch("--runtime")]
-    public string? RuntimeIdentifier { get; set; }
+    public virtual string? RuntimeIdentifier { get; set; }
 
     [BooleanCommandSwitch("--tl")]
-    public bool? Tl { get; set; }
+    public virtual bool? Tl { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

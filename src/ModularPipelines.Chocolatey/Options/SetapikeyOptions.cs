@@ -8,8 +8,8 @@ namespace ModularPipelines.Chocolatey.Options;
 public record SetApiKeyOptions : ChocoOptions
 {
     [CommandSwitch("--source")]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CommandSwitch("--api-key")]
-    public string? ApiKey { get; set; }
+    public virtual string? ApiKey { get; set; }
 }

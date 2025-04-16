@@ -8,8 +8,8 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmInfoOptions : YarnOptions
 {
     [CommandSwitch("--fields")]
-    public string? Fields { get; set; }
+    public virtual string? Fields { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

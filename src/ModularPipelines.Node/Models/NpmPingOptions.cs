@@ -8,5 +8,5 @@ namespace ModularPipelines.Node.Models;
 public record NpmPingOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 }

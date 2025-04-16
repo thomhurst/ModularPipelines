@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmEditOptions : NpmOptions
 {
     [CommandSwitch("--editor")]
-    public string? Editor { get; set; }
+    public virtual string? Editor { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Pkg { get; set; }

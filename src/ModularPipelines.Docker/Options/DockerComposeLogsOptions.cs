@@ -11,26 +11,26 @@ public record DockerComposeLogsOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--follow")]
-    public bool? Follow { get; set; }
+    public virtual bool? Follow { get; set; }
 
     [CommandSwitch("--index")]
-    public string? Index { get; set; }
+    public virtual string? Index { get; set; }
 
     [BooleanCommandSwitch("--no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [CommandSwitch("--no-log-prefix")]
-    public string? NoLogPrefix { get; set; }
+    public virtual string? NoLogPrefix { get; set; }
 
     [CommandSwitch("--since")]
-    public string? Since { get; set; }
+    public virtual string? Since { get; set; }
 
     [CommandSwitch("--tail")]
-    public string? Tail { get; set; }
+    public virtual string? Tail { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
-    public bool? Timestamps { get; set; }
+    public virtual bool? Timestamps { get; set; }
 
     [CommandSwitch("--until")]
-    public string? Until { get; set; }
+    public virtual string? Until { get; set; }
 }

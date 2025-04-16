@@ -19,47 +19,47 @@ public record DockerContainerUpdateOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [CommandSwitch("--blkio-weight")]
-    public string? BlkioWeight { get; set; }
+    public virtual string? BlkioWeight { get; set; }
 
     [CommandSwitch("--cpu-period")]
-    public string? CpuPeriod { get; set; }
+    public virtual string? CpuPeriod { get; set; }
 
     [CommandSwitch("--cpu-quota")]
-    public string? CpuQuota { get; set; }
+    public virtual string? CpuQuota { get; set; }
 
     [CommandSwitch("--cpu-rt-period")]
-    public string? CpuRtPeriod { get; set; }
+    public virtual string? CpuRtPeriod { get; set; }
 
     [CommandSwitch("--cpu-rt-runtime")]
-    public string? CpuRtRuntime { get; set; }
+    public virtual string? CpuRtRuntime { get; set; }
 
     [CommandSwitch("--cpu-shares")]
-    public string? CpuShares { get; set; }
+    public virtual string? CpuShares { get; set; }
 
     [CommandSwitch("--cpus")]
-    public string? Cpus { get; set; }
+    public virtual string? Cpus { get; set; }
 
     [CommandSwitch("--cpuset-cpus")]
-    public string? CpusetCpus { get; set; }
+    public virtual string? CpusetCpus { get; set; }
 
     [CommandSwitch("--cpuset-mems")]
-    public string? CpusetMems { get; set; }
+    public virtual string? CpusetMems { get; set; }
 
     [CommandSwitch("--kernel-memory")]
-    public string? KernelMemory { get; set; }
+    public virtual string? KernelMemory { get; set; }
 
     [CommandSwitch("--memory")]
-    public string? Memory { get; set; }
+    public virtual string? Memory { get; set; }
 
     [CommandSwitch("--memory-reservation")]
-    public string? MemoryReservation { get; set; }
+    public virtual string? MemoryReservation { get; set; }
 
     [CommandSwitch("--memory-swap")]
-    public string? MemorySwap { get; set; }
+    public virtual string? MemorySwap { get; set; }
 
     [CommandSwitch("--pids-limit")]
-    public string? PidsLimit { get; set; }
+    public virtual string? PidsLimit { get; set; }
 
     [CommandSwitch("--restart")]
-    public string? Restart { get; set; }
+    public virtual string? Restart { get; set; }
 }

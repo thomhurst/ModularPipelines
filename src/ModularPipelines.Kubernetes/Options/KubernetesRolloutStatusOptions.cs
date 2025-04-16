@@ -14,7 +14,7 @@ public record KubernetesRolloutStatusOptions([property: PositionalArgument] stri
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
     public int? Revision { get; set; }
@@ -23,5 +23,5 @@ public record KubernetesRolloutStatusOptions([property: PositionalArgument] stri
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--watch")]
-    public bool? Watch { get; set; }
+    public virtual bool? Watch { get; set; }
 }

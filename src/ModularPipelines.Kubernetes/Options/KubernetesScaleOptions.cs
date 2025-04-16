@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesScaleOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--current-replicas", SwitchValueSeparator = " ")]
     public int? CurrentReplicas { get; set; }
@@ -29,10 +29,10 @@ public record KubernetesScaleOptions : KubernetesOptions
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--record")]
-    public bool? Record { get; set; }
+    public virtual bool? Record { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--replicas", SwitchValueSeparator = " ")]
     public int? Replicas { get; set; }
@@ -44,7 +44,7 @@ public record KubernetesScaleOptions : KubernetesOptions
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

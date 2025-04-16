@@ -10,11 +10,11 @@ public record YarnWhyOptions(
 ) : YarnOptions
 {
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--peers")]
-    public bool? Peers { get; set; }
+    public virtual bool? Peers { get; set; }
 }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesAutoscaleOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cpu-percent", SwitchValueSeparator = " ")]
     public int? CpuPercent { get; set; }
@@ -38,16 +38,16 @@ public record KubernetesAutoscaleOptions : KubernetesOptions
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--record")]
-    public bool? Record { get; set; }
+    public virtual bool? Record { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
-    public bool? SaveConfig { get; set; }
+    public virtual bool? SaveConfig { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

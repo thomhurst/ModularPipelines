@@ -11,5 +11,5 @@ public record KubernetesCpOptions : KubernetesOptions
     public string? Container { get; set; }
 
     [BooleanCommandSwitch("--no-preserve")]
-    public bool? NoPreserve { get; set; }
+    public virtual bool? NoPreserve { get; set; }
 }

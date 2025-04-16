@@ -19,17 +19,17 @@ public record DockerSwarmJoinOptions : DockerOptions
     public string? JoinHost { get; set; }
 
     [CommandSwitch("--advertise-addr")]
-    public string? AdvertiseAddr { get; set; }
+    public virtual string? AdvertiseAddr { get; set; }
 
     [CommandSwitch("--availability")]
-    public string? Availability { get; set; }
+    public virtual string? Availability { get; set; }
 
     [CommandSwitch("--data-path-addr")]
-    public string? DataPathAddr { get; set; }
+    public virtual string? DataPathAddr { get; set; }
 
     [CommandSwitch("--listen-addr")]
-    public string? ListenAddr { get; set; }
+    public virtual string? ListenAddr { get; set; }
 
     [CommandSwitch("--token")]
-    public string? Token { get; set; }
+    public virtual string? Token { get; set; }
 }

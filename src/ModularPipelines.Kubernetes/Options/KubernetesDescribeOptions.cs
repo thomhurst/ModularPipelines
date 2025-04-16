@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesDescribeOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--all-namespaces")]
-    public bool? AllNamespaces { get; set; }
+    public virtual bool? AllNamespaces { get; set; }
 
     [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
     public int? ChunkSize { get; set; }
@@ -20,11 +20,11 @@ public record KubernetesDescribeOptions : KubernetesOptions
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-events")]
-    public bool? ShowEvents { get; set; }
+    public virtual bool? ShowEvents { get; set; }
 }

@@ -12,8 +12,8 @@ public record NpmHookUpdateOptions(
 ) : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 }

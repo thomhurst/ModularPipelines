@@ -19,11 +19,11 @@ public record DockerImagePushOptions : DockerOptions
     public string? Name { get; set; }
 
     [BooleanCommandSwitch("--all-tags")]
-    public bool? AllTags { get; set; }
+    public virtual bool? AllTags { get; set; }
 
     [BooleanCommandSwitch("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
+    public virtual bool? DisableContentTrust { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

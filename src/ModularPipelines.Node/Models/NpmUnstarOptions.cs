@@ -8,11 +8,11 @@ namespace ModularPipelines.Node.Models;
 public record NpmUnstarOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [BooleanCommandSwitch("--unicode")]
-    public bool? Unicode { get; set; }
+    public virtual bool? Unicode { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 }

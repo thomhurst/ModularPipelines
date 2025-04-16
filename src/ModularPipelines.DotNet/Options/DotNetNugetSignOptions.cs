@@ -24,38 +24,38 @@ public record DotNetNugetSignOptions : DotNetOptions
     public string? PackagePath { get; set; }
 
     [CommandSwitch("--certificate-path")]
-    public string? CertificatePath { get; set; }
+    public virtual string? CertificatePath { get; set; }
 
     [CommandSwitch("--certificate-store-name")]
-    public string? CertificateStoreName { get; set; }
+    public virtual string? CertificateStoreName { get; set; }
 
     [CommandSwitch("--certificate-store-location")]
-    public string? CertificateStoreLocation { get; set; }
+    public virtual string? CertificateStoreLocation { get; set; }
 
     [CommandSwitch("--certificate-subject-name")]
-    public string? CertificateSubjectName { get; set; }
+    public virtual string? CertificateSubjectName { get; set; }
 
     [CommandSwitch("--certificate-fingerprint")]
-    public string? CertificateFingerprint { get; set; }
+    public virtual string? CertificateFingerprint { get; set; }
 
     [CommandSwitch("--certificate-password")]
-    public string? CertificatePassword { get; set; }
+    public virtual string? CertificatePassword { get; set; }
 
     [CommandSwitch("--hash-algorithm")]
-    public string? Hashalgorithm { get; set; }
+    public virtual string? Hashalgorithm { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [BooleanCommandSwitch("--overwrite")]
-    public bool? Overwrite { get; set; }
+    public virtual bool? Overwrite { get; set; }
 
     [CommandSwitch("--timestamp-hash-algorithm")]
-    public string? TimestampHashAlgorithm { get; set; }
+    public virtual string? TimestampHashAlgorithm { get; set; }
 
     [CommandSwitch("--timestamper")]
-    public string? Timestamper { get; set; }
+    public virtual string? Timestamper { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

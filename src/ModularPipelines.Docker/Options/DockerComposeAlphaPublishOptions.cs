@@ -11,8 +11,8 @@ public record DockerComposeAlphaPublishOptions : DockerOptions
     public string? Repository { get; set; }
 
     [CommandSwitch("--oci-version")]
-    public string? OciVersion { get; set; }
+    public virtual string? OciVersion { get; set; }
 
     [CommandSwitch("--resolve-image-digests")]
-    public string? ResolveImageDigests { get; set; }
+    public virtual string? ResolveImageDigests { get; set; }
 }

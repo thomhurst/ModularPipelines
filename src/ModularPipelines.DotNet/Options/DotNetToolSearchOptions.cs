@@ -16,16 +16,16 @@ public record DotNetToolSearchOptions : DotNetOptions
     }
 
     [BooleanCommandSwitch("--detail")]
-    public bool? Detail { get; set; }
+    public virtual bool? Detail { get; set; }
 
     [BooleanCommandSwitch("--prerelease")]
-    public bool? Prerelease { get; set; }
+    public virtual bool? Prerelease { get; set; }
 
     [CommandSwitch("--skip")]
-    public string? Skip { get; set; }
+    public virtual string? Skip { get; set; }
 
     [CommandSwitch("--take")]
-    public string? Take { get; set; }
+    public virtual string? Take { get; set; }
 
     [PositionalArgument(PlaceholderName = "<SEARCH TERM>")]
     public string? SearchTerm { get; set; }

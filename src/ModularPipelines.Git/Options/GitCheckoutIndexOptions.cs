@@ -8,19 +8,19 @@ namespace ModularPipelines.Git.Options;
 public record GitCheckoutIndexOptions : GitOptions
 {
     [BooleanCommandSwitch("--index")]
-    public bool? Index { get; set; }
+    public virtual bool? Index { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--no-create")]
-    public bool? NoCreate { get; set; }
+    public virtual bool? NoCreate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }
@@ -29,11 +29,11 @@ public record GitCheckoutIndexOptions : GitOptions
     public string? Stage { get; set; }
 
     [BooleanCommandSwitch("--temp")]
-    public bool? Temp { get; set; }
+    public virtual bool? Temp { get; set; }
 
     [BooleanCommandSwitch("--ignore-skip-worktree-bits")]
-    public bool? IgnoreSkipWorktreeBits { get; set; }
+    public virtual bool? IgnoreSkipWorktreeBits { get; set; }
 
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 }

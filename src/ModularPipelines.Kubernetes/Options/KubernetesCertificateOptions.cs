@@ -8,13 +8,13 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesCertificateOptions([property: PositionalArgument] string Subcommand) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
     public string[]? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
     public string? Kustomize { get; set; }
@@ -23,10 +23,10 @@ public record KubernetesCertificateOptions([property: PositionalArgument] string
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

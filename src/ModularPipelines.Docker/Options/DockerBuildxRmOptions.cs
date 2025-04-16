@@ -11,14 +11,14 @@ public record DockerBuildxRmOptions : DockerOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--all-inactive")]
-    public string? AllInactive { get; set; }
+    public virtual string? AllInactive { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandSwitch("--keep-daemon")]
-    public string? KeepDaemon { get; set; }
+    public virtual string? KeepDaemon { get; set; }
 
     [CommandSwitch("--keep-state")]
-    public string? KeepState { get; set; }
+    public virtual string? KeepState { get; set; }
 }

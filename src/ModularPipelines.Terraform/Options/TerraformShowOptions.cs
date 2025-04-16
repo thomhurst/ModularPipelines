@@ -8,11 +8,11 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformShowOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("-refresh")]
-    public bool? Refresh { get; set; }
+    public virtual bool? Refresh { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 }

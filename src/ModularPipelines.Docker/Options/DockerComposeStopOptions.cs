@@ -11,5 +11,5 @@ public record DockerComposeStopOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 }

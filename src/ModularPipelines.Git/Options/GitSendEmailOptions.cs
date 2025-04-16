@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitSendEmailOptions : GitOptions
 {
     [BooleanCommandSwitch("--annotate")]
-    public bool? Annotate { get; set; }
+    public virtual bool? Annotate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--bcc")]
     public string? Bcc { get; set; }
@@ -17,7 +17,7 @@ public record GitSendEmailOptions : GitOptions
     public string? Cc { get; set; }
 
     [BooleanCommandSwitch("--compose")]
-    public bool? Compose { get; set; }
+    public virtual bool? Compose { get; set; }
 
     [CommandEqualsSeparatorSwitch("--from")]
     public string? From { get; set; }
@@ -41,13 +41,13 @@ public record GitSendEmailOptions : GitOptions
     public string? ComposeEncoding { get; set; }
 
     [BooleanCommandSwitch("--transfer-encoding")]
-    public bool? TransferEncoding { get; set; }
+    public virtual bool? TransferEncoding { get; set; }
 
     [BooleanCommandSwitch("--xmailer")]
-    public bool? Xmailer { get; set; }
+    public virtual bool? Xmailer { get; set; }
 
     [BooleanCommandSwitch("--no-xmailer")]
-    public bool? NoXmailer { get; set; }
+    public virtual bool? NoXmailer { get; set; }
 
     [CommandEqualsSeparatorSwitch("--envelope-sender")]
     public string? EnvelopeSender { get; set; }
@@ -68,7 +68,7 @@ public record GitSendEmailOptions : GitOptions
     public string? SmtpPass { get; set; }
 
     [BooleanCommandSwitch("--no-smtp-auth")]
-    public bool? NoSmtpAuth { get; set; }
+    public virtual bool? NoSmtpAuth { get; set; }
 
     [CommandEqualsSeparatorSwitch("--smtp-server")]
     public string? SmtpServer { get; set; }
@@ -80,16 +80,16 @@ public record GitSendEmailOptions : GitOptions
     public string? SmtpServerOption { get; set; }
 
     [BooleanCommandSwitch("--smtp-ssl")]
-    public bool? SmtpSsl { get; set; }
+    public virtual bool? SmtpSsl { get; set; }
 
     [BooleanCommandSwitch("--smtp-ssl-cert-path")]
-    public bool? SmtpSslCertPath { get; set; }
+    public virtual bool? SmtpSslCertPath { get; set; }
 
     [CommandEqualsSeparatorSwitch("--smtp-user")]
     public string? SmtpUser { get; set; }
 
     [BooleanCommandSwitch("--smtp-debug")]
-    public bool? SmtpDebug { get; set; }
+    public virtual bool? SmtpDebug { get; set; }
 
     [CommandEqualsSeparatorSwitch("--batch-size")]
     public string? BatchSize { get; set; }
@@ -98,16 +98,16 @@ public record GitSendEmailOptions : GitOptions
     public string? ReloginDelay { get; set; }
 
     [BooleanCommandSwitch("--no-to")]
-    public bool? NoTo { get; set; }
+    public virtual bool? NoTo { get; set; }
 
     [BooleanCommandSwitch("--no-cc")]
-    public bool? NoCc { get; set; }
+    public virtual bool? NoCc { get; set; }
 
     [BooleanCommandSwitch("--no-bcc")]
-    public bool? NoBcc { get; set; }
+    public virtual bool? NoBcc { get; set; }
 
     [BooleanCommandSwitch("--no-identity")]
-    public bool? NoIdentity { get; set; }
+    public virtual bool? NoIdentity { get; set; }
 
     [CommandEqualsSeparatorSwitch("--to-cmd")]
     public string? ToCmd { get; set; }
@@ -119,74 +119,74 @@ public record GitSendEmailOptions : GitOptions
     public string? HeaderCmd { get; set; }
 
     [BooleanCommandSwitch("--no-header-cmd")]
-    public bool? NoHeaderCmd { get; set; }
+    public virtual bool? NoHeaderCmd { get; set; }
 
     [BooleanCommandSwitch("--no-chain-reply-to")]
-    public bool? NoChainReplyTo { get; set; }
+    public virtual bool? NoChainReplyTo { get; set; }
 
     [BooleanCommandSwitch("--chain-reply-to")]
-    public bool? ChainReplyTo { get; set; }
+    public virtual bool? ChainReplyTo { get; set; }
 
     [CommandEqualsSeparatorSwitch("--identity")]
     public string? Identity { get; set; }
 
     [BooleanCommandSwitch("--no-signed-off-by-cc")]
-    public bool? NoSignedOffByCc { get; set; }
+    public virtual bool? NoSignedOffByCc { get; set; }
 
     [BooleanCommandSwitch("--signed-off-by-cc")]
-    public bool? SignedOffByCc { get; set; }
+    public virtual bool? SignedOffByCc { get; set; }
 
     [BooleanCommandSwitch("--no-cc-cover")]
-    public bool? NoCcCover { get; set; }
+    public virtual bool? NoCcCover { get; set; }
 
     [BooleanCommandSwitch("--cc-cover")]
-    public bool? CcCover { get; set; }
+    public virtual bool? CcCover { get; set; }
 
     [BooleanCommandSwitch("--no-to-cover")]
-    public bool? NoToCover { get; set; }
+    public virtual bool? NoToCover { get; set; }
 
     [BooleanCommandSwitch("--to-cover")]
-    public bool? ToCover { get; set; }
+    public virtual bool? ToCover { get; set; }
 
     [CommandEqualsSeparatorSwitch("--suppress-cc")]
     public string? SuppressCc { get; set; }
 
     [BooleanCommandSwitch("--no-suppress-from")]
-    public bool? NoSuppressFrom { get; set; }
+    public virtual bool? NoSuppressFrom { get; set; }
 
     [BooleanCommandSwitch("--suppress-from")]
-    public bool? SuppressFrom { get; set; }
+    public virtual bool? SuppressFrom { get; set; }
 
     [BooleanCommandSwitch("--no-thread")]
-    public bool? NoThread { get; set; }
+    public virtual bool? NoThread { get; set; }
 
     [BooleanCommandSwitch("--thread")]
-    public bool? Thread { get; set; }
+    public virtual bool? Thread { get; set; }
 
     [CommandEqualsSeparatorSwitch("--confirm")]
     public string? Confirm { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--no-format-patch")]
-    public bool? NoFormatPatch { get; set; }
+    public virtual bool? NoFormatPatch { get; set; }
 
     [BooleanCommandSwitch("--format-patch")]
-    public bool? FormatPatch { get; set; }
+    public virtual bool? FormatPatch { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [BooleanCommandSwitch("--no-validate")]
-    public bool? NoValidate { get; set; }
+    public virtual bool? NoValidate { get; set; }
 
     [BooleanCommandSwitch("--validate")]
-    public bool? Validate { get; set; }
+    public virtual bool? Validate { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--dump-aliases")]
-    public bool? DumpAliases { get; set; }
+    public virtual bool? DumpAliases { get; set; }
 }

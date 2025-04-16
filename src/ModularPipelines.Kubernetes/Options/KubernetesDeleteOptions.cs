@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesDeleteOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--all-namespaces")]
-    public bool? AllNamespaces { get; set; }
+    public virtual bool? AllNamespaces { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
     public string? Cascade { get; set; }
@@ -26,19 +26,19 @@ public record KubernetesDeleteOptions([property: PositionalArgument] string Name
     public string[]? Filename { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
     public int? GracePeriod { get; set; }
 
     [BooleanCommandSwitch("--ignore-not-found")]
-    public bool? IgnoreNotFound { get; set; }
+    public virtual bool? IgnoreNotFound { get; set; }
 
     [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
     public string? Kustomize { get; set; }
 
     [BooleanCommandSwitch("--now")]
-    public bool? Now { get; set; }
+    public virtual bool? Now { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
@@ -47,7 +47,7 @@ public record KubernetesDeleteOptions([property: PositionalArgument] string Name
     public string? Raw { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
@@ -56,5 +56,5 @@ public record KubernetesDeleteOptions([property: PositionalArgument] string Name
     public string? Timeout { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 }

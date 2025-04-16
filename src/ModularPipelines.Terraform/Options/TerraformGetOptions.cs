@@ -9,8 +9,8 @@ public record TerraformGetOptions([property: PositionalArgument(Position = Posit
     string Path) : TerraformOptions
 {
     [BooleanCommandSwitch("-update")]
-    public bool? Update { get; set; }
+    public virtual bool? Update { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 }

@@ -19,8 +19,8 @@ public record DockerImageRmOptions : DockerOptions
     public IEnumerable<string>? Image { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--no-prune")]
-    public bool? NoPrune { get; set; }
+    public virtual bool? NoPrune { get; set; }
 }

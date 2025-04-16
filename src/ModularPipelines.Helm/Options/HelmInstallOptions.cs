@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmInstallOptions : HelmOptions
 {
     [BooleanCommandSwitch("--atomic")]
-    public bool? Atomic { get; set; }
+    public virtual bool? Atomic { get; set; }
 
     [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
     public string? CaFile { get; set; }
@@ -17,34 +17,34 @@ public record HelmInstallOptions : HelmOptions
     public string? CertFile { get; set; }
 
     [BooleanCommandSwitch("--create-namespace")]
-    public bool? CreateNamespace { get; set; }
+    public virtual bool? CreateNamespace { get; set; }
 
     [BooleanCommandSwitch("--dependency-update")]
-    public bool? DependencyUpdate { get; set; }
+    public virtual bool? DependencyUpdate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--description", SwitchValueSeparator = " ")]
     public string? Description { get; set; }
 
     [BooleanCommandSwitch("--devel")]
-    public bool? Devel { get; set; }
+    public virtual bool? Devel { get; set; }
 
     [BooleanCommandSwitch("--disable-openapi-validation")]
-    public bool? DisableOpenapiValidation { get; set; }
+    public virtual bool? DisableOpenapiValidation { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--enable-dns")]
-    public bool? EnableDns { get; set; }
+    public virtual bool? EnableDns { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--generate-name")]
-    public bool? GenerateName { get; set; }
+    public virtual bool? GenerateName { get; set; }
 
     [BooleanCommandSwitch("--insecure-skip-tls-verify")]
-    public bool? InsecureSkipTlsVerify { get; set; }
+    public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
     public string? KeyFile { get; set; }
@@ -56,13 +56,13 @@ public record HelmInstallOptions : HelmOptions
     public string? NameTemplate { get; set; }
 
     [BooleanCommandSwitch("--no-hooks")]
-    public bool? NoHooks { get; set; }
+    public virtual bool? NoHooks { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--pass-credentials")]
-    public bool? PassCredentials { get; set; }
+    public virtual bool? PassCredentials { get; set; }
 
     [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
     public string? Password { get; set; }
@@ -74,10 +74,10 @@ public record HelmInstallOptions : HelmOptions
     public string? PostRendererArgs { get; set; }
 
     [BooleanCommandSwitch("--render-subchart-notes")]
-    public bool? RenderSubchartNotes { get; set; }
+    public virtual bool? RenderSubchartNotes { get; set; }
 
     [BooleanCommandSwitch("--replace")]
-    public bool? Replace { get; set; }
+    public virtual bool? Replace { get; set; }
 
     [CommandEqualsSeparatorSwitch("--repo", SwitchValueSeparator = " ")]
     public string? Repo { get; set; }
@@ -98,7 +98,7 @@ public record HelmInstallOptions : HelmOptions
     public string[]? SetString { get; set; }
 
     [BooleanCommandSwitch("--skip-crds")]
-    public bool? SkipCrds { get; set; }
+    public virtual bool? SkipCrds { get; set; }
 
     [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
     public string? Timeout { get; set; }
@@ -110,14 +110,14 @@ public record HelmInstallOptions : HelmOptions
     public string[]? Values { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
 
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--wait-for-jobs")]
-    public bool? WaitForJobs { get; set; }
+    public virtual bool? WaitForJobs { get; set; }
 }

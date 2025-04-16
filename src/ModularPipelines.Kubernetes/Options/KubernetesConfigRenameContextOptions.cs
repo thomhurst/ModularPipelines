@@ -8,5 +8,5 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesConfigRenameContextOptions([property: PositionalArgument] string ContextName) : KubernetesOptions
 {
     [BooleanCommandSwitch("--set-raw-bytes")]
-    public bool? SetRawBytes { get; set; }
+    public virtual bool? SetRawBytes { get; set; }
 }

@@ -19,11 +19,11 @@ public record DockerContainerAttachOptions : DockerOptions
     public string? Container { get; set; }
 
     [CommandSwitch("--detach-keys")]
-    public string? DetachKeys { get; set; }
+    public virtual string? DetachKeys { get; set; }
 
     [CommandSwitch("--no-stdin")]
-    public string? NoStdin { get; set; }
+    public virtual string? NoStdin { get; set; }
 
     [BooleanCommandSwitch("--sig-proxy")]
-    public bool? SigProxy { get; set; }
+    public virtual bool? SigProxy { get; set; }
 }

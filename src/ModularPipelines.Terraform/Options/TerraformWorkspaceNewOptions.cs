@@ -12,11 +12,11 @@ public record TerraformWorkspaceNewOptions([property: PositionalArgument(Positio
     public string? Directory { get; set; }
 
     [BooleanCommandSwitch("-state")]
-    public bool? State { get; set; }
+    public virtual bool? State { get; set; }
 
     [BooleanCommandSwitch("-lock")]
-    public bool? Lock { get; set; }
+    public virtual bool? Lock { get; set; }
 
     [CommandSwitch("-lock-timeout")]
-    public string? LockTimeout { get; set; }
+    public virtual string? LockTimeout { get; set; }
 }

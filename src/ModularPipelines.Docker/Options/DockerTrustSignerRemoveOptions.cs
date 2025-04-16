@@ -25,5 +25,5 @@ public record DockerTrustSignerRemoveOptions : DockerOptions
     public IEnumerable<string>? Repository { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

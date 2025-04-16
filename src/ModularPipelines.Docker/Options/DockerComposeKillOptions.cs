@@ -11,8 +11,8 @@ public record DockerComposeKillOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [BooleanCommandSwitch("--remove-orphans")]
-    public bool? RemoveOrphans { get; set; }
+    public virtual bool? RemoveOrphans { get; set; }
 
     [CommandSwitch("--signal")]
-    public string? Signal { get; set; }
+    public virtual string? Signal { get; set; }
 }

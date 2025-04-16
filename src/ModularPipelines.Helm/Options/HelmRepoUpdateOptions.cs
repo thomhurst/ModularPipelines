@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoUpdateOptions : HelmOptions
 {
     [BooleanCommandSwitch("--fail-on-repo-update-fail")]
-    public bool? FailOnRepoUpdateFail { get; set; }
+    public virtual bool? FailOnRepoUpdateFail { get; set; }
 }

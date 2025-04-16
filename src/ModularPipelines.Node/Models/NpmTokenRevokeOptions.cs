@@ -10,14 +10,14 @@ public record NpmTokenRevokeOptions(
 ) : NpmOptions
 {
     [BooleanCommandSwitch("--read-only")]
-    public bool? ReadOnly { get; set; }
+    public virtual bool? ReadOnly { get; set; }
 
     [CommandSwitch("--cidr")]
-    public string? Cidr { get; set; }
+    public virtual string? Cidr { get; set; }
 
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 }

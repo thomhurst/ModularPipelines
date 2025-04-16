@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmUnlockKeyOptions : DockerOptions
 {
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandSwitch("--rotate")]
-    public string? Rotate { get; set; }
+    public virtual string? Rotate { get; set; }
 }

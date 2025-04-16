@@ -8,5 +8,5 @@ namespace ModularPipelines.Git.Options;
 public record GitRemoteOptions : GitOptions
 {
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 }

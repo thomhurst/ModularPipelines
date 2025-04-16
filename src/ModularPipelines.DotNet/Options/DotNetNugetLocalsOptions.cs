@@ -19,11 +19,11 @@ public record DotNetNugetLocalsOptions : DotNetOptions
     public string? CacheLocation { get; set; }
 
     [BooleanCommandSwitch("--clear")]
-    public bool? Clear { get; set; }
+    public virtual bool? Clear { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [BooleanCommandSwitch("--force-english-output")]
-    public bool? ForceEnglishOutput { get; set; }
+    public virtual bool? ForceEnglishOutput { get; set; }
 }

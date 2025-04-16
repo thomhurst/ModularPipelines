@@ -19,5 +19,5 @@ public record DockerTrustKeyLoadOptions : DockerOptions
     public string? Keyfile { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 }

@@ -5,6 +5,7 @@
         <IsPackable>false</IsPackable>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>

@@ -11,5 +11,5 @@ public record DockerContextRmOptions : DockerOptions
     public IEnumerable<string>? RmContext { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

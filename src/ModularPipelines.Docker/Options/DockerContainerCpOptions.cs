@@ -40,11 +40,11 @@ public record DockerContainerCpOptions : DockerOptions
     public string? SrcPath { get; set; }
 
     [CommandSwitch("--archive")]
-    public string? Archive { get; set; }
+    public virtual string? Archive { get; set; }
 
     [CommandSwitch("--follow-link")]
-    public string? FollowLink { get; set; }
+    public virtual string? FollowLink { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

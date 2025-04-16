@@ -10,5 +10,5 @@ public record NpmHelpOptions(
 ) : NpmOptions
 {
     [CommandSwitch("--viewer")]
-    public string? Viewer { get; set; }
+    public virtual string? Viewer { get; set; }
 }

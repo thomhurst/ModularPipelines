@@ -8,11 +8,11 @@ namespace ModularPipelines.Chocolatey.Options;
 public record OptimizeOptions : ChocoOptions
 {
     [BooleanCommandSwitch("--deflate-nupkg-only")]
-    public bool? DeflateNupkgOnly { get; set; }
+    public virtual bool? DeflateNupkgOnly { get; set; }
 
     [CommandSwitch("--id")]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [BooleanCommandSwitch("--force-self-service")]
-    public bool? ForceSelfService { get; set; }
+    public virtual bool? ForceSelfService { get; set; }
 }

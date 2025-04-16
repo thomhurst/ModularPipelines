@@ -13,5 +13,5 @@ public record DpkgInstallOptions : CommandLineToolOptions
     }
 
     [CommandSwitch("-i")]
-    public string Path { get; init; }
+    public virtual string Path { get; init; }
 }

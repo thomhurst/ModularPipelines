@@ -8,8 +8,8 @@ namespace ModularPipelines.Chocolatey.Options;
 public record ExportOptions : ChocoOptions
 {
     [CommandSwitch("--output-file-path")]
-    public string? OutputFilePath { get; set; }
+    public virtual string? OutputFilePath { get; set; }
 
     [BooleanCommandSwitch("--include-version")]
-    public bool? IncludeVersion { get; set; }
+    public virtual bool? IncludeVersion { get; set; }
 }

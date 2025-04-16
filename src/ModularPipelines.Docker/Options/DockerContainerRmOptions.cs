@@ -19,11 +19,11 @@ public record DockerContainerRmOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandSwitch("--link")]
-    public string? Link { get; set; }
+    public virtual string? Link { get; set; }
 
     [CommandSwitch("--volumes")]
-    public string? Volumes { get; set; }
+    public virtual string? Volumes { get; set; }
 }

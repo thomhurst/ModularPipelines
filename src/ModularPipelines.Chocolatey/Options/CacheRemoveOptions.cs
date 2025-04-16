@@ -8,5 +8,5 @@ namespace ModularPipelines.Chocolatey.Options;
 public record CacheRemoveOptions : ChocoOptions
 {
     [BooleanCommandSwitch("--expired")]
-    public bool? Expired { get; set; }
+    public virtual bool? Expired { get; set; }
 }

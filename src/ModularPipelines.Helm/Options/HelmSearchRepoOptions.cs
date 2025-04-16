@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmSearchRepoOptions : HelmOptions
 {
     [BooleanCommandSwitch("--devel")]
-    public bool? Devel { get; set; }
+    public virtual bool? Devel { get; set; }
 
     [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
     public string? MaxColWidth { get; set; }
@@ -17,11 +17,11 @@ public record HelmSearchRepoOptions : HelmOptions
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--regexp")]
-    public bool? Regexp { get; set; }
+    public virtual bool? Regexp { get; set; }
 
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }
 
     [BooleanCommandSwitch("--versions")]
-    public bool? Versions { get; set; }
+    public virtual bool? Versions { get; set; }
 }

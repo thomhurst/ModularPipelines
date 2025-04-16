@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerTrustSignOptions : DockerOptions
 {
     [CommandSwitch("--local")]
-    public string? Local { get; set; }
+    public virtual string? Local { get; set; }
 }

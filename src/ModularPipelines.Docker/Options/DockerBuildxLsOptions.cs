@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxLsOptions : DockerOptions
 {
     [CommandSwitch("--builder")]
-    public string? Builder { get; set; }
+    public virtual string? Builder { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

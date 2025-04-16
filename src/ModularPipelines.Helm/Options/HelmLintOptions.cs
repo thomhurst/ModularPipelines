@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmLintOptions : HelmOptions
 {
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 
     [CommandEqualsSeparatorSwitch("--set", SwitchValueSeparator = " ")]
     public string[]? Set { get; set; }
@@ -26,11 +26,11 @@ public record HelmLintOptions : HelmOptions
     public string[]? SetString { get; set; }
 
     [BooleanCommandSwitch("--strict")]
-    public bool? Strict { get; set; }
+    public virtual bool? Strict { get; set; }
 
     [CommandEqualsSeparatorSwitch("--values", SwitchValueSeparator = " ")]
     public string[]? Values { get; set; }
 
     [BooleanCommandSwitch("--with-subcharts")]
-    public bool? WithSubcharts { get; set; }
+    public virtual bool? WithSubcharts { get; set; }
 }

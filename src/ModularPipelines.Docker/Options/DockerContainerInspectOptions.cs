@@ -19,8 +19,8 @@ public record DockerContainerInspectOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--size")]
-    public string? Size { get; set; }
+    public virtual string? Size { get; set; }
 }

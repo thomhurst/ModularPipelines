@@ -19,8 +19,8 @@ public record DockerBuildxUseOptions : DockerOptions
     public string? Name { get; set; }
 
     [CommandSwitch("--default")]
-    public string? Default { get; set; }
+    public virtual string? Default { get; set; }
 
     [CommandSwitch("--global")]
-    public string? Global { get; set; }
+    public virtual string? Global { get; set; }
 }

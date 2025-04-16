@@ -8,10 +8,10 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [BooleanCommandSwitch("--append-hash")]
-    public bool? AppendHash { get; set; }
+    public virtual bool? AppendHash { get; set; }
 
     [CommandEqualsSeparatorSwitch("--docker-email", SwitchValueSeparator = " ")]
     public string? DockerEmail { get; set; }
@@ -38,14 +38,14 @@ public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalA
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
-    public bool? SaveConfig { get; set; }
+    public virtual bool? SaveConfig { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--validate")]
-    public bool? Validate { get; set; }
+    public virtual bool? Validate { get; set; }
 }

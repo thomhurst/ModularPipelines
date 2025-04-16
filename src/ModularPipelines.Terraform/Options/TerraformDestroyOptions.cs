@@ -8,5 +8,5 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformDestroyOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-destroy")]
-    public bool? Destroy { get; set; }
+    public virtual bool? Destroy { get; set; }
 }

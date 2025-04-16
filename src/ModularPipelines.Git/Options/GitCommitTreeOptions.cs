@@ -11,5 +11,5 @@ public record GitCommitTreeOptions : GitOptions
     public string? GpgSign { get; set; }
 
     [BooleanCommandSwitch("--no-gpg-sign")]
-    public bool? NoGpgSign { get; set; }
+    public virtual bool? NoGpgSign { get; set; }
 }

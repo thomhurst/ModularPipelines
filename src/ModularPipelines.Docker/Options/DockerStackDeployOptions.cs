@@ -19,14 +19,14 @@ public record DockerStackDeployOptions : DockerOptions
     public string? Stack { get; set; }
 
     [CommandSwitch("--compose-file")]
-    public string? ComposeFile { get; set; }
+    public virtual string? ComposeFile { get; set; }
 
     [CommandSwitch("--prune")]
-    public string? Prune { get; set; }
+    public virtual string? Prune { get; set; }
 
     [CommandSwitch("--resolve-image")]
-    public string? ResolveImage { get; set; }
+    public virtual string? ResolveImage { get; set; }
 
     [CommandSwitch("--with-registry-auth")]
-    public string? WithRegistryAuth { get; set; }
+    public virtual string? WithRegistryAuth { get; set; }
 }

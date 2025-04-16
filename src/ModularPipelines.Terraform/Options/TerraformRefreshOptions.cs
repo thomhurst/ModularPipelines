@@ -8,8 +8,8 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformRefreshOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-auto-approve")]
-    public bool? AutoApprove { get; set; }
+    public virtual bool? AutoApprove { get; set; }
 
     [BooleanCommandSwitch("-refresh-only")]
-    public bool? RefreshOnly { get; set; }
+    public virtual bool? RefreshOnly { get; set; }
 }

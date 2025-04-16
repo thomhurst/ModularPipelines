@@ -8,17 +8,17 @@ namespace ModularPipelines.Git.Options;
 public record GitHashObjectOptions : GitOptions
 {
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [BooleanCommandSwitch("--stdin-paths")]
-    public bool? StdinPaths { get; set; }
+    public virtual bool? StdinPaths { get; set; }
 
     [BooleanCommandSwitch("--path")]
-    public bool? Path { get; set; }
+    public virtual bool? Path { get; set; }
 
     [BooleanCommandSwitch("--no-filters")]
-    public bool? NoFilters { get; set; }
+    public virtual bool? NoFilters { get; set; }
 
     [BooleanCommandSwitch("--literally")]
-    public bool? Literally { get; set; }
+    public virtual bool? Literally { get; set; }
 }

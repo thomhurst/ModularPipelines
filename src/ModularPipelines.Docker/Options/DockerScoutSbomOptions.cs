@@ -11,17 +11,17 @@ public record DockerScoutSbomOptions : DockerOptions
     public string? ImageOrDirectoryOrArchive { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--only-package-type")]
-    public string? OnlyPackageType { get; set; }
+    public virtual string? OnlyPackageType { get; set; }
 
     [CommandSwitch("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CommandSwitch("--platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 
     [CommandSwitch("--ref")]
-    public string? Ref { get; set; }
+    public virtual string? Ref { get; set; }
 }

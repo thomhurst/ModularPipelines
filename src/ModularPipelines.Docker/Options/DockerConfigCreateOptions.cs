@@ -25,8 +25,8 @@ public record DockerConfigCreateOptions : DockerOptions
     public string? File { get; set; }
 
     [CommandSwitch("--label")]
-    public string? Label { get; set; }
+    public virtual string? Label { get; set; }
 
     [CommandSwitch("--template-driver")]
-    public string? TemplateDriver { get; set; }
+    public virtual string? TemplateDriver { get; set; }
 }

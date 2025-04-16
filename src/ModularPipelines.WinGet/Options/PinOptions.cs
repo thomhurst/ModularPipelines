@@ -8,14 +8,14 @@ namespace ModularPipelines.WinGet.Options;
 public record PinOptions : WingetOptions
 {
     [BooleanCommandSwitch("--wait")]
-    public bool? Wait { get; set; }
+    public virtual bool? Wait { get; set; }
 
     [BooleanCommandSwitch("--open-logs")]
-    public bool? OpenLogs { get; set; }
+    public virtual bool? OpenLogs { get; set; }
 
     [BooleanCommandSwitch("--verbose-logs")]
-    public bool? VerboseLogs { get; set; }
+    public virtual bool? VerboseLogs { get; set; }
 
     [BooleanCommandSwitch("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
+    public virtual bool? DisableInteractivity { get; set; }
 }

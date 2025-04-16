@@ -19,5 +19,5 @@ public record DockerNodeRmOptions : DockerOptions
     public IEnumerable<string>? Node { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

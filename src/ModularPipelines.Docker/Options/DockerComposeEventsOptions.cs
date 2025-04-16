@@ -11,5 +11,5 @@ public record DockerComposeEventsOptions : DockerOptions
     public IEnumerable<string>? Service { get; set; }
 
     [CommandSwitch("--json")]
-    public string? Json { get; set; }
+    public virtual string? Json { get; set; }
 }

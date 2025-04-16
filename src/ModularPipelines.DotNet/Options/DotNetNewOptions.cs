@@ -19,32 +19,32 @@ public record DotNetNewOptions : DotNetOptions
     public string? Template { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--language")]
-    public bool? Language { get; set; }
+    public virtual bool? Language { get; set; }
 
     [CommandSwitch("--name")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CommandSwitch("--framework")]
-    public string? Framework { get; set; }
+    public virtual string? Framework { get; set; }
 
     [BooleanCommandSwitch("--no-update-check")]
-    public bool? NoUpdateCheck { get; set; }
+    public virtual bool? NoUpdateCheck { get; set; }
 
     [CommandSwitch("--output")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CommandSwitch("--project")]
-    public string? ProjectPath { get; set; }
+    public virtual string? ProjectPath { get; set; }
 
     [BooleanCommandSwitch("--diagnostics")]
-    public bool? Diagnostics { get; set; }
+    public virtual bool? Diagnostics { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

@@ -10,8 +10,8 @@ public record NpmStartOptions(
 ) : NpmOptions
 {
     [BooleanCommandSwitch("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
+    public virtual bool? IgnoreScripts { get; set; }
 
     [CommandSwitch("--script-shell")]
-    public string? ScriptShell { get; set; }
+    public virtual string? ScriptShell { get; set; }
 }

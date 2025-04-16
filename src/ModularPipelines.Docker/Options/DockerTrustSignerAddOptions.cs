@@ -11,5 +11,5 @@ public record DockerTrustSignerAddOptions : DockerOptions
     public IEnumerable<string>? Repository { get; set; }
 
     [CommandSwitch("--key")]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 }

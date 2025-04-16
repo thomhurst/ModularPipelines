@@ -25,17 +25,17 @@ public record DockerManifestAnnotateOptions : DockerOptions
     public string? Manifest { get; set; }
 
     [CommandSwitch("--arch")]
-    public string? Arch { get; set; }
+    public virtual string? Arch { get; set; }
 
     [CommandSwitch("--os")]
-    public string? Os { get; set; }
+    public virtual string? Os { get; set; }
 
     [CommandSwitch("--os-features")]
-    public string? OsFeatures { get; set; }
+    public virtual string? OsFeatures { get; set; }
 
     [CommandSwitch("--os-version")]
-    public string? OsVersion { get; set; }
+    public virtual string? OsVersion { get; set; }
 
     [CommandSwitch("--variant")]
-    public string? Variant { get; set; }
+    public virtual string? Variant { get; set; }
 }

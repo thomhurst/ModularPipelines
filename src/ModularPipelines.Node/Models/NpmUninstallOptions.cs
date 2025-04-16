@@ -8,22 +8,22 @@ namespace ModularPipelines.Node.Models;
 public record NpmUninstallOptions : NpmOptions
 {
     [BooleanCommandSwitch("--save")]
-    public bool? Save { get; set; }
+    public virtual bool? Save { get; set; }
 
     [BooleanCommandSwitch("--global")]
-    public bool? Global { get; set; }
+    public virtual bool? Global { get; set; }
 
     [CommandSwitch("--workspace")]
-    public string[]? Workspace { get; set; }
+    public virtual string[]? Workspace { get; set; }
 
     [BooleanCommandSwitch("--workspaces")]
-    public bool? Workspaces { get; set; }
+    public virtual bool? Workspaces { get; set; }
 
     [BooleanCommandSwitch("--include-workspace-root")]
-    public bool? IncludeWorkspaceRoot { get; set; }
+    public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [BooleanCommandSwitch("--install-links")]
-    public bool? InstallLinks { get; set; }
+    public virtual bool? InstallLinks { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Pkg { get; set; }

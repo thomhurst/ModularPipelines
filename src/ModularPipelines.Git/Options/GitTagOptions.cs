@@ -8,28 +8,28 @@ namespace ModularPipelines.Git.Options;
 public record GitTagOptions : GitOptions
 {
     [BooleanCommandSwitch("--annotate")]
-    public bool? Annotate { get; set; }
+    public virtual bool? Annotate { get; set; }
 
     [BooleanCommandSwitch("--sign")]
-    public bool? Sign { get; set; }
+    public virtual bool? Sign { get; set; }
 
     [BooleanCommandSwitch("--no-sign")]
-    public bool? NoSign { get; set; }
+    public virtual bool? NoSign { get; set; }
 
     [CommandEqualsSeparatorSwitch("--local-user")]
     public string? LocalUser { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("--delete")]
-    public bool? Delete { get; set; }
+    public virtual bool? Delete { get; set; }
 
     [BooleanCommandSwitch("--verify")]
-    public bool? Verify { get; set; }
+    public virtual bool? Verify { get; set; }
 
     [BooleanCommandSwitch("--list")]
-    public bool? List { get; set; }
+    public virtual bool? List { get; set; }
 
     [CommandEqualsSeparatorSwitch("--sort")]
     public string? Sort { get; set; }
@@ -38,16 +38,16 @@ public record GitTagOptions : GitOptions
     public string? Color { get; set; }
 
     [BooleanCommandSwitch("--ignore-case")]
-    public bool? IgnoreCase { get; set; }
+    public virtual bool? IgnoreCase { get; set; }
 
     [BooleanCommandSwitch("--omit-empty")]
-    public bool? OmitEmpty { get; set; }
+    public virtual bool? OmitEmpty { get; set; }
 
     [CommandEqualsSeparatorSwitch("--column")]
     public string? Column { get; set; }
 
     [BooleanCommandSwitch("--no-column")]
-    public bool? NoColumn { get; set; }
+    public virtual bool? NoColumn { get; set; }
 
     [CommandEqualsSeparatorSwitch("--contains")]
     public string? Contains { get; set; }
@@ -71,13 +71,13 @@ public record GitTagOptions : GitOptions
     public string? File { get; set; }
 
     [BooleanCommandSwitch("--edit")]
-    public bool? Edit { get; set; }
+    public virtual bool? Edit { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cleanup")]
     public string? Cleanup { get; set; }
 
     [BooleanCommandSwitch("--create-reflog")]
-    public bool? CreateReflog { get; set; }
+    public virtual bool? CreateReflog { get; set; }
 
     [CommandEqualsSeparatorSwitch("--format")]
     public string? Format { get; set; }

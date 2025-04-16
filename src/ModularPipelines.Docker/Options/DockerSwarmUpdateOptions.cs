@@ -8,23 +8,23 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmUpdateOptions : DockerOptions
 {
     [CommandSwitch("--autolock")]
-    public string? Autolock { get; set; }
+    public virtual string? Autolock { get; set; }
 
     [CommandSwitch("--cert-expiry")]
-    public string? CertExpiry { get; set; }
+    public virtual string? CertExpiry { get; set; }
 
     [CommandSwitch("--dispatcher-heartbeat")]
-    public string? DispatcherHeartbeat { get; set; }
+    public virtual string? DispatcherHeartbeat { get; set; }
 
     [CommandSwitch("--external-ca")]
-    public string? ExternalCa { get; set; }
+    public virtual string? ExternalCa { get; set; }
 
     [CommandSwitch("--max-snapshots")]
-    public string? MaxSnapshots { get; set; }
+    public virtual string? MaxSnapshots { get; set; }
 
     [CommandSwitch("--snapshot-interval")]
-    public int? SnapshotInterval { get; set; }
+    public virtual int? SnapshotInterval { get; set; }
 
     [CommandSwitch("--task-history-limit")]
-    public int? TaskHistoryLimit { get; set; }
+    public virtual int? TaskHistoryLimit { get; set; }
 }

@@ -11,17 +11,17 @@ public record DockerScoutRepoEnableOptions : DockerOptions
     public string? Repository { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--integration")]
-    public string? Integration { get; set; }
+    public virtual string? Integration { get; set; }
 
     [CommandSwitch("--org")]
-    public string? Org { get; set; }
+    public virtual string? Org { get; set; }
 
     [CommandSwitch("--registry")]
-    public string? Registry { get; set; }
+    public virtual string? Registry { get; set; }
 }

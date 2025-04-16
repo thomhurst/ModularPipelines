@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesExposeOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--cluster-ip", SwitchValueSeparator = " ")]
     public string? ClusterIp { get; set; }
@@ -56,13 +56,13 @@ public record KubernetesExposeOptions : KubernetesOptions
     public string? Protocol { get; set; }
 
     [BooleanCommandSwitch("--record")]
-    public bool? Record { get; set; }
+    public virtual bool? Record { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [BooleanCommandSwitch("--save-config")]
-    public bool? SaveConfig { get; set; }
+    public virtual bool? SaveConfig { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
@@ -71,7 +71,7 @@ public record KubernetesExposeOptions : KubernetesOptions
     public string? SessionAffinity { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--target-port", SwitchValueSeparator = " ")]
     public string? TargetPort { get; set; }

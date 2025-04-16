@@ -14,8 +14,8 @@ public record HelmStatusOptions : HelmOptions
     public int? Revision { get; set; }
 
     [BooleanCommandSwitch("--show-desc")]
-    public bool? ShowDesc { get; set; }
+    public virtual bool? ShowDesc { get; set; }
 
     [BooleanCommandSwitch("--show-resources")]
-    public bool? ShowResources { get; set; }
+    public virtual bool? ShowResources { get; set; }
 }

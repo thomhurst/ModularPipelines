@@ -8,26 +8,26 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformUntaintOptions : TerraformOptions
 {
     [BooleanCommandSwitch("-allow-missing")]
-    public bool? AllowMissing { get; set; }
+    public virtual bool? AllowMissing { get; set; }
 
     [BooleanCommandSwitch("-lock")]
-    public bool? Lock { get; set; }
+    public virtual bool? Lock { get; set; }
 
     [CommandSwitch("-lock-timeout")]
-    public string? LockTimeout { get; set; }
+    public virtual string? LockTimeout { get; set; }
 
     [BooleanCommandSwitch("-no-color")]
-    public bool? NoColor { get; set; }
+    public virtual bool? NoColor { get; set; }
 
     [BooleanCommandSwitch("-ignore-remote-version")]
-    public bool? IgnoreRemoteVersion { get; set; }
+    public virtual bool? IgnoreRemoteVersion { get; set; }
 
     [BooleanCommandSwitch("-state")]
-    public bool? State { get; set; }
+    public virtual bool? State { get; set; }
 
     [BooleanCommandSwitch("-state-out")]
-    public bool? StateOut { get; set; }
+    public virtual bool? StateOut { get; set; }
 
     [BooleanCommandSwitch("-backup")]
-    public bool? Backup { get; set; }
+    public virtual bool? Backup { get; set; }
 }

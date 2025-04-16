@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmStarsOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? User { get; set; }

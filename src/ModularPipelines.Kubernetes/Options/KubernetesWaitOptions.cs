@@ -8,13 +8,13 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesWaitOptions([property: PositionalArgument] string Name) : KubernetesOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--all-namespaces")]
-    public bool? AllNamespaces { get; set; }
+    public virtual bool? AllNamespaces { get; set; }
 
     [BooleanCommandSwitch("--allow-missing-template-keys")]
-    public bool? AllowMissingTemplateKeys { get; set; }
+    public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
     public string? FieldSelector { get; set; }
@@ -26,19 +26,19 @@ public record KubernetesWaitOptions([property: PositionalArgument] string Name) 
     public string? For { get; set; }
 
     [BooleanCommandSwitch("--local")]
-    public bool? Local { get; set; }
+    public virtual bool? Local { get; set; }
 
     [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
     public string? Output { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
     public string? Selector { get; set; }
 
     [BooleanCommandSwitch("--show-managed-fields")]
-    public bool? ShowManagedFields { get; set; }
+    public virtual bool? ShowManagedFields { get; set; }
 
     [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
     public string? Template { get; set; }

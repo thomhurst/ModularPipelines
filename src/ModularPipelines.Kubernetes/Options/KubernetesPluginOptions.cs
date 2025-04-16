@@ -8,5 +8,5 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesPluginOptions : KubernetesOptions
 {
     [BooleanCommandSwitch("--name-only")]
-    public bool? NameOnly { get; set; }
+    public virtual bool? NameOnly { get; set; }
 }

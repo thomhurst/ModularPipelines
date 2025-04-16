@@ -11,14 +11,14 @@ public record DockerContainerStatsOptions : DockerOptions
     public IEnumerable<string>? Container { get; set; }
 
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CommandSwitch("--no-stream")]
-    public string? NoStream { get; set; }
+    public virtual string? NoStream { get; set; }
 
     [BooleanCommandSwitch("--no-trunc")]
-    public bool? NoTrunc { get; set; }
+    public virtual bool? NoTrunc { get; set; }
 }

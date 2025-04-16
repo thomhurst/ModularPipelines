@@ -35,13 +35,13 @@ public record GitFilterBranchOptions : GitOptions
     public string? TagNameFilter { get; set; }
 
     [BooleanCommandSwitch("--prune-empty")]
-    public bool? PruneEmpty { get; set; }
+    public virtual bool? PruneEmpty { get; set; }
 
     [CommandEqualsSeparatorSwitch("--original")]
     public string? Original { get; set; }
 
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [CommandEqualsSeparatorSwitch("--state-branch")]
     public string? StateBranch { get; set; }

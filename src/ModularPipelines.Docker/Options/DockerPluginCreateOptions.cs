@@ -25,5 +25,5 @@ public record DockerPluginCreateOptions : DockerOptions
     public string? PluginDataDir { get; set; }
 
     [BooleanCommandSwitch("--compress")]
-    public bool? Compress { get; set; }
+    public virtual bool? Compress { get; set; }
 }

@@ -8,5 +8,5 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetWorkloadOptions : DotNetOptions
 {
     [BooleanCommandSwitch("--info")]
-    public bool? Info { get; set; }
+    public virtual bool? Info { get; set; }
 }

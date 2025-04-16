@@ -19,20 +19,20 @@ public record DockerContainerLogsOptions : DockerOptions
     public string? Container { get; set; }
 
     [BooleanCommandSwitch("--details")]
-    public bool? Details { get; set; }
+    public virtual bool? Details { get; set; }
 
     [BooleanCommandSwitch("--follow")]
-    public bool? Follow { get; set; }
+    public virtual bool? Follow { get; set; }
 
     [CommandSwitch("--since")]
-    public string? Since { get; set; }
+    public virtual string? Since { get; set; }
 
     [CommandSwitch("--tail")]
-    public string? Tail { get; set; }
+    public virtual string? Tail { get; set; }
 
     [BooleanCommandSwitch("--timestamps")]
-    public bool? Timestamps { get; set; }
+    public virtual bool? Timestamps { get; set; }
 
     [CommandSwitch("--until")]
-    public string? Until { get; set; }
+    public virtual string? Until { get; set; }
 }

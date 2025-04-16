@@ -12,14 +12,14 @@ public record NpmTeamRmOptions(
 ) : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 
     [BooleanCommandSwitch("--parseable")]
-    public bool? Parseable { get; set; }
+    public virtual bool? Parseable { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 }

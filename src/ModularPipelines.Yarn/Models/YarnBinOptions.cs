@@ -8,10 +8,10 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnBinOptions : YarnOptions
 {
     [BooleanCommandSwitch("--verbose")]
-    public bool? Verbose { get; set; }
+    public virtual bool? Verbose { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Name { get; set; }

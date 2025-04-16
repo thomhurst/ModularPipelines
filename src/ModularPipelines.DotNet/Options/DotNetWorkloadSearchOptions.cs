@@ -24,5 +24,5 @@ public record DotNetWorkloadSearchOptions : DotNetOptions
     public string? SearchString { get; set; }
 
     [CommandSwitch("--verbosity")]
-    public string? Verbosity { get; set; }
+    public virtual string? Verbosity { get; set; }
 }

@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxDuOptions : DockerOptions
 {
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--verbose")]
-    public string? Verbose { get; set; }
+    public virtual string? Verbose { get; set; }
 }

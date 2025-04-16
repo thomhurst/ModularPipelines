@@ -8,7 +8,7 @@ namespace ModularPipelines.Node.Models;
 public record NpmDoctorOptions : NpmOptions
 {
     [CommandSwitch("--registry")]
-    public Uri? Registry { get; set; }
+    public virtual Uri? Registry { get; set; }
 
     [PositionalArgument(Position = Position.BeforeSwitches)]
     public string? Ping { get; set; }

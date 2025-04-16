@@ -8,5 +8,5 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformTerraformProvidersMirrorOptions : TerraformOptions
 {
     [CommandSwitch("-platform")]
-    public string? Platform { get; set; }
+    public virtual string? Platform { get; set; }
 }

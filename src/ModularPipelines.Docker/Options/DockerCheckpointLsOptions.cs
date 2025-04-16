@@ -19,5 +19,5 @@ public record DockerCheckpointLsOptions : DockerOptions
     public string? Container { get; set; }
 
     [CommandSwitch("--checkpoint-dir")]
-    public string? CheckpointDir { get; set; }
+    public virtual string? CheckpointDir { get; set; }
 }

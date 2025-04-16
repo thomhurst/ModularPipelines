@@ -8,26 +8,26 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmAuditOptions : YarnOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [BooleanCommandSwitch("--recursive")]
-    public bool? Recursive { get; set; }
+    public virtual bool? Recursive { get; set; }
 
     [CommandSwitch("--environment")]
-    public string? Environment { get; set; }
+    public virtual string? Environment { get; set; }
 
     [BooleanCommandSwitch("--json")]
-    public bool? Json { get; set; }
+    public virtual bool? Json { get; set; }
 
     [BooleanCommandSwitch("--no-deprecations")]
-    public bool? NoDeprecations { get; set; }
+    public virtual bool? NoDeprecations { get; set; }
 
     [CommandSwitch("--severity")]
-    public string? Severity { get; set; }
+    public virtual string? Severity { get; set; }
 
     [CommandSwitch("--exclude")]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CommandSwitch("--ignore")]
-    public string? Ignore { get; set; }
+    public virtual string? Ignore { get; set; }
 }

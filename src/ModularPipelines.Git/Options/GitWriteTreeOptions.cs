@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitWriteTreeOptions : GitOptions
 {
     [BooleanCommandSwitch("--missing-ok")]
-    public bool? MissingOk { get; set; }
+    public virtual bool? MissingOk { get; set; }
 
     [CommandEqualsSeparatorSwitch("--prefix")]
     public string? Prefix { get; set; }

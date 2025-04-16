@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitForEachRefOptions : GitOptions
 {
     [BooleanCommandSwitch("--stdin")]
-    public bool? Stdin { get; set; }
+    public virtual bool? Stdin { get; set; }
 
     [CommandEqualsSeparatorSwitch("--count")]
     public string? Count { get; set; }
@@ -23,16 +23,16 @@ public record GitForEachRefOptions : GitOptions
     public string? Color { get; set; }
 
     [BooleanCommandSwitch("--shell")]
-    public bool? Shell { get; set; }
+    public virtual bool? Shell { get; set; }
 
     [BooleanCommandSwitch("--perl")]
-    public bool? Perl { get; set; }
+    public virtual bool? Perl { get; set; }
 
     [BooleanCommandSwitch("--python")]
-    public bool? Python { get; set; }
+    public virtual bool? Python { get; set; }
 
     [BooleanCommandSwitch("--tcl")]
-    public bool? Tcl { get; set; }
+    public virtual bool? Tcl { get; set; }
 
     [CommandEqualsSeparatorSwitch("--points-at")]
     public string? PointsAt { get; set; }
@@ -50,8 +50,8 @@ public record GitForEachRefOptions : GitOptions
     public string? NoContains { get; set; }
 
     [BooleanCommandSwitch("--ignore-case")]
-    public bool? IgnoreCase { get; set; }
+    public virtual bool? IgnoreCase { get; set; }
 
     [BooleanCommandSwitch("--omit-empty")]
-    public bool? OmitEmpty { get; set; }
+    public virtual bool? OmitEmpty { get; set; }
 }

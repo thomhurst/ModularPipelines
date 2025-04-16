@@ -9,8 +9,8 @@ public record TerraformStatePushOptions([property: PositionalArgument(Position =
     string Path) : TerraformOptions
 {
     [BooleanCommandSwitch("-force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 
     [BooleanCommandSwitch("-ignore-remote-version")]
-    public bool? IgnoreRemoteVersion { get; set; }
+    public virtual bool? IgnoreRemoteVersion { get; set; }
 }

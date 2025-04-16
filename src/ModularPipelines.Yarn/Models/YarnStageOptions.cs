@@ -8,11 +8,11 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnStageOptions : YarnOptions
 {
     [BooleanCommandSwitch("--commit")]
-    public bool? Commit { get; set; }
+    public virtual bool? Commit { get; set; }
 
     [BooleanCommandSwitch("--reset")]
-    public bool? Reset { get; set; }
+    public virtual bool? Reset { get; set; }
 
     [BooleanCommandSwitch("--dry-run")]
-    public bool? DryRun { get; set; }
+    public virtual bool? DryRun { get; set; }
 }

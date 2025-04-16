@@ -11,7 +11,7 @@ public record HelmPackageOptions : HelmOptions
     public string? AppVersion { get; set; }
 
     [BooleanCommandSwitch("--dependency-update")]
-    public bool? DependencyUpdate { get; set; }
+    public virtual bool? DependencyUpdate { get; set; }
 
     [CommandEqualsSeparatorSwitch("--destination", SwitchValueSeparator = " ")]
     public string? Destination { get; set; }
@@ -26,7 +26,7 @@ public record HelmPackageOptions : HelmOptions
     public string? PassphraseFile { get; set; }
 
     [BooleanCommandSwitch("--sign")]
-    public bool? Sign { get; set; }
+    public virtual bool? Sign { get; set; }
 
     [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
     public string? Version { get; set; }

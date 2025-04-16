@@ -8,14 +8,14 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeLsOptions : DockerOptions
 {
     [BooleanCommandSwitch("--all")]
-    public bool? All { get; set; }
+    public virtual bool? All { get; set; }
 
     [CommandSwitch("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CommandSwitch("--format")]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [BooleanCommandSwitch("--quiet")]
-    public bool? Quiet { get; set; }
+    public virtual bool? Quiet { get; set; }
 }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Git.Options;
 public record GitUpdateServerInfoOptions : GitOptions
 {
     [BooleanCommandSwitch("--force")]
-    public bool? Force { get; set; }
+    public virtual bool? Force { get; set; }
 }

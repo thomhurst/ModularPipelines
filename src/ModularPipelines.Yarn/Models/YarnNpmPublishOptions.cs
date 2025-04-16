@@ -8,14 +8,14 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnNpmPublishOptions : YarnOptions
 {
     [CommandSwitch("--access")]
-    public string? Access { get; set; }
+    public virtual string? Access { get; set; }
 
     [CommandSwitch("--tag")]
-    public string? Tag { get; set; }
+    public virtual string? Tag { get; set; }
 
     [BooleanCommandSwitch("--tolerate-republish")]
-    public bool? TolerateRepublish { get; set; }
+    public virtual bool? TolerateRepublish { get; set; }
 
     [CommandSwitch("--otp")]
-    public string? Otp { get; set; }
+    public virtual string? Otp { get; set; }
 }
