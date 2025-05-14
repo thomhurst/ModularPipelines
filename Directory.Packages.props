@@ -58,7 +58,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="1.6.3" />
-    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.13.2126" />
+    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.14.2094" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.8.3" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.8.3" />
