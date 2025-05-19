@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -50,9 +51,10 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             return await ExecuteInternal(cancellationToken);
         }
-        catch
+        catch (Exception exception) when (exception is PipelineCancelledException or TaskCanceledException or OperationCanceledException)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+            // Let original exception bubble up first
+            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
             throw;
         }
         finally
