@@ -75,7 +75,8 @@ internal class ModuleExecutor : IModuleExecutor
             await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
 
             var parallelModuleTasks = modules.Except(nonParallelModules)
-                .Select(x => Task.Run(() => StartModule(x, false)))
+                .Select(x => Task.Factory.StartNew(() => StartModule(x, false), TaskCreationOptions.LongRunning))
+                .Select(x => x.Unwrap())
                 .ToArray();
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
