@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
@@ -100,6 +100,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Tom Longhurst. Built with Docusaurus.`,
     },
     prism: {
+      additionalLanguages: ['csharp', 'powershell'],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
