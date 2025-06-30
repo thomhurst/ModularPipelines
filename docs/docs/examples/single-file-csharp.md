@@ -24,37 +24,37 @@ To use ModularPipelines in a single file C# application, you can follow these st
 3.  **Write your C# code**: Below the package reference, you can write your C# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
 
     ```csharp
-        #!/usr/bin/dotnet run
-        #:package ModularPipelines.DotNet@2.44.*
-        using ModularPipelines.Attributes;
-        using ModularPipelines.Context;
-        using ModularPipelines.DotNet.Extensions;
-        using ModularPipelines.Host;
-        using ModularPipelines.Models;
-        using ModularPipelines.Modules;
+    #!/usr/bin/dotnet run
+    #:package ModularPipelines.DotNet@2.44.*
+    using ModularPipelines.Attributes;
+    using ModularPipelines.Context;
+    using ModularPipelines.DotNet.Extensions;
+    using ModularPipelines.Host;
+    using ModularPipelines.Models;
+    using ModularPipelines.Modules;
 
-        await PipelineHostBuilder.Create()
-            .AddModule<UpdateDotnetWorkloads>()
-            .AddModule<CheckDotnetSdkModule>()
-            .ExecutePipelineAsync();
+    await PipelineHostBuilder.Create()
+        .AddModule<UpdateDotnetWorkloads>()
+        .AddModule<CheckDotnetSdkModule>()
+        .ExecutePipelineAsync();
 
-        public class UpdateDotnetWorkloads : Module<CommandResult>
+    public class UpdateDotnetWorkloads : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-            {
-                return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
-            }
+            return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
         }
+    }
 
-        [DependsOn<UpdateDotnetWorkloads>]
-        public class CheckDotnetSdkModule : Module<CommandResult>
+    [DependsOn<UpdateDotnetWorkloads>]
+    public class CheckDotnetSdkModule : Module<CommandResult>
+    {
+
+        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-
-            protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-            {
-                return await context.DotNet().Sdk.Check(token: cancellationToken);
-            }
+            return await context.DotNet().Sdk.Check(token: cancellationToken);
         }
+    }
     ```
 
 4.  **Run your script**: You can run your script directly using the `dotnet run` command. Make sure you have the .NET SDK installed and available in your PATH.
