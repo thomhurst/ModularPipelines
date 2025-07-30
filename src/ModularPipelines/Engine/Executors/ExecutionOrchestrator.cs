@@ -19,6 +19,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IAfterPipelineLogger _afterPipelineLogger;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<ExecutionOrchestrator> _logger;
+    private readonly IExceptionBuffer _exceptionBuffer;
 
     private readonly object _lock = new();
 
@@ -32,7 +33,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IConsolePrinter consolePrinter,
         IAfterPipelineLogger afterPipelineLogger,
         EngineCancellationToken engineCancellationToken,
-        ILogger<ExecutionOrchestrator> logger)
+        ILogger<ExecutionOrchestrator> logger,
+        IExceptionBuffer exceptionBuffer)
     {
         _pipelineInitializer = pipelineInitializer;
         _moduleDisposeExecutor = moduleDisposeExecutor;
@@ -43,6 +45,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _afterPipelineLogger = afterPipelineLogger;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
+        _exceptionBuffer = exceptionBuffer;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
@@ -111,6 +114,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _consolePrinter.PrintResults(pipelineSummary);
 
         await Console.Out.FlushAsync();
+
+        // Flush any buffered exceptions after the results table has been printed
+        _exceptionBuffer.FlushExceptions();
 
         // Check for original exception before logging cancellation reason
         if (_engineCancellationToken.OriginalException != null)
