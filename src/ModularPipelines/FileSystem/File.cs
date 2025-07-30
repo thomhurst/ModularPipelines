@@ -5,6 +5,9 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
 
+/// <summary>
+/// Represents a file in the file system with extended functionality for pipeline operations.
+/// </summary>
 public class File : IEquatable<File>
 {
     [JsonIgnore]

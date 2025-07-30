@@ -9,6 +9,9 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
 
+/// <summary>
+/// Represents a folder in the file system with extended functionality for pipeline operations.
+/// </summary>
 public class Folder : IEquatable<Folder>
 {
     [JsonIgnore]
