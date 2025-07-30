@@ -220,5 +220,32 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("MissingDependsOnAttributeAnalyzerTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using 'await this' inside a module would cause a deadlock because the module would be waiting for itself to complete..
+        /// </summary>
+        internal static string AwaitThisAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("AwaitThisAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using 'await this' inside a module would cause a deadlock.
+        /// </summary>
+        internal static string AwaitThisAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("AwaitThisAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prohibit await this in modules.
+        /// </summary>
+        internal static string AwaitThisAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("AwaitThisAnalyzerTitle", resourceCulture);
+            }
+        }
     }
 }
