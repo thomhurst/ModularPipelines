@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 
 namespace ModularPipelines.Engine;
 
@@ -6,6 +7,12 @@ namespace ModularPipelines.Engine;
 internal class EngineCancellationToken : CancellationTokenSource
 {
     public string? Reason { get; set; }
+    
+    public Exception? OriginalException { get; private set; }
+    
+    public ExceptionDispatchInfo? OriginalExceptionDispatchInfo { get; private set; }
+    
+    private readonly object _exceptionLock = new();
 
     private bool _isCancelled;
 
@@ -29,6 +36,23 @@ internal class EngineCancellationToken : CancellationTokenSource
     public void CancelWithReason(string? reason)
     {
         Reason = reason;
+        _isCancelled = true;
+        Cancel();
+    }
+    
+    public void CancelWithException(Exception exception, string? reason = null)
+    {
+        lock (_exceptionLock)
+        {
+            // Only store the first exception
+            if (OriginalException == null)
+            {
+                OriginalException = exception;
+                OriginalExceptionDispatchInfo = ExceptionDispatchInfo.Capture(exception);
+            }
+        }
+        
+        Reason = reason ?? exception.Message;
         _isCancelled = true;
         Cancel();
     }
