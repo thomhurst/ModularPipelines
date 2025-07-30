@@ -41,6 +41,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ISmartCollapsableLoggingStringBlockProvider _collapsableLoggingStringBlockProvider;
+    private readonly IExceptionBuffer _exceptionBuffer;
 
     private List<StringOrLogEvent> _stringOrLogEvents = new();
 
@@ -51,12 +52,14 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         IModuleLoggerContainer moduleLoggerContainer,
         ISecretObfuscator secretObfuscator,
         IConsoleWriter consoleWriter,
-        ISmartCollapsableLoggingStringBlockProvider collapsableLoggingStringBlockProvider)
+        ISmartCollapsableLoggingStringBlockProvider collapsableLoggingStringBlockProvider,
+        IExceptionBuffer exceptionBuffer)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _consoleWriter = consoleWriter;
         _collapsableLoggingStringBlockProvider = collapsableLoggingStringBlockProvider;
+        _exceptionBuffer = exceptionBuffer;
         moduleLoggerContainer.AddLogger(this);
 
         Disposer.RegisterOnShutdown(this);
@@ -176,8 +179,8 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, ILogger<T>
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            Console.WriteLine($"{logLevel}: {eventId} - {state}{exception}");
+            _exceptionBuffer.AddExceptionMessage(e.ToString());
+            _exceptionBuffer.AddExceptionMessage($"{logLevel}: {eventId} - {state}{exception}");
         }
     }
 
