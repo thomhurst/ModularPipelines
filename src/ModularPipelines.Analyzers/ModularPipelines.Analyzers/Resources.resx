@@ -171,4 +171,13 @@
   <data name="AsyncModuleAnalyzerDescription" xml:space="preserve">
     <value>Module should be async.</value>
   </data>
+  <data name="AwaitThisAnalyzerTitle" xml:space="preserve">
+    <value>Prohibit await this in modules</value>
+  </data>
+  <data name="AwaitThisAnalyzerMessageFormat" xml:space="preserve">
+    <value>Using 'await this' inside a module would cause a deadlock</value>
+  </data>
+  <data name="AwaitThisAnalyzerDescription" xml:space="preserve">
+    <value>Using 'await this' inside a module would cause a deadlock because the module would be waiting for itself to complete.</value>
+  </data>
 </root>
