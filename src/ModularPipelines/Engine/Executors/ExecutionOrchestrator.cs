@@ -53,8 +53,13 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
         catch (Exception exception) when (exception is PipelineCancelledException or TaskCanceledException or OperationCanceledException)
         {
-            // Let original exception bubble up first
-            await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
+            // Check if we have an original exception stored with preserved stack trace
+            if (_engineCancellationToken.OriginalExceptionDispatchInfo != null)
+            {
+                _engineCancellationToken.OriginalExceptionDispatchInfo.Throw();
+            }
+            
+            // Otherwise throw the cancellation exception
             throw;
         }
         finally
@@ -107,7 +112,13 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         await Console.Out.FlushAsync();
 
-        if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+        // Check for original exception before logging cancellation reason
+        if (_engineCancellationToken.OriginalException != null)
+        {
+            _logger.LogInformation("Pipeline failed due to: {ExceptionType}", 
+                _engineCancellationToken.OriginalException.GetType().Name);
+        }
+        else if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
         {
             _logger.LogInformation("Cancellation Reason: {Reason}", _engineCancellationToken.Reason);
         }

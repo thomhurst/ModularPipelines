@@ -21,7 +21,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IEnumerable<ModuleBase> _allModules;
-    private readonly IExceptionContainer _exceptionContainer;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly ILogger<ModuleExecutor> _logger;
 
@@ -36,7 +36,7 @@ internal class ModuleExecutor : IModuleExecutor
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         IModuleDisposer moduleDisposer,
         IEnumerable<ModuleBase> allModules,
-        IExceptionContainer exceptionContainer,
+        ISecondaryExceptionContainer secondaryExceptionContainer,
         IParallelLimitProvider parallelLimitProvider,
         ILogger<ModuleExecutor> logger)
     {
@@ -45,7 +45,7 @@ internal class ModuleExecutor : IModuleExecutor
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
         _moduleDisposer = moduleDisposer;
         _allModules = allModules;
-        _exceptionContainer = exceptionContainer;
+        _secondaryExceptionContainer = secondaryExceptionContainer;
         _parallelLimitProvider = parallelLimitProvider;
         _logger = logger;
     }
@@ -232,18 +232,18 @@ internal class ModuleExecutor : IModuleExecutor
         }
         catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
         {
-            _exceptionContainer.RegisterException(new AlwaysRunPostponedException(
+            _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                 $"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency",
                 e));
             requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
         }
         catch (DependencyFailedException e)
         {
-            _exceptionContainer.RegisterException(e);
+            _secondaryExceptionContainer.RegisterException(e);
         }
         catch (PipelineCancelledException e)
         {
-            _exceptionContainer.RegisterException(e);
+            _secondaryExceptionContainer.RegisterException(e);
         }
     }
 }
