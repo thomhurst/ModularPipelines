@@ -5,9 +5,13 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
 
+/// <summary>
+/// A pipeline requirement that ensures the current operating system is Windows.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public class WindowsRequirement : IPipelineRequirement
 {
+    /// <inheritdoc/>
     public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
         if (OperatingSystem.IsWindows())
