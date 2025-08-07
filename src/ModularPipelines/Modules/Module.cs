@@ -337,20 +337,21 @@ public abstract partial class Module<T> : ModuleBase<T>
         try
         {
             await Task.Delay(Timeout, cancellationToken);
-            
-            if (!executeAsyncTask.IsCompleted)
-            {
-                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
-                {
-                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
-                }
-
-                throw new ModuleTimeoutException(this);
-            }
         }
         catch (OperationCanceledException)
         {
-            // Task was cancelled, which is expected when the main task completes
+            // Task was cancelled because main task completed, this is expected
+            return;
+        }
+        
+        if (!executeAsyncTask.IsCompleted)
+        {
+            if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+            {
+                Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+            }
+
+            throw new ModuleTimeoutException(this);
         }
     }
 
