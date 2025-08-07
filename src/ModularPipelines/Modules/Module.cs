@@ -284,8 +284,14 @@ public abstract partial class Module<T> : ModuleBase<T>
     private async Task<T?> ExecuteInternal()
     {
         var isRetry = false;
-        var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(async () =>
         {
+            // Check for timeout/cancellation before each retry attempt
+            if (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
+            {
+                throw new ModuleTimeoutException(this);
+            }
+            
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             if (isRetry)
@@ -303,7 +309,15 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             isRetry = true;
 
-            return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
+            try
+            {
+                return await ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException) when (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
+            {
+                // If ExecuteAsync throws OperationCanceledException due to timeout, convert it
+                throw new ModuleTimeoutException(this);
+            }
         });
 
         if (Timeout == TimeSpan.Zero)
@@ -319,18 +333,24 @@ public abstract partial class Module<T> : ModuleBase<T>
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
             {
+                // If the main task has already completed, don't throw
                 if (executeAsyncTask.IsCompleted)
                 {
                     return;
                 }
 
+                // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
                 if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
                 {
                     Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
                 }
 
-                throw new ModuleTimeoutException(this);
-            }, CancellationToken.None);
+                // If the delay completed successfully (timeout expired), throw timeout exception
+                if (t.IsCompletedSuccessfully)
+                {
+                    throw new ModuleTimeoutException(this);
+                }
+            }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
 
         var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 

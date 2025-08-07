@@ -180,7 +180,7 @@ internal class ProgressPrinter : IProgressPrinter
                     await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                     progressTask.Increment(ticksPerSecond);
                 }
-            }, cancellationToken);
+            }, cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
 
             SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
             SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
@@ -200,7 +200,7 @@ internal class ProgressPrinter : IProgressPrinter
                 progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
                 progressTask.StopTask();
             }
-        }, cancellationToken);
+        }, cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
     }
 
     private static void SetupFinishedSuccessfullyCallback(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask,
@@ -228,7 +228,7 @@ internal class ProgressPrinter : IProgressPrinter
 
                 totalTask.Increment(100.0 / modulesToProcess.Count);
             }
-        }, cancellationToken);
+        }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
 
         string GetColour()
         {
@@ -270,7 +270,7 @@ internal class ProgressPrinter : IProgressPrinter
             }, cancellationToken);
 
             // Callback for Module has finished
-            subModule.CallbackTask.ContinueWith(t =>
+            _ = subModule.CallbackTask.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {
@@ -280,7 +280,7 @@ internal class ProgressPrinter : IProgressPrinter
                 progressTask.Description = t.IsCompletedSuccessfully ? $"[green]- {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
 
                 progressTask.StopTask();
-            }, cancellationToken);
+            }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
         };
     }
 
@@ -290,7 +290,7 @@ internal class ProgressPrinter : IProgressPrinter
         {
             totalTask.Increment(100);
             totalTask.StopTask();
-        }, cancellationToken);
+        }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
     }
 
     private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
