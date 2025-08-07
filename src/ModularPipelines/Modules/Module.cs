@@ -286,31 +286,36 @@ public abstract partial class Module<T> : ModuleBase<T>
         var isRetry = false;
         var executeAsyncTask = RetryPolicy.ExecuteAsync(async () =>
         {
-            try
+            // Check for timeout/cancellation before each retry attempt
+            if (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
             {
-                ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                throw new ModuleTimeoutException(this);
+            }
+            
+            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                if (isRetry)
+            if (isRetry)
+            {
+                Context.Logger.LogWarning("An error occurred. Retrying...");
+
+                lock (SubModuleBasesLock)
                 {
-                    Context.Logger.LogWarning("An error occurred. Retrying...");
-
-                    lock (SubModuleBasesLock)
+                    foreach (var subModuleBase in SubModuleBases.Where(x => x.Status != Status.Successful))
                     {
-                        foreach (var subModuleBase in SubModuleBases.Where(x => x.Status != Status.Successful))
-                        {
-                            subModuleBase.Status = Status.Retried;
-                        }
+                        subModuleBase.Status = Status.Retried;
                     }
                 }
+            }
 
-                isRetry = true;
+            isRetry = true;
 
+            try
+            {
                 return await ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
             }
             catch (OperationCanceledException) when (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
             {
-                // If we have a timeout configured and the cancellation token was triggered, 
-                // this is a timeout scenario - convert ANY OperationCanceledException to ModuleTimeoutException
+                // If ExecuteAsync throws OperationCanceledException due to timeout, convert it
                 throw new ModuleTimeoutException(this);
             }
         });
