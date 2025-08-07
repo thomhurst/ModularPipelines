@@ -289,30 +289,30 @@ public abstract partial class Module<T> : ModuleBase<T>
             try
             {
                 ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                if (isRetry)
+                {
+                    Context.Logger.LogWarning("An error occurred. Retrying...");
+
+                    lock (SubModuleBasesLock)
+                    {
+                        foreach (var subModuleBase in SubModuleBases.Where(x => x.Status != Status.Successful))
+                        {
+                            subModuleBase.Status = Status.Retried;
+                        }
+                    }
+                }
+
+                isRetry = true;
+
+                return await ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
             }
             catch (OperationCanceledException) when (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
             {
                 // If we have a timeout configured and the cancellation token was triggered, 
-                // this is a timeout scenario
+                // this is a timeout scenario - convert ANY OperationCanceledException to ModuleTimeoutException
                 throw new ModuleTimeoutException(this);
             }
-
-            if (isRetry)
-            {
-                Context.Logger.LogWarning("An error occurred. Retrying...");
-
-                lock (SubModuleBasesLock)
-                {
-                    foreach (var subModuleBase in SubModuleBases.Where(x => x.Status != Status.Successful))
-                    {
-                        subModuleBase.Status = Status.Retried;
-                    }
-                }
-            }
-
-            isRetry = true;
-
-            return await ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
         });
 
         if (Timeout == TimeSpan.Zero)
