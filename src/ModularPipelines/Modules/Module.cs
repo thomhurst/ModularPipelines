@@ -284,9 +284,18 @@ public abstract partial class Module<T> : ModuleBase<T>
     private async Task<T?> ExecuteInternal()
     {
         var isRetry = false;
-        var executeAsyncTask = RetryPolicy.ExecuteAsync(() =>
+        var executeAsyncTask = RetryPolicy.ExecuteAsync(async () =>
         {
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            try
+            {
+                ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            }
+            catch (OperationCanceledException) when (Timeout != TimeSpan.Zero && ModuleCancellationTokenSource.IsCancellationRequested)
+            {
+                // If we have a timeout configured and the cancellation token was triggered, 
+                // this is a timeout scenario
+                throw new ModuleTimeoutException(this);
+            }
 
             if (isRetry)
             {
@@ -303,7 +312,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
             isRetry = true;
 
-            return ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
+            return await ExecuteAsync(Context, ModuleCancellationTokenSource.Token);
         });
 
         if (Timeout == TimeSpan.Zero)
