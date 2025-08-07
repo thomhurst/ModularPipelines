@@ -203,7 +203,11 @@ internal class ProgressPrinter : IProgressPrinter
             lock (moduleToProcess)
             {
                 progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
-                progressTask.StopTask();
+
+                if (!progressTask.IsFinished)
+                {
+                    progressTask.StopTask();
+                }
             }
         }, cancellationToken);
     }
