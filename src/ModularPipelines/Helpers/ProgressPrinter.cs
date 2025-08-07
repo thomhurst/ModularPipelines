@@ -167,6 +167,11 @@ internal class ProgressPrinter : IProgressPrinter
             // Callback for Module has started
             _ = moduleToProcess.Module.StartTask.ContinueWith(async t =>
             {
+                if (progressTask.IsStarted)
+                {
+                    return;
+                }
+                
                 progressTask.StartTask();
                 var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
 
@@ -198,7 +203,11 @@ internal class ProgressPrinter : IProgressPrinter
             lock (moduleToProcess)
             {
                 progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
-                progressTask.StopTask();
+
+                if (!progressTask.IsFinished)
+                {
+                    progressTask.StopTask();
+                }
             }
         }, cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
     }
