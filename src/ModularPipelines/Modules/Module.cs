@@ -330,7 +330,7 @@ public abstract partial class Module<T> : ModuleBase<T>
                 }
 
                 throw new ModuleTimeoutException(this);
-            }, CancellationToken.None);
+            }, CancellationToken.None, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
 
         var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
