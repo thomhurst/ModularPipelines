@@ -165,20 +165,33 @@ internal class ProgressPrinter : IProgressPrinter
             });
 
             // Callback for Module has started
-            _ = moduleToProcess.Module.StartTask.ContinueWith(async t =>
+            _ = Task.Run(async () =>
             {
-                progressTask.StartTask();
-                var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
-
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
-
-                var ticksPerSecond = 100.0 / totalEstimatedSeconds;
-
-                progressTask.Description = moduleName;
-                while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
+                try
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
-                    progressTask.Increment(ticksPerSecond);
+                    await moduleToProcess.Module.StartTask;
+                    
+                    progressTask.StartTask();
+                    var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
+
+                    var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
+
+                    var ticksPerSecond = 100.0 / totalEstimatedSeconds;
+
+                    progressTask.Description = moduleName;
+                    while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                        progressTask.Increment(ticksPerSecond);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // Task was cancelled, which is expected
+                }
+                catch
+                {
+                    // Ignore other exceptions to prevent unobserved task exceptions
                 }
             }, cancellationToken);
 
@@ -193,12 +206,21 @@ internal class ProgressPrinter : IProgressPrinter
         ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has been ignored
-        _ = moduleToProcess.Module.SkipHandler.CallbackTask.ContinueWith(t =>
+        _ = Task.Run(async () =>
         {
-            lock (moduleToProcess)
+            try
             {
-                progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
-                progressTask.StopTask();
+                await moduleToProcess.Module.SkipHandler.CallbackTask;
+                
+                lock (moduleToProcess)
+                {
+                    progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
+                    progressTask.StopTask();
+                }
+            }
+            catch
+            {
+                // Ignore exceptions to prevent unobserved task exceptions
             }
         }, cancellationToken);
     }
@@ -207,26 +229,34 @@ internal class ProgressPrinter : IProgressPrinter
         CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
     {
         // Callback for Module has finished
-        _ = moduleToProcess.Module.ExecutionTask.ContinueWith(t =>
+        _ = Task.Run(async () =>
         {
-            lock (moduleToProcess)
+            try
             {
-                if (progressTask.IsFinished)
+                await moduleToProcess.Module.ExecutionTask;
+                
+                lock (moduleToProcess)
                 {
-                    return;
+                    if (!progressTask.IsFinished)
+                    {
+                        progressTask.Increment(100);
+                        progressTask.Description = $"{GetColour()}{moduleName}[/]";
+                        progressTask.StopTask();
+                        totalTask.Increment(100.0 / modulesToProcess.Count);
+                    }
                 }
-
-                if (t.IsCompletedSuccessfully)
+            }
+            catch
+            {
+                lock (moduleToProcess)
                 {
-                    progressTask.Increment(100);
+                    if (!progressTask.IsFinished)
+                    {
+                        progressTask.Description = $"[red][[Failed]] {moduleName}[/]";
+                        progressTask.StopTask();
+                        totalTask.Increment(100.0 / modulesToProcess.Count);
+                    }
                 }
-
-                progressTask.Description =
-                    t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
-
-                progressTask.StopTask();
-
-                totalTask.Increment(100.0 / modulesToProcess.Count);
             }
         }, cancellationToken);
 
@@ -270,26 +300,40 @@ internal class ProgressPrinter : IProgressPrinter
             }, cancellationToken);
 
             // Callback for Module has finished
-            subModule.CallbackTask.ContinueWith(t =>
+            _ = Task.Run(async () =>
             {
-                if (t.IsCompletedSuccessfully)
+                try
                 {
+                    await subModule.CallbackTask;
                     progressTask.Increment(100);
+                    progressTask.Description = $"[green]- {subModule.Name}[/]";
+                    progressTask.StopTask();
                 }
-
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]- {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
-
-                progressTask.StopTask();
+                catch
+                {
+                    progressTask.Description = $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
+                    progressTask.StopTask();
+                }
             }, cancellationToken);
         };
     }
 
     private static void CompleteTotalWhenFinished(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)
     {
-        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.ExecutionTask)).ContinueWith(x =>
+        _ = Task.Run(async () =>
         {
-            totalTask.Increment(100);
-            totalTask.StopTask();
+            try
+            {
+                await Task.WhenAll(modulesToProcess.Select(x => x.Module.ExecutionTask));
+                totalTask.Increment(100);
+                totalTask.StopTask();
+            }
+            catch
+            {
+                // Even if some modules fail, we still want to complete the total progress
+                totalTask.Increment(100);
+                totalTask.StopTask();
+            }
         }, cancellationToken);
     }
 

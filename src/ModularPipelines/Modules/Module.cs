@@ -316,21 +316,7 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         using var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
-        var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
-            .ContinueWith(t =>
-            {
-                if (executeAsyncTask.IsCompleted)
-                {
-                    return;
-                }
-
-                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
-                {
-                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
-                }
-
-                throw new ModuleTimeoutException(this);
-            }, CancellationToken.None);
+        var timeoutExceptionTask = MonitorTimeoutAsync(executeAsyncTask, timeoutCancellationTokenSource.Token);
 
         var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
@@ -344,6 +330,28 @@ public abstract partial class Module<T> : ModuleBase<T>
         await finishedTask;
 
         return await executeAsyncTask;
+    }
+
+    private async Task MonitorTimeoutAsync(Task executeAsyncTask, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(Timeout, cancellationToken);
+            
+            if (!executeAsyncTask.IsCompleted)
+            {
+                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                {
+                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                }
+
+                throw new ModuleTimeoutException(this);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Task was cancelled, which is expected when the main task completes
+        }
     }
 
     private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask)
