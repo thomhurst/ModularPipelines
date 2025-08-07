@@ -9,7 +9,7 @@ public enum ModuleRunType
     /// The module will always run regardless of dependency results.
     /// </summary>
     AlwaysRun,
-    
+
     /// <summary>
     /// The module will only run if all its dependencies completed successfully.
     /// </summary>

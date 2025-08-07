@@ -291,7 +291,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             {
                 throw new ModuleTimeoutException(this);
             }
-            
+
             ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             if (isRetry)

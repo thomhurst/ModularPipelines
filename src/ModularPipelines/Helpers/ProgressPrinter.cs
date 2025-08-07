@@ -171,7 +171,7 @@ internal class ProgressPrinter : IProgressPrinter
                 {
                     return;
                 }
-                
+
                 progressTask.StartTask();
                 var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
 

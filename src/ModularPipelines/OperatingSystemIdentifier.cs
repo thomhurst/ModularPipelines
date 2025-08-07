@@ -9,22 +9,22 @@ public enum OperatingSystemIdentifier
     /// Windows operating system.
     /// </summary>
     Windows,
-    
+
     /// <summary>
     /// Linux operating system.
     /// </summary>
     Linux,
-    
+
     /// <summary>
     /// macOS operating system.
     /// </summary>
     MacOS,
-    
+
     /// <summary>
     /// FreeBSD operating system.
     /// </summary>
     FreeBSD,
-    
+
     /// <summary>
     /// Unknown or unsupported operating system.
     /// </summary>

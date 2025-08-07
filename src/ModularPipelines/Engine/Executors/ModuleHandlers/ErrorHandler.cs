@@ -26,10 +26,10 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         {
             Module.Status = Status.PipelineTerminated;
             Context.Logger.LogInformation("Pipeline has been canceled");
-            
+
             // DON'T throw PipelineCancelledException - just complete the module
             Module.Exception = exception;
-            
+
             // Set result as cancelled without throwing
             var cancelledResult = new ModuleResult<T>(exception, Module);
             ModuleResultTaskCompletionSource.TrySetResult(cancelledResult);
@@ -87,10 +87,10 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         Context.Logger.SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(Module, exception);
-        
+
         // Store the original exception in the cancellation token
         Context.EngineCancellationToken.CancelWithException(moduleFailedException);
-        
+
         // Throw immediately (no delay)
         ModuleResultTaskCompletionSource.TrySetException(moduleFailedException);
         throw moduleFailedException;
