@@ -319,18 +319,23 @@ public abstract partial class Module<T> : ModuleBase<T>
         var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
             .ContinueWith(t =>
             {
-                if (executeAsyncTask.IsCompleted)
+                // If the delay was cancelled because the main task completed, don't throw
+                if (t.IsCanceled && executeAsyncTask.IsCompleted)
                 {
                     return;
                 }
-
-                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                
+                // If the delay completed (timeout expired) and main task is still running, throw timeout
+                if (t.IsCompletedSuccessfully && !executeAsyncTask.IsCompleted)
                 {
-                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
-                }
+                    if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                    {
+                        Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                    }
 
-                throw new ModuleTimeoutException(this);
-            }, CancellationToken.None, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
+                    throw new ModuleTimeoutException(this);
+                }
+            }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
 
         var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
 
