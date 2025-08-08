@@ -1,9 +1,11 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using EnumerableAsyncProcessor.Extensions;
+using Mediator;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
@@ -23,6 +25,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IEnumerable<ModuleBase> _allModules;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IParallelLimitProvider _parallelLimitProvider;
+    private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
 
     private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
@@ -38,6 +41,7 @@ internal class ModuleExecutor : IModuleExecutor
         IEnumerable<ModuleBase> allModules,
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IParallelLimitProvider parallelLimitProvider,
+        IMediator mediator,
         ILogger<ModuleExecutor> logger)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
@@ -47,6 +51,7 @@ internal class ModuleExecutor : IModuleExecutor
         _allModules = allModules;
         _secondaryExceptionContainer = secondaryExceptionContainer;
         _parallelLimitProvider = parallelLimitProvider;
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -175,11 +180,28 @@ internal class ModuleExecutor : IModuleExecutor
 
                     await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
 
+                    // Get estimated duration for this module
+                    var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
+
+                    // Publish module started event
+                    await _mediator.Publish(new ModuleStartedNotification(module, estimatedDuration));
+
                     await module.StartInternal();
+
+                    // Check if module was skipped
+                    if (module.Status == Enums.Status.Skipped)
+                    {
+                        await _mediator.Publish(new ModuleSkippedNotification(module, module.SkipResult));
+                        return module;
+                    }
 
                     await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
 
                     await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+                    // Publish module completed event
+                    var isSuccessful = module.Status == Enums.Status.Successful;
+                    await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
 
                     return module;
                 }

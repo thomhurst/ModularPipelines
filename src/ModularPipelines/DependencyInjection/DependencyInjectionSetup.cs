@@ -1,10 +1,12 @@
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
@@ -33,7 +35,8 @@ internal static class DependencyInjectionSetup
             })
             .AddHttpClient()
             .AddInitializers()
-            .AddServiceCollection();
+            .AddServiceCollection()
+            .AddMediator(); // Add Mediator for event handling
 
         // Everything that is injected into `PipelineContext` should be Scoped
         services
@@ -41,7 +44,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
             .AddScoped(typeof(ModuleLogger<>))
             .AddScoped<IHttp, Http.Http>()
-            .AddScoped<ICommand, Command>()
+            .AddScoped<ModularPipelines.Context.ICommand, Command>()
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
@@ -82,7 +85,13 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IModuleInitializer, ModuleInitializer>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
-            .AddSingleton<IProgressPrinter, ProgressPrinter>()
+            .AddSingleton<ProgressPrinter>()
+            .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<INotificationHandler<ModuleStartedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<INotificationHandler<ModuleCompletedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<INotificationHandler<ModuleSkippedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<INotificationHandler<SubModuleCreatedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<INotificationHandler<SubModuleCompletedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
             .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
             .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
