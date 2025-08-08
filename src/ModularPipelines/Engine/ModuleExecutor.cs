@@ -28,9 +28,6 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
 
-    private readonly ConcurrentDictionary<ModuleBase, Task<ModuleBase>> _moduleExecutionTasks = new();
-    private readonly object _moduleDictionaryLock = new();
-
     private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
     private readonly object _notInParallelDictionaryLock = new();
 
@@ -159,9 +156,8 @@ internal class ModuleExecutor : IModuleExecutor
 
     private Task<ModuleBase> StartModule(ModuleBase module, bool isStartedAsDependencyForOtherModule)
     {
-        lock (_moduleDictionaryLock)
-        {
-            return _moduleExecutionTasks.GetOrAdd(module, @base => Task.Run(async () =>
+        // Use the module's built-in execution tracking instead of maintaining our own dictionary
+        var task = module.GetOrStartExecutionTask(async () =>
             {
                 using var semaphoreHandle = await WaitForParallelLimiter(module, isStartedAsDependencyForOtherModule);
 
@@ -192,7 +188,7 @@ internal class ModuleExecutor : IModuleExecutor
                     if (module.Status == Enums.Status.Skipped)
                     {
                         await _mediator.Publish(new ModuleSkippedNotification(module, module.SkipResult));
-                        return module;
+                        return;
                     }
 
                     await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
@@ -203,7 +199,7 @@ internal class ModuleExecutor : IModuleExecutor
                     var isSuccessful = module.Status == Enums.Status.Successful;
                     await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
 
-                    return module;
+                    return;
                 }
                 finally
                 {
@@ -212,8 +208,9 @@ internal class ModuleExecutor : IModuleExecutor
                         await _moduleDisposer.DisposeAsync(module);
                     }
                 }
-            }));
-        }
+            });
+        
+        return task;
     }
 
     private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module, bool isStartedAsDependencyForAnotherTest)

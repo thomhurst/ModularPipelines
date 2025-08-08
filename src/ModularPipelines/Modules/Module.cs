@@ -101,12 +101,10 @@ public abstract partial class Module<T> : ModuleBase<T>
 
     internal override async Task StartInternal()
     {
-        if (IsStarted || ModuleResultTaskCompletionSource.Task.IsCompleted)
+        if (ModuleResultTaskCompletionSource.Task.IsCompleted)
         {
             return;
         }
-
-        IsStarted = true;
 
         try
         {

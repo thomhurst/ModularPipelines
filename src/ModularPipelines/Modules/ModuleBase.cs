@@ -37,9 +37,12 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
 
-    internal bool IsStarted { get; private protected set; }
+    internal bool IsStarted { get; protected private set; }
 
     internal List<Type> DependentModules { get; } = [];
+    
+    private readonly object _startLock = new();
+    private Task<ModuleBase>? _moduleExecutionTask;
 
     internal abstract IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies();
 
@@ -89,6 +92,28 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract Task ExecutionTask { get; }
 
     internal abstract Task StartInternal();
+    
+    internal Task<ModuleBase> GetOrStartExecutionTask(Func<Task> startFunc)
+    {
+        lock (_startLock)
+        {
+            if (_moduleExecutionTask != null)
+            {
+                return _moduleExecutionTask;
+            }
+            
+            IsStarted = true;
+            
+            // Create and start the execution task
+            _moduleExecutionTask = Task.Run(async () =>
+            {
+                await startFunc();
+                return this;
+            });
+            
+            return _moduleExecutionTask;
+        }
+    }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
