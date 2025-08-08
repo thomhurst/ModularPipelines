@@ -211,7 +211,7 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                 }
             });
-        
+
         return task;
     }
 
@@ -248,7 +248,7 @@ internal class ModuleExecutor : IModuleExecutor
         requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
 
         var moduleTask = StartModule(module, true);
-        
+
         try
         {
             await moduleTask;
@@ -259,7 +259,7 @@ internal class ModuleExecutor : IModuleExecutor
                 $"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency",
                 e));
             requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
-            
+
             // Observe the task's exception to prevent unobserved task exceptions
             _ = moduleTask.Exception;
         }

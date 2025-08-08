@@ -40,7 +40,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal bool IsStarted { get; protected private set; }
 
     internal List<Type> DependentModules { get; } = [];
-    
+
     private readonly object _startLock = new();
     private Task<ModuleBase>? _moduleExecutionTask;
 
@@ -92,7 +92,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract Task ExecutionTask { get; }
 
     internal abstract Task StartInternal();
-    
+
     internal Task<ModuleBase> GetOrStartExecutionTask(Func<Task> startFunc)
     {
         lock (_startLock)
@@ -101,9 +101,9 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             {
                 return _moduleExecutionTask;
             }
-            
+
             IsStarted = true;
-            
+
             // Create and start the execution task
             // We must propagate exceptions that occur before the module starts
             // but handle exceptions that occur during module execution
@@ -131,7 +131,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
                 }
                 return this;
             });
-            
+
             return _moduleExecutionTask;
         }
     }
@@ -185,7 +185,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         SubModule<T>? submodule = null;
         IMediator? mediator = null;
         Task<T>? existingTask = null;
-        
+
         lock (SubModuleBasesLock)
         {
             var existingSubModule = SubModuleBases.Find(x => x.Name == name);
