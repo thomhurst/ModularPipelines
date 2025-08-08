@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Azure.Pipelines;
+using ModularPipelines.Enums;
 using ModularPipelines.GitHub;
 using ModularPipelines.TeamCity;
 using ModularPipelines.TestHelpers;
@@ -9,6 +10,21 @@ namespace ModularPipelines.UnitTests;
 
 public class CollapsableLoggingTests : TestBase
 {
+    private class AzurePipelinesBuildSystemDetector : IBuildSystemDetector
+    {
+        public BuildSystem GetCurrentBuildSystem() => BuildSystem.AzurePipelines;
+    }
+
+    private class GitHubActionsBuildSystemDetector : IBuildSystemDetector
+    {
+        public BuildSystem GetCurrentBuildSystem() => BuildSystem.GitHubActions;
+    }
+
+    private class TeamCityBuildSystemDetector : IBuildSystemDetector
+    {
+        public BuildSystem GetCurrentBuildSystem() => BuildSystem.TeamCity;
+    }
+
     [Test]
     public async Task AzurePipelines()
     {
@@ -17,6 +33,7 @@ public class CollapsableLoggingTests : TestBase
         var azurePipelines = await GetService<IAzurePipeline>((_, collection) =>
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IBuildSystemDetector>(new AzurePipelinesBuildSystemDetector());
         });
 
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
@@ -24,11 +41,11 @@ public class CollapsableLoggingTests : TestBase
         await azurePipelines.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             IsEqualTo("""
-                       ----------CollapsableLoggingTests Start----------
+                       ##[group]CollapsableLoggingTests
                        ##[group]MyGroup
                        Foo bar!
                        ##[endgroup]
-                       -----------CollapsableLoggingTests End-----------
+                       ##[endgroup]
                        """);
     }
 
@@ -40,6 +57,7 @@ public class CollapsableLoggingTests : TestBase
         var gitHub = await GetService<IGitHub>((_, collection) =>
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IBuildSystemDetector>(new GitHubActionsBuildSystemDetector());
         });
 
         gitHub.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
@@ -47,11 +65,11 @@ public class CollapsableLoggingTests : TestBase
         await gitHub.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             IsEqualTo("""
-                       ----------CollapsableLoggingTests Start----------
+                       ::group::CollapsableLoggingTests
                        ::group::MyGroup
                        Foo bar!
                        ::endgroup::
-                       -----------CollapsableLoggingTests End-----------
+                       ::endgroup::
                        """);
     }
 
@@ -63,6 +81,7 @@ public class CollapsableLoggingTests : TestBase
         var teamCity = await GetService<ITeamCity>((_, collection) =>
         {
             collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(stringBuilder));
+            collection.AddSingleton<IBuildSystemDetector>(new TeamCityBuildSystemDetector());
         });
 
         teamCity.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
@@ -70,11 +89,11 @@ public class CollapsableLoggingTests : TestBase
         await teamCity.Host.DisposeAsync();
         await Assert.That(stringBuilder.ToString().Trim()).
             IsEqualTo("""
-                       ----------CollapsableLoggingTests Start----------
+                       ##teamcity[blockOpened name='CollapsableLoggingTests']
                        ##teamcity[blockOpened name='MyGroup']
                        Foo bar!
                        ##teamcity[blockClosed name='MyGroup']
-                       -----------CollapsableLoggingTests End-----------
+                       ##teamcity[blockClosed name='CollapsableLoggingTests']
                        """);
     }
 }
