@@ -338,25 +338,15 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
             finally
             {
-                // Observe the other task if it hasn't completed
-                _ = Task.Run(async () =>
+                // Observe unfinished tasks using ContinueWith to avoid creating new unobserved tasks
+                if (completedTask == executeAsyncTask && !quickFailureTask.IsCompleted)
                 {
-                    try
-                    {
-                        if (completedTask == executeAsyncTask && !quickFailureTask.IsCompleted)
-                        {
-                            await quickFailureTask;
-                        }
-                        else if (completedTask == quickFailureTask && !executeAsyncTask.IsCompleted)
-                        {
-                            await executeAsyncTask;
-                        }
-                    }
-                    catch
-                    {
-                        // Silently observe any exceptions from the non-completing task
-                    }
-                });
+                    quickFailureTask.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
+                }
+                else if (completedTask == quickFailureTask && !executeAsyncTask.IsCompleted)
+                {
+                    executeAsyncTask.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
+                }
             }
 
             return await executeAsyncTask;
@@ -392,20 +382,10 @@ public abstract partial class Module<T> : ModuleBase<T>
             .Where(t => t != finishedTask && !t.IsCompleted)
             .ToList();
 
-        // Start observing unfinished tasks in background
-        if (unfinishedTasks.Any())
+        // Observe unfinished tasks using ContinueWith to prevent unobserved task exceptions
+        foreach (var task in unfinishedTasks)
         {
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    await Task.WhenAll(unfinishedTasks);
-                }
-                catch
-                {
-                    // Silently observe any exceptions from unfinished tasks
-                }
-            });
+            task.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         // Handle the completed task
