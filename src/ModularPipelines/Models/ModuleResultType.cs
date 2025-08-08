@@ -9,12 +9,12 @@ public enum ModuleResultType
     /// The module executed successfully.
     /// </summary>
     Success,
-    
+
     /// <summary>
     /// The module execution failed.
     /// </summary>
     Failure,
-    
+
     /// <summary>
     /// The module was skipped and did not execute.
     /// </summary>

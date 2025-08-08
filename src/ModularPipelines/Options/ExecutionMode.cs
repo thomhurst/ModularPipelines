@@ -9,7 +9,7 @@ public enum ExecutionMode
     /// Stop pipeline execution immediately when the first exception occurs.
     /// </summary>
     StopOnFirstException,
-    
+
     /// <summary>
     /// Continue running all modules and wait for all to complete before evaluating failures.
     /// </summary>

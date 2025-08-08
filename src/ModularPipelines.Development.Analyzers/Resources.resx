@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="MPD0001Description" xml:space="preserve">
-        <value>Properties should be virtual to allow overriding</value><comment>An optional longer localizable description of the diagnostic.</comment>
+        <value>Properties should be virtual to allow overriding.</value><comment>An optional longer localizable description of the diagnostic.</comment>
     </data>
     <data name="MPD0001MessageFormat" xml:space="preserve">
         <value>Properties should be virtual to allow overriding</value><comment>The format-able message the diagnostic displays.</comment>
@@ -31,7 +31,7 @@
         <value>Add `virtual` keyword</value><comment>The title of the code fix.</comment>
     </data>
     <data name="MPD0002Description" xml:space="preserve">
-        <value>Method should be virtual to allow overriding</value><comment>An optional longer localizable description of the diagnostic.</comment>
+        <value>Method should be virtual to allow overriding.</value><comment>An optional longer localizable description of the diagnostic.</comment>
     </data>
     <data name="MPD0002MessageFormat" xml:space="preserve">
         <value>Method should be virtual to allow overriding</value><comment>The format-able message the diagnostic displays.</comment>

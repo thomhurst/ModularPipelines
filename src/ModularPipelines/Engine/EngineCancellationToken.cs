@@ -7,11 +7,11 @@ namespace ModularPipelines.Engine;
 internal class EngineCancellationToken : CancellationTokenSource
 {
     public string? Reason { get; set; }
-    
+
     public Exception? OriginalException { get; private set; }
-    
+
     public ExceptionDispatchInfo? OriginalExceptionDispatchInfo { get; private set; }
-    
+
     private readonly object _exceptionLock = new();
 
     private bool _isCancelled;
@@ -39,7 +39,7 @@ internal class EngineCancellationToken : CancellationTokenSource
         _isCancelled = true;
         Cancel();
     }
-    
+
     public void CancelWithException(Exception exception, string? reason = null)
     {
         lock (_exceptionLock)
@@ -51,7 +51,7 @@ internal class EngineCancellationToken : CancellationTokenSource
                 OriginalExceptionDispatchInfo = ExceptionDispatchInfo.Capture(exception);
             }
         }
-        
+
         Reason = reason ?? exception.Message;
         _isCancelled = true;
         Cancel();

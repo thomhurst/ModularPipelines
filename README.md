@@ -70,11 +70,11 @@ If you want to see how to get started, or want to know more about ModularPipelin
 
 ## Console Progress
 
-![Console Progress](https://thomhurst.github.io/ModularPipelines/img/console_progress.png)
+![image](https://github.com/thomhurst/ModularPipelines/assets/30480171/7d85af1e-abfd-40c4-8ef6-5df06baa88d6)
 
 ## Results
 
-<img width="444" alt="Pipeline Results" src="https://thomhurst.github.io/ModularPipelines/img/results.png">
+<img width="444" alt="image" src="https://github.com/thomhurst/ModularPipelines/assets/30480171/8963e891-2c29-4382-9a3e-6ced4daf4d4b">
 
 ## How does this compare to Cake / Nuke
 

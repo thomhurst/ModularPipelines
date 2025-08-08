@@ -9,7 +9,7 @@ public enum Position
     /// The argument should appear before any command switches.
     /// </summary>
     BeforeSwitches,
-    
+
     /// <summary>
     /// The argument should appear after all command switches.
     /// </summary>
