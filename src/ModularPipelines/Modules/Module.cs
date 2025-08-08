@@ -368,6 +368,11 @@ public abstract partial class Module<T> : ModuleBase<T>
                 // Task was cancelled, exit gracefully
                 return;
             }
+            catch (ObjectDisposedException)
+            {
+                // CancellationTokenSource was disposed, exit gracefully
+                return;
+            }
 
             // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
             if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
