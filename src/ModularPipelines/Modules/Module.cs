@@ -320,101 +320,51 @@ public abstract partial class Module<T> : ModuleBase<T>
             }
         });
 
-        if (Timeout == TimeSpan.Zero)
+        if (Timeout != TimeSpan.Zero)
         {
-            // Create cancellation token for background tasks
-            using var backgroundTasksCts = new CancellationTokenSource();
-
-            var quickFailureTask = ThrowQuicklyOnFailure(executeAsyncTask, null, backgroundTasksCts.Token);
-            var completedTask = await Task.WhenAny(executeAsyncTask, quickFailureTask);
-
-            // Cancel other background tasks to prevent waste
-            backgroundTasksCts.Cancel();
-
-            // Ensure we observe both tasks to prevent unobserved task exceptions
-            try
-            {
-                await completedTask;
-            }
-            finally
-            {
-                // Observe unfinished tasks using ContinueWith to avoid creating new unobserved tasks
-                if (completedTask == executeAsyncTask && !quickFailureTask.IsCompleted)
-                {
-                    quickFailureTask.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
-                }
-                else if (completedTask == quickFailureTask && !executeAsyncTask.IsCompleted)
-                {
-                    executeAsyncTask.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
-                }
-            }
-
-            return await executeAsyncTask;
+            ModuleCancellationTokenSource.CancelAfter(Timeout);
         }
-
-        ModuleCancellationTokenSource.CancelAfter(Timeout);
 
         // Create cancellation token for background tasks
-        using var timeoutBackgroundTasksCts = new CancellationTokenSource();
+        using var backgroundCancellationTokenSource = new CancellationTokenSource();
 
-        var timeoutExceptionTask = Task.Run(async () =>
+        var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
+
+        var quickFailureTask2 = ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask, backgroundCancellationTokenSource.Token);
+        
+        backgroundCancellationTokenSource.Cancel();
+
+        await Task.WhenAll(timeoutExceptionTask, executeAsyncTask, quickFailureTask2);
+        
+        // If we reach here without exception, still return the main task result
+        return await executeAsyncTask;
+    }
+
+    private async Task CreateTimeoutTask(CancellationToken cancellationToken)
+    {
+        try
         {
-            try
-            {
-                await Task.Delay(Timeout, timeoutBackgroundTasksCts.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                // Task was cancelled, exit gracefully
-                return;
-            }
-            catch (ObjectDisposedException)
-            {
-                // CancellationTokenSource was disposed, exit gracefully
-                return;
-            }
-
-            // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
-            if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
-            {
-                Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
-            }
-
-            // Timeout expired, throw timeout exception
-            throw new ModuleTimeoutException(this);
-        });
-
-        var quickFailureTask2 = ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask, timeoutBackgroundTasksCts.Token);
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, quickFailureTask2);
-
-        // Cancel other background tasks to prevent waste
-        timeoutBackgroundTasksCts.Cancel();
-
-        // Observe all tasks to prevent unobserved task exceptions
-        var unfinishedTasks = new List<Task> { timeoutExceptionTask, executeAsyncTask, quickFailureTask2 }
-            .Where(t => t != finishedTask && !t.IsCompleted)
-            .ToList();
-
-        // Observe unfinished tasks using ContinueWith to prevent unobserved task exceptions
-        foreach (var task in unfinishedTasks)
+            await Task.Delay(Timeout, cancellationToken);
+        }
+        catch (OperationCanceledException)
         {
-            task.ContinueWith(_ => { }, TaskContinuationOptions.ExecuteSynchronously);
+            // Task was cancelled, exit gracefully
+            return;
+        }
+        
+        if (Status == Status.Successful)
+        {
+            return;
         }
 
-        // Handle the completed task
-        if (finishedTask == executeAsyncTask)
+        // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
+        if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
         {
-            // Main execution completed successfully
-            return await executeAsyncTask;
+            Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
         }
-        else
-        {
-            // Either timeout or quick failure task completed first - these will throw exceptions
-            await finishedTask;
 
-            // If we reach here without exception, still return the main task result
-            return await executeAsyncTask;
-        }
+        // Timeout expired, throw timeout exception
+        throw new ModuleTimeoutException(this);
     }
 
     private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask, CancellationToken cancellationToken = default)
