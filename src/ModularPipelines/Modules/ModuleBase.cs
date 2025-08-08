@@ -2,10 +2,13 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using Mediator;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors.ModuleHandlers;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Serialization;
@@ -34,9 +37,12 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
 
-    internal bool IsStarted { get; private protected set; }
+    internal bool IsStarted { get; protected private set; }
 
     internal List<Type> DependentModules { get; } = [];
+    
+    private readonly object _startLock = new();
+    private Task<ModuleBase>? _moduleExecutionTask;
 
     internal abstract IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetModuleDependencies();
 
@@ -86,6 +92,49 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal abstract Task ExecutionTask { get; }
 
     internal abstract Task StartInternal();
+    
+    internal Task<ModuleBase> GetOrStartExecutionTask(Func<Task> startFunc)
+    {
+        lock (_startLock)
+        {
+            if (_moduleExecutionTask != null)
+            {
+                return _moduleExecutionTask;
+            }
+            
+            IsStarted = true;
+            
+            // Create and start the execution task
+            // We must propagate exceptions that occur before the module starts
+            // but handle exceptions that occur during module execution
+            _moduleExecutionTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await startFunc();
+                }
+                catch (ModuleNotRegisteredException)
+                {
+                    // Dependency resolution failures must propagate immediately
+                    throw;
+                }
+                catch (ModuleReferencingSelfException)
+                {
+                    // Self-referencing errors must propagate immediately
+                    throw;
+                }
+                catch
+                {
+                    // Other exceptions during module execution are handled by the module's
+                    // error handling and set on ModuleResultTaskCompletionSource
+                    // We don't re-throw here to avoid duplicate unobserved exceptions
+                }
+                return this;
+            });
+            
+            return _moduleExecutionTask;
+        }
+    }
 
     internal readonly CancellationTokenSource ModuleCancellationTokenSource = new();
 
@@ -122,8 +171,6 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     internal readonly object SubModuleBasesLock = new();
     internal readonly List<SubModuleBase> SubModuleBases = new();
 
-    internal EventHandler<SubModuleBase>? OnSubModuleCreated;
-
     internal abstract Task<IModuleResult> GetModuleResult();
 
     /// <summary>
@@ -133,8 +180,12 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// <param name="name">The name of the submodule.</param>
     /// <param name="action">The delegate that the submodule should execute.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-    protected Task<T> SubModule<T>(string name, Func<Task<T>> action)
+    protected async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
+        SubModule<T>? submodule = null;
+        IMediator? mediator = null;
+        Task<T>? existingTask = null;
+        
         lock (SubModuleBasesLock)
         {
             var existingSubModule = SubModuleBases.Find(x => x.Name == name);
@@ -142,23 +193,44 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             {
                 if (existingSubModule.Status == Status.Successful && existingSubModule is SubModule<T> typedSubmodule)
                 {
-                    return typedSubmodule.SubModuleResultTaskCompletionSource.Task;
+                    existingTask = typedSubmodule.SubModuleResultTaskCompletionSource.Task;
                 }
-
-                if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
+                else if (existingSubModule.Status is Status.NotYetStarted or Status.Processing)
                 {
                     throw new Exception("Use Distinct names for SubModules");
                 }
             }
 
-            var submodule = new SubModule<T>(GetType(), name);
-
-            SubModuleBases.Add(submodule);
-
-            OnSubModuleCreated?.Invoke(this, submodule);
-
-            return submodule.Execute(action);
+            if (existingTask == null)
+            {
+                submodule = new SubModule<T>(GetType(), name);
+                SubModuleBases.Add(submodule);
+                mediator = Context.ServiceProvider.GetService<IMediator>();
+            }
         }
+
+        if (existingTask != null)
+        {
+            return await existingTask;
+        }
+
+        // Publish submodule created event outside of lock
+        if (mediator != null && submodule != null)
+        {
+            var estimatedDuration = TimeSpan.FromMinutes(2); // Default estimation
+            await mediator.Publish(new SubModuleCreatedNotification(this, submodule, estimatedDuration));
+        }
+
+        var result = await submodule!.Execute(action);
+
+        // Publish submodule completed event
+        if (mediator != null)
+        {
+            var isSuccessful = submodule.Status == Status.Successful;
+            await mediator.Publish(new SubModuleCompletedNotification(this, submodule, isSuccessful));
+        }
+
+        return result;
     }
 
     /// <summary>

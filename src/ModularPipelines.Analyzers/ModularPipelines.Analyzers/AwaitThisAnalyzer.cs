@@ -59,6 +59,13 @@ public class AwaitThisAnalyzer : DiagnosticAnalyzer
             return;
         }
 
+        // Check if we're inside the OnAfterExecute method - if so, allow await this
+        var containingMethod = awaitExpression.FirstAncestorOrSelf<MethodDeclarationSyntax>();
+        if (containingMethod?.Identifier.Text == "OnAfterExecute")
+        {
+            return;
+        }
+
         // Report the diagnostic
         context.ReportDiagnostic(Diagnostic.Create(Rule, awaitExpression.GetLocation()));
     }

@@ -65,7 +65,7 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
-            await Assert.That(module1.Status).IsEqualTo(Status.NotYetStarted).Or.IsEqualTo(Status.Failed);
+            await Assert.That(module1.Status).IsEqualTo(Status.PipelineTerminated);
         }
     }
 

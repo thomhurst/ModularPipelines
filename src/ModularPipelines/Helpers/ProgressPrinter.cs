@@ -1,5 +1,8 @@
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using Mediator;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -10,56 +13,252 @@ using Status = ModularPipelines.Enums.Status;
 namespace ModularPipelines.Helpers;
 
 [ExcludeFromCodeCoverage]
-internal class ProgressPrinter : IProgressPrinter
+internal class ProgressPrinter : IProgressPrinter,
+    INotificationHandler<ModuleStartedNotification>,
+    INotificationHandler<ModuleCompletedNotification>,
+    INotificationHandler<ModuleSkippedNotification>,
+    INotificationHandler<SubModuleCreatedNotification>,
+    INotificationHandler<SubModuleCompletedNotification>
 {
     private readonly IOptions<PipelineOptions> _options;
+    private readonly ConcurrentDictionary<ModuleBase, ProgressTask> _progressTasks = new();
+    private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleProgressTasks = new();
+    private ProgressContext? _progressContext;
+    private ProgressTask? _totalProgressTask;
+    private int _totalModuleCount;
+    private int _completedModuleCount;
+    private readonly object _progressLock = new();
 
     public ProgressPrinter(IOptions<PipelineOptions> options)
     {
         _options = options;
     }
 
-    public Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
+    public async Task PrintProgress(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
         if (!_options.Value.ShowProgressInConsole)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        return AnsiConsole.Progress()
-            .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
+        _totalModuleCount = organizedModules.RunnableModules.Count;
+
+        await AnsiConsole.Progress()
+            .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), 
+                     new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>
             {
-                var totalProgressTask = progressContext.AddTask($"[green]Total[/]");
+                _progressContext = progressContext;
+                _totalProgressTask = progressContext.AddTask($"[green]Total[/]");
 
-                RegisterModules(organizedModules.RunnableModules, progressContext, totalProgressTask, cancellationToken);
-
+                // Register ignored modules immediately
                 RegisterIgnoredModules(organizedModules.IgnoredModules, progressContext);
-
-                CompleteTotalWhenFinished(organizedModules.RunnableModules, totalProgressTask, cancellationToken);
 
                 progressContext.Refresh();
 
-                while (!progressContext.IsFinished)
+                // Keep the progress display alive until all modules complete
+                while (!progressContext.IsFinished && !cancellationToken.IsCancellationRequested)
                 {
                     progressContext.Refresh();
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
                     await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
                 }
 
                 if (cancellationToken.IsCancellationRequested)
                 {
                     progressContext.Refresh();
-                    return;
+                }
+            });
+    }
+
+    public ValueTask Handle(ModuleStartedNotification notification, CancellationToken cancellationToken)
+    {
+        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        lock (_progressLock)
+        {
+            var moduleName = notification.Module.GetType().Name;
+            var progressTask = _progressContext.AddTask(moduleName, new ProgressTaskSettings
+            {
+                AutoStart = true,
+            });
+
+            _progressTasks[notification.Module] = progressTask;
+
+            // Start ticking progress based on estimated duration
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var estimatedDuration = notification.EstimatedDuration * 1.1; // Give 10% headroom
+                    var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
+                    var ticksPerSecond = 100.0 / totalEstimatedSeconds;
+
+                    while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                        progressTask.Increment(ticksPerSecond);
+                    }
+                }
+                catch
+                {
+                    // Ignore exceptions in progress updates to prevent unobserved task exceptions
+                }
+            }, CancellationToken.None);
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask Handle(ModuleCompletedNotification notification, CancellationToken cancellationToken)
+    {
+        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        lock (_progressLock)
+        {
+            if (_progressTasks.TryGetValue(notification.Module, out var progressTask))
+            {
+                if (!progressTask.IsFinished)
+                {
+                    if (notification.IsSuccessful)
+                    {
+                        progressTask.Increment(100 - progressTask.Value);
+                    }
+
+                    var moduleName = notification.Module.GetType().Name;
+                    progressTask.Description = notification.IsSuccessful
+                        ? GetSuccessColor(notification.Module) + moduleName + "[/]"
+                        : $"[red][[Failed]] {moduleName}[/]";
+
+                    progressTask.StopTask();
                 }
 
-                progressContext.Refresh();
-            });
+                _completedModuleCount++;
+                _totalProgressTask?.Increment(100.0 / _totalModuleCount);
+
+                if (_completedModuleCount >= _totalModuleCount)
+                {
+                    _totalProgressTask?.StopTask();
+                }
+            }
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask Handle(ModuleSkippedNotification notification, CancellationToken cancellationToken)
+    {
+        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        lock (_progressLock)
+        {
+            var moduleName = notification.Module.GetType().Name;
+            
+            if (_progressTasks.TryGetValue(notification.Module, out var progressTask))
+            {
+                progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
+                if (!progressTask.IsFinished)
+                {
+                    progressTask.StopTask();
+                }
+            }
+            else
+            {
+                // Module was skipped before it started
+                var task = _progressContext.AddTask($"[yellow][[Skipped]] {moduleName}[/]");
+                task.StopTask();
+                _progressTasks[notification.Module] = task;
+            }
+
+            _completedModuleCount++;
+            _totalProgressTask?.Increment(100.0 / _totalModuleCount);
+
+            if (_completedModuleCount >= _totalModuleCount)
+            {
+                _totalProgressTask?.StopTask();
+            }
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask Handle(SubModuleCreatedNotification notification, CancellationToken cancellationToken)
+    {
+        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        lock (_progressLock)
+        {
+            if (!_progressTasks.TryGetValue(notification.ParentModule, out var parentTask))
+            {
+                return ValueTask.CompletedTask;
+            }
+
+            var progressTask = _progressContext.AddTaskAfter($"- {notification.SubModule.Name}", 
+                new ProgressTaskSettings { AutoStart = true }, parentTask);
+
+            _subModuleProgressTasks[notification.SubModule] = progressTask;
+
+            // Start ticking progress based on estimated duration
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var estimatedDuration = notification.EstimatedDuration * 1.1; // Give 10% headroom
+                    var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
+                    var ticksPerSecond = 100 / totalEstimatedSeconds;
+
+                    while (progressTask is { IsFinished: false, Value: < 95 })
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+                        progressTask.Increment(ticksPerSecond);
+                    }
+                }
+                catch
+                {
+                    // Ignore exceptions in progress updates to prevent unobserved task exceptions
+                }
+            }, CancellationToken.None);
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    public ValueTask Handle(SubModuleCompletedNotification notification, CancellationToken cancellationToken)
+    {
+        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        lock (_progressLock)
+        {
+            if (_subModuleProgressTasks.TryGetValue(notification.SubModule, out var progressTask))
+            {
+                if (notification.IsSuccessful)
+                {
+                    progressTask.Increment(100 - progressTask.Value);
+                }
+
+                progressTask.Description = notification.IsSuccessful
+                    ? $"[green]- {notification.SubModule.Name}[/]"
+                    : $"[red][[Failed]] - {notification.SubModule.Name}[/]";
+
+                progressTask.StopTask();
+            }
+        }
+
+        return ValueTask.CompletedTask;
     }
 
     public void PrintResults(PipelineSummary pipelineSummary)
@@ -125,6 +324,19 @@ internal class ProgressPrinter : IProgressPrinter
         Console.WriteLine();
     }
 
+    private static string GetSuccessColor(ModuleBase module)
+    {
+        return module.Status == Status.Successful ? "[green]" : "[orange3]";
+    }
+
+    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
+    {
+        foreach (var moduleToIgnore in modulesToIgnore)
+        {
+            progressContext.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
+        }
+    }
+
     private static string GetTime(DateTimeOffset dateTimeOffset, bool isSameDay)
     {
         if (dateTimeOffset == DateTimeOffset.MinValue)
@@ -150,163 +362,5 @@ internal class ProgressPrinter : IProgressPrinter
         }
 
         return string.Empty;
-    }
-
-    private static void RegisterModules(IReadOnlyList<RunnableModule> modulesToProcess, ProgressContext progressContext,
-        ProgressTask totalTask, CancellationToken cancellationToken)
-    {
-        foreach (var moduleToProcess in modulesToProcess)
-        {
-            var moduleName = moduleToProcess.Module.GetType().Name;
-
-            var progressTask = progressContext.AddTask($"[[Waiting]] {moduleName}", new ProgressTaskSettings
-            {
-                AutoStart = false,
-            });
-
-            // Callback for Module has started
-            _ = moduleToProcess.Module.StartTask.ContinueWith(async t =>
-            {
-                if (progressTask.IsStarted)
-                {
-                    return;
-                }
-
-                progressTask.StartTask();
-                var estimatedDuration = moduleToProcess.EstimatedDuration * 1.1; // Give 10% headroom
-
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1.0 ? estimatedDuration.TotalSeconds : 1.0;
-
-                var ticksPerSecond = 100.0 / totalEstimatedSeconds;
-
-                progressTask.Description = moduleName;
-                while (progressTask is { IsFinished: false, Value: < 95 } && ticksPerSecond + progressTask.Value < 95)
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
-                    progressTask.Increment(ticksPerSecond);
-                }
-            }, cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
-
-            SetupSkippedCallback(cancellationToken, moduleToProcess, progressTask, moduleName);
-            SetupFinishedSuccessfullyCallback(modulesToProcess, totalTask, cancellationToken, moduleToProcess, progressTask, moduleName);
-
-            RegisterSubModules(moduleToProcess, progressContext, cancellationToken, progressTask);
-        }
-    }
-
-    private static void SetupSkippedCallback(CancellationToken cancellationToken, RunnableModule moduleToProcess,
-        ProgressTask progressTask, string moduleName)
-    {
-        // Callback for Module has been ignored
-        _ = moduleToProcess.Module.SkipHandler.CallbackTask.ContinueWith(t =>
-        {
-            lock (moduleToProcess)
-            {
-                progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
-
-                if (!progressTask.IsFinished)
-                {
-                    progressTask.StopTask();
-                }
-            }
-        }, cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
-    }
-
-    private static void SetupFinishedSuccessfullyCallback(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask,
-        CancellationToken cancellationToken, RunnableModule moduleToProcess, ProgressTask progressTask, string moduleName)
-    {
-        // Callback for Module has finished
-        _ = moduleToProcess.Module.ExecutionTask.ContinueWith(t =>
-        {
-            lock (moduleToProcess)
-            {
-                if (progressTask.IsFinished)
-                {
-                    return;
-                }
-
-                if (t.IsCompletedSuccessfully)
-                {
-                    progressTask.Increment(100);
-                }
-
-                progressTask.Description =
-                    t.IsCompletedSuccessfully ? $"{GetColour()}{moduleName}[/]" : $"[red][[Failed]] {moduleName}[/]";
-
-                progressTask.StopTask();
-
-                totalTask.Increment(100.0 / modulesToProcess.Count);
-            }
-        }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
-
-        string GetColour()
-        {
-            return moduleToProcess.Module.Status == Status.Successful ? "[green]" : "[orange3]";
-        }
-    }
-
-    private static void RegisterSubModules(RunnableModule moduleToProcess, ProgressContext progressContext,
-        CancellationToken cancellationToken, ProgressTask parentModuleTask)
-    {
-        var lastTask = parentModuleTask;
-
-        moduleToProcess.Module.OnSubModuleCreated += (_, subModule) =>
-        {
-            var moduleName = moduleToProcess.Module.GetType().Name;
-
-            var progressTask = lastTask = progressContext.AddTaskAfter($"- {subModule.Name}", new ProgressTaskSettings
-            {
-                AutoStart = true,
-            }, lastTask);
-
-            Task.Run(async () =>
-            {
-                var subModuleEstimation =
-                    moduleToProcess.SubModuleEstimations.FirstOrDefault(x => x.SubModuleName == subModule.Name)
-                        ?.EstimatedDuration ?? TimeSpan.FromMinutes(2);
-
-                var estimatedDuration = subModuleEstimation * 1.1; // Give 10% headroom
-
-                var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
-
-                var ticksPerSecond = 100 / totalEstimatedSeconds;
-
-                while (progressTask is { IsFinished: false, Value: < 95 })
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
-                    progressTask.Increment(ticksPerSecond);
-                }
-            }, cancellationToken);
-
-            // Callback for Module has finished
-            _ = subModule.CallbackTask.ContinueWith(t =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    progressTask.Increment(100);
-                }
-
-                progressTask.Description = t.IsCompletedSuccessfully ? $"[green]- {subModule.Name}[/]" : $"[red][[Failed]]   > {moduleName} - {subModule.Name}[/]";
-
-                progressTask.StopTask();
-            }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
-        };
-    }
-
-    private static void CompleteTotalWhenFinished(IReadOnlyList<RunnableModule> modulesToProcess, ProgressTask totalTask, CancellationToken cancellationToken)
-    {
-        _ = Task.WhenAll(modulesToProcess.Select(x => x.Module.ExecutionTask)).ContinueWith(x =>
-        {
-            totalTask.Increment(100);
-            totalTask.StopTask();
-        }, cancellationToken, TaskContinuationOptions.None, TaskScheduler.Default);
-    }
-
-    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
-    {
-        foreach (var moduleToIgnore in modulesToIgnore)
-        {
-            progressContext.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
-        }
     }
 }

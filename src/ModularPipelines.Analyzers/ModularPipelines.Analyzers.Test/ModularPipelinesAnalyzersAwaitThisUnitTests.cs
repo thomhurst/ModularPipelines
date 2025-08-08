@@ -122,6 +122,36 @@ public class NotAModule
 }
 ";
 
+    private const string GoodModuleSourceAwaitThisInOnAfterExecute = @"
+#nullable enable
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
+using ModularPipelines.Modules;
+using ModularPipelines.Attributes;
+
+namespace ModularPipelines.Examples.Modules;
+
+public class Module1 : Module<CommandResult>
+{
+    protected override Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        return Task.FromResult<CommandResult?>(null);
+    }
+
+    protected override async Task OnAfterExecute(IPipelineContext context)
+    {
+        // This should NOT trigger the analyzer - await this is allowed in OnAfterExecute
+        var result = await this;
+    }
+}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -148,5 +178,11 @@ public class NotAModule
     public async Task AnalyzerIsNotTriggered_When_NotInModule()
     {
         await VerifyCS.VerifyAnalyzerAsync(NonModuleClassAwaitThis);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsNotTriggered_When_AwaitThis_InOnAfterExecute()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(GoodModuleSourceAwaitThisInOnAfterExecute);
     }
 }

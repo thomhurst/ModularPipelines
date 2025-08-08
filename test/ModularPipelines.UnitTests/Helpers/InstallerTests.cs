@@ -10,6 +10,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class InstallerTests : TestBase
 {
     [Test]
+    [Skip("Avoid installing things on people's machines")]
     public async Task Can_Install()
     {
         if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") != "true")
