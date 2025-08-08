@@ -359,7 +359,15 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         var timeoutExceptionTask = Task.Run(async () =>
         {
-            await Task.Delay(Timeout, timeoutBackgroundTasksCts.Token);
+            try
+            {
+                await Task.Delay(Timeout, timeoutBackgroundTasksCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Task was cancelled, exit gracefully
+                return;
+            }
 
             // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
             if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
