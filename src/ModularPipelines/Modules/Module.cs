@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -326,15 +325,17 @@ public abstract partial class Module<T> : ModuleBase<T>
         }
 
         // Create cancellation token for background tasks
-        using var backgroundCancellationTokenSource = new CancellationTokenSource();
+        using var backgroundCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
         var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
-
-        var quickFailureTask2 = ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask, backgroundCancellationTokenSource.Token);
+        
+        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
         
         backgroundCancellationTokenSource.Cancel();
 
-        await Task.WhenAll(timeoutExceptionTask, executeAsyncTask, quickFailureTask2);
+        await Task.WhenAll(timeoutExceptionTask, executeAsyncTask);
+        
+        ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
         
         // If we reach here without exception, still return the main task result
         return await executeAsyncTask;
@@ -365,29 +366,6 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         // Timeout expired, throw timeout exception
         throw new ModuleTimeoutException(this);
-    }
-
-    private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask, CancellationToken cancellationToken = default)
-    {
-        while (!mainExecutionTask.IsCompleted && !cancellationToken.IsCancellationRequested)
-        {
-            if (timeoutTask?.IsCompleted == true)
-            {
-                throw new ModuleTimeoutException(this);
-            }
-
-            ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-            try
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
-            }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                // Task was cancelled, exit the loop
-                break;
-            }
-        }
     }
 
     private void SetEndTime()
