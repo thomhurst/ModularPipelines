@@ -322,48 +322,94 @@ public abstract partial class Module<T> : ModuleBase<T>
 
         if (Timeout == TimeSpan.Zero)
         {
-            await await Task.WhenAny(executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, null));
+            var quickFailureTask = ThrowQuicklyOnFailure(executeAsyncTask, null);
+            var completedTask = await Task.WhenAny(executeAsyncTask, quickFailureTask);
+            
+            // Ensure we observe both tasks to prevent unobserved task exceptions
+            try
+            {
+                await completedTask;
+            }
+            finally
+            {
+                // Observe the other task if it hasn't completed
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        if (completedTask == executeAsyncTask && !quickFailureTask.IsCompleted)
+                        {
+                            await quickFailureTask;
+                        }
+                        else if (completedTask == quickFailureTask && !executeAsyncTask.IsCompleted)
+                        {
+                            await executeAsyncTask;
+                        }
+                    }
+                    catch
+                    {
+                        // Silently observe any exceptions from the non-completing task
+                    }
+                });
+            }
+            
             return await executeAsyncTask;
         }
 
         ModuleCancellationTokenSource.CancelAfter(Timeout);
 
-        using var timeoutCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
-
-        var timeoutExceptionTask = Task.Delay(Timeout, timeoutCancellationTokenSource.Token)
-            .ContinueWith(t =>
+        var timeoutExceptionTask = Task.Run(async () =>
+        {
+            await Task.Delay(Timeout, CancellationToken.None);
+            
+            // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
+            if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
             {
-                // If the main task has already completed, don't throw
-                if (executeAsyncTask.IsCompleted)
+                Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+            }
+
+            // Timeout expired, throw timeout exception
+            throw new ModuleTimeoutException(this);
+        });
+
+        var quickFailureTask2 = ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask);
+        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, quickFailureTask2);
+
+        // Observe all tasks to prevent unobserved task exceptions
+        var unfinishedTasks = new List<Task> { timeoutExceptionTask, executeAsyncTask, quickFailureTask2 }
+            .Where(t => t != finishedTask && !t.IsCompleted)
+            .ToList();
+
+        // Start observing unfinished tasks in background
+        if (unfinishedTasks.Any())
+        {
+            _ = Task.Run(async () =>
+            {
+                try
                 {
-                    return;
+                    await Task.WhenAll(unfinishedTasks);
                 }
-
-                // Check if engine cancellation was requested (for modules that should terminate on pipeline cancellation)
-                if (ModuleRunType == ModuleRunType.OnSuccessfulDependencies)
+                catch
                 {
-                    Context.EngineCancellationToken.Token.ThrowIfCancellationRequested();
+                    // Silently observe any exceptions from unfinished tasks
                 }
+            });
+        }
 
-                // If the delay completed successfully (timeout expired), throw timeout exception
-                if (t.IsCompletedSuccessfully)
-                {
-                    throw new ModuleTimeoutException(this);
-                }
-            }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
-
-        var finishedTask = await Task.WhenAny(timeoutExceptionTask, executeAsyncTask, ThrowQuicklyOnFailure(executeAsyncTask, timeoutExceptionTask));
-
-#if NET8_0_OR_GREATER
-        await timeoutCancellationTokenSource.CancelAsync();
-#else
-        timeoutCancellationTokenSource.Cancel();
-#endif
-
-        // Will throw a timeout exception if configured and timeout is reached
-        await finishedTask;
-
-        return await executeAsyncTask;
+        // Handle the completed task
+        if (finishedTask == executeAsyncTask)
+        {
+            // Main execution completed successfully
+            return await executeAsyncTask;
+        }
+        else
+        {
+            // Either timeout or quick failure task completed first - these will throw exceptions
+            await finishedTask;
+            
+            // If we reach here without exception, still return the main task result
+            return await executeAsyncTask;
+        }
     }
 
     private async Task ThrowQuicklyOnFailure(IAsyncResult mainExecutionTask, IAsyncResult? timeoutTask)
