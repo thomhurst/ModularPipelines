@@ -325,13 +325,21 @@ public abstract partial class Module<T> : ModuleBase<T>
         // Create cancellation token for background tasks
         using var backgroundCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ModuleCancellationTokenSource.Token);
 
-        var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
-        
-        await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-        
-        backgroundCancellationTokenSource.Cancel();
+        // Only create timeout task if we have a non-zero timeout
+        if (Timeout != TimeSpan.Zero)
+        {
+            var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
+            
+            await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
+            
+            backgroundCancellationTokenSource.Cancel();
 
-        await Task.WhenAll(timeoutExceptionTask, executeAsyncTask);
+            await Task.WhenAll(timeoutExceptionTask, executeAsyncTask);
+        }
+        else
+        {
+            await executeAsyncTask;
+        }
         
         ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
         

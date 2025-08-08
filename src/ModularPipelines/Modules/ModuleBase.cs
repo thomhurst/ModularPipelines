@@ -105,19 +105,29 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             IsStarted = true;
             
             // Create and start the execution task
-            // We need to handle exceptions to prevent unobserved task exceptions
+            // We must propagate exceptions that occur before the module starts
+            // but handle exceptions that occur during module execution
             _moduleExecutionTask = Task.Run(async () =>
             {
                 try
                 {
                     await startFunc();
                 }
+                catch (ModuleNotRegisteredException)
+                {
+                    // Dependency resolution failures must propagate immediately
+                    throw;
+                }
+                catch (ModuleReferencingSelfException)
+                {
+                    // Self-referencing errors must propagate immediately
+                    throw;
+                }
                 catch
                 {
-                    // The exception is already handled by the module's error handling
-                    // and set on ModuleResultTaskCompletionSource
-                    // We don't need to propagate it here as that would create
-                    // a duplicate unobserved exception
+                    // Other exceptions during module execution are handled by the module's
+                    // error handling and set on ModuleResultTaskCompletionSource
+                    // We don't re-throw here to avoid duplicate unobserved exceptions
                 }
                 return this;
             });
