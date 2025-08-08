@@ -96,13 +96,15 @@ internal class ModuleExecutor : IModuleExecutor
         {
             foreach (var moduleBase in modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun))
             {
+                var moduleTask = StartModule(moduleBase, false);
                 try
                 {
-                    await StartModule(moduleBase, false);
+                    await moduleTask;
                 }
                 catch
                 {
-                    // Ignored
+                    // Ignored - but observe the exception to prevent unobserved task exceptions
+                    _ = moduleTask.Exception;
                 }
             }
 
@@ -245,9 +247,11 @@ internal class ModuleExecutor : IModuleExecutor
 
         requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
 
+        var moduleTask = StartModule(module, true);
+        
         try
         {
-            await StartModule(module, true);
+            await moduleTask;
         }
         catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
         {
@@ -255,6 +259,9 @@ internal class ModuleExecutor : IModuleExecutor
                 $"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency",
                 e));
             requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+            
+            // Observe the task's exception to prevent unobserved task exceptions
+            _ = moduleTask.Exception;
         }
         catch (DependencyFailedException e)
         {
