@@ -105,9 +105,20 @@ public abstract partial class ModuleBase : ITypeDiscriminator
             IsStarted = true;
             
             // Create and start the execution task
+            // We need to handle exceptions to prevent unobserved task exceptions
             _moduleExecutionTask = Task.Run(async () =>
             {
-                await startFunc();
+                try
+                {
+                    await startFunc();
+                }
+                catch
+                {
+                    // The exception is already handled by the module's error handling
+                    // and set on ModuleResultTaskCompletionSource
+                    // We don't need to propagate it here as that would create
+                    // a duplicate unobserved exception
+                }
                 return this;
             });
             
