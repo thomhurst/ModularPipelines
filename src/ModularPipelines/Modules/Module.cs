@@ -329,9 +329,9 @@ public abstract partial class Module<T> : ModuleBase<T>
         if (Timeout != TimeSpan.Zero)
         {
             var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
-            
+
             await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
-            
+
             backgroundCancellationTokenSource.Cancel();
 
             await Task.WhenAll(timeoutExceptionTask, executeAsyncTask);
@@ -340,9 +340,9 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             await executeAsyncTask;
         }
-        
+
         ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-        
+
         // If we reach here without exception, still return the main task result
         return await executeAsyncTask;
     }
@@ -358,7 +358,7 @@ public abstract partial class Module<T> : ModuleBase<T>
             // Task was cancelled, exit gracefully
             return;
         }
-        
+
         if (Status == Status.Successful)
         {
             return;

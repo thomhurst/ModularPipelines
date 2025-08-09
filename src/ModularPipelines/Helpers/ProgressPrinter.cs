@@ -44,7 +44,7 @@ internal class ProgressPrinter : IProgressPrinter,
         _totalModuleCount = organizedModules.RunnableModules.Count;
 
         await AnsiConsole.Progress()
-            .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(), 
+            .Columns(new TaskDescriptionColumn(), new ProgressBarColumn(), new PercentageColumn(),
                      new ElapsedTimeColumn(), new RemainingTimeColumn(), new SpinnerColumn())
             .StartAsync(async progressContext =>
             {
@@ -161,7 +161,7 @@ internal class ProgressPrinter : IProgressPrinter,
         lock (_progressLock)
         {
             var moduleName = notification.Module.GetType().Name;
-            
+
             if (_progressTasks.TryGetValue(notification.Module, out var progressTask))
             {
                 progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
@@ -204,7 +204,7 @@ internal class ProgressPrinter : IProgressPrinter,
                 return ValueTask.CompletedTask;
             }
 
-            var progressTask = _progressContext.AddTaskAfter($"- {notification.SubModule.Name}", 
+            var progressTask = _progressContext.AddTaskAfter($"- {notification.SubModule.Name}",
                 new ProgressTaskSettings { AutoStart = true }, parentTask);
 
             _subModuleProgressTasks[notification.SubModule] = progressTask;
