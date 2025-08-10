@@ -66,7 +66,7 @@
     <PackageVersion Include="MSTest.TestFramework" Version="3.10.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NReco.Logging.File" Version="1.2.2" />
-    <PackageVersion Include="NUnit" Version="4.3.2" />
+    <PackageVersion Include="NUnit" Version="4.4.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.10.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.1.0" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
