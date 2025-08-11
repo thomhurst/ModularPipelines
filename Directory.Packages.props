@@ -35,7 +35,7 @@
     <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.8.0" />
     <PackageVersion Include="CliWrap" Version="3.9.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="EnumerableAsyncProcessor" Version="3.8.2" />
+    <PackageVersion Include="EnumerableAsyncProcessor" Version="3.8.4" />
     <PackageVersion Include="FluentFTP" Version="53.0.1" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
     <PackageVersion Include="MailKit" Version="4.13.0" />
