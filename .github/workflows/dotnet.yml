@@ -49,7 +49,7 @@ jobs:
         with:
           drive-size: 5GB
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
       - name: Cache NuGet
