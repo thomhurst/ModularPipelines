@@ -73,7 +73,7 @@
     <PackageVersion Include="Polly" Version="8.6.3" />
     <PackageVersion Include="RichardSzalay.MockHttp" Version="7.0.0" />
     <PackageVersion Include="Slack.Webhooks" Version="1.1.5" />
-    <PackageVersion Include="Spectre.Console" Version="0.50.0" />
+    <PackageVersion Include="Spectre.Console" Version="0.51.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="System.Text.Json" Version="9.0.6" />
     <PackageVersion Include="TUnit" Version="0.57.24" />
