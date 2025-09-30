@@ -30,9 +30,9 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 
         ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
 
-        var moduleName = MarkupFormatter.FormatModuleName(GetType().Name);
-        var reason = MarkupFormatter.FormatDim(skipDecision.Reason ?? "No reason provided");
-        Logger.LogInformation("{Icon} Module {ModuleName} skipped: {Reason}", MarkupFormatter.SkipIcon, moduleName, reason);
+        Logger.LogInformation("[yellow]⊘[/] Module [bold]{ModuleName}[/] skipped: [dim]{Reason}[/]",
+            GetType().Name,
+            skipDecision.Reason ?? "No reason provided");
     }
 
     public async Task<bool> HandleSkipped()

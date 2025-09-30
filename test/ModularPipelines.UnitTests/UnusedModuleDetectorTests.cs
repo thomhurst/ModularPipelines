@@ -55,7 +55,7 @@ public class UnusedModuleDetectorTests
         await Assert.That(_sb.ToString()).IsNotEmpty();
         await Assert.That(_sb.ToString().Trim()).IsEqualTo("""
 [yellow]⚠[/] [bold]Unregistered Modules:[/]
-Module2
+  • Module2
   • Module5
 """);
     }
