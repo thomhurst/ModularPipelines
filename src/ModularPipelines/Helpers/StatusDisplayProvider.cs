@@ -5,7 +5,24 @@ namespace ModularPipelines.Helpers;
 
 /// <summary>
 /// Provides display information for module status values.
+/// Maps module status enums to consistent visual representations with icons and messages.
 /// </summary>
+/// <example>
+/// <code>
+/// // Get display info for a status
+/// var info = StatusDisplayProvider.GetDisplayInfo(Status.Successful);
+/// // Returns: StatusDisplayInfo with SuccessIcon and message template
+///
+/// // Format a complete status message
+/// var message = StatusDisplayProvider.FormatStatusMessage("MyModule", Status.Failed);
+/// // Result: "[red]✗[/] Module [cyan]MyModule[/] failed"
+///
+/// // Use in logging
+/// var moduleName = module.GetType().Name;
+/// var message = StatusDisplayProvider.FormatStatusMessage(moduleName, module.Status);
+/// logger.Log(logLevel, message);
+/// </code>
+/// </example>
 [ExcludeFromCodeCoverage]
 internal static class StatusDisplayProvider
 {

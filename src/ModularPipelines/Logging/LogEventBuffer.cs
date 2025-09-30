@@ -1,8 +1,31 @@
 namespace ModularPipelines.Logging;
 
 /// <summary>
-/// Buffers log events for batch processing.
+/// Buffers log events for batch processing with thread-safe operations.
+/// Used by ModuleLogger to collect log events during module execution and flush them
+/// upon disposal for organized, grouped output.
 /// </summary>
+/// <example>
+/// <code>
+/// // Typically used by ModuleLogger internally
+/// var buffer = new LogEventBuffer();
+///
+/// // Add log events during execution
+/// buffer.Add(logEvent);
+/// buffer.Add("Direct string message");
+///
+/// // Check if there are any events
+/// if (buffer.HasEvents)
+/// {
+///     // Get all events and clear the buffer
+///     var events = buffer.GetAndClear();
+///     foreach (var evt in events)
+///     {
+///         // Process event...
+///     }
+/// }
+/// </code>
+/// </example>
 internal class LogEventBuffer : ILogEventBuffer
 {
     private List<StringOrLogEvent> _events = new();

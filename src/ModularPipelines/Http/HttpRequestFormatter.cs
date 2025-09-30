@@ -4,8 +4,26 @@ using System.Text;
 namespace ModularPipelines.Http;
 
 /// <summary>
-/// Formats HTTP requests as strings.
+/// Formats HTTP requests as strings with headers and body content.
+/// Produces human-readable output suitable for logging and debugging.
 /// </summary>
+/// <example>
+/// <code>
+/// // Example output:
+/// // GET https://api.example.com/users HTTP/2.0
+/// //
+/// // Headers
+/// //     Accept: application/json
+/// //     User-Agent: ModularPipelines/1.0
+/// //
+/// // Body
+/// //     (null)
+///
+/// var formatter = new HttpRequestFormatter();
+/// var formatted = await formatter.FormatAsync(httpRequest);
+/// logger.LogInformation(formatted);
+/// </code>
+/// </example>
 internal class HttpRequestFormatter : IHttpRequestFormatter
 {
     public async Task<string> FormatAsync(HttpRequestMessage request)

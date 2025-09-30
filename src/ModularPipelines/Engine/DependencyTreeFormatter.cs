@@ -4,8 +4,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Formats dependency trees as text.
+/// Formats dependency trees as text with visual tree structure.
+/// Creates a hierarchical representation using box-drawing characters.
 /// </summary>
+/// <example>
+/// <code>
+/// // Example output:
+/// // ▶ RootModule
+/// //   └─ DependentModule1
+/// //     └─ DependentModule2
+/// //   └─ DependentModule3
+/// //
+/// var formatter = new DependencyTreeFormatter();
+/// var tree = formatter.FormatTree(rootModules);
+/// Console.WriteLine(tree);
+/// </code>
+/// </example>
 internal class DependencyTreeFormatter : IDependencyTreeFormatter
 {
     public string FormatTree(IEnumerable<ModuleDependencyModel> rootModules)

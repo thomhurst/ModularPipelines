@@ -4,7 +4,28 @@ namespace ModularPipelines.Helpers;
 
 /// <summary>
 /// Provides consistent markup formatting for logging output with colors and icons.
+/// Uses Spectre.Console markup syntax for terminal styling.
 /// </summary>
+/// <example>
+/// <code>
+/// // Format a module name with color
+/// var moduleName = MarkupFormatter.FormatModuleName("BuildModule");
+/// // Result: "[cyan]BuildModule[/]"
+///
+/// // Get color based on exit code
+/// var color = MarkupFormatter.GetExitCodeColor(0);
+/// // Result: "green" for success, "red" for failure
+///
+/// // Format a header
+/// var header = MarkupFormatter.FormatHeader("Build Status");
+/// // Result: "[bold]Build Status:[/]"
+///
+/// // Use with logging
+/// logger.LogInformation("{Icon} Module {Name} completed",
+///     MarkupFormatter.SuccessIcon,
+///     MarkupFormatter.FormatModuleName(moduleName));
+/// </code>
+/// </example>
 [ExcludeFromCodeCoverage]
 internal static class MarkupFormatter
 {
