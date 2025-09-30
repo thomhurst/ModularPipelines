@@ -9,6 +9,10 @@ namespace ModularPipelines;
 /// Manages collapsible logging sections for different build systems and output targets.
 /// Provides both buffered logging (via ModuleLogger) and direct console output.
 /// </summary>
+/// <remarks>
+/// This is a singleton service that creates a single scoped ModuleLogger instance
+/// and reuses it throughout the application lifetime, avoiding unnecessary scope creation.
+/// </remarks>
 /// <example>
 /// <code>
 /// // Start a collapsible log group (buffered)
@@ -24,36 +28,30 @@ namespace ModularPipelines;
 /// </example>
 internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging, IScopeDisposer
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly ISmartCollapsableLoggingStringBlockProvider _smartCollapsableLoggingStringBlockProvider;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ILogger<SmartCollapsableLogging> _logger;
     private readonly List<IServiceScope> _scopes = [];
-
-    private IModuleLogger ModuleLogger
-    {
-        get
-        {
-            var scope = _serviceProvider.CreateScope();
-            _scopes.Add(scope);
-            return scope.ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
-        }
-    }
-
-    private IConsoleWriter ModuleLoggerConsoleWriter => (IConsoleWriter)ModuleLogger;
+    private readonly IModuleLogger _moduleLogger;
+    private readonly IConsoleWriter _moduleLoggerConsoleWriter;
 
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter,
         ILogger<SmartCollapsableLogging> logger)
     {
-        _serviceProvider = serviceProvider;
         _smartCollapsableLoggingStringBlockProvider = smartCollapsableLoggingStringBlockProvider;
         _consoleWriter = consoleWriter;
         _logger = logger;
+
+        // Create a single scope for the lifetime of this singleton
+        var scope = serviceProvider.CreateScope();
+        _scopes.Add(scope);
+        _moduleLogger = scope.ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
+        _moduleLoggerConsoleWriter = (IConsoleWriter)_moduleLogger;
     }
 
-    public void StartConsoleLogGroup(string name) => StartGroup(name, ModuleLoggerConsoleWriter);
+    public void StartConsoleLogGroup(string name) => StartGroup(name, _moduleLoggerConsoleWriter);
 
     public void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -63,7 +61,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void EndConsoleLogGroup(string name) => EndGroup(name, ModuleLoggerConsoleWriter);
+    public void EndConsoleLogGroup(string name) => EndGroup(name, _moduleLoggerConsoleWriter);
 
     public void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -73,7 +71,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void LogToConsole(string value) => ModuleLoggerConsoleWriter.LogToConsole(value);
+    public void LogToConsole(string value) => _moduleLoggerConsoleWriter.LogToConsole(value);
 
     public void LogToConsoleDirect(string value) => _consoleWriter.LogToConsole(value);
 
