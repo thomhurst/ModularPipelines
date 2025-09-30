@@ -14,6 +14,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Vertical.SpectreLogger;
+using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -31,7 +32,32 @@ internal static class DependencyInjectionSetup
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
 
-                builder.AddSpectreConsole();
+                builder.AddSpectreConsole(config =>
+                {
+                    config.ConfigureProfile(LogLevel.Information, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+                    
+                    config.ConfigureProfile(LogLevel.Warning, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+                    
+                    config.ConfigureProfile(LogLevel.Error, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+                });
             })
             .AddHttpClient()
             .AddInitializers()
