@@ -40,6 +40,8 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
+    private IConsoleWriter ModuleLoggerConsoleWriter => (IConsoleWriter)ModuleLogger;
+
     public SmartCollapsableLogging(IServiceProvider serviceProvider,
         ISmartCollapsableLoggingStringBlockProvider smartCollapsableLoggingStringBlockProvider,
         IConsoleWriter consoleWriter,
@@ -51,7 +53,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         _logger = logger;
     }
 
-    public void StartConsoleLogGroup(string name) => StartGroup(name, ModuleLogger);
+    public void StartConsoleLogGroup(string name) => StartGroup(name, ModuleLoggerConsoleWriter);
 
     public void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -61,7 +63,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void EndConsoleLogGroup(string name) => EndGroup(name, ModuleLogger);
+    public void EndConsoleLogGroup(string name) => EndGroup(name, ModuleLoggerConsoleWriter);
 
     public void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -71,7 +73,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void LogToConsole(string value) => ModuleLogger.LogToConsole(value);
+    public void LogToConsole(string value) => ModuleLoggerConsoleWriter.LogToConsole(value);
 
     public void LogToConsoleDirect(string value) => _consoleWriter.LogToConsole(value);
 

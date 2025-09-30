@@ -15,6 +15,6 @@ internal class PrintModuleOutputExecutor : IPrintModuleOutputExecutor
 
     public void Dispose()
     {
-        _moduleLoggerContainer.PrintAllLoggers();
+        _moduleLoggerContainer.FlushAndDisposeAll();
     }
 }

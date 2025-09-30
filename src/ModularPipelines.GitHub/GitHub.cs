@@ -49,7 +49,7 @@ internal class GitHub : IGitHub
 
     public void LogToConsole(string value)
     {
-        _moduleLoggerProvider.GetLogger().LogToConsole(value);
+        ((IConsoleWriter)_moduleLoggerProvider.GetLogger()).LogToConsole(value);
     }
 
     // PRIVATE METHODS

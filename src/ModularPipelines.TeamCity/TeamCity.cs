@@ -27,6 +27,6 @@ internal class TeamCity : ITeamCity
 
     public void LogToConsole(string value)
     {
-        _moduleLoggerProvider.GetLogger().LogToConsole(value);
+        ((IConsoleWriter)_moduleLoggerProvider.GetLogger()).LogToConsole(value);
     }
 }
