@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "Bash(dotnet test:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebSearch"
     ],
     "deny": []
   }

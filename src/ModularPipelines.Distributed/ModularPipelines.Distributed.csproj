@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Distributed execution support for ModularPipelines enabling horizontal scaling across multiple machines.</Description>
+    <ModularPipelineReadMeDescription>Enables distributed execution of ModularPipelines across multiple nodes for horizontal scaling and improved performance.</ModularPipelineReadMeDescription>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="Polly" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+</Project>
