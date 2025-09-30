@@ -12,29 +12,29 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 
 ## Features
 
-*   Parallel execution
-*   Dependency management
-*   Familiar C# code
-*   Ability to debug pipelines
-*   Ability to run pipelines locally, even creating versions for setting up local development
-*   Strong typing, where different modules/steps can pass data to one another
-*   Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
-*   Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
-*   Easy to Skip or Ignore Failures for each individual module by passing in custom logic
-*   Hooks that can run before and/or after modules
-*   Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
-*   Easy to use File and Folder classes, that can search, read, update, delete and more
-*   Source controlled pipelines
-*   Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
-*   No need to learn new syntaxes such as YAML defined pipelines
-*   Strongly typed wrappers around command line tools
-*   Utilise existing .NET libraries
-*   Secret obfuscation
-*   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
-*   Run based on categories
-*   Easy to read exceptions
-*   Dynamic console progress reporting (if the console supports interactive mode)
-*   Pretty results table
+* Parallel execution
+* Dependency management
+* Familiar C# code
+* Ability to debug pipelines
+* Ability to run pipelines locally, even creating versions for setting up local development
+* Strong typing, where different modules/steps can pass data to one another
+* Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
+* Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
+* Easy to Skip or Ignore Failures for each individual module by passing in custom logic
+* Hooks that can run before and/or after modules
+* Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
+* Easy to use File and Folder classes, that can search, read, update, delete and more
+* Source controlled pipelines
+* Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
+* No need to learn new syntaxes such as YAML defined pipelines
+* Strongly typed wrappers around command line tools
+* Utilise existing .NET libraries
+* Secret obfuscation
+* Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
+* Run based on categories
+* Easy to read exceptions
+* Dynamic console progress reporting (if the console supports interactive mode)
+* Pretty results table
 
 ## Available Modules
 
@@ -54,13 +54,13 @@ If you want to see how to get started, or want to know more about ModularPipelin
 
 ## How does this compare to Cake / Nuke
 
-*   Strong types! You have complete control over what data, and what shape of data to pass around from and to different modules
-*   No external tooling is required. Pipelines are run with a simple `dotnet run`
-*   Full dependency injection support for your services
-*   Similar and familiar setup to frameworks like ASP.NET Core
-*   Real C# - Whereas frameworks like cake are a scripted form of C#
-*   Parallelism - Work will run concurrently unless it is dependent on something else
-*   The style of writing pipelines is very different - Work is organised into separate module classes, keeping code organised and more closely following SRP than having all your work in one main class. This also helps multiple contributors avoid things like merge conflicts
+* Strong types! You have complete control over what data, and what shape of data to pass around from and to different modules
+* No external tooling is required. Pipelines are run with a simple `dotnet run`
+* Full dependency injection support for your services
+* Similar and familiar setup to frameworks like ASP.NET Core
+* Real C# - Whereas frameworks like cake are a scripted form of C#
+* Parallelism - Work will run concurrently unless it is dependent on something else
+* The style of writing pipelines is very different - Work is organised into separate module classes, keeping code organised and more closely following SRP than having all your work in one main class. This also helps multiple contributors avoid things like merge conflicts
 
 ## Code Examples
 
