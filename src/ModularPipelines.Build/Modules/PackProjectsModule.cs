@@ -1,6 +1,7 @@
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Modules.Tests;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -16,7 +17,9 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>]
 [DependsOn<FindProjectDependenciesModule>]
 [DependsOn<ChangedFilesInPullRequestModule>]
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<RunUnitTestsOnWindowsModule>]
+[DependsOn<RunUnitTestsOnLinuxModule>]
+[DependsOn<RunUnitTestsOnMacModule>]
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
 {

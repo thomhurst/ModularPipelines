@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "remark-cli": "^12.0.0",
-    "remark-lint-list-item-indent": "^4.0.0",
-    "remark-preset-lint-consistent": "^6.0.0",
-    "remark-preset-lint-recommended": "^7.0.0"
+    "remark-cli": "^12.0.1",
+    "remark-lint-list-item-indent": "^4.0.1",
+    "remark-preset-lint-consistent": "^6.0.1",
+    "remark-preset-lint-recommended": "^7.0.1"
   }
 }

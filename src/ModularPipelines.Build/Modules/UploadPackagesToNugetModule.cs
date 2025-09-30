@@ -2,6 +2,7 @@ using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Modules.Tests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -13,7 +14,9 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<RunUnitTestsOnWindowsModule>]
+[DependsOn<RunUnitTestsOnLinuxModule>]
+[DependsOn<RunUnitTestsOnMacModule>]
 [DependsOn<PackagePathsParserModule>]
 [RunOnLinuxOnly]
 [SkipIfNoGitHubToken]

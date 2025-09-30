@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  orchestrator:
+    build:
+      context: ../..
+      dockerfile: src/ModularPipelines.Examples.Distributed/Dockerfile
+    container_name: modularpipelines-orchestrator
+    command: ["dotnet", "ModularPipelines.Examples.Distributed.dll", "orchestrator", "8080"]
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - DOTNET_ENVIRONMENT=Development
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__ModularPipelines.Distributed=Debug
+    networks:
+      - pipeline-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  worker1:
+    build:
+      context: ../..
+      dockerfile: src/ModularPipelines.Examples.Distributed/Dockerfile
+    container_name: modularpipelines-worker1
+    command: ["dotnet", "ModularPipelines.Examples.Distributed.dll", "worker", "http://orchestrator:8080", "worker1", "9000"]
+    environment:
+      - ASPNETCORE_URLS=http://+:9000
+      - DOTNET_ENVIRONMENT=Development
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__ModularPipelines.Distributed=Debug
+    depends_on:
+      orchestrator:
+        condition: service_healthy
+    networks:
+      - pipeline-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  worker2:
+    build:
+      context: ../..
+      dockerfile: src/ModularPipelines.Examples.Distributed/Dockerfile
+    container_name: modularpipelines-worker2
+    command: ["dotnet", "ModularPipelines.Examples.Distributed.dll", "worker", "http://orchestrator:8080", "worker2", "9000"]
+    environment:
+      - ASPNETCORE_URLS=http://+:9000
+      - DOTNET_ENVIRONMENT=Development
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__ModularPipelines.Distributed=Debug
+    depends_on:
+      orchestrator:
+        condition: service_healthy
+    networks:
+      - pipeline-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  worker3:
+    build:
+      context: ../..
+      dockerfile: src/ModularPipelines.Examples.Distributed/Dockerfile
+    container_name: modularpipelines-worker3
+    command: ["dotnet", "ModularPipelines.Examples.Distributed.dll", "worker", "http://orchestrator:8080", "worker3", "9000"]
+    environment:
+      - ASPNETCORE_URLS=http://+:9000
+      - DOTNET_ENVIRONMENT=Development
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__ModularPipelines.Distributed=Debug
+    depends_on:
+      orchestrator:
+        condition: service_healthy
+    networks:
+      - pipeline-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  pipeline-network:
+    driver: bridge

@@ -51,6 +51,22 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// Adds a Module to the pipeline by type.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <param name="moduleType">The type of module to add (must derive from ModuleBase).</param>
+    /// <returns>The pipeline's same service collection.</returns>
+    public static IServiceCollection AddModule(this IServiceCollection services, Type moduleType)
+    {
+        if (!typeof(ModuleBase).IsAssignableFrom(moduleType))
+        {
+            throw new ArgumentException($"Type {moduleType.Name} must derive from ModuleBase", nameof(moduleType));
+        }
+
+        return services.AddSingleton(typeof(ModuleBase), moduleType);
+    }
+
+    /// <summary>
     /// Adds a requirement to the pipeline.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
