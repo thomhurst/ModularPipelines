@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -36,6 +37,9 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             return;
         }
 
-        _logger.LogWarning("\nUnregistered Modules: {Modules}\n", string.Join(Environment.NewLine, unregisteredModules));
+        _logger.LogWarning("{Icon} {Header}\n{Modules}",
+            MarkupFormatter.WarningIcon,
+            MarkupFormatter.FormatHeader("Unregistered Modules"),
+            string.Join("\n  • ", unregisteredModules.Select(m => m?.Name)));
     }
 }

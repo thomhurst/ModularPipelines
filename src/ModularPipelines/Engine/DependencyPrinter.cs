@@ -1,8 +1,6 @@
-using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Interfaces;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
@@ -13,16 +11,19 @@ internal class DependencyPrinter : IDependencyPrinter
     private readonly ILogger<DependencyPrinter> _logger;
     private readonly IInternalCollapsableLogging _collapsableLogging;
     private readonly IOptions<PipelineOptions> _options;
+    private readonly IDependencyTreeFormatter _treeFormatter;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         ILogger<DependencyPrinter> logger,
         IInternalCollapsableLogging collapsableLogging,
-        IOptions<PipelineOptions> options)
+        IOptions<PipelineOptions> options,
+        IDependencyTreeFormatter treeFormatter)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _logger = logger;
         _collapsableLogging = collapsableLogging;
         _options = options;
+        _treeFormatter = treeFormatter;
     }
 
     public void PrintDependencyChains()
@@ -32,24 +33,9 @@ internal class DependencyPrinter : IDependencyPrinter
             return;
         }
 
-        var alreadyPrinted = new HashSet<ModuleDependencyModel>();
+        var formattedTree = _treeFormatter.FormatTree(_dependencyChainProvider.ModuleDependencyModels);
 
-        var stringBuilder = new StringBuilder();
-
-        foreach (var moduleDependencyModel in _dependencyChainProvider.ModuleDependencyModels.OrderBy(m => m.AllDescendantDependencies().Count()))
-        {
-            if (alreadyPrinted.Contains(moduleDependencyModel))
-            {
-                continue;
-            }
-
-            stringBuilder.AppendLine();
-            Append(stringBuilder, moduleDependencyModel, 1, alreadyPrinted);
-        }
-
-        alreadyPrinted.Clear();
-
-        Print(stringBuilder.ToString());
+        Print(formattedTree);
     }
 
     private void Print(string value)
@@ -66,18 +52,4 @@ internal class DependencyPrinter : IDependencyPrinter
         _logger.LogDebug("\n");
     }
 
-    private void Append(StringBuilder stringBuilder, ModuleDependencyModel moduleDependencyModel, int dashCount, ISet<ModuleDependencyModel> alreadyPrinted)
-    {
-        alreadyPrinted.Add(moduleDependencyModel);
-
-        stringBuilder.Append(new string('-', dashCount));
-        stringBuilder.Append('>');
-        stringBuilder.Append(' ');
-        stringBuilder.AppendLine(moduleDependencyModel.Module.GetType().Name);
-
-        foreach (var dependencyModel in moduleDependencyModel.IsDependencyFor)
-        {
-            Append(stringBuilder, dependencyModel, dashCount + 2, alreadyPrinted);
-        }
-    }
 }

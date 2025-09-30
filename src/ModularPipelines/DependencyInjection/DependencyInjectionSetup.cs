@@ -65,7 +65,11 @@ internal static class DependencyInjectionSetup
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
             .AddScoped<IChecksum, Checksum>()
-            .AddScoped<IEnvironmentContext, EnvironmentContext>();
+            .AddScoped<IEnvironmentContext, EnvironmentContext>()
+            .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
+            .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
+            .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
+            .AddScoped<ILogEventBuffer, LogEventBuffer>();
 
         // Singletons
         services
@@ -118,6 +122,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-            .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>();
+            .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
+            .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
+            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
     }
 }

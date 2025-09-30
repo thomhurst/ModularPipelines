@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -14,7 +15,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     public async Task Handle(Exception exception)
     {
-        Context.Logger.LogError(exception, "Module Failed after {Duration}", Module.Duration);
+        Context.Logger.LogError(exception, "{Icon} Module failed after {Duration}", MarkupFormatter.FailureIcon, MarkupFormatter.FormatBold(Module.Duration.ToDisplayString()));
 
         if (IsModuleTimedOutException(exception))
         {
@@ -25,7 +26,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         else if (IsPipelineCanceled(exception))
         {
             Module.Status = Status.PipelineTerminated;
-            Context.Logger.LogInformation("Pipeline has been canceled");
+            Context.Logger.LogInformation("{Icon} Pipeline has been canceled", MarkupFormatter.StopIcon);
 
             // DON'T throw PipelineCancelledException - just complete the module
             Module.Exception = exception;

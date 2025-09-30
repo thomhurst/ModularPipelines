@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Enums;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -29,7 +30,9 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 
         ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
 
-        Logger.LogInformation("{Module} ignored because: {Reason} and no historical results were found", GetType().Name, skipDecision.Reason ?? "<No reason provided>");
+        var moduleName = MarkupFormatter.FormatModuleName(GetType().Name);
+        var reason = MarkupFormatter.FormatDim(skipDecision.Reason ?? "No reason provided");
+        Logger.LogInformation("{Icon} Module {ModuleName} skipped: {Reason}", MarkupFormatter.SkipIcon, moduleName, reason);
     }
 
     public async Task<bool> HandleSkipped()

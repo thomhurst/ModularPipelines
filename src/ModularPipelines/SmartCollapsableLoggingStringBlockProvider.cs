@@ -1,4 +1,5 @@
 using ModularPipelines.Enums;
+using ModularPipelines.Helpers;
 
 namespace ModularPipelines;
 
@@ -27,7 +28,7 @@ internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLog
     public string? GetStartConsoleLogGroup(string name)
     {
         return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name)
-               ?? $"[bold cyan]▶[/] {name}";
+               ?? $"{MarkupFormatter.PlayIcon} {name}";
     }
 
     public string? GetEndConsoleLogGroup(string name)
