@@ -39,58 +39,47 @@ internal class CommandLogger : ICommandLogger
         {
             if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
             {
-                Logger.LogInformation("---Executing Command---\r\n\t{WorkingDirectory}> {Input}", commandWorkingDirPath, inputToLog);
-                Logger.LogInformation("---Dry-Run Command - No Output---");
+                Logger.LogInformation("[bold cyan]Command (Dry-Run):[/] {WorkingDirectory}> {Input}", commandWorkingDirPath, inputToLog);
+                Logger.LogInformation("[yellow]Dry-Run: No actual execution[/]");
                 return;
             }
 
             if (ShouldLogInput(optionsCommandLogging))
             {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      {WorkingDirectory}> {Input}
-                                      """,
+                Logger.LogInformation("[bold cyan]Command:[/] {WorkingDirectory}> {Input}",
                     commandWorkingDirPath,
                     _secretObfuscator.Obfuscate(inputToLog, options));
             }
             else
             {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      {WorkingDirectory}> ********
-                                      """, commandWorkingDirPath);
+                Logger.LogInformation("[bold cyan]Command:[/] {WorkingDirectory}> ********", commandWorkingDirPath);
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
             {
-                Logger.LogInformation("""
-                                      ---Exit Code----
-                                      {ExitCode}
-                                      """, exitCode);
+                var exitCodeColor = exitCode == 0 ? "green" : "red";
+                Logger.LogInformation("[bold]Exit Code:[/] [{0}]{1}[/]", exitCodeColor, exitCode);
             }
 
             if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
             {
-                Logger.LogInformation("""
-                                      ---Duration---
-                                      {Duration}
-                                      """, runTime?.ToDisplayString());
+                Logger.LogInformation("[bold]Duration:[/] {Duration}", runTime?.ToDisplayString());
             }
 
             if (ShouldLogOutput(optionsCommandLogging))
             {
-                Logger.LogInformation("""
-                                      ---Command Result---
-                                      {Output}
-                                      """, _secretObfuscator.Obfuscate(standardOutput, options));
+                if (!string.IsNullOrWhiteSpace(standardOutput))
+                {
+                    Logger.LogInformation("[bold]Output:[/]\n{Output}", _secretObfuscator.Obfuscate(standardOutput, options));
+                }
             }
 
             if (ShouldLogError(optionsCommandLogging, exitCode))
             {
-                Logger.LogInformation("""
-                                      ---Command Error---
-                                      {Error}
-                                      """, _secretObfuscator.Obfuscate(standardError, options));
+                if (!string.IsNullOrWhiteSpace(standardError))
+                {
+                    Logger.LogInformation("[bold red]Error:[/]\n{Error}", _secretObfuscator.Obfuscate(standardError, options));
+                }
             }
         }
     }

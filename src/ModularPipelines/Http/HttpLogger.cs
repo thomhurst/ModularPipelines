@@ -32,7 +32,7 @@ public static class HttpLogger
 
         await PrintBody(sb, request.Content);
 
-        logger.LogInformation("---Request---\r\n{Request}", sb.ToString());
+        logger.LogInformation("[bold cyan]HTTP Request:[/]\n{Request}", sb.ToString());
     }
 
     /// <summary>
@@ -55,19 +55,21 @@ public static class HttpLogger
 
         await PrintBody(sb, response.Content);
 
-        logger.LogInformation("---Response---\r\n{Response}", sb.ToString());
+        logger.LogInformation("[bold green]HTTP Response:[/]\n{Response}", sb.ToString());
     }
 
     public static void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
     {
         var statusCode = httpStatusCode == null ? null as int? : (int) httpStatusCode;
+        var isSuccess = statusCode is >= 200 and < 300;
+        var statusColor = isSuccess ? "green" : "red";
 
-        logger.LogInformation("---HTTP Status Code---\r\n{IntegerStatusCode} {StatusCode}", statusCode, httpStatusCode);
+        logger.LogInformation("[bold]HTTP Status:[/] [{0}]{1} {2}[/]", statusColor, statusCode, httpStatusCode);
     }
 
     public static void PrintDuration(TimeSpan duration, IModuleLogger logger)
     {
-        logger.LogInformation("---Duration---\r\n{Duration}", duration.ToDisplayString());
+        logger.LogInformation("[bold]Duration:[/] {Duration}", duration.ToDisplayString());
     }
 
     private static void PrintHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders)

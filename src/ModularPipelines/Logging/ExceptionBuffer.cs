@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using Spectre.Console;
 
 namespace ModularPipelines.Logging;
 
@@ -21,15 +22,15 @@ internal class ExceptionBuffer : IExceptionBuffer
         }
 
         // Add a separator to clearly indicate deferred exceptions
-        Console.WriteLine();
-        Console.WriteLine("========== Deferred Exceptions ==========");
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[bold red]⚠ Deferred Exceptions[/]");
+        AnsiConsole.WriteLine();
 
         while (_exceptionMessages.TryDequeue(out var message))
         {
-            Console.WriteLine(message);
+            AnsiConsole.WriteLine(message);
         }
 
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
     }
 }
