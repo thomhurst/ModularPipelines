@@ -15,7 +15,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
 
     public async Task Handle(Exception exception)
     {
-        Context.Logger.LogError(exception, "[red]✗[/] Module failed after [bold]{Duration}[/]", Module.Duration.ToDisplayString());
+        Context.Logger.LogError(exception, "✗ Module failed after {Duration}", Module.Duration.ToDisplayString());
 
         if (IsModuleTimedOutException(exception))
         {
@@ -26,7 +26,7 @@ internal class ErrorHandler<T> : BaseHandler<T>, IErrorHandler
         else if (IsPipelineCanceled(exception))
         {
             Module.Status = Status.PipelineTerminated;
-            Context.Logger.LogInformation("[red]⏹[/] Pipeline has been canceled");
+            Context.Logger.LogInformation("⏹ Pipeline has been canceled");
 
             // DON'T throw PipelineCancelledException - just complete the module
             Module.Exception = exception;

@@ -38,49 +38,49 @@ public class CommandLoggerTests : TestBase
 
         if (logInput)
         {
-            await Assert.That(logFile).Contains("[bold cyan]Command:[/]");
+            await Assert.That(logFile).Contains("Command:");
             await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> pwsh -Command \"echo Hello world!");
         }
         else
         {
-            await Assert.That(logFile).Contains("[bold cyan]Command:[/]");
+            await Assert.That(logFile).Contains("Command:");
             await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> ********");
         }
 
         if (logOutput)
         {
-            await Assert.That(logFile).Contains("[bold]Output:[/]");
+            await Assert.That(logFile).Contains("Output:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("[bold]Output:[/]");
+            await Assert.That(logFile).DoesNotContain("Output:");
         }
 
         if (logError)
         {
-            await Assert.That(logFile).Contains("[bold red]Error:[/]");
+            await Assert.That(logFile).Contains("✗ Error:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("[bold red]Error:[/]");
+            await Assert.That(logFile).DoesNotContain("✗ Error:");
         }
 
         if (logDuration)
         {
-            await Assert.That(logFile).Contains("[bold]Duration:[/]");
+            await Assert.That(logFile).Contains("Duration:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("[bold]Duration:[/]");
+            await Assert.That(logFile).DoesNotContain("Duration:");
         }
 
         if (logExitCode)
         {
-            await Assert.That(logFile).Contains("[bold]Exit Code:[/]");
+            await Assert.That(logFile).Contains("Exit Code:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("[bold]Exit Code:[/]");
+            await Assert.That(logFile).DoesNotContain("Exit Code:");
         }
     }
 

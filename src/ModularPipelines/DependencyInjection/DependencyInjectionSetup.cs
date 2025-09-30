@@ -41,7 +41,7 @@ internal static class DependencyInjectionSetup
                             options.MaxStackFrames = int.MaxValue;
                         });
                     });
-                    
+
                     config.ConfigureProfile(LogLevel.Warning, profile =>
                     {
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
@@ -49,7 +49,7 @@ internal static class DependencyInjectionSetup
                             options.MaxStackFrames = int.MaxValue;
                         });
                     });
-                    
+
                     config.ConfigureProfile(LogLevel.Error, profile =>
                     {
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>

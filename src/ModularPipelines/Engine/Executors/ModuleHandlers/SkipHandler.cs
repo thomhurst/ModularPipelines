@@ -30,7 +30,7 @@ internal class SkipHandler<T> : BaseHandler<T>, ISkipHandler
 
         ModuleResultTaskCompletionSource.TrySetResult(new SkippedModuleResult<T>(Module, skipDecision));
 
-        Logger.LogInformation("[yellow]⊘[/] Module [bold]{ModuleName}[/] skipped: [dim]{Reason}[/]",
+        Logger.LogInformation("⊘ Module {ModuleName} skipped: {Reason}",
             GetType().Name,
             skipDecision.Reason ?? "No reason provided");
     }

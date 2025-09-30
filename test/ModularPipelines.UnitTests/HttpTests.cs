@@ -46,9 +46,9 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).DoesNotContain("[bold cyan]HTTP Request:[/]");
+        await Assert.That(logFile).DoesNotContain("HTTP Request:");
         await Assert.That(logFile).DoesNotContain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).Contains("[bold green]HTTP Response:[/]");
+        await Assert.That(logFile).Contains("HTTP Response:");
         await Assert.That(logFile).Contains("Server: GitHub.com");
     }
 
@@ -76,9 +76,9 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Contains("[bold cyan]HTTP Request:[/]");
+        await Assert.That(logFile).Contains("HTTP Request:");
         await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).DoesNotContain("[bold green]HTTP Response:[/]");
+        await Assert.That(logFile).DoesNotContain("HTTP Response:");
         await Assert.That(logFile).DoesNotContain("Server: GitHub.com");
     }
 
@@ -117,21 +117,21 @@ public class HttpTests : TestBase
         await result.Host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Contains("[bold cyan]HTTP Request:[/]");
+        await Assert.That(logFile).Contains("HTTP Request:");
         await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
-        await Assert.That(logFile).Contains("[bold green]HTTP Response:[/]");
+        await Assert.That(logFile).Contains("HTTP Response:");
         await Assert.That(logFile).Contains("Headers");
         await Assert.That(logFile).Contains("Server: GitHub.com");
         await Assert.That(logFile).Contains("Body");
-        await Assert.That(logFile).Contains("[bold]Duration:[/]");
-        await Assert.That(logFile).Contains("[bold]HTTP Status:[/]");
+        await Assert.That(logFile).Contains("Duration:");
+        await Assert.That(logFile).Contains("HTTP Status:");
 
         var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
 
-        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("[bold cyan]HTTP Request:[/]"));
-        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("[bold]HTTP Status:[/]"));
-        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("[bold]Duration:[/]"));
-        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("[bold green]HTTP Response:[/]"));
+        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("HTTP Request:"));
+        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("HTTP Status:"));
+        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("Duration:"));
+        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("HTTP Response:"));
 
         using (Assert.Multiple())
         {

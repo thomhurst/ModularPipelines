@@ -58,10 +58,10 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        Logger.LogInformation("[bold cyan]Command (Dry-Run):[/] {WorkingDirectory}> {Input}",
+        Logger.LogInformation("Command (Dry-Run): {WorkingDirectory}> {Input}",
             workingDirectory,
             input);
-        Logger.LogInformation("[yellow]Dry-Run: No actual execution[/]");
+        Logger.LogInformation("⚠ Dry-Run: No actual execution");
     }
 
     private void LogCommandInput(CommandLogging loggingConfig, CommandLineToolOptions options, string workingDirectory, string? input)
@@ -75,14 +75,14 @@ internal class CommandLogger : ICommandLogger
         // If Input flag is set, show actual command; otherwise show obfuscated
         if (ShouldLogInput(loggingConfig))
         {
-            Logger.LogInformation("[bold cyan]Command:[/] {WorkingDirectory}> {Input}",
+            Logger.LogInformation("Command: {WorkingDirectory}> {Input}",
                 workingDirectory,
                 _secretObfuscator.Obfuscate(input, options));
         }
         else
         {
             // Still log command header with obfuscated input if any other logging is enabled
-            Logger.LogInformation("[bold cyan]Command:[/] {WorkingDirectory}> ********",
+            Logger.LogInformation("Command: {WorkingDirectory}> ********",
                 workingDirectory);
         }
     }
@@ -94,8 +94,8 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        var exitCodeColor = MarkupFormatter.GetExitCodeColor(exitCode);
-        Logger.LogInformation($"[bold]Exit Code:[/] [{exitCodeColor}]{{ExitCode}}[/]", exitCode);
+        var icon = exitCode == 0 ? "✓" : "✗";
+        Logger.LogInformation("{Icon} Exit Code: {ExitCode}", icon, exitCode);
     }
 
     private void LogDuration(CommandLogging loggingConfig, TimeSpan? runTime)
@@ -105,7 +105,7 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        Logger.LogInformation("[bold]Duration:[/] {Duration}", runTime?.ToDisplayString());
+        Logger.LogInformation("Duration: {Duration}", runTime?.ToDisplayString());
     }
 
     private void LogOutput(CommandLogging loggingConfig, CommandLineToolOptions options, string standardOutput)
@@ -115,7 +115,7 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        Logger.LogInformation("[bold]Output:[/]\n{Output}", _secretObfuscator.Obfuscate(standardOutput, options));
+        Logger.LogInformation("Output:\n{Output}", _secretObfuscator.Obfuscate(standardOutput, options));
     }
 
     private void LogError(CommandLogging loggingConfig, CommandLineToolOptions options, int? exitCode, string standardError)
@@ -125,7 +125,7 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        Logger.LogInformation("[bold red]Error:[/]\n{Error}", _secretObfuscator.Obfuscate(standardError, options));
+        Logger.LogInformation("✗ Error:\n{Error}", _secretObfuscator.Obfuscate(standardError, options));
     }
 
     private static bool ShouldLogInput(CommandLogging commandLogging)

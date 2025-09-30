@@ -29,7 +29,7 @@ internal class HttpLogger : IHttpLogger
     public async Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
     {
         var formattedRequest = await _requestFormatter.FormatAsync(request);
-        logger.LogInformation("[bold cyan]HTTP Request:[/]\n{Request}", formattedRequest);
+        logger.LogInformation("HTTP Request:\n{Request}", formattedRequest);
     }
 
     /// <summary>
@@ -41,19 +41,19 @@ internal class HttpLogger : IHttpLogger
     public async Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
     {
         var formattedResponse = await _responseFormatter.FormatAsync(response);
-        logger.LogInformation("[bold green]HTTP Response:[/]\n{Response}", formattedResponse);
+        logger.LogInformation("HTTP Response:\n{Response}", formattedResponse);
     }
 
     public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
     {
         var statusCode = httpStatusCode == null ? null as int? : (int) httpStatusCode;
-        var statusColor = MarkupFormatter.GetHttpStatusColor(statusCode);
+        var icon = statusCode is >= 200 and < 300 ? "✓" : "✗";
 
-        logger.LogInformation($"[bold]HTTP Status:[/] [{statusColor}]{{StatusCode}} {{HttpStatusCode}}[/]", statusCode, httpStatusCode);
+        logger.LogInformation("{Icon} HTTP Status: {StatusCode} {HttpStatusCode}", icon, statusCode, httpStatusCode);
     }
 
     public void PrintDuration(TimeSpan duration, IModuleLogger logger)
     {
-        logger.LogInformation("[bold]Duration:[/] {Duration}", duration.ToDisplayString());
+        logger.LogInformation("Duration: {Duration}", duration.ToDisplayString());
     }
 }

@@ -37,7 +37,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             return;
         }
 
-        _logger.LogWarning("[yellow]⚠[/] [bold]Unregistered Modules:[/]\n{Modules}",
-            string.Join("\n  • ", unregisteredModules.Select(m => m?.Name)));
+        _logger.LogWarning("⚠ Unregistered Modules:\n{Modules}",
+            string.Join("\n", unregisteredModules.Select(m => $"  • {m?.Name}")));
     }
 }
