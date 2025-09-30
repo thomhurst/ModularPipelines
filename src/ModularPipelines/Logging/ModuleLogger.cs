@@ -128,7 +128,7 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
 
             _isDisposed = true;
 
-            _lifecycleCoordinator.FlushAndDispose(typeof(T).Name, _exception);
+            _lifecycleCoordinator.FlushAndDispose(typeof(T).Name, _exception, _defaultLogger);
 
             GC.SuppressFinalize(this);
         }

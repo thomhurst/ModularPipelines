@@ -29,24 +29,21 @@ internal class LoggerLifecycleCoordinator : ILoggerLifecycleCoordinator
     private readonly ILogEventBuffer _logEventBuffer;
     private readonly ICollapsibleSectionManager _sectionManager;
     private readonly IConsoleWriter _consoleWriter;
-    private readonly ILogger _defaultLogger;
     private readonly IExceptionBuffer _exceptionBuffer;
 
     public LoggerLifecycleCoordinator(
         ILogEventBuffer logEventBuffer,
         ICollapsibleSectionManager sectionManager,
         IConsoleWriter consoleWriter,
-        ILogger defaultLogger,
         IExceptionBuffer exceptionBuffer)
     {
         _logEventBuffer = logEventBuffer;
         _sectionManager = sectionManager;
         _consoleWriter = consoleWriter;
-        _defaultLogger = defaultLogger;
         _exceptionBuffer = exceptionBuffer;
     }
 
-    public void FlushAndDispose(string moduleName, Exception? exception)
+    public void FlushAndDispose(string moduleName, Exception? exception, ILogger defaultLogger)
     {
         if (!_logEventBuffer.HasEvents)
         {
@@ -68,7 +65,7 @@ internal class LoggerLifecycleCoordinator : ILoggerLifecycleCoordinator
             }
             else if (stringOrLogEvent.LogEvent != null)
             {
-                LogEvent(stringOrLogEvent.LogEvent.Value);
+                LogEvent(stringOrLogEvent.LogEvent.Value, defaultLogger);
             }
         }
 
@@ -76,13 +73,13 @@ internal class LoggerLifecycleCoordinator : ILoggerLifecycleCoordinator
         _sectionManager.EndSection(sectionName);
     }
 
-    private void LogEvent((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) logEvent)
+    private void LogEvent((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) logEvent, ILogger defaultLogger)
     {
         var (logLevel, eventId, state, exception, formatter) = logEvent;
 
         try
         {
-            _defaultLogger.Log(logLevel, eventId, state, exception, formatter);
+            defaultLogger.Log(logLevel, eventId, state, exception, formatter);
         }
         catch (Exception e)
         {
@@ -102,5 +99,6 @@ internal interface ILoggerLifecycleCoordinator
     /// </summary>
     /// <param name="moduleName">The name of the module being logged.</param>
     /// <param name="exception">The exception, if the module failed.</param>
-    void FlushAndDispose(string moduleName, Exception? exception);
+    /// <param name="defaultLogger">The logger to use for flushing events.</param>
+    void FlushAndDispose(string moduleName, Exception? exception, ILogger defaultLogger);
 }
