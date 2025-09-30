@@ -12,15 +12,18 @@ internal class Http : IHttp, IDisposable
     public HttpClient HttpClient { get; }
 
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IHttpLogger _httpLogger;
 
     private readonly ConcurrentDictionary<HttpLoggingType, HttpClient> _loggingHttpClients = new();
 
     public Http(HttpClient defaultHttpClient,
         IModuleLoggerProvider moduleLoggerProvider,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        IHttpLogger httpLogger)
     {
         HttpClient = defaultHttpClient;
         _moduleLoggerProvider = moduleLoggerProvider;
+        _httpLogger = httpLogger;
     }
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
@@ -49,6 +52,7 @@ internal class Http : IHttp, IDisposable
             var moduleLogger = _moduleLoggerProvider.GetLogger();
             var serviceCollection = new ServiceCollection()
                 .AddSingleton(moduleLogger)
+                .AddSingleton(_httpLogger)
                 .AddTransient<SuccessHttpHandler>();
 
             var httpClientBuilder = serviceCollection
@@ -110,7 +114,7 @@ internal class Http : IHttp, IDisposable
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
-            await HttpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger);
+            await _httpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger);
         }
 
         var stopWatch = Stopwatch.StartNew();
@@ -122,7 +126,7 @@ internal class Http : IHttp, IDisposable
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
         {
-            await HttpLogger.PrintResponse(response, logger);
+            await _httpLogger.PrintResponse(response, logger);
         }
 
         if (!httpOptions.ThrowOnNonSuccessStatusCode)
@@ -137,7 +141,7 @@ internal class Http : IHttp, IDisposable
     {
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Duration))
         {
-            HttpLogger.PrintDuration(duration, _moduleLoggerProvider.GetLogger());
+            _httpLogger.PrintDuration(duration, _moduleLoggerProvider.GetLogger());
         }
     }
 
@@ -145,7 +149,7 @@ internal class Http : IHttp, IDisposable
     {
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.StatusCode))
         {
-            HttpLogger.PrintStatusCode(httpStatusCode, _moduleLoggerProvider.GetLogger());
+            _httpLogger.PrintStatusCode(httpStatusCode, _moduleLoggerProvider.GetLogger());
         }
     }
 }

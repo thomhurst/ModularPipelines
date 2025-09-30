@@ -5,6 +5,23 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines;
 
+/// <summary>
+/// Manages collapsible logging sections for different build systems and output targets.
+/// Provides both buffered logging (via ModuleLogger) and direct console output.
+/// </summary>
+/// <example>
+/// <code>
+/// // Start a collapsible log group (buffered)
+/// logging.StartConsoleLogGroup("Build Step");
+/// // ... perform work ...
+/// logging.EndConsoleLogGroup("Build Step");
+///
+/// // Direct console output (bypasses buffer)
+/// logging.StartConsoleLogGroupDirectToConsole("Setup", LogLevel.Information);
+/// logging.LogToConsoleDirect("Direct message");
+/// logging.EndConsoleLogGroupDirectToConsole("Setup", LogLevel.Information);
+/// </code>
+/// </example>
 internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsableLogging, IScopeDisposer
 {
     private readonly IServiceProvider _serviceProvider;
@@ -18,13 +35,8 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         get
         {
             var scope = _serviceProvider.CreateScope();
-
             _scopes.Add(scope);
-
-            return scope
-                .ServiceProvider
-                .GetRequiredService<IModuleLoggerProvider>()
-                .GetLogger();
+            return scope.ServiceProvider.GetRequiredService<IModuleLoggerProvider>().GetLogger();
         }
     }
 
@@ -39,10 +51,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         _logger = logger;
     }
 
-    public void StartConsoleLogGroup(string name)
-    {
-        StartGroup(name, ModuleLogger);
-    }
+    public void StartConsoleLogGroup(string name) => StartGroup(name, ModuleLogger);
 
     public void StartConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -52,10 +61,7 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void EndConsoleLogGroup(string name)
-    {
-        EndGroup(name, ModuleLogger);
-    }
+    public void EndConsoleLogGroup(string name) => EndGroup(name, ModuleLogger);
 
     public void EndConsoleLogGroupDirectToConsole(string name, LogLevel logLevel)
     {
@@ -65,20 +71,11 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
         }
     }
 
-    public void LogToConsole(string value)
-    {
-        LogToConsole(value, ModuleLogger);
-    }
+    public void LogToConsole(string value) => ModuleLogger.LogToConsole(value);
 
-    public void LogToConsoleDirect(string value)
-    {
-        LogToConsole(value, _consoleWriter);
-    }
+    public void LogToConsoleDirect(string value) => _consoleWriter.LogToConsole(value);
 
-    public IEnumerable<IServiceScope> GetScopes()
-    {
-        return _scopes;
-    }
+    public IEnumerable<IServiceScope> GetScopes() => _scopes;
 
     private bool IsEnabled(LogLevel logLevel)
     {
@@ -94,26 +91,19 @@ internal class SmartCollapsableLogging : ICollapsableLogging, IInternalCollapsab
 
     private void StartGroup(string name, IConsoleWriter writer)
     {
-        var startConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
-
-        if (startConsoleLogGroup != null)
+        var startCommand = _smartCollapsableLoggingStringBlockProvider.GetStartConsoleLogGroup(name);
+        if (startCommand != null)
         {
-            writer.LogToConsole(startConsoleLogGroup);
+            writer.LogToConsole(startCommand);
         }
     }
 
     private void EndGroup(string name, IConsoleWriter writer)
     {
-        var endConsoleLogGroup = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
-
-        if (endConsoleLogGroup != null)
+        var endCommand = _smartCollapsableLoggingStringBlockProvider.GetEndConsoleLogGroup(name);
+        if (endCommand != null)
         {
-            writer.LogToConsole(endConsoleLogGroup);
+            writer.LogToConsole(endCommand);
         }
-    }
-
-    private void LogToConsole(string value, IConsoleWriter writer)
-    {
-        writer.LogToConsole(value);
     }
 }

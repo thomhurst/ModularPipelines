@@ -5,10 +5,12 @@ namespace ModularPipelines.Http;
 internal class ResponseLoggingHttpHandler : DelegatingHandler
 {
     private readonly IModuleLogger _logger;
+    private readonly IHttpLogger _httpLogger;
 
-    public ResponseLoggingHttpHandler(IModuleLogger logger)
+    public ResponseLoggingHttpHandler(IModuleLogger logger, IHttpLogger httpLogger)
     {
         _logger = logger;
+        _httpLogger = httpLogger;
     }
 
     /// <inheritdoc/>
@@ -16,7 +18,7 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
     {
         var response = await base.SendAsync(request, cancellationToken);
 
-        await HttpLogger.PrintResponse(response, _logger);
+        await _httpLogger.PrintResponse(response, _logger);
 
         return response;
     }
