@@ -5,10 +5,29 @@ using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Logging;
 
+/// <summary>
+/// Base class for module-specific loggers with ambient context support.
+/// </summary>
+/// <remarks>
+/// This class uses AsyncLocal to provide ambient context for the current module's logger.
+/// This allows File/Folder helpers and other utilities to access the logger without explicit parameter passing.
+/// AsyncLocal is thread-safe and flows with async/await contexts, making it ideal for async module execution.
+/// </remarks>
 internal abstract class ModuleLogger : IModuleLogger, IConsoleWriter
 {
+    /// <summary>
+    /// Ambient context storage for the current module's logger.
+    /// Uses AsyncLocal to ensure proper async context flow while maintaining thread safety.
+    /// </summary>
+    /// <remarks>
+    /// This static field is accessed by ModuleExecutor to set the logger context before module execution
+    /// and by File/Folder helpers to retrieve the current logger for operation logging.
+    /// </remarks>
     internal static readonly AsyncLocal<IModuleLogger?> Values = new();
 
+    /// <summary>
+    /// Gets the current logger from ambient context, or a null logger if none is set.
+    /// </summary>
     internal static ILogger Current => (Values.Value as ILogger) ?? NullLogger.Instance;
 
     protected readonly object _disposeLock = new();

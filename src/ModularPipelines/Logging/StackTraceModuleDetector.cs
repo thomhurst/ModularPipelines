@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,7 @@ namespace ModularPipelines.Logging;
 /// <summary>
 /// Detects the module type from the current call stack using stack trace inspection.
 /// Uses multiple detection strategies including marker attributes, module base types, and calling class analysis.
+/// Results are cached to avoid repeated reflection operations.
 /// </summary>
 /// <remarks>
 /// This class employs reflection and stack frame inspection to determine which module is requesting a logger.
@@ -17,6 +19,8 @@ namespace ModularPipelines.Logging;
 /// 2. Find types inheriting from ModuleBase
 /// 3. Find the calling class from the entry assembly
 /// 4. Find any non-abstract, non-generic calling class
+///
+/// Detection results are cached by calling method signature to improve performance on repeated calls.
 /// </remarks>
 /// <example>
 /// <code>
@@ -31,14 +35,27 @@ namespace ModularPipelines.Logging;
 /// </example>
 internal class StackTraceModuleDetector : IStackTraceModuleDetector
 {
+    private readonly ConcurrentDictionary<string, Type?> _typeCache = new();
+
     public Type? DetectModuleType()
     {
         var stackFrames = new StackTrace().GetFrames().ToList();
+
+        // Create cache key from the first relevant calling frame
+        var cacheKey = GetCacheKey(stackFrames);
+        if (cacheKey != null && _typeCache.TryGetValue(cacheKey, out var cachedType))
+        {
+            return cachedType;
+        }
 
         // Strategy 1: Look for marker attributes
         var moduleFromMarker = GetModuleFromMarkerAttributes(stackFrames);
         if (moduleFromMarker != null)
         {
+            if (cacheKey != null)
+            {
+                _typeCache.TryAdd(cacheKey, moduleFromMarker);
+            }
             return moduleFromMarker;
         }
 
@@ -49,6 +66,10 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 
         if (moduleFromBase != null)
         {
+            if (cacheKey != null)
+            {
+                _typeCache.TryAdd(cacheKey, moduleFromBase);
+            }
             return moduleFromBase;
         }
 
@@ -63,12 +84,40 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 
             if (type != null)
             {
+                if (cacheKey != null)
+                {
+                    _typeCache.TryAdd(cacheKey, type);
+                }
                 return type;
             }
         }
 
         // Strategy 4: Find calling class
-        return GetCallingClassType(stackFrames);
+        var callingType = GetCallingClassType(stackFrames);
+        if (cacheKey != null)
+        {
+            _typeCache.TryAdd(cacheKey, callingType);
+        }
+        return callingType;
+    }
+
+    private static string? GetCacheKey(List<StackFrame> stackFrames)
+    {
+        // Find the first frame that's not from logging infrastructure
+        var relevantFrame = stackFrames
+            .Select(sf => sf.GetMethod())
+            .FirstOrDefault(m => m?.DeclaringType != null
+                && m.DeclaringType != typeof(StackTraceModuleDetector)
+                && m.DeclaringType != typeof(ModuleLoggerProvider)
+                && !m.DeclaringType.FullName?.StartsWith("ModularPipelines.Logging") == true);
+
+        if (relevantFrame == null)
+        {
+            return null;
+        }
+
+        // Create a unique key from the method signature
+        return $"{relevantFrame.DeclaringType?.FullName}.{relevantFrame.Name}";
     }
 
     private static Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
