@@ -97,22 +97,31 @@ jobs:
           echo "TUNNEL_PID=$TUNNEL_PID" >> $GITHUB_ENV
 
           # Wait for tunnel to be ready and extract URL
-          for i in {1..30}; do
-            if grep -q "https://" tunnel.log; then
-              TUNNEL_URL=$(grep -oP 'https://[^\s]+trycloudflare.com' tunnel.log | head -1)
-              echo "Tunnel URL: $TUNNEL_URL"
-              echo "url=$TUNNEL_URL" >> $GITHUB_OUTPUT
-              break
+          echo "Waiting for cloudflared tunnel to establish..."
+          TUNNEL_URL=""
+          for i in {1..60}; do
+            sleep 3
+            if [ -f tunnel.log ]; then
+              # Look for the tunnel URL in the log
+              TUNNEL_URL=$(grep -oE 'https://[a-zA-Z0-9-]+\.trycloudflare\.com' tunnel.log | head -1 || true)
+              if [ -n "$TUNNEL_URL" ]; then
+                echo "✓ Tunnel established: $TUNNEL_URL"
+                echo "url=$TUNNEL_URL" >> $GITHUB_OUTPUT
+                break
+              fi
             fi
-            echo "Waiting for tunnel... ($i/30)"
-            sleep 2
+            echo "  Waiting for tunnel... ($i/60)"
           done
 
           if [ -z "$TUNNEL_URL" ]; then
-            echo "Failed to get tunnel URL"
-            cat tunnel.log
+            echo "✗ Failed to get tunnel URL after 3 minutes"
+            echo "Tunnel log contents:"
+            cat tunnel.log || echo "No log file found"
             exit 1
           fi
+
+          # Give the tunnel a moment to stabilize
+          sleep 5
 
       - name: Run Orchestrator
         run: dotnet run orchestrator 8080
