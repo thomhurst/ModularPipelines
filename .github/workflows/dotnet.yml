@@ -124,7 +124,7 @@ jobs:
           sleep 5
 
       - name: Run Orchestrator
-        run: dotnet run orchestrator 8080
+        run: dotnet run --framework net9.0 orchestrator 8080
         working-directory: src/ModularPipelines.Build
         timeout-minutes: 30
         env:
@@ -164,7 +164,7 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Run Worker
-        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-windows"
+        run: dotnet run --framework net9.0 worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-windows"
         working-directory: src/ModularPipelines.Build
         timeout-minutes: 25
 
@@ -191,7 +191,7 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Run Worker
-        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-macos"
+        run: dotnet run --framework net9.0 worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-macos"
         working-directory: src/ModularPipelines.Build
         timeout-minutes: 25
 
@@ -218,6 +218,6 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Run Worker
-        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-linux-2"
+        run: dotnet run --framework net9.0 worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-linux-2"
         working-directory: src/ModularPipelines.Build
         timeout-minutes: 25
