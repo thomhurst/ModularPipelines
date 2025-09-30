@@ -116,7 +116,9 @@ if (mode == "orchestrator")
 {
     var port = commandLineArgs.Length > 2 && int.TryParse(commandLineArgs[2], out var p) ? p : 8080;
 
+#pragma warning disable ConsoleUse
     Console.WriteLine($"Starting in ORCHESTRATOR mode on port {port}");
+#pragma warning restore ConsoleUse
 
     builder.AddDistributedExecution(options =>
     {
@@ -133,15 +135,17 @@ else if (mode == "worker")
     var orchestratorUrl = commandLineArgs.Length > 2 ? commandLineArgs[2] : "http://localhost:8080";
     var workerId = commandLineArgs.Length > 3 ? commandLineArgs[3] : null;
 
+#pragma warning disable ConsoleUse
     Console.WriteLine($"Starting in WORKER mode");
     Console.WriteLine($"  Orchestrator URL: {orchestratorUrl}");
     Console.WriteLine($"  Worker ID: {workerId ?? "(auto-generated)"}");
+#pragma warning restore ConsoleUse
 
     builder.AddDistributedExecution(options =>
     {
         options.Mode = DistributedExecutionMode.Worker;
         options.OrchestratorUrl = orchestratorUrl;
-        // WorkerCapabilities auto-detects OS via DetectCurrentOs()
+        options.WorkerCapabilities = new ModularPipelines.Distributed.Abstractions.WorkerCapabilities();
 
         if (!string.IsNullOrWhiteSpace(workerId))
         {
@@ -151,7 +155,9 @@ else if (mode == "worker")
 }
 else
 {
+#pragma warning disable ConsoleUse
     Console.WriteLine("Starting in LOCAL mode");
+#pragma warning restore ConsoleUse
 }
 
 await builder.ExecutePipelineAsync();
