@@ -14,6 +14,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Vertical.SpectreLogger;
+using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -31,7 +32,32 @@ internal static class DependencyInjectionSetup
                 builder.AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
 
-                builder.AddSpectreConsole();
+                builder.AddSpectreConsole(config =>
+                {
+                    config.ConfigureProfile(LogLevel.Information, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+
+                    config.ConfigureProfile(LogLevel.Warning, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+
+                    config.ConfigureProfile(LogLevel.Error, profile =>
+                    {
+                        profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
+                        {
+                            options.MaxStackFrames = int.MaxValue;
+                        });
+                    });
+                });
             })
             .AddHttpClient()
             .AddInitializers()
@@ -65,10 +91,18 @@ internal static class DependencyInjectionSetup
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
             .AddScoped<IChecksum, Checksum>()
-            .AddScoped<IEnvironmentContext, EnvironmentContext>();
+            .AddScoped<IEnvironmentContext, EnvironmentContext>()
+            .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
+            .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
+            .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
+            .AddScoped<ILogEventBuffer, LogEventBuffer>()
+            .AddScoped<ICollapsibleSectionManager, CollapsibleSectionManager>()
+            .AddScoped<ILoggerLifecycleCoordinator, LoggerLifecycleCoordinator>();
 
         // Singletons
         services
+            .AddSingleton<IExceptionOutputFormatter, SpectreExceptionFormatter>()
+            .AddSingleton<IStackTraceModuleDetector, StackTraceModuleDetector>()
             .AddSingleton<IConsolePrinter, ConsolePrinter>()
             .AddSingleton<IAfterPipelineLogger, AfterPipelineLogger>()
             .AddSingleton<IExceptionBuffer, ExceptionBuffer>()
@@ -113,11 +147,14 @@ internal static class DependencyInjectionSetup
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
+            .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>()
             .AddSingleton<ISmartCollapsableLoggingStringBlockProvider, SmartCollapsableLoggingStringBlockProvider>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
-            .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>();
+            .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
+            .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
+            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
     }
 }

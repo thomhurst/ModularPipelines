@@ -1,43 +1,43 @@
-using ModularPipelines.Enums;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines;
 
+/// <summary>
+/// Provides build system-specific collapsible log group markers.
+/// Delegates to the appropriate formatter based on the current build system.
+/// </summary>
+/// <example>
+/// <code>
+/// var provider = new SmartCollapsableLoggingStringBlockProvider(formatterProvider);
+///
+/// // Get start command for current build system
+/// var startCommand = provider.GetStartConsoleLogGroup("Build Step");
+/// // Returns "::group::Build Step" for GitHub Actions
+/// // Returns "##teamcity[blockOpened name='Build Step']" for TeamCity
+/// // Returns "\e[0Ksection_start:...:build_step\r\e[0KBuild Step" for GitLab
+///
+/// // Get end command
+/// var endCommand = provider.GetEndConsoleLogGroup("Build Step");
+/// </code>
+/// </example>
 internal class SmartCollapsableLoggingStringBlockProvider : ISmartCollapsableLoggingStringBlockProvider
 {
-    private readonly IBuildSystemDetector _buildSystemDetector;
+    private readonly IBuildSystemFormatterProvider _formatterProvider;
 
-    private readonly Dictionary<BuildSystem, LogBlockMarkers?> _markers = new()
+    public SmartCollapsableLoggingStringBlockProvider(IBuildSystemFormatterProvider formatterProvider)
     {
-        [BuildSystem.GitHubActions] = new(BuildSystemValues.GitHub.StartBlock, str => BuildSystemValues.GitHub.EndBlock),
-        [BuildSystem.TeamCity] = new(BuildSystemValues.TeamCity.StartBlock, BuildSystemValues.TeamCity.EndBlock),
-        [BuildSystem.AzurePipelines] = new(BuildSystemValues.AzurePipelines.StartBlock, str => BuildSystemValues.AzurePipelines.EndBlock),
-        [BuildSystem.Jenkins] = null,
-        [BuildSystem.GitLab] = null,
-        [BuildSystem.Bitbucket] = null,
-        [BuildSystem.TravisCI] = null,
-        [BuildSystem.AppVeyor] = null,
-        [BuildSystem.Unknown] = null,
-    };
-
-    public SmartCollapsableLoggingStringBlockProvider(IBuildSystemDetector buildSystemDetector)
-    {
-        _buildSystemDetector = buildSystemDetector;
+        _formatterProvider = formatterProvider;
     }
 
     public string? GetStartConsoleLogGroup(string name)
     {
-        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.Start(name)
-               ?? $"""
-                   
-                   ----------{name} Start----------
-                   """;
+        var formatter = _formatterProvider.GetFormatter();
+        return formatter.GetStartBlockCommand(name);
     }
 
     public string? GetEndConsoleLogGroup(string name)
     {
-        return _markers.GetValueOrDefault(_buildSystemDetector.GetCurrentBuildSystem())?.End(name)
-               ?? $"-----------{name} End-----------";
+        var formatter = _formatterProvider.GetFormatter();
+        return formatter.GetEndBlockCommand(name);
     }
-
-    private record LogBlockMarkers(Func<string, string> Start, Func<string, string> End);
 }

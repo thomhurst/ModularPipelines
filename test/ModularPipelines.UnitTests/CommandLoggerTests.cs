@@ -38,54 +38,49 @@ public class CommandLoggerTests : TestBase
 
         if (logInput)
         {
-            await Assert.That(logFile).Contains($"""
-                                              ---Executing Command---
-                                              {Environment.CurrentDirectory}> pwsh -Command "echo Hello world!
-                                              throw \"Error!\""
-                                              """);
+            await Assert.That(logFile).Contains("Command:");
+            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> pwsh -Command \"echo Hello world!");
         }
         else
         {
-            await Assert.That(logFile).Contains($"""
-                                              ---Executing Command---
-                                              {Environment.CurrentDirectory}> ********
-                                              """);
+            await Assert.That(logFile).Contains("Command:");
+            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> ********");
         }
 
         if (logOutput)
         {
-            await Assert.That(logFile).Contains("---Command Result---");
+            await Assert.That(logFile).Contains("Output:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("---Command Result---");
+            await Assert.That(logFile).DoesNotContain("Output:");
         }
 
         if (logError)
         {
-            await Assert.That(logFile).Contains("---Command Error---");
+            await Assert.That(logFile).Contains("✗ Error:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("---Command Error---");
+            await Assert.That(logFile).DoesNotContain("✗ Error:");
         }
 
         if (logDuration)
         {
-            await Assert.That(logFile).Contains("---Duration");
+            await Assert.That(logFile).Contains("Duration:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("---Duration");
+            await Assert.That(logFile).DoesNotContain("Duration:");
         }
 
         if (logExitCode)
         {
-            await Assert.That(logFile).Contains("---Exit Code");
+            await Assert.That(logFile).Contains("Exit Code:");
         }
         else
         {
-            await Assert.That(logFile).DoesNotContain("---Exit Code");
+            await Assert.That(logFile).DoesNotContain("Exit Code:");
         }
     }
 

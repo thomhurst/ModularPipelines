@@ -12,6 +12,7 @@ internal class GitHub : IGitHub
 {
     private readonly GitHubOptions _options;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IHttpLogger _httpLogger;
     private readonly Lazy<IGitHubClient> _client;
 
     public IGitHubClient Client => _client.Value;
@@ -24,10 +25,12 @@ internal class GitHub : IGitHub
       IOptions<GitHubOptions> options,
       IGitHubEnvironmentVariables environmentVariables,
       IGitHubRepositoryInfo gitHubRepositoryInfo,
-      IModuleLoggerProvider moduleLoggerProvider)
+      IModuleLoggerProvider moduleLoggerProvider,
+      IHttpLogger httpLogger)
     {
         _options = options.Value;
         _moduleLoggerProvider = moduleLoggerProvider;
+        _httpLogger = httpLogger;
         EnvironmentVariables = environmentVariables;
 
         _client = new Lazy<IGitHubClient>(InitializeClient);
@@ -46,7 +49,7 @@ internal class GitHub : IGitHub
 
     public void LogToConsole(string value)
     {
-        _moduleLoggerProvider.GetLogger().LogToConsole(value);
+        ((IConsoleWriter)_moduleLoggerProvider.GetLogger()).LogToConsole(value);
     }
 
     // PRIVATE METHODS
@@ -67,11 +70,11 @@ internal class GitHub : IGitHub
           {
               var moduleLogger = _moduleLoggerProvider.GetLogger();
 
-              return new RequestLoggingHttpHandler(moduleLogger)
+              return new RequestLoggingHttpHandler(moduleLogger, _httpLogger)
               {
-                  InnerHandler = new ResponseLoggingHttpHandler(moduleLogger)
+                  InnerHandler = new ResponseLoggingHttpHandler(moduleLogger, _httpLogger)
                   {
-                      InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger)
+                      InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger, _httpLogger)
                       {
                           InnerHandler = new HttpClientHandler(),
                       },

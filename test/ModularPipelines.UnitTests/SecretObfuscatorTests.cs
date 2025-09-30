@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.TestHelpers;
@@ -27,7 +28,7 @@ public class SecretObfuscatorTests
     [Test]
     public async Task GitHubActions_MasksSecrets()
     {
-        _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(true);
+        _buildSystemMock.Setup(x => x.GetCurrentBuildSystem()).Returns(BuildSystem.GitHubActions);
 
         await ExecutePipelineAsync();
 
@@ -39,7 +40,7 @@ public class SecretObfuscatorTests
     [Test]
     public async Task DoesNotMaskSecrets_WhenNotGitHubActions()
     {
-        _buildSystemMock.Setup(x => x.IsRunningOnGitHubActions).Returns(false);
+        _buildSystemMock.Setup(x => x.GetCurrentBuildSystem()).Returns(BuildSystem.Unknown);
 
         await ExecutePipelineAsync();
 

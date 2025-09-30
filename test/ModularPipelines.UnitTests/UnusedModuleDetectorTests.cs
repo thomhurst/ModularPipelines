@@ -53,10 +53,12 @@ public class UnusedModuleDetectorTests
 
         _unusedModuleDetector.Log();
         await Assert.That(_sb.ToString()).IsNotEmpty();
-        await Assert.That(_sb.ToString().Trim()).IsEqualTo("""
-Unregistered Modules: ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module2
-ModularPipelines.UnitTests.UnusedModuleDetectorTests+Module5
-""");
+
+        // Normalize line endings for cross-platform compatibility
+        var actual = _sb.ToString().Trim().Replace("\r\n", "\n");
+        var expected = "⚠ Unregistered Modules:\n  • Module2\n  • Module5";
+
+        await Assert.That(actual).IsEqualTo(expected);
     }
 
     private class Module1 : Module

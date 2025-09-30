@@ -132,7 +132,7 @@ internal class ModuleExecutor : IModuleExecutor
                     .OrderBy(x => x)
                     .ToArray();
 
-                _logger.LogDebug("Grabbing not in parallel locks for keys {Keys}", string.Join(", ", keys));
+                _logger.LogDebug("Acquiring parallel locks for keys: {Keys}", string.Join(", ", keys));
 
                 var locks = keys.Select(GetLockForKey).ToArray();
 
@@ -163,7 +163,8 @@ internal class ModuleExecutor : IModuleExecutor
             {
                 using var semaphoreHandle = await WaitForParallelLimiter(module, isStartedAsDependencyForOtherModule);
 
-                _logger.LogDebug("Starting Module {Module}", module.GetType().Name);
+                var moduleName = MarkupFormatter.FormatModuleName(module.GetType().Name);
+                _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
 
                 var dependencies = module.GetModuleDependencies();
 
@@ -230,13 +231,16 @@ internal class ModuleExecutor : IModuleExecutor
 
     private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
     {
-        _logger.LogDebug("Starting Dependency {Dependency} for Module {Module}", dependencyType.Name, requestingModule.GetType().Name);
+        var dependencyName = MarkupFormatter.FormatModuleName(dependencyType.Name);
+        var requestingModuleName = MarkupFormatter.FormatModuleName(requestingModule.GetType().Name);
+
+        _logger.LogDebug("Starting dependency {Dependency} for module {Module}", dependencyName, requestingModuleName);
 
         var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
 
         if (module is null && ignoreIfNotRegistered)
         {
-            requestingModule.Context.Logger.LogDebug("{Module} was not registered so not waiting", dependencyType.Name);
+            requestingModule.Context.Logger.LogDebug("Module {Module} was not registered, skipping", dependencyName);
             return;
         }
 
@@ -245,7 +249,7 @@ internal class ModuleExecutor : IModuleExecutor
             throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
         }
 
-        requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModule.GetType().Name, dependencyType.Name);
+        requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModuleName, dependencyName);
 
         var moduleTask = StartModule(module, true);
 

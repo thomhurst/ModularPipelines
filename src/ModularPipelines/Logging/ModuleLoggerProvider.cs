@@ -1,24 +1,35 @@
-using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Attributes;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Logging;
 
+/// <summary>
+/// Provides module loggers by detecting the calling module type and creating appropriate logger instances.
+/// Uses stack trace analysis to automatically determine which module is requesting a logger.
+/// </summary>
+/// <remarks>
+/// This provider coordinates between:
+/// - StackTraceModuleDetector: Analyzes call stack to find module type
+/// - ModuleLoggerContainer: Caches existing loggers
+/// - Service provider: Creates new logger instances
+/// The provider maintains thread-safe singleton behavior per module type.
+/// </remarks>
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
+    private readonly IStackTraceModuleDetector _stackTraceDetector;
 
     private IModuleLogger? _moduleLogger;
 
-    public ModuleLoggerProvider(IServiceProvider serviceProvider,
-        IModuleLoggerContainer moduleLoggerContainer)
+    public ModuleLoggerProvider(
+        IServiceProvider serviceProvider,
+        IModuleLoggerContainer moduleLoggerContainer,
+        IStackTraceModuleDetector stackTraceDetector)
     {
         _serviceProvider = serviceProvider;
         _moduleLoggerContainer = moduleLoggerContainer;
+        _stackTraceDetector = stackTraceDetector;
     }
 
     public IModuleLogger GetLogger(Type type) => MakeLogger(type);
@@ -36,33 +47,14 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             return _moduleLogger = ModuleLogger.Values.Value;
         }
 
-        var stackFrames = new StackTrace().GetFrames().ToList();
+        var detectedType = _stackTraceDetector.DetectModuleType();
 
-        var module = GetModuleFromMarkerAttributes(stackFrames)
-                     ?? stackFrames.Select(GetNonCompilerGeneratedType).FirstOrDefault(IsModule);
-
-        if (module == null)
+        if (detectedType == null)
         {
-            var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger");
-
-            if (getLoggerFrame == null)
-            {
-                return MakeLogger(GetCallingClassType(stackFrames));
-            }
-
-            var getLoggerFrameIndex = stackFrames.IndexOf(getLoggerFrame);
-            var nextFrame = stackFrames[getLoggerFrameIndex + 1];
-            var type = nextFrame.GetMethod()?.ReflectedType;
-
-            if (type != null)
-            {
-                return MakeLogger(type);
-            }
-
-            return MakeLogger(GetCallingClassType(stackFrames));
+            throw new InvalidOperationException("Could not detect module type from call stack.");
         }
 
-        return MakeLogger(module);
+        return MakeLogger(detectedType);
     }
 
     public void Dispose()
@@ -70,61 +62,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         _moduleLogger?.Dispose();
     }
 
-    private Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
-    {
-        return stackFrames
-            .Select(x => x.GetMethod())
-            .FirstOrDefault(x => x?.GetCustomAttribute<ModuleMethodMarkerAttribute>() != null)
-            ?.DeclaringType;
-    }
-
     private IModuleLogger MakeLogger(Type module)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        return _moduleLogger ??= _moduleLoggerContainer.GetLogger(loggerType) ?? (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
-    }
-
-    private bool IsModule(Type? type)
-    {
-        if (type is null)
-        {
-            return false;
-        }
-
-        return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
-    }
-
-    private static Type GetCallingClassType(List<StackFrame> stackFrames)
-    {
-        var entryAssemblyFirstCallingClass = stackFrames
-            .Select(GetNonCompilerGeneratedType)
-            .OfType<Type>()
-            .Where(t => t != typeof(ModuleLoggerProvider))
-            .Where(x => x.Assembly == Assembly.GetEntryAssembly())
-            .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
-
-        if (entryAssemblyFirstCallingClass != null)
-        {
-            return entryAssemblyFirstCallingClass;
-        }
-
-        return stackFrames
-            .Select(GetNonCompilerGeneratedType)
-            .OfType<Type>()
-            .Where(t => t != typeof(ModuleLoggerProvider))
-            .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
-    }
-
-    private static Type? GetNonCompilerGeneratedType(StackFrame stackFrame)
-    {
-        var type = stackFrame.GetMethod()?.ReflectedType;
-
-        while (type?.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
-        {
-            type = type.DeclaringType;
-        }
-
-        return type;
+        return _moduleLogger ??= _moduleLoggerContainer.GetLogger(loggerType)
+            ?? (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
 }

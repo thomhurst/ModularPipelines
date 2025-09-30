@@ -33,66 +33,99 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        var optionsCommandLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
+        var loggingConfig = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
 
         lock (_lock)
         {
-            if (options.InternalDryRun && ShouldLogInput(optionsCommandLogging))
+            if (options.InternalDryRun)
             {
-                Logger.LogInformation("---Executing Command---\r\n\t{WorkingDirectory}> {Input}", commandWorkingDirPath, inputToLog);
-                Logger.LogInformation("---Dry-Run Command - No Output---");
+                LogDryRunCommand(loggingConfig, commandWorkingDirPath, inputToLog);
                 return;
             }
 
-            if (ShouldLogInput(optionsCommandLogging))
-            {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      {WorkingDirectory}> {Input}
-                                      """,
-                    commandWorkingDirPath,
-                    _secretObfuscator.Obfuscate(inputToLog, options));
-            }
-            else
-            {
-                Logger.LogInformation("""
-                                      ---Executing Command---
-                                      {WorkingDirectory}> ********
-                                      """, commandWorkingDirPath);
-            }
-
-            if (optionsCommandLogging.HasFlag(CommandLogging.ExitCode))
-            {
-                Logger.LogInformation("""
-                                      ---Exit Code----
-                                      {ExitCode}
-                                      """, exitCode);
-            }
-
-            if (optionsCommandLogging.HasFlag(CommandLogging.Duration))
-            {
-                Logger.LogInformation("""
-                                      ---Duration---
-                                      {Duration}
-                                      """, runTime?.ToDisplayString());
-            }
-
-            if (ShouldLogOutput(optionsCommandLogging))
-            {
-                Logger.LogInformation("""
-                                      ---Command Result---
-                                      {Output}
-                                      """, _secretObfuscator.Obfuscate(standardOutput, options));
-            }
-
-            if (ShouldLogError(optionsCommandLogging, exitCode))
-            {
-                Logger.LogInformation("""
-                                      ---Command Error---
-                                      {Error}
-                                      """, _secretObfuscator.Obfuscate(standardError, options));
-            }
+            LogCommandInput(loggingConfig, options, commandWorkingDirPath, inputToLog);
+            LogExitCode(loggingConfig, exitCode);
+            LogDuration(loggingConfig, runTime);
+            LogOutput(loggingConfig, options, standardOutput);
+            LogError(loggingConfig, options, exitCode, standardError);
         }
+    }
+
+    private void LogDryRunCommand(CommandLogging loggingConfig, string workingDirectory, string? input)
+    {
+        if (!ShouldLogInput(loggingConfig))
+        {
+            return;
+        }
+
+        Logger.LogInformation("Command (Dry-Run): {WorkingDirectory}> {Input}",
+            workingDirectory,
+            input);
+        Logger.LogInformation("⚠ Dry-Run: No actual execution");
+    }
+
+    private void LogCommandInput(CommandLogging loggingConfig, CommandLineToolOptions options, string workingDirectory, string? input)
+    {
+        // If no command logging at all, skip
+        if (loggingConfig == CommandLogging.None)
+        {
+            return;
+        }
+
+        // If Input flag is set, show actual command; otherwise show obfuscated
+        if (ShouldLogInput(loggingConfig))
+        {
+            Logger.LogInformation("Command: {WorkingDirectory}> {Input}",
+                workingDirectory,
+                _secretObfuscator.Obfuscate(input, options));
+        }
+        else
+        {
+            // Still log command header with obfuscated input if any other logging is enabled
+            Logger.LogInformation("Command: {WorkingDirectory}> ********",
+                workingDirectory);
+        }
+    }
+
+    private void LogExitCode(CommandLogging loggingConfig, int? exitCode)
+    {
+        if (!loggingConfig.HasFlag(CommandLogging.ExitCode))
+        {
+            return;
+        }
+
+        var icon = exitCode == 0 ? "✓" : "✗";
+        Logger.LogInformation("{Icon} Exit Code: {ExitCode}", icon, exitCode);
+    }
+
+    private void LogDuration(CommandLogging loggingConfig, TimeSpan? runTime)
+    {
+        if (!loggingConfig.HasFlag(CommandLogging.Duration))
+        {
+            return;
+        }
+
+        Logger.LogInformation("Duration: {Duration}", runTime?.ToDisplayString());
+    }
+
+    private void LogOutput(CommandLogging loggingConfig, CommandLineToolOptions options, string standardOutput)
+    {
+        if (!ShouldLogOutput(loggingConfig) || string.IsNullOrWhiteSpace(standardOutput))
+        {
+            return;
+        }
+
+        Logger.LogInformation("Output:\n{Output}", _secretObfuscator.Obfuscate(standardOutput, options));
+    }
+
+    private void LogError(CommandLogging loggingConfig, CommandLineToolOptions options, int? exitCode, string standardError)
+    {
+        if (!ShouldLogError(loggingConfig, exitCode) || string.IsNullOrWhiteSpace(standardError))
+        {
+            return;
+        }
+
+        Logger.LogInformation("✗ Error:\n{Error}", _secretObfuscator.Obfuscate(standardError, options));
     }
 
     private static bool ShouldLogInput(CommandLogging commandLogging)
