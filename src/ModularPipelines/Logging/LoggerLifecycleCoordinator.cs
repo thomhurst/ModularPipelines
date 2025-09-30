@@ -10,6 +10,9 @@ namespace ModularPipelines.Logging;
 /// This class implements the disposal pattern for module loggers, ensuring that all buffered
 /// log events are flushed to their final destinations when the logger is disposed.
 /// It coordinates with the collapsible section manager to wrap output in build system-specific blocks.
+///
+/// IMPORTANT: Uses a static lock to ensure only one module flushes its logs at a time.
+/// This prevents output from different modules being interwoven, which would break collapsible sections.
 /// </remarks>
 /// <example>
 /// <code>
@@ -26,6 +29,12 @@ namespace ModularPipelines.Logging;
 /// </example>
 internal class LoggerLifecycleCoordinator : ILoggerLifecycleCoordinator
 {
+    /// <summary>
+    /// Global lock to ensure only one module can flush its logs at a time.
+    /// This prevents output from multiple modules being interwoven, which would break collapsible logging sections.
+    /// </summary>
+    private static readonly object FlushLock = new();
+
     private readonly ILogEventBuffer _logEventBuffer;
     private readonly ICollapsibleSectionManager _sectionManager;
     private readonly IConsoleWriter _consoleWriter;
@@ -50,27 +59,31 @@ internal class LoggerLifecycleCoordinator : ILoggerLifecycleCoordinator
             return;
         }
 
-        var logEvents = _logEventBuffer.GetAndClear();
-        var sectionName = _sectionManager.FormatSectionName(moduleName, exception);
-
-        // Start collapsible section
-        _sectionManager.StartSection(sectionName);
-
-        // Flush all buffered events
-        foreach (var stringOrLogEvent in logEvents)
+        // Global lock ensures only one module flushes at a time to prevent interwoven output
+        lock (FlushLock)
         {
-            if (stringOrLogEvent.IsString)
-            {
-                _consoleWriter.LogToConsole(stringOrLogEvent.StringValue ?? string.Empty);
-            }
-            else if (stringOrLogEvent.LogEvent != null)
-            {
-                LogEvent(stringOrLogEvent.LogEvent.Value, defaultLogger);
-            }
-        }
+            var logEvents = _logEventBuffer.GetAndClear();
+            var sectionName = _sectionManager.FormatSectionName(moduleName, exception);
 
-        // End collapsible section
-        _sectionManager.EndSection(sectionName);
+            // Start collapsible section
+            _sectionManager.StartSection(sectionName);
+
+            // Flush all buffered events
+            foreach (var stringOrLogEvent in logEvents)
+            {
+                if (stringOrLogEvent.IsString)
+                {
+                    _consoleWriter.LogToConsole(stringOrLogEvent.StringValue ?? string.Empty);
+                }
+                else if (stringOrLogEvent.LogEvent != null)
+                {
+                    LogEvent(stringOrLogEvent.LogEvent.Value, defaultLogger);
+                }
+            }
+
+            // End collapsible section
+            _sectionManager.EndSection(sectionName);
+        }
     }
 
     private void LogEvent((LogLevel LogLevel, EventId EventId, object State, Exception? Exception, Func<object, Exception?, string> Formatter) logEvent, ILogger defaultLogger)

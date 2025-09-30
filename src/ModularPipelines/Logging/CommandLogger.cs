@@ -67,23 +67,26 @@ internal class CommandLogger : ICommandLogger
 
     private void LogCommandInput(CommandLogging loggingConfig, CommandLineToolOptions options, string workingDirectory, string? input)
     {
-        if (!ShouldLogInput(loggingConfig))
+        // If no command logging at all, skip
+        if (loggingConfig == CommandLogging.None)
         {
             return;
         }
 
-        if (options.CommandLogging == CommandLogging.None)
-        {
-            Logger.LogInformation("{Header} {WorkingDirectory}> ********",
-                MarkupFormatter.FormatColoredHeader("Command", "cyan"),
-                workingDirectory);
-        }
-        else
+        // If Input flag is set, show actual command; otherwise show obfuscated
+        if (ShouldLogInput(loggingConfig))
         {
             Logger.LogInformation("{Header} {WorkingDirectory}> {Input}",
                 MarkupFormatter.FormatColoredHeader("Command", "cyan"),
                 workingDirectory,
                 _secretObfuscator.Obfuscate(input, options));
+        }
+        else
+        {
+            // Still log command header with obfuscated input if any other logging is enabled
+            Logger.LogInformation("{Header} {WorkingDirectory}> ********",
+                MarkupFormatter.FormatColoredHeader("Command", "cyan"),
+                workingDirectory);
         }
     }
 
