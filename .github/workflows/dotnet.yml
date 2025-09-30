@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
     inputs:
       publish-packages:
-        description: Publish packages?    
+        description: Publish packages?
         type: boolean
         required: true
         default: false
       is-alpha:
-        description: Alpha version?    
+        description: Alpha version?
         type: boolean
         required: true
         default: true
@@ -22,56 +22,102 @@ env:
   SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
 
 jobs:
-  pipeline:
-    environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
-    strategy: 
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
-    env: 
-      NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
-      
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Add mask
         run: |
-          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}" 
+          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}"
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
           echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
+
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Set Up Performant Windows Drive
-        if: matrix.os == 'windows-latest'
-        uses: samypr100/setup-dev-drive@v3
-        with:
-          drive-size: 5GB
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.0.x
+
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
-          path: ${{ matrix.os == 'windows-latest' && format('{0}\{1}', env.DEV_DRIVE, 'nuget') || '~/.nuget/packages' }}
+          path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
-            ${{ runner.os }}-nuget- }}
+            ${{ runner.os }}-nuget-
+
       - name: Build ModularPipelines.Analyzers.sln
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
-      - name: Build
+
+      - name: Build All Solutions
         shell: bash
         run: |
           for SOLUTION in ${{ env.SOLUTIONS }}
           do
             dotnet build $SOLUTION -c Release
           done
-      
-      - name: Run Pipeline
-        run: dotnet run -c Release --framework net8.0
-        working-directory: "src/ModularPipelines.Build"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            **/bin/Release/**
+            src/ModularPipelines.Build/appsettings.json
+          retention-days: 1
+
+  orchestrator:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      tunnel-url: ${{ steps.tunnel.outputs.url }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Setup Cloudflared Tunnel
+        id: tunnel
+        run: |
+          # Download and setup cloudflared
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+          chmod +x cloudflared-linux-amd64
+
+          # Start tunnel in background
+          ./cloudflared-linux-amd64 tunnel --url http://localhost:8080 > tunnel.log 2>&1 &
+          TUNNEL_PID=$!
+          echo "TUNNEL_PID=$TUNNEL_PID" >> $GITHUB_ENV
+
+          # Wait for tunnel to be ready and extract URL
+          for i in {1..30}; do
+            if grep -q "https://" tunnel.log; then
+              TUNNEL_URL=$(grep -oP 'https://[^\s]+trycloudflare.com' tunnel.log | head -1)
+              echo "Tunnel URL: $TUNNEL_URL"
+              echo "url=$TUNNEL_URL" >> $GITHUB_OUTPUT
+              break
+            fi
+            echo "Waiting for tunnel... ($i/30)"
+            sleep 2
+          done
+
+          if [ -z "$TUNNEL_URL" ]; then
+            echo "Failed to get tunnel URL"
+            cat tunnel.log
+            exit 1
+          fi
+
+      - name: Run Orchestrator
+        run: dotnet run orchestrator 8080
+        working-directory: src/ModularPipelines.Build
+        timeout-minutes: 30
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
@@ -80,8 +126,89 @@ jobs:
           GitHub__Repository__Id: ${{ github.repository_id }}
           GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
           GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
-          Publish__ShouldPublish: ${{ (github.event.inputs.publish-packages || false) && matrix.os == 'ubuntu-latest' }}
+          Publish__ShouldPublish: ${{ (github.event.inputs.publish-packages || false) }}
           Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true }}
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
+  worker-windows:
+    runs-on: windows-latest
+    needs: [build, orchestrator]
+    if: needs.orchestrator.outputs.tunnel-url != ''
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+
+      - name: Run Worker
+        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-windows"
+        working-directory: src/ModularPipelines.Build
+        timeout-minutes: 25
+
+  worker-macos:
+    runs-on: macos-latest
+    needs: [build, orchestrator]
+    if: needs.orchestrator.outputs.tunnel-url != ''
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+
+      - name: Run Worker
+        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-macos"
+        working-directory: src/ModularPipelines.Build
+        timeout-minutes: 25
+
+  worker-linux-2:
+    runs-on: ubuntu-latest
+    needs: [build, orchestrator]
+    if: needs.orchestrator.outputs.tunnel-url != ''
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+
+      - name: Run Worker
+        run: dotnet run worker "${{ needs.orchestrator.outputs.tunnel-url }}" "worker-linux-2"
+        working-directory: src/ModularPipelines.Build
+        timeout-minutes: 25

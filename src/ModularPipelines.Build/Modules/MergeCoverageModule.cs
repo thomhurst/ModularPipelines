@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
+using ModularPipelines.Build.Modules.Tests;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
@@ -14,26 +15,46 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinux]
 [SkipIfNoGitHubToken]
 [SkipIfNoStandardGitHubToken]
-[DependsOn<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>]
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<RunUnitTestsOnWindowsModule>]
+[DependsOn<RunUnitTestsOnLinuxModule>]
+[DependsOn<RunUnitTestsOnMacModule>]
 public class MergeCoverageModule : Module<File>
 {
     /// <inheritdoc/>
     protected override async Task<File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var coverageFilesFromThisRun = context.Git().RootDirectory
-            .GetFiles(x => x.Name.Contains("cobertura") && x.Extension is ".xml");
+        // Get coverage files from all three OS-specific test modules
+        var windowsTests = await GetModule<RunUnitTestsOnWindowsModule>();
+        var linuxTests = await GetModule<RunUnitTestsOnLinuxModule>();
+        var macTests = await GetModule<RunUnitTestsOnMacModule>();
 
-        var coverageFilesFromOtherSystems = await GetModule<DownloadCodeCoverageFromOtherOperatingSystemBuildsModule>();
+        var allCoverageFiles = new List<File>();
 
-        if (coverageFilesFromOtherSystems.Value?.Count is null or < 1)
+        if (windowsTests.Value?.CoverageFiles is { Count: > 0 })
         {
-            context.Logger.LogInformation("No code coverage found from other operating systems");
+            allCoverageFiles.AddRange(windowsTests.Value.CoverageFiles);
+            context.Logger.LogInformation("Added {Count} coverage files from Windows tests", windowsTests.Value.CoverageFiles.Count);
+        }
+
+        if (linuxTests.Value?.CoverageFiles is { Count: > 0 })
+        {
+            allCoverageFiles.AddRange(linuxTests.Value.CoverageFiles);
+            context.Logger.LogInformation("Added {Count} coverage files from Linux tests", linuxTests.Value.CoverageFiles.Count);
+        }
+
+        if (macTests.Value?.CoverageFiles is { Count: > 0 })
+        {
+            allCoverageFiles.AddRange(macTests.Value.CoverageFiles);
+            context.Logger.LogInformation("Added {Count} coverage files from Mac tests", macTests.Value.CoverageFiles.Count);
+        }
+
+        if (allCoverageFiles.Count == 0)
+        {
+            context.Logger.LogInformation("No coverage files found from any operating system");
             return null;
         }
 
-        var coverageFiles = coverageFilesFromOtherSystems.Value!
-            .Concat(coverageFilesFromThisRun)
+        var coverageFiles = allCoverageFiles
             .Distinct()
             .ToList();
 

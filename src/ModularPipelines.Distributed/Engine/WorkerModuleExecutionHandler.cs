@@ -3,9 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Communication.Messages;
+using ModularPipelines.Distributed.Helpers;
+using ModularPipelines.Distributed.Models;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Distributed.Engine;
 
@@ -124,11 +129,15 @@ internal sealed class WorkerModuleExecutionHandler
             // Serialize the result
             var serializedResult = _moduleSerializer.SerializeResult(result);
 
+            // Check if module result contains files that need to be transferred
+            var transferredFiles = await DetectAndPrepareFilesForTransferAsync(result, context, cancellationToken);
+
             _logger.LogInformation(
-                "Worker {WorkerId} completed module {ModuleType} successfully. Duration: {Duration}",
+                "Worker {WorkerId} completed module {ModuleType} successfully. Duration: {Duration}. Transferred files: {FileCount}",
                 workerId,
                 moduleType.Name,
-                duration);
+                duration,
+                transferredFiles?.Count ?? 0);
 
             return new ModuleResultResponse
             {
@@ -139,6 +148,7 @@ internal sealed class WorkerModuleExecutionHandler
                 StartTime = startTime,
                 EndTime = endTime,
                 WorkerId = workerId,
+                TransferredFiles = transferredFiles,
             };
         }
         catch (OperationCanceledException) when (executionCts.Token.IsCancellationRequested)
@@ -228,5 +238,85 @@ internal sealed class WorkerModuleExecutionHandler
     public int GetCurrentExecutionCount()
     {
         return _executionCancellations.Count;
+    }
+
+    /// <summary>
+    /// Detects files in module results and prepares them for transfer to the orchestrator.
+    /// </summary>
+    /// <param name="result">The module result to inspect.</param>
+    /// <param name="context">The pipeline context.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Dictionary of files prepared for transfer, or null if no files found.</returns>
+    private async Task<Dictionary<string, FileTransferInfo>?> DetectAndPrepareFilesForTransferAsync(
+        ModularPipelines.Models.IModuleResult result,
+        IPipelineContext context,
+        CancellationToken cancellationToken)
+    {
+        // Use reflection to get the Value property from ModuleResult<T>
+        var resultType = result.GetType();
+        var valueProperty = resultType.GetProperty("Value");
+
+        if (valueProperty == null)
+        {
+            return null;
+        }
+
+        var value = valueProperty.GetValue(result);
+        if (value == null)
+        {
+            return null;
+        }
+
+        var filesToTransfer = new List<File>();
+
+        // Check if value is a File
+        if (value is File singleFile)
+        {
+            filesToTransfer.Add(singleFile);
+        }
+        // Check if value is IEnumerable<File> or File[]
+        else if (value is IEnumerable<File> fileCollection)
+        {
+            filesToTransfer.AddRange(fileCollection);
+        }
+        // Check if value has a property that contains files (e.g., TestExecutionResult.CoverageFiles)
+        else
+        {
+            var properties = value.GetType().GetProperties();
+            foreach (var prop in properties)
+            {
+                if (prop.PropertyType == typeof(File))
+                {
+                    if (prop.GetValue(value) is File file)
+                    {
+                        filesToTransfer.Add(file);
+                    }
+                }
+                else if (typeof(IEnumerable<File>).IsAssignableFrom(prop.PropertyType))
+                {
+                    if (prop.GetValue(value) is IEnumerable<File> files)
+                    {
+                        filesToTransfer.AddRange(files);
+                    }
+                }
+            }
+        }
+
+        if (filesToTransfer.Count == 0)
+        {
+            return null;
+        }
+
+        _logger.LogInformation(
+            "Detected {FileCount} files to transfer from module result",
+            filesToTransfer.Count);
+
+        // Get git root directory as base directory, or use current directory
+        var baseDirectory = context.Git().RootDirectory?.Path ?? Directory.GetCurrentDirectory();
+
+        return await FileTransferHelper.PrepareFilesForTransferAsync(
+            filesToTransfer,
+            baseDirectory,
+            cancellationToken);
     }
 }

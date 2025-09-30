@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ModularPipelines.Distributed.Models;
 
 namespace ModularPipelines.Distributed.Communication.Messages;
 
@@ -66,4 +67,11 @@ public sealed class ModuleResultResponse
     /// </summary>
     [JsonPropertyName("workerId")]
     public required string WorkerId { get; init; }
+
+    /// <summary>
+    /// Gets or sets files that were generated during module execution and need to be transferred to the orchestrator.
+    /// The dictionary key is a logical identifier for the file (e.g., "coverage", "report").
+    /// </summary>
+    [JsonPropertyName("transferredFiles")]
+    public Dictionary<string, FileTransferInfo>? TransferredFiles { get; init; }
 }

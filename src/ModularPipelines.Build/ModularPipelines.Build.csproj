@@ -7,6 +7,7 @@
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines.Distributed\ModularPipelines.Distributed.csproj" />
     <ProjectReference Include="..\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
     <ProjectReference Include="..\ModularPipelines.GitHub\ModularPipelines.GitHub.csproj" />
     <ProjectReference Include="..\ModularPipelines.Git\ModularPipelines.Git.csproj" />

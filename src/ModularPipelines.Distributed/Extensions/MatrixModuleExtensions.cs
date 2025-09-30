@@ -1,8 +1,10 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Distributed.Abstractions;
 using ModularPipelines.Distributed.Attributes;
+using ModularPipelines.Extensions;
 using ModularPipelines.Host;
 using ModularPipelines.Modules;
 

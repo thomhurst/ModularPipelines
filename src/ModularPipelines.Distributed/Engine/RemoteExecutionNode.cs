@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Abstractions;
 using ModularPipelines.Distributed.Communication.Messages;
+using ModularPipelines.Distributed.Helpers;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -199,6 +201,31 @@ internal sealed class RemoteExecutionNode : IExecutionNode
             // Deserialize the result
             var result = _moduleSerializer.DeserializeResult(response.SerializedResult!);
 
+            // Handle transferred files if any
+            if (response.TransferredFiles is { Count: > 0 })
+            {
+                _logger.LogInformation(
+                    "Module {ModuleType} transferred {FileCount} files from worker {WorkerId}",
+                    module.GetType().Name,
+                    response.TransferredFiles.Count,
+                    _worker.Id);
+
+                // Write transferred files to a temporary directory
+                var tempDir = Folder.CreateTemporaryFolder().Path;
+                var writtenFiles = await FileTransferHelper.WriteTransferredFilesAsync(
+                    response.TransferredFiles,
+                    tempDir,
+                    cancellationToken);
+
+                _logger.LogDebug(
+                    "Wrote {FileCount} transferred files to {Directory}",
+                    writtenFiles.Count,
+                    tempDir);
+
+                // Update the module result to point to the new file locations
+                UpdateResultWithTransferredFiles(result, writtenFiles);
+            }
+
             _logger.LogInformation(
                 "Module {ModuleType} completed on worker {WorkerId}. Duration: {Duration}",
                 module.GetType().Name,
@@ -226,5 +253,76 @@ internal sealed class RemoteExecutionNode : IExecutionNode
     public int GetCurrentLoad()
     {
         return _worker.CurrentLoad;
+    }
+
+    /// <summary>
+    /// Updates the module result to point to the newly transferred file locations.
+    /// Uses reflection to find and update File properties in the result value.
+    /// </summary>
+    /// <param name="result">The module result to update.</param>
+    /// <param name="writtenFiles">The files that were written to local disk.</param>
+    private void UpdateResultWithTransferredFiles(IModuleResult result, List<FileSystem.File> writtenFiles)
+    {
+        if (writtenFiles.Count == 0)
+        {
+            return;
+        }
+
+        // Get the Value property from ModuleResult<T>
+        var resultType = result.GetType();
+        var valueProperty = resultType.GetProperty("Value");
+
+        if (valueProperty == null || !valueProperty.CanWrite)
+        {
+            return;
+        }
+
+        var value = valueProperty.GetValue(result);
+        if (value == null)
+        {
+            return;
+        }
+
+        var valueType = value.GetType();
+
+        // If value is a File, replace it with the first written file
+        if (value is FileSystem.File && writtenFiles.Count > 0)
+        {
+            valueProperty.SetValue(result, writtenFiles[0]);
+        }
+        // If value is IEnumerable<File> or File[], replace with written files
+        else if (value is IEnumerable<FileSystem.File>)
+        {
+            valueProperty.SetValue(result, writtenFiles);
+        }
+        // Check if value has properties that contain files
+        else
+        {
+            var properties = valueType.GetProperties().Where(p => p.CanWrite);
+            foreach (var prop in properties)
+            {
+                if (prop.PropertyType == typeof(FileSystem.File) && writtenFiles.Count > 0)
+                {
+                    prop.SetValue(value, writtenFiles[0]);
+                }
+                else if (typeof(IEnumerable<FileSystem.File>).IsAssignableFrom(prop.PropertyType))
+                {
+                    // For List<File>, create a new list
+                    if (prop.PropertyType == typeof(List<FileSystem.File>))
+                    {
+                        prop.SetValue(value, writtenFiles);
+                    }
+                    // For IEnumerable<File> or File[], just set the list
+                    else
+                    {
+                        prop.SetValue(value, writtenFiles);
+                    }
+                }
+            }
+        }
+
+        _logger.LogDebug(
+            "Updated module result with {FileCount} transferred files",
+            writtenFiles.Count);
     }
 }

@@ -189,7 +189,7 @@ await PipelineHostBuilder.Create()
             options.OrchestratorUrl = "http://orchestrator:8080";
             options.WorkerCapabilities = new WorkerCapabilities
             {
-                Os = "linux",
+                Os = OS.Linux,
                 InstalledTools = ["docker", "dotnet", "node"],
                 MaxParallelModules = 4,
                 Tags = ["gpu-enabled"]
