@@ -42,12 +42,6 @@ internal sealed class RemoteExecutionNode : IExecutionNode
     {
         ArgumentNullException.ThrowIfNull(module);
 
-        // Check if worker capabilities match module requirements
-        // For now, we do basic checks. Could be extended with custom attributes
-
-        // Check OS requirement (if module has OS-specific requirements)
-        // This would require custom attributes on modules in the future
-
         // Check if worker has capacity
         if (_worker.CurrentLoad >= _worker.Capabilities.MaxParallelModules)
         {
@@ -67,6 +61,77 @@ internal sealed class RemoteExecutionNode : IExecutionNode
                 _worker.Id,
                 _worker.Status);
             return false;
+        }
+
+        // Check module requirements
+        if (!CheckModuleRequirements(module))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CheckModuleRequirements(ModuleBase module)
+    {
+        var moduleType = module.GetType();
+
+        // Check OS requirements
+        var osRequirements = moduleType.GetCustomAttributes(typeof(Attributes.RequiresOsAttribute), inherit: true)
+            .Cast<Attributes.RequiresOsAttribute>()
+            .ToList();
+
+        if (osRequirements.Count > 0)
+        {
+            // If any RequiresOs attribute is present, check if worker OS matches any of them (OR logic)
+            var matchesAnyOs = osRequirements.Any(attr => attr.OperatingSystem == _worker.Capabilities.Os);
+
+            if (!matchesAnyOs)
+            {
+                _logger.LogDebug(
+                    "Worker {WorkerId} OS {WorkerOs} does not match module {ModuleType} required OS(es): {RequiredOsValues}",
+                    _worker.Id,
+                    _worker.Capabilities.Os,
+                    moduleType.Name,
+                    string.Join(", ", osRequirements.Select(r => r.OperatingSystem)));
+                return false;
+            }
+        }
+
+        // Check tool requirements
+        var toolRequirements = moduleType.GetCustomAttributes(typeof(Attributes.RequiresToolAttribute), inherit: true)
+            .Cast<Attributes.RequiresToolAttribute>()
+            .ToList();
+
+        foreach (var toolReq in toolRequirements)
+        {
+            if (!_worker.Capabilities.InstalledTools.Contains(toolReq.ToolName, StringComparer.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug(
+                    "Worker {WorkerId} does not have required tool '{ToolName}' for module {ModuleType}",
+                    _worker.Id,
+                    toolReq.ToolName,
+                    moduleType.Name);
+                return false;
+            }
+        }
+
+        // Check tag requirements
+        var tagRequirements = moduleType.GetCustomAttributes(typeof(Attributes.RequiresTagAttribute), inherit: true)
+            .Cast<Attributes.RequiresTagAttribute>()
+            .ToList();
+
+        foreach (var tagReq in tagRequirements)
+        {
+            if (!_worker.Capabilities.Tags.Contains(tagReq.Tag, StringComparer.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug(
+                    "Worker {WorkerId} does not have required tag '{Tag}' for module {ModuleType}",
+                    _worker.Id,
+                    tagReq.Tag,
+                    moduleType.Name);
+                return false;
+            }
         }
 
         return true;

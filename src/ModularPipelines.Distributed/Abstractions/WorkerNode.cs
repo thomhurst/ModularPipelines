@@ -53,7 +53,7 @@ public sealed class WorkerCapabilities
     /// Gets or sets the operating system of the worker.
     /// </summary>
     [JsonPropertyName("os")]
-    public string Os { get; init; } = Environment.OSVersion.Platform.ToString();
+    public OS Os { get; init; } = DetectCurrentOs();
 
     /// <summary>
     /// Gets or sets the list of tools installed on the worker.
@@ -72,6 +72,30 @@ public sealed class WorkerCapabilities
     /// </summary>
     [JsonPropertyName("tags")]
     public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Detects the current operating system.
+    /// </summary>
+    /// <returns>The current OS.</returns>
+    private static OS DetectCurrentOs()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return OS.Windows;
+        }
+
+        if (OperatingSystem.IsLinux())
+        {
+            return OS.Linux;
+        }
+
+        if (OperatingSystem.IsMacOS())
+        {
+            return OS.MacOS;
+        }
+
+        return OS.Unknown;
+    }
 }
 
 /// <summary>

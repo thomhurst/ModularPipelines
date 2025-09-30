@@ -90,8 +90,7 @@ public static class Program
 
         var capabilities = new WorkerCapabilities
         {
-            Os = OperatingSystem.IsLinux() ? "linux" :
-                 OperatingSystem.IsWindows() ? "windows" : "macos",
+            // Os is automatically detected by WorkerCapabilities.DetectCurrentOs()
             InstalledTools = new List<string> { "dotnet", "git" },
             MaxParallelModules = Environment.ProcessorCount,
             Tags = new List<string> { "example-worker" },
