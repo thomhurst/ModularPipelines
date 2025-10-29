@@ -7,21 +7,27 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetNugetDeleteOptions : DotNetOptions
 {
     public DotNetNugetDeleteOptions(
-        string packageNamePackageVersion
+        string packageName,
+        string packageVersion
     )
     {
-        CommandParts = ["nuget", "delete", "[<PACKAGE_NAME> <PACKAGE_VERSION>]"];
+        CommandParts = ["nuget", "delete", "<PACKAGE_NAME>", "<PACKAGE_VERSION>"];
 
-        PackageNamePackageVersion = packageNamePackageVersion;
+        PackageName = packageName;
+
+        PackageVersion = packageVersion;
     }
 
     public DotNetNugetDeleteOptions()
     {
-        CommandParts = ["nuget", "delete", "[<PACKAGE_NAME> <PACKAGE_VERSION>]"];
+        CommandParts = ["nuget", "delete", "<PACKAGE_NAME>", "<PACKAGE_VERSION>"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PACKAGE_NAME> <PACKAGE_VERSION>]")]
-    public string? PackageNamePackageVersion { get; set; }
+    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
+    public string? PackageName { get; set; }
+
+    [PositionalArgument(PlaceholderName = "<PACKAGE_VERSION>")]
+    public string? PackageVersion { get; set; }
 
     [BooleanCommandSwitch("--force-english-output")]
     public virtual bool? ForceEnglishOutput { get; set; }
