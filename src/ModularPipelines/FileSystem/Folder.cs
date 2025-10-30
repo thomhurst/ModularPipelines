@@ -253,9 +253,9 @@ public class Folder : IEquatable<Folder>
         return new Folder(directoryInfo);
     }
 
-    public static implicit operator string(Folder folder)
+    public static implicit operator string?(Folder? folder)
     {
-        return folder.Path;
+        return folder?.Path;
     }
 
     /// <inheritdoc/>

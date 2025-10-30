@@ -237,9 +237,9 @@ public class File : IEquatable<File>
         return new File(fileInfo);
     }
 
-    public static implicit operator string(File file)
+    public static implicit operator string?(File? file)
     {
-        return file.Path;
+        return file?.Path;
     }
 
     /// <inheritdoc/>
