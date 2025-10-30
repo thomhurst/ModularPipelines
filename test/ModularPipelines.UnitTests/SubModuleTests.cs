@@ -314,7 +314,7 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException.InnerException).IsTypeOf(typeof(SubModuleFailedException));
+            await Assert.That(moduleFailedException.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException.InnerException).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }
@@ -324,13 +324,13 @@ public class SubModuleTests : TestBase
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
-        await Assert.That(exception.InnerException).IsTypeOf(typeof(SubModuleFailedException));
+        await Assert.That(exception.InnerException).IsTypeOf<SubModuleFailedException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<FailingSubModulesWithoutReturnTypeModule>);
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException?.InnerException).IsTypeOf(typeof(SubModuleFailedException));
+            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException!.InnerException!)
                 .HasMessageEqualTo("The Sub-Module 1 has failed.")
                 .Or.HasMessageEqualTo("The Sub-Module 2 has failed.")
@@ -345,7 +345,7 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException?.InnerException).IsTypeOf(typeof(SubModuleFailedException));
+            await Assert.That(moduleFailedException?.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException!.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }
@@ -357,7 +357,7 @@ public class SubModuleTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleFailedException.InnerException).IsTypeOf(typeof(SubModuleFailedException));
+            await Assert.That(moduleFailedException.InnerException).IsTypeOf<SubModuleFailedException>();
             await Assert.That(moduleFailedException.InnerException!).HasMessageEqualTo("The Sub-Module 1 has failed.");
         }
     }
