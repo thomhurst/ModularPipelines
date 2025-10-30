@@ -12,8 +12,6 @@
         <ProjectReference
             Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
         <PackageReference Include="TUnit" />
-        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
-        <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     </ItemGroup>
 
 </Project>
