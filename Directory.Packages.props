@@ -38,7 +38,7 @@
     <PackageVersion Include="EnumerableAsyncProcessor" Version="3.8.4" />
     <PackageVersion Include="FluentFTP" Version="53.0.1" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
-    <PackageVersion Include="MailKit" Version="4.13.0" />
+    <PackageVersion Include="MailKit" Version="4.14.1" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.1" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.1" />
     <PackageVersion Include="Microsoft.Build" Version="17.3.2" />
