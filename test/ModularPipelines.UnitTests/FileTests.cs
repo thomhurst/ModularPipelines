@@ -3,7 +3,6 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
-using TUnit.Assertions.AssertConditions.Throws;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
@@ -115,7 +114,7 @@ public class FileTests : TestBase
             await Assert.That(plainText).IsEmpty();
             await Assert.That(lines).IsEmpty();
             await Assert.That(bytes).IsEmpty();
-            await Assert.That(stream.Length).IsZero();
+            await Assert.That(stream.Length).IsEqualTo(0);
         }
     }
 
@@ -138,7 +137,7 @@ public class FileTests : TestBase
             await Assert.That(lines[0]).IsEqualTo("Hello");
             await Assert.That(lines[1]).IsEqualTo("world");
             await Assert.That(bytes).IsNotEmpty();
-            await Assert.That(stream.Length).IsNotZero();
+            await Assert.That(stream.Length).IsNotEqualTo(0);
         }
     }
 

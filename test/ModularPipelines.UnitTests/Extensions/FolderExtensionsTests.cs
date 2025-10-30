@@ -16,9 +16,9 @@ public class FolderExtensionsTests
         }.AsEnumerable();
 
         var paths = folders.AsPaths();
-        await Assert.That(paths).IsAssignableTo(typeof(IEnumerable<string>))
-            .And.IsNotAssignableTo(typeof(List<string>))
-            .And.IsEquivalentTo(new List<string>
+        await Assert.That((object)paths).IsAssignableTo<IEnumerable<string>>();
+        await Assert.That((object)paths).IsNotAssignableTo<List<string>>();
+        await Assert.That(paths).IsEquivalentTo(new List<string>
         {
             Path.Combine(TestContext.WorkingDirectory, "Folder1"),
             Path.Combine(TestContext.WorkingDirectory, "Folder2"),
@@ -35,9 +35,9 @@ public class FolderExtensionsTests
         };
 
         var paths = folders.AsPaths();
-        await Assert.That(paths).IsAssignableTo(typeof(IEnumerable));
-        await Assert.That(paths).IsAssignableTo(typeof(IEnumerable<string>));
-        await Assert.That(paths).IsAssignableTo(typeof(List<string>));
+        await Assert.That((object)paths).IsAssignableTo<IEnumerable>();
+        await Assert.That((object)paths).IsAssignableTo<IEnumerable<string>>();
+        await Assert.That((object)paths).IsAssignableTo<List<string>>();
         await Assert.That(paths).IsEquivalentTo([
             Path.Combine(TestContext.WorkingDirectory, "Folder1"),
             Path.Combine(TestContext.WorkingDirectory, "Folder2")
