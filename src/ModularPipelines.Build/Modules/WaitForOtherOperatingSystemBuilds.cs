@@ -22,11 +22,9 @@ public class WaitForOtherOperatingSystemBuilds : Module<List<WorkflowRun>>
     /// <inheritdoc/>
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return string.IsNullOrEmpty(context.GitHub().EnvironmentVariables.Sha)
-            ? SkipDecision.Skip("No github commit sha found").AsTask()
-            : SkipDecision.DoNotSkip.AsTask();
+        return Task.FromResult<SkipDecision>(true);
     }
-
+    
     /// <inheritdoc/>
     protected override async Task<List<WorkflowRun>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
