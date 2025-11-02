@@ -36,6 +36,7 @@ internal static class DependencyInjectionSetup
                 {
                     config.ConfigureProfile(LogLevel.Information, profile =>
                     {
+                        profile.PreserveMarkupInFormatStrings = true;
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
                         {
                             options.MaxStackFrames = int.MaxValue;
@@ -44,6 +45,7 @@ internal static class DependencyInjectionSetup
 
                     config.ConfigureProfile(LogLevel.Warning, profile =>
                     {
+                        profile.PreserveMarkupInFormatStrings = true;
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
                         {
                             options.MaxStackFrames = int.MaxValue;
@@ -52,6 +54,7 @@ internal static class DependencyInjectionSetup
 
                     config.ConfigureProfile(LogLevel.Error, profile =>
                     {
+                        profile.PreserveMarkupInFormatStrings = true;
                         profile.ConfigureOptions<Vertical.SpectreLogger.Rendering.ExceptionRenderer.Options>(options =>
                         {
                             options.MaxStackFrames = int.MaxValue;
