@@ -76,8 +76,18 @@ internal class ModuleExecutor : IModuleExecutor
 
             await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
 
-            var parallelModuleTasks = modules.Except(nonParallelModules)
-                .Select(x => Task.Factory.StartNew(() => StartModule(x, false), TaskCreationOptions.LongRunning))
+            var parallelModules = modules.Except(nonParallelModules).ToList();
+
+            _logger.LogDebug("Queueing {Count} modules for parallel execution", parallelModules.Count);
+
+            var parallelModuleTasks = parallelModules
+                .Select(x =>
+                {
+                    _logger.LogDebug("Queueing module {ModuleName} for execution at {QueueTime}",
+                        x.GetType().Name,
+                        DateTimeOffset.UtcNow);
+                    return Task.Factory.StartNew(() => StartModule(x, false), TaskCreationOptions.LongRunning);
+                })
                 .Select(x => x.Unwrap())
                 .ToArray();
 

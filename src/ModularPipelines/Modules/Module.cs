@@ -124,6 +124,10 @@ public abstract partial class Module<T> : ModuleBase<T>
             Status = Status.Processing;
             StartTime = DateTimeOffset.UtcNow;
 
+            Context.Logger.LogDebug("Module {ModuleName} execution started at {StartTime}",
+                GetType().Name,
+                StartTime);
+
             Stopwatch.Start();
 
             var executeResult = await ExecuteInternal();
