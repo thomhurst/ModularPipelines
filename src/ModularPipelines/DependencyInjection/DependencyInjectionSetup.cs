@@ -121,11 +121,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<ProgressPrinter>()
             .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
-            .AddSingleton<INotificationHandler<ModuleStartedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
-            .AddSingleton<INotificationHandler<ModuleCompletedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
-            .AddSingleton<INotificationHandler<ModuleSkippedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
-            .AddSingleton<INotificationHandler<SubModuleCreatedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
-            .AddSingleton<INotificationHandler<SubModuleCompletedNotification>>(sp => sp.GetRequiredService<ProgressPrinter>())
+
+            // INotificationHandler registrations removed - Mediator auto-discovers them via source generators
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
             .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
             .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
