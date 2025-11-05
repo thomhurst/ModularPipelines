@@ -1,0 +1,336 @@
+using System.Collections.Concurrent;
+using System.Threading.Channels;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
+using ModularPipelines.Modules;
+
+namespace ModularPipelines.Engine;
+
+/// <summary>
+/// Manages eager parallel scheduling of modules using channels
+/// </summary>
+internal class ModuleScheduler : IDisposable
+{
+    private readonly ILogger _logger;
+    private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
+    private readonly Channel<ModuleState> _readyChannel;
+    private readonly SemaphoreSlim _schedulerNotification;
+    private readonly CancellationTokenSource _disposalCancellationTokenSource;
+
+    private bool _schedulerCompleted;
+    private bool _isDisposed;
+
+    public ModuleScheduler(ILogger logger)
+    {
+        _logger = logger;
+        _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
+        {
+            SingleWriter = true,  // Only scheduler writes
+            SingleReader = false  // Multiple workers read
+        });
+        _schedulerNotification = new SemaphoreSlim(0);
+        _disposalCancellationTokenSource = new CancellationTokenSource();
+    }
+
+    /// <summary>
+    /// Gets the channel reader for consuming ready modules
+    /// </summary>
+    public ChannelReader<ModuleState> ReadyModules => _readyChannel.Reader;
+
+    /// <summary>
+    /// Initializes module states for a collection of modules
+    /// </summary>
+    public void InitializeModules(IEnumerable<ModuleBase> modules)
+    {
+        var moduleList = modules.ToList();
+
+        // Create state for each module
+        foreach (var module in moduleList)
+        {
+            var state = new ModuleState(module);
+            _moduleStates.TryAdd(module.GetType(), state);
+        }
+
+        // Build dependency graph and populate unresolved dependencies
+        foreach (var state in _moduleStates.Values)
+        {
+            var dependencies = state.Module.GetModuleDependencies();
+
+            foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+            {
+                if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
+                {
+                    // Add to unresolved dependencies
+                    state.UnresolvedDependencies.Add(dependencyType);
+
+                    // Add reverse dependency link
+                    dependencyState.DependentModules.Add(state);
+                }
+                else if (!ignoreIfNotRegistered)
+                {
+                    _logger.LogWarning(
+                        "Module {ModuleName} depends on {DependencyName} which is not registered",
+                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(dependencyType.Name));
+                }
+            }
+        }
+
+        _logger.LogDebug(
+            "Initialized {Count} modules for scheduling with total of {DependencyCount} dependencies",
+            _moduleStates.Count,
+            _moduleStates.Values.Sum(x => x.UnresolvedDependencies.Count));
+    }
+
+    /// <summary>
+    /// Adds a new module dynamically (e.g., SubModule discovered during execution)
+    /// </summary>
+    public void AddModule(ModuleBase module)
+    {
+        var state = new ModuleState(module);
+
+        if (!_moduleStates.TryAdd(module.GetType(), state))
+        {
+            // Module already exists
+            return;
+        }
+
+        // Build dependencies for the new module
+        var dependencies = module.GetModuleDependencies();
+        foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+        {
+            if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
+            {
+                state.UnresolvedDependencies.Add(dependencyType);
+                dependencyState.DependentModules.Add(state);
+            }
+            else if (!ignoreIfNotRegistered)
+            {
+                _logger.LogWarning(
+                    "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
+                    MarkupFormatter.FormatModuleName(module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(dependencyType.Name));
+            }
+        }
+
+        _logger.LogDebug(
+            "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
+            MarkupFormatter.FormatModuleName(module.GetType().Name),
+            state.UnresolvedDependencies.Count);
+
+        // Notify scheduler to check if this module is ready
+        _schedulerNotification.Release();
+    }
+
+    /// <summary>
+    /// Starts the scheduler loop that continuously queues ready modules
+    /// </summary>
+    public Task RunSchedulerAsync(CancellationToken cancellationToken)
+    {
+        return Task.Run(async () =>
+        {
+            try
+            {
+                _logger.LogDebug("Module scheduler started");
+
+                while (!cancellationToken.IsCancellationRequested && !_isDisposed)
+                {
+                    // Find all modules that are ready to execute
+                    var readyModules = _moduleStates.Values
+                        .Where(m => m.IsReadyToExecute)
+                        .ToList();
+
+                    if (readyModules.Any())
+                    {
+                        _logger.LogDebug(
+                            "Scheduler found {Count} ready modules: {Modules}",
+                            readyModules.Count,
+                            string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+
+                        // Queue all ready modules
+                        foreach (var moduleState in readyModules)
+                        {
+                            moduleState.IsQueued = true;
+                            moduleState.QueuedTime = DateTimeOffset.UtcNow;
+
+                            await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
+
+                            _logger.LogDebug(
+                                "Queued module {ModuleName} for execution",
+                                MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+                        }
+                    }
+
+                    // Check if we're done (all modules completed or no pending work)
+                    var allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
+                    var noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
+
+                    if (allCompleted || (noPendingWork && !readyModules.Any()))
+                    {
+                        _logger.LogDebug("All modules scheduled, completing scheduler");
+                        break;
+                    }
+
+                    // Wait for notification of module completion or new module addition
+                    // Use a timeout to periodically re-check in case we miss a signal
+                    try
+                    {
+                        await _schedulerNotification.WaitAsync(TimeSpan.FromMilliseconds(100), cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                }
+
+                // Mark channel as complete
+                _readyChannel.Writer.Complete();
+                _schedulerCompleted = true;
+                _logger.LogDebug("Module scheduler completed");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Module scheduler encountered an error");
+                _readyChannel.Writer.Complete(ex);
+                throw;
+            }
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Marks a module as started execution
+    /// </summary>
+    public void MarkModuleStarted(Type moduleType)
+    {
+        if (_moduleStates.TryGetValue(moduleType, out var state))
+        {
+            state.IsExecuting = true;
+            state.ExecutionStartTime = DateTimeOffset.UtcNow;
+
+            if (state.QueuedTime.HasValue)
+            {
+                var queueTime = state.ExecutionStartTime.Value - state.QueuedTime.Value;
+                _logger.LogDebug(
+                    "Module {ModuleName} waited {QueueTime}ms in queue before execution",
+                    MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                    queueTime.TotalMilliseconds);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Marks a module as completed and notifies dependents
+    /// </summary>
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null)
+    {
+        if (!_moduleStates.TryGetValue(moduleType, out var state))
+        {
+            return;
+        }
+
+        state.IsExecuting = false;
+        state.IsCompleted = true;
+        state.CompletionTime = DateTimeOffset.UtcNow;
+
+        // Set completion result
+        if (success)
+        {
+            state.CompletionSource.TrySetResult(state.Module);
+        }
+        else if (exception != null)
+        {
+            state.CompletionSource.TrySetException(exception);
+        }
+        else
+        {
+            state.CompletionSource.TrySetCanceled();
+        }
+
+        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+
+        if (state.ExecutionStartTime.HasValue)
+        {
+            var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
+            _logger.LogDebug(
+                "Module {ModuleName} completed after {ExecutionTime}ms",
+                moduleName,
+                executionTime.TotalMilliseconds);
+        }
+
+        // Notify all dependent modules
+        if (state.DependentModules.Any())
+        {
+            _logger.LogDebug(
+                "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
+                moduleName,
+                state.DependentModules.Count,
+                string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
+
+            foreach (var dependent in state.DependentModules)
+            {
+                dependent.UnresolvedDependencies.Remove(moduleType);
+
+                if (dependent.IsReadyToExecute)
+                {
+                    _logger.LogDebug(
+                        "Dependent module {DependentName} now ready to execute (all dependencies met)",
+                        MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
+                }
+            }
+        }
+
+        // Notify scheduler to re-check for ready modules
+        if (!_schedulerCompleted)
+        {
+            _schedulerNotification.Release();
+        }
+    }
+
+    /// <summary>
+    /// Gets the completion task for a specific module
+    /// </summary>
+    public Task<ModuleBase>? GetModuleCompletionTask(Type moduleType)
+    {
+        return _moduleStates.TryGetValue(moduleType, out var state)
+            ? state.CompletionSource.Task
+            : null;
+    }
+
+    /// <summary>
+    /// Gets the state for a specific module
+    /// </summary>
+    public ModuleState? GetModuleState(Type moduleType)
+    {
+        return _moduleStates.TryGetValue(moduleType, out var state) ? state : null;
+    }
+
+    /// <summary>
+    /// Gets statistics about the current scheduler state
+    /// </summary>
+    public (int Total, int Queued, int Executing, int Completed, int Pending) GetStatistics()
+    {
+        var states = _moduleStates.Values;
+        return (
+            Total: states.Count,
+            Queued: states.Count(m => m.IsQueued && !m.IsExecuting),
+            Executing: states.Count(m => m.IsExecuting),
+            Completed: states.Count(m => m.IsCompleted),
+            Pending: states.Count(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted)
+        );
+    }
+
+    public void Dispose()
+    {
+        if (_isDisposed)
+        {
+            return;
+        }
+
+        _isDisposed = true;
+        _disposalCancellationTokenSource.Cancel();
+        _schedulerNotification.Dispose();
+        _disposalCancellationTokenSource.Dispose();
+    }
+}
