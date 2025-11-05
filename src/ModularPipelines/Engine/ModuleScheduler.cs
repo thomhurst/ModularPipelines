@@ -19,6 +19,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly CancellationTokenSource _disposalCancellationTokenSource;
+    private readonly object _stateLock = new object();
 
     private bool _schedulerCompleted;
     private bool _isDisposed;
@@ -127,30 +128,33 @@ internal class ModuleScheduler : IModuleScheduler
             return;
         }
 
-        // Build dependencies for the new module
-        var dependencies = module.GetModuleDependencies();
-        foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+        lock (_stateLock)
         {
-            if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
+            // Build dependencies for the new module
+            var dependencies = module.GetModuleDependencies();
+            foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
-                state.UnresolvedDependencies.Add(dependencyType);
-                dependencyState.DependentModules.Add(state);
+                if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
+                {
+                    state.UnresolvedDependencies.Add(dependencyType);
+                    dependencyState.DependentModules.Add(state);
+                }
+                else if (!ignoreIfNotRegistered)
+                {
+                    _logger.LogWarning(
+                        "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
+                        MarkupFormatter.FormatModuleName(module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(dependencyType.Name));
+                }
             }
-            else if (!ignoreIfNotRegistered)
-            {
-                _logger.LogWarning(
-                    "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
-                    MarkupFormatter.FormatModuleName(module.GetType().Name),
-                    MarkupFormatter.FormatModuleName(dependencyType.Name));
-            }
+
+            _logger.LogDebug(
+                "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
+                MarkupFormatter.FormatModuleName(module.GetType().Name),
+                state.UnresolvedDependencies.Count);
         }
 
-        _logger.LogDebug(
-            "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
-            MarkupFormatter.FormatModuleName(module.GetType().Name),
-            state.UnresolvedDependencies.Count);
-
-        // Notify scheduler to check if this module is ready
+        // Notify scheduler to check if this module is ready (outside lock)
         _schedulerNotification.Release();
     }
 
@@ -170,8 +174,14 @@ internal class ModuleScheduler : IModuleScheduler
                     var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
 
                     // Check if we're done (all modules completed or no pending work)
-                    var allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
-                    var noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
+                    bool allCompleted;
+                    bool noPendingWork;
+
+                    lock (_stateLock)
+                    {
+                        allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
+                        noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
+                    }
 
                     if (allCompleted || (noPendingWork && queuedCount == 0))
                     {
@@ -210,18 +220,21 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void MarkModuleStarted(Type moduleType)
     {
-        if (_moduleStates.TryGetValue(moduleType, out var state))
+        lock (_stateLock)
         {
-            state.IsExecuting = true;
-            state.ExecutionStartTime = DateTimeOffset.UtcNow;
-
-            if (state.QueuedTime.HasValue)
+            if (_moduleStates.TryGetValue(moduleType, out var state))
             {
-                var queueTime = state.ExecutionStartTime.Value - state.QueuedTime.Value;
-                _logger.LogDebug(
-                    "Module {ModuleName} waited {QueueTime}ms in queue before execution",
-                    MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
-                    queueTime.TotalMilliseconds);
+                state.IsExecuting = true;
+                state.ExecutionStartTime = DateTimeOffset.UtcNow;
+
+                if (state.QueuedTime.HasValue)
+                {
+                    var queueTime = state.ExecutionStartTime.Value - state.QueuedTime.Value;
+                    _logger.LogDebug(
+                        "Module {ModuleName} waited {QueueTime}ms in queue before execution",
+                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                        queueTime.TotalMilliseconds);
+                }
             }
         }
     }
@@ -236,38 +249,41 @@ internal class ModuleScheduler : IModuleScheduler
             return;
         }
 
-        state.IsExecuting = false;
-        state.IsCompleted = true;
-        state.CompletionTime = DateTimeOffset.UtcNow;
-
-        // Set completion result
-        if (success)
+        lock (_stateLock)
         {
-            state.CompletionSource.TrySetResult(state.Module);
-        }
-        else if (exception != null)
-        {
-            state.CompletionSource.TrySetException(exception);
-        }
-        else
-        {
-            state.CompletionSource.TrySetCanceled();
+            state.IsExecuting = false;
+            state.IsCompleted = true;
+            state.CompletionTime = DateTimeOffset.UtcNow;
+
+            // Set completion result
+            if (success)
+            {
+                state.CompletionSource.TrySetResult(state.Module);
+            }
+            else if (exception != null)
+            {
+                state.CompletionSource.TrySetException(exception);
+            }
+            else
+            {
+                state.CompletionSource.TrySetCanceled();
+            }
+
+            var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+
+            if (state.ExecutionStartTime.HasValue)
+            {
+                var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
+                _logger.LogDebug(
+                    "Module {ModuleName} completed after {ExecutionTime}ms",
+                    moduleName,
+                    executionTime.TotalMilliseconds);
+            }
+
+            NotifyDependentModules(state, moduleType);
         }
 
-        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
-
-        if (state.ExecutionStartTime.HasValue)
-        {
-            var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
-            _logger.LogDebug(
-                "Module {ModuleName} completed after {ExecutionTime}ms",
-                moduleName,
-                executionTime.TotalMilliseconds);
-        }
-
-        NotifyDependentModules(state, moduleType);
-
-        // Notify scheduler to re-check for ready modules
+        // Notify scheduler to re-check for ready modules (outside lock)
         if (!_schedulerCompleted)
         {
             _schedulerNotification.Release();
@@ -326,47 +342,57 @@ internal class ModuleScheduler : IModuleScheduler
     /// <returns>The number of modules queued</returns>
     private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
     {
-        var potentiallyReadyModules = _moduleStates.Values
-            .Where(m => m.IsReadyToExecute)
-            .ToList();
+        List<ModuleState> modulesToQueue;
 
-        var queuedCount = 0;
-        var queuedModuleNames = new List<string>();
-
-        foreach (var moduleState in potentiallyReadyModules)
+        // Critical section: find ready modules and mark as queued atomically
+        lock (_stateLock)
         {
-            // Check constraints right before queuing to ensure we see updated state
-            if (!CanExecuteRespectingConstraints(moduleState))
+            var potentiallyReadyModules = _moduleStates.Values
+                .Where(m => m.IsReadyToExecute)
+                .ToList();
+
+            modulesToQueue = new List<ModuleState>();
+
+            foreach (var moduleState in potentiallyReadyModules)
             {
-                continue;
+                // Check constraints right before queuing to ensure we see updated state
+                if (!CanExecuteRespectingConstraints(moduleState))
+                {
+                    continue;
+                }
+
+                // Mark as queued inside lock to prevent race conditions
+                moduleState.IsQueued = true;
+                moduleState.QueuedTime = DateTimeOffset.UtcNow;
+
+                modulesToQueue.Add(moduleState);
             }
+        }
 
-            moduleState.IsQueued = true;
-            moduleState.QueuedTime = DateTimeOffset.UtcNow;
-
+        // Queue to channel outside lock (async operation)
+        foreach (var moduleState in modulesToQueue)
+        {
             await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
-
-            queuedCount++;
-            queuedModuleNames.Add(MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
 
             _logger.LogDebug(
                 "Queued module {ModuleName} for execution",
                 MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
         }
 
-        if (queuedCount > 0)
+        if (modulesToQueue.Count > 0)
         {
             _logger.LogDebug(
                 "Scheduler found {Count} ready modules: {Modules}",
-                queuedCount,
-                string.Join(", ", queuedModuleNames));
+                modulesToQueue.Count,
+                string.Join(", ", modulesToQueue.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
         }
 
-        return queuedCount;
+        return modulesToQueue.Count;
     }
 
     /// <summary>
     /// Checks if a module can execute respecting its constraints
+    /// MUST be called while holding _stateLock
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
@@ -428,6 +454,7 @@ internal class ModuleScheduler : IModuleScheduler
 
     /// <summary>
     /// Notifies dependent modules that a dependency has completed
+    /// MUST be called while holding _stateLock
     /// </summary>
     private void NotifyDependentModules(ModuleState state, Type moduleType)
     {
