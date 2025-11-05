@@ -326,31 +326,43 @@ internal class ModuleScheduler : IModuleScheduler
     /// <returns>The number of modules queued</returns>
     private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
     {
-        var readyModules = _moduleStates.Values
-            .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
+        var potentiallyReadyModules = _moduleStates.Values
+            .Where(m => m.IsReadyToExecute)
             .ToList();
 
-        if (readyModules.Any())
+        var queuedCount = 0;
+        var queuedModuleNames = new List<string>();
+
+        foreach (var moduleState in potentiallyReadyModules)
+        {
+            // Check constraints right before queuing to ensure we see updated state
+            if (!CanExecuteRespectingConstraints(moduleState))
+            {
+                continue;
+            }
+
+            moduleState.IsQueued = true;
+            moduleState.QueuedTime = DateTimeOffset.UtcNow;
+
+            await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
+
+            queuedCount++;
+            queuedModuleNames.Add(MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+
+            _logger.LogDebug(
+                "Queued module {ModuleName} for execution",
+                MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+        }
+
+        if (queuedCount > 0)
         {
             _logger.LogDebug(
                 "Scheduler found {Count} ready modules: {Modules}",
-                readyModules.Count,
-                string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
-
-            foreach (var moduleState in readyModules)
-            {
-                moduleState.IsQueued = true;
-                moduleState.QueuedTime = DateTimeOffset.UtcNow;
-
-                await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
-
-                _logger.LogDebug(
-                    "Queued module {ModuleName} for execution",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
-            }
+                queuedCount,
+                string.Join(", ", queuedModuleNames));
         }
 
-        return readyModules.Count;
+        return queuedCount;
     }
 
     /// <summary>
