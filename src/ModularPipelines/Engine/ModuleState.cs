@@ -13,6 +13,7 @@ internal class ModuleState
         CompletionSource = new TaskCompletionSource<ModuleBase>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
+        RequiredLockKeys = Array.Empty<string>();
     }
 
     /// <summary>
@@ -66,7 +67,18 @@ internal class ModuleState
     public DateTimeOffset? CompletionTime { get; set; }
 
     /// <summary>
-    /// Checks if this module is ready to execute (all dependencies resolved)
+    /// Whether this module must run sequentially (no other modules executing)
+    /// </summary>
+    public bool RequiresSequentialExecution { get; set; }
+
+    /// <summary>
+    /// Lock keys that this module requires (for keyed NotInParallel constraints)
+    /// </summary>
+    public string[] RequiredLockKeys { get; set; }
+
+    /// <summary>
+    /// Checks if this module is ready to execute (all dependencies resolved and constraints satisfied)
+    /// Note: Constraint checking is performed by the scheduler, this only checks basic readiness
     /// </summary>
     public bool IsReadyToExecute => UnresolvedDependencies.Count == 0 && !IsQueued && !IsExecuting && !IsCompleted;
 }

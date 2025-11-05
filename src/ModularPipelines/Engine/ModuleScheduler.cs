@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
+using System.Reflection;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -10,7 +12,7 @@ namespace ModularPipelines.Engine;
 /// <summary>
 /// Manages eager parallel scheduling of modules using channels
 /// </summary>
-internal class ModuleScheduler : IDisposable
+internal class ModuleScheduler : IModuleScheduler
 {
     private readonly ILogger _logger;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
@@ -56,6 +58,32 @@ internal class ModuleScheduler : IDisposable
         // Build dependency graph and populate unresolved dependencies
         foreach (var state in _moduleStates.Values)
         {
+            var moduleType = state.Module.GetType();
+
+            // Check for NotInParallel constraints
+            var notInParallelAttr = moduleType.GetCustomAttribute<NotInParallelAttribute>();
+            if (notInParallelAttr != null)
+            {
+                if (notInParallelAttr.ConstraintKeys.Length == 0)
+                {
+                    // Unkeyed: must run completely sequentially
+                    state.RequiresSequentialExecution = true;
+                    _logger.LogDebug(
+                        "Module {ModuleName} requires sequential execution (NotInParallel)",
+                        MarkupFormatter.FormatModuleName(moduleType.Name));
+                }
+                else
+                {
+                    // Keyed: cannot run with modules that share lock keys
+                    state.RequiredLockKeys = notInParallelAttr.ConstraintKeys;
+                    _logger.LogDebug(
+                        "Module {ModuleName} requires locks: {Keys}",
+                        MarkupFormatter.FormatModuleName(moduleType.Name),
+                        string.Join(", ", state.RequiredLockKeys));
+                }
+            }
+
+            // Build dependency relationships
             var dependencies = state.Module.GetModuleDependencies();
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
@@ -125,6 +153,51 @@ internal class ModuleScheduler : IDisposable
     }
 
     /// <summary>
+    /// Checks if a module can execute respecting its constraints
+    /// </summary>
+    private bool CanExecuteRespectingConstraints(ModuleState moduleState)
+    {
+        // Check sequential execution constraint
+        if (moduleState.RequiresSequentialExecution)
+        {
+            // Must wait for ALL other modules to complete
+            var anyOtherExecuting = _moduleStates.Values
+                .Any(m => m != moduleState && (m.IsExecuting || m.IsQueued));
+
+            if (anyOtherExecuting)
+            {
+                _logger.LogTrace(
+                    "Module {ModuleName} cannot execute yet (sequential constraint - other modules still running)",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+                return false;
+            }
+        }
+
+        // Check keyed lock constraints
+        if (moduleState.RequiredLockKeys.Length > 0)
+        {
+            // Cannot run if any executing module shares a lock key
+            var conflictingModule = _moduleStates.Values
+                .FirstOrDefault(m =>
+                    m != moduleState &&
+                    (m.IsExecuting || m.IsQueued) &&
+                    m.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any());
+
+            if (conflictingModule != null)
+            {
+                _logger.LogTrace(
+                    "Module {ModuleName} cannot execute yet (lock conflict with {ConflictingModule} on keys: {Keys})",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(conflictingModule.Module.GetType().Name),
+                    string.Join(", ", moduleState.RequiredLockKeys.Intersect(conflictingModule.RequiredLockKeys)));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// Starts the scheduler loop that continuously queues ready modules
     /// </summary>
     public Task RunSchedulerAsync(CancellationToken cancellationToken)
@@ -137,9 +210,9 @@ internal class ModuleScheduler : IDisposable
 
                 while (!cancellationToken.IsCancellationRequested && !_isDisposed)
                 {
-                    // Find all modules that are ready to execute
+                    // Find all modules that are ready to execute (dependencies met AND constraints satisfied)
                     var readyModules = _moduleStates.Values
-                        .Where(m => m.IsReadyToExecute)
+                        .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
                         .ToList();
 
                     if (readyModules.Any())
