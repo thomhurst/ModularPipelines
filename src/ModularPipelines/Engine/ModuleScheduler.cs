@@ -370,7 +370,23 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        // Check sequential execution constraint
+        // Check if ANY sequential module is queued or executing
+        var sequentialModuleRunning = _moduleStates.Values
+            .FirstOrDefault(m =>
+                m != moduleState &&
+                m.RequiresSequentialExecution &&
+                (m.IsExecuting || m.IsQueued));
+
+        if (sequentialModuleRunning != null)
+        {
+            _logger.LogTrace(
+                "Module {ModuleName} cannot execute yet (sequential module {SequentialModule} is running)",
+                MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                MarkupFormatter.FormatModuleName(sequentialModuleRunning.Module.GetType().Name));
+            return false;
+        }
+
+        // Check if THIS module requires sequential execution
         if (moduleState.RequiresSequentialExecution)
         {
             // Must wait for ALL other modules to complete
