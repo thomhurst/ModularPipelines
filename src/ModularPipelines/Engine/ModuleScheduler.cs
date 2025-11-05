@@ -46,6 +46,8 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void InitializeModules(IEnumerable<ModuleBase> modules)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+
         var moduleList = modules.ToList();
 
         // Create state for each module
@@ -153,84 +155,6 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
-    /// Finds modules ready to execute and queues them to the channel
-    /// </summary>
-    /// <returns>The number of modules queued</returns>
-    private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
-    {
-        var readyModules = _moduleStates.Values
-            .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
-            .ToList();
-
-        if (readyModules.Any())
-        {
-            _logger.LogDebug(
-                "Scheduler found {Count} ready modules: {Modules}",
-                readyModules.Count,
-                string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
-
-            foreach (var moduleState in readyModules)
-            {
-                moduleState.IsQueued = true;
-                moduleState.QueuedTime = DateTimeOffset.UtcNow;
-
-                await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
-
-                _logger.LogDebug(
-                    "Queued module {ModuleName} for execution",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
-            }
-        }
-
-        return readyModules.Count;
-    }
-
-    /// <summary>
-    /// Checks if a module can execute respecting its constraints
-    /// </summary>
-    private bool CanExecuteRespectingConstraints(ModuleState moduleState)
-    {
-        // Check sequential execution constraint
-        if (moduleState.RequiresSequentialExecution)
-        {
-            // Must wait for ALL other modules to complete
-            var anyOtherExecuting = _moduleStates.Values
-                .Any(m => m != moduleState && (m.IsExecuting || m.IsQueued));
-
-            if (anyOtherExecuting)
-            {
-                _logger.LogTrace(
-                    "Module {ModuleName} cannot execute yet (sequential constraint - other modules still running)",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
-                return false;
-            }
-        }
-
-        // Check keyed lock constraints
-        if (moduleState.RequiredLockKeys.Length > 0)
-        {
-            // Cannot run if any executing module shares a lock key
-            var conflictingModule = _moduleStates.Values
-                .FirstOrDefault(m =>
-                    m != moduleState &&
-                    (m.IsExecuting || m.IsQueued) &&
-                    m.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any());
-
-            if (conflictingModule != null)
-            {
-                _logger.LogTrace(
-                    "Module {ModuleName} cannot execute yet (lock conflict with {ConflictingModule} on keys: {Keys})",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                    MarkupFormatter.FormatModuleName(conflictingModule.Module.GetType().Name),
-                    string.Join(", ", moduleState.RequiredLockKeys.Intersect(conflictingModule.RequiredLockKeys)));
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /// <summary>
     /// Starts the scheduler loop that continuously queues ready modules
     /// </summary>
     public Task RunSchedulerAsync(CancellationToken cancellationToken)
@@ -279,37 +203,6 @@ internal class ModuleScheduler : IModuleScheduler
                 throw;
             }
         }, cancellationToken);
-    }
-
-    /// <summary>
-    /// Notifies dependent modules that a dependency has completed
-    /// </summary>
-    private void NotifyDependentModules(ModuleState state, Type moduleType)
-    {
-        if (!state.DependentModules.Any())
-        {
-            return;
-        }
-
-        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
-
-        _logger.LogDebug(
-            "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
-            moduleName,
-            state.DependentModules.Count,
-            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
-
-        foreach (var dependent in state.DependentModules)
-        {
-            dependent.UnresolvedDependencies.Remove(moduleType);
-
-            if (dependent.IsReadyToExecute)
-            {
-                _logger.LogDebug(
-                    "Dependent module {DependentName} now ready to execute (all dependencies met)",
-                    MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
-            }
-        }
     }
 
     /// <summary>
@@ -425,5 +318,114 @@ internal class ModuleScheduler : IModuleScheduler
         _disposalCancellationTokenSource.Cancel();
         _schedulerNotification.Dispose();
         _disposalCancellationTokenSource.Dispose();
+    }
+
+    /// <summary>
+    /// Finds modules ready to execute and queues them to the channel
+    /// </summary>
+    /// <returns>The number of modules queued</returns>
+    private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
+    {
+        var readyModules = _moduleStates.Values
+            .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
+            .ToList();
+
+        if (readyModules.Any())
+        {
+            _logger.LogDebug(
+                "Scheduler found {Count} ready modules: {Modules}",
+                readyModules.Count,
+                string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+
+            foreach (var moduleState in readyModules)
+            {
+                moduleState.IsQueued = true;
+                moduleState.QueuedTime = DateTimeOffset.UtcNow;
+
+                await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
+
+                _logger.LogDebug(
+                    "Queued module {ModuleName} for execution",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+            }
+        }
+
+        return readyModules.Count;
+    }
+
+    /// <summary>
+    /// Checks if a module can execute respecting its constraints
+    /// </summary>
+    private bool CanExecuteRespectingConstraints(ModuleState moduleState)
+    {
+        // Check sequential execution constraint
+        if (moduleState.RequiresSequentialExecution)
+        {
+            // Must wait for ALL other modules to complete
+            var anyOtherExecuting = _moduleStates.Values
+                .Any(m => m != moduleState && (m.IsExecuting || m.IsQueued));
+
+            if (anyOtherExecuting)
+            {
+                _logger.LogTrace(
+                    "Module {ModuleName} cannot execute yet (sequential constraint - other modules still running)",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+                return false;
+            }
+        }
+
+        // Check keyed lock constraints
+        if (moduleState.RequiredLockKeys.Length > 0)
+        {
+            // Cannot run if any executing module shares a lock key
+            var conflictingModule = _moduleStates.Values
+                .FirstOrDefault(m =>
+                    m != moduleState &&
+                    (m.IsExecuting || m.IsQueued) &&
+                    m.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any());
+
+            if (conflictingModule != null)
+            {
+                _logger.LogTrace(
+                    "Module {ModuleName} cannot execute yet (lock conflict with {ConflictingModule} on keys: {Keys})",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(conflictingModule.Module.GetType().Name),
+                    string.Join(", ", moduleState.RequiredLockKeys.Intersect(conflictingModule.RequiredLockKeys)));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Notifies dependent modules that a dependency has completed
+    /// </summary>
+    private void NotifyDependentModules(ModuleState state, Type moduleType)
+    {
+        if (!state.DependentModules.Any())
+        {
+            return;
+        }
+
+        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+
+        _logger.LogDebug(
+            "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
+            moduleName,
+            state.DependentModules.Count,
+            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
+
+        foreach (var dependent in state.DependentModules)
+        {
+            dependent.UnresolvedDependencies.Remove(moduleType);
+
+            if (dependent.IsReadyToExecute)
+            {
+                _logger.LogDebug(
+                    "Dependent module {DependentName} now ready to execute (all dependencies met)",
+                    MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
+            }
+        }
     }
 }

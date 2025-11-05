@@ -50,12 +50,15 @@ internal class ModuleExecutor : IModuleExecutor
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+
         IModuleScheduler? scheduler = null;
 
         try
         {
-            if (!modules.Any())
+            if (modules.Count == 0)
             {
+                _logger.LogDebug("No modules to execute");
                 return modules;
             }
 
@@ -101,7 +104,11 @@ internal class ModuleExecutor : IModuleExecutor
                 var failedModule = modules.FirstOrDefault(m => m.Status == Enums.Status.Failed);
                 if (failedModule != null)
                 {
-                    throw new AggregateException($"Module {failedModule.GetType().Name} failed in StopOnFirstException mode");
+                    var moduleName = MarkupFormatter.FormatModuleName(failedModule.GetType().Name);
+                    var message = $"Pipeline execution stopped due to module failure: {moduleName}. " +
+                                  $"ExecutionMode is set to StopOnFirstException. " +
+                                  $"Duration: {failedModule.Duration.TotalSeconds:F2}s";
+                    throw new AggregateException(message);
                 }
             }
 
@@ -149,22 +156,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             await WaitForDependenciesAsync(module, scheduler);
 
-            await module.GetOrStartExecutionTask(async () =>
-            {
-                using var semaphoreHandle = await WaitForParallelLimiter(module, false);
-
-                try
-                {
-                    await ExecuteModuleCore(module);
-                }
-                finally
-                {
-                    if (!_pipelineOptions.Value.ShowProgressInConsole)
-                    {
-                        await _moduleDisposer.DisposeAsync(module);
-                    }
-                }
-            });
+            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module));
 
             scheduler.MarkModuleCompleted(module.GetType(), true);
         }
@@ -206,7 +198,24 @@ internal class ModuleExecutor : IModuleExecutor
         await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
     }
 
-    private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module, bool isStartedAsDependencyForOtherModule)
+    private async Task ExecuteModuleTaskAsync(ModuleBase module)
+    {
+        using var semaphoreHandle = await WaitForParallelLimiter(module);
+
+        try
+        {
+            await ExecuteModuleCore(module);
+        }
+        finally
+        {
+            if (!_pipelineOptions.Value.ShowProgressInConsole)
+            {
+                await _moduleDisposer.DisposeAsync(module);
+            }
+        }
+    }
+
+    private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module)
     {
         var parallelLimitAttributeType =
             module.GetType().GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault()?.Type;
@@ -243,7 +252,10 @@ internal class ModuleExecutor : IModuleExecutor
             }
             else if (!ignoreIfNotRegistered)
             {
-                throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
+                var message = $"Module '{module.GetType().Name}' depends on '{dependencyType.Name}', " +
+                              $"but '{dependencyType.Name}' has not been registered in the pipeline. " +
+                              $"Ensure all module dependencies are registered before executing the pipeline.";
+                throw new ModuleNotRegisteredException(message, null);
             }
         }
     }
