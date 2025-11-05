@@ -147,31 +147,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
 
-            var dependencies = module.GetModuleDependencies();
-
-            foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
-            {
-                var dependencyTask = scheduler.GetModuleCompletionTask(dependencyType);
-
-                if (dependencyTask != null)
-                {
-                    try
-                    {
-                        await dependencyTask;
-                    }
-                    catch (Exception e) when (module.ModuleRunType == ModuleRunType.AlwaysRun)
-                    {
-                        _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
-                            $"{dependencyType.Name} threw an exception when {module.GetType().Name} was waiting for it as a dependency",
-                            e));
-                        module.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
-                    }
-                }
-                else if (!ignoreIfNotRegistered)
-                {
-                    throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
-                }
-            }
+            await WaitForDependenciesAsync(module, scheduler);
 
             await module.GetOrStartExecutionTask(async () =>
             {
@@ -241,5 +217,34 @@ internal class ModuleExecutor : IModuleExecutor
         }
 
         return NoOpDisposable.Instance;
+    }
+
+    private async Task WaitForDependenciesAsync(ModuleBase module, IModuleScheduler scheduler)
+    {
+        var dependencies = module.GetModuleDependencies();
+
+        foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+        {
+            var dependencyTask = scheduler.GetModuleCompletionTask(dependencyType);
+
+            if (dependencyTask != null)
+            {
+                try
+                {
+                    await dependencyTask;
+                }
+                catch (Exception e) when (module.ModuleRunType == ModuleRunType.AlwaysRun)
+                {
+                    _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
+                        $"{dependencyType.Name} threw an exception when {module.GetType().Name} was waiting for it as a dependency",
+                        e));
+                    module.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                }
+            }
+            else if (!ignoreIfNotRegistered)
+            {
+                throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
+            }
+        }
     }
 }

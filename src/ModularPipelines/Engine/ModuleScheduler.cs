@@ -153,6 +153,39 @@ internal class ModuleScheduler : IModuleScheduler
     }
 
     /// <summary>
+    /// Finds modules ready to execute and queues them to the channel
+    /// </summary>
+    /// <returns>The number of modules queued</returns>
+    private async Task<int> FindAndQueueReadyModulesAsync(CancellationToken cancellationToken)
+    {
+        var readyModules = _moduleStates.Values
+            .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
+            .ToList();
+
+        if (readyModules.Any())
+        {
+            _logger.LogDebug(
+                "Scheduler found {Count} ready modules: {Modules}",
+                readyModules.Count,
+                string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+
+            foreach (var moduleState in readyModules)
+            {
+                moduleState.IsQueued = true;
+                moduleState.QueuedTime = DateTimeOffset.UtcNow;
+
+                await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
+
+                _logger.LogDebug(
+                    "Queued module {ModuleName} for execution",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+            }
+        }
+
+        return readyModules.Count;
+    }
+
+    /// <summary>
     /// Checks if a module can execute respecting its constraints
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
@@ -210,37 +243,13 @@ internal class ModuleScheduler : IModuleScheduler
 
                 while (!cancellationToken.IsCancellationRequested && !_isDisposed)
                 {
-                    // Find all modules that are ready to execute (dependencies met AND constraints satisfied)
-                    var readyModules = _moduleStates.Values
-                        .Where(m => m.IsReadyToExecute && CanExecuteRespectingConstraints(m))
-                        .ToList();
-
-                    if (readyModules.Any())
-                    {
-                        _logger.LogDebug(
-                            "Scheduler found {Count} ready modules: {Modules}",
-                            readyModules.Count,
-                            string.Join(", ", readyModules.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
-
-                        // Queue all ready modules
-                        foreach (var moduleState in readyModules)
-                        {
-                            moduleState.IsQueued = true;
-                            moduleState.QueuedTime = DateTimeOffset.UtcNow;
-
-                            await _readyChannel.Writer.WriteAsync(moduleState, cancellationToken);
-
-                            _logger.LogDebug(
-                                "Queued module {ModuleName} for execution",
-                                MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
-                        }
-                    }
+                    var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
 
                     // Check if we're done (all modules completed or no pending work)
                     var allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
                     var noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
 
-                    if (allCompleted || (noPendingWork && !readyModules.Any()))
+                    if (allCompleted || (noPendingWork && queuedCount == 0))
                     {
                         _logger.LogDebug("All modules scheduled, completing scheduler");
                         break;
@@ -270,6 +279,37 @@ internal class ModuleScheduler : IModuleScheduler
                 throw;
             }
         }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Notifies dependent modules that a dependency has completed
+    /// </summary>
+    private void NotifyDependentModules(ModuleState state, Type moduleType)
+    {
+        if (!state.DependentModules.Any())
+        {
+            return;
+        }
+
+        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+
+        _logger.LogDebug(
+            "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
+            moduleName,
+            state.DependentModules.Count,
+            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
+
+        foreach (var dependent in state.DependentModules)
+        {
+            dependent.UnresolvedDependencies.Remove(moduleType);
+
+            if (dependent.IsReadyToExecute)
+            {
+                _logger.LogDebug(
+                    "Dependent module {DependentName} now ready to execute (all dependencies met)",
+                    MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
+            }
+        }
     }
 
     /// <summary>
@@ -332,27 +372,7 @@ internal class ModuleScheduler : IModuleScheduler
                 executionTime.TotalMilliseconds);
         }
 
-        // Notify all dependent modules
-        if (state.DependentModules.Any())
-        {
-            _logger.LogDebug(
-                "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
-                moduleName,
-                state.DependentModules.Count,
-                string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
-
-            foreach (var dependent in state.DependentModules)
-            {
-                dependent.UnresolvedDependencies.Remove(moduleType);
-
-                if (dependent.IsReadyToExecute)
-                {
-                    _logger.LogDebug(
-                        "Dependent module {DependentName} now ready to execute (all dependencies met)",
-                        MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
-                }
-            }
-        }
+        NotifyDependentModules(state, moduleType);
 
         // Notify scheduler to re-check for ready modules
         if (!_schedulerCompleted)
