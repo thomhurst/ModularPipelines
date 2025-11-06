@@ -6,7 +6,7 @@ namespace ModularPipelines.TestHelpers;
 public record TestHostSettings
 {
     public CommandLogging CommandLogging { get; init; } = CommandLogging.Input | CommandLogging.Error;
-    public LogLevel LogLevel { get; init; } = LogLevel.Warning;
+    public LogLevel LogLevel { get; init; } = LogLevel.Debug;
     public bool ClearLogProviders { get; init; } = true;
     public bool ShowProgressInConsole { get; init; }
 }
