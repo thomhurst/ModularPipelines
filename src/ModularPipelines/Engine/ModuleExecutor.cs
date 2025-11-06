@@ -98,9 +98,13 @@ internal class ModuleExecutor : IModuleExecutor
                             // Store first exception and cancel immediately to stop scheduler and other workers
                             Interlocked.CompareExchange(ref firstException, ex, null);
                             cancellationTokenSource.Cancel();
-                            throw;
+                            // Don't rethrow here - let parallel loop complete and rethrow after cleanup
                         }
                     });
+            }
+            catch (OperationCanceledException) when (firstException != null)
+            {
+                // Expected when we cancelled due to StopOnFirstException - will rethrow firstException below
             }
             catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
             {
