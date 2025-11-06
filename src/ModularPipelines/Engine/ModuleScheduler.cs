@@ -162,15 +162,17 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
 
-                    bool allCompleted;
-                    bool noPendingWork;
-
                     bool shouldExit;
                     lock (_stateLock)
                     {
-                        allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
-                        noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
-                        shouldExit = allCompleted || (noPendingWork && queuedCount == 0);
+                        var allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
+                        var anyExecutingOrQueued = _moduleStates.Values.Any(m => m.IsExecuting || m.IsQueued);
+                        var anyPending = _moduleStates.Values.Any(m => !m.IsCompleted && !m.IsQueued && !m.IsExecuting);
+
+                        // Only exit if:
+                        // 1. All modules are completed, OR
+                        // 2. Nothing is executing/queued AND nothing can make progress (deadlock detection)
+                        shouldExit = allCompleted || (!anyExecutingOrQueued && anyPending && queuedCount == 0);
 
                         if (shouldExit)
                         {
