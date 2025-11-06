@@ -123,32 +123,53 @@ internal class ModuleExecutor : IModuleExecutor
             // If we stored an exception during StopOnFirstException, rethrow it to preserve the original exception type
             if (firstException != null)
             {
+                _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
                 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
             }
 
+            _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
             return modules;
         }
-        catch
+        catch (Exception outerEx)
         {
+            _logger.LogDebug("Outer catch block entered with exception: {ExceptionType}", outerEx.GetType().Name);
+
             if (scheduler != null)
             {
-                foreach (var moduleBase in modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun))
+                var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
+                _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
+
+                foreach (var moduleBase in alwaysRunModules)
                 {
+                    var moduleState = scheduler.GetModuleState(moduleBase.GetType());
                     var moduleTask = scheduler.GetModuleCompletionTask(moduleBase.GetType());
-                    if (moduleTask != null)
+
+                    // Only wait for modules that have actually started executing or already completed
+                    // Skip modules that are still pending/queued as they will never complete after cancellation
+                    if (moduleTask != null && moduleState != null && (moduleState.IsExecuting || moduleState.IsCompleted))
                     {
+                        _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
+                            moduleBase.GetType().Name, moduleState.IsExecuting, moduleState.IsCompleted);
                         try
                         {
                             await moduleTask;
+                            _logger.LogDebug("AlwaysRun module {ModuleName} completed", moduleBase.GetType().Name);
                         }
-                        catch
+                        catch (Exception alwaysRunEx)
                         {
+                            _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}", moduleBase.GetType().Name, alwaysRunEx.GetType().Name);
                             _ = moduleTask.Exception;
                         }
+                    }
+                    else if (moduleState != null)
+                    {
+                        _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (IsQueued={IsQueued}, IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
+                            moduleBase.GetType().Name, moduleState.IsQueued, moduleState.IsExecuting, moduleState.IsCompleted);
                     }
                 }
             }
 
+            _logger.LogDebug("Outer catch block rethrowing exception");
             throw;
         }
         finally

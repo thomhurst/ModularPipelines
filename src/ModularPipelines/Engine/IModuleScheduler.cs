@@ -37,4 +37,9 @@ internal interface IModuleScheduler : IDisposable
     /// Gets the completion task for a specific module
     /// </summary>
     Task<ModuleBase>? GetModuleCompletionTask(Type moduleType);
+
+    /// <summary>
+    /// Gets the state for a specific module
+    /// </summary>
+    ModuleState? GetModuleState(Type moduleType);
 }
