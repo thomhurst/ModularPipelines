@@ -158,23 +158,56 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _logger.LogDebug("Module scheduler started");
 
-                while (!cancellationToken.IsCancellationRequested && !_isDisposed)
+                while (!_isDisposed && !cancellationToken.IsCancellationRequested)
                 {
                     var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
 
                     bool allCompleted;
                     bool noPendingWork;
 
+                    bool shouldExit;
                     lock (_stateLock)
                     {
                         allCompleted = _moduleStates.Values.All(m => m.IsCompleted);
                         noPendingWork = _moduleStates.Values.All(m => m.IsCompleted || m.IsQueued || m.IsExecuting);
+                        shouldExit = allCompleted || (noPendingWork && queuedCount == 0);
+
+                        if (shouldExit)
+                        {
+                            _schedulerCompleted = true;
+                        }
                     }
 
-                    if (allCompleted || (noPendingWork && queuedCount == 0))
+                    if (shouldExit)
                     {
                         _logger.LogDebug("All modules scheduled, completing scheduler");
                         break;
+                    }
+
+                    if (queuedCount == 0)
+                    {
+                        var stats = GetStatistics();
+                        _logger.LogDebug(
+                            "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
+                            stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
+
+                        // Log which modules are in which state
+                        lock (_stateLock)
+                        {
+                            var pending = _moduleStates.Values.Where(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted).ToList();
+                            if (pending.Any())
+                            {
+                                _logger.LogDebug("Pending modules: {Modules}",
+                                    string.Join(", ", pending.Select(m => $"{MarkupFormatter.FormatModuleName(m.Module.GetType().Name)} (deps: {m.UnresolvedDependencies.Count})")));
+                            }
+
+                            var executing = _moduleStates.Values.Where(m => m.IsExecuting).ToList();
+                            if (executing.Any())
+                            {
+                                _logger.LogDebug("Executing modules: {Modules}",
+                                    string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+                            }
+                        }
                     }
 
                     // Wait for notification of module completion or new module addition
@@ -185,12 +218,23 @@ internal class ModuleScheduler : IModuleScheduler
                     }
                     catch (OperationCanceledException)
                     {
+                        lock (_stateLock)
+                        {
+                            _schedulerCompleted = true;
+                        }
                         break;
                     }
                 }
 
+                lock (_stateLock)
+                {
+                    if (!_schedulerCompleted)
+                    {
+                        _schedulerCompleted = true;
+                    }
+                }
+
                 _readyChannel.Writer.Complete();
-                _schedulerCompleted = true;
                 _logger.LogDebug("Module scheduler completed");
             }
             catch (Exception ex)
@@ -268,11 +312,11 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             NotifyDependentModules(state, moduleType);
-        }
 
-        if (!_schedulerCompleted)
-        {
-            _schedulerNotification.Release();
+            if (!_schedulerCompleted)
+            {
+                _schedulerNotification.Release();
+            }
         }
     }
 
@@ -299,14 +343,17 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public (int Total, int Queued, int Executing, int Completed, int Pending) GetStatistics()
     {
-        var states = _moduleStates.Values;
-        return (
-            Total: states.Count,
-            Queued: states.Count(m => m.IsQueued && !m.IsExecuting),
-            Executing: states.Count(m => m.IsExecuting),
-            Completed: states.Count(m => m.IsCompleted),
-            Pending: states.Count(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted)
-        );
+        lock (_stateLock)
+        {
+            var states = _moduleStates.Values;
+            return (
+                Total: states.Count,
+                Queued: states.Count(m => m.IsQueued && !m.IsExecuting),
+                Executing: states.Count(m => m.IsExecuting),
+                Completed: states.Count(m => m.IsCompleted),
+                Pending: states.Count(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted)
+            );
+        }
     }
 
     public void Dispose()
@@ -390,8 +437,8 @@ internal class ModuleScheduler : IModuleScheduler
 
         if (sequentialModuleRunning != null)
         {
-            _logger.LogTrace(
-                "Module {ModuleName} cannot execute yet (sequential module {SequentialModule} is running)",
+            _logger.LogDebug(
+                "Module {ModuleName} blocked by sequential module {SequentialModule}",
                 MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
                 MarkupFormatter.FormatModuleName(sequentialModuleRunning.Module.GetType().Name));
             return false;
@@ -404,8 +451,8 @@ internal class ModuleScheduler : IModuleScheduler
 
             if (anyOtherExecuting)
             {
-                _logger.LogTrace(
-                    "Module {ModuleName} cannot execute yet (sequential constraint - other modules still running)",
+                _logger.LogDebug(
+                    "Sequential module {ModuleName} blocked - other modules still running/queued",
                     MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
                 return false;
             }
@@ -421,8 +468,8 @@ internal class ModuleScheduler : IModuleScheduler
 
             if (conflictingModule != null)
             {
-                _logger.LogTrace(
-                    "Module {ModuleName} cannot execute yet (lock conflict with {ConflictingModule} on keys: {Keys})",
+                _logger.LogDebug(
+                    "Module {ModuleName} blocked by lock conflict with {ConflictingModule} on keys: {Keys}",
                     MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
                     MarkupFormatter.FormatModuleName(conflictingModule.Module.GetType().Name),
                     string.Join(", ", moduleState.RequiredLockKeys.Intersect(conflictingModule.RequiredLockKeys)));
