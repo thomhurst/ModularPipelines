@@ -51,25 +51,21 @@ internal class ModuleScheduler : IModuleScheduler
 
         var moduleList = modules.ToList();
 
-        // Create state for each module
         foreach (var module in moduleList)
         {
             var state = new ModuleState(module);
             _moduleStates.TryAdd(module.GetType(), state);
         }
 
-        // Build dependency graph and populate unresolved dependencies
         foreach (var state in _moduleStates.Values)
         {
             var moduleType = state.Module.GetType();
 
-            // Check for NotInParallel constraints
             var notInParallelAttr = moduleType.GetCustomAttribute<NotInParallelAttribute>();
             if (notInParallelAttr != null)
             {
                 if (notInParallelAttr.ConstraintKeys.Length == 0)
                 {
-                    // Unkeyed: must run completely sequentially
                     state.RequiresSequentialExecution = true;
                     _logger.LogDebug(
                         "Module {ModuleName} requires sequential execution (NotInParallel)",
@@ -77,7 +73,6 @@ internal class ModuleScheduler : IModuleScheduler
                 }
                 else
                 {
-                    // Keyed: cannot run with modules that share lock keys
                     state.RequiredLockKeys = notInParallelAttr.ConstraintKeys;
                     _logger.LogDebug(
                         "Module {ModuleName} requires locks: {Keys}",
@@ -86,17 +81,13 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            // Build dependency relationships
             var dependencies = state.Module.GetModuleDependencies();
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
                 if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
                 {
-                    // Add to unresolved dependencies
                     state.UnresolvedDependencies.Add(dependencyType);
-
-                    // Add reverse dependency link
                     dependencyState.DependentModules.Add(state);
                 }
                 else if (!ignoreIfNotRegistered)
@@ -130,7 +121,6 @@ internal class ModuleScheduler : IModuleScheduler
 
         lock (_stateLock)
         {
-            // Build dependencies for the new module
             var dependencies = module.GetModuleDependencies();
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
@@ -154,7 +144,6 @@ internal class ModuleScheduler : IModuleScheduler
                 state.UnresolvedDependencies.Count);
         }
 
-        // Notify scheduler to check if this module is ready (outside lock)
         _schedulerNotification.Release();
     }
 
@@ -173,7 +162,6 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     var queuedCount = await FindAndQueueReadyModulesAsync(cancellationToken);
 
-                    // Check if we're done (all modules completed or no pending work)
                     bool allCompleted;
                     bool noPendingWork;
 
@@ -201,7 +189,6 @@ internal class ModuleScheduler : IModuleScheduler
                     }
                 }
 
-                // Mark channel as complete
                 _readyChannel.Writer.Complete();
                 _schedulerCompleted = true;
                 _logger.LogDebug("Module scheduler completed");
@@ -224,6 +211,7 @@ internal class ModuleScheduler : IModuleScheduler
         {
             if (_moduleStates.TryGetValue(moduleType, out var state))
             {
+                state.IsQueued = false;  // Clear queued flag now that it's executing
                 state.IsExecuting = true;
                 state.ExecutionStartTime = DateTimeOffset.UtcNow;
 
@@ -255,7 +243,6 @@ internal class ModuleScheduler : IModuleScheduler
             state.IsCompleted = true;
             state.CompletionTime = DateTimeOffset.UtcNow;
 
-            // Set completion result
             if (success)
             {
                 state.CompletionSource.TrySetResult(state.Module);
@@ -283,7 +270,6 @@ internal class ModuleScheduler : IModuleScheduler
             NotifyDependentModules(state, moduleType);
         }
 
-        // Notify scheduler to re-check for ready modules (outside lock)
         if (!_schedulerCompleted)
         {
             _schedulerNotification.Release();
@@ -396,7 +382,6 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        // Check if ANY sequential module is queued or executing
         var sequentialModuleRunning = _moduleStates.Values
             .FirstOrDefault(m =>
                 m != moduleState &&
@@ -412,10 +397,8 @@ internal class ModuleScheduler : IModuleScheduler
             return false;
         }
 
-        // Check if THIS module requires sequential execution
         if (moduleState.RequiresSequentialExecution)
         {
-            // Must wait for ALL other modules to complete
             var anyOtherExecuting = _moduleStates.Values
                 .Any(m => m != moduleState && (m.IsExecuting || m.IsQueued));
 
@@ -428,10 +411,8 @@ internal class ModuleScheduler : IModuleScheduler
             }
         }
 
-        // Check keyed lock constraints
         if (moduleState.RequiredLockKeys.Length > 0)
         {
-            // Cannot run if any executing module shares a lock key
             var conflictingModule = _moduleStates.Values
                 .FirstOrDefault(m =>
                     m != moduleState &&
