@@ -87,12 +87,26 @@ internal class ModuleExecutor : IModuleExecutor
                     parallelOptions,
                     async (moduleState, ct) =>
                     {
-                        await ExecuteModule(moduleState, scheduler, ct);
+                        try
+                        {
+                            await ExecuteModule(moduleState, scheduler, ct);
+                        }
+                        catch when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                        {
+                            // Cancel immediately to stop scheduler and other workers
+                            cancellationTokenSource.Cancel();
+                            throw;
+                        }
                     });
             }
             catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
             {
                 _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
+            }
+            finally
+            {
+                // Cancel scheduler when workers exit (either normally or due to exception)
+                cancellationTokenSource.Cancel();
             }
 
             await schedulerTask;
