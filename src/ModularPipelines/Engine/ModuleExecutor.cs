@@ -99,19 +99,6 @@ internal class ModuleExecutor : IModuleExecutor
 
             _logger.LogDebug("All modules completed");
 
-            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-            {
-                var failedModule = modules.FirstOrDefault(m => m.Status == Enums.Status.Failed);
-                if (failedModule != null)
-                {
-                    var moduleName = MarkupFormatter.FormatModuleName(failedModule.GetType().Name);
-                    var message = $"Pipeline execution stopped due to module failure: {moduleName}. " +
-                                  $"ExecutionMode is set to StopOnFirstException. " +
-                                  $"Duration: {failedModule.Duration.TotalSeconds:F2}s";
-                    throw new AggregateException(message);
-                }
-            }
-
             return modules;
         }
         catch
