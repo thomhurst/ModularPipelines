@@ -80,6 +80,8 @@ internal class ModuleExecutor : IModuleExecutor
                 CancellationToken = cancellationTokenSource.Token
             };
 
+            Exception? firstException = null;
+
             try
             {
                 await Parallel.ForEachAsync(
@@ -91,9 +93,10 @@ internal class ModuleExecutor : IModuleExecutor
                         {
                             await ExecuteModule(moduleState, scheduler, ct);
                         }
-                        catch when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                        catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                         {
-                            // Cancel immediately to stop scheduler and other workers
+                            // Store first exception and cancel immediately to stop scheduler and other workers
+                            Interlocked.CompareExchange(ref firstException, ex, null);
                             cancellationTokenSource.Cancel();
                             throw;
                         }
@@ -112,6 +115,12 @@ internal class ModuleExecutor : IModuleExecutor
             await schedulerTask;
 
             _logger.LogDebug("All modules completed");
+
+            // If we stored an exception during StopOnFirstException, rethrow it to preserve the original exception type
+            if (firstException != null)
+            {
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
+            }
 
             return modules;
         }
