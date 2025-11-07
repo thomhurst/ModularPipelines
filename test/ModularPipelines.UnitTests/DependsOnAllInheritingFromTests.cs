@@ -8,7 +8,6 @@ namespace ModularPipelines.UnitTests;
 
 public class DependsOnAllInheritingFromTests : TestBase
 {
-    // Reduced delay from 1 second to 50ms for faster test execution
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(50);
 
     private abstract class BaseModule : Module

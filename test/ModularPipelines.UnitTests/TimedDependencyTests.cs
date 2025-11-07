@@ -8,7 +8,6 @@ namespace ModularPipelines.UnitTests;
 
 public class TimedDependencyTests
 {
-    // Reduced delays from 5 seconds / 1 second to 100ms / 20ms for 50x faster test execution
     private static readonly TimeSpan LongModuleDelay = TimeSpan.FromMilliseconds(100);
     private static readonly TimeSpan ShortModuleDelay = TimeSpan.FromMilliseconds(20);
 
@@ -30,15 +29,12 @@ public class TimedDependencyTests
 
         using (Assert.Multiple())
         {
-            // Verify dependent module duration is at least the short delay (with tolerance for timing variations)
             await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
             await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
 
-            // Verify dependent module ends after first module started + both delays
             await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).IsGreaterThanOrEqualTo(fiveSecondModule.StartTime + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
             await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
 
-            // Verify dependent module starts after first module ends
             await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).IsGreaterThanOrEqualTo(fiveSecondModule.EndTime);
             await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
         }

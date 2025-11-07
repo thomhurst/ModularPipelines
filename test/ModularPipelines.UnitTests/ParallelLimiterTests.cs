@@ -8,8 +8,6 @@ namespace ModularPipelines.UnitTests;
 
 public class ParallelLimiterTests
 {
-    // Reduced delay from 5 seconds to 100ms for much faster test execution
-    // The test verifies parallel limit behavior, not exact timing
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
@@ -76,7 +74,6 @@ public class ParallelLimiterTests
     [Test]
     public async Task LimitParallel()
     {
-        // Use FakeTimeProvider for deterministic timing measurements
         var timeProvider = new FakeTimeProvider();
 
         var results = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
@@ -91,11 +88,8 @@ public class ParallelLimiterTests
         var start = results.Modules.MinBy(x => x.StartTime)!.StartTime.DateTime;
         var end = results.Modules.MaxBy(x => x.EndTime)!.EndTime.DateTime;
 
-        // With limit=3 and 6 modules, execution should occur in 2 batches
-        // We expect total time > 1 batch duration but < 6 batches (sequential)
-        // Using reduced delays (100ms instead of 5s) makes test 50x faster
-        await Assert.That(end - start).IsGreaterThanOrEqualTo(ModuleDelay.Add(TimeSpan.FromMilliseconds(-50))); // Allow for timing variations
-        await Assert.That(end - start).IsLessThan(ModuleDelay.Multiply(6)); // Should not be fully sequential
+        await Assert.That(end - start).IsGreaterThanOrEqualTo(ModuleDelay.Add(TimeSpan.FromMilliseconds(-50)));
+        await Assert.That(end - start).IsLessThan(ModuleDelay.Multiply(6));
     }
 
     private record MyParallelLimit : IParallelLimit

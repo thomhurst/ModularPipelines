@@ -8,7 +8,6 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTests
 {
-    // Reduced delay from 5 seconds to 100ms for much faster test execution
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
 
     [ModularPipelines.Attributes.NotInParallel]
