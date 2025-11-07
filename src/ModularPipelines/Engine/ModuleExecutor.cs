@@ -1,6 +1,5 @@
-using System.Collections.Concurrent;
 using System.Reflection;
-using EnumerableAsyncProcessor.Extensions;
+using System.Threading.Channels;
 using Mediator;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -27,9 +26,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
-
-    private readonly ConcurrentDictionary<string, Semaphore> _notInParallelKeyedLocks = new();
-    private readonly object _notInParallelDictionaryLock = new();
+    private readonly TimeProvider _timeProvider;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -39,7 +36,8 @@ internal class ModuleExecutor : IModuleExecutor
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IParallelLimitProvider parallelLimitProvider,
         IMediator mediator,
-        ILogger<ModuleExecutor> logger)
+        ILogger<ModuleExecutor> logger,
+        TimeProvider timeProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -50,183 +48,225 @@ internal class ModuleExecutor : IModuleExecutor
         _parallelLimitProvider = parallelLimitProvider;
         _mediator = mediator;
         _logger = logger;
+        _timeProvider = timeProvider;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+
+        IModuleScheduler? scheduler = null;
+
         try
         {
-            var nonParallelModules = modules
-                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>() != null)
-                .OrderBy(x => x.DependentModules.Count)
-                .ToList();
-
-            var unKeyedNonParallelModules = nonParallelModules
-                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length == 0)
-                .ToList();
-
-            foreach (var nonParallelModule in unKeyedNonParallelModules)
+            if (modules.Count == 0)
             {
-                await StartModule(nonParallelModule, false);
+                _logger.LogDebug("No modules to execute");
+                return modules;
             }
 
-            var keyedNonParallelModules = nonParallelModules
-                .Where(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length != 0)
-                .ToList();
+            _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
-            await ProcessKeyedNonParallelModules(keyedNonParallelModules.ToList());
+            scheduler = new ModuleScheduler(_logger, _timeProvider);
+            scheduler.InitializeModules(modules);
 
-            var parallelModules = modules.Except(nonParallelModules).ToList();
+            var cancellationTokenSource = new CancellationTokenSource();
 
-            _logger.LogDebug("Queueing {Count} modules for parallel execution", parallelModules.Count);
+            // Register callback to cancel pending modules when cancellation is triggered
+            // This ensures TaskCompletionSources for queued modules are properly completed
+            cancellationTokenSource.Token.Register(() =>
+            {
+                _logger.LogDebug("Cancellation triggered - cancelling all pending modules");
+                scheduler.CancelPendingModules();
+            });
 
-            var parallelModuleTasks = parallelModules
-                .Select(x =>
+            var schedulerTask = scheduler.RunSchedulerAsync(cancellationTokenSource.Token);
+
+            var maxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism();
+
+            _logger.LogDebug("Starting worker pool with MaxDegreeOfParallelism = {MaxDegreeOfParallelism}", maxDegreeOfParallelism);
+
+            var parallelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = maxDegreeOfParallelism,
+                CancellationToken = cancellationTokenSource.Token
+            };
+
+            Exception? firstException = null;
+
+            try
+            {
+                await Parallel.ForEachAsync(
+                    scheduler.ReadyModules.ReadAllAsync(cancellationTokenSource.Token),
+                    parallelOptions,
+                    async (moduleState, ct) =>
+                    {
+                        try
+                        {
+                            await ExecuteModule(moduleState, scheduler, ct);
+                        }
+                        catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                        {
+                            // Store first exception and cancel immediately to stop scheduler and other workers
+                            Interlocked.CompareExchange(ref firstException, ex, null);
+                            cancellationTokenSource.Cancel();
+                            // Don't rethrow here - let parallel loop complete and rethrow after cleanup
+                        }
+                    });
+            }
+            catch (OperationCanceledException) when (firstException != null)
+            {
+                // Expected when we cancelled due to StopOnFirstException - will rethrow firstException below
+            }
+            catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
+            {
+                _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
+            }
+            finally
+            {
+                // Cancel scheduler when workers exit if not already cancelled
+                // This handles the normal completion case
+                if (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    _logger.LogDebug("Queueing module {ModuleName} for execution at {QueueTime}",
-                        x.GetType().Name,
-                        DateTimeOffset.UtcNow);
-                    return Task.Factory.StartNew(() => StartModule(x, false), TaskCreationOptions.LongRunning);
-                })
-                .Select(x => x.Unwrap())
-                .ToArray();
+                    cancellationTokenSource.Cancel();
+                }
+            }
+
+            await schedulerTask;
+
+            _logger.LogDebug("All modules completed");
+
+            // If we stored an exception during StopOnFirstException, rethrow it to preserve the original exception type
+            if (firstException != null)
+            {
+                _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
+            }
+
+            _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
+            return modules;
+        }
+        catch (Exception outerEx)
+        {
+            _logger.LogDebug("Outer catch block entered with exception: {ExceptionType}", outerEx.GetType().Name);
+
+            if (scheduler != null)
+            {
+                var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
+                _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
+
+                foreach (var moduleBase in alwaysRunModules)
+                {
+                    var moduleState = scheduler.GetModuleState(moduleBase.GetType());
+                    var moduleTask = scheduler.GetModuleCompletionTask(moduleBase.GetType());
+
+                    // Only wait for modules that have actually started executing or already completed
+                    // Skip modules that are still pending/queued as they will never complete after cancellation
+                    if (moduleTask != null && moduleState != null && (moduleState.IsExecuting || moduleState.IsCompleted))
+                    {
+                        _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
+                            moduleBase.GetType().Name, moduleState.IsExecuting, moduleState.IsCompleted);
+                        try
+                        {
+                            await moduleTask;
+                            _logger.LogDebug("AlwaysRun module {ModuleName} completed", moduleBase.GetType().Name);
+                        }
+                        catch (Exception alwaysRunEx)
+                        {
+                            _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}", moduleBase.GetType().Name, alwaysRunEx.GetType().Name);
+                            _ = moduleTask.Exception;
+                        }
+                    }
+                    else if (moduleState != null)
+                    {
+                        _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (IsQueued={IsQueued}, IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
+                            moduleBase.GetType().Name, moduleState.IsQueued, moduleState.IsExecuting, moduleState.IsCompleted);
+                    }
+                }
+            }
+
+            _logger.LogDebug("Outer catch block rethrowing exception");
+            throw;
+        }
+        finally
+        {
+            scheduler?.Dispose();
+        }
+    }
+
+    private async Task ExecuteModule(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    {
+        var module = moduleState.Module;
+        var moduleName = MarkupFormatter.FormatModuleName(module.GetType().Name);
+
+        try
+        {
+            scheduler.MarkModuleStarted(module.GetType());
+
+            _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
+
+            await WaitForDependenciesAsync(module, scheduler);
+
+            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module));
+
+            scheduler.MarkModuleCompleted(module.GetType(), true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
+            scheduler.MarkModuleCompleted(module.GetType(), false, ex);
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
             {
-                await parallelModuleTasks.WhenAllFailFast();
+                throw;
             }
-            else
-            {
-                await Task.WhenAll(parallelModuleTasks);
-            }
-
-            return modules;
         }
-        catch
+    }
+
+    private async Task ExecuteModuleCore(ModuleBase module)
+    {
+        ModuleLogger.Values.Value = module.Context.Logger;
+
+        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+        var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
+
+        await _mediator.Publish(new ModuleStartedNotification(module, estimatedDuration));
+
+        await module.StartInternal();
+
+        if (module.Status == Enums.Status.Skipped)
         {
-            foreach (var moduleBase in modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun))
-            {
-                var moduleTask = StartModule(moduleBase, false);
-                try
-                {
-                    await moduleTask;
-                }
-                catch
-                {
-                    // Ignored - but observe the exception to prevent unobserved task exceptions
-                    _ = moduleTask.Exception;
-                }
-            }
-
-            throw;
+            await _mediator.Publish(new ModuleSkippedNotification(module, module.SkipResult));
+            return;
         }
+
+        await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
+
+        await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+        var isSuccessful = module.Status == Enums.Status.Successful;
+        await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
     }
 
-    private Semaphore GetLockForKey(string key)
+    private async Task ExecuteModuleTaskAsync(ModuleBase module)
     {
-        lock (_notInParallelDictionaryLock)
+        using var semaphoreHandle = await WaitForParallelLimiter(module);
+
+        try
         {
-            return _notInParallelKeyedLocks.GetOrAdd(key, _ => new Semaphore(1, 1));
+            await ExecuteModuleCore(module);
+        }
+        finally
+        {
+            if (!_pipelineOptions.Value.ShowProgressInConsole)
+            {
+                await _moduleDisposer.DisposeAsync(module);
+            }
         }
     }
 
-    private async Task ProcessKeyedNonParallelModules(List<ModuleBase> keyedNonParallelModules)
-    {
-        await keyedNonParallelModules
-            .OrderBy(x => x.GetType().GetCustomAttribute<NotInParallelAttribute>()!.ConstraintKeys.Length)
-            .ForEachAsync(module => Task.Run(async () =>
-            {
-                var keys = module.GetType()
-                    .GetCustomAttribute<NotInParallelAttribute>()!
-                    .ConstraintKeys
-                    .OrderBy(x => x)
-                    .ToArray();
-
-                _logger.LogDebug("Acquiring parallel locks for keys: {Keys}", string.Join(", ", keys));
-
-                var locks = keys.Select(GetLockForKey).ToArray();
-
-                while (!WaitHandle.WaitAll(locks, TimeSpan.FromMilliseconds(100), false))
-                {
-                    await Task.Delay(TimeSpan.FromMilliseconds(500));
-                }
-
-                try
-                {
-                    await StartModule(module, false);
-                }
-                finally
-                {
-                    foreach (var semaphore in locks)
-                    {
-                        semaphore.Release();
-                    }
-                }
-            }))
-            .ProcessInParallel();
-    }
-
-    private Task<ModuleBase> StartModule(ModuleBase module, bool isStartedAsDependencyForOtherModule)
-    {
-        // Use the module's built-in execution tracking instead of maintaining our own dictionary
-        var task = module.GetOrStartExecutionTask(async () =>
-            {
-                using var semaphoreHandle = await WaitForParallelLimiter(module, isStartedAsDependencyForOtherModule);
-
-                var moduleName = MarkupFormatter.FormatModuleName(module.GetType().Name);
-                _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
-
-                var dependencies = module.GetModuleDependencies();
-
-                foreach (var dependency in dependencies.Reverse())
-                {
-                    await StartDependency(module, dependency.DependencyType, dependency.IgnoreIfNotRegistered);
-                }
-
-                try
-                {
-                    ModuleLogger.Values.Value = module.Context.Logger;
-
-                    await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-                    // Get estimated duration for this module
-                    var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
-
-                    // Publish module started event
-                    await _mediator.Publish(new ModuleStartedNotification(module, estimatedDuration));
-
-                    await module.StartInternal();
-
-                    // Check if module was skipped
-                    if (module.Status == Enums.Status.Skipped)
-                    {
-                        await _mediator.Publish(new ModuleSkippedNotification(module, module.SkipResult));
-                        return;
-                    }
-
-                    await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-                    await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-                    // Publish module completed event
-                    var isSuccessful = module.Status == Enums.Status.Successful;
-                    await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
-
-                    return;
-                }
-                finally
-                {
-                    if (!_pipelineOptions.Value.ShowProgressInConsole)
-                    {
-                        await _moduleDisposer.DisposeAsync(module);
-                    }
-                }
-            });
-
-        return task;
-    }
-
-    private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module, bool isStartedAsDependencyForAnotherTest)
+    private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module)
     {
         var parallelLimitAttributeType =
             module.GetType().GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault()?.Type;
@@ -239,51 +279,35 @@ internal class ModuleExecutor : IModuleExecutor
         return NoOpDisposable.Instance;
     }
 
-    private async Task StartDependency(ModuleBase requestingModule, Type dependencyType, bool ignoreIfNotRegistered)
+    private async Task WaitForDependenciesAsync(ModuleBase module, IModuleScheduler scheduler)
     {
-        var dependencyName = MarkupFormatter.FormatModuleName(dependencyType.Name);
-        var requestingModuleName = MarkupFormatter.FormatModuleName(requestingModule.GetType().Name);
+        var dependencies = module.GetModuleDependencies();
 
-        _logger.LogDebug("Starting dependency {Dependency} for module {Module}", dependencyName, requestingModuleName);
-
-        var module = _allModules.FirstOrDefault(x => x.GetType() == dependencyType);
-
-        if (module is null && ignoreIfNotRegistered)
+        foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
         {
-            requestingModule.Context.Logger.LogDebug("Module {Module} was not registered, skipping", dependencyName);
-            return;
-        }
+            var dependencyTask = scheduler.GetModuleCompletionTask(dependencyType);
 
-        if (module is null)
-        {
-            throw new ModuleNotRegisteredException($"The module {dependencyType.Name} has not been registered", null);
-        }
-
-        requestingModule.Context.Logger.LogDebug("{RequestingModule} is waiting for {Module}", requestingModuleName, dependencyName);
-
-        var moduleTask = StartModule(module, true);
-
-        try
-        {
-            await moduleTask;
-        }
-        catch (Exception e) when (requestingModule.ModuleRunType == ModuleRunType.AlwaysRun)
-        {
-            _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
-                $"{dependencyType.Name} threw an exception when {requestingModule.GetType().Name} was waiting for it as a dependency",
-                e));
-            requestingModule.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
-
-            // Observe the task's exception to prevent unobserved task exceptions
-            _ = moduleTask.Exception;
-        }
-        catch (DependencyFailedException e)
-        {
-            _secondaryExceptionContainer.RegisterException(e);
-        }
-        catch (PipelineCancelledException e)
-        {
-            _secondaryExceptionContainer.RegisterException(e);
+            if (dependencyTask != null)
+            {
+                try
+                {
+                    await dependencyTask;
+                }
+                catch (Exception e) when (module.ModuleRunType == ModuleRunType.AlwaysRun)
+                {
+                    _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
+                        $"{dependencyType.Name} threw an exception when {module.GetType().Name} was waiting for it as a dependency",
+                        e));
+                    module.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                }
+            }
+            else if (!ignoreIfNotRegistered)
+            {
+                var message = $"Module '{module.GetType().Name}' depends on '{dependencyType.Name}', " +
+                              $"but '{dependencyType.Name}' has not been registered in the pipeline. " +
+                              $"Ensure all module dependencies are registered before executing the pipeline.";
+                throw new ModuleNotRegisteredException(message, null);
+            }
         }
     }
 }

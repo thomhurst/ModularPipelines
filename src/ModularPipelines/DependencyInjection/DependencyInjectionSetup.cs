@@ -101,6 +101,7 @@ internal static class DependencyInjectionSetup
 
         // Singletons
         services
+            .AddSingleton(TimeProvider.System)
             .AddSingleton<IExceptionOutputFormatter, SpectreExceptionFormatter>()
             .AddSingleton<IStackTraceModuleDetector, StackTraceModuleDetector>()
             .AddSingleton<IConsolePrinter, ConsolePrinter>()

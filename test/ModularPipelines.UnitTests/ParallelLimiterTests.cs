@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -5,16 +7,31 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-[Retry(3)]
 public class ParallelLimiterTests
 {
+    private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
+    private static readonly ConcurrentBag<string> _executingModules = new();
+    private static readonly ConcurrentBag<string> _violations = new();
+
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
     public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -23,8 +40,20 @@ public class ParallelLimiterTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -33,8 +62,20 @@ public class ParallelLimiterTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -44,8 +85,20 @@ public class ParallelLimiterTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -54,8 +107,20 @@ public class ParallelLimiterTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -64,15 +129,32 @@ public class ParallelLimiterTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
+            if (_executingModules.Count > 3)
+            {
+                _violations.Add($"{moduleName} executing with {_executingModules.Count} total modules (limit is 3)");
+            }
+
+            await Task.Delay(50, cancellationToken);
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
     [Test]
     public async Task LimitParallel()
     {
-        var results = await TestPipelineHostBuilder.Create()
+        _executingModules.Clear();
+        _violations.Clear();
+
+        var timeProvider = new FakeTimeProvider();
+
+        await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()
@@ -81,11 +163,7 @@ public class ParallelLimiterTests
             .AddModule<Module6>()
             .ExecutePipelineAsync();
 
-        var start = results.Modules.MinBy(x => x.StartTime)!.StartTime.DateTime;
-        var end = results.Modules.MaxBy(x => x.EndTime)!.EndTime.DateTime;
-
-        await Assert.That(end - start).IsGreaterThan(TimeSpan.FromSeconds(10));
-        await Assert.That(end - start).IsLessThan(TimeSpan.FromSeconds(30));
+        await Assert.That(_violations).IsEmpty();
     }
 
     private record MyParallelLimit : IParallelLimit

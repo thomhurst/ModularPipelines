@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -7,10 +8,15 @@ namespace ModularPipelines.UnitTests;
 
 public class TimedDependencyTests
 {
+    private static readonly TimeSpan LongModuleDelay = TimeSpan.FromMilliseconds(100);
+    private static readonly TimeSpan ShortModuleDelay = TimeSpan.FromMilliseconds(20);
+
     [Test]
     public async Task OneSecondModule_WillWaitForFiveSecondModule_ThenExecute()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var timeProvider = new FakeTimeProvider();
+
+        var pipelineSummary = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<FiveSecondModule>()
             .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
             .ExecutePipelineAsync();
@@ -23,12 +29,11 @@ public class TimedDependencyTests
 
         using (Assert.Multiple())
         {
-            // 5 + 1
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
 
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).IsGreaterThanOrEqualTo(fiveSecondModule.StartTime + TimeSpan.FromMilliseconds(5900));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + TimeSpan.FromMilliseconds(5900));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).IsGreaterThanOrEqualTo(fiveSecondModule.StartTime + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
+            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
 
             await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).IsGreaterThanOrEqualTo(fiveSecondModule.EndTime);
             await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
@@ -39,7 +44,7 @@ public class TimedDependencyTests
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(LongModuleDelay, cancellationToken);
             return new Dictionary<string, object>();
         }
     }
@@ -49,7 +54,7 @@ public class TimedDependencyTests
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ShortModuleDelay, cancellationToken);
             return new Dictionary<string, object>();
         }
     }

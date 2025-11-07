@@ -10,8 +10,9 @@
   <ItemGroup>
     <PackageReference Include="Azure.ResourceManager" />
     <PackageReference Include="Azure.Identity" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     <PackageReference Include="System.Text.Json" />
-      <PackageReference Include="TUnit.Core" />
-      <PackageReference Include="TUnit.Assertions" />
+    <PackageReference Include="TUnit.Core" />
+    <PackageReference Include="TUnit.Assertions" />
   </ItemGroup>
 </Project>

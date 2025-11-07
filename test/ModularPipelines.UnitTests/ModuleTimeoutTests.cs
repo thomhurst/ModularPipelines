@@ -9,22 +9,32 @@ public class ModuleTimeoutTests : TestBase
 {
     private class Module_UsingCancellationToken : Module<string>
     {
+        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+
         protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+            await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return "Foo bar!";
         }
     }
 
     private class Module_NotUsingCancellationToken : Module<string>
     {
+        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+
         protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30), CancellationToken.None);
+            try
+            {
+                await _taskCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+            }
             return "Foo bar!";
         }
     }
@@ -35,12 +45,12 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return "Foo bar!";
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task Throws_TaskException_When_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);

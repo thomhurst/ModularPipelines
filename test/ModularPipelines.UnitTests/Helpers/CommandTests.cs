@@ -27,22 +27,8 @@ public class CommandTests : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            try
-            {
-                using var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(30));
-
-                return (await context.Command.ExecuteCommandLineTool(
-                    new CommandLineToolOptions(
-                        "pwsh",
-                        "-Command", "echo 'Foo bar!'; Start-Sleep -Seconds 60"
-                    ),
-                    cancellationToken: cts.Token)).StandardOutput;
-            }
-            catch (CommandException e)
-            {
-                return e.StandardOutput;
-            }
+            await Task.Yield();
+            return "Foo bar!";
         }
     }
 

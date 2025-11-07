@@ -22,14 +22,16 @@ public class AsyncDisposableModuleTests
         /// <inheritdoc/>
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(100, cancellationToken);
+            // Reduced delay from 100ms to 1ms for faster test execution
+            await Task.Delay(1, cancellationToken);
             return null;
         }
 
         /// <inheritdoc/>
         public async ValueTask DisposeAsync()
         {
-            await Task.Delay(100);
+            // Reduced delay from 100ms to 1ms for faster test execution
+            await Task.Delay(1);
             IsDisposed = true;
             GC.SuppressFinalize(this);
         }

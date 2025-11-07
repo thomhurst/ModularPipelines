@@ -18,4 +18,9 @@ internal class ParallelLimitProvider : IParallelLimitProvider
 
         return Locks.GetOrAdd(parallelLimit.GetType(), _ => new AsyncSemaphore(parallelLimit.Limit));
     }
+
+    public int GetMaxDegreeOfParallelism()
+    {
+        return Environment.ProcessorCount;
+    }
 }

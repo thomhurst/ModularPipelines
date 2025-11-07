@@ -5,4 +5,6 @@ namespace ModularPipelines.Helpers;
 internal interface IParallelLimitProvider
 {
     AsyncSemaphore GetLock(Type parallelLimitType);
+
+    int GetMaxDegreeOfParallelism();
 }
