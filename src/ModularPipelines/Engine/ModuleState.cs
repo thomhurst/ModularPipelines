@@ -46,20 +46,24 @@ internal class ModuleState
     /// </summary>
     public List<ModuleState> DependentModules { get; }
 
+    private volatile bool _isQueued;
+    private volatile bool _isExecuting;
+    private volatile bool _isCompleted;
+
     /// <summary>
     /// Whether this module has been queued to the ready channel
     /// </summary>
-    public bool IsQueued { get; set; }
+    public bool IsQueued { get => _isQueued; set => _isQueued = value; }
 
     /// <summary>
     /// Whether this module is currently executing
     /// </summary>
-    public bool IsExecuting { get; set; }
+    public bool IsExecuting { get => _isExecuting; set => _isExecuting = value; }
 
     /// <summary>
     /// Whether this module has completed execution
     /// </summary>
-    public bool IsCompleted { get; set; }
+    public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }
 
     /// <summary>
     /// When the module was queued (for metrics)
