@@ -361,16 +361,17 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing)
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
+    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete
     /// </summary>
     public void CancelPendingModules()
     {
         lock (_stateLock)
         {
             var pendingModules = _moduleStates.Values
-                .Where(m => !m.IsExecuting && !m.IsCompleted)
+                .Where(m => !m.IsExecuting && !m.IsCompleted && m.Module.ModuleRunType != Enums.ModuleRunType.AlwaysRun)
                 .ToList();
 
-            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation", pendingModules.Count);
+            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", pendingModules.Count);
 
             foreach (var moduleState in pendingModules)
             {
