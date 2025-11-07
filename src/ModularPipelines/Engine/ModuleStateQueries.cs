@@ -109,7 +109,8 @@ internal class ModuleStateQueries
             return null;
         }
 
-        return _moduleStates.Values.FirstOrDefault(m =>
+        var activeModules = _moduleStates.Values.ToList();
+        return activeModules.FirstOrDefault(m =>
             m != moduleState &&
             (m.IsExecuting || m.IsQueued) &&
             m.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any());
