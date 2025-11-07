@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
@@ -24,7 +25,8 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
     {
         var registeredServices = _serviceContainerWrapper.ServiceCollection
             .Where(x => x.ServiceType == typeof(ModuleBase))
-            .Select(x => x.ImplementationType);
+            .Select(x => x.ImplementationType)
+            .ToHashSet();
 
         var allDetectedModules = _assemblyLoadedTypesProvider.GetLoadedTypesAssignableTo(typeof(ModuleBase));
 
@@ -32,12 +34,28 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .Except(registeredServices)
             .ToList();
 
-        if (unregisteredModules.Count == 0)
+        var registeredModuleTypes = _serviceContainerWrapper.ServiceCollection
+            .Where(x => x.ServiceType == typeof(ModuleBase) && x.ImplementationType != null)
+            .Select(x => x.ImplementationType!)
+            .ToList();
+
+        var unregisteredDependencies = registeredModuleTypes
+            .SelectMany(moduleType => moduleType.GetCustomAttributes(typeof(DependsOnAttribute), inherit: true)
+                .Cast<DependsOnAttribute>())
+            .Where(attr => !attr.IgnoreIfNotRegistered)
+            .Select(attr => attr.Type)
+            .Distinct()
+            .Where(depType => !registeredServices.Contains(depType))
+            .ToList();
+
+        if (unregisteredModules.Count == 0 && unregisteredDependencies.Count == 0)
         {
             return;
         }
 
+        var allUnregistered = unregisteredModules.Concat(unregisteredDependencies).Distinct().ToList();
+
         _logger.LogWarning("⚠ Unregistered Modules:\n{Modules}",
-            string.Join("\n", unregisteredModules.Select(m => $"  • {m?.Name}")));
+            string.Join("\n", allUnregistered.Select(m => $"  • {m?.Name}")));
     }
 }

@@ -13,7 +13,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
-[DependsOn<CodeFormattedNicelyModule>]
+[DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
 [DependsOn<FindProjectDependenciesModule>]
 [DependsOn<ChangedFilesInPullRequestModule>]
 [DependsOn<RunUnitTestsModule>]
