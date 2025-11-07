@@ -368,7 +368,7 @@ internal class ModuleScheduler : IModuleScheduler
         lock (_stateLock)
         {
             var pendingModules = _moduleStates.Values
-                .Where(m => !m.IsExecuting && !m.IsCompleted && m.Module.ModuleRunType != Enums.ModuleRunType.AlwaysRun)
+                .Where(m => !m.IsExecuting && !m.IsCompleted && m.Module.ModuleRunType != Models.ModuleRunType.AlwaysRun)
                 .ToList();
 
             _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", pendingModules.Count);
