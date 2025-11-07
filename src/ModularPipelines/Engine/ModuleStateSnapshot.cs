@@ -64,21 +64,20 @@ internal class ModuleStateSnapshot
         {
             total++;
 
-            if (state.IsCompleted)
+            switch (state.State)
             {
-                completed++;
-            }
-            else if (state.IsExecuting)
-            {
-                executing++;
-            }
-            else if (state.IsQueued)
-            {
-                queued++;
-            }
-            else
-            {
-                pending++;
+                case ModuleExecutionState.Completed:
+                    completed++;
+                    break;
+                case ModuleExecutionState.Executing:
+                    executing++;
+                    break;
+                case ModuleExecutionState.Queued:
+                    queued++;
+                    break;
+                case ModuleExecutionState.Pending:
+                    pending++;
+                    break;
             }
         }
 

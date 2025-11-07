@@ -21,6 +21,8 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly TimeProvider _timeProvider;
     private readonly SchedulerOptions _options;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
+    private readonly HashSet<ModuleState> _queuedModules;
+    private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
     private readonly SchedulerExitConditions _exitConditions;
     private readonly IModuleConstraint[] _constraints;
@@ -38,6 +40,8 @@ internal class ModuleScheduler : IModuleScheduler
         _timeProvider = timeProvider;
         _options = options.Value;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        _queuedModules = new HashSet<ModuleState>();
+        _executingModules = new HashSet<ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
         _exitConditions = new SchedulerExitConditions();
         _constraints = new IModuleConstraint[]
@@ -317,8 +321,9 @@ internal class ModuleScheduler : IModuleScheduler
         {
             if (_moduleStates.TryGetValue(moduleType, out var state))
             {
-                state.IsQueued = false;  // Clear queued flag now that it's executing
-                state.IsExecuting = true;
+                _queuedModules.Remove(state);
+                state.State = ModuleExecutionState.Executing;
+                _executingModules.Add(state);
                 state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
                 if (state.QueuedTime.HasValue)
@@ -345,8 +350,9 @@ internal class ModuleScheduler : IModuleScheduler
 
         lock (_stateLock)
         {
-            state.IsExecuting = false;
-            state.IsCompleted = true;
+            // Atomic state transition + update collections
+            _executingModules.Remove(state);
+            state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
 
             if (success)
@@ -427,15 +433,16 @@ internal class ModuleScheduler : IModuleScheduler
 
             foreach (var moduleState in pendingModules)
             {
-                if (!moduleState.IsCompleted)
+                if (moduleState.State != ModuleExecutionState.Completed)
                 {
                     _logger.LogDebug(
-                        "Cancelling pending module {ModuleName} (IsQueued={IsQueued}, IsExecuting={IsExecuting})",
+                        "Cancelling pending module {ModuleName} (State={State})",
                         MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                        moduleState.IsQueued,
-                        moduleState.IsExecuting);
+                        moduleState.State);
 
-                    moduleState.IsCompleted = true;
+                    _queuedModules.Remove(moduleState);
+                    _executingModules.Remove(moduleState);
+                    moduleState.State = ModuleExecutionState.Completed;
                     moduleState.CompletionSource.TrySetCanceled();
                 }
             }
@@ -474,7 +481,6 @@ internal class ModuleScheduler : IModuleScheduler
 
     private List<ModuleState> FindReadyModules()
     {
-        // Critical section: find ready modules and mark as queued atomically
         lock (_stateLock)
         {
             var potentiallyReadyModules = _moduleStates.Values
@@ -485,15 +491,14 @@ internal class ModuleScheduler : IModuleScheduler
 
             foreach (var moduleState in potentiallyReadyModules)
             {
-                // Check constraints right before queuing to ensure we see updated state
                 if (!CanExecuteRespectingConstraints(moduleState))
                 {
                     continue;
                 }
 
-                // Mark as queued inside lock to prevent race conditions
-                moduleState.IsQueued = true;
+                moduleState.State = ModuleExecutionState.Queued;
                 moduleState.QueuedTime = _timeProvider.GetUtcNow();
+                _queuedModules.Add(moduleState);
 
                 modulesToQueue.Add(moduleState);
             }
@@ -529,13 +534,55 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        foreach (var constraint in _constraints)
+        var activeModules = _queuedModules.Concat(_executingModules).ToList();
+
+        if (moduleState.RequiredLockKeys.Length > 0)
         {
-            if (!constraint.CanExecute(moduleState, _stateQueries))
+            foreach (var active in activeModules)
+            {
+                if (active.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any())
+                {
+                    if (_options.EnableDetailedLogging)
+                    {
+                        var conflictingKeys = string.Join(", ",
+                            moduleState.RequiredLockKeys.Intersect(active.RequiredLockKeys));
+                        _logger.LogDebug(
+                            "Module {ModuleName} blocked by lock conflict with {ConflictingModule} on keys: {Keys}",
+                            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                            MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
+                            conflictingKeys);
+                    }
+                    return false;
+                }
+            }
+        }
+
+        // Check if this module requires sequential execution
+        if (moduleState.RequiresSequentialExecution)
+        {
+            if (_queuedModules.Count > 0 || _executingModules.Count > 0)
             {
                 if (_options.EnableDetailedLogging)
                 {
-                    constraint.LogViolation(moduleState, _stateQueries, _logger);
+                    _logger.LogDebug(
+                        "Sequential module {ModuleName} blocked - other modules still running/queued",
+                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+                }
+                return false;
+            }
+        }
+
+        // Check if blocked by another sequential module
+        foreach (var active in activeModules)
+        {
+            if (active.RequiresSequentialExecution)
+            {
+                if (_options.EnableDetailedLogging)
+                {
+                    _logger.LogDebug(
+                        "Module {ModuleName} blocked by sequential module {SequentialModule}",
+                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(active.Module.GetType().Name));
                 }
                 return false;
             }

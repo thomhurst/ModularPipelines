@@ -246,8 +246,8 @@ internal class ModuleExecutor : IModuleExecutor
         // Skip modules that are still pending/queued as they will never complete after cancellation
         if (ShouldWaitForAlwaysRunModule(moduleState))
         {
-            _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
-                moduleBase.GetType().Name, moduleState.IsExecuting, moduleState.IsCompleted);
+            _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (State={State})",
+                moduleBase.GetType().Name, moduleState.State);
 
             try
             {
@@ -258,19 +258,19 @@ internal class ModuleExecutor : IModuleExecutor
             {
                 _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}",
                     moduleBase.GetType().Name, alwaysRunEx.GetType().Name);
-                _ = moduleTask.Exception; // Observe exception
+                _ = moduleTask.Exception;
             }
         }
         else
         {
-            _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (IsQueued={IsQueued}, IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
-                moduleBase.GetType().Name, moduleState.IsQueued, moduleState.IsExecuting, moduleState.IsCompleted);
+            _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (State={State})",
+                moduleBase.GetType().Name, moduleState.State);
         }
     }
 
     private static bool ShouldWaitForAlwaysRunModule(ModuleState moduleState)
     {
-        return moduleState.IsExecuting || moduleState.IsCompleted;
+        return moduleState.State == ModuleExecutionState.Executing || moduleState.State == ModuleExecutionState.Completed;
     }
 
     private async Task ExecuteModule(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)

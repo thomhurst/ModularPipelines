@@ -3,6 +3,32 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine;
 
 /// <summary>
+/// Represents the execution lifecycle state of a module
+/// </summary>
+internal enum ModuleExecutionState
+{
+    /// <summary>
+    /// Module is pending, ready to be queued when dependencies are satisfied
+    /// </summary>
+    Pending,
+
+    /// <summary>
+    /// Module has been queued to the ready channel, awaiting execution
+    /// </summary>
+    Queued,
+
+    /// <summary>
+    /// Module is currently executing
+    /// </summary>
+    Executing,
+
+    /// <summary>
+    /// Module has completed execution
+    /// </summary>
+    Completed
+}
+
+/// <summary>
 /// Tracks the execution state of a module for eager parallel scheduling
 /// </summary>
 /// <remarks>
@@ -12,8 +38,8 @@ namespace ModularPipelines.Engine;
 /// - Timing metrics (queued time, execution start, completion)
 /// - Constraint requirements (sequential execution, lock keys)
 ///
-/// Thread Safety: Properties are accessed under lock by ModuleScheduler.
-/// State transitions are managed atomically to ensure correctness.
+/// Thread Safety: State property and collections are accessed under lock by ModuleScheduler.
+/// State transitions are atomic via enum assignment.
 /// </remarks>
 internal class ModuleState
 {
@@ -46,24 +72,10 @@ internal class ModuleState
     /// </summary>
     public List<ModuleState> DependentModules { get; }
 
-    private volatile bool _isQueued;
-    private volatile bool _isExecuting;
-    private volatile bool _isCompleted;
-
     /// <summary>
-    /// Whether this module has been queued to the ready channel
+    /// The current execution state of this module
     /// </summary>
-    public bool IsQueued { get => _isQueued; set => _isQueued = value; }
-
-    /// <summary>
-    /// Whether this module is currently executing
-    /// </summary>
-    public bool IsExecuting { get => _isExecuting; set => _isExecuting = value; }
-
-    /// <summary>
-    /// Whether this module has completed execution
-    /// </summary>
-    public bool IsCompleted { get => _isCompleted; set => _isCompleted = value; }
+    public ModuleExecutionState State { get; set; } = ModuleExecutionState.Pending;
 
     /// <summary>
     /// When the module was queued (for metrics)
@@ -94,5 +106,5 @@ internal class ModuleState
     /// Checks if this module is ready to execute (all dependencies resolved and constraints satisfied)
     /// Note: Constraint checking is performed by the scheduler, this only checks basic readiness
     /// </summary>
-    public bool IsReadyToExecute => UnresolvedDependencies.Count == 0 && !IsQueued && !IsExecuting && !IsCompleted;
+    public bool IsReadyToExecute => UnresolvedDependencies.Count == 0 && State == ModuleExecutionState.Pending;
 }

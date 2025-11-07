@@ -24,7 +24,7 @@ internal class ModuleStateQueries
     /// </summary>
     public bool AreAllModulesCompleted()
     {
-        return _moduleStates.Values.All(m => m.IsCompleted);
+        return _moduleStates.Values.All(m => m.State == ModuleExecutionState.Completed);
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ internal class ModuleStateQueries
     /// </summary>
     public bool AreAnyModulesActive()
     {
-        return _moduleStates.Values.Any(m => m.IsExecuting || m.IsQueued);
+        return _moduleStates.Values.Any(m => m.State == ModuleExecutionState.Executing || m.State == ModuleExecutionState.Queued);
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ internal class ModuleStateQueries
     /// </summary>
     public bool AreAnyModulesPending()
     {
-        return _moduleStates.Values.Any(m => !m.IsCompleted && !m.IsQueued && !m.IsExecuting);
+        return _moduleStates.Values.Any(m => m.State == ModuleExecutionState.Pending);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ internal class ModuleStateQueries
     /// </summary>
     public IEnumerable<ModuleState> GetPendingModules()
     {
-        return _moduleStates.Values.Where(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted);
+        return _moduleStates.Values.Where(m => m.State == ModuleExecutionState.Pending);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ internal class ModuleStateQueries
     /// </summary>
     public IEnumerable<ModuleState> GetExecutingModules()
     {
-        return _moduleStates.Values.Where(m => m.IsExecuting);
+        return _moduleStates.Values.Where(m => m.State == ModuleExecutionState.Executing);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ internal class ModuleStateQueries
     /// </summary>
     public IEnumerable<ModuleState> GetQueuedModules()
     {
-        return _moduleStates.Values.Where(m => m.IsQueued && !m.IsExecuting);
+        return _moduleStates.Values.Where(m => m.State == ModuleExecutionState.Queued);
     }
 
     /// <summary>
@@ -73,8 +73,8 @@ internal class ModuleStateQueries
     public IEnumerable<ModuleState> GetCancellablePendingModules()
     {
         return _moduleStates.Values.Where(m =>
-            !m.IsExecuting &&
-            !m.IsCompleted &&
+            m.State != ModuleExecutionState.Executing &&
+            m.State != ModuleExecutionState.Completed &&
             m.Module.ModuleRunType != ModuleRunType.AlwaysRun);
     }
 
@@ -86,7 +86,7 @@ internal class ModuleStateQueries
         return _moduleStates.Values.FirstOrDefault(m =>
             m != excludeModule &&
             m.RequiresSequentialExecution &&
-            (m.IsExecuting || m.IsQueued));
+            (m.State == ModuleExecutionState.Executing || m.State == ModuleExecutionState.Queued));
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ internal class ModuleStateQueries
     {
         return _moduleStates.Values.Any(m =>
             m != excludeModule &&
-            (m.IsExecuting || m.IsQueued));
+            (m.State == ModuleExecutionState.Executing || m.State == ModuleExecutionState.Queued));
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ internal class ModuleStateQueries
 
         return _moduleStates.Values.FirstOrDefault(m =>
             m != moduleState &&
-            (m.IsExecuting || m.IsQueued) &&
+            (m.State == ModuleExecutionState.Executing || m.State == ModuleExecutionState.Queued) &&
             m.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any());
     }
 
@@ -124,10 +124,10 @@ internal class ModuleStateQueries
         return new ModuleStateStatistics
         {
             Total = states.Count,
-            Queued = states.Count(m => m.IsQueued && !m.IsExecuting),
-            Executing = states.Count(m => m.IsExecuting),
-            Completed = states.Count(m => m.IsCompleted),
-            Pending = states.Count(m => !m.IsQueued && !m.IsExecuting && !m.IsCompleted)
+            Queued = states.Count(m => m.State == ModuleExecutionState.Queued),
+            Executing = states.Count(m => m.State == ModuleExecutionState.Executing),
+            Completed = states.Count(m => m.State == ModuleExecutionState.Completed),
+            Pending = states.Count(m => m.State == ModuleExecutionState.Pending)
         };
     }
 }
