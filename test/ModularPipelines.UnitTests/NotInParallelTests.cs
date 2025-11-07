@@ -7,7 +7,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-public class NotInParallelTests
+public class NotInParallelTests : TestBase
 {
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
     private static readonly ConcurrentBag<string> _executingModules = new();
