@@ -68,6 +68,15 @@ internal class ModuleExecutor : IModuleExecutor
             scheduler.InitializeModules(modules);
 
             var cancellationTokenSource = new CancellationTokenSource();
+
+            // Register callback to cancel pending modules when cancellation is triggered
+            // This ensures TaskCompletionSources for queued modules are properly completed
+            cancellationTokenSource.Token.Register(() =>
+            {
+                _logger.LogDebug("Cancellation triggered - cancelling all pending modules");
+                scheduler.CancelPendingModules();
+            });
+
             var schedulerTask = scheduler.RunSchedulerAsync(cancellationTokenSource.Token);
 
             var maxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism();
@@ -112,8 +121,12 @@ internal class ModuleExecutor : IModuleExecutor
             }
             finally
             {
-                // Cancel scheduler when workers exit (either normally or due to exception)
-                cancellationTokenSource.Cancel();
+                // Cancel scheduler when workers exit if not already cancelled
+                // This handles the normal completion case
+                if (!cancellationTokenSource.IsCancellationRequested)
+                {
+                    cancellationTokenSource.Cancel();
+                }
             }
 
             await schedulerTask;

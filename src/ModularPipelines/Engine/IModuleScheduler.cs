@@ -42,4 +42,10 @@ internal interface IModuleScheduler : IDisposable
     /// Gets the state for a specific module
     /// </summary>
     ModuleState? GetModuleState(Type moduleType);
+
+    /// <summary>
+    /// Cancels all modules that are queued or pending (not yet executing)
+    /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
+    /// </summary>
+    void CancelPendingModules();
 }
