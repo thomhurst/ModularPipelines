@@ -5,6 +5,16 @@ namespace ModularPipelines.Engine;
 /// <summary>
 /// Tracks the execution state of a module for eager parallel scheduling
 /// </summary>
+/// <remarks>
+/// This class is used internally by the ModuleScheduler to track:
+/// - Dependency resolution status via UnresolvedDependencies
+/// - Execution lifecycle (pending → queued → executing → completed)
+/// - Timing metrics (queued time, execution start, completion)
+/// - Constraint requirements (sequential execution, lock keys)
+///
+/// Thread Safety: Properties are accessed under lock by ModuleScheduler.
+/// State transitions are managed atomically to ensure correctness.
+/// </remarks>
 internal class ModuleState
 {
     public ModuleState(ModuleBase module)
