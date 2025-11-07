@@ -10,8 +10,6 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
 {
     private static readonly ConcurrentBag<string> _executingModules = new();
     private static readonly ConcurrentBag<string> _violations = new();
-    private static TaskCompletionSource _allModulesStarted = new();
-    private static int _startedCount;
 
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : Module<string>
@@ -20,20 +18,15 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
             if (_executingModules.Contains("ModuleWithAConstraintKey2"))
             {
                 _violations.Add($"{moduleName} started while ModuleWithAConstraintKey2 was executing");
             }
 
-            _executingModules.Add(moduleName);
-
-            if (Interlocked.Increment(ref _startedCount) == 4)
-            {
-                _allModulesStarted.SetResult();
-            }
-
-            await _allModulesStarted.Task;
-            await Task.Yield();
+            await Task.Delay(50, cancellationToken);
 
             _executingModules.TryTake(out _);
             return moduleName;
@@ -47,20 +40,15 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
             if (_executingModules.Contains("ModuleWithAConstraintKey1"))
             {
                 _violations.Add($"{moduleName} started while ModuleWithAConstraintKey1 was executing");
             }
 
-            _executingModules.Add(moduleName);
-
-            if (Interlocked.Increment(ref _startedCount) == 4)
-            {
-                _allModulesStarted.SetResult();
-            }
-
-            await _allModulesStarted.Task;
-            await Task.Yield();
+            await Task.Delay(50, cancellationToken);
 
             _executingModules.TryTake(out _);
             return moduleName;
@@ -74,20 +62,15 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
             if (_executingModules.Contains("ModuleWithBConstraintKey2"))
             {
                 _violations.Add($"{moduleName} started while ModuleWithBConstraintKey2 was executing");
             }
 
-            _executingModules.Add(moduleName);
-
-            if (Interlocked.Increment(ref _startedCount) == 4)
-            {
-                _allModulesStarted.SetResult();
-            }
-
-            await _allModulesStarted.Task;
-            await Task.Yield();
+            await Task.Delay(50, cancellationToken);
 
             _executingModules.TryTake(out _);
             return moduleName;
@@ -101,20 +84,15 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         {
             var moduleName = GetType().Name;
 
+            _executingModules.Add(moduleName);
+            await Task.Delay(50, cancellationToken);
+
             if (_executingModules.Contains("ModuleWithBConstraintKey1"))
             {
                 _violations.Add($"{moduleName} started while ModuleWithBConstraintKey1 was executing");
             }
 
-            _executingModules.Add(moduleName);
-
-            if (Interlocked.Increment(ref _startedCount) == 4)
-            {
-                _allModulesStarted.SetResult();
-            }
-
-            await _allModulesStarted.Task;
-            await Task.Yield();
+            await Task.Delay(50, cancellationToken);
 
             _executingModules.TryTake(out _);
             return moduleName;
@@ -126,8 +104,6 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         _executingModules.Clear();
         _violations.Clear();
-        _allModulesStarted = new TaskCompletionSource();
-        _startedCount = 0;
 
         await TestPipelineHostBuilder.Create()
             .AddModule<ModuleWithAConstraintKey1>()
