@@ -2,10 +2,13 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Engine.Constraints;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
@@ -16,8 +19,11 @@ internal class ModuleScheduler : IModuleScheduler
 {
     private readonly ILogger _logger;
     private readonly TimeProvider _timeProvider;
+    private readonly SchedulerOptions _options;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly ModuleStateQueries _stateQueries;
+    private readonly SchedulerExitConditions _exitConditions;
+    private readonly IModuleConstraint[] _constraints;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly CancellationTokenSource _disposalCancellationTokenSource;
@@ -26,12 +32,19 @@ internal class ModuleScheduler : IModuleScheduler
     private bool _schedulerCompleted;
     private bool _isDisposed;
 
-    public ModuleScheduler(ILogger logger, TimeProvider timeProvider)
+    public ModuleScheduler(ILogger logger, TimeProvider timeProvider, IOptions<SchedulerOptions> options)
     {
         _logger = logger;
         _timeProvider = timeProvider;
+        _options = options.Value;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
+        _exitConditions = new SchedulerExitConditions();
+        _constraints = new IModuleConstraint[]
+        {
+            new SequentialExecutionConstraint(),
+            new LockKeyConstraint()
+        };
         _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
         {
             SingleWriter = true,  // Only scheduler writes
@@ -204,27 +217,24 @@ internal class ModuleScheduler : IModuleScheduler
     {
         lock (_stateLock)
         {
-            var allCompleted = _stateQueries.AreAllModulesCompleted();
-            var anyActive = _stateQueries.AreAnyModulesActive();
-            var anyPending = _stateQueries.AreAnyModulesPending();
-
-            // Exit if all work is done, or we're deadlocked
-            var shouldExit = allCompleted || IsDeadlocked(anyActive, anyPending, queuedCount);
+            var snapshot = ModuleStateSnapshot.Create(_moduleStates.Values);
+            var shouldExit = _exitConditions.ShouldExit(snapshot, queuedCount);
 
             if (shouldExit)
             {
                 _schedulerCompleted = true;
+
+                if (_exitConditions.IsDeadlocked(snapshot, queuedCount))
+                {
+                    _logger.LogWarning(
+                        "Scheduler detected deadlock: {Pending} modules pending but cannot make progress. " +
+                        "Check for circular dependencies or missing module registrations.",
+                        snapshot.Pending);
+                }
             }
 
             return shouldExit;
         }
-    }
-
-    private static bool IsDeadlocked(bool anyActive, bool anyPending, int queuedCount)
-    {
-        // Deadlock: Nothing active, work pending, but nothing could be queued
-        // This means we have modules waiting for dependencies that will never complete
-        return !anyActive && anyPending && queuedCount == 0;
     }
 
     private void LogSchedulerWaitingState()
@@ -273,7 +283,7 @@ internal class ModuleScheduler : IModuleScheduler
     {
         try
         {
-            await _schedulerNotification.WaitAsync(EngineConstants.Scheduler.NotificationWaitTimeout, cancellationToken);
+            await _schedulerNotification.WaitAsync(_options.NotificationTimeout, cancellationToken);
         }
         catch (OperationCanceledException)
         {
@@ -519,69 +529,19 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        return CheckSequentialConstraints(moduleState) &&
-               CheckLockKeyConstraints(moduleState);
-    }
-
-    private bool CheckSequentialConstraints(ModuleState moduleState)
-    {
-        // Check if blocked by another sequential module
-        var blockingSequentialModule = _stateQueries.FindBlockingSequentialModule(moduleState);
-        if (blockingSequentialModule != null)
+        foreach (var constraint in _constraints)
         {
-            LogConstraintViolation(
-                moduleState,
-                "blocked by sequential module {SequentialModule}",
-                MarkupFormatter.FormatModuleName(blockingSequentialModule.Module.GetType().Name));
-            return false;
-        }
-
-        // Check if this is a sequential module blocked by others
-        if (moduleState.RequiresSequentialExecution)
-        {
-            if (_stateQueries.AreOtherModulesActive(moduleState))
+            if (!constraint.CanExecute(moduleState, _stateQueries))
             {
-                LogConstraintViolation(
-                    moduleState,
-                    "sequential module blocked - other modules still running/queued");
+                if (_options.EnableDetailedLogging)
+                {
+                    constraint.LogViolation(moduleState, _stateQueries, _logger);
+                }
                 return false;
             }
         }
 
         return true;
-    }
-
-    private bool CheckLockKeyConstraints(ModuleState moduleState)
-    {
-        if (moduleState.RequiredLockKeys.Length == 0)
-        {
-            return true;
-        }
-
-        var conflictingModule = _stateQueries.FindModuleWithLockConflict(moduleState);
-        if (conflictingModule != null)
-        {
-            var conflictingKeys = string.Join(", ",
-                moduleState.RequiredLockKeys.Intersect(conflictingModule.RequiredLockKeys));
-
-            LogConstraintViolation(
-                moduleState,
-                "blocked by lock conflict with {ConflictingModule} on keys: {Keys}",
-                MarkupFormatter.FormatModuleName(conflictingModule.Module.GetType().Name),
-                conflictingKeys);
-            return false;
-        }
-
-        return true;
-    }
-
-    private void LogConstraintViolation(ModuleState moduleState, string reason, params object[] args)
-    {
-        var moduleName = MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name);
-        var message = $"Module {{ModuleName}} {reason}";
-        var allArgs = new object[] { moduleName }.Concat(args).ToArray();
-
-        _logger.LogDebug(message, allArgs);
     }
 
     /// <summary>

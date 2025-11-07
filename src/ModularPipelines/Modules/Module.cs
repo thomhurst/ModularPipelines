@@ -172,7 +172,11 @@ public abstract partial class Module<T> : ModuleBase<T>
         if (module is null)
         {
             throw new ModuleNotRegisteredException(
-                $"The module {typeof(TModule)} has not been registered", null);
+                $"The module '{typeof(TModule).Name}' has not been registered in the pipeline.\n\n" +
+                $"Suggestions:\n" +
+                $"  1. Add '.AddModule<{typeof(TModule).Name}>()' to your pipeline configuration\n" +
+                $"  2. Use 'GetModuleIfRegistered<{typeof(TModule).Name}>()' if this module might not be present\n" +
+                $"  3. Ensure '{typeof(TModule).Name}' is registered before modules that depend on it", null);
         }
 
         return module;

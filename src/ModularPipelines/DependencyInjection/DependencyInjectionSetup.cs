@@ -25,6 +25,7 @@ internal static class DependencyInjectionSetup
         // Bundles
         services
             .Configure<PipelineOptions>(_ => { })
+            .Configure<SchedulerOptions>(_ => { })
             .AddLogging(builder =>
             {
                 builder.ClearProviders();
@@ -130,6 +131,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
+            .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()

@@ -26,7 +26,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
-    private readonly TimeProvider _timeProvider;
+    private readonly IModuleSchedulerFactory _schedulerFactory;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -37,7 +37,7 @@ internal class ModuleExecutor : IModuleExecutor
         IParallelLimitProvider parallelLimitProvider,
         IMediator mediator,
         ILogger<ModuleExecutor> logger,
-        TimeProvider timeProvider)
+        IModuleSchedulerFactory schedulerFactory)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -48,7 +48,7 @@ internal class ModuleExecutor : IModuleExecutor
         _parallelLimitProvider = parallelLimitProvider;
         _mediator = mediator;
         _logger = logger;
-        _timeProvider = timeProvider;
+        _schedulerFactory = schedulerFactory;
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ internal class ModuleExecutor : IModuleExecutor
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
-        var scheduler = new ModuleScheduler(_logger, _timeProvider);
+        var scheduler = _schedulerFactory.Create();
         scheduler.InitializeModules(modules);
 
         return scheduler;
@@ -383,8 +383,12 @@ internal class ModuleExecutor : IModuleExecutor
             else if (!ignoreIfNotRegistered)
             {
                 var message = $"Module '{module.GetType().Name}' depends on '{dependencyType.Name}', " +
-                              $"but '{dependencyType.Name}' has not been registered in the pipeline. " +
-                              $"Ensure all module dependencies are registered before executing the pipeline.";
+                              $"but '{dependencyType.Name}' has not been registered in the pipeline.\n\n" +
+                              $"Suggestions:\n" +
+                              $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration before '.AddModule<{module.GetType().Name}>()'\n" +
+                              $"  2. Use '[DependsOn<{dependencyType.Name}>(ignoreIfNotRegistered: true)]' if this dependency is optional\n" +
+                              $"  3. Check for typos in the dependency type name\n" +
+                              $"  4. Verify that '{dependencyType.Name}' is in a project referenced by your pipeline project";
                 throw new ModuleNotRegisteredException(message, null);
             }
         }
