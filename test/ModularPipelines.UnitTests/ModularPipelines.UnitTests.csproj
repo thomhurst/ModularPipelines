@@ -13,6 +13,8 @@
     <PackageReference Include="NReco.Logging.File" />
     <PackageReference Include="RichardSzalay.MockHttp" />
     <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" />
     <PackageReference Include="TUnit" />
   </ItemGroup>
   <ItemGroup>

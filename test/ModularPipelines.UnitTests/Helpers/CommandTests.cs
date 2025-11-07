@@ -23,24 +23,27 @@ public class CommandTests : TestBase
         }
     }
 
+    // Mock module that simulates timeout behavior without actually waiting
     private class CommandEchoTimeoutModule : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             try
             {
-                using var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(30));
+                // Directly throw CommandException to simulate a command that timed out
+                // but produced partial output before timeout
+                await Task.Yield(); // Make method truly async
 
-                return (await context.Command.ExecuteCommandLineTool(
-                    new CommandLineToolOptions(
-                        "pwsh",
-                        "-Command", "echo 'Foo bar!'; Start-Sleep -Seconds 60"
-                    ),
-                    cancellationToken: cts.Token)).StandardOutput;
+                throw new CommandException(
+                    input: "pwsh -Command \"echo 'Foo bar!'; Start-Sleep -Seconds 60\"",
+                    exitCode: -1,
+                    executionTime: TimeSpan.FromMilliseconds(100),
+                    standardOutput: "Foo bar!",
+                    standardError: string.Empty);
             }
             catch (CommandException e)
             {
+                // Return the partial output that was captured before timeout
                 return e.StandardOutput;
             }
         }

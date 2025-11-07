@@ -7,24 +7,34 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
+    // Using TaskCompletionSource allows us to test timeout behavior without actual delays
+    // The task will wait indefinitely until the timeout mechanism cancels it
     private class Module_UsingCancellationToken : Module<string>
     {
+        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+
         protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+            // This will wait indefinitely (or until cancellation) without blocking the thread
+            // The timeout mechanism will cancel it after 1 second
+            await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return "Foo bar!";
         }
     }
 
     private class Module_NotUsingCancellationToken : Module<string>
     {
+        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+
         protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30), CancellationToken.None);
+            // This will wait indefinitely without honoring cancellation
+            // The timeout mechanism should still handle it
+            await _taskCompletionSource.Task;
             return "Foo bar!";
         }
     }
@@ -35,12 +45,13 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
+            // Reduced delay from 500ms to 10ms for faster test execution
+            await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return "Foo bar!";
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task Throws_TaskException_When_Using_CancellationToken()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(RunModule<Module_UsingCancellationToken>);
