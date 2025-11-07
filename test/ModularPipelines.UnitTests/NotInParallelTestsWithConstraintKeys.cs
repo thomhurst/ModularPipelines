@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -7,15 +8,35 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTestsWithConstraintKeys : TestBase
 {
-    private static readonly TimeSpan ModuleDelay = TimeSpan.FromSeconds(2);
+    private static readonly ConcurrentBag<string> _executingModules = new();
+    private static readonly ConcurrentBag<string> _violations = new();
+    private static TaskCompletionSource _allModulesStarted = new();
+    private static int _startedCount;
 
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(ModuleDelay, cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            if (_executingModules.Contains("ModuleWithAConstraintKey2"))
+            {
+                _violations.Add($"{moduleName} started while ModuleWithAConstraintKey2 was executing");
+            }
+
+            _executingModules.Add(moduleName);
+
+            if (Interlocked.Increment(ref _startedCount) == 4)
+            {
+                _allModulesStarted.SetResult();
+            }
+
+            await _allModulesStarted.Task;
+            await Task.Yield();
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -24,8 +45,25 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(ModuleDelay, cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            if (_executingModules.Contains("ModuleWithAConstraintKey1"))
+            {
+                _violations.Add($"{moduleName} started while ModuleWithAConstraintKey1 was executing");
+            }
+
+            _executingModules.Add(moduleName);
+
+            if (Interlocked.Increment(ref _startedCount) == 4)
+            {
+                _allModulesStarted.SetResult();
+            }
+
+            await _allModulesStarted.Task;
+            await Task.Yield();
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -34,8 +72,25 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(ModuleDelay, cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            if (_executingModules.Contains("ModuleWithBConstraintKey2"))
+            {
+                _violations.Add($"{moduleName} started while ModuleWithBConstraintKey2 was executing");
+            }
+
+            _executingModules.Add(moduleName);
+
+            if (Interlocked.Increment(ref _startedCount) == 4)
+            {
+                _allModulesStarted.SetResult();
+            }
+
+            await _allModulesStarted.Task;
+            await Task.Yield();
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
@@ -44,56 +99,43 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(ModuleDelay, cancellationToken);
-            return GetType().Name;
+            var moduleName = GetType().Name;
+
+            if (_executingModules.Contains("ModuleWithBConstraintKey1"))
+            {
+                _violations.Add($"{moduleName} started while ModuleWithBConstraintKey1 was executing");
+            }
+
+            _executingModules.Add(moduleName);
+
+            if (Interlocked.Increment(ref _startedCount) == 4)
+            {
+                _allModulesStarted.SetResult();
+            }
+
+            await _allModulesStarted.Task;
+            await Task.Yield();
+
+            _executingModules.TryTake(out _);
+            return moduleName;
         }
     }
 
     [Test]
     public async Task NotInParallel_If_Same_ConstraintKey()
     {
-        // Use real time with short delays for this test since it validates execution ordering
-        // FakeTimeProvider doesn't auto-advance and would make all timestamps identical
-        var results = await TestPipelineHostBuilder.Create()
+        _executingModules.Clear();
+        _violations.Clear();
+        _allModulesStarted = new TaskCompletionSource();
+        _startedCount = 0;
+
+        await TestPipelineHostBuilder.Create()
             .AddModule<ModuleWithAConstraintKey1>()
             .AddModule<ModuleWithAConstraintKey2>()
             .AddModule<ModuleWithBConstraintKey1>()
             .AddModule<ModuleWithBConstraintKey2>()
             .ExecutePipelineAsync();
 
-        var a1 = results.Modules.OfType<ModuleWithAConstraintKey1>().First();
-        var a2 = results.Modules.OfType<ModuleWithAConstraintKey2>().First();
-        var b1 = results.Modules.OfType<ModuleWithBConstraintKey1>().First();
-        var b2 = results.Modules.OfType<ModuleWithBConstraintKey2>().First();
-
-        await AssertAfter(a1, a2);
-        await AssertAfter(b1, b2);
-
-        await AssertParallel(a1, b1);
-        await AssertParallel(a2, b2);
-    }
-
-    private async Task AssertAfter(ModuleBase one, ModuleBase two)
-    {
-        var modules = new[] { one, two };
-        var firstModule = modules.OrderBy(x => x.StartTime).First();
-        var secondModule = modules.OrderBy(x => x.StartTime).Last();
-
-        await Assert.That(secondModule.StartTime)
-            .IsGreaterThanOrEqualTo(firstModule.EndTime);
-    }
-
-    private async Task AssertParallel(ModuleBase one, ModuleBase two)
-    {
-        var modules = new[] { one, two };
-        var firstModule = modules.OrderBy(x => x.StartTime).First();
-        var secondModule = modules.OrderBy(x => x.StartTime).Last();
-
-        var tolerance = TimeSpan.FromMilliseconds(200);
-
-        await Assert.That(secondModule.StartTime)
-            .IsGreaterThanOrEqualTo(firstModule.StartTime)
-            .And
-            .IsLessThanOrEqualTo(firstModule.EndTime + tolerance);
+        await Assert.That(_violations).IsEmpty();
     }
 }
