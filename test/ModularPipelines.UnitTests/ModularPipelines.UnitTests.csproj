@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     <PackageReference Include="NReco.Logging.File" />
     <PackageReference Include="RichardSzalay.MockHttp" />
     <PackageReference Include="System.Text.Json" />

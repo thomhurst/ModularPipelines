@@ -6,7 +6,6 @@ using Polly.Retry;
 
 namespace ModularPipelines.UnitTests;
 
-[Retry(3)]
 public class RetryTests : TestBase
 {
     private class SuccessModule : Module
@@ -59,11 +58,13 @@ public class RetryTests : TestBase
 
     private class FailedModuleWithTimeout : Module
     {
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromMilliseconds(300);
+        // Reduced timeout from 300ms to 50ms for faster test execution
+        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromMilliseconds(50);
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(200), cancellationToken);
+            // Reduced delay from 200ms to 30ms for faster test execution
+            await Task.Delay(TimeSpan.FromMilliseconds(30), cancellationToken);
 
             throw new Exception();
         }

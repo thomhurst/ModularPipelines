@@ -31,7 +31,8 @@ public class PipelineProgressTests
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            // Reduced delay from 1 second to 50ms for faster test execution
+            await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
             return await NothingAsync();
         }
     }
@@ -41,7 +42,8 @@ public class PipelineProgressTests
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            // Reduced delay from 1 second to 50ms for faster test execution
+            await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
             return await NothingAsync();
         }
     }

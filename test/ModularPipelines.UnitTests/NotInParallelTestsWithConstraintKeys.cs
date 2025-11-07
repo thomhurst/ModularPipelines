@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -6,12 +7,15 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTestsWithConstraintKeys : TestBase
 {
+    // Reduced delay from 1 second to 150ms for faster test execution while ensuring measurable timing differences
+    private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(150);
+
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -21,7 +25,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -31,7 +35,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -41,14 +45,16 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task NotInParallel_If_Same_ConstraintKey()
     {
+        // Use real time with short delays for this test since it validates execution ordering
+        // FakeTimeProvider doesn't auto-advance and would make all timestamps identical
         var results = await TestPipelineHostBuilder.Create()
             .AddModule<ModuleWithAConstraintKey1>()
             .AddModule<ModuleWithAConstraintKey2>()

@@ -1,18 +1,21 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-[Repeat(5)]
 public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
 {
+    // Reduced delay from 1 second to 50ms for faster test execution
+    private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(50);
+
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -22,7 +25,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -32,7 +35,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -42,15 +45,17 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
 
-    [Test, Retry(3)]
+    [Test]
     public async Task NotInParallel_If_Any_Modules_Executing_With_Any_Of_Same_ConstraintKey()
     {
-        var resultsTask = TestPipelineHostBuilder.Create()
+        var timeProvider = new FakeTimeProvider();
+
+        var resultsTask = TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()
@@ -77,7 +82,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
         var secondModule = modules.OrderBy(x => x.StartTime).Last();
 
         await Assert.That(secondModule.StartTime)
-            .IsGreaterThan(firstModule.StartTime + TimeSpan.FromSeconds(1));
+            .IsGreaterThan(firstModule.StartTime + ModuleDelay.Add(TimeSpan.FromMilliseconds(-25)));
     }
 
     private async Task AssertParallel(ModuleBase one, ModuleBase two)

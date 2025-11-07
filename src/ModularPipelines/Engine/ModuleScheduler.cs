@@ -15,6 +15,7 @@ namespace ModularPipelines.Engine;
 internal class ModuleScheduler : IModuleScheduler
 {
     private readonly ILogger _logger;
+    private readonly TimeProvider _timeProvider;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
@@ -24,9 +25,10 @@ internal class ModuleScheduler : IModuleScheduler
     private bool _schedulerCompleted;
     private bool _isDisposed;
 
-    public ModuleScheduler(ILogger logger)
+    public ModuleScheduler(ILogger logger, TimeProvider timeProvider)
     {
         _logger = logger;
+        _timeProvider = timeProvider;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _readyChannel = Channel.CreateUnbounded<ModuleState>(new UnboundedChannelOptions
         {
@@ -259,7 +261,7 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 state.IsQueued = false;  // Clear queued flag now that it's executing
                 state.IsExecuting = true;
-                state.ExecutionStartTime = DateTimeOffset.UtcNow;
+                state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
                 if (state.QueuedTime.HasValue)
                 {
@@ -287,7 +289,7 @@ internal class ModuleScheduler : IModuleScheduler
         {
             state.IsExecuting = false;
             state.IsCompleted = true;
-            state.CompletionTime = DateTimeOffset.UtcNow;
+            state.CompletionTime = _timeProvider.GetUtcNow();
 
             if (success)
             {
@@ -430,7 +432,7 @@ internal class ModuleScheduler : IModuleScheduler
 
                 // Mark as queued inside lock to prevent race conditions
                 moduleState.IsQueued = true;
-                moduleState.QueuedTime = DateTimeOffset.UtcNow;
+                moduleState.QueuedTime = _timeProvider.GetUtcNow();
 
                 modulesToQueue.Add(moduleState);
             }

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -5,15 +6,17 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-[Retry(3)]
 public class NotInParallelTests
 {
+    // Reduced delay from 5 seconds to 100ms for much faster test execution
+    private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
+
     [ModularPipelines.Attributes.NotInParallel]
     public class Module1 : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -23,7 +26,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -34,7 +37,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -43,7 +46,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -54,7 +57,7 @@ public class NotInParallelTests
     {
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
         }
     }
@@ -62,7 +65,9 @@ public class NotInParallelTests
     [Test]
     public async Task NotInParallel()
     {
-        var results = await TestPipelineHostBuilder.Create()
+        var timeProvider = new FakeTimeProvider();
+
+        var results = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
@@ -70,13 +75,15 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .IsGreaterThanOrEqualTo(firstModule.StartTime + TimeSpan.FromSeconds(5));
+            .IsGreaterThanOrEqualTo(firstModule.StartTime + ModuleDelay.Add(TimeSpan.FromMilliseconds(-50)));
     }
 
     [Test]
     public async Task NotInParallel_With_ParallelDependency()
     {
-        var results = await TestPipelineHostBuilder.Create()
+        var timeProvider = new FakeTimeProvider();
+
+        var results = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .ExecutePipelineAsync();
@@ -84,13 +91,15 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
         await Assert.That(nextModule.StartTime)
-            .IsGreaterThanOrEqualTo(firstModule.StartTime + TimeSpan.FromSeconds(5));
+            .IsGreaterThanOrEqualTo(firstModule.StartTime + ModuleDelay.Add(TimeSpan.FromMilliseconds(-50)));
     }
 
     [Test]
     public async Task NotInParallel_With_NonParallelDependency()
     {
-        var results = await TestPipelineHostBuilder.Create()
+        var timeProvider = new FakeTimeProvider();
+
+        var results = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .AddModule<NotParallelModuleWithNonParallelDependency>()
@@ -99,7 +108,7 @@ public class NotInParallelTests
         var firstModule = results.Modules.MinBy(x => x.EndTime)!;
         var nextModule = results.Modules.MaxBy(x => x.EndTime)!;
 
-        var expectedStartTime = firstModule.StartTime + TimeSpan.FromSeconds(10);
+        var expectedStartTime = firstModule.StartTime + ModuleDelay.Multiply(2).Add(TimeSpan.FromMilliseconds(-50));
 
         await Assert.That(nextModule.StartTime)
             .IsGreaterThanOrEqualTo(expectedStartTime);

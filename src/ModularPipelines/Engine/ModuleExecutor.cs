@@ -26,6 +26,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
+    private readonly TimeProvider _timeProvider;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -35,7 +36,8 @@ internal class ModuleExecutor : IModuleExecutor
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IParallelLimitProvider parallelLimitProvider,
         IMediator mediator,
-        ILogger<ModuleExecutor> logger)
+        ILogger<ModuleExecutor> logger,
+        TimeProvider timeProvider)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -46,6 +48,7 @@ internal class ModuleExecutor : IModuleExecutor
         _parallelLimitProvider = parallelLimitProvider;
         _mediator = mediator;
         _logger = logger;
+        _timeProvider = timeProvider;
     }
 
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
@@ -64,7 +67,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
-            scheduler = new ModuleScheduler(_logger);
+            scheduler = new ModuleScheduler(_logger, _timeProvider);
             scheduler.InitializeModules(modules);
 
             var cancellationTokenSource = new CancellationTokenSource();
