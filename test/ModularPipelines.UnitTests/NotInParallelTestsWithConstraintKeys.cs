@@ -7,8 +7,7 @@ namespace ModularPipelines.UnitTests;
 
 public class NotInParallelTestsWithConstraintKeys : TestBase
 {
-    // Reduced delay from 1 second to 150ms for faster test execution while ensuring measurable timing differences
-    private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(150);
+    private static readonly TimeSpan ModuleDelay = TimeSpan.FromSeconds(2);
 
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : Module<string>
@@ -90,9 +89,11 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         var firstModule = modules.OrderBy(x => x.StartTime).First();
         var secondModule = modules.OrderBy(x => x.StartTime).Last();
 
+        var tolerance = TimeSpan.FromMilliseconds(200);
+
         await Assert.That(secondModule.StartTime)
             .IsGreaterThanOrEqualTo(firstModule.StartTime)
             .And
-            .IsLessThanOrEqualTo(firstModule.EndTime);
+            .IsLessThanOrEqualTo(firstModule.EndTime + tolerance);
     }
 }

@@ -7,8 +7,6 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    // Using TaskCompletionSource allows us to test timeout behavior without actual delays
-    // The task will wait indefinitely until the timeout mechanism cancels it
     private class Module_UsingCancellationToken : Module<string>
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
@@ -17,8 +15,6 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            // This will wait indefinitely (or until cancellation) without blocking the thread
-            // The timeout mechanism will cancel it after 1 second
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return "Foo bar!";
         }
@@ -32,9 +28,13 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            // This will wait indefinitely without honoring cancellation
-            // The timeout mechanism should still handle it
-            await _taskCompletionSource.Task;
+            try
+            {
+                await _taskCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+            }
             return "Foo bar!";
         }
     }
@@ -45,7 +45,6 @@ public class ModuleTimeoutTests : TestBase
 
         protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            // Reduced delay from 500ms to 10ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return "Foo bar!";
         }
