@@ -326,6 +326,13 @@ internal class ModuleScheduler : IModuleScheduler
                 _executingModules.Add(state);
                 state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
+                _logger.LogDebug(
+                    "Module {ModuleName} started executing with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
+                    MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                    string.Join(", ", state.RequiredLockKeys),
+                    _queuedModules.Count,
+                    _executingModules.Count);
+
                 if (state.QueuedTime.HasValue)
                 {
                     var queueTime = state.ExecutionStartTime.Value - state.QueuedTime.Value;
@@ -350,10 +357,16 @@ internal class ModuleScheduler : IModuleScheduler
 
         lock (_stateLock)
         {
-            // Atomic state transition + update collections
             _executingModules.Remove(state);
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
+
+            _logger.LogDebug(
+                "Module {ModuleName} completed with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
+                MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                string.Join(", ", state.RequiredLockKeys),
+                _queuedModules.Count,
+                _executingModules.Count);
 
             if (success)
             {
@@ -493,12 +506,24 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 if (!CanExecuteRespectingConstraints(moduleState))
                 {
+                    _logger.LogDebug(
+                        "Module {ModuleName} blocked by constraints (Active: Q={Queued}, E={Executing})",
+                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                        _queuedModules.Count,
+                        _executingModules.Count);
                     continue;
                 }
 
                 moduleState.State = ModuleExecutionState.Queued;
                 moduleState.QueuedTime = _timeProvider.GetUtcNow();
                 _queuedModules.Add(moduleState);
+
+                _logger.LogDebug(
+                    "Module {ModuleName} queued with lock keys: [{Keys}] (Active after: Q={Queued}, E={Executing})",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    string.Join(", ", moduleState.RequiredLockKeys),
+                    _queuedModules.Count,
+                    _executingModules.Count);
 
                 modulesToQueue.Add(moduleState);
             }
