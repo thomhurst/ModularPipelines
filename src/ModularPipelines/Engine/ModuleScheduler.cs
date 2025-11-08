@@ -321,6 +321,21 @@ internal class ModuleScheduler : IModuleScheduler
         {
             if (_moduleStates.TryGetValue(moduleType, out var state))
             {
+                // Defensive constraint check at execution boundary
+                // Prevents race where module was queued but constraints changed before execution
+                if (!CanExecuteRespectingConstraints(state))
+                {
+                    _logger.LogDebug(
+                        "Module {ModuleName} constraint check failed at execution time, returning to Pending for retry",
+                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name));
+
+                    // Reset to Pending so scheduler will retry when constraints allow
+                    _queuedModules.Remove(state);
+                    state.State = ModuleExecutionState.Pending;
+                    state.QueuedTime = null;
+                    return;
+                }
+
                 _queuedModules.Remove(state);
                 state.State = ModuleExecutionState.Executing;
                 _executingModules.Add(state);
@@ -559,9 +574,11 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        // Use tracking collections directly to get currently active modules
-        // This avoids issues with state changes during iteration
-        var activeModules = _queuedModules.Concat(_executingModules).ToList();
+        // Check against modules with Queued or Executing state (source of truth)
+        // Using State enum instead of tracking collections prevents race conditions
+        var activeModules = _moduleStates.Values
+            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
+            .ToList();
 
         _logger.LogDebug(
             "[CONSTRAINT] Checking {ModuleName} with keys [{Keys}] against {ActiveCount} active modules",
