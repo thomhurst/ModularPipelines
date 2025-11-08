@@ -559,13 +559,9 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        // Snapshot all module states first to ensure consistent view
-        var allStates = _moduleStates.Values.ToList();
-
-        // Filter for active modules
-        var activeModules = allStates
-            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
-            .ToList();
+        // Use tracking collections directly to get currently active modules
+        // This avoids issues with state changes during iteration
+        var activeModules = _queuedModules.Concat(_executingModules).ToList();
 
         _logger.LogDebug(
             "[CONSTRAINT] Checking {ModuleName} with keys [{Keys}] against {ActiveCount} active modules",
