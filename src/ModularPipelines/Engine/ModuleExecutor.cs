@@ -286,7 +286,8 @@ internal class ModuleExecutor : IModuleExecutor
 
             await WaitForDependenciesAsync(module, scheduler);
 
-            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module));
+            // Respect engine cancellation even if module doesn't honor its own cancellation token
+            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module)).WaitAsync(cancellationToken);
 
             scheduler.MarkModuleCompleted(module.GetType(), true);
         }
