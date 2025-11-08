@@ -559,8 +559,11 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        // Get all active modules directly from state dictionary to ensure consistency
-        var activeModules = _moduleStates.Values
+        // Snapshot all module states first to ensure consistent view
+        var allStates = _moduleStates.Values.ToList();
+
+        // Filter for active modules
+        var activeModules = allStates
             .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
             .ToList();
 
@@ -570,15 +573,35 @@ internal class ModuleScheduler : IModuleScheduler
             string.Join(", ", moduleState.RequiredLockKeys),
             activeModules.Count);
 
-        if (moduleState.RequiredLockKeys.Length > 0)
+        // Check lock key conflicts
+        foreach (var active in activeModules)
         {
-            foreach (var active in activeModules)
+            _logger.LogDebug(
+                "[CONSTRAINT]   Comparing with active {ActiveModule} (State={State}, Keys=[{ActiveKeys}])",
+                MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
+                active.State,
+                string.Join(", ", active.RequiredLockKeys));
+
+            // Skip if neither module has lock keys
+            if (moduleState.RequiredLockKeys.Length == 0 && active.RequiredLockKeys.Length == 0)
+            {
+                continue;
+            }
+
+            // Check for lock key intersection
+            if (moduleState.RequiredLockKeys.Length > 0 && active.RequiredLockKeys.Length > 0)
             {
                 var intersection = active.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).ToArray();
 
+                _logger.LogDebug(
+                    "[CONSTRAINT]   Intersection check: Module=[{ModuleKeys}] vs Active=[{ActiveKeys}] => Intersection=[{Intersection}]",
+                    string.Join(", ", moduleState.RequiredLockKeys),
+                    string.Join(", ", active.RequiredLockKeys),
+                    string.Join(", ", intersection));
+
                 if (intersection.Length > 0)
                 {
-                    _logger.LogWarning(
+                    _logger.LogDebug(
                         "[CONSTRAINT] ❌ Module {ModuleName} BLOCKED by {ActiveModule} on keys: [{Keys}]",
                         MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
                         MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
