@@ -26,7 +26,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
-    private readonly TimeProvider _timeProvider;
+    private readonly IModuleSchedulerFactory _schedulerFactory;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -37,7 +37,7 @@ internal class ModuleExecutor : IModuleExecutor
         IParallelLimitProvider parallelLimitProvider,
         IMediator mediator,
         ILogger<ModuleExecutor> logger,
-        TimeProvider timeProvider)
+        IModuleSchedulerFactory schedulerFactory)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -48,103 +48,39 @@ internal class ModuleExecutor : IModuleExecutor
         _parallelLimitProvider = parallelLimitProvider;
         _mediator = mediator;
         _logger = logger;
-        _timeProvider = timeProvider;
+        _schedulerFactory = schedulerFactory;
     }
 
+    /// <summary>
+    /// Executes a collection of modules using eager parallel scheduling.
+    /// </summary>
+    /// <param name="modules">The modules to execute. Must not be null.</param>
+    /// <returns>The same collection of modules after execution.</returns>
+    /// <remarks>
+    /// This method:
+    /// - Initializes a scheduler for managing module dependencies
+    /// - Runs modules in parallel respecting dependencies and constraints
+    /// - Handles exceptions based on configured ExecutionMode
+    /// - Ensures AlwaysRun modules complete even on failure
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">Thrown when modules is null.</exception>
+    /// <exception cref="ModuleNotRegisteredException">Thrown when a module dependency is not registered.</exception>
     public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
     {
         ArgumentNullException.ThrowIfNull(modules);
+
+        if (modules.Count == 0)
+        {
+            _logger.LogDebug("No modules to execute");
+            return modules;
+        }
 
         IModuleScheduler? scheduler = null;
 
         try
         {
-            if (modules.Count == 0)
-            {
-                _logger.LogDebug("No modules to execute");
-                return modules;
-            }
-
-            _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
-
-            scheduler = new ModuleScheduler(_logger, _timeProvider);
-            scheduler.InitializeModules(modules);
-
-            var cancellationTokenSource = new CancellationTokenSource();
-
-            // Register callback to cancel pending modules when cancellation is triggered
-            // This ensures TaskCompletionSources for queued modules are properly completed
-            cancellationTokenSource.Token.Register(() =>
-            {
-                _logger.LogDebug("Cancellation triggered - cancelling all pending modules");
-                scheduler.CancelPendingModules();
-            });
-
-            var schedulerTask = scheduler.RunSchedulerAsync(cancellationTokenSource.Token);
-
-            var maxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism();
-
-            _logger.LogDebug("Starting worker pool with MaxDegreeOfParallelism = {MaxDegreeOfParallelism}", maxDegreeOfParallelism);
-
-            var parallelOptions = new ParallelOptions
-            {
-                MaxDegreeOfParallelism = maxDegreeOfParallelism,
-                CancellationToken = cancellationTokenSource.Token
-            };
-
-            Exception? firstException = null;
-
-            try
-            {
-                await Parallel.ForEachAsync(
-                    scheduler.ReadyModules.ReadAllAsync(cancellationTokenSource.Token),
-                    parallelOptions,
-                    async (moduleState, ct) =>
-                    {
-                        try
-                        {
-                            await ExecuteModule(moduleState, scheduler, ct);
-                        }
-                        catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-                        {
-                            // Store first exception and cancel immediately to stop scheduler and other workers
-                            Interlocked.CompareExchange(ref firstException, ex, null);
-                            cancellationTokenSource.Cancel();
-                            // Don't rethrow here - let parallel loop complete and rethrow after cleanup
-                        }
-                    });
-            }
-            catch (OperationCanceledException) when (firstException != null)
-            {
-                // Expected when we cancelled due to StopOnFirstException - will rethrow firstException below
-            }
-            catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
-            {
-                _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
-            }
-            finally
-            {
-                // Cancel scheduler when workers exit if not already cancelled
-                // This handles the normal completion case
-                if (!cancellationTokenSource.IsCancellationRequested)
-                {
-                    cancellationTokenSource.Cancel();
-                }
-            }
-
-            await schedulerTask;
-
-            _logger.LogDebug("All modules completed");
-
-            // If we stored an exception during StopOnFirstException, rethrow it to preserve the original exception type
-            if (firstException != null)
-            {
-                _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
-                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
-            }
-
-            _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
-            return modules;
+            scheduler = InitializeScheduler(modules);
+            return await ExecuteWithSchedulerAsync(modules, scheduler);
         }
         catch (Exception outerEx)
         {
@@ -152,37 +88,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (scheduler != null)
             {
-                var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
-                _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
-
-                foreach (var moduleBase in alwaysRunModules)
-                {
-                    var moduleState = scheduler.GetModuleState(moduleBase.GetType());
-                    var moduleTask = scheduler.GetModuleCompletionTask(moduleBase.GetType());
-
-                    // Only wait for modules that have actually started executing or already completed
-                    // Skip modules that are still pending/queued as they will never complete after cancellation
-                    if (moduleTask != null && moduleState != null && (moduleState.IsExecuting || moduleState.IsCompleted))
-                    {
-                        _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
-                            moduleBase.GetType().Name, moduleState.IsExecuting, moduleState.IsCompleted);
-                        try
-                        {
-                            await moduleTask;
-                            _logger.LogDebug("AlwaysRun module {ModuleName} completed", moduleBase.GetType().Name);
-                        }
-                        catch (Exception alwaysRunEx)
-                        {
-                            _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}", moduleBase.GetType().Name, alwaysRunEx.GetType().Name);
-                            _ = moduleTask.Exception;
-                        }
-                    }
-                    else if (moduleState != null)
-                    {
-                        _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (IsQueued={IsQueued}, IsExecuting={IsExecuting}, IsCompleted={IsCompleted})",
-                            moduleBase.GetType().Name, moduleState.IsQueued, moduleState.IsExecuting, moduleState.IsCompleted);
-                    }
-                }
+                await WaitForAlwaysRunModulesAsync(scheduler, modules);
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
@@ -192,6 +98,179 @@ internal class ModuleExecutor : IModuleExecutor
         {
             scheduler?.Dispose();
         }
+    }
+
+    private IModuleScheduler InitializeScheduler(IReadOnlyList<ModuleBase> modules)
+    {
+        _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
+
+        var scheduler = _schedulerFactory.Create();
+        scheduler.InitializeModules(modules);
+
+        return scheduler;
+    }
+
+    private async Task<IEnumerable<ModuleBase>> ExecuteWithSchedulerAsync(
+        IReadOnlyList<ModuleBase> modules,
+        IModuleScheduler scheduler)
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        RegisterCancellationCallback(cancellationTokenSource, scheduler);
+
+        var schedulerTask = scheduler.RunSchedulerAsync(cancellationTokenSource.Token);
+
+        Exception? firstException;
+
+        try
+        {
+            firstException = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource);
+        }
+        finally
+        {
+            EnsureCancellation(cancellationTokenSource);
+        }
+
+        await schedulerTask;
+
+        _logger.LogDebug("All modules completed");
+
+        RethrowFirstExceptionIfPresent(firstException);
+
+        _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
+        return modules;
+    }
+
+    private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
+    {
+        // Register callback to cancel pending modules when cancellation is triggered
+        // This ensures TaskCompletionSources for queued modules are properly completed
+        cancellationTokenSource.Token.Register(() =>
+        {
+            _logger.LogDebug("Cancellation triggered - cancelling all pending modules");
+            scheduler.CancelPendingModules();
+        });
+    }
+
+    private async Task<Exception?> ExecuteWorkerPoolAsync(
+        IModuleScheduler scheduler,
+        CancellationTokenSource cancellationTokenSource)
+    {
+        var maxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism();
+
+        _logger.LogDebug("Starting worker pool with MaxDegreeOfParallelism = {MaxDegreeOfParallelism}",
+            maxDegreeOfParallelism);
+
+        var parallelOptions = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = maxDegreeOfParallelism,
+            CancellationToken = cancellationTokenSource.Token
+        };
+
+        Exception? firstException = null;
+
+        try
+        {
+            await Parallel.ForEachAsync(
+                scheduler.ReadyModules.ReadAllAsync(cancellationTokenSource.Token),
+                parallelOptions,
+                async (moduleState, ct) =>
+                {
+                    try
+                    {
+                        await ExecuteModule(moduleState, scheduler, ct);
+                    }
+                    catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
+                    {
+                        // Store first exception and cancel immediately to stop scheduler and other workers
+                        Interlocked.CompareExchange(ref firstException, ex, null);
+                        cancellationTokenSource.Cancel();
+                        // Don't rethrow here - let parallel loop complete and rethrow after cleanup
+                    }
+                });
+        }
+        catch (OperationCanceledException) when (firstException != null)
+        {
+            // Expected when we cancelled due to StopOnFirstException - will rethrow firstException below
+        }
+        catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
+        {
+            _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
+        }
+
+        return firstException;
+    }
+
+    private void EnsureCancellation(CancellationTokenSource cancellationTokenSource)
+    {
+        // Cancel scheduler when workers exit if not already cancelled
+        // This handles the normal completion case
+        if (!cancellationTokenSource.IsCancellationRequested)
+        {
+            cancellationTokenSource.Cancel();
+        }
+    }
+
+    private void RethrowFirstExceptionIfPresent(Exception? firstException)
+    {
+        // If we stored an exception during StopOnFirstException, rethrow it to preserve the original exception type
+        if (firstException != null)
+        {
+            _logger.LogDebug("Rethrowing first exception: {ExceptionType}", firstException.GetType().Name);
+            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(firstException).Throw();
+        }
+    }
+
+    private async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<ModuleBase> modules)
+    {
+        var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
+        _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
+
+        foreach (var moduleBase in alwaysRunModules)
+        {
+            await WaitForSingleAlwaysRunModuleAsync(scheduler, moduleBase);
+        }
+    }
+
+    private async Task WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, ModuleBase moduleBase)
+    {
+        var moduleState = scheduler.GetModuleState(moduleBase.GetType());
+        var moduleTask = scheduler.GetModuleCompletionTask(moduleBase.GetType());
+
+        if (moduleTask == null || moduleState == null)
+        {
+            return;
+        }
+
+        // Only wait for modules that have actually started executing or already completed
+        // Skip modules that are still pending/queued as they will never complete after cancellation
+        if (ShouldWaitForAlwaysRunModule(moduleState))
+        {
+            _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (State={State})",
+                moduleBase.GetType().Name, moduleState.State);
+
+            try
+            {
+                await moduleTask;
+                _logger.LogDebug("AlwaysRun module {ModuleName} completed", moduleBase.GetType().Name);
+            }
+            catch (Exception alwaysRunEx)
+            {
+                _logger.LogDebug("AlwaysRun module {ModuleName} threw: {ExceptionType}",
+                    moduleBase.GetType().Name, alwaysRunEx.GetType().Name);
+                _ = moduleTask.Exception;
+            }
+        }
+        else
+        {
+            _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (State={State})",
+                moduleBase.GetType().Name, moduleState.State);
+        }
+    }
+
+    private static bool ShouldWaitForAlwaysRunModule(ModuleState moduleState)
+    {
+        return moduleState.State == ModuleExecutionState.Executing || moduleState.State == ModuleExecutionState.Completed;
     }
 
     private async Task ExecuteModule(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
@@ -207,7 +286,8 @@ internal class ModuleExecutor : IModuleExecutor
 
             await WaitForDependenciesAsync(module, scheduler);
 
-            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module));
+            // Respect engine cancellation even if module doesn't honor its own cancellation token
+            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module)).WaitAsync(cancellationToken);
 
             scheduler.MarkModuleCompleted(module.GetType(), true);
         }
@@ -304,8 +384,12 @@ internal class ModuleExecutor : IModuleExecutor
             else if (!ignoreIfNotRegistered)
             {
                 var message = $"Module '{module.GetType().Name}' depends on '{dependencyType.Name}', " +
-                              $"but '{dependencyType.Name}' has not been registered in the pipeline. " +
-                              $"Ensure all module dependencies are registered before executing the pipeline.";
+                              $"but '{dependencyType.Name}' has not been registered in the pipeline.\n\n" +
+                              $"Suggestions:\n" +
+                              $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration before '.AddModule<{module.GetType().Name}>()'\n" +
+                              $"  2. Use '[DependsOn<{dependencyType.Name}>(ignoreIfNotRegistered: true)]' if this dependency is optional\n" +
+                              $"  3. Check for typos in the dependency type name\n" +
+                              $"  4. Verify that '{dependencyType.Name}' is in a project referenced by your pipeline project";
                 throw new ModuleNotRegisteredException(message, null);
             }
         }
