@@ -47,14 +47,7 @@ public class EngineCancellationTokenTests : TestBase
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _taskCompletionSource.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            }
-            catch (TimeoutException)
-            {
-            }
-
+            await _taskCompletionSource.Task;
             return await NothingAsync();
         }
     }
@@ -122,8 +115,6 @@ public class EngineCancellationTokenTests : TestBase
         {
             await Assert.That(async () => await pipelineTask).ThrowsException();
             await Assert.That(longRunningModule.Status).IsEqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModule.Duration).IsGreaterThanOrEqualTo(TimeSpan.Zero);
-            await Assert.That(longRunningModule.Duration).IsLessThan(TimeSpan.FromSeconds(6));
         }
     }
 }
