@@ -559,60 +559,62 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     private bool CanExecuteRespectingConstraints(ModuleState moduleState)
     {
-        var activeModules = _queuedModules.Concat(_executingModules).ToList();
+        // Get all active modules directly from state dictionary to ensure consistency
+        var activeModules = _moduleStates.Values
+            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
+            .ToList();
+
+        _logger.LogDebug(
+            "[CONSTRAINT] Checking {ModuleName} with keys [{Keys}] against {ActiveCount} active modules",
+            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+            string.Join(", ", moduleState.RequiredLockKeys),
+            activeModules.Count);
 
         if (moduleState.RequiredLockKeys.Length > 0)
         {
             foreach (var active in activeModules)
             {
-                if (active.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).Any())
+                var intersection = active.RequiredLockKeys.Intersect(moduleState.RequiredLockKeys).ToArray();
+
+                if (intersection.Length > 0)
                 {
-                    if (_options.EnableDetailedLogging)
-                    {
-                        var conflictingKeys = string.Join(", ",
-                            moduleState.RequiredLockKeys.Intersect(active.RequiredLockKeys));
-                        _logger.LogDebug(
-                            "Module {ModuleName} blocked by lock conflict with {ConflictingModule} on keys: {Keys}",
-                            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                            MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
-                            conflictingKeys);
-                    }
+                    _logger.LogWarning(
+                        "[CONSTRAINT] ❌ Module {ModuleName} BLOCKED by {ActiveModule} on keys: [{Keys}]",
+                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
+                        string.Join(", ", intersection));
                     return false;
                 }
             }
         }
 
-        // Check if this module requires sequential execution
         if (moduleState.RequiresSequentialExecution)
         {
-            if (_queuedModules.Count > 0 || _executingModules.Count > 0)
+            if (activeModules.Count > 0)
             {
-                if (_options.EnableDetailedLogging)
-                {
-                    _logger.LogDebug(
-                        "Sequential module {ModuleName} blocked - other modules still running/queued",
-                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
-                }
+                _logger.LogDebug(
+                    "[CONSTRAINT] Sequential module {ModuleName} blocked - {Count} other modules active",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    activeModules.Count);
                 return false;
             }
         }
 
-        // Check if blocked by another sequential module
         foreach (var active in activeModules)
         {
             if (active.RequiresSequentialExecution)
             {
-                if (_options.EnableDetailedLogging)
-                {
-                    _logger.LogDebug(
-                        "Module {ModuleName} blocked by sequential module {SequentialModule}",
-                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                        MarkupFormatter.FormatModuleName(active.Module.GetType().Name));
-                }
+                _logger.LogDebug(
+                    "[CONSTRAINT] Module {ModuleName} blocked by sequential module {SequentialModule}",
+                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(active.Module.GetType().Name));
                 return false;
             }
         }
 
+        _logger.LogDebug(
+            "[CONSTRAINT] ✅ Module {ModuleName} passed all constraints",
+            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
         return true;
     }
 
