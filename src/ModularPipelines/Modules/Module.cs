@@ -337,6 +337,11 @@ public abstract partial class Module<T> : ModuleBase<T>
         {
             var timeoutExceptionTask = CreateTimeoutTask(backgroundCancellationTokenSource.Token);
 
+            // Observe executeAsyncTask's exception to prevent unobserved task exceptions when timeout fires first
+            _ = executeAsyncTask.ContinueWith(
+                t => _ = t.Exception,
+                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+
             await await Task.WhenAny(timeoutExceptionTask, executeAsyncTask);
 
             backgroundCancellationTokenSource.Cancel();
