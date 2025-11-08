@@ -576,6 +576,12 @@ internal class ModuleScheduler : IModuleScheduler
         // Check lock key conflicts
         foreach (var active in activeModules)
         {
+            // Skip checking against self
+            if (active == moduleState)
+            {
+                continue;
+            }
+
             _logger.LogDebug(
                 "[CONSTRAINT]   Comparing with active {ActiveModule} (State={State}, Keys=[{ActiveKeys}])",
                 MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
@@ -613,18 +619,26 @@ internal class ModuleScheduler : IModuleScheduler
 
         if (moduleState.RequiresSequentialExecution)
         {
-            if (activeModules.Count > 0)
+            // Exclude self from count
+            var otherActiveModules = activeModules.Where(m => m != moduleState).ToList();
+            if (otherActiveModules.Count > 0)
             {
                 _logger.LogDebug(
                     "[CONSTRAINT] Sequential module {ModuleName} blocked - {Count} other modules active",
                     MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                    activeModules.Count);
+                    otherActiveModules.Count);
                 return false;
             }
         }
 
         foreach (var active in activeModules)
         {
+            // Skip checking against self
+            if (active == moduleState)
+            {
+                continue;
+            }
+
             if (active.RequiresSequentialExecution)
             {
                 _logger.LogDebug(
