@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 
 namespace ModularPipelines.Modules;
 
@@ -17,6 +18,11 @@ public interface IModule
     /// Gets the module's type (used for dependency resolution and identification).
     /// </summary>
     Type ModuleType { get; }
+
+    /// <summary>
+    /// Gets the current execution status of this module.
+    /// </summary>
+    Status Status { get; }
 }
 
 /// <summary>

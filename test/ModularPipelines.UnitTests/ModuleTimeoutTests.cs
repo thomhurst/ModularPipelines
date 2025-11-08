@@ -2,31 +2,32 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    private class Module_UsingCancellationToken : Module<string>
+    private class Module_UsingCancellationToken : ModuleNew<string>, IModuleTimeout
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
+        public TimeSpan GetTimeout() => TimeSpan.FromSeconds(1);
 
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return "Foo bar!";
         }
     }
 
-    private class Module_NotUsingCancellationToken : Module<string>
+    private class Module_NotUsingCancellationToken : ModuleNew<string>, IModuleTimeout
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromSeconds(1);
+        public TimeSpan GetTimeout() => TimeSpan.FromSeconds(1);
 
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,11 +40,11 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class NoTimeoutModule : Module<string>
+    private class NoTimeoutModule : ModuleNew<string>, IModuleTimeout
     {
-        protected internal override TimeSpan Timeout => TimeSpan.Zero;
+        public TimeSpan GetTimeout() => TimeSpan.Zero;
 
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return "Foo bar!";

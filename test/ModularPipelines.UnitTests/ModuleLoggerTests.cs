@@ -15,35 +15,38 @@ namespace ModularPipelines.UnitTests;
 public class ModuleLoggerTests
 {
     private static readonly string RandomString = Guid.NewGuid().ToString();
-    private class Module1 : Module
+    private class Module1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             ((IConsoleWriter)context.Logger).LogToConsole(RandomString);
 
             ((IConsoleWriter)context.Logger).LogToConsole(new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    public class Module2 : Module
+    public class Module2 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation(new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    public class Module3 : Module
+    public class Module3 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("{Value}", new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

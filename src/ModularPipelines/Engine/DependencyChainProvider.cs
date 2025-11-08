@@ -1,5 +1,6 @@
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
@@ -41,7 +42,13 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 
     private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
     {
-        var dependencies = moduleDependencyModel.Module.GetModuleDependencies();
+        // Only ModuleBase has dependency tracking currently
+        if (moduleDependencyModel.Module is not ModuleBase moduleBase)
+        {
+            yield break;
+        }
+
+        var dependencies = moduleBase.GetModuleDependencies();
 
         foreach (var dependency in dependencies)
         {

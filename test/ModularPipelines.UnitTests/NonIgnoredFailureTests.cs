@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests;
 
 public class NonIgnoredFailureTests : TestBase
 {
-    private class NonIgnoredFailureModule : Module<CommandResult>
+    private class NonIgnoredFailureModule : ModuleNew<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

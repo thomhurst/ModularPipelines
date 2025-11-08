@@ -19,7 +19,7 @@ namespace ModularPipelines.Modules;
 /// A base class for all modules.
 /// </summary>
 [JsonConverter(typeof(TypeDiscriminatorConverter<ModuleBase>))]
-public abstract partial class ModuleBase : ITypeDiscriminator
+public abstract partial class ModuleBase : IModule, ITypeDiscriminator
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="ModuleBase"/> class.
@@ -28,6 +28,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     protected ModuleBase()
     {
         TypeDiscriminator = GetType().AssemblyQualifiedName!;
+        Id = Guid.NewGuid();
     }
 
     /// <summary>
@@ -36,6 +37,16 @@ public abstract partial class ModuleBase : ITypeDiscriminator
     /// </summary>
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
+
+    /// <summary>
+    /// Gets the unique identifier for this module instance.
+    /// </summary>
+    public Guid Id { get; }
+
+    /// <summary>
+    /// Gets the type of this module.
+    /// </summary>
+    public Type ModuleType => GetType();
 
     internal bool IsStarted { get; protected private set; }
 

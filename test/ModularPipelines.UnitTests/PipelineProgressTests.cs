@@ -115,7 +115,7 @@ public class PipelineProgressTests
         }
     }
 
-    [Test, Retry(5)]
+    [Test, TUnit.Core.Retry(5)]
     public async Task Can_Show_Progress()
     {
         await Assert.That(async () =>

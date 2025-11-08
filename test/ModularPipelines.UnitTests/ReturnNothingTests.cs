@@ -20,7 +20,8 @@ public class ReturnNothingTests : TestBase
     {
         protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

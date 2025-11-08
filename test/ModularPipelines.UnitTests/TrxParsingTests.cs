@@ -14,9 +14,9 @@ namespace ModularPipelines.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
-    public class NUnitModule : Module<DotNetTestResult>
+    public class NUnitModule : ModuleNew<DotNetTestResult>
     {
-        protected override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -43,15 +43,15 @@ public class TrxParsingTests : TestBase
     {
         var result = await RunModule<NUnitModule>();
 
-        await Assert.That(result.Result.Value!.Successful).IsFalse();
+        await Assert.That(result.Value!.Successful).IsFalse();
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
+        await Assert.That(result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
             .HasCount().EqualTo(1);
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
+        await Assert.That(result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
             .HasCount().EqualTo(1);
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
+        await Assert.That(result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
             .HasCount().EqualTo(2);
     }
 }

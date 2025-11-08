@@ -20,6 +20,18 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// Gets the specified module from the collection of modules.
+    /// </summary>
+    /// <param name="modules">The collection of modules.</param>
+    /// <typeparam name="T">The type of module to get.</typeparam>
+    /// <returns>The specified module.</returns>
+    public static T GetModule<T>(this IEnumerable<IModule> modules)
+        where T : class, IModule
+    {
+        return modules.OfType<T>().Single();
+    }
+
+    /// <summary>
     /// Gets the first item from an IAsyncEnumerable.
     /// </summary>
     /// <param name="asyncEnumerable">The async enumerable.</param>

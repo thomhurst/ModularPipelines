@@ -27,7 +27,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _secondaryExceptionContainer = secondaryExceptionContainer;
     }
 
-    public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
+    public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
         OrganizedModules organizedModules)
     {
         var start = DateTimeOffset.UtcNow;
@@ -66,11 +66,16 @@ internal class PipelineExecutor : IPipelineExecutor
         return pipelineSummary;
     }
 
-    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
+    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<IModule> runnableModules)
     {
         try
         {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
+            // Only ModuleBase has ModuleRunType and ExecutionTask properties
+            var alwaysRunModules = runnableModules.OfType<ModuleBase>()
+                .Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun)
+                .Select(m => m.ExecutionTask);
+
+            await Task.WhenAll(alwaysRunModules);
         }
         catch (Exception? e)
         {

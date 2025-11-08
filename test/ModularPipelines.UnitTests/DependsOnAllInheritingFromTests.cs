@@ -19,7 +19,8 @@ public class DependsOnAllInheritingFromTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
@@ -29,7 +30,8 @@ public class DependsOnAllInheritingFromTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
@@ -39,7 +41,8 @@ public class DependsOnAllInheritingFromTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
@@ -48,7 +51,8 @@ public class DependsOnAllInheritingFromTests : TestBase
     {
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

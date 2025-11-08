@@ -5,9 +5,14 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleDisposer : IModuleDisposer
 {
-    public async Task DisposeAsync(ModuleBase module)
+    public async Task DisposeAsync(IModule module)
     {
         await Disposer.DisposeObjectAsync(module);
-        await Disposer.DisposeObjectAsync(module.Context.Logger);
+
+        // Only ModuleBase has Context property
+        if (module is ModuleBase moduleBase)
+        {
+            await Disposer.DisposeObjectAsync(moduleBase.Context.Logger);
+        }
     }
 }

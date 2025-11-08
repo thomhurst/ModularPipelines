@@ -33,9 +33,9 @@ public class FolderTests : TestBase
         await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(0);
     }
 
-    private class FindFileModule : Module<ModularPipelines.FileSystem.File>
+    private class FindFileModule : ModuleNew<ModularPipelines.FileSystem.File>
     {
-        protected override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
 

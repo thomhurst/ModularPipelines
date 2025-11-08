@@ -22,9 +22,9 @@ using Microsoft.Extensions.Logging;
 namespace ModularPipelines.Examples.Modules;
 
 [{|#0:DependsOn<Module2>|}]
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -32,9 +32,9 @@ public class Module1 : Module<List<string>>
 }
 
 [{|#1:DependsOn<Module1>|}]
-public class Module2 : Module<List<string>>
+public class Module2 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -58,9 +58,9 @@ using Microsoft.Extensions.Logging;
 namespace ModularPipelines.Examples.Modules;
 
 [{|#0:DependsOn<Module1>|}]
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -83,9 +83,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -93,9 +93,9 @@ public class Module1 : Module<List<string>>
 }
 
 [DependsOn<Module1>]
-public class Module2 : Module<List<string>>
+public class Module2 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();

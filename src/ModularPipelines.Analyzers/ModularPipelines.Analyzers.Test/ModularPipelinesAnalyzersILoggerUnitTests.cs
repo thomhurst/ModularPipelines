@@ -21,13 +21,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
     public Module1({|#0:ILogger logger|})
     {
     }
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -50,13 +50,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
     public Module1({|#0:ILoggerProvider loggerProvider|})
     {
     }
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -79,13 +79,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
     public Module1({|#0:ILoggerFactory loggerFactory|})
     {
     }
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -108,13 +108,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
     public Module1({|#0:ILogger<Module1> logger|})
     {
     }
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -137,9 +137,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -163,13 +163,13 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<List<string>>
+public class Module1 : ModuleNew<List<string>>
 {
     public Module1(IModuleLoggerProvider moduleLoggerProvider)
     {
     }
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();

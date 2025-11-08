@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class GitHubRepositoryInfoTests : TestBase
 {
-    public class GitRepoModule : Module<IGitHubRepositoryInfo>
+    public class GitRepoModule : ModuleNew<IGitHubRepositoryInfo>
     {
-        protected override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.GitHub().RepositoryInfo;
@@ -22,7 +22,7 @@ public class GitHubRepositoryInfoTests : TestBase
     {
         var gitRepoModule = await RunModule<GitRepoModule>();
 
-        var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
+        var gitHubRepositoryInfo = gitRepoModule.Value!;
 
         using (Assert.Multiple())
         {

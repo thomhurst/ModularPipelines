@@ -65,7 +65,7 @@ internal class ModuleExecutor : IModuleExecutor
     /// </remarks>
     /// <exception cref="ArgumentNullException">Thrown when modules is null.</exception>
     /// <exception cref="ModuleNotRegisteredException">Thrown when a module dependency is not registered.</exception>
-    public async Task<IEnumerable<ModuleBase>> ExecuteAsync(IReadOnlyList<ModuleBase> modules)
+    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
         ArgumentNullException.ThrowIfNull(modules);
 
@@ -75,12 +75,22 @@ internal class ModuleExecutor : IModuleExecutor
             return modules;
         }
 
+        // Filter to only ModuleBase instances - ModuleNew<T> execution is handled differently
+        var moduleBaseList = modules.OfType<ModuleBase>().ToList();
+
+        if (moduleBaseList.Count == 0)
+        {
+            _logger.LogDebug("No ModuleBase instances to execute");
+            return modules;
+        }
+
         IModuleScheduler? scheduler = null;
 
         try
         {
-            scheduler = InitializeScheduler(modules);
-            return await ExecuteWithSchedulerAsync(modules, scheduler);
+            scheduler = InitializeScheduler(moduleBaseList);
+            await ExecuteWithSchedulerAsync(moduleBaseList, scheduler);
+            return modules;
         }
         catch (Exception outerEx)
         {
@@ -88,7 +98,7 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (scheduler != null)
             {
-                await WaitForAlwaysRunModulesAsync(scheduler, modules);
+                await WaitForAlwaysRunModulesAsync(scheduler, moduleBaseList);
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
@@ -110,7 +120,7 @@ internal class ModuleExecutor : IModuleExecutor
         return scheduler;
     }
 
-    private async Task<IEnumerable<ModuleBase>> ExecuteWithSchedulerAsync(
+    private async Task ExecuteWithSchedulerAsync(
         IReadOnlyList<ModuleBase> modules,
         IModuleScheduler scheduler)
     {
@@ -138,7 +148,6 @@ internal class ModuleExecutor : IModuleExecutor
         RethrowFirstExceptionIfPresent(firstException);
 
         _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
-        return modules;
     }
 
     private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)

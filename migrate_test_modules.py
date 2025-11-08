@@ -109,7 +109,7 @@ def main():
                 if migrated_count > 0:
                     total_files += 1
                     total_modules += migrated_count
-                    print(f"  ✓ Migrated {migrated_count} module(s)")
+                    print(f"  OK Migrated {migrated_count} module(s)")
                 elif 'SubModule' in content:
                     skipped_files.append(str(file_path))
 

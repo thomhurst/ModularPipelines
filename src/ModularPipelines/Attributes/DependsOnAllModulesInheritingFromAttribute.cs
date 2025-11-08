@@ -7,7 +7,8 @@ public class DependsOnAllModulesInheritingFromAttribute : Attribute
 {
     public DependsOnAllModulesInheritingFromAttribute(Type type)
     {
-        if (!type.IsAssignableTo(typeof(ModuleBase)))
+        // v3.0: Accept both ModuleBase (legacy) and IModule (new)
+        if (!type.IsAssignableTo(typeof(ModuleBase)) && !type.IsAssignableTo(typeof(IModule)))
         {
             throw new Exception($"{type.FullName} is not a Module class");
         }
@@ -20,7 +21,7 @@ public class DependsOnAllModulesInheritingFromAttribute : Attribute
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
 public class DependsOnAllModulesInheritingFromAttribute<TModule> : DependsOnAllModulesInheritingFromAttribute
-    where TModule : ModuleBase
+    where TModule : IModule
 {
     public DependsOnAllModulesInheritingFromAttribute() : base(typeof(TModule))
     {

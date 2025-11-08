@@ -280,7 +280,11 @@ internal class ProgressPrinter : IProgressPrinter,
         table.AddColumn("End");
         table.AddColumn(string.Empty);
 
-        foreach (var module in pipelineSummary.Modules.OrderBy(x => x.EndTime))
+        // Filter to only ModuleBase instances which have timing information
+        // ModuleNew<T> timing is tracked by services, not on the module itself
+        var moduleBases = pipelineSummary.Modules.OfType<ModuleBase>().ToList();
+
+        foreach (var module in moduleBases.OrderBy(x => x.EndTime))
         {
             var isSameDay = module.StartTime.Date == module.EndTime.Date;
 
@@ -329,7 +333,7 @@ internal class ProgressPrinter : IProgressPrinter,
         return module.Status == Status.Successful ? "[green]" : "[orange3]";
     }
 
-    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
+    private static void RegisterIgnoredModules(IReadOnlyList<IModule> modulesToIgnore, ProgressContext progressContext)
     {
         foreach (var moduleToIgnore in modulesToIgnore)
         {

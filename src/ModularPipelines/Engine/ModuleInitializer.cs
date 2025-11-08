@@ -11,8 +11,15 @@ internal class ModuleInitializer : IModuleInitializer
         _moduleContextProvider = moduleContextProvider;
     }
 
-    public ModuleBase Initialize(ModuleBase module)
+    public IModule Initialize(IModule module)
     {
-        return module.Initialize(_moduleContextProvider.GetModuleContext());
+        // ModuleBase requires initialization to set Context
+        if (module is ModuleBase moduleBase)
+        {
+            return moduleBase.Initialize(_moduleContextProvider.GetModuleContext());
+        }
+
+        // ModuleNew<T> doesn't require initialization - it uses IPipelineContext from ExecuteAsync parameter
+        return module;
     }
 }

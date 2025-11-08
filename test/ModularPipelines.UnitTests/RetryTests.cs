@@ -1,7 +1,9 @@
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
+using Polly;
 using Polly.Retry;
 
 namespace ModularPipelines.UnitTests;
@@ -15,7 +17,8 @@ public class RetryTests : TestBase
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
@@ -32,14 +35,16 @@ public class RetryTests : TestBase
                 throw new Exception();
             }
 
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    private class FailedModuleWithCustomRetryPolicy : Module
+    private class FailedModuleWithCustomRetryPolicy : Module, IModuleRetryPolicy
     {
-        protected override AsyncRetryPolicy<IDictionary<string, object>?> RetryPolicy
-            => CreateRetryPolicy(3);
+        public IAsyncPolicy GetRetryPolicy() =>
+            Policy.Handle<Exception>()
+                .WaitAndRetryAsync(3, i => TimeSpan.FromMilliseconds(i * i * 100));
 
         internal int ExecutionCount;
 
@@ -52,14 +57,15 @@ public class RetryTests : TestBase
                 throw new Exception();
             }
 
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    private class FailedModuleWithTimeout : Module
+    private class FailedModuleWithTimeout : Module, IModuleTimeout
     {
         // Reduced timeout from 300ms to 50ms for faster test execution
-        protected internal override TimeSpan Timeout { get; } = TimeSpan.FromMilliseconds(50);
+        public TimeSpan GetTimeout() => TimeSpan.FromMilliseconds(50);
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

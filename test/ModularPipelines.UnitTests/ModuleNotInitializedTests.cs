@@ -20,9 +20,9 @@ public class ModuleNotInitializedTests : TestBase
     {
         private readonly Module1 _module1;
 
-        public ModuleNotInitializedModule()
+        public ModuleNotInitializedModule(IPipelineContext context)
         {
-            _module1 = GetModule<Module1>();
+            _module1 = context.GetModule<Module1>();
         }
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

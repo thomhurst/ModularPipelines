@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
@@ -17,6 +18,7 @@ public abstract class ModuleNew<T> : IModule<T>
     {
         Id = Guid.NewGuid();
         SkipDecision = SkipDecision.DoNotSkip;
+        Status = Status.NotYetStarted;
     }
 
     /// <inheritdoc />
@@ -36,6 +38,31 @@ public abstract class ModuleNew<T> : IModule<T>
     /// This is set by the module executor when evaluating skip logic.
     /// </summary>
     public SkipDecision SkipDecision { get; internal set; }
+
+    /// <summary>
+    /// Gets the current execution status of this module.
+    /// This is updated by the pipeline engine during execution.
+    /// </summary>
+    public Status Status { get; internal set; }
+
+    /// <summary>
+    /// Attempts to cancel this module's execution.
+    /// This is a no-op in the composition-based architecture as cancellation is managed by services.
+    /// </summary>
+    internal void TryCancel()
+    {
+        // No-op for ModuleNew - cancellation handled by IModuleStateTracker service
+    }
+
+    /// <summary>
+    /// Gets the module result asynchronously.
+    /// Returns a completed task with a ModuleResult wrapping this module's value.
+    /// </summary>
+    internal Task<IModuleResult> GetModuleResult()
+    {
+        IModule module = this;
+        return Task.FromResult<IModuleResult>(new ModuleResult<T>(Value, module));
+    }
 
     /// <inheritdoc />
     public abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);

@@ -22,9 +22,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<CommandResult>
+public class Module1 : ModuleNew<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         // This should trigger the analyzer
         {|#0:await this|};
@@ -48,9 +48,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<CommandResult>
+public class Module1 : ModuleNew<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await ExecuteCommand(context);
     }
@@ -79,9 +79,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<CommandResult>
+public class Module1 : ModuleNew<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         // This is fine - awaiting something else
         var otherModule = GetModule<Module2>();
@@ -90,7 +90,7 @@ public class Module1 : Module<CommandResult>
     }
 }
 
-public class Module2 : Module<string>
+public class Module2 : ModuleNew<string>
 {
     protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -137,7 +137,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module<CommandResult>
+public class Module1 : ModuleNew<CommandResult>
 {
     protected override Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

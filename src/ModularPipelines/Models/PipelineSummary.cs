@@ -12,7 +12,7 @@ public record PipelineSummary
     /// Gets the modules that are part of the pipeline.
     /// </summary>
     [JsonInclude]
-    public IReadOnlyList<ModuleBase> Modules { get; private set; }
+    public IReadOnlyList<IModule> Modules { get; private set; }
 
     /// <summary>
     /// Gets how long the pipeline took to run.
@@ -33,7 +33,7 @@ public record PipelineSummary
     public DateTimeOffset End { get; private set; }
 
     [JsonConstructor]
-    internal PipelineSummary(IReadOnlyList<ModuleBase> modules,
+    internal PipelineSummary(IReadOnlyList<IModule> modules,
         TimeSpan totalDuration,
         DateTimeOffset start,
         DateTimeOffset end)
@@ -45,9 +45,17 @@ public record PipelineSummary
 
         // If the pipeline is errored, some modules could still be waiting or processing.
         // But we're ending the pipeline so let's signal them to fail.
-        foreach (var moduleBase in modules)
+        foreach (var module in modules)
         {
-            moduleBase.TryCancel();
+            // Try to cancel - works for both ModuleBase and ModuleNew
+            if (module is ModuleBase moduleBase)
+            {
+                moduleBase.TryCancel();
+            }
+            else if (module is ModuleNew<IDictionary<string, object>> moduleNew)
+            {
+                moduleNew.TryCancel();
+            }
         }
     }
 
@@ -62,7 +70,7 @@ public record PipelineSummary
     /// <typeparam name="T">The module type to get.</typeparam>
     /// <returns>{T}.</returns>
     public T GetModule<T>()
-        where T : ModuleBase
+        where T : class, IModule
         => Modules.GetModule<T>();
 
     public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
@@ -76,7 +84,18 @@ public record PipelineSummary
 
             try
             {
-                return await x.GetModuleResult();
+                // Handle both ModuleBase and ModuleNew
+                if (x is ModuleBase moduleBase)
+                {
+                    return await moduleBase.GetModuleResult();
+                }
+                else if (x is ModuleNew<IDictionary<string, object>> moduleNew)
+                {
+                    return await moduleNew.GetModuleResult();
+                }
+
+                // Fallback for any IModule
+                return new ModuleResult(new NotSupportedException($"Module type {x.GetType().Name} does not support GetModuleResult"), x);
             }
             catch (Exception e)
             {

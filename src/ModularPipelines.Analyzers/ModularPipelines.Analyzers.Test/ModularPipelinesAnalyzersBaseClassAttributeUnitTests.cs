@@ -21,9 +21,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module
+public class Module1 : ModuleNew
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return null;
@@ -32,7 +32,7 @@ public class Module1 : Module
 
 public class Module2 : DependsOnModule1
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var module1 = await {|#0:GetModule<Module1>()|};
         return null;
@@ -40,7 +40,7 @@ public class Module2 : DependsOnModule1
 }
 
 [DependsOn<Module1>]
-public abstract class DependsOnModule1 : Module
+public abstract class DependsOnModule1 : ModuleNew
 {
 }
 ";
@@ -58,9 +58,9 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : Module
+public class Module1 : ModuleNew
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return null;
@@ -69,7 +69,7 @@ public class Module1 : Module
 
 public class Module2 : Module, IDependsOnModule1
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var module1 = await {|#0:GetModule<Module1>()|};
         return null;

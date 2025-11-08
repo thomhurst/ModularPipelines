@@ -57,7 +57,7 @@ public class JsonSerializationTests : TestBase
             .AddModule<Module1>()
             .ExecutePipelineAsync();
 
-        var module = pipelineSummary.Modules.First();
+        var module = pipelineSummary.Modules.OfType<ModuleBase>().First();
 
         var moduleJson = JsonSerializer.Serialize(module);
         var deserializedModule = JsonSerializer.Deserialize<ModuleBase>(moduleJson);

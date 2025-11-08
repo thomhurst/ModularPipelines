@@ -13,13 +13,13 @@ internal class ModuleRetriever : IModuleRetriever
     private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
-    private readonly List<ModuleBase> _modules;
+    private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
         IModuleInitializer moduleInitializer,
-        IEnumerable<ModuleBase> modules,
+        IEnumerable<IModule> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {

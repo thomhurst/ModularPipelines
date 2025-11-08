@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleInitializer
 {
-    ModuleBase Initialize(ModuleBase module);
+    IModule Initialize(IModule module);
 }

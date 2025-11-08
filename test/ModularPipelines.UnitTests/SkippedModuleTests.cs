@@ -1,15 +1,16 @@
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
 public class SkippedModuleTests : TestBase
 {
-    private class SkippedModule : Module<CommandResult>
+    private class SkippedModule : Module<CommandResult>, IModuleSkipLogic
     {
-        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }

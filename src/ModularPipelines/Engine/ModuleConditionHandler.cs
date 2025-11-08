@@ -16,24 +16,31 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         _pipelineOptions = pipelineOptions;
     }
 
-    public async Task<bool> ShouldIgnore(ModuleBase module)
+    public async Task<bool> ShouldIgnore(IModule module)
     {
-        if (IsIgnoreCategory(module))
+        // ModuleNew<T> doesn't support SkipHandler/Context yet - don't ignore them for now
+        // TODO: Implement category/condition support for ModuleNew<T>
+        if (module is not ModuleBase moduleBase)
         {
-            await module.SkipHandler.SetSkipped("A category of this module has been ignored");
+            return false;
+        }
+
+        if (IsIgnoreCategory(moduleBase))
+        {
+            await moduleBase.SkipHandler.SetSkipped("A category of this module has been ignored");
             return true;
         }
 
-        if (!IsRunnableCategory(module))
+        if (!IsRunnableCategory(moduleBase))
         {
-            await module.SkipHandler.SetSkipped("The module was not in a runnable category");
+            await moduleBase.SkipHandler.SetSkipped("The module was not in a runnable category");
             return true;
         }
 
-        return !await IsRunnableCondition(module);
+        return !await IsRunnableCondition(moduleBase);
     }
 
-    private bool IsRunnableCategory(ModuleBase module)
+    private bool IsRunnableCategory(IModule module)
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
 
@@ -47,7 +54,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return category != null && runOnlyCategories.Contains(category.Category);
     }
 
-    private bool IsIgnoreCategory(ModuleBase module)
+    private bool IsIgnoreCategory(IModule module)
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
 

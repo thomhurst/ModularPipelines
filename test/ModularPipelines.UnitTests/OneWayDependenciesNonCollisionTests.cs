@@ -20,9 +20,9 @@ public class OneWayDependenciesNonCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule1 : Module
+    private class DependencyConflictModule1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -30,9 +30,9 @@ public class OneWayDependenciesNonCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
-    private class DependencyConflictModule2 : Module
+    private class DependencyConflictModule2 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -40,9 +40,9 @@ public class OneWayDependenciesNonCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
-    private class DependencyConflictModule3 : Module
+    private class DependencyConflictModule3 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -50,18 +50,18 @@ public class OneWayDependenciesNonCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
-    private class DependencyConflictModule4 : Module
+    private class DependencyConflictModule4 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
         }
     }
 
-    private class DependencyConflictModule5 : Module
+    private class DependencyConflictModule5 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

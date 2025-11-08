@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 
@@ -9,9 +10,9 @@ namespace ModularPipelines.UnitTests;
 
 public class IgnoredFailureTests : TestBase
 {
-    private class IgnoredFailureModule : Module<CommandResult>
+    private class IgnoredFailureModule : Module<CommandResult>, IModuleErrorHandling
     {
-        protected internal override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+        public Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
         }

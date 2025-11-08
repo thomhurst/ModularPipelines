@@ -9,55 +9,61 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : Module
+    private class RunnableModule1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : Module
+    private class RunnableModule2 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : Module
+    private class RunnableModule3 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : Module
+    private class NonRunnableModule1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : Module
+    private class NonRunnableModule2 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    private class OtherModule3 : Module
+    private class OtherModule3 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

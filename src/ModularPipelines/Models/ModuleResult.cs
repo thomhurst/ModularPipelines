@@ -15,7 +15,16 @@ public class ModuleResult<T> : ModuleResult
     {
     }
 
+    internal ModuleResult(Exception exception, IModule module) : base(exception, module)
+    {
+    }
+
     internal ModuleResult(T? value, ModuleBase module) : base(module)
+    {
+        _value = value;
+    }
+
+    internal ModuleResult(T? value, IModule module) : base(module)
     {
         _value = value;
     }
@@ -85,6 +94,11 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
         Exception = exception;
     }
 
+    internal ModuleResult(Exception exception, IModule module) : this(module)
+    {
+        Exception = exception;
+    }
+
     /// <summary>
     /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// </summary>
@@ -113,6 +127,22 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
         ModuleEnd = module.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.EndTime;
         ModuleDuration = ModuleEnd - ModuleStart;
         SkipDecision = module.SkipResult;
+        TypeDiscriminator = GetType().FullName!;
+        ModuleStatus = module.Status;
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
+    /// </summary>
+    /// <param name="module">The module from which the result was produced.</param>
+    protected ModuleResult(IModule module)
+    {
+        Module = module as ModuleBase;
+        ModuleName = module.GetType().Name;
+        ModuleStart = DateTimeOffset.Now;
+        ModuleEnd = DateTimeOffset.Now;
+        ModuleDuration = TimeSpan.Zero;
+        SkipDecision = SkipDecision.DoNotSkip;
         TypeDiscriminator = GetType().FullName!;
         ModuleStatus = module.Status;
     }
