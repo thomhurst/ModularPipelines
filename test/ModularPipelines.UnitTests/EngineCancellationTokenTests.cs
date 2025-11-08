@@ -45,6 +45,8 @@ public class EngineCancellationTokenTests : TestBase
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
+        protected internal override TimeSpan Timeout => TimeSpan.FromSeconds(1);
+
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task;
