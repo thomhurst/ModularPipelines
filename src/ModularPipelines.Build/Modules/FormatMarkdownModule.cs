@@ -9,6 +9,7 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.Node.Extensions;
 using ModularPipelines.Node.Models;
 
@@ -18,7 +19,8 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
-public class FormatMarkdownModule : Module<CommandResult>
+[AlwaysRun]
+public class FormatMarkdownModule : ModuleNew<CommandResult>, IModuleSkipLogic
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
@@ -28,10 +30,7 @@ public class FormatMarkdownModule : Module<CommandResult>
     }
 
     /// <inheritdoc/>
-    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-    /// <inheritdoc/>
-    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
     {
         if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
         {
@@ -47,7 +46,7 @@ public class FormatMarkdownModule : Module<CommandResult>
     }
 
     /// <inheritdoc/>
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await context.Node().Npm.Install(new NpmInstallOptions
         {
@@ -85,7 +84,7 @@ public class FormatMarkdownModule : Module<CommandResult>
 
         if (!await GitHelpers.HasUncommittedChanges(context))
         {
-            return await NothingAsync();
+            return null;
         }
 
         var branchTriggeringPullRequest = context.GitHub().EnvironmentVariables.HeadRef!;

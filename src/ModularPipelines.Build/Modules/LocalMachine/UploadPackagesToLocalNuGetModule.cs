@@ -7,6 +7,7 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
@@ -14,26 +15,30 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<PackagePathsParserModule>]
 [DependsOn<CreateLocalNugetFolderModule>]
 [RunOnLinuxOnly]
-public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
+public class UploadPackagesToLocalNuGetModule : ModuleNew<CommandResult[]>, IModuleLifecycle
 {
     /// <inheritdoc/>
-    protected override async Task OnBeforeExecute(IPipelineContext context)
+    public async Task OnBeforeExecuteAsync(IPipelineContext context)
     {
-        var packagePaths = await GetModule<PackagePathsParserModule>();
+        var packagePaths = await context.GetModuleAsync<PackagePathsParserModule>();
 
         foreach (var packagePath in packagePaths.Value!)
         {
             context.Logger.LogInformation("[Local Directory] Uploading {File}", packagePath);
         }
-
-        await base.OnBeforeExecute(context);
     }
 
     /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public Task OnAfterExecuteAsync(IPipelineContext context, object? result, Exception? exception)
     {
-        var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
-        var packagePaths = await GetModule<PackagePathsParserModule>();
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        var localRepoLocation = await context.GetModuleAsync<CreateLocalNugetFolderModule>();
+        var packagePaths = await context.GetModuleAsync<PackagePathsParserModule>();
 
         return await packagePaths.Value!
             .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions

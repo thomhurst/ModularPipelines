@@ -18,16 +18,16 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<ChangedFilesInPullRequestModule>]
 [DependsOn<RunUnitTestsModule>]
 [RunOnLinuxOnly]
-public class PackProjectsModule : Module<CommandResult[]>
+public class PackProjectsModule : ModuleNew<CommandResult[]>
 {
     /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var packageVersion = await GetModule<NugetVersionGeneratorModule>();
+        var packageVersion = await context.GetModuleAsync<NugetVersionGeneratorModule>();
 
-        var projectFiles = await GetModule<FindProjectDependenciesModule>();
+        var projectFiles = await context.GetModuleAsync<FindProjectDependenciesModule>();
 
-        var changedFiles = await GetModule<ChangedFilesInPullRequestModule>();
+        var changedFiles = await context.GetModuleAsync<ChangedFilesInPullRequestModule>();
 
         var dependencies = await projectFiles.Value!.Dependencies
             .ToAsyncProcessorBuilder()
@@ -70,7 +70,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return true;
     }
 
-    private static async Task<CommandResult> Pack(IPipelineContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)
+    private static async Task<CommandResult> Pack(IPipelineContext context, CancellationToken cancellationToken, File projectFile, NugetVersionGeneratorModule packageVersion)
     {
         return await context.DotNet().Pack(new DotNetPackOptions
         {

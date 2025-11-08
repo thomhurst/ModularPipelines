@@ -7,12 +7,14 @@ using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Services;
 
 namespace ModularPipelines.Context;
 
 internal class PipelineContext : IPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IModuleDependencyResolver _dependencyResolver;
     private IModuleLogger? _logger;
 
     public IModuleLogger Logger => _logger ??= _moduleLoggerProvider.GetLogger();
@@ -94,9 +96,11 @@ internal class PipelineContext : IPipelineContext
         IBash bash,
         IBuildSystemDetector buildSystemDetector,
         IChecksum checksum,
-        IYaml yaml)
+        IYaml yaml,
+        IModuleDependencyResolver dependencyResolver)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
+        _dependencyResolver = dependencyResolver;
         Http = http;
         Downloader = downloader;
         Zip = zip;
@@ -133,5 +137,15 @@ internal class PipelineContext : IPipelineContext
     public ModuleBase? GetModule(Type type)
     {
         return ServiceProvider.GetServices<ModuleBase>().SingleOrDefault(module => module.GetType() == type);
+    }
+
+    public async Task<TModule> GetModuleAsync<TModule>() where TModule : IModule
+    {
+        return await _dependencyResolver.GetModuleAsync<TModule>();
+    }
+
+    public async Task<TModule?> GetModuleIfRegisteredAsync<TModule>() where TModule : IModule
+    {
+        return await _dependencyResolver.GetModuleIfRegisteredAsync<TModule>();
     }
 }

@@ -5,10 +5,10 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class NotepadPlusPlusInstallerModule : Module<CommandResult>
+public class NotepadPlusPlusInstallerModule : ModuleNew<CommandResult>
 {
     /// <inheritdoc/>
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.Installer.FileInstaller
             .InstallFromWebAsync(new WebInstallerOptions(new Uri(

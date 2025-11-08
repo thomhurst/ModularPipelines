@@ -6,17 +6,21 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using Polly.Retry;
+using ModularPipelines.Modules.Behaviors;
+using Polly;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
-public class RunUnitTestsModule : Module<CommandResult[]>
+public class RunUnitTestsModule : ModuleNew<CommandResult[]>, IModuleRetryPolicy
 {
-    protected override AsyncRetryPolicy<CommandResult[]?> RetryPolicy => CreateRetryPolicy(0);
+    public IAsyncPolicy GetRetryPolicy()
+    {
+        return Policy.NoOpAsync();
+    }
 
     /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)

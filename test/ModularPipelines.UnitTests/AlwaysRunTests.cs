@@ -9,9 +9,9 @@ namespace ModularPipelines.UnitTests;
 
 public class AlwaysRunTests : TestBase
 {
-    public class MyModule1 : Module
+    public class MyModule1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -19,11 +19,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
-    public class MyModule2 : Module
+    [AlwaysRun]
+    public class MyModule2 : ModuleNew
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -31,11 +30,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
-    public class MyModule3 : Module
+    [AlwaysRun]
+    public class MyModule3 : ModuleNew
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -43,11 +41,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
-    public class MyModule4 : Module
+    [AlwaysRun]
+    public class MyModule4 : ModuleNew
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

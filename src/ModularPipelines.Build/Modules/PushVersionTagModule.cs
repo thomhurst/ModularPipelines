@@ -5,24 +5,25 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
-public class PushVersionTagModule : Module<CommandResult>
+public class PushVersionTagModule : ModuleNew<CommandResult>, IModuleErrorHandling
 {
-    protected override async Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+    public async Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)
     {
-        var versionInformation = await GetModule<NugetVersionGeneratorModule>();
+        var versionInformation = await context.GetModuleAsync<NugetVersionGeneratorModule>();
 
         return exception.Message.Contains($"tag 'v{versionInformation.Value!}' already exists");
     }
 
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var versionInformation = await GetModule<NugetVersionGeneratorModule>();
+        var versionInformation = await context.GetModuleAsync<NugetVersionGeneratorModule>();
 
         await context.Git().Commands.Tag(new GitTagOptions
         {

@@ -1,0 +1,296 @@
+using System.Diagnostics;
+using System.Reflection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
+using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
+using Polly;
+
+namespace ModularPipelines.Services;
+
+/// <summary>
+/// Orchestrates module execution with all configured behaviors.
+/// Replaces the StartInternal/ExecuteInternal logic previously embedded in Module&lt;T&gt;.
+/// </summary>
+public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
+{
+    private readonly IModuleStateTracker _stateTracker;
+    private readonly ILogger<ModuleBehaviorExecutor> _logger;
+
+    private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(30);
+
+    public ModuleBehaviorExecutor(
+        IModuleStateTracker stateTracker,
+        ILogger<ModuleBehaviorExecutor> logger)
+    {
+        _stateTracker = stateTracker;
+        _logger = logger;
+    }
+
+    public async Task<T?> ExecuteAsync<T>(IModule<T> module, IPipelineContext context, CancellationToken cancellationToken)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        try
+        {
+            var skipDecision = await GetSkipDecision(module, context);
+            if (skipDecision.ShouldSkip)
+            {
+                _logger.LogInformation("Module {ModuleName} was skipped: {Reason}", module.ModuleType.Name, skipDecision.Reason);
+                _stateTracker.SetStatus(module, Status.Skipped);
+
+                // Cache the skip decision in the module
+                if (module is ModuleNew<T> moduleNewForSkip)
+                {
+                    moduleNewForSkip.SkipDecision = skipDecision;
+                }
+
+                return default;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (module is IModuleLifecycle lifecycle)
+            {
+                await lifecycle.OnBeforeExecuteAsync(context);
+            }
+
+            _stateTracker.SetStatus(module, Status.Processing);
+            _stateTracker.SetStartTime(module, DateTimeOffset.UtcNow);
+
+            _logger.LogDebug("Module {ModuleName} execution started at {StartTime}",
+                module.ModuleType.Name,
+                _stateTracker.GetStartTime(module));
+
+            var result = await ExecuteWithRetryAndTimeout(module, context, cancellationToken);
+
+            _stateTracker.SetEndTime(module, DateTimeOffset.UtcNow);
+            _stateTracker.SetStatus(module, Status.Successful);
+
+            // Cache the result in the module for later retrieval
+            if (module is ModuleNew<T> moduleNew)
+            {
+                moduleNew.Value = result;
+            }
+
+            _logger.LogDebug("Module {ModuleName} succeeded after {Duration}",
+                module.ModuleType.Name,
+                _stateTracker.GetDuration(module));
+
+            LogResult(context, result);
+
+            return result;
+        }
+        catch (Exception exception)
+        {
+            _stateTracker.SetEndTime(module, DateTimeOffset.UtcNow);
+            _stateTracker.SetException(module, exception);
+
+            bool ignoreFailure = false;
+            if (module is IModuleErrorHandling errorHandling)
+            {
+                ignoreFailure = await errorHandling.ShouldIgnoreFailuresAsync(context, exception);
+            }
+
+            if (ignoreFailure)
+            {
+                _logger.LogWarning(exception, "Module {ModuleName} failed but failure is ignored", module.ModuleType.Name);
+                _stateTracker.SetStatus(module, Status.IgnoredFailure);
+                return default;
+            }
+            else
+            {
+                _logger.LogError(exception, "Module {ModuleName} failed after {Duration}",
+                    module.ModuleType.Name,
+                    _stateTracker.GetDuration(module));
+
+                _stateTracker.SetStatus(module, exception is ModuleTimeoutException ? Status.TimedOut : Status.Failed);
+                throw;
+            }
+        }
+        finally
+        {
+            if (module is IModuleLifecycle lifecycle)
+            {
+                var result = _stateTracker.GetStatus(module) == Status.Successful ? await GetResultSafe(module, context, cancellationToken) : default(object);
+                var exception = _stateTracker.GetException(module);
+                await lifecycle.OnAfterExecuteAsync(context, result, exception);
+            }
+
+            stopwatch.Stop();
+
+            _logger.LogInformation("Module {ModuleName} finished with status {Status}",
+                module.ModuleType.Name,
+                _stateTracker.GetStatus(module));
+        }
+    }
+
+    private async Task<T?> ExecuteWithRetryAndTimeout<T>(
+        IModule<T> module,
+        IPipelineContext context,
+        CancellationToken cancellationToken)
+    {
+        IAsyncPolicy retryPolicy = GetRetryPolicy(module);
+        TimeSpan timeout = GetTimeout(module);
+
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+        if (timeout != TimeSpan.Zero)
+        {
+            timeoutCts.CancelAfter(timeout);
+        }
+
+        var executeTask = retryPolicy.ExecuteAsync(async () =>
+        {
+            if (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
+            {
+                throw new ModuleTimeoutException(module as ModuleBase);
+            }
+
+            timeoutCts.Token.ThrowIfCancellationRequested();
+
+            try
+            {
+                return await module.ExecuteAsync(context, timeoutCts.Token);
+            }
+            catch (OperationCanceledException) when (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
+            {
+                throw new ModuleTimeoutException(module as ModuleBase);
+            }
+        });
+
+        if (timeout != TimeSpan.Zero)
+        {
+            var timeoutTask = CreateTimeoutTask(timeout, timeoutCts.Token, module);
+
+            _ = executeTask.ContinueWith(
+                t => _ = t.Exception,
+                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+
+            await await Task.WhenAny(timeoutTask, executeTask);
+        }
+        else
+        {
+            await executeTask;
+        }
+
+        timeoutCts.Token.ThrowIfCancellationRequested();
+
+        return await executeTask;
+    }
+
+    private async Task CreateTimeoutTask<T>(TimeSpan timeout, CancellationToken cancellationToken, IModule<T> module)
+    {
+        try
+        {
+            await Task.Delay(timeout, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        if (_stateTracker.GetStatus(module) != Status.Successful)
+        {
+            throw new ModuleTimeoutException(module as ModuleBase);
+        }
+    }
+
+    private async Task<SkipDecision> GetSkipDecision(IModule module, IPipelineContext context)
+    {
+        if (module is not IModuleSkipLogic skipLogic)
+        {
+            return SkipDecision.DoNotSkip;
+        }
+
+        return await skipLogic.ShouldSkipAsync(context);
+    }
+
+    private async Task<bool> ShouldSkipModule(IModule module, IPipelineContext context)
+    {
+        var skipDecision = await GetSkipDecision(module, context);
+        return skipDecision.ShouldSkip;
+    }
+
+    private IAsyncPolicy GetRetryPolicy(IModule module)
+    {
+        if (module is IModuleRetryPolicy retryBehavior)
+        {
+            return retryBehavior.GetRetryPolicy();
+        }
+
+        var retryAttr = module.ModuleType.GetCustomAttribute<Attributes.RetryAttribute>();
+        if (retryAttr != null && retryAttr.Count > 0)
+        {
+            return Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(
+                    retryCount: retryAttr.Count,
+                    sleepDurationProvider: attempt => TimeSpan.FromSeconds(retryAttr.BackoffSeconds * Math.Pow(attempt, 2)));
+        }
+
+        return Policy.NoOpAsync();
+    }
+
+    private TimeSpan GetTimeout(IModule module)
+    {
+        if (module is IModuleTimeout timeoutBehavior)
+        {
+            return timeoutBehavior.GetTimeout();
+        }
+
+        var timeoutAttr = module.ModuleType.GetCustomAttribute<Attributes.TimeoutAttribute>();
+        if (timeoutAttr != null)
+        {
+            return timeoutAttr.Timeout;
+        }
+
+        return DefaultTimeout;
+    }
+
+    private void LogResult<T>(IPipelineContext context, T? result)
+    {
+        if (!context.Logger.IsEnabled(LogLevel.Debug))
+        {
+            return;
+        }
+
+        try
+        {
+            context.Logger.LogDebug("Module returned {Type}:", result?.GetType().Name ?? typeof(T).Name);
+
+            if (result is null)
+            {
+                context.Logger.LogDebug("null");
+                return;
+            }
+
+            if (typeof(T).IsPrimitive || result is string)
+            {
+                context.Logger.LogDebug("{Value}", result);
+                return;
+            }
+
+            context.Logger.LogDebug("{TypeName}", result.GetType().Name);
+        }
+        catch (Exception ex)
+        {
+            context.Logger.LogWarning(ex, "Failed to log result");
+        }
+    }
+
+    private async Task<object?> GetResultSafe<T>(IModule<T> module, IPipelineContext context, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await module.ExecuteAsync(context, cancellationToken);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+}

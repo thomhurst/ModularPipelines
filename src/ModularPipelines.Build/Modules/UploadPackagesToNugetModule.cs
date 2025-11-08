@@ -10,6 +10,7 @@ using ModularPipelines.Git.Attributes;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
-public class UploadPackagesToNugetModule : Module<CommandResult[]>
+public class UploadPackagesToNugetModule : ModuleNew<CommandResult[]>, IModuleLifecycle, IModuleSkipLogic
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -31,30 +32,34 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
     }
 
     /// <inheritdoc/>
-    protected override async Task OnBeforeExecute(IPipelineContext context)
+    public async Task OnBeforeExecuteAsync(IPipelineContext context)
     {
-        var packagePaths = await GetModule<PackagePathsParserModule>();
+        var packagePaths = await context.GetModuleAsync<PackagePathsParserModule>();
 
         foreach (var packagePath in packagePaths.Value!)
         {
             context.Logger.LogInformation("Uploading {File}", packagePath);
         }
-
-        await base.OnBeforeExecute(context);
     }
 
     /// <inheritdoc/>
-    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public Task OnAfterExecuteAsync(IPipelineContext context, object? result, Exception? exception)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
     {
         return Task.FromResult<SkipDecision>(!_publishSettings.Value.ShouldPublish);
     }
 
     /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
-        var packagePaths = await GetModule<PackagePathsParserModule>();
+        var packagePaths = await context.GetModuleAsync<PackagePathsParserModule>();
 
         return await packagePaths.Value!
             .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions

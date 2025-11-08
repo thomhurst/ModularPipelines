@@ -11,6 +11,7 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -18,9 +19,9 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
-public class CodeFormattedNicelyModule : Module<CommandResult>
+[AlwaysRun]
+public class CodeFormattedNicelyModule : ModuleNew<CommandResult>, IModuleSkipLogic
 {
-    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
 
     private const string DotnetFormatGitMessage = "DotNet Format";
 
@@ -31,7 +32,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         _githubSettings = githubSettings;
     }
 
-    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
     {
         if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
         {
@@ -47,11 +48,11 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
     }
 
     /// <inheritdoc/>
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (!context.Git().Information.BranchName!.Contains("pull"))
         {
-            return await NothingAsync();
+            return null;
         }
 
         try

@@ -9,69 +9,76 @@ namespace ModularPipelines.UnitTests;
 
 public class DependsOnTests : TestBase
 {
-    private class Module1 : Module
+    private class Module1 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module
+    private class Module2 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3 : Module
+    private class Module3 : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGetIfRegistered : Module
+    private class Module3WithGetIfRegistered : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            _ = GetModuleIfRegistered<Module1>();
-            return await NothingAsync();
+            _ = await context.GetModuleIfRegisteredAsync<Module1>();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGet : Module
+    private class Module3WithGet : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            _ = GetModule<Module1>();
-            return await NothingAsync();
+            _ = await context.GetModuleAsync<Module1>();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
-    private class DependsOnSelfModule : Module
+    private class DependsOnSelfModule : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            _ = GetModule<Module1>();
-            return await NothingAsync();
+            _ = await context.GetModuleAsync<Module1>();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
-    private class DependsOnNonModule : Module
+    private class DependsOnNonModule : ModuleNew
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            _ = GetModule<Module1>();
-            return await NothingAsync();
+            _ = await context.GetModuleAsync<Module1>();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

@@ -5,10 +5,10 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules;
 
 [DependsOn<DependentOn3>]
-public class DependentOn4 : Module
+public class DependentOn4 : ModuleNew
 {
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
         return null;

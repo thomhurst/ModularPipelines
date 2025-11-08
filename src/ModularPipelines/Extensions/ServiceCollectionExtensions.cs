@@ -19,9 +19,19 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase, TModule>();
+        // Support both ModuleBase (old) and IModule (new) architecture
+        services.AddSingleton<TModule>();
+
+        if (typeof(ModuleBase).IsAssignableFrom(typeof(TModule)))
+        {
+            // Old architecture - register as ModuleBase
+            services.AddSingleton<ModuleBase>(sp => (ModuleBase)(object)sp.GetRequiredService<TModule>());
+        }
+
+        // New architecture - register as IModule
+        return services.AddSingleton<IModule>(sp => sp.GetRequiredService<TModule>());
     }
 
     /// <summary>
@@ -32,9 +42,18 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase>(tModule);
+        // Support both ModuleBase (old) and IModule (new) architecture
+        if (tModule is ModuleBase moduleBase)
+        {
+            return services.AddSingleton<ModuleBase>(moduleBase);
+        }
+        else
+        {
+            services.AddSingleton(tModule);
+            return services.AddSingleton<IModule>(tModule);
+        }
     }
 
     /// <summary>
@@ -45,9 +64,19 @@ public static class ServiceCollectionExtensions
     /// /// <param name="tModuleFactory">A factory method for creating the module.</param>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase>(tModuleFactory);
+        // Support both ModuleBase (old) and IModule (new) architecture
+        services.AddSingleton<TModule>(tModuleFactory);
+
+        if (typeof(ModuleBase).IsAssignableFrom(typeof(TModule)))
+        {
+            // Old architecture - register as ModuleBase
+            services.AddSingleton<ModuleBase>(sp => (ModuleBase)(object)tModuleFactory(sp));
+        }
+
+        // New architecture - register as IModule
+        return services.AddSingleton<IModule>(tModuleFactory);
     }
 
     /// <summary>

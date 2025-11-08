@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples;
 
-public class LogSecretModule : Module
+public class LogSecretModule : ModuleNew
 {
     private readonly IOptions<MyOptions> _options;
 
@@ -15,7 +15,7 @@ public class LogSecretModule : Module
     }
 
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Value is {Value}", _options.Value.MySecret);
         await Task.Yield();

@@ -1,18 +1,16 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-public class FindProjectsModule : Module<IReadOnlyList<File>>
+[AlwaysRun]
+public class FindProjectsModule : ModuleNew<IReadOnlyList<File>>
 {
-    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-    /// <inheritdoc/>
-    protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 

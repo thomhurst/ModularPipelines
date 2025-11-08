@@ -13,6 +13,7 @@ using ModularPipelines.Http;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
+using ModularPipelines.Services;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -130,7 +131,11 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
             .AddSingleton<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
-            .AddSingleton<IModuleExecutor, ModuleExecutor>()
+            .AddSingleton<Engine.IModuleExecutor, Engine.ModuleExecutor>()
+            .AddSingleton<IModuleBehaviorExecutor, ModuleBehaviorExecutor>()
+            .AddSingleton<IModuleStateTracker, ModuleStateTracker>()
+            .AddSingleton<IModuleDependencyResolver, ModuleDependencyResolver>()
+            .AddSingleton<IModuleSubModuleService, ModuleSubModuleService>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()
