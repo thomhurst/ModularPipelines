@@ -1,12 +1,15 @@
 using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
+using ModularPipelines.Options;
 using Polly;
 
 namespace ModularPipelines.Services;
@@ -18,12 +21,16 @@ namespace ModularPipelines.Services;
 public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
 {
     private readonly ILogger<ModuleBehaviorExecutor> _logger;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(30);
 
-    public ModuleBehaviorExecutor(ILogger<ModuleBehaviorExecutor> logger)
+    public ModuleBehaviorExecutor(
+        ILogger<ModuleBehaviorExecutor> logger,
+        IOptions<PipelineOptions> pipelineOptions)
     {
         _logger = logger;
+        _pipelineOptions = pipelineOptions;
     }
 
     public async Task<T?> ExecuteAsync<T>(IModule<T> module, IPipelineContext context, CancellationToken cancellationToken)
@@ -224,18 +231,125 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
 
     private async Task<SkipDecision> GetSkipDecision(IModule module, IPipelineContext context)
     {
-        if (module is not IModuleSkipLogic skipLogic)
+        var categoryDecision = CheckCategoryFilters(module);
+        if (categoryDecision.ShouldSkip)
         {
-            return SkipDecision.DoNotSkip;
+            return categoryDecision;
         }
 
-        return await skipLogic.ShouldSkipAsync(context);
+        var mandatoryDecision = await CheckMandatoryRunConditions(module, context);
+        if (mandatoryDecision.ShouldSkip)
+        {
+            return mandatoryDecision;
+        }
+
+        var runConditionDecision = await CheckRunConditions(module, context);
+        if (runConditionDecision.ShouldSkip)
+        {
+            return runConditionDecision;
+        }
+
+        if (module is IModuleSkipLogic skipLogic)
+        {
+            return await skipLogic.ShouldSkipAsync(context);
+        }
+
+        return SkipDecision.DoNotSkip;
     }
 
     private async Task<bool> ShouldSkipModule(IModule module, IPipelineContext context)
     {
         var skipDecision = await GetSkipDecision(module, context);
         return skipDecision.ShouldSkip;
+    }
+
+    private SkipDecision CheckCategoryFilters(IModule module)
+    {
+        var categoryAttr = module.ModuleType.GetCustomAttribute<ModuleCategoryAttribute>();
+        if (categoryAttr == null)
+        {
+            return SkipDecision.DoNotSkip;
+        }
+
+        var options = _pipelineOptions.Value;
+
+        if (options.IgnoreCategories?.Contains(categoryAttr.Category) == true)
+        {
+            return $"Module category '{categoryAttr.Category}' is in the ignore list";
+        }
+
+        if (options.RunOnlyCategories?.Any() == true && !options.RunOnlyCategories.Contains(categoryAttr.Category))
+        {
+            return $"Module category '{categoryAttr.Category}' is not in the runnable categories list";
+        }
+
+        return SkipDecision.DoNotSkip;
+    }
+
+    private async Task<SkipDecision> CheckMandatoryRunConditions(IModule module, IPipelineContext context)
+    {
+        var mandatoryAttributes = module.ModuleType
+            .GetCustomAttributes<MandatoryRunConditionAttribute>(inherit: true)
+            .ToList();
+
+        if (!mandatoryAttributes.Any())
+        {
+            return SkipDecision.DoNotSkip;
+        }
+
+        var evaluationTasks = mandatoryAttributes
+            .Select(async attr => new
+            {
+                Attribute = attr,
+                Result = await attr.Condition(context)
+            })
+            .ToList();
+
+        var evaluations = await Task.WhenAll(evaluationTasks);
+
+        var failedCondition = evaluations.FirstOrDefault(e => !e.Result);
+        if (failedCondition != null)
+        {
+            var attributeName = failedCondition.Attribute.GetType().Name.Replace("Attribute", "");
+            return $"Mandatory run condition failed: {attributeName}";
+        }
+
+        return SkipDecision.DoNotSkip;
+    }
+
+    private async Task<SkipDecision> CheckRunConditions(IModule module, IPipelineContext context)
+    {
+        var regularAttributes = module.ModuleType
+            .GetCustomAttributes<RunConditionAttribute>(inherit: true)
+            .Where(attr => attr is not MandatoryRunConditionAttribute)
+            .ToList();
+
+        if (!regularAttributes.Any())
+        {
+            return SkipDecision.DoNotSkip;
+        }
+
+        var evaluationTasks = regularAttributes
+            .Select(async attr => new
+            {
+                Attribute = attr,
+                Result = await attr.Condition(context)
+            })
+            .ToList();
+
+        var evaluations = await Task.WhenAll(evaluationTasks);
+
+        if (evaluations.Any(e => e.Result))
+        {
+            return SkipDecision.DoNotSkip;
+        }
+
+        var failedConditionNames = evaluations
+            .Select(e => e.Attribute.GetType().Name.Replace("Attribute", ""))
+            .ToList();
+
+        var conditionsList = string.Join(", ", failedConditionNames);
+        return $"No run conditions were met. Failed conditions: {conditionsList}";
     }
 
     private IAsyncPolicy GetRetryPolicy(IModule module)
