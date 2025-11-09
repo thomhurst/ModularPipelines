@@ -9,8 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Build the entire solution
 dotnet build ModularPipelines.sln -c Release
 
-# Build specific solution (examples, analyzers, etc.)
-dotnet build ModularPipelines.Examples.sln -c Release
+# Build specific solution (analyzers, etc.)
 dotnet build ModularPipelines.Analyzers.sln -c Release
 
 # Run the build pipeline (from src/ModularPipelines.Build)

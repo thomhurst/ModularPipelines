@@ -35,12 +35,7 @@ dotnet build ModularPipelines.Analyzers.sln -c Release
 dotnet build ModularPipelines.sln -c Release
 ```
 
-3. **Build Examples** (80 seconds):
-```bash
-dotnet build ModularPipelines.Examples.sln -c Release
-```
-
-4. **Run Build Pipeline** (150+ seconds - NEVER CANCEL):
+3. **Run Build Pipeline** (150+ seconds - NEVER CANCEL):
 ```bash
 cd src/ModularPipelines.Build
 dotnet run -c Release --framework net8.0
@@ -164,8 +159,6 @@ yarn start
 - `src/ModularPipelines.Build/Modules/` - Individual build steps
 - `src/ModularPipelines.Build/Program.cs` - Pipeline configuration
 
-**Examples:**
-- `src/ModularPipelines.Examples/` - Usage examples
 
 ## Troubleshooting
 

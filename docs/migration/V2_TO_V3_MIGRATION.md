@@ -601,9 +601,8 @@ Use this checklist to ensure you've migrated all aspects:
 If you encounter issues during migration:
 
 1. **Check Documentation**: Review the v3.0 documentation at the ModularPipelines website
-2. **Example Modules**: Look at the examples in `src/ModularPipelines.Examples/`
-3. **Build Pipeline**: Check `src/ModularPipelines.Build/` for real-world v3.0 modules
-4. **GitHub Issues**: Report bugs or ask questions at https://github.com/thomhurst/ModularPipelines/issues
+2. **Build Pipeline**: Check `src/ModularPipelines.Build/` for real-world v3.0 modules
+3. **GitHub Issues**: Report bugs or ask questions at https://github.com/thomhurst/ModularPipelines/issues
 
 ## Summary
 
