@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
 [AlwaysRun]
-public class CodeFormattedNicelyModule : Module<CommandResult>, IModuleSkipLogic
+public class CodeFormattedNicelyModule : Module<CommandResult>, IModuleSkipLogic, IModuleErrorHandling
 {
 
     private const string DotnetFormatGitMessage = "DotNet Format";
@@ -30,6 +30,15 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, IModuleSkipLogic
     public CodeFormattedNicelyModule(IOptions<GitHubSettings> githubSettings)
     {
         _githubSettings = githubSettings;
+    }
+
+    public Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)
+    {
+        var shouldIgnore = exception.Message.Contains("Authentication failed", StringComparison.OrdinalIgnoreCase) ||
+                          exception.Message.Contains("Invalid username or token", StringComparison.OrdinalIgnoreCase) ||
+                          exception.Message.Contains("Password authentication is not supported", StringComparison.OrdinalIgnoreCase);
+
+        return Task.FromResult(shouldIgnore);
     }
 
     public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)

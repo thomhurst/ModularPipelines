@@ -20,13 +20,22 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
 [AlwaysRun]
-public class FormatMarkdownModule : Module<CommandResult>, IModuleSkipLogic
+public class FormatMarkdownModule : Module<CommandResult>, IModuleSkipLogic, IModuleErrorHandling
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
     public FormatMarkdownModule(IOptions<GitHubSettings> gitHubSettings)
     {
         _gitHubSettings = gitHubSettings;
+    }
+
+    public Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)
+    {
+        var shouldIgnore = exception.Message.Contains("Authentication failed", StringComparison.OrdinalIgnoreCase) ||
+                          exception.Message.Contains("Invalid username or token", StringComparison.OrdinalIgnoreCase) ||
+                          exception.Message.Contains("Password authentication is not supported", StringComparison.OrdinalIgnoreCase);
+
+        return Task.FromResult(shouldIgnore);
     }
 
     /// <inheritdoc/>
