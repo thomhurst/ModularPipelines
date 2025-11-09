@@ -12,7 +12,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     private static readonly ConcurrentBag<string> _violations = new();
 
     [ModularPipelines.Attributes.NotInParallel("A")]
-    public class ModuleWithAConstraintKey1 : ModuleNew<string>
+    public class ModuleWithAConstraintKey1 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -34,7 +34,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel("A")]
-    public class ModuleWithAConstraintKey2 : ModuleNew<string>
+    public class ModuleWithAConstraintKey2 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -56,7 +56,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel("B")]
-    public class ModuleWithBConstraintKey1 : ModuleNew<string>
+    public class ModuleWithBConstraintKey1 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -78,7 +78,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel("B")]
-    public class ModuleWithBConstraintKey2 : ModuleNew<string>
+    public class ModuleWithBConstraintKey2 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

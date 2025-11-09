@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class AlwaysRunTests : TestBase
 {
-    public class MyModule1 : ModuleNew
+    public class MyModule1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -20,7 +20,7 @@ public class AlwaysRunTests : TestBase
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
     [AlwaysRun]
-    public class MyModule2 : ModuleNew
+    public class MyModule2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -31,7 +31,7 @@ public class AlwaysRunTests : TestBase
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
     [AlwaysRun]
-    public class MyModule3 : ModuleNew
+    public class MyModule3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -42,7 +42,7 @@ public class AlwaysRunTests : TestBase
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
     [AlwaysRun]
-    public class MyModule4 : ModuleNew
+    public class MyModule4 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

@@ -14,7 +14,7 @@ namespace ModularPipelines.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
-    public class NUnitModule : ModuleNew<DotNetTestResult>
+    public class NUnitModule : Module<DotNetTestResult>
     {
         public override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

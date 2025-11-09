@@ -17,16 +17,12 @@ namespace ModularPipelines.Services;
 /// </summary>
 public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
 {
-    private readonly IModuleStateTracker _stateTracker;
     private readonly ILogger<ModuleBehaviorExecutor> _logger;
 
     private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(30);
 
-    public ModuleBehaviorExecutor(
-        IModuleStateTracker stateTracker,
-        ILogger<ModuleBehaviorExecutor> logger)
+    public ModuleBehaviorExecutor(ILogger<ModuleBehaviorExecutor> logger)
     {
-        _stateTracker = stateTracker;
         _logger = logger;
     }
 
@@ -40,12 +36,11 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             if (skipDecision.ShouldSkip)
             {
                 _logger.LogInformation("Module {ModuleName} was skipped: {Reason}", module.ModuleType.Name, skipDecision.Reason);
-                _stateTracker.SetStatus(module, Status.Skipped);
 
-                // Cache the skip decision in the module
-                if (module is ModuleNew<T> moduleNewForSkip)
+                if (module is Module<T> mod)
                 {
-                    moduleNewForSkip.SkipDecision = skipDecision;
+                    mod.Status = Status.Skipped;
+                    mod.SkipDecision = skipDecision;
                 }
 
                 return default;
@@ -58,27 +53,33 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
                 await lifecycle.OnBeforeExecuteAsync(context);
             }
 
-            _stateTracker.SetStatus(module, Status.Processing);
-            _stateTracker.SetStartTime(module, DateTimeOffset.UtcNow);
+            if (module is Module<T> mod1)
+            {
+                mod1.Status = Status.Processing;
+                mod1.StartTime = DateTimeOffset.UtcNow;
 
-            _logger.LogDebug("Module {ModuleName} execution started at {StartTime}",
-                module.ModuleType.Name,
-                _stateTracker.GetStartTime(module));
+                _logger.LogDebug("Module {ModuleName} execution started at {StartTime}",
+                    module.ModuleType.Name,
+                    mod1.StartTime);
+            }
 
             var result = await ExecuteWithRetryAndTimeout(module, context, cancellationToken);
 
-            _stateTracker.SetEndTime(module, DateTimeOffset.UtcNow);
-            _stateTracker.SetStatus(module, Status.Successful);
-
-            // Cache the result in the module for later retrieval
-            if (module is ModuleNew<T> moduleNew)
+            if (module is Module<T> mod2)
             {
-                moduleNew.Value = result;
+                mod2.EndTime = DateTimeOffset.UtcNow;
+                mod2.Status = Status.Successful;
             }
 
-            _logger.LogDebug("Module {ModuleName} succeeded after {Duration}",
-                module.ModuleType.Name,
-                _stateTracker.GetDuration(module));
+            // Cache the result in the module for later retrieval
+            if (module is Module<T> moduleInstance)
+            {
+                moduleInstance.Value = result;
+
+                _logger.LogDebug("Module {ModuleName} succeeded after {Duration}",
+                    module.ModuleType.Name,
+                    moduleInstance.Duration);
+            }
 
             LogResult(context, result);
 
@@ -86,8 +87,11 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         }
         catch (Exception exception)
         {
-            _stateTracker.SetEndTime(module, DateTimeOffset.UtcNow);
-            _stateTracker.SetException(module, exception);
+            if (module is Module<T> mod3)
+            {
+                mod3.EndTime = DateTimeOffset.UtcNow;
+                mod3.Exception = exception;
+            }
 
             bool ignoreFailure = false;
             if (module is IModuleErrorHandling errorHandling)
@@ -98,16 +102,25 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             if (ignoreFailure)
             {
                 _logger.LogWarning(exception, "Module {ModuleName} failed but failure is ignored", module.ModuleType.Name);
-                _stateTracker.SetStatus(module, Status.IgnoredFailure);
+
+                if (module is Module<T> mod4)
+                {
+                    mod4.Status = Status.IgnoredFailure;
+                }
+
                 return default;
             }
             else
             {
-                _logger.LogError(exception, "Module {ModuleName} failed after {Duration}",
-                    module.ModuleType.Name,
-                    _stateTracker.GetDuration(module));
+                if (module is Module<T> mod5)
+                {
+                    _logger.LogError(exception, "Module {ModuleName} failed after {Duration}",
+                        module.ModuleType.Name,
+                        mod5.Duration);
 
-                _stateTracker.SetStatus(module, exception is ModuleTimeoutException ? Status.TimedOut : Status.Failed);
+                    mod5.Status = exception is ModuleTimeoutException ? Status.TimedOut : Status.Failed;
+                }
+
                 throw;
             }
         }
@@ -115,16 +128,26 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         {
             if (module is IModuleLifecycle lifecycle)
             {
-                var result = _stateTracker.GetStatus(module) == Status.Successful ? await GetResultSafe(module, context, cancellationToken) : default(object);
-                var exception = _stateTracker.GetException(module);
-                await lifecycle.OnAfterExecuteAsync(context, result, exception);
+                object? result = default;
+                Exception? exc = null;
+
+                if (module is Module<T> modFinal)
+                {
+                    result = modFinal.Status == Status.Successful ? await GetResultSafe(module, context, cancellationToken) : default(object);
+                    exc = modFinal.Exception;
+                }
+
+                await lifecycle.OnAfterExecuteAsync(context, result, exc);
             }
 
             stopwatch.Stop();
 
-            _logger.LogInformation("Module {ModuleName} finished with status {Status}",
-                module.ModuleType.Name,
-                _stateTracker.GetStatus(module));
+            if (module is Module<T> modLog)
+            {
+                _logger.LogInformation("Module {ModuleName} finished with status {Status}",
+                    module.ModuleType.Name,
+                    modLog.Status);
+            }
         }
     }
 
@@ -147,7 +170,7 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         {
             if (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
             {
-                throw new ModuleTimeoutException(module as ModuleBase);
+                throw new ModuleTimeoutException(module);
             }
 
             timeoutCts.Token.ThrowIfCancellationRequested();
@@ -158,7 +181,7 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             }
             catch (OperationCanceledException) when (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
             {
-                throw new ModuleTimeoutException(module as ModuleBase);
+                throw new ModuleTimeoutException(module);
             }
         });
 
@@ -193,9 +216,9 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             return;
         }
 
-        if (_stateTracker.GetStatus(module) != Status.Successful)
+        if (module is Module<T> mod && mod.Status != Status.Successful)
         {
-            throw new ModuleTimeoutException(module as ModuleBase);
+            throw new ModuleTimeoutException(module);
         }
     }
 

@@ -41,15 +41,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             }
             catch (Exception e)
             {
-                // Only ModuleBase has Context property
-                if (module is ModuleBase moduleBase)
-                {
-                    moduleBase.Context?.Logger.LogError(e, "Error disposing module");
-                }
-                else
-                {
-                    _logger.LogError(e, "Error disposing module {ModuleType}", module.GetType().Name);
-                }
+                _logger.LogError(e, "Error disposing module {ModuleType}", module.GetType().Name);
             }
         }
     }

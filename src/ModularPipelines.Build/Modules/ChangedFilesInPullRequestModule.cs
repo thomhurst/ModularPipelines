@@ -10,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RunOnLinux]
 [SkipOnMainBranch]
-public class ChangedFilesInPullRequestModule : ModuleNew<IReadOnlyList<File>>
+public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
 {
     public override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

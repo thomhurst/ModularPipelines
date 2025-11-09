@@ -10,7 +10,7 @@ namespace ModularPipelines.UnitTests;
 
 public class AfterPipelineLoggerTests
 {
-    private class AfterPipelineLoggingModule : ModuleNew
+    private class AfterPipelineLoggingModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -20,7 +20,7 @@ public class AfterPipelineLoggerTests
         }
     }
 
-    private class AfterPipelineLoggingWithExceptionModule : ModuleNew
+    private class AfterPipelineLoggingWithExceptionModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

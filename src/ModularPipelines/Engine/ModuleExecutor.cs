@@ -4,6 +4,8 @@ using Mediator;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.Enums;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -12,6 +14,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Services;
 
 namespace ModularPipelines.Engine;
 
@@ -21,23 +24,27 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
     private readonly IModuleDisposer _moduleDisposer;
-    private readonly IEnumerable<ModuleBase> _allModules;
+    private readonly IEnumerable<IModule> _allModules;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IParallelLimitProvider _parallelLimitProvider;
     private readonly IMediator _mediator;
     private readonly ILogger<ModuleExecutor> _logger;
     private readonly IModuleSchedulerFactory _schedulerFactory;
+    private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly IModuleBehaviorExecutor _moduleBehaviorExecutor;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         IModuleDisposer moduleDisposer,
-        IEnumerable<ModuleBase> allModules,
+        IEnumerable<IModule> allModules,
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IParallelLimitProvider parallelLimitProvider,
         IMediator mediator,
         ILogger<ModuleExecutor> logger,
-        IModuleSchedulerFactory schedulerFactory)
+        IModuleSchedulerFactory schedulerFactory,
+        IPipelineContextProvider pipelineContextProvider,
+        IModuleBehaviorExecutor moduleBehaviorExecutor)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -49,6 +56,8 @@ internal class ModuleExecutor : IModuleExecutor
         _mediator = mediator;
         _logger = logger;
         _schedulerFactory = schedulerFactory;
+        _pipelineContextProvider = pipelineContextProvider;
+        _moduleBehaviorExecutor = moduleBehaviorExecutor;
     }
 
     /// <summary>
@@ -75,8 +84,8 @@ internal class ModuleExecutor : IModuleExecutor
             return modules;
         }
 
-        // Filter to only ModuleBase instances - ModuleNew<T> execution is handled differently
-        var moduleBaseList = modules.OfType<ModuleBase>().ToList();
+        // Filter to only ModuleBase instances - Module<T> execution is handled differently
+        var moduleBaseList = modules.OfType<IModule>().ToList();
 
         if (moduleBaseList.Count == 0)
         {
@@ -99,6 +108,17 @@ internal class ModuleExecutor : IModuleExecutor
             if (scheduler != null)
             {
                 await WaitForAlwaysRunModulesAsync(scheduler, moduleBaseList);
+
+                // Mark any remaining modules that never started as failed
+                foreach (var module in moduleBaseList)
+                {
+                    if (module.Status == Status.NotYetStarted && module is IModuleInternal moduleInternal)
+                    {
+                        _logger.LogDebug("Marking module {ModuleName} as Failed (never started)", module.GetType().Name);
+                        moduleInternal.Status = Status.Failed;
+                        moduleInternal.EndTime = DateTimeOffset.UtcNow;
+                    }
+                }
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
@@ -110,7 +130,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private IModuleScheduler InitializeScheduler(IReadOnlyList<ModuleBase> modules)
+    private IModuleScheduler InitializeScheduler(IReadOnlyList<IModule> modules)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
@@ -121,7 +141,7 @@ internal class ModuleExecutor : IModuleExecutor
     }
 
     private async Task ExecuteWithSchedulerAsync(
-        IReadOnlyList<ModuleBase> modules,
+        IReadOnlyList<IModule> modules,
         IModuleScheduler scheduler)
     {
         using var cancellationTokenSource = new CancellationTokenSource();
@@ -230,18 +250,18 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<ModuleBase> modules)
+    private async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules)
     {
-        var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
+        var alwaysRunModules = modules.Where(x => x.GetModuleRunType() == ModuleRunType.AlwaysRun).ToList();
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
 
-        foreach (var moduleBase in alwaysRunModules)
+        foreach (var module in alwaysRunModules)
         {
-            await WaitForSingleAlwaysRunModuleAsync(scheduler, moduleBase);
+            await WaitForSingleAlwaysRunModuleAsync(scheduler, module);
         }
     }
 
-    private async Task WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, ModuleBase moduleBase)
+    private async Task WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, IModule moduleBase)
     {
         var moduleState = scheduler.GetModuleState(moduleBase.GetType());
         var moduleTask = scheduler.GetModuleCompletionTask(moduleBase.GetType());
@@ -295,14 +315,23 @@ internal class ModuleExecutor : IModuleExecutor
 
             await WaitForDependenciesAsync(module, scheduler);
 
-            // Respect engine cancellation even if module doesn't honor its own cancellation token
-            await module.GetOrStartExecutionTask(() => ExecuteModuleTaskAsync(module)).WaitAsync(cancellationToken);
+            // Execute the module task respecting engine cancellation
+            await ExecuteModuleTaskAsync(module, cancellationToken);
 
             scheduler.MarkModuleCompleted(module.GetType(), true);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
+
+            // Set status for modules that failed before execution started
+            if (module.Status == Status.NotYetStarted && module is IModuleInternal moduleInternal)
+            {
+                moduleInternal.Status = Status.Failed;
+                moduleInternal.Exception = ex;
+                moduleInternal.EndTime = DateTimeOffset.UtcNow;
+            }
+
             scheduler.MarkModuleCompleted(module.GetType(), false, ex);
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
@@ -312,39 +341,39 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task ExecuteModuleCore(ModuleBase module)
-    {
-        ModuleLogger.Values.Value = module.Context.Logger;
-
-        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
-
-        var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
-
-        await _mediator.Publish(new ModuleStartedNotification(module, estimatedDuration));
-
-        await module.StartInternal();
-
-        if (module.Status == Enums.Status.Skipped)
-        {
-            await _mediator.Publish(new ModuleSkippedNotification(module, module.SkipResult));
-            return;
-        }
-
-        await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), module.Duration);
-
-        await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
-
-        var isSuccessful = module.Status == Enums.Status.Successful;
-        await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
-    }
-
-    private async Task ExecuteModuleTaskAsync(ModuleBase module)
+    private async Task ExecuteModuleTaskAsync(IModule module, CancellationToken cancellationToken)
     {
         using var semaphoreHandle = await WaitForParallelLimiter(module);
 
         try
         {
-            await ExecuteModuleCore(module);
+            await _pipelineSetupExecutor.OnBeforeModuleStartAsync(module);
+
+            var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
+
+            await _mediator.Publish(new ModuleStartedNotification(module, estimatedDuration));
+
+            var startTime = DateTimeOffset.UtcNow;
+
+            // Execute via ModuleBehaviorExecutor for Module<T>
+            // This handles skip logic, retries, timeouts, and all behaviors
+            await ExecuteModuleCore(module, cancellationToken);
+
+            var duration = DateTimeOffset.UtcNow - startTime;
+
+            if (module.Status == Enums.Status.Skipped)
+            {
+                var skipDecision = module is Module<object> m ? m.SkipDecision : SkipDecision.DoNotSkip;
+                await _mediator.Publish(new ModuleSkippedNotification(module, skipDecision));
+                return;
+            }
+
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(module.GetType(), duration);
+
+            await _pipelineSetupExecutor.OnAfterModuleEndAsync(module);
+
+            var isSuccessful = module.Status == Enums.Status.Successful;
+            await _mediator.Publish(new ModuleCompletedNotification(module, isSuccessful));
         }
         finally
         {
@@ -355,7 +384,44 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task<IDisposable> WaitForParallelLimiter(ModuleBase module)
+    private async Task ExecuteModuleCore(IModule module, CancellationToken cancellationToken)
+    {
+        // Get the generic type argument T from IModule<T>
+        var moduleType = module.GetType();
+        var moduleInterface = moduleType.GetInterfaces()
+            .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IModule<>));
+
+        if (moduleInterface == null)
+        {
+            throw new InvalidOperationException($"Module {moduleType.Name} does not implement IModule<T>");
+        }
+
+        var resultType = moduleInterface.GetGenericArguments()[0];
+
+        // Get scoped pipeline context for this module
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+
+        // Call ModuleBehaviorExecutor.ExecuteAsync<T> using reflection
+        var executorMethod = typeof(IModuleBehaviorExecutor)
+            .GetMethod(nameof(IModuleBehaviorExecutor.ExecuteAsync))
+            ?.MakeGenericMethod(resultType);
+
+        if (executorMethod == null)
+        {
+            throw new InvalidOperationException($"Could not find ExecuteAsync method on IModuleBehaviorExecutor");
+        }
+
+        var executeTask = executorMethod.Invoke(_moduleBehaviorExecutor, new object[] { module, pipelineContext, cancellationToken }) as Task;
+
+        if (executeTask == null)
+        {
+            throw new InvalidOperationException($"ModuleBehaviorExecutor.ExecuteAsync did not return a Task");
+        }
+
+        await executeTask;
+    }
+
+    private async Task<IDisposable> WaitForParallelLimiter(IModule module)
     {
         var parallelLimitAttributeType =
             module.GetType().GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault()?.Type;
@@ -368,9 +434,10 @@ internal class ModuleExecutor : IModuleExecutor
         return NoOpDisposable.Instance;
     }
 
-    private async Task WaitForDependenciesAsync(ModuleBase module, IModuleScheduler scheduler)
+    private async Task WaitForDependenciesAsync(IModule module, IModuleScheduler scheduler)
     {
         var dependencies = module.GetModuleDependencies();
+        var moduleRunType = module.GetModuleRunType();
 
         foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
         {
@@ -382,12 +449,12 @@ internal class ModuleExecutor : IModuleExecutor
                 {
                     await dependencyTask;
                 }
-                catch (Exception e) when (module.ModuleRunType == ModuleRunType.AlwaysRun)
+                catch (Exception e) when (moduleRunType == ModuleRunType.AlwaysRun)
                 {
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {module.GetType().Name} was waiting for it as a dependency",
                         e));
-                    module.Context.Logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                    _logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
             }
             else if (!ignoreIfNotRegistered)

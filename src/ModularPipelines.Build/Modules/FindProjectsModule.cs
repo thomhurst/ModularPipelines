@@ -8,7 +8,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [AlwaysRun]
-public class FindProjectsModule : ModuleNew<IReadOnlyList<File>>
+public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
     public override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

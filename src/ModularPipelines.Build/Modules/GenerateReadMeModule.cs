@@ -10,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
 [AlwaysRun]
-public class GenerateReadMeModule : ModuleNew
+public class GenerateReadMeModule : Module
 {
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

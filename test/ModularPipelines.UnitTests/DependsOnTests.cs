@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class DependsOnTests : TestBase
 {
-    private class Module1 : ModuleNew
+    private class Module1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -19,7 +19,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : ModuleNew
+    private class Module2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -29,7 +29,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3 : ModuleNew
+    private class Module3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGetIfRegistered : ModuleNew
+    private class Module3WithGetIfRegistered : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -50,7 +50,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
-    private class Module3WithGet : ModuleNew
+    private class Module3WithGet : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -61,7 +61,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
-    private class DependsOnSelfModule : ModuleNew
+    private class DependsOnSelfModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -72,7 +72,7 @@ public class DependsOnTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
-    private class DependsOnNonModule : ModuleNew
+    private class DependsOnNonModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

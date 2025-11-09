@@ -13,7 +13,7 @@ namespace ModularPipelines.UnitTests;
 public class ModuleHistoryTests
 {
     [ModuleCategory("1")]
-    private class SkipFromCategory : ModuleNew
+    private class SkipFromCategory : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -31,7 +31,7 @@ public class ModuleHistoryTests
     }
 
     [SkipRunCondition]
-    private class SkipFromRunCondition : ModuleNew
+    private class SkipFromRunCondition : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -41,7 +41,7 @@ public class ModuleHistoryTests
     }
 
     [SkipRunCondition]
-    private class UseHistoryTrueModule : ModuleNew
+    private class UseHistoryTrueModule : Module
     {
         public Task<bool> UseResultFromHistoryIfSkippedAsync(IPipelineContext context)
         {
@@ -55,7 +55,7 @@ public class ModuleHistoryTests
         }
     }
 
-    private class SkipFromMethod : ModuleNew, IModuleSkipLogic
+    private class SkipFromMethod : Module, IModuleSkipLogic
     {
         public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
         {
@@ -71,12 +71,12 @@ public class ModuleHistoryTests
 
     private class NotFoundModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(IModule module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule module, IPipelineHookContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(null);
         }
@@ -84,12 +84,12 @@ public class ModuleHistoryTests
 
     private class GoodModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(IModule module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule module, IPipelineHookContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module));
         }

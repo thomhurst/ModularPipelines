@@ -8,7 +8,7 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class GitHubRepositoryInfoTests : TestBase
 {
-    public class GitRepoModule : ModuleNew<IGitHubRepositoryInfo>
+    public class GitRepoModule : Module<IGitHubRepositoryInfo>
     {
         public override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

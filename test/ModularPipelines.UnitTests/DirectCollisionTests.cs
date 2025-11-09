@@ -20,7 +20,7 @@ public class DirectCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule1 : ModuleNew
+    private class DependencyConflictModule1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -31,7 +31,7 @@ public class DirectCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule1>]
-    private class DependencyConflictModule2 : ModuleNew
+    private class DependencyConflictModule2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

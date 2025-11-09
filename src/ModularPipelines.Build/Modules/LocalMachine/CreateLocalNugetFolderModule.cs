@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
-public class CreateLocalNugetFolderModule : ModuleNew<Folder>
+public class CreateLocalNugetFolderModule : Module<Folder>
 {
     /// <inheritdoc/>
     public override async Task<Folder?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

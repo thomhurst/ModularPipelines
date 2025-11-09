@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples;
 
-public class LogSecretModule : ModuleNew
+public class LogSecretModule : Module
 {
     private readonly IOptions<MyOptions> _options;
 

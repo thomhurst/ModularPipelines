@@ -17,7 +17,7 @@ public class IgnoredFailureTests : TestBase
             return Task.FromResult(true);
         }
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -27,12 +27,19 @@ public class IgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Not_Thrown_Or_Cancelled_Pipeline()
     {
-        var module = await RunModule<IgnoredFailureModule>();
+        EngineCancellationToken? engineCancellationToken = null;
 
-        var serviceProvider = module.Context.Get<IServiceProvider>()!;
-        var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, collection) =>
+            {
+                collection.AddSingleton<Action<IServiceProvider>>(sp =>
+                    engineCancellationToken = sp.GetRequiredService<EngineCancellationToken>());
+            })
+            .AddModule<IgnoredFailureModule>()
+            .ExecutePipelineAsync();
 
-        var moduleResult = await module;
+        var module = pipelineSummary.GetModule<IgnoredFailureModule>();
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

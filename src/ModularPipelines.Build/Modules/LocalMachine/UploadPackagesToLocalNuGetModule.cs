@@ -15,7 +15,7 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<PackagePathsParserModule>]
 [DependsOn<CreateLocalNugetFolderModule>]
 [RunOnLinuxOnly]
-public class UploadPackagesToLocalNuGetModule : ModuleNew<CommandResult[]>, IModuleLifecycle
+public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>, IModuleLifecycle
 {
     /// <inheritdoc/>
     public async Task OnBeforeExecuteAsync(IPipelineContext context)

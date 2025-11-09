@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public Module1({|#0:ILogger logger|})
     {
@@ -50,7 +50,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public Module1({|#0:ILoggerProvider loggerProvider|})
     {
@@ -79,7 +79,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public Module1({|#0:ILoggerFactory loggerFactory|})
     {
@@ -108,7 +108,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public Module1({|#0:ILogger<Module1> logger|})
     {
@@ -137,7 +137,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -163,7 +163,7 @@ using ModularPipelines.Logging;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew<List<string>>
+public class Module1 : Module<List<string>>
 {
     public Module1(IModuleLoggerProvider moduleLoggerProvider)
     {

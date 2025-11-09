@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules;
 
 [DependsOn<GitVersionModule>]
-public class SuccessModule3 : ModuleNew
+public class SuccessModule3 : Module
 {
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

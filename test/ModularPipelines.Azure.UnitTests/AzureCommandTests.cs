@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class AzureCommandTests : TestBase
 {
-    public class AzureCommandModule : ModuleNew<CommandResult>
+    public class AzureCommandModule : Module<CommandResult>
     {
         public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -20,7 +20,7 @@ public class AzureCommandTests : TestBase
         }
     }
 
-    public class AzureCommandModule2 : ModuleNew<CommandResult>
+    public class AzureCommandModule2 : Module<CommandResult>
     {
         public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

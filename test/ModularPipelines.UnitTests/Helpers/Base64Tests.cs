@@ -9,7 +9,7 @@ public class Base64Tests : TestBase
 {
     private class ToBase64Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Base64.ToBase64String("Foo bar!");
@@ -21,7 +21,7 @@ public class Base64Tests : TestBase
     {
         var module = await RunModule<ToBase64Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,13 +36,13 @@ public class Base64Tests : TestBase
     {
         var module = await RunModule<ToBase64Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("Rm9vIGJhciE=");
     }
 
     private class FromBase64Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Base64.FromBase64String("Rm9vIGJhciE=");
@@ -54,7 +54,7 @@ public class Base64Tests : TestBase
     {
         var module = await RunModule<FromBase64Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -69,7 +69,7 @@ public class Base64Tests : TestBase
     {
         var module = await RunModule<FromBase64Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

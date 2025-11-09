@@ -7,7 +7,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class PrintGitInformationModule : ModuleNew
+public class PrintGitInformationModule : Module
 {
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

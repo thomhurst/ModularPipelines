@@ -9,7 +9,7 @@ public class ModuleNotInitializedTests : TestBase
 {
     private class Module1 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -25,7 +25,7 @@ public class ModuleNotInitializedTests : TestBase
             _module1 = context.GetModule<Module1>();
         }
 
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 
 public class FailedPipelineTests : TestBase
 {
-    private class Module1 : ModuleNew
+    private class Module1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -18,7 +18,7 @@ public class FailedPipelineTests : TestBase
         }
     }
 
-    private class Module2 : ModuleNew
+    private class Module2 : Module
     {
         public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -27,7 +27,7 @@ public class FailedPipelineTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module2>(IgnoreIfNotRegistered = true)]
-    private class Module3 : ModuleNew
+    private class Module3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

@@ -15,7 +15,7 @@ public class AsyncDisposableModuleTests
         await Assert.That(pipelineSummary.Modules.OfType<AsyncDisposableModule>().Single().IsDisposed).IsTrue();
     }
 
-    public class AsyncDisposableModule : ModuleNew, IAsyncDisposable
+    public class AsyncDisposableModule : Module, IAsyncDisposable
     {
         public bool IsDisposed { get; private set; }
 

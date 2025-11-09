@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples;
 
-public class SubmodulesModule : ModuleNew
+public class SubmodulesModule : Module
 {
     protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {

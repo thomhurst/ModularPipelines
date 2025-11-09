@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
 [AlwaysRun]
-public class CodeFormattedNicelyModule : ModuleNew<CommandResult>, IModuleSkipLogic
+public class CodeFormattedNicelyModule : Module<CommandResult>, IModuleSkipLogic
 {
 
     private const string DotnetFormatGitMessage = "DotNet Format";

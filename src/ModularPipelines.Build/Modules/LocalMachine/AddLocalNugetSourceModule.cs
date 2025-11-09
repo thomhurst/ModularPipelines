@@ -11,7 +11,7 @@ using ModularPipelines.Modules.Behaviors;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<CreateLocalNugetFolderModule>]
-public class AddLocalNugetSourceModule : ModuleNew<CommandResult>, IModuleErrorHandling
+public class AddLocalNugetSourceModule : Module<CommandResult>, IModuleErrorHandling
 {
     /// <inheritdoc/>
     public Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)

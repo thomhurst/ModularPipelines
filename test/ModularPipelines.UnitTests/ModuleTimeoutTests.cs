@@ -8,7 +8,7 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    private class Module_UsingCancellationToken : ModuleNew<string>, IModuleTimeout
+    private class Module_UsingCancellationToken : Module<string>, IModuleTimeout
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
@@ -21,7 +21,7 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class Module_NotUsingCancellationToken : ModuleNew<string>, IModuleTimeout
+    private class Module_NotUsingCancellationToken : Module<string>, IModuleTimeout
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
@@ -40,7 +40,7 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class NoTimeoutModule : ModuleNew<string>, IModuleTimeout
+    private class NoTimeoutModule : Module<string>, IModuleTimeout
     {
         public TimeSpan GetTimeout() => TimeSpan.Zero;
 

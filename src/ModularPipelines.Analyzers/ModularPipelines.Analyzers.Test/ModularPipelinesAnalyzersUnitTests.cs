@@ -20,7 +20,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class Module1 : ModuleNew
+public class Module1 : Module
 {
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -29,7 +29,7 @@ public class Module1 : ModuleNew
     }
 }
 
-public class Module2 : ModuleNew
+public class Module2 : Module
 {
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -49,7 +49,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
-public class Module1 : ModuleNew
+public class Module1 : Module
 {
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
@@ -59,7 +59,7 @@ public class Module1 : ModuleNew
 }
 
 [DependsOn<Module1>]
-public class Module2 : ModuleNew
+public class Module2 : Module
 {
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

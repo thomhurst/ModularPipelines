@@ -7,7 +7,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackProjectsModule>]
 [RunOnLinuxOnly]
-public class PackagePathsParserModule : ModuleNew<List<File>>
+public class PackagePathsParserModule : Module<List<File>>
 {
     /// <inheritdoc/>
     public override async Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

@@ -9,7 +9,7 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : ModuleNew
+    private class RunnableModule1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -19,7 +19,7 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : ModuleNew
+    private class RunnableModule2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -29,7 +29,7 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : ModuleNew
+    private class RunnableModule3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : ModuleNew
+    private class NonRunnableModule1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -49,7 +49,7 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : ModuleNew
+    private class NonRunnableModule2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -58,7 +58,7 @@ public class RunnableCategoryTests : TestBase
         }
     }
 
-    private class OtherModule3 : ModuleNew
+    private class OtherModule3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

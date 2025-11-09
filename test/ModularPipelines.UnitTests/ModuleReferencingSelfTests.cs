@@ -8,7 +8,7 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleReferencingSelfTests : TestBase
 {
-    private class ModuleReferencingSelf : ModuleNew<CommandResult>
+    private class ModuleReferencingSelf : Module<CommandResult>
     {
         public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -68,21 +69,8 @@ internal class PipelineExecutor : IPipelineExecutor
 
     private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<IModule> runnableModules)
     {
-        try
-        {
-            // Only ModuleBase has ModuleRunType and ExecutionTask properties
-            var alwaysRunModules = runnableModules.OfType<ModuleBase>()
-                .Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun)
-                .Select(m => m.ExecutionTask);
-
-            await Task.WhenAll(alwaysRunModules);
-        }
-        catch (Exception? e)
-        {
-            _logger.LogWarning(e, "Error while waiting for Always Run modules");
-            return e;
-        }
-
-        return null;
+        // v3.0: AlwaysRun modules are handled by the scheduler in ModuleExecutor
+        // This method is kept for backward compatibility but is now a no-op
+        return await Task.FromResult<Exception?>(null);
     }
 }

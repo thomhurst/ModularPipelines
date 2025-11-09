@@ -15,7 +15,7 @@ public class DisposableModuleTests
         await Assert.That(pipelineSummary.Modules.OfType<DisposableModule>().Single().IsDisposed).IsTrue();
     }
 
-    public class DisposableModule : ModuleNew, IDisposable
+    public class DisposableModule : Module, IDisposable
     {
         public bool IsDisposed { get; private set; }
 

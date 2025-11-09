@@ -12,7 +12,7 @@ public class GitTests : TestBase
 {
     private class GitVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Git().Commands.Git(new GitBaseOptions
             {
@@ -26,7 +26,7 @@ public class GitTests : TestBase
     {
         var module = await RunModule<GitVersionModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -41,7 +41,7 @@ public class GitTests : TestBase
     {
         var module = await RunModule<GitVersionModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

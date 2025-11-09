@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
-public class UploadPackagesToNugetModule : ModuleNew<CommandResult[]>, IModuleLifecycle, IModuleSkipLogic
+public class UploadPackagesToNugetModule : Module<CommandResult[]>, IModuleLifecycle, IModuleSkipLogic
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
     private readonly IOptions<PublishSettings> _publishSettings;

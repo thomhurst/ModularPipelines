@@ -15,7 +15,7 @@ public class NotInParallelTests : TestBase
     private static readonly ConcurrentBag<string> _violations = new();
 
     [ModularPipelines.Attributes.NotInParallel]
-    public class Module1 : ModuleNew<string>
+    public class Module1 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -37,7 +37,7 @@ public class NotInParallelTests : TestBase
     }
 
     [ModularPipelines.Attributes.NotInParallel]
-    public class Module2 : ModuleNew<string>
+    public class Module2 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -60,7 +60,7 @@ public class NotInParallelTests : TestBase
 
     [ModularPipelines.Attributes.NotInParallel]
     [ModularPipelines.Attributes.DependsOn<ParallelDependency>]
-    public class NotParallelModuleWithParallelDependency : ModuleNew<string>
+    public class NotParallelModuleWithParallelDependency : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -74,7 +74,7 @@ public class NotInParallelTests : TestBase
         }
     }
 
-    public class ParallelDependency : ModuleNew<string>
+    public class ParallelDependency : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -85,7 +85,7 @@ public class NotInParallelTests : TestBase
 
     [ModularPipelines.Attributes.NotInParallel]
     [ModularPipelines.Attributes.DependsOn<NotParallelModuleWithParallelDependency>]
-    public class NotParallelModuleWithNonParallelDependency : ModuleNew<string>
+    public class NotParallelModuleWithNonParallelDependency : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

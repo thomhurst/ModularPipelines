@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 
 [DependsOn<ProvisionBlobStorageAccountModule>]
 [DependsOn<ProvisionUserAssignedIdentityModule>]
-public class AssignAccessToBlobStorageModule : ModuleNew<RoleAssignmentResource>
+public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 {
     /// <inheritdoc/>
     public override async Task<RoleAssignmentResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

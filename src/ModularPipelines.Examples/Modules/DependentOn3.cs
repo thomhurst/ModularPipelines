@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules;
 
 [DependsOn<DependentOn2>]
-public class DependentOn3 : ModuleNew
+public class DependentOn3 : Module
 {
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

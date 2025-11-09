@@ -15,7 +15,7 @@ namespace ModularPipelines.UnitTests;
 public class ModuleLoggerTests
 {
     private static readonly string RandomString = Guid.NewGuid().ToString();
-    private class Module1 : ModuleNew
+    private class Module1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -28,7 +28,7 @@ public class ModuleLoggerTests
         }
     }
 
-    public class Module2 : ModuleNew
+    public class Module2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -39,7 +39,7 @@ public class ModuleLoggerTests
         }
     }
 
-    public class Module3 : ModuleNew
+    public class Module3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -86,7 +86,7 @@ public class ModuleLoggerTests
             {
                 collection.Configure<MySecrets>(_.Configuration);
                 collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton(typeof(ModuleBase), moduleType);
+                collection.AddSingleton(typeof(IModule), moduleType);
             })
             .SetLogLevel(LogLevel.Information)
             .BuildHostAsync();

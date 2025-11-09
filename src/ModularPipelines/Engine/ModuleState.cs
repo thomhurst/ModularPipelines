@@ -43,10 +43,10 @@ internal enum ModuleExecutionState
 /// </remarks>
 internal class ModuleState
 {
-    public ModuleState(ModuleBase module)
+    public ModuleState(IModule module)
     {
         Module = module;
-        CompletionSource = new TaskCompletionSource<ModuleBase>();
+        CompletionSource = new TaskCompletionSource<IModule>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
         RequiredLockKeys = Array.Empty<string>();
@@ -55,12 +55,12 @@ internal class ModuleState
     /// <summary>
     /// The module being tracked
     /// </summary>
-    public ModuleBase Module { get; }
+    public IModule Module { get; }
 
     /// <summary>
     /// Completion source to signal when module execution finishes
     /// </summary>
-    public TaskCompletionSource<ModuleBase> CompletionSource { get; }
+    public TaskCompletionSource<IModule> CompletionSource { get; }
 
     /// <summary>
     /// Set of dependency types that haven't completed yet

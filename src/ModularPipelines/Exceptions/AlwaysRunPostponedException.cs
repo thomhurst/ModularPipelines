@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Exceptions;
+namespace ModularPipelines.Exceptions;
 
 public class AlwaysRunPostponedException : PipelineException
 {

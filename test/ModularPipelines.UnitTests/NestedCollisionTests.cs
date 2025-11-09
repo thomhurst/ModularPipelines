@@ -23,7 +23,7 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule1 : ModuleNew
+    private class DependencyConflictModule1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -33,7 +33,7 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
-    private class DependencyConflictModule2 : ModuleNew
+    private class DependencyConflictModule2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -43,7 +43,7 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
-    private class DependencyConflictModule3 : ModuleNew
+    private class DependencyConflictModule3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -53,7 +53,7 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
-    private class DependencyConflictModule4 : ModuleNew
+    private class DependencyConflictModule4 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -63,7 +63,7 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule5 : ModuleNew
+    private class DependencyConflictModule5 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

@@ -12,7 +12,7 @@ public class BashTests : TestBase
 {
     private class BashCommandModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
@@ -20,7 +20,7 @@ public class BashTests : TestBase
 
     private class BashScriptModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var file = context.Git().RootDirectory.FindFile(x => x.Name == "BashTest.sh");
             return await context.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
@@ -32,7 +32,7 @@ public class BashTests : TestBase
     {
         var module = await RunModule<BashCommandModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -47,7 +47,7 @@ public class BashTests : TestBase
     {
         var module = await RunModule<BashCommandModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -62,7 +62,7 @@ public class BashTests : TestBase
     {
         var module = await RunModule<BashScriptModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

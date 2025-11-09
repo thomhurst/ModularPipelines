@@ -9,7 +9,7 @@ public class ReturnNothingTests : TestBase
 {
     private class ReturnNothingModule1 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -18,7 +18,7 @@ public class ReturnNothingTests : TestBase
 
     private class ReturnNothingModule2 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -27,7 +27,7 @@ public class ReturnNothingTests : TestBase
 
     private class ReturnNothingModule3 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return default;
@@ -39,7 +39,7 @@ public class ReturnNothingTests : TestBase
     {
         var module = await RunModule<ReturnNothingModule1>();
 
-        var result = await module;
+        var result = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         await Assert(result);
     }
@@ -49,7 +49,7 @@ public class ReturnNothingTests : TestBase
     {
         var module = await RunModule<ReturnNothingModule2>();
 
-        var result = await module;
+        var result = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         await Assert(result);
     }
@@ -59,7 +59,7 @@ public class ReturnNothingTests : TestBase
     {
         var module = await RunModule<ReturnNothingModule3>();
 
-        var result = await module;
+        var result = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         await Assert(result);
     }

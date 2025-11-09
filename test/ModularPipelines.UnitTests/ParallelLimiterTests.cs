@@ -14,7 +14,7 @@ public class ParallelLimiterTests
     private static readonly ConcurrentBag<string> _violations = new();
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module1 : ModuleNew<string>
+    public class Module1 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -36,7 +36,7 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module2 : ModuleNew<string>
+    public class Module2 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -58,7 +58,7 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module3 : ModuleNew<string>
+    public class Module3 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -81,7 +81,7 @@ public class ParallelLimiterTests
 
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module4 : ModuleNew<string>
+    public class Module4 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -103,7 +103,7 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module5 : ModuleNew<string>
+    public class Module5 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -125,7 +125,7 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module6 : ModuleNew<string>
+    public class Module6 : Module<string>
     {
         public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

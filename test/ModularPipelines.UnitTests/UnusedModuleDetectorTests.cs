@@ -34,7 +34,7 @@ public class UnusedModuleDetectorTests
     [Test]
     public async Task Logs_Unregisted_Modules_Correctly()
     {
-        _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(ModuleBase)))
+        _assemblyLoadedTypesProvider.Setup(x => x.GetLoadedTypesAssignableTo(typeof(IModule)))
             .Returns([
                 typeof(Module1),
                 typeof(Module2),
@@ -61,7 +61,7 @@ public class UnusedModuleDetectorTests
         await Assert.That(actual).IsEqualTo(expected);
     }
 
-    private class Module1 : ModuleNew
+    private class Module1 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -70,7 +70,7 @@ public class UnusedModuleDetectorTests
         }
     }
 
-    private class Module2 : ModuleNew
+    private class Module2 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -79,7 +79,7 @@ public class UnusedModuleDetectorTests
         }
     }
 
-    private class Module3 : ModuleNew
+    private class Module3 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -88,7 +88,7 @@ public class UnusedModuleDetectorTests
         }
     }
 
-    private class Module4 : ModuleNew
+    private class Module4 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -97,7 +97,7 @@ public class UnusedModuleDetectorTests
         }
     }
 
-    private class Module5 : ModuleNew
+    private class Module5 : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

@@ -16,14 +16,14 @@ public class ResultsRepositoryTests : TestBase
 
     private class JsonResultRepository : IModuleResultRepository
     {
-        public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public async Task SaveResultAsync<T>(IModule module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
             await JsonSerializer.SerializeAsync(fileStream, moduleResult);
         }
 
-        public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(IModule module, IPipelineHookContext pipelineContext)
         {
             var file = Folder.GetFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
@@ -33,18 +33,18 @@ public class ResultsRepositoryTests : TestBase
 
     private class Module1 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 

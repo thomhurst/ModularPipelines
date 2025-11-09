@@ -9,7 +9,7 @@ public class Sha512Tests : TestBase
 {
     private class ToSha512Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha512("Foo bar!");
@@ -21,7 +21,7 @@ public class Sha512Tests : TestBase
     {
         var module = await RunModule<ToSha512Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,7 +36,7 @@ public class Sha512Tests : TestBase
     {
         var module = await RunModule<ToSha512Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("e399b0584705f5f229a4398baa31c4b7cc820ac208327d26e66f0668288536981c3460a7ea92ef6be488ce30ff5b6a991babfe24833094eba3226cea5c14162c");
     }
 }

@@ -47,14 +47,10 @@ public record PipelineSummary
         // But we're ending the pipeline so let's signal them to fail.
         foreach (var module in modules)
         {
-            // Try to cancel - works for both ModuleBase and ModuleNew
-            if (module is ModuleBase moduleBase)
+            // Try to cancel - Module<T> has TryCancel method
+            if (module is Module<IDictionary<string, object>> moduleInstance)
             {
-                moduleBase.TryCancel();
-            }
-            else if (module is ModuleNew<IDictionary<string, object>> moduleNew)
-            {
-                moduleNew.TryCancel();
+                moduleInstance.TryCancel();
             }
         }
     }
@@ -84,14 +80,10 @@ public record PipelineSummary
 
             try
             {
-                // Handle both ModuleBase and ModuleNew
-                if (x is ModuleBase moduleBase)
+                // Module<T> has GetModuleResult method
+                if (x is Module<IDictionary<string, object>> moduleInstance)
                 {
-                    return await moduleBase.GetModuleResult();
-                }
-                else if (x is ModuleNew<IDictionary<string, object>> moduleNew)
-                {
-                    return await moduleNew.GetModuleResult();
+                    return await moduleInstance.GetModuleResult();
                 }
 
                 // Fallback for any IModule

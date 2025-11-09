@@ -16,13 +16,10 @@ namespace ModularPipelines.Helpers;
 internal class ProgressPrinter : IProgressPrinter,
     INotificationHandler<ModuleStartedNotification>,
     INotificationHandler<ModuleCompletedNotification>,
-    INotificationHandler<ModuleSkippedNotification>,
-    INotificationHandler<SubModuleCreatedNotification>,
-    INotificationHandler<SubModuleCompletedNotification>
+    INotificationHandler<ModuleSkippedNotification>
 {
     private readonly IOptions<PipelineOptions> _options;
-    private readonly ConcurrentDictionary<ModuleBase, ProgressTask> _progressTasks = new();
-    private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleProgressTasks = new();
+    private readonly ConcurrentDictionary<IModule, ProgressTask> _progressTasks = new();
     private ProgressContext? _progressContext;
     private ProgressTask? _totalProgressTask;
     private int _totalModuleCount;
@@ -190,77 +187,6 @@ internal class ProgressPrinter : IProgressPrinter,
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask Handle(SubModuleCreatedNotification notification, CancellationToken cancellationToken)
-    {
-        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
-        {
-            return ValueTask.CompletedTask;
-        }
-
-        lock (_progressLock)
-        {
-            if (!_progressTasks.TryGetValue(notification.ParentModule, out var parentTask))
-            {
-                return ValueTask.CompletedTask;
-            }
-
-            var progressTask = _progressContext.AddTaskAfter($"- {notification.SubModule.Name}",
-                new ProgressTaskSettings { AutoStart = true }, parentTask);
-
-            _subModuleProgressTasks[notification.SubModule] = progressTask;
-
-            // Start ticking progress based on estimated duration
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var estimatedDuration = notification.EstimatedDuration * 1.1; // Give 10% headroom
-                    var totalEstimatedSeconds = estimatedDuration.TotalSeconds >= 1 ? estimatedDuration.TotalSeconds : 1;
-                    var ticksPerSecond = 100 / totalEstimatedSeconds;
-
-                    while (progressTask is { IsFinished: false, Value: < 95 })
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
-                        progressTask.Increment(ticksPerSecond);
-                    }
-                }
-                catch
-                {
-                    // Ignore exceptions in progress updates to prevent unobserved task exceptions
-                }
-            }, CancellationToken.None);
-        }
-
-        return ValueTask.CompletedTask;
-    }
-
-    public ValueTask Handle(SubModuleCompletedNotification notification, CancellationToken cancellationToken)
-    {
-        if (_progressContext == null || !_options.Value.ShowProgressInConsole)
-        {
-            return ValueTask.CompletedTask;
-        }
-
-        lock (_progressLock)
-        {
-            if (_subModuleProgressTasks.TryGetValue(notification.SubModule, out var progressTask))
-            {
-                if (notification.IsSuccessful)
-                {
-                    progressTask.Increment(100 - progressTask.Value);
-                }
-
-                progressTask.Description = notification.IsSuccessful
-                    ? $"[green]- {notification.SubModule.Name}[/]"
-                    : $"[red][[Failed]] - {notification.SubModule.Name}[/]";
-
-                progressTask.StopTask();
-            }
-        }
-
-        return ValueTask.CompletedTask;
-    }
-
     public void PrintResults(PipelineSummary pipelineSummary)
     {
         if (!_options.Value.PrintResults)
@@ -280,35 +206,18 @@ internal class ProgressPrinter : IProgressPrinter,
         table.AddColumn("End");
         table.AddColumn(string.Empty);
 
-        // Filter to only ModuleBase instances which have timing information
-        // ModuleNew<T> timing is tracked by services, not on the module itself
-        var moduleBases = pipelineSummary.Modules.OfType<ModuleBase>().ToList();
-
-        foreach (var module in moduleBases.OrderBy(x => x.EndTime))
+        // All modules in the summary
+        foreach (var module in pipelineSummary.Modules.OrderBy(x => x.ModuleType.Name))
         {
-            var isSameDay = module.StartTime.Date == module.EndTime.Date;
-
+            // For Module<T> instances, we don't have timing information stored on the module itself
+            // This will be handled by services in the future
             table.AddRow(
-                $"[cyan]{module.GetType().Name}[/]",
-                module.Duration.ToDisplayString(),
+                $"[cyan]{module.ModuleType.Name}[/]",
+                "-",
                 module.Status.ToDisplayString(),
-                GetTime(module.StartTime, isSameDay),
-                GetTime(module.EndTime, isSameDay),
-                GetModuleExtraInformation(module));
-
-            lock (module.SubModuleBasesLock)
-            {
-                foreach (var subModule in module.SubModuleBases)
-                {
-                    table.AddRow(
-                        $"[lightcyan1]--{subModule.Name}[/]",
-                        subModule.Duration.ToDisplayString(),
-                        subModule.Status.ToDisplayString(),
-                        GetTime(subModule.StartTime, isSameDay),
-                        GetTime(subModule.EndTime, isSameDay),
-                        string.Empty);
-                }
-            }
+                "-",
+                "-",
+                string.Empty);
 
             table.AddEmptyRow();
         }
@@ -328,7 +237,7 @@ internal class ProgressPrinter : IProgressPrinter,
         Console.WriteLine();
     }
 
-    private static string GetSuccessColor(ModuleBase module)
+    private static string GetSuccessColor(IModule module)
     {
         return module.Status == Status.Successful ? "[green]" : "[orange3]";
     }
@@ -351,20 +260,5 @@ internal class ProgressPrinter : IProgressPrinter,
         return isSameDay
             ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
-    }
-
-    private static string GetModuleExtraInformation(ModuleBase module)
-    {
-        if (module.SkipResult.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipResult.Reason))
-        {
-            return $"[yellow]{module.SkipResult.Reason}[/]";
-        }
-
-        if (module.Exception != null)
-        {
-            return $"[red]{module.Exception?.GetType().Name}[/]";
-        }
-
-        return string.Empty;
     }
 }

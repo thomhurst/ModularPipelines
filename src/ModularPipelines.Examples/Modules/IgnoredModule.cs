@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules;
 
 [ModuleCategory("Ignore")]
-public class IgnoredModule : ModuleNew
+public class IgnoredModule : Module
 {
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

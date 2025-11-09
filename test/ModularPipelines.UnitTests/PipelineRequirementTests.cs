@@ -47,7 +47,7 @@ public class PipelineRequirementTests
             .And.HasMessageEqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
-    private class DummyModule : ModuleNew
+    private class DummyModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

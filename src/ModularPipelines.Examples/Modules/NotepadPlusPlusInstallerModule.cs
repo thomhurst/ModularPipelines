@@ -5,7 +5,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class NotepadPlusPlusInstallerModule : ModuleNew<CommandResult>
+public class NotepadPlusPlusInstallerModule : Module<CommandResult>
 {
     /// <inheritdoc/>
     public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

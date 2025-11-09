@@ -12,7 +12,7 @@ public class CmdTests : TestBase
 {
     private class CmdEchoModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Cmd().Script(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }
@@ -23,7 +23,7 @@ public class CmdTests : TestBase
     {
         var module = await RunModule<CmdEchoModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -38,7 +38,7 @@ public class CmdTests : TestBase
     {
         var module = await RunModule<CmdEchoModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

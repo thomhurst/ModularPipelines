@@ -9,7 +9,7 @@ public class PowershellTests : TestBase
 {
     private class PowershellEchoModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }
@@ -20,7 +20,7 @@ public class PowershellTests : TestBase
     {
         var module = await RunModule<PowershellEchoModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -35,7 +35,7 @@ public class PowershellTests : TestBase
     {
         var module = await RunModule<PowershellEchoModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

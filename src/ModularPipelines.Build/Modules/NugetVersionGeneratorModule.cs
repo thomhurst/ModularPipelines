@@ -9,7 +9,7 @@ using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
-public class NugetVersionGeneratorModule : ModuleNew<string>, IModuleLifecycle
+public class NugetVersionGeneratorModule : Module<string>, IModuleLifecycle
 {
     private readonly IOptions<PublishSettings> _publishSettings;
 

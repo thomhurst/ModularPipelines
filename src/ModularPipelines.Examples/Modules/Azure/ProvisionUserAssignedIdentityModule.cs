@@ -7,7 +7,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules.Azure;
 
-public class ProvisionUserAssignedIdentityModule : ModuleNew<UserAssignedIdentityResource>
+public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
     /// <inheritdoc/>
     public override async Task<UserAssignedIdentityResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

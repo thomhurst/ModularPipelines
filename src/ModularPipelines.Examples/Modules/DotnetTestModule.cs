@@ -8,7 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class DotnetTestModule : ModuleNew<CommandResult>
+public class DotnetTestModule : Module<CommandResult>
 {
     /// <inheritdoc/>
     public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

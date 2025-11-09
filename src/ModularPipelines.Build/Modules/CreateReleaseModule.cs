@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 [DependsOn<DependabotCommitsModule>]
-public class CreateReleaseModule : ModuleNew<Release>, IModuleErrorHandling, IModuleSkipLogic
+public class CreateReleaseModule : Module<Release>, IModuleErrorHandling, IModuleSkipLogic
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly IOptions<PublishSettings> _publishSettings;

@@ -3,7 +3,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class SuccessModule2 : ModuleNew
+public class SuccessModule2 : Module
 {
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

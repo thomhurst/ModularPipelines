@@ -23,6 +23,48 @@ public interface IModule
     /// Gets the current execution status of this module.
     /// </summary>
     Status Status { get; }
+
+    /// <summary>
+    /// Gets the exception that occurred during module execution, if any.
+    /// </summary>
+    Exception? Exception { get; }
+
+    /// <summary>
+    /// Gets the time when this module started execution.
+    /// </summary>
+    DateTimeOffset? StartTime { get; }
+
+    /// <summary>
+    /// Gets the time when this module completed execution.
+    /// </summary>
+    DateTimeOffset? EndTime { get; }
+}
+
+/// <summary>
+/// Internal interface for setting module state properties.
+/// This allows the pipeline engine to update module state while keeping setters internal.
+/// </summary>
+internal interface IModuleInternal
+{
+    /// <summary>
+    /// Sets the current execution status of this module.
+    /// </summary>
+    Status Status { get; set; }
+
+    /// <summary>
+    /// Sets the exception that occurred during module execution.
+    /// </summary>
+    Exception? Exception { get; set; }
+
+    /// <summary>
+    /// Sets the time when this module started execution.
+    /// </summary>
+    DateTimeOffset? StartTime { get; set; }
+
+    /// <summary>
+    /// Sets the time when this module completed execution.
+    /// </summary>
+    DateTimeOffset? EndTime { get; set; }
 }
 
 /// <summary>

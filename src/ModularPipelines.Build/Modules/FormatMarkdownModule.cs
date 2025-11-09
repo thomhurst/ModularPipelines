@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
 [AlwaysRun]
-public class FormatMarkdownModule : ModuleNew<CommandResult>, IModuleSkipLogic
+public class FormatMarkdownModule : Module<CommandResult>, IModuleSkipLogic
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 

@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Helpers;
+namespace ModularPipelines.Helpers;
 
 internal class NoOpDisposable : IDisposable
 {

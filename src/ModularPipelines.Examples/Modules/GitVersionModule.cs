@@ -7,7 +7,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class GitVersionModule : ModuleNew<CommandResult>
+public class GitVersionModule : Module<CommandResult>
 {
     /// <inheritdoc/>
     public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 [DependsOn<ProvisionBlobStorageAccountModule>]
 [DependsOn<ProvisionBlobStorageContainerModule>]
-public class ProvisionAzureFunction : ModuleNew<WebSiteResource>
+public class ProvisionAzureFunction : Module<WebSiteResource>
 {
     /// <inheritdoc/>
     public override async Task<WebSiteResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

@@ -18,7 +18,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<ChangedFilesInPullRequestModule>]
 [DependsOn<RunUnitTestsModule>]
 [RunOnLinuxOnly]
-public class PackProjectsModule : ModuleNew<CommandResult[]>
+public class PackProjectsModule : Module<CommandResult[]>
 {
     /// <inheritdoc/>
     public override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)

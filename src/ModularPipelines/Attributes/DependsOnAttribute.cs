@@ -12,7 +12,7 @@ public class DependsOnAttribute : Attribute
     public DependsOnAttribute(Type type)
     {
         // v3.0: Support both old ModuleBase and new IModule
-        if (!type.IsAssignableTo(typeof(IModule)) && !type.IsAssignableTo(typeof(ModuleBase)))
+        if (!type.IsAssignableTo(typeof(IModule)) )
         {
             throw new Exception($"{type.FullName} is not a Module class. It must implement IModule or inherit from ModuleBase.");
         }

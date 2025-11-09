@@ -15,7 +15,7 @@ public class SkippedModuleTests : TestBase
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -27,7 +27,7 @@ public class SkippedModuleTests : TestBase
     {
         var module = await RunModule<SkippedModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

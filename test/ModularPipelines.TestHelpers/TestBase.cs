@@ -14,7 +14,7 @@ public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = [];
 
-    private class DummyModule : ModuleNew
+    private class DummyModule : Module
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

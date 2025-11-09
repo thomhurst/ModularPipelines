@@ -33,7 +33,7 @@ public class FolderTests : TestBase
         await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(0);
     }
 
-    private class FindFileModule : ModuleNew<ModularPipelines.FileSystem.File>
+    private class FindFileModule : Module<ModularPipelines.FileSystem.File>
     {
         public override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {

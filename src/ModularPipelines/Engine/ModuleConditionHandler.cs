@@ -1,7 +1,5 @@
 using System.Reflection;
-using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -18,93 +16,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     public async Task<bool> ShouldIgnore(IModule module)
     {
-        // ModuleNew<T> doesn't support SkipHandler/Context yet - don't ignore them for now
-        // TODO: Implement category/condition support for ModuleNew<T>
-        if (module is not ModuleBase moduleBase)
-        {
-            return false;
-        }
-
-        if (IsIgnoreCategory(moduleBase))
-        {
-            await moduleBase.SkipHandler.SetSkipped("A category of this module has been ignored");
-            return true;
-        }
-
-        if (!IsRunnableCategory(moduleBase))
-        {
-            await moduleBase.SkipHandler.SetSkipped("The module was not in a runnable category");
-            return true;
-        }
-
-        return !await IsRunnableCondition(moduleBase);
+        // Module<T> doesn't support SkipHandler/Context/RunConditions yet
+        // TODO: Implement category/condition support for Module<T>
+        return await Task.FromResult(false);
     }
-
-    private bool IsRunnableCategory(IModule module)
-    {
-        var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
-
-        if (runOnlyCategories?.Any() != true)
-        {
-            return true;
-        }
-
-        var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
-
-        return category != null && runOnlyCategories.Contains(category.Category);
-    }
-
-    private bool IsIgnoreCategory(IModule module)
-    {
-        var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
-
-        if (ignoreCategories?.Any() != true)
-        {
-            return false;
-        }
-
-        var category = module.GetType().GetCustomAttribute<ModuleCategoryAttribute>();
-
-        return category != null && ignoreCategories.Contains(category.Category);
-    }
-
-    private async Task<bool> IsRunnableCondition(ModuleBase module)
-    {
-        var mandatoryRunConditionAttributes = module.GetType().GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToList();
-        var runConditionAttributes = module.GetType().GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
-
-        var mandatoryConditionResults = await mandatoryRunConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context), runConditionAttribute))
-            .ProcessInParallel();
-
-        var mandatoryCondition = mandatoryConditionResults.FirstOrDefault(result => !result.ConditionMet);
-
-        if (mandatoryCondition != null)
-        {
-            await module.SkipHandler.SetSkipped($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}");
-            return false;
-        }
-
-        if (!runConditionAttributes.Any())
-        {
-            return true;
-        }
-
-        var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(module.Context), runConditionAttribute))
-            .ProcessInParallel();
-
-        var runnableCondition = conditionResults.FirstOrDefault(result => result.ConditionMet);
-
-        if (runnableCondition != null)
-        {
-            return true;
-        }
-
-        await module.SkipHandler.SetSkipped($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}");
-
-        return false;
-    }
-
-    private record RunnableConditionMet(bool ConditionMet, RunConditionAttribute RunConditionAttribute);
 }

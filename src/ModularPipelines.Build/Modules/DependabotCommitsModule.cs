@@ -10,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
 [RunOnLinuxOnly]
-public class DependabotCommitsModule : ModuleNew<List<string>>
+public class DependabotCommitsModule : Module<List<string>>
 {
     public override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {

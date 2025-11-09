@@ -12,7 +12,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
-public class PushVersionTagModule : ModuleNew<CommandResult>, IModuleErrorHandling
+public class PushVersionTagModule : Module<CommandResult>, IModuleErrorHandling
 {
     public async Task<bool> ShouldIgnoreFailuresAsync(IPipelineContext context, Exception exception)
     {

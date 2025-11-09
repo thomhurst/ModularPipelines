@@ -12,7 +12,7 @@ using Polly;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
-public class RunUnitTestsModule : ModuleNew<CommandResult[]>, IModuleRetryPolicy
+public class RunUnitTestsModule : Module<CommandResult[]>, IModuleRetryPolicy
 {
     public IAsyncPolicy GetRetryPolicy()
     {
