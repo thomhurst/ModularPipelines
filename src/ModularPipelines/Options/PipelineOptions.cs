@@ -60,4 +60,9 @@ public record PipelineOptions
     /// Gets or sets the default command logging level for all commands.
     /// </summary>
     public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
+
+    /// <summary>
+    /// Gets or sets the default HTTP logging level for all HTTP requests.
+    /// </summary>
+    public Http.HttpLoggingType DefaultHttpLogging { get; set; } = Http.HttpLoggingType.StatusCode | Http.HttpLoggingType.Duration;
 }
