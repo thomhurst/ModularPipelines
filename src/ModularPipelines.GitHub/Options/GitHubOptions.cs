@@ -10,7 +10,7 @@ public record GitHubOptions
 
     /// <summary>
     /// Gets or sets the HTTP logging level for GitHub API requests.
-    /// If not set, defaults to <see cref="Options.PipelineOptions.DefaultHttpLogging"/>.
+    /// If not set, defaults to <see cref="ModularPipelines.Options.PipelineOptions.DefaultHttpLogging"/>.
     /// </summary>
     public HttpLoggingType? HttpLogging { get; set; }
 }
