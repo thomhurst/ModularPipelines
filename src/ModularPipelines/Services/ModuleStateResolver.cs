@@ -20,6 +20,9 @@ internal class ModuleStateResolver : IModuleStateResolver
     /// <inheritdoc />
     public Status ResolveFailureStatus(IModule module, Exception exception, CancellationToken pipelineCancellationToken)
     {
+        _logger.LogDebug("Resolving failure status for {ModuleName}. Exception Type: {ExceptionType}, Pipeline Canceled: {PipelineCanceled}",
+            module.ModuleType.Name, exception.GetType().Name, pipelineCancellationToken.IsCancellationRequested);
+
         // If the pipeline was cancelled, the module should always be marked as PipelineTerminated
         // regardless of the exception type
         if (pipelineCancellationToken.IsCancellationRequested)

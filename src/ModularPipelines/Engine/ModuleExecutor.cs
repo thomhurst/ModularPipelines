@@ -32,6 +32,7 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleSchedulerFactory _schedulerFactory;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleBehaviorExecutor _moduleBehaviorExecutor;
+    private readonly EngineCancellationToken _engineCancellationToken;
 
     public ModuleExecutor(IPipelineSetupExecutor pipelineSetupExecutor,
         IOptions<PipelineOptions> pipelineOptions,
@@ -44,7 +45,8 @@ internal class ModuleExecutor : IModuleExecutor
         ILogger<ModuleExecutor> logger,
         IModuleSchedulerFactory schedulerFactory,
         IPipelineContextProvider pipelineContextProvider,
-        IModuleBehaviorExecutor moduleBehaviorExecutor)
+        IModuleBehaviorExecutor moduleBehaviorExecutor,
+        EngineCancellationToken engineCancellationToken)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -58,6 +60,7 @@ internal class ModuleExecutor : IModuleExecutor
         _schedulerFactory = schedulerFactory;
         _pipelineContextProvider = pipelineContextProvider;
         _moduleBehaviorExecutor = moduleBehaviorExecutor;
+        _engineCancellationToken = engineCancellationToken;
     }
 
     /// <summary>
@@ -417,7 +420,7 @@ internal class ModuleExecutor : IModuleExecutor
             throw new InvalidOperationException($"Could not find ExecuteAsync method on IModuleBehaviorExecutor");
         }
 
-        var executeTask = executorMethod.Invoke(_moduleBehaviorExecutor, new object[] { module, pipelineContext, cancellationToken, cancellationToken }) as Task;
+        var executeTask = executorMethod.Invoke(_moduleBehaviorExecutor, new object[] { module, pipelineContext, cancellationToken, _engineCancellationToken.Token }) as Task;
 
         if (executeTask == null)
         {

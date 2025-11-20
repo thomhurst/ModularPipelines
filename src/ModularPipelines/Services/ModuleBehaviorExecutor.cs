@@ -97,6 +97,9 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         }
         catch (Exception exception)
         {
+            _logger.LogDebug("Module {ModuleName} caught exception of type {ExceptionType} with message: {ExceptionMessage}",
+                module.ModuleType.Name, exception.GetType().Name, exception.Message);
+
             if (module is Module<T> mod3)
             {
                 mod3.EndTime = DateTimeOffset.UtcNow;
@@ -171,17 +174,26 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         IAsyncPolicy retryPolicy = GetRetryPolicy(module);
         TimeSpan timeout = GetTimeout(module);
 
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        // Link BOTH the module's cancellation token AND the pipeline cancellation token
+        // so that modules are cancelled when either the timeout occurs OR the pipeline is cancelled
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, pipelineCancellationToken);
 
         if (timeout != TimeSpan.Zero)
         {
             timeoutCts.CancelAfter(timeout);
         }
 
+        // Execute with retry policy, but don't retry on OperationCanceledException
         var executeTask = retryPolicy.ExecuteAsync(async () =>
         {
             if (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
             {
+                // Check if pipeline was cancelled first - don't treat it as a timeout
+                if (pipelineCancellationToken.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException(pipelineCancellationToken);
+                }
+
                 throw new ModuleTimeoutException(module);
             }
 
@@ -207,39 +219,55 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
 
         if (timeout != TimeSpan.Zero)
         {
-            var timeoutTask = CreateTimeoutTask(timeout, timeoutCts.Token, module);
-
+            // Avoid unobserved task exceptions if the timeout occurs before executeTask is awaited.
             _ = executeTask.ContinueWith(
                 t => _ = t.Exception,
                 TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
-            await await Task.WhenAny(timeoutTask, executeTask);
-        }
-        else
-        {
-            await executeTask;
+            _logger.LogDebug("Module {ModuleName}: Waiting for timeout or completion (timeout={Timeout}s)",
+                module.ModuleType.Name, timeout.TotalSeconds);
+
+            // This delay acts as a safety net. It is NOT cancelled by the module-specific timeoutCts.
+            // It ensures that if the module ignores cancellation, we don't hang forever waiting for executeTask.
+            var timeoutDelayTask = Task.Delay(timeout, pipelineCancellationToken);
+
+            var completedTask = await Task.WhenAny(executeTask, timeoutDelayTask);
+
+            _logger.LogDebug("Module {ModuleName}: First task completed. TimeoutDelayTask={IsTimeout}, ExecuteTask={IsExecute}",
+                module.ModuleType.Name, completedTask == timeoutDelayTask, completedTask == executeTask);
+
+            if (completedTask == timeoutDelayTask)
+            {
+                // The safety net delay finished. This means the module execution has timed out
+                // and is not responding to the cancellation signal sent by `timeoutCts.CancelAfter`.
+                // We must throw to prevent a hang.
+
+                // Prioritize reporting pipeline cancellation if that was the cause.
+                pipelineCancellationToken.ThrowIfCancellationRequested();
+
+                // Otherwise, it's a hard timeout because the module was unresponsive.
+                throw new ModuleTimeoutException(module);
+            }
         }
 
+        // Check if pipeline was cancelled - throw with pipeline token to preserve cancellation source
+        _logger.LogDebug("Module {ModuleName}: Checking pipeline cancellation. Requested={Cancelled}",
+            module.ModuleType.Name, pipelineCancellationToken.IsCancellationRequested);
+
+        if (pipelineCancellationToken.IsCancellationRequested)
+        {
+            throw new OperationCanceledException(pipelineCancellationToken);
+        }
+
+        _logger.LogDebug("Module {ModuleName}: Checking timeout cancellation. Requested={Cancelled}",
+            module.ModuleType.Name, timeoutCts.Token.IsCancellationRequested);
+
+        // This will throw ModuleTimeoutException if timeout occurred and was handled gracefully by the module.
         timeoutCts.Token.ThrowIfCancellationRequested();
 
+        _logger.LogDebug("Module {ModuleName}: Re-awaiting executeTask to get result", module.ModuleType.Name);
+
         return await executeTask;
-    }
-
-    private async Task CreateTimeoutTask<T>(TimeSpan timeout, CancellationToken cancellationToken, IModule<T> module)
-    {
-        try
-        {
-            await Task.Delay(timeout, cancellationToken);
-        }
-        catch (OperationCanceledException)
-        {
-            return;
-        }
-
-        if (module is Module<T> mod && mod.Status != Status.Successful)
-        {
-            throw new ModuleTimeoutException(module);
-        }
     }
 
     private async Task<SkipDecision> GetSkipDecision(IModule module, IPipelineContext context)
@@ -376,7 +404,7 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
         if (retryAttr != null && retryAttr.Count > 0)
         {
             return Policy
-                .Handle<Exception>()
+                .Handle<Exception>(ex => ex is not OperationCanceledException)
                 .WaitAndRetryAsync(
                     retryCount: retryAttr.Count,
                     sleepDurationProvider: attempt => TimeSpan.FromSeconds(retryAttr.BackoffSeconds * Math.Pow(attempt, 2)));

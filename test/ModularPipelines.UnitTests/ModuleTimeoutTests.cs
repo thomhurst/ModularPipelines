@@ -10,7 +10,7 @@ public class ModuleTimeoutTests : TestBase
 {
     private class Module_UsingCancellationToken : Module<string>, IModuleTimeout
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         public TimeSpan GetTimeout() => TimeSpan.FromSeconds(1);
 
@@ -23,7 +23,7 @@ public class ModuleTimeoutTests : TestBase
 
     private class Module_NotUsingCancellationToken : Module<string>, IModuleTimeout
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         public TimeSpan GetTimeout() => TimeSpan.FromSeconds(1);
 
