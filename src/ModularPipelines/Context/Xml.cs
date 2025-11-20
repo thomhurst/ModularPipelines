@@ -15,7 +15,7 @@ internal class Xml : IXml
             serializer.Serialize(writer, input);
         }
 
-        return document.ToString();
+        return document.ToString(options);
     }
 
     public T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace)

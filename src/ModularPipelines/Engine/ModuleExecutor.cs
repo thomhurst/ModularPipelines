@@ -216,6 +216,11 @@ internal class ModuleExecutor : IModuleExecutor
                         cancellationTokenSource.Cancel();
                         // Don't rethrow here - let parallel loop complete and rethrow after cleanup
                     }
+                    catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.WaitForAllModules)
+                    {
+                        // Store first exception but continue executing all modules
+                        Interlocked.CompareExchange(ref firstException, ex, null);
+                    }
                 });
         }
         catch (OperationCanceledException) when (firstException != null)
@@ -224,6 +229,8 @@ internal class ModuleExecutor : IModuleExecutor
         }
         catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode != ExecutionMode.StopOnFirstException)
         {
+            // Store first exception but continue executing all modules
+            Interlocked.CompareExchange(ref firstException, ex, null);
             _logger.LogDebug(ex, "Module execution failed but continuing due to ExecutionMode.WaitForAllModules");
         }
 
@@ -334,10 +341,9 @@ internal class ModuleExecutor : IModuleExecutor
 
             scheduler.MarkModuleCompleted(module.GetType(), false, ex);
 
-            if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
-            {
-                throw;
-            }
+            // Rethrow to be caught by ExecuteWorkerPoolAsync handler
+            // The handler will decide whether to stop immediately or continue based on ExecutionMode
+            throw;
         }
     }
 
@@ -411,7 +417,7 @@ internal class ModuleExecutor : IModuleExecutor
             throw new InvalidOperationException($"Could not find ExecuteAsync method on IModuleBehaviorExecutor");
         }
 
-        var executeTask = executorMethod.Invoke(_moduleBehaviorExecutor, new object[] { module, pipelineContext, cancellationToken }) as Task;
+        var executeTask = executorMethod.Invoke(_moduleBehaviorExecutor, new object[] { module, pipelineContext, cancellationToken, cancellationToken }) as Task;
 
         if (executeTask == null)
         {

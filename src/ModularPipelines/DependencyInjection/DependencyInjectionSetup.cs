@@ -133,6 +133,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<Engine.IModuleExecutor, Engine.ModuleExecutor>()
             .AddSingleton<IModuleBehaviorExecutor, ModuleBehaviorExecutor>()
+            .AddSingleton<IModuleStateResolver, ModuleStateResolver>()
             .AddSingleton<IModuleDependencyResolver, ModuleDependencyResolver>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()

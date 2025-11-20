@@ -33,6 +33,13 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
 
         var index = allDescendentDependencies.IndexOf(moduleDependencyModel) + 1;
 
+        // Check if this is a self-reference (module depends on itself directly)
+        if (index == 1)
+        {
+            var moduleName = moduleDependencyModel.Module.GetType().Name;
+            throw new ModuleReferencingSelfException($"Module {moduleName} references itself");
+        }
+
         var formattedArray = allDescendentDependenciesAndSelf
             .Take(index + 1)
             .Select(x => x.Module.GetType().Name)

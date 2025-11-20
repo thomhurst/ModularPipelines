@@ -12,10 +12,7 @@ public class YamlTests : TestBase
         var yaml = await GetService<IYaml>();
 
         var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       foo: Bar!
-                                       hello: World!
-                                       """);
+        await Assert.That(result.Trim()).IsEqualTo("foo: Bar!\nhello: World!");
     }
 
     [Test]
@@ -29,14 +26,7 @@ public class YamlTests : TestBase
             Hello = "World!",
             Items = ["One", "Two", "3"],
         });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                              foo: Bar!
-                                              hello: World!
-                                              items:
-                                              - One
-                                              - Two
-                                              - 3
-                                              """);
+        await Assert.That(result.Trim()).IsEqualTo("foo: Bar!\nhello: World!\nitems:\n- One\n- Two\n- 3");
     }
 
     [Test]
@@ -46,10 +36,7 @@ public class YamlTests : TestBase
 
         var result = yaml.ToYaml(new YamlModel { Foo = "Bar!", Hello = "World!" },
             PascalCaseNamingConvention.Instance);
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       Foo: Bar!
-                                       Hello: World!
-                                       """);
+        await Assert.That(result.Trim()).IsEqualTo("Foo: Bar!\nHello: World!");
     }
 
     [Test]

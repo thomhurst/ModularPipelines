@@ -154,6 +154,6 @@ public class DependsOnTests : TestBase
                 .AddModule<DependsOnNonModule>()
                 .ExecutePipelineAsync()).
             ThrowsException()
-            .And.HasMessageEqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class");
+            .And.HasMessageEqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module class. It must implement IModule or inherit from ModuleBase.");
     }
 }

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 
@@ -17,6 +18,7 @@ public interface IModule
     /// <summary>
     /// Gets the module's type (used for dependency resolution and identification).
     /// </summary>
+    [JsonIgnore]
     Type ModuleType { get; }
 
     /// <summary>

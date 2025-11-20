@@ -22,18 +22,21 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
 {
     private readonly ILogger<ModuleBehaviorExecutor> _logger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly IModuleStateResolver _moduleStateResolver;
 
     private static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(30);
 
     public ModuleBehaviorExecutor(
         ILogger<ModuleBehaviorExecutor> logger,
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        IModuleStateResolver moduleStateResolver)
     {
         _logger = logger;
         _pipelineOptions = pipelineOptions;
+        _moduleStateResolver = moduleStateResolver;
     }
 
-    public async Task<T?> ExecuteAsync<T>(IModule<T> module, IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<T?> ExecuteAsync<T>(IModule<T> module, IPipelineContext context, CancellationToken cancellationToken, CancellationToken pipelineCancellationToken)
     {
         var stopwatch = Stopwatch.StartNew();
 
@@ -70,7 +73,7 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
                     mod1.StartTime);
             }
 
-            var result = await ExecuteWithRetryAndTimeout(module, context, cancellationToken);
+            var result = await ExecuteWithRetryAndTimeout(module, context, cancellationToken, pipelineCancellationToken);
 
             if (module is Module<T> mod2)
             {
@@ -125,7 +128,8 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
                         module.ModuleType.Name,
                         mod5.Duration);
 
-                    mod5.Status = exception is ModuleTimeoutException ? Status.TimedOut : Status.Failed;
+                    // Use ModuleStateResolver to determine the correct status
+                    mod5.Status = _moduleStateResolver.ResolveFailureStatus(module, exception, pipelineCancellationToken);
                 }
 
                 throw;
@@ -161,7 +165,8 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
     private async Task<T?> ExecuteWithRetryAndTimeout<T>(
         IModule<T> module,
         IPipelineContext context,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        CancellationToken pipelineCancellationToken)
     {
         IAsyncPolicy retryPolicy = GetRetryPolicy(module);
         TimeSpan timeout = GetTimeout(module);
@@ -188,6 +193,14 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             }
             catch (OperationCanceledException) when (timeout != TimeSpan.Zero && timeoutCts.IsCancellationRequested)
             {
+                // If the pipeline was cancelled, rethrow the OperationCanceledException
+                // The ModuleStateResolver will determine it's a PipelineTerminated status
+                if (pipelineCancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+
+                // Otherwise, it's a genuine timeout
                 throw new ModuleTimeoutException(module);
             }
         });
