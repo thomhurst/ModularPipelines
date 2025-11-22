@@ -18,10 +18,10 @@ internal class ModuleStateResolver : IModuleStateResolver
     }
 
     /// <inheritdoc />
-    public Status ResolveFailureStatus(IModule module, Exception exception, CancellationToken pipelineCancellationToken)
+    public Status ResolveFailureStatus(IModule module, Exception exception, CancellationToken moduleCancellationToken, CancellationToken pipelineCancellationToken)
     {
-        _logger.LogDebug("Resolving failure status for {ModuleName}. Exception Type: {ExceptionType}, Pipeline Canceled: {PipelineCanceled}",
-            module.ModuleType.Name, exception.GetType().Name, pipelineCancellationToken.IsCancellationRequested);
+        _logger.LogDebug("Resolving failure status for {ModuleName}. Exception Type: {ExceptionType}, Module Canceled: {ModuleCanceled}, Pipeline Canceled: {PipelineCanceled}",
+            module.ModuleType.Name, exception.GetType().Name, moduleCancellationToken.IsCancellationRequested, pipelineCancellationToken.IsCancellationRequested);
 
         // If the pipeline was cancelled, the module should always be marked as PipelineTerminated
         // regardless of the exception type
@@ -36,6 +36,14 @@ internal class ModuleStateResolver : IModuleStateResolver
         {
             _logger.LogDebug("Module {ModuleName} timed out", module.ModuleType.Name);
             return Status.TimedOut;
+        }
+
+        // If the module-level cancellation token was cancelled (worker pool shutdown in StopOnFirstException mode)
+        // and it's an OperationCanceledException, treat it as PipelineTerminated
+        if (moduleCancellationToken.IsCancellationRequested && exception is OperationCanceledException)
+        {
+            _logger.LogDebug("Module {ModuleName} failed due to worker pool cancellation (StopOnFirstException mode)", module.ModuleType.Name);
+            return Status.PipelineTerminated;
         }
 
         // All other exceptions are treated as regular failures

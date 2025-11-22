@@ -132,7 +132,9 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
                         mod5.Duration);
 
                     // Use ModuleStateResolver to determine the correct status
-                    mod5.Status = _moduleStateResolver.ResolveFailureStatus(module, exception, pipelineCancellationToken);
+                    // Pass both the module-level token (includes timeouts and worker pool cancellation)
+                    // and the pipeline-level token (user/engine cancellation)
+                    mod5.Status = _moduleStateResolver.ResolveFailureStatus(module, exception, cancellationToken, pipelineCancellationToken);
                 }
 
                 throw;
@@ -227,9 +229,10 @@ public class ModuleBehaviorExecutor : IModuleBehaviorExecutor
             _logger.LogDebug("Module {ModuleName}: Waiting for timeout or completion (timeout={Timeout}s)",
                 module.ModuleType.Name, timeout.TotalSeconds);
 
-            // This delay acts as a safety net. It is NOT cancelled by the module-specific timeoutCts.
+            // This delay acts as a safety net. It is NOT cancelled by any token.
             // It ensures that if the module ignores cancellation, we don't hang forever waiting for executeTask.
-            var timeoutDelayTask = Task.Delay(timeout, pipelineCancellationToken);
+            // We use CancellationToken.None so the delay always runs for the full timeout duration.
+            var timeoutDelayTask = Task.Delay(timeout, CancellationToken.None);
 
             var completedTask = await Task.WhenAny(executeTask, timeoutDelayTask);
 

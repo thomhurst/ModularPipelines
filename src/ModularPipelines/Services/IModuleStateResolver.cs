@@ -10,11 +10,12 @@ public interface IModuleStateResolver
 {
     /// <summary>
     /// Determines the appropriate final status for a module based on the exception that occurred
-    /// and whether the pipeline was cancelled.
+    /// and whether the pipeline or module-level cancellation was triggered.
     /// </summary>
     /// <param name="module">The module whose status needs to be determined.</param>
     /// <param name="exception">The exception that occurred during module execution, if any.</param>
+    /// <param name="moduleCancellationToken">The module-level cancellation token (includes timeouts and worker pool cancellation).</param>
     /// <param name="pipelineCancellationToken">The engine's cancellation token to check if pipeline was cancelled.</param>
     /// <returns>The appropriate status for the module.</returns>
-    Status ResolveFailureStatus(IModule module, Exception exception, CancellationToken pipelineCancellationToken);
+    Status ResolveFailureStatus(IModule module, Exception exception, CancellationToken moduleCancellationToken, CancellationToken pipelineCancellationToken);
 }
