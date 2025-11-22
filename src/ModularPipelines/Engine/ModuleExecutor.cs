@@ -210,7 +210,7 @@ internal class ModuleExecutor : IModuleExecutor
                 {
                     try
                     {
-                        await ExecuteModule(moduleState, scheduler, ct);
+                        await ExecuteModule(moduleState, scheduler, cancellationTokenSource.Token);
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
