@@ -165,7 +165,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         return pipelineSummary;
     }
 
-    private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
+    private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
     {
         // Dispose and flush on scope leave - So including success or if an exception is thrown
         await using var moduleDisposeExecutor = _moduleDisposeExecutor;

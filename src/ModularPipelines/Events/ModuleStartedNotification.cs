@@ -6,7 +6,7 @@ namespace ModularPipelines.Events;
 /// <summary>
 /// Notification that is published when a module starts execution.
 /// </summary>
-internal record ModuleStartedNotification(ModuleBase Module, TimeSpan EstimatedDuration) : INotification
+internal record ModuleStartedNotification(IModule Module, TimeSpan EstimatedDuration) : INotification
 {
     /// <summary>
     /// Gets the timestamp when the module started.

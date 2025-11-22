@@ -12,7 +12,7 @@ public class AfterPipelineLoggerTests
 {
     private class AfterPipelineLoggingModule : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;
@@ -22,7 +22,7 @@ public class AfterPipelineLoggerTests
 
     private class AfterPipelineLoggingWithExceptionModule : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;

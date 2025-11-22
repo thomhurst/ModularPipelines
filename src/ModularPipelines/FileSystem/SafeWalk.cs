@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.FileSystem;
+namespace ModularPipelines.FileSystem;
 
 internal static class SafeWalk
 {

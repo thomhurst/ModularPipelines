@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -75,7 +76,7 @@ internal class ModuleStateQueries
         return _moduleStates.Values.Where(m =>
             m.State != ModuleExecutionState.Executing &&
             m.State != ModuleExecutionState.Completed &&
-            m.Module.ModuleRunType != ModuleRunType.AlwaysRun);
+            m.Module.GetModuleRunType() != ModuleRunType.AlwaysRun);
     }
 
     /// <summary>

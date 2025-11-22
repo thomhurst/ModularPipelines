@@ -13,7 +13,7 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().List.Package(new DotNetListPackageOptions
             {
@@ -24,7 +24,7 @@ public class DotNetTests : TestBase
 
     private class DotNetFormatModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Format(new DotNetFormatOptions
             {
@@ -38,7 +38,7 @@ public class DotNetTests : TestBase
     {
         var module = await RunModule<DotNetVersionModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -53,7 +53,7 @@ public class DotNetTests : TestBase
     {
         var module = await RunModule<DotNetFormatModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Constraints;
+using ModularPipelines.Enums;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -66,7 +68,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Initializes module states for a collection of modules
     /// </summary>
-    public void InitializeModules(IEnumerable<ModuleBase> modules)
+    public void InitializeModules(IEnumerable<IModule> modules)
     {
         ArgumentNullException.ThrowIfNull(modules);
 
@@ -130,7 +132,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Adds a new module dynamically (e.g., SubModule discovered during execution)
     /// </summary>
-    public void AddModule(ModuleBase module)
+    public void AddModule(IModule module)
     {
         var state = new ModuleState(module);
 
@@ -419,7 +421,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Gets the completion task for a specific module
     /// </summary>
-    public Task<ModuleBase>? GetModuleCompletionTask(Type moduleType)
+    public Task<IModule>? GetModuleCompletionTask(Type moduleType)
     {
         return _moduleStates.TryGetValue(moduleType, out var state)
             ? state.CompletionSource.Task
@@ -471,6 +473,12 @@ internal class ModuleScheduler : IModuleScheduler
                     _queuedModules.Remove(moduleState);
                     _executingModules.Remove(moduleState);
                     moduleState.State = ModuleExecutionState.Completed;
+
+                    if (moduleState.Module is IModuleInternal moduleInternal)
+                    {
+                        moduleInternal.Status = Status.PipelineTerminated;
+                    }
+
                     moduleState.CompletionSource.TrySetCanceled();
                 }
             }

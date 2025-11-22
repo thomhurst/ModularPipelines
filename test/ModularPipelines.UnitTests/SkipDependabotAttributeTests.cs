@@ -31,9 +31,9 @@ public class SkipDependabotAttributeTests : TestBase
     [SkipIfDependabot]
     private class Module1 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
@@ -41,9 +41,9 @@ public class SkipDependabotAttributeTests : TestBase
     [CanRun]
     private class Module2 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
@@ -51,9 +51,9 @@ public class SkipDependabotAttributeTests : TestBase
     [CannotRun]
     private class Module3 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
@@ -62,9 +62,9 @@ public class SkipDependabotAttributeTests : TestBase
     [CannotRun]
     private class Module4 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 

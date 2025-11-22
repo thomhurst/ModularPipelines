@@ -11,7 +11,7 @@ public class AlwaysRunTests : TestBase
 {
     public class MyModule1 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -19,11 +19,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
+    [AlwaysRun]
     public class MyModule2 : Module
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -31,11 +30,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
+    [AlwaysRun]
     public class MyModule3 : Module
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -43,11 +41,10 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
+    [AlwaysRun]
     public class MyModule4 : Module
     {
-        public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

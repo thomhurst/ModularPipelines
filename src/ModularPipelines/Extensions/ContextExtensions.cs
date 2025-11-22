@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Extensions;

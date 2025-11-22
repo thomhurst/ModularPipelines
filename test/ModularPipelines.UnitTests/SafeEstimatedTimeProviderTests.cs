@@ -48,7 +48,7 @@ public class SafeEstimatedTimeProviderTests
 
     private class DummyModule : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await new Dictionary<string, object>().AsTask();
         }

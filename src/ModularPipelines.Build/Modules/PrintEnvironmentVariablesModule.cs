@@ -8,7 +8,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class PrintEnvironmentVariablesModule : Module
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 

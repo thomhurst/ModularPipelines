@@ -1,7 +1,9 @@
 using ModularPipelines.Context;
+using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.DotNet.Services;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Git.Extensions;
@@ -17,7 +19,7 @@ public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -35,7 +37,7 @@ public class DotNetTestResultsTests : TestBase
     {
         public File TrxFile { get; } = File.GetNewTemporaryFilePath();
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -76,9 +78,14 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
-        var module = await RunModule<DotNetTestWithoutFailureModule>();
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<DotNetTestWithoutFailureModule>()
+            .ExecutePipelineAsync();
 
-        var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
+        var module = pipelineSummary.GetModule<DotNetTestWithoutFailureModule>();
+        // TODO v3.0: PipelineSummary.Context removed - use GetService<ITrx>() instead
+        var trx = await GetService<ITrx>();
+        var parsedResults = await trx.ParseTrxFile(module.TrxFile);
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }

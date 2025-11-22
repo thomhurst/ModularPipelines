@@ -8,7 +8,24 @@ namespace ModularPipelines.Context;
 public interface IPipelineContext : IPipelineHookContext
 {
     internal TModule? GetModule<TModule>()
-        where TModule : ModuleBase;
+        where TModule : IModule;
 
-    internal ModuleBase? GetModule(Type type);
+    internal IModule? GetModule(Type type);
+
+    /// <summary>
+    /// Gets a required module dependency asynchronously.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to retrieve.</typeparam>
+    /// <returns>The module instance.</returns>
+    /// <exception cref="ModularPipelines.Exceptions.ModuleNotRegisteredException">
+    /// Thrown if the module is not registered in the pipeline.
+    /// </exception>
+    Task<TModule> GetModuleAsync<TModule>() where TModule : IModule;
+
+    /// <summary>
+    /// Gets an optional module dependency asynchronously.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to retrieve.</typeparam>
+    /// <returns>The module instance, or null if not registered.</returns>
+    Task<TModule?> GetModuleIfRegisteredAsync<TModule>() where TModule : IModule;
 }

@@ -24,7 +24,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         // This should trigger the analyzer
         {|#0:await this|};
@@ -50,7 +50,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await ExecuteCommand(context);
     }
@@ -81,7 +81,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         // This is fine - awaiting something else
         var otherModule = GetModule<Module2>();

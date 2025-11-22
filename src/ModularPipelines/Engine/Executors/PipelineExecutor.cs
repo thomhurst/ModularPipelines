@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -27,7 +28,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _secondaryExceptionContainer = secondaryExceptionContainer;
     }
 
-    public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
+    public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
         OrganizedModules organizedModules)
     {
         var start = DateTimeOffset.UtcNow;
@@ -66,18 +67,10 @@ internal class PipelineExecutor : IPipelineExecutor
         return pipelineSummary;
     }
 
-    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
+    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<IModule> runnableModules)
     {
-        try
-        {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
-        }
-        catch (Exception? e)
-        {
-            _logger.LogWarning(e, "Error while waiting for Always Run modules");
-            return e;
-        }
-
-        return null;
+        // v3.0: AlwaysRun modules are handled by the scheduler in ModuleExecutor
+        // This method is kept for backward compatibility but is now a no-op
+        return await Task.FromResult<Exception?>(null);
     }
 }

@@ -82,7 +82,7 @@ public class PipelineHostBuilder
     /// <typeparam name="TModule">The type of module.</typeparam>
     /// <returns>The same pipeline host builder.</returns>
     public PipelineHostBuilder AddModule<TModule>()
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
         _internalHost.ConfigureServices((_, collection) =>
         {

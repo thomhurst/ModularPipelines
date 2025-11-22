@@ -14,7 +14,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -36,7 +36,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     [ModularPipelines.Attributes.NotInParallel("A")]
     public class ModuleWithAConstraintKey2 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -58,7 +58,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     [ModularPipelines.Attributes.NotInParallel("B")]
     public class ModuleWithBConstraintKey1 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -80,7 +80,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     [ModularPipelines.Attributes.NotInParallel("B")]
     public class ModuleWithBConstraintKey2 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 

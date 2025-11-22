@@ -1,16 +1,17 @@
-﻿using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Exceptions;
 
+/// <summary>
+/// Exception thrown when a module exceeds its configured timeout.
+/// </summary>
 public class ModuleTimeoutException : PipelineException
 {
-    internal ModuleTimeoutException(ModuleBase moduleBase) : base($"{moduleBase.GetType().Name} has timed out after {GetTimeout(moduleBase)}")
+    public ModuleTimeoutException(IModule? module)
+        : base($"Module {module?.ModuleType.Name ?? "Unknown"} timed out")
     {
+        Module = module;
     }
 
-    private static string GetTimeout(ModuleBase moduleBase)
-    {
-        return moduleBase.Timeout.ToDisplayString();
-    }
+    public IModule? Module { get; }
 }

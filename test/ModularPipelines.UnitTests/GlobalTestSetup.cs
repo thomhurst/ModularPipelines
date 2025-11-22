@@ -1,4 +1,6 @@
-﻿namespace ModularPipelines.UnitTests;
+﻿[assembly: Timeout(60000)]
+
+namespace ModularPipelines.UnitTests;
 
 public static class GlobalTestSetup
 {

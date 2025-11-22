@@ -12,12 +12,7 @@ public class XmlTests : TestBase
         var xml = await GetService<IXml>();
 
         var result = xml.ToXml(new XmlModel { Foo = "Bar!", Hello = "World!" });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                         <Foo>Bar!</Foo>
-                                         <Hello>World!</Hello>
-                                       </XmlModel>
-                                       """);
+        await Assert.That(result.Trim()).IsEqualTo("<XmlModel xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <Foo>Bar!</Foo>\n  <Hello>World!</Hello>\n</XmlModel>");
     }
 
     [Test]
@@ -31,17 +26,7 @@ public class XmlTests : TestBase
             Hello = "World!",
             Items = ["One", "Two", "3"],
         });
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                              <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                                <Foo>Bar!</Foo>
-                                                <Hello>World!</Hello>
-                                                <Items>
-                                                  <string>One</string>
-                                                  <string>Two</string>
-                                                  <string>3</string>
-                                                </Items>
-                                              </XmlModel>
-                                              """);
+        await Assert.That(result.Trim()).IsEqualTo("<XmlModel xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <Foo>Bar!</Foo>\n  <Hello>World!</Hello>\n  <Items>\n    <string>One</string>\n    <string>Two</string>\n    <string>3</string>\n  </Items>\n</XmlModel>");
     }
 
     [Test]
@@ -51,12 +36,7 @@ public class XmlTests : TestBase
 
         var result = xml.ToXml(new XmlModel { Foo = "Bar!", Hello = "World!" },
             SaveOptions.DisableFormatting);
-        await Assert.That(result.Trim()).IsEqualTo("""
-                                       <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                         <Foo>Bar!</Foo>
-                                         <Hello>World!</Hello>
-                                       </XmlModel>
-                                       """);
+        await Assert.That(result.Trim()).IsEqualTo("""<XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Foo>Bar!</Foo><Hello>World!</Hello></XmlModel>""");
     }
 
     [Test]

@@ -2,7 +2,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Models;
 
-internal record ModuleDependencyModel(ModuleBase Module)
+internal record ModuleDependencyModel(IModule Module)
 {
     public List<ModuleDependencyModel> IsDependencyFor { get; } = new();
 

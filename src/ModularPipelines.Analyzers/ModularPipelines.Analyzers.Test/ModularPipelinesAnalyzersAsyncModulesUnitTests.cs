@@ -88,7 +88,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return await ExecuteCommand(context);
     }
@@ -166,7 +166,7 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<string>
 {
-    {|#0:protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {|#0:public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (1 + ""n"" == ""1n"")
         {

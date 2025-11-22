@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Engine;
+namespace ModularPipelines.Engine;
 
 internal interface IPipelineFileWriter
 {

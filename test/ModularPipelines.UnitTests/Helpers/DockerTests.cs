@@ -1,5 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Git;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -11,7 +12,7 @@ public class DockerTests : TestBase
 {
     private class DockerBuildModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Git()
                 .RootDirectory
@@ -37,11 +38,16 @@ public class DockerTests : TestBase
     [Test]
     public async Task DockerBuild_CorrectInputCommand()
     {
-        var module = await RunModule<DockerBuildModule>();
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<DockerBuildModule>()
+            .ExecutePipelineAsync();
 
-        var result = await module;
+        var module = pipelineSummary.GetModule<DockerBuildModule>();
+        var result = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
-        var dockerfilePath = module.Context.Git().RootDirectory
+        // TODO v3.0: PipelineSummary.Context removed - use GetService<IGit>() instead
+        var git = await GetService<IGit>();
+        var dockerfilePath = git.RootDirectory
             .GetFolder("src")
             .GetFolder("MyApp")
             .GetFile("Dockerfile").Path;

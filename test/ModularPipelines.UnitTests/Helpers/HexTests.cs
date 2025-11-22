@@ -9,7 +9,7 @@ public class HexTests : TestBase
 {
     private class ToHexModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.ToHex("Foo bar!");
@@ -21,7 +21,7 @@ public class HexTests : TestBase
     {
         var module = await RunModule<ToHexModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,13 +36,13 @@ public class HexTests : TestBase
     {
         var module = await RunModule<ToHexModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
     }
 
     private class FromHexModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.FromHex("466f6f2062617221");
@@ -54,7 +54,7 @@ public class HexTests : TestBase
     {
         var module = await RunModule<FromHexModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -69,7 +69,7 @@ public class HexTests : TestBase
     {
         var module = await RunModule<FromHexModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

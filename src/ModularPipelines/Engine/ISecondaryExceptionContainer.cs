@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Engine;
+namespace ModularPipelines.Engine;
 
 /// <summary>
 /// Collects secondary exceptions that occur during pipeline execution,

@@ -135,7 +135,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             return false;
         }
 
-        return !type.IsAbstract && type.IsAssignableTo(typeof(ModuleBase));
+        return !type.IsAbstract && type.IsAssignableTo(typeof(IModule));
     }
 
     private static Type GetCallingClassType(List<StackFrame> stackFrames)

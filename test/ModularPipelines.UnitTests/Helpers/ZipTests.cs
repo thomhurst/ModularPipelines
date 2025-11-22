@@ -10,7 +10,7 @@ public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -35,7 +35,7 @@ public class ZipTests : TestBase
     {
         var module = await RunModule<ZipModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -61,7 +61,7 @@ public class ZipTests : TestBase
 
     private class UnZipModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -81,7 +81,7 @@ public class ZipTests : TestBase
     {
         var module = await RunModule<UnZipModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

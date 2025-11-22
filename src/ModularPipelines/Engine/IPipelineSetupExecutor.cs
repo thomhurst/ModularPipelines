@@ -9,7 +9,7 @@ internal interface IPipelineSetupExecutor
 
     Task OnEndAsync(PipelineSummary pipelineSummary);
 
-    Task OnBeforeModuleStartAsync(ModuleBase module);
+    Task OnBeforeModuleStartAsync(IModule module);
 
-    Task OnAfterModuleEndAsync(ModuleBase module);
+    Task OnAfterModuleEndAsync(IModule module);
 }

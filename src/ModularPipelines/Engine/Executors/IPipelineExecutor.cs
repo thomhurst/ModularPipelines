@@ -5,5 +5,5 @@ namespace ModularPipelines.Engine.Executors;
 
 internal interface IPipelineExecutor
 {
-    Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules, OrganizedModules organizedModules);
+    Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules, OrganizedModules organizedModules);
 }

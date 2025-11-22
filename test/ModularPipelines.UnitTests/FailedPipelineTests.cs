@@ -11,15 +11,16 @@ public class FailedPipelineTests : TestBase
 {
     private class Module1 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     private class Module2 : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             throw new Exception();
         }
@@ -28,10 +29,11 @@ public class FailedPipelineTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module2>(IgnoreIfNotRegistered = true)]
     private class Module3 : Module
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            _ = GetModuleIfRegistered<Module2>();
-            return await NothingAsync();
+            _ = await context.GetModuleIfRegisteredAsync<Module2>();
+            await Task.CompletedTask;
+            return null;
         }
     }
 

@@ -9,7 +9,7 @@ public class Sha384Tests : TestBase
 {
     private class ToSha384Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha384("Foo bar!");
@@ -21,7 +21,7 @@ public class Sha384Tests : TestBase
     {
         var module = await RunModule<ToSha384Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,7 +36,7 @@ public class Sha384Tests : TestBase
     {
         var module = await RunModule<ToSha384Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("bb338a277da65d5663467d5fd98aa67349506150cd1287597b0eaa0f0988d2b22c33504fd85dd0b8c99ce8cc50666f88");
     }
 }

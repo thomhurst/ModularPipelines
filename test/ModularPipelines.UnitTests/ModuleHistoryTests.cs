@@ -4,6 +4,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -14,9 +15,10 @@ public class ModuleHistoryTests
     [ModuleCategory("1")]
     private class SkipFromCategory : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
@@ -31,47 +33,50 @@ public class ModuleHistoryTests
     [SkipRunCondition]
     private class SkipFromRunCondition : Module
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     [SkipRunCondition]
     private class UseHistoryTrueModule : Module
     {
-        protected internal override Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
+        public Task<bool> UseResultFromHistoryIfSkippedAsync(IPipelineContext context)
         {
             return true.AsTask();
         }
 
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
-    private class SkipFromMethod : Module
+    private class SkipFromMethod : Module, IModuleSkipLogic
     {
-        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        public Task<SkipDecision> ShouldSkipAsync(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
 
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.CompletedTask;
+            return null;
         }
     }
 
     private class NotFoundModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(IModule module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule module, IPipelineHookContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(null);
         }
@@ -79,12 +84,12 @@ public class ModuleHistoryTests
 
     private class GoodModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(IModule module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule module, IPipelineHookContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), module));
         }

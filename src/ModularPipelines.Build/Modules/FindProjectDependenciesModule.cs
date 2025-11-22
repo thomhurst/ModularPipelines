@@ -10,9 +10,9 @@ namespace ModularPipelines.Build.Modules;
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
     /// <inheritdoc/>
-    protected override async Task<ProjectDependencies?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<ProjectDependencies?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var projects = await GetModule<FindProjectsModule>();
+        var projects = await context.GetModuleAsync<FindProjectsModule>();
 
         var dependencies = new List<File>();
 

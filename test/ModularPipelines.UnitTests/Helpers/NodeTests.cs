@@ -10,7 +10,7 @@ public class NodeTests : TestBase
 {
     private class NodeVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             return await context.Node().Version(cancellationToken: cancellationToken);
         }
@@ -21,7 +21,7 @@ public class NodeTests : TestBase
     {
         var module = await RunModule<NodeVersionModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,7 +36,7 @@ public class NodeTests : TestBase
     {
         var module = await RunModule<NodeVersionModule>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<CommandResult>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {

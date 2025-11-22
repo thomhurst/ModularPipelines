@@ -11,11 +11,11 @@ public class ModuleResult<T> : ModuleResult
 {
     private T? _value;
 
-    internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
+    internal ModuleResult(Exception exception, IModule module) : base(exception, module)
     {
     }
 
-    internal ModuleResult(T? value, ModuleBase module) : base(module)
+    internal ModuleResult(T? value, IModule module) : base(module)
     {
         _value = value;
     }
@@ -80,7 +80,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     [JsonInclude]
     public DateTimeOffset ModuleEnd { get; private set; }
 
-    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
+    internal ModuleResult(Exception exception, IModule module) : this(module)
     {
         Exception = exception;
     }
@@ -105,14 +105,14 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     /// Initialises a new instance of the <see cref="ModuleResult"/> class.
     /// </summary>
     /// <param name="module">The module from which the result was produced.</param>
-    protected ModuleResult(ModuleBase module)
+    protected ModuleResult(IModule module)
     {
         Module = module;
-        ModuleName = module.GetType().Name;
-        ModuleStart = module.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.StartTime;
-        ModuleEnd = module.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.EndTime;
-        ModuleDuration = ModuleEnd - ModuleStart;
-        SkipDecision = module.SkipResult;
+        ModuleName = module.ModuleType.Name;
+        ModuleStart = DateTimeOffset.Now;
+        ModuleEnd = DateTimeOffset.Now;
+        ModuleDuration = TimeSpan.Zero;
+        SkipDecision = SkipDecision.DoNotSkip;
         TypeDiscriminator = GetType().FullName!;
         ModuleStatus = module.Status;
     }
@@ -154,5 +154,5 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     public string TypeDiscriminator { get; private set; }
 
     [JsonIgnore]
-    internal ModuleBase? Module { get; set; }
+    internal IModule? Module { get; set; }
 }

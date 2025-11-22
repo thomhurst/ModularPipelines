@@ -2,4 +2,4 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Models;
 
-internal record RunnableModule(ModuleBase Module, TimeSpan EstimatedDuration, ICollection<SubModuleEstimation> SubModuleEstimations);
+internal record RunnableModule(IModule Module, TimeSpan EstimatedDuration, ICollection<SubModuleEstimation> SubModuleEstimations);

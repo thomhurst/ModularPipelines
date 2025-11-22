@@ -30,12 +30,12 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         return Task.WhenAll(_globalHooks.Select(x => x.OnEndAsync(GetModuleContext(), pipelineSummary)));
     }
 
-    public Task OnBeforeModuleStartAsync(ModuleBase module)
+    public Task OnBeforeModuleStartAsync(IModule module)
     {
         return Task.WhenAll(_moduleHooks.Select(x => x.OnBeforeModuleStartAsync(GetModuleContext(), module)));
     }
 
-    public Task OnAfterModuleEndAsync(ModuleBase module)
+    public Task OnAfterModuleEndAsync(IModule module)
     {
         return Task.WhenAll(_moduleHooks.Select(x => x.OnAfterModuleEndAsync(GetModuleContext(), module)));
     }

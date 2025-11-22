@@ -9,7 +9,7 @@ public class Md5Tests : TestBase
 {
     private class ToMd5Module : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Md5("Foo bar!");
@@ -21,7 +21,7 @@ public class Md5Tests : TestBase
     {
         var module = await RunModule<ToMd5Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
 
         using (Assert.Multiple())
         {
@@ -36,7 +36,7 @@ public class Md5Tests : TestBase
     {
         var module = await RunModule<ToMd5Module>();
 
-        var moduleResult = await module;
+        var moduleResult = (ModuleResult<string>)await module.GetModuleResult();
         await Assert.That(moduleResult.Value).IsEqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd");
     }
 }

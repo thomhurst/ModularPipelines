@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 requirements
 .claude/settings.local.json
+
+.idea/

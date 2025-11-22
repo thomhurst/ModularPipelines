@@ -1,4 +1,4 @@
-﻿using EnumerableAsyncProcessor.Extensions;
+using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Interfaces;
 

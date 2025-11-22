@@ -4,5 +4,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleConditionHandler
 {
-    Task<bool> ShouldIgnore(ModuleBase module);
+    Task<bool> ShouldIgnore(IModule module);
 }

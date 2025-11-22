@@ -1,3 +1,3 @@
-﻿namespace ModularPipelines.Attributes;
+namespace ModularPipelines.Attributes;
 
 public interface ICommandSwitchAttribute;

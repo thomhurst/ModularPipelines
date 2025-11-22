@@ -19,9 +19,10 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase, TModule>();
+        services.AddSingleton<TModule>();
+        return services.AddSingleton<IModule>(sp => sp.GetRequiredService<TModule>());
     }
 
     /// <summary>
@@ -32,9 +33,10 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase>(tModule);
+        services.AddSingleton(tModule);
+        return services.AddSingleton<IModule>(tModule);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public static class ServiceCollectionExtensions
     /// /// <param name="tModuleFactory">A factory method for creating the module.</param>
     /// <returns>The pipeline's same service collection.</returns>
     public static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return services.AddSingleton<ModuleBase>(tModuleFactory);
+        services.AddSingleton<TModule>(tModuleFactory);
+        return services.AddSingleton<IModule>(tModuleFactory);
     }
 
     /// <summary>
@@ -108,13 +111,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var modules = assembly.GetTypes()
-            .Where(type => type.IsAssignableTo(typeof(ModuleBase)))
+            .Where(type => type.IsAssignableTo(typeof(IModule)))
             .Where(type => type.IsClass)
             .Where(type => !type.IsAbstract);
 
         foreach (var module in modules)
         {
-            services.AddSingleton(typeof(ModuleBase), module);
+            services.AddSingleton(typeof(IModule), module);
         }
 
         return services;
