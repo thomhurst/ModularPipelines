@@ -23,26 +23,19 @@ internal class ModuleStateResolver : IModuleStateResolver
         _logger.LogDebug("Resolving failure status for {ModuleName}. Exception Type: {ExceptionType}, Module Canceled: {ModuleCanceled}, Pipeline Canceled: {PipelineCanceled}",
             module.ModuleType.Name, exception.GetType().Name, moduleCancellationToken.IsCancellationRequested, pipelineCancellationToken.IsCancellationRequested);
 
-        // If the pipeline was cancelled, the module should always be marked as PipelineTerminated
-        // regardless of the exception type
-        if (pipelineCancellationToken.IsCancellationRequested)
-        {
-            _logger.LogDebug("Module {ModuleName} failed due to pipeline cancellation", module.ModuleType.Name);
-            return Status.PipelineTerminated;
-        }
-
-        // If we have a ModuleTimeoutException and pipeline wasn't cancelled, the module timed out
+        // If we have a ModuleTimeoutException, the module timed out
         if (exception is ModuleTimeoutException)
         {
             _logger.LogDebug("Module {ModuleName} timed out", module.ModuleType.Name);
             return Status.TimedOut;
         }
 
-        // If the module-level cancellation token was cancelled (worker pool shutdown in StopOnFirstException mode)
-        // and it's an OperationCanceledException, treat it as PipelineTerminated
-        if (moduleCancellationToken.IsCancellationRequested && exception is OperationCanceledException)
+        // If the pipeline was cancelled OR the worker pool was cancelled (StopOnFirstException mode),
+        // the module should be marked as PipelineTerminated
+        if (pipelineCancellationToken.IsCancellationRequested || moduleCancellationToken.IsCancellationRequested)
         {
-            _logger.LogDebug("Module {ModuleName} failed due to worker pool cancellation (StopOnFirstException mode)", module.ModuleType.Name);
+            _logger.LogDebug("Module {ModuleName} failed due to cancellation (Pipeline: {PipelineCancelled}, WorkerPool: {WorkerPoolCancelled})",
+                module.ModuleType.Name, pipelineCancellationToken.IsCancellationRequested, moduleCancellationToken.IsCancellationRequested);
             return Status.PipelineTerminated;
         }
 
