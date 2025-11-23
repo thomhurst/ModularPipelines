@@ -29,7 +29,7 @@ public class EnvironmentContextTests : TestBase
 
         var result = context.EnvironmentVariables.GetEnvironmentVariables();
         await Assert.That(result).IsNotNull();
-        await Assert.That((object)result).IsAssignableTo<IDictionary<string, string>>();
+        await Assert.That((object) result).IsAssignableTo<IDictionary<string, string>>();
         await Assert.That(result[guid]).IsEqualTo("Foo bar!");
     }
 
