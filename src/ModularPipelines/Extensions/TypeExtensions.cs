@@ -6,7 +6,28 @@ internal static class TypeExtensions
 {
     public static bool IsOrInheritsFrom(this Type type, Type otherType)
     {
-        return type == otherType || type.IsSubclassOf(otherType);
+        if (type == otherType)
+        {
+            return true;
+        }
+
+        if (!otherType.IsGenericType)
+        {
+            return type.IsSubclassOf(otherType);
+        }
+
+        var baseType = type.BaseType;
+        while (baseType is not null)
+        {
+            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == otherType)
+            {
+                return true;
+            }
+
+            baseType = baseType.BaseType;
+        }
+
+        return false;
     }
 
     public static string GetRealTypeName(this Type type)
