@@ -105,7 +105,7 @@ public class FileTests : TestBase
         file.Create();
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await file.ReadAllLinesAsync();
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
@@ -126,7 +126,7 @@ public class FileTests : TestBase
         await file.WriteAsync($"Hello{Environment.NewLine}world");
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await file.ReadAllLinesAsync();
         var bytes = await file.ReadBytesAsync();
         var stream = await file.GetStream().ToMemoryStreamAsync();
 
@@ -152,7 +152,7 @@ public class FileTests : TestBase
         ]);
 
         var plainText = await file.ReadAsync();
-        var lines = await file.ReadLinesAsync();
+        var lines = await file.ReadAllLinesAsync();
 
         using (Assert.Multiple())
         {

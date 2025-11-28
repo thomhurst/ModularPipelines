@@ -18,10 +18,13 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var file in projects.Value!)
         {
-            var contents = await file.ReadLinesAsync(cancellationToken);
-
-            foreach (var projectReferenceLine in contents.Where(x => x.Contains("<ProjectReference")))
+            await foreach (var projectReferenceLine in file.ReadLinesAsync(cancellationToken))
             {
+                if (!projectReferenceLine.Contains("<ProjectReference"))
+                {
+                    continue;
+                }
+                
                 var name = projectReferenceLine.Split('\\').Last().Split('"').First();
 
                 var project = projects.Value!.FirstOrDefault(x => x.Name == name);
