@@ -32,7 +32,7 @@ public class EngineCancellationTokenTests : TestBase
 
     private class LongRunningModule : Module
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
@@ -43,7 +43,7 @@ public class EngineCancellationTokenTests : TestBase
 
     private class LongRunningModuleWithoutCancellation : Module
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         protected internal override TimeSpan Timeout => TimeSpan.FromSeconds(1);
 
