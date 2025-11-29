@@ -277,7 +277,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
 /// A base class for all modules.
 /// </summary>
 /// <typeparam name="T">Any data to return from the module.</typeparam>
-public abstract class ModuleBase<T> : ModuleBase
+public abstract class ModuleBase<T> : ModuleBase, IModule<T>
 {
     internal readonly TaskCompletionSource<ModuleResult<T>> ModuleResultTaskCompletionSource = new();
 
@@ -314,4 +314,13 @@ public abstract class ModuleBase<T> : ModuleBase
     /// <returns>{T}.</returns>
     [ModuleMethodMarker]
     protected abstract Task<T?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Explicit interface implementation for IModule&lt;T&gt;.ExecuteAsync.
+    /// Delegates to the protected abstract method.
+    /// </summary>
+    Task<T?> IModule<T>.ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return ExecuteAsync(context, cancellationToken);
+    }
 }

@@ -9,6 +9,11 @@ public class ModuleTimeoutException : PipelineException
     {
     }
 
+    internal ModuleTimeoutException(Type moduleType, TimeSpan timeout)
+        : base($"{moduleType.Name} has timed out after {timeout.ToDisplayString()}")
+    {
+    }
+
     private static string GetTimeout(ModuleBase moduleBase)
     {
         return moduleBase.Timeout.ToDisplayString();

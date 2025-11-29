@@ -1,4 +1,5 @@
 using ModularPipelines.Helpers;
+using ModularPipelines.Modules.Behaviors;
 using Polly.Retry;
 
 namespace ModularPipelines.Modules;
@@ -11,7 +12,18 @@ public partial class Module<T>
 {
     /// <summary>
     /// Gets a retry policy used to control how and if the module should retry if it fails.
+    /// If the module implements <see cref="IRetryable{T}"/>, delegates to the interface.
     /// </summary>
     protected virtual AsyncRetryPolicy<T?> RetryPolicy
-        => DefaultRetryPolicyProvider.GetDefaultRetryPolicy<T?>(Context);
+    {
+        get
+        {
+            if (this is IRetryable<T> retryable)
+            {
+                return retryable.GetRetryPolicy(Context);
+            }
+
+            return DefaultRetryPolicyProvider.GetDefaultRetryPolicy<T?>(Context);
+        }
+    }
 }

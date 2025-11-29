@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
@@ -16,6 +17,23 @@ public class ModuleResult<T> : ModuleResult
     }
 
     internal ModuleResult(T? value, ModuleBase module) : base(module)
+    {
+        _value = value;
+    }
+
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
+        : base(exception, executionContext)
+    {
+    }
+
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(T? value, ModuleExecutionContext executionContext)
+        : base(executionContext)
     {
         _value = value;
     }
@@ -83,6 +101,29 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     internal ModuleResult(Exception exception, ModuleBase module) : this(module)
     {
         Exception = exception;
+    }
+
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
+        : this(executionContext)
+    {
+        Exception = exception;
+    }
+
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(ModuleExecutionContext executionContext)
+    {
+        ModuleName = executionContext.ModuleType.Name;
+        ModuleStart = executionContext.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.StartTime;
+        ModuleEnd = executionContext.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.EndTime;
+        ModuleDuration = ModuleEnd - ModuleStart;
+        SkipDecision = executionContext.SkipResult;
+        TypeDiscriminator = GetType().FullName!;
+        ModuleStatus = executionContext.Status;
     }
 
     /// <summary>

@@ -131,6 +131,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
+            .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
             .AddSingleton<ILogoPrinter, LogoPrinter>()
