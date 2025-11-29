@@ -66,7 +66,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Initializes module states for a collection of modules
     /// </summary>
-    public void InitializeModules(IEnumerable<ModuleBase> modules)
+    public void InitializeModules(IEnumerable<IModule> modules)
     {
         ArgumentNullException.ThrowIfNull(modules);
 
@@ -74,13 +74,14 @@ internal class ModuleScheduler : IModuleScheduler
 
         foreach (var module in moduleList)
         {
-            var state = new ModuleState(module);
-            _moduleStates.TryAdd(module.GetType(), state);
+            var moduleType = module.GetType();
+            var state = new ModuleState(module, moduleType);
+            _moduleStates.TryAdd(moduleType, state);
         }
 
         foreach (var state in _moduleStates.Values)
         {
-            var moduleType = state.Module.GetType();
+            var moduleType = state.ModuleType;
 
             var notInParallelAttr = moduleType.GetCustomAttribute<NotInParallelAttribute>();
             if (notInParallelAttr != null)
@@ -102,7 +103,7 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            var dependencies = state.Module.GetModuleDependencies();
+            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType);
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
@@ -115,7 +116,7 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogWarning(
                         "Module {ModuleName} depends on {DependencyName} which is not registered",
-                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(state.ModuleType.Name),
                         MarkupFormatter.FormatModuleName(dependencyType.Name));
                 }
             }
@@ -130,11 +131,12 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Adds a new module dynamically (e.g., SubModule discovered during execution)
     /// </summary>
-    public void AddModule(ModuleBase module)
+    public void AddModule(IModule module)
     {
-        var state = new ModuleState(module);
+        var moduleType = module.GetType();
+        var state = new ModuleState(module, moduleType);
 
-        if (!_moduleStates.TryAdd(module.GetType(), state))
+        if (!_moduleStates.TryAdd(moduleType, state))
         {
             // Module already exists
             return;
@@ -142,7 +144,7 @@ internal class ModuleScheduler : IModuleScheduler
 
         lock (_stateLock)
         {
-            var dependencies = module.GetModuleDependencies();
+            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType);
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
                 if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
@@ -154,14 +156,14 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogWarning(
                         "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
-                        MarkupFormatter.FormatModuleName(module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(moduleType.Name),
                         MarkupFormatter.FormatModuleName(dependencyType.Name));
                 }
             }
 
             _logger.LogDebug(
                 "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
-                MarkupFormatter.FormatModuleName(module.GetType().Name),
+                MarkupFormatter.FormatModuleName(moduleType.Name),
                 state.UnresolvedDependencies.Count);
         }
 
@@ -273,14 +275,14 @@ internal class ModuleScheduler : IModuleScheduler
             if (executing.Any())
             {
                 _logger.LogDebug("Executing modules: {Modules}",
-                    string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+                    string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
             }
         }
     }
 
     private string FormatModuleWithDependencyCount(ModuleState m)
     {
-        return $"{MarkupFormatter.FormatModuleName(m.Module.GetType().Name)} (deps: {m.UnresolvedDependencies.Count})";
+        return $"{MarkupFormatter.FormatModuleName(m.ModuleType.Name)} (deps: {m.UnresolvedDependencies.Count})";
     }
 
     private async Task WaitForNextSchedulingOpportunity(CancellationToken cancellationToken)
@@ -327,7 +329,7 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogDebug(
                         "Module {ModuleName} constraint check failed at execution time, returning to Pending for retry",
-                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name));
+                        MarkupFormatter.FormatModuleName(state.ModuleType.Name));
 
                     // Reset to Pending so scheduler will retry when constraints allow
                     _queuedModules.Remove(state);
@@ -343,7 +345,7 @@ internal class ModuleScheduler : IModuleScheduler
 
                 _logger.LogDebug(
                     "Module {ModuleName} started executing with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
-                    MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(state.ModuleType.Name),
                     string.Join(", ", state.RequiredLockKeys),
                     _queuedModules.Count,
                     _executingModules.Count);
@@ -353,7 +355,7 @@ internal class ModuleScheduler : IModuleScheduler
                     var queueTime = state.ExecutionStartTime.Value - state.QueuedTime.Value;
                     _logger.LogDebug(
                         "Module {ModuleName} waited {QueueTime}ms in queue before execution",
-                        MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(state.ModuleType.Name),
                         queueTime.TotalMilliseconds);
                 }
             }
@@ -378,7 +380,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             _logger.LogDebug(
                 "Module {ModuleName} completed with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
-                MarkupFormatter.FormatModuleName(state.Module.GetType().Name),
+                MarkupFormatter.FormatModuleName(state.ModuleType.Name),
                 string.Join(", ", state.RequiredLockKeys),
                 _queuedModules.Count,
                 _executingModules.Count);
@@ -396,7 +398,7 @@ internal class ModuleScheduler : IModuleScheduler
                 state.CompletionSource.TrySetCanceled();
             }
 
-            var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+            var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
 
             if (state.ExecutionStartTime.HasValue)
             {
@@ -419,7 +421,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Gets the completion task for a specific module
     /// </summary>
-    public Task<ModuleBase>? GetModuleCompletionTask(Type moduleType)
+    public Task<IModule>? GetModuleCompletionTask(Type moduleType)
     {
         return _moduleStates.TryGetValue(moduleType, out var state)
             ? state.CompletionSource.Task
@@ -465,7 +467,7 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogDebug(
                         "Cancelling pending module {ModuleName} (State={State})",
-                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
                         moduleState.State);
 
                     _queuedModules.Remove(moduleState);
@@ -523,7 +525,7 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogDebug(
                         "Module {ModuleName} blocked by constraints (Active: Q={Queued}, E={Executing})",
-                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
                         _queuedModules.Count,
                         _executingModules.Count);
                     continue;
@@ -535,7 +537,7 @@ internal class ModuleScheduler : IModuleScheduler
 
                 _logger.LogDebug(
                     "Module {ModuleName} queued with lock keys: [{Keys}] (Active after: Q={Queued}, E={Executing})",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
                     string.Join(", ", moduleState.RequiredLockKeys),
                     _queuedModules.Count,
                     _executingModules.Count);
@@ -556,7 +558,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             _logger.LogDebug(
                 "Queued module {ModuleName} for execution",
-                MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name));
         }
     }
 
@@ -565,7 +567,7 @@ internal class ModuleScheduler : IModuleScheduler
         _logger.LogDebug(
             "Scheduler found {Count} ready modules: {Modules}",
             modulesToQueue.Count,
-            string.Join(", ", modulesToQueue.Select(m => MarkupFormatter.FormatModuleName(m.Module.GetType().Name))));
+            string.Join(", ", modulesToQueue.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
     }
 
     /// <summary>
@@ -582,7 +584,7 @@ internal class ModuleScheduler : IModuleScheduler
 
         _logger.LogDebug(
             "[CONSTRAINT] Checking {ModuleName} with keys [{Keys}] against {ActiveCount} active modules",
-            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+            MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
             string.Join(", ", moduleState.RequiredLockKeys),
             activeModules.Count);
 
@@ -597,7 +599,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             _logger.LogDebug(
                 "[CONSTRAINT]   Comparing with active {ActiveModule} (State={State}, Keys=[{ActiveKeys}])",
-                MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
+                MarkupFormatter.FormatModuleName(active.ModuleType.Name),
                 active.State,
                 string.Join(", ", active.RequiredLockKeys));
 
@@ -622,8 +624,8 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogDebug(
                         "[CONSTRAINT] ❌ Module {ModuleName} BLOCKED by {ActiveModule} on keys: [{Keys}]",
-                        MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                        MarkupFormatter.FormatModuleName(active.Module.GetType().Name),
+                        MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                        MarkupFormatter.FormatModuleName(active.ModuleType.Name),
                         string.Join(", ", intersection));
                     return false;
                 }
@@ -638,7 +640,7 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _logger.LogDebug(
                     "[CONSTRAINT] Sequential module {ModuleName} blocked - {Count} other modules active",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
+                    MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
                     otherActiveModules.Count);
                 return false;
             }
@@ -656,15 +658,15 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _logger.LogDebug(
                     "[CONSTRAINT] Module {ModuleName} blocked by sequential module {SequentialModule}",
-                    MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name),
-                    MarkupFormatter.FormatModuleName(active.Module.GetType().Name));
+                    MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                    MarkupFormatter.FormatModuleName(active.ModuleType.Name));
                 return false;
             }
         }
 
         _logger.LogDebug(
             "[CONSTRAINT] ✅ Module {ModuleName} passed all constraints",
-            MarkupFormatter.FormatModuleName(moduleState.Module.GetType().Name));
+            MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name));
         return true;
     }
 
@@ -679,13 +681,13 @@ internal class ModuleScheduler : IModuleScheduler
             return;
         }
 
-        var moduleName = MarkupFormatter.FormatModuleName(state.Module.GetType().Name);
+        var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
 
         _logger.LogDebug(
             "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
             moduleName,
             state.DependentModules.Count,
-            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.Module.GetType().Name))));
+            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.ModuleType.Name))));
 
         foreach (var dependent in state.DependentModules)
         {
@@ -695,7 +697,7 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _logger.LogDebug(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
-                    MarkupFormatter.FormatModuleName(dependent.Module.GetType().Name));
+                    MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));
             }
         }
     }

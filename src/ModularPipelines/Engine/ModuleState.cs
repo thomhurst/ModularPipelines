@@ -1,3 +1,4 @@
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -43,10 +44,11 @@ internal enum ModuleExecutionState
 /// </remarks>
 internal class ModuleState
 {
-    public ModuleState(ModuleBase module)
+    public ModuleState(IModule module, Type moduleType)
     {
         Module = module;
-        CompletionSource = new TaskCompletionSource<ModuleBase>();
+        ModuleType = moduleType;
+        CompletionSource = new TaskCompletionSource<IModule>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
         RequiredLockKeys = Array.Empty<string>();
@@ -55,12 +57,17 @@ internal class ModuleState
     /// <summary>
     /// The module being tracked
     /// </summary>
-    public ModuleBase Module { get; }
+    public IModule Module { get; }
+
+    /// <summary>
+    /// The concrete type of the module
+    /// </summary>
+    public Type ModuleType { get; }
 
     /// <summary>
     /// Completion source to signal when module execution finishes
     /// </summary>
-    public TaskCompletionSource<ModuleBase> CompletionSource { get; }
+    public TaskCompletionSource<IModule> CompletionSource { get; }
 
     /// <summary>
     /// Set of dependency types that haven't completed yet
@@ -107,4 +114,14 @@ internal class ModuleState
     /// Note: Constraint checking is performed by the scheduler, this only checks basic readiness
     /// </summary>
     public bool IsReadyToExecute => UnresolvedDependencies.Count == 0 && State == ModuleExecutionState.Pending;
+
+    /// <summary>
+    /// Gets the module result after execution completes.
+    /// </summary>
+    public IModuleResult? Result { get; set; }
+
+    /// <summary>
+    /// Gets the skip decision if the module was skipped.
+    /// </summary>
+    public SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
 }

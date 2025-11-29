@@ -1,4 +1,6 @@
 using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Modules;
 
@@ -11,6 +13,11 @@ public interface IModule
     /// Gets the result type of this module.
     /// </summary>
     Type ResultType { get; }
+
+    /// <summary>
+    /// Gets whether this module should always run, even when the pipeline fails.
+    /// </summary>
+    ModuleRunType ModuleRunType => this is IAlwaysRun ? ModuleRunType.AlwaysRun : ModuleRunType.OnSuccessfulDependencies;
 }
 
 /// <summary>

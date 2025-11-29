@@ -7,9 +7,9 @@ public class DependsOnAttribute : Attribute
 {
     public DependsOnAttribute(Type type)
     {
-        if (!type.IsAssignableTo(typeof(ModuleBase)))
+        if (!type.IsAssignableTo(typeof(IModule)))
         {
-            throw new Exception($"{type.FullName} is not a Module class");
+            throw new Exception($"{type.FullName} is not a Module (does not implement IModule)");
         }
 
         Type = type;
@@ -22,7 +22,7 @@ public class DependsOnAttribute : Attribute
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
 public class DependsOnAttribute<TModule> : DependsOnAttribute
-    where TModule : ModuleBase
+    where TModule : IModule
 {
     public DependsOnAttribute() : base(typeof(TModule))
     {

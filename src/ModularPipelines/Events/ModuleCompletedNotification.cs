@@ -1,12 +1,12 @@
 using Mediator;
-using ModularPipelines.Modules;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.Events;
 
 /// <summary>
 /// Notification that is published when a module completes execution.
 /// </summary>
-internal record ModuleCompletedNotification(ModuleBase Module, bool IsSuccessful) : INotification
+internal record ModuleCompletedNotification(ModuleState ModuleState, bool IsSuccessful) : INotification
 {
     /// <summary>
     /// Gets the timestamp when the module completed.

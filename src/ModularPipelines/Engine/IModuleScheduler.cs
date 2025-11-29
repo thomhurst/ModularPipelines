@@ -16,7 +16,7 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Initializes module states for a collection of modules
     /// </summary>
-    void InitializeModules(IEnumerable<ModuleBase> modules);
+    void InitializeModules(IEnumerable<IModule> modules);
 
     /// <summary>
     /// Starts the scheduler loop that continuously queues ready modules
@@ -36,7 +36,7 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Gets the completion task for a specific module
     /// </summary>
-    Task<ModuleBase>? GetModuleCompletionTask(Type moduleType);
+    Task<IModule>? GetModuleCompletionTask(Type moduleType);
 
     /// <summary>
     /// Gets the state for a specific module

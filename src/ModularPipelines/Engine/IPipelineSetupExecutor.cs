@@ -1,5 +1,4 @@
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
@@ -9,7 +8,7 @@ internal interface IPipelineSetupExecutor
 
     Task OnEndAsync(PipelineSummary pipelineSummary);
 
-    Task OnBeforeModuleStartAsync(ModuleBase module);
+    Task OnBeforeModuleStartAsync(ModuleState moduleState);
 
-    Task OnAfterModuleEndAsync(ModuleBase module);
+    Task OnAfterModuleEndAsync(ModuleState moduleState);
 }

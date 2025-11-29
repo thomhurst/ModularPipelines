@@ -4,5 +4,6 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleDisposer
 {
-    Task DisposeAsync(ModuleBase module);
+    Task DisposeAsync(ModuleState moduleState);
+    Task DisposeAsync(IModule module);
 }

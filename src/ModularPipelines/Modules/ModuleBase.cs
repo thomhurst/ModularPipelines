@@ -218,7 +218,7 @@ public abstract partial class ModuleBase : ITypeDiscriminator
         if (mediator != null && submodule != null)
         {
             var estimatedDuration = TimeSpan.FromMinutes(2); // Default estimation
-            await mediator.Publish(new SubModuleCreatedNotification(this, submodule, estimatedDuration));
+            await mediator.Publish(new SubModuleCreatedNotification((IModule)this, submodule, estimatedDuration));
         }
 
         var result = await submodule!.Execute(action);

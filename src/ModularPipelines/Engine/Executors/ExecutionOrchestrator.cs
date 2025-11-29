@@ -117,7 +117,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         var organizedModules = await _pipelineInitializer.Initialize();
 
-        var runnableModules = organizedModules.RunnableModules.Select(x => x.Module).ToList();
+        var runnableModules = organizedModules.RunnableModules.Select(x => (IModule)x.Module).ToList();
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
@@ -165,7 +165,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         return pipelineSummary;
     }
 
-    private async Task<PipelineSummary> ExecutePipeline(List<ModuleBase> runnableModules, OrganizedModules organizedModules)
+    private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
     {
         // Dispose and flush on scope leave - So including success or if an exception is thrown
         await using var moduleDisposeExecutor = _moduleDisposeExecutor;
