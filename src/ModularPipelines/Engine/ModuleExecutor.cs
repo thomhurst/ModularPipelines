@@ -357,8 +357,9 @@ internal class ModuleExecutor : IModuleExecutor
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Get the pipeline context
-        var pipelineContext = _serviceProvider.GetRequiredService<IPipelineContext>();
+        // Create a scope to resolve scoped services like IPipelineContext
+        await using var scope = _serviceProvider.CreateAsyncScope();
+        var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
