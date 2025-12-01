@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules.Behaviors;
@@ -12,6 +13,7 @@ public interface IModule
     /// <summary>
     /// Gets the result type of this module.
     /// </summary>
+    [JsonIgnore]
     Type ResultType { get; }
 
     /// <summary>

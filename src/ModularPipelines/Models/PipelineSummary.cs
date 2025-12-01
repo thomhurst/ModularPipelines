@@ -14,7 +14,10 @@ public record PipelineSummary
     /// <summary>
     /// Gets the modules that are part of the pipeline.
     /// </summary>
-    [JsonInclude]
+    /// <remarks>
+    /// This property is excluded from JSON serialization as interface types cannot be deserialized.
+    /// </remarks>
+    [JsonIgnore]
     public IReadOnlyList<IModule> Modules { get; private set; }
 
     /// <summary>
@@ -36,6 +39,17 @@ public record PipelineSummary
     public DateTimeOffset End { get; private set; }
 
     [JsonConstructor]
+    internal PipelineSummary(
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end)
+    {
+        Modules = Array.Empty<IModule>();
+        TotalDuration = totalDuration;
+        Start = start;
+        End = end;
+    }
+
     internal PipelineSummary(IReadOnlyList<IModule> modules,
         TimeSpan totalDuration,
         DateTimeOffset start,
