@@ -12,7 +12,6 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
 
@@ -27,18 +26,25 @@ public class TrxParsingTests : TestBase
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            var trxFile = File.GetNewTemporaryFilePath();
+            // Create a temp directory for test results
+            var resultsDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(resultsDirectory);
+
+            const string trxFileName = "test-results.trx";
 
             await context.DotNet().Test(new DotNetTestOptions
             {
                 ProjectSolutionDirectoryDllExe = testProject,
                 Framework = "net10.0",
                 CommandLogging = CommandLogging.Error,
-                Logger = [$"trx;logfilename={trxFile}"],
-                ThrowOnNonZeroExitCode = false
+                ResultsDirectory = resultsDirectory,
+                Logger = [$"trx;logfilename={trxFileName}"],
+                ThrowOnNonZeroExitCode = false,
+                WorkingDirectory = testProject.Folder!.Path
             }, token: cancellationToken);
 
-            var trxContents = await trxFile.ReadAsync(cancellationToken);
+            var trxFilePath = Path.Combine(resultsDirectory, trxFileName);
+            var trxContents = await System.IO.File.ReadAllTextAsync(trxFilePath, cancellationToken);
 
             LastResult = new TrxParser().ParseTrxContents(trxContents);
             return LastResult;
