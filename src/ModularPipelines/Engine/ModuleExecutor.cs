@@ -308,6 +308,9 @@ internal class ModuleExecutor : IModuleExecutor
         var moduleType = moduleState.ModuleType;
         var moduleName = MarkupFormatter.FormatModuleName(moduleType.Name);
 
+        // Create a scope to resolve scoped services like IPipelineContext and ModuleLogger<T>
+        await using var scope = _serviceProvider.CreateAsyncScope();
+
         try
         {
             // Check if the module can proceed with execution
@@ -322,14 +325,14 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (!skipDependencyWait)
             {
-                await WaitForDependenciesAsync(moduleState, scheduler);
+                await WaitForDependenciesAsync(moduleState, scheduler, scope.ServiceProvider);
             }
             else
             {
                 _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
             }
 
-            await ExecuteModuleWithPipeline(moduleState, cancellationToken);
+            await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken);
 
             scheduler.MarkModuleCompleted(moduleType, true);
         }
@@ -352,18 +355,16 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private async Task ExecuteModuleWithPipeline(ModuleState moduleState, CancellationToken cancellationToken)
+    private async Task ExecuteModuleWithPipeline(ModuleState moduleState, IServiceProvider scopedServiceProvider, CancellationToken cancellationToken)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Create a scope to resolve scoped services like IPipelineContext
-        await using var scope = _serviceProvider.CreateAsyncScope();
-        var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
-        var logger = GetOrCreateLogger(moduleType);
+        var logger = GetOrCreateLogger(moduleType, scopedServiceProvider);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Set up logging
@@ -463,7 +464,7 @@ internal class ModuleExecutor : IModuleExecutor
         return NoOpDisposable.Instance;
     }
 
-    private async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler)
+    private async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider)
     {
         var dependencies = ModuleDependencyResolver.GetDependencies(moduleState.ModuleType);
 
@@ -479,7 +480,7 @@ internal class ModuleExecutor : IModuleExecutor
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
-                    var depLogger = GetOrCreateLogger(moduleState.ModuleType);
+                    var depLogger = GetOrCreateLogger(moduleState.ModuleType, scopedServiceProvider);
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));
@@ -500,11 +501,11 @@ internal class ModuleExecutor : IModuleExecutor
         }
     }
 
-    private IModuleLogger GetOrCreateLogger(Type moduleType)
+    private IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
         return _loggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
+            ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
     }
 
     private void RegisterTerminatedResultsForCancelledModules(IReadOnlyList<IModule> modules, Exception exception)
